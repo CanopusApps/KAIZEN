@@ -1,0 +1,134 @@
+﻿@model Kaizen.Web.Models.Login;
+@{
+    Layout = "_EmptyLayout";
+    ViewBag.Title = "CapEx Feedback System";
+}
+
+<style>
+    #reglink {
+        font-style: oblique;
+        text-decoration: underline;
+        padding-left: 30%;
+    }
+</style>
+ @using (Html.BeginForm())   
+{  
+    @Html.AntiForgeryToken() 
+<div class="login-container animated fadeIn">
+    <div class="logobox btn-azure" style="color:white;text-align: center;font-size:xx-large;">
+        CFS Login
+    </div>
+    <br />
+    <div class="loginbox bg-white" style="border:#2dc3e8 1px solid">
+        <div class="loginbox-title">SIGN IN</div>
+        <div class="loginbox-or">
+            <div class="or-line"></div>
+        </div>
+       
+            <div class="loginbox-textbox">
+                <div class="row">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control col-md-6" } })
+                        <br />
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+        <div class="loginbox-textbox">
+            <div class="row">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control col-md-6", @type = "password" } })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+
+            <div class="loginbox-submit">
+                <input type="submit" class="btn btn-block btn-azure" value="Submit" />
+                @*                 <input type="button" value="Register New User" onclick="location.href='@Url.Action("customer", "Customer")'" /> *@
+            </div>
+            <a href="/Customer/customer" id="reglink">Register New User</a>
+    
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+}
+
+@{
+    if (TempData["msg"] != null)
+    {
+        <script>
+            swal('@TempData["msg"]')
+        </script>
+    }
+}
+
+<script>
+
+
+    // $('#btnlogin').on('click', function () {
+    //     debugger;
+    //     $('#txtUserName').removeClass('manfieldredborder'); $('#txtPassword').removeClass('manfieldredborder');
+    //     if ($('#txtUserName').val().trim() != '' && $('#txtPassword').val().trim() != '') {
+    //         $.ajax({
+    //             url: "/Login/Login",
+    //             dataType: "json",
+    //             type: "POST",
+    //             contentType: 'application/json; charset=utf-8',
+    //             cache: false,
+    //             data: JSON.stringify({ LoginId: $('#txtUserName').val().trim(), password: $('#txtPassword').val().trim() }),
+    //             success: function (data) {
+    //                 if (data.success) {
+    //                     if (data.message == 'accessdenied')
+    //                         window.location = "/AccessDenied";
+    //                     else
+    //                         window.location = "/Dashboard";
+    //                 }
+    //                 else {
+    //                     $('.btn-danger').trigger('click');
+    //                     $('.modal-body').html('Username/Password wrong...');
+    //                 }
+    //             },
+    //             error: function (xhr) {
+    //                 //alert('error');
+    //             }
+    //         });
+    //     }
+    //     else {
+    //         var ermsg = '';
+    //         if ($('#txtUserName').val().trim() == '') {
+    //             $('#txtUserName').addClass('manfieldredborder');
+    //             ermsg = 'User Name<br/>';
+    //         }
+    //         else
+    //             $('#txtUserName').removeClass('manfieldredborder');
+    //         if ($('#txtPassword').val().trim() == '') {
+    //             ermsg += 'Password<br/>';
+    //             $('#txtPassword').addClass('manfieldredborder');
+    //         }
+    //         else
+    //             $('#txtPassword').removeClass('manfieldredborder');
+    //         //alert(ermsg);
+    //         if (ermsg != '') {
+    //             $('.btn-warning').trigger('click');
+    //             $('.modal-body').html(ermsg);
+    //         }
+    //         else {
+    //             $('.modal-body').html('');
+    //         }
+
+    //         $('#txtUserName').val($('#txtUserName').val().trim());
+    //         $('#txtPassword').val($('#txtPassword').val().trim());
+    //     }
+
+    // });
+</script>
+
+
+

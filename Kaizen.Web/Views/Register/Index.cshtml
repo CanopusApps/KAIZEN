@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "Empty";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style>
+
+    .loginbox-title {
+        position: relative;
+        text-align: center;
+        width: 100%;
+        height: 35px;
+        font-family: 'Lucida Sans', 'trebuchet MS', Arial, Helvetica;
+        font-size: 20px;
+        font-weight: normal;
+        color: #444;
+    }
+
+    .custom-line {
+        border-bottom: 1px solid #dee2e6;
+        margin: 0 30px;
+    }
+
+    .btn {
+        background-color #2dc3e8;
+        color: white !important;
+    }
+
+</style>
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+            <div class="card margin-top-50 mx-5">
+                <div class="logobox btn-azure padding-bottom-20 padding-top-20" style="color:white;text-align: center;font-size:xx-large;">
+                    Kaizen Application
+                </div>
+
+                <div class=" loginbox-title">Register New User</div>
+
+                <div class="custom-line"></div>
+                <div class="card-body">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="name">Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="name" placeholder="Please enter your name" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="email">Email<span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" placeholder="Please enter your Email">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="empId">Emp ID <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="empId" placeholder="Please enter your EmpID" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="password">Password <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="password" placeholder="Please enter your password" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="phone">Phone Number <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="phone" placeholder="Please enter your Phone Number" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="gender">Gender <span class="text-danger">*</span></label><br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+                                    <label class="form-check-label" for="male">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+                                    <label class="form-check-label" for="female">Female</label>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="cadre">Cadre <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="cadre" required>
+                                        <option value="">All</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="domain">Domain <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="domain" required>
+                                        <option value="">All</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="department">Department <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="department" required>
+                                        <option value="">All</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+
+                                </div>
+
+                            </div>
+                            <button type="submit" class="btn btn-block btn-azure  ">Register</button>
+                    </form>
+                    <div>
+                        <a href="/Login/Index" id="reglink">Already have an account? Login here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,36 @@
+﻿ @model Kaizen.Web.Model.LoginModel
+@{
+    Layout = "Empty";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="login-container animated fadeIn">
+        <div class="logobox btn-azure padding-top-20 padding-bottom-20" style="color:white;text-align: center;font-size:xx-large;">
+            Kaizen Application
+        </div>
+        <div class="loginbox bg-white">
+
+            @*  <img src="~/assets/img/Tepl Kaizen Image.png" class="img-fluid center-image" style="width: 300px; height: 150px" /> *@
+            <div class="loginbox-title">Forgot Password ?</div>
+            <div class="loginbox-or">
+                <div class="or-line"></div>
+            </div>
+            <div class="loginbox-textbox">
+                <div class="row">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Empid, "Emp ID", htmlAttributes: new { @class = "control-label" })
+                        <span class="text-danger">*</span>
+                        @Html.EditorFor(model => model.Empid, new { htmlAttributes = new { @class = "form-control col-md-6", placeholder = "Enter Employee Id" } })
+                        <br />
+                        @Html.ValidationMessageFor(model => model.Empid, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="loginbox-submit">
+                <input type="submit" class="btn btn-block  btn-azure" value="Submit" />
+            </div>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+}

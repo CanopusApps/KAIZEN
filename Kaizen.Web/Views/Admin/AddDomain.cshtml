@@ -1,0 +1,158 @@
+﻿@{
+    Layout = "SidebarLayout";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+<style>
+    .domainBackground {
+        background-color: #ebeeff;
+    }
+
+    .domainCardBody {
+        border: 1px solid #ebeef6;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        background-color: white;
+        padding: 10px;
+    }
+
+
+
+    #bd_active {
+        background-color: rgb(16, 202, 147);
+        color: white;
+        font-size: small;
+    }
+
+    #bd_inactive {
+        background-color: #ffa500;
+        color: white;
+        font-size: small;
+    }
+
+    .trsh {
+        background-color: #ff0000;
+        width: 30px;
+        height: 30px;
+        border-radius: 13%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+
+    .table tbody tr td {
+        vertical-align: middle;
+        border-color: #d7dae3;
+    }
+
+    .table th, .table td {
+        border: 1px solid #EEEEEE;
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    table {
+        display: table;
+        border-collapse: separate;
+        box-sizing: border-box;
+        text-indent: initial;
+        unicode-bidi: isolate;
+        border-spacing: 3px;
+        border-color: gray;
+        border: 2px solid #EEEEEE;
+    }
+
+    #cardBodyDomainHeight {
+        min-height: 100vh;
+    }
+
+    .page_heading {
+        font-size: 13px;
+    }
+</style>
+
+
+
+<div class="container-fluid p-2">
+    <div class=" card p-3 mt-2 mb-2 cardsize" id="card-block">
+        <div class="row">
+            <div class="col-5">
+                <label for="Block-name">Domain Name<span class="text-danger">*</span></label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <input id="blockinput" class="form-control" />
+            </div>
+            <div class="col-2">
+                <input class="btn btn-azure" value="Add" type="button" />
+            </div>
+        </div>
+    </div>
+    <div class="card domainCardBody p-3" id="cardBodyDomainHeight">
+
+
+        <div class="loginbox-textbox">
+            <div class="row">
+                <div class="form-group">
+                    @*  <div class="col-md-12">
+                    <label class="label">Domain Name</label>
+                    <input class="form-control" />
+                    <div class="col-md-2">
+                    <br />
+                    <input class="btn btn-azure" value="Add" type="button" />
+                    </div>
+                    </div> *@
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <p>Domain Names - #</p>
+            </div>
+        </div>
+        <div class="col-12"><hr></div>
+
+        <div class="table table-striped">
+            <table id="empTable" class="table table-responsive-sm text-center">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center" id="DomName">SNo</th>
+                        <th scope="col" class="text-center" id="DomName">DOMAIN NAME</th>
+                        <th scope="col" class="text-center" id="DomName">TOTAL EMP</th>
+                        <th scope="col" class="text-center" id="DomName">STATUS</th>
+                        <th scope="col" class="text-center" id="DomName">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <th scope="row" class="text-center">1</th>
+                        <td>Meterology</td>
+                        <td>200</td>
+                        <td class="text-center">
+                            <span id="bd_active" class="p-1 badge-sm badge-success">Active</span>
+                        </td>
+                        <td class="d-flex justify-content-center align-items-center">
+                            <i class="trsh fa-solid fa-trash-can"></i>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" class="text-center ">2</th>
+                        <td>Production</td>
+                        <td>500</td>
+                        <td class="text-center">
+                            <span id="bd_inactive" class="p-1 badge-sm badge-success">InActive</span>
+                        </td>
+                        <td class="d-flex justify-content-center align-items-center">
+                            <i class="trsh fa-solid fa-trash-can text-center"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

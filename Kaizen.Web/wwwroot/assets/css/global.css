@@ -1,0 +1,10 @@
+﻿.ProjTitle {
+    font-size: 30px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    margin-left: 40px;
+}
+.accAreaRight{
+    right:1px !important;
+}

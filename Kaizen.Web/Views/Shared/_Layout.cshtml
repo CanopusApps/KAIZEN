@@ -1,0 +1,115 @@
+﻿@inject IHttpContextAccessor Accessor
+
+
+<link href="~/assets/css/bootstrap.css" rel="stylesheet" />
+<script src="~/assets/js/bootstrap/bootstrap.min.js"></script>
+<script src="~/assets/js/sweetalert/sweetalert.min.js"></script>
+<script src="~/assets/js/beyond.min.js"></script>
+<script src="~/assets/js/beyond.js"></script>
+
+
+<style>
+    #wc
+    {
+        padding-top:27px;
+        color:blue;
+        font-size:11px;
+        position:relative;
+    }
+
+    #sigout {
+        font-size: 10px;
+        color: red;
+    }
+
+    .navbar .navbar-brand
+    {
+        color:cadetblue!important;
+    }
+
+    <style >
+    .text-danger {
+        font-size: 10px;
+    }
+</style>
+</style>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+
+    <!--Basic Styles-->
+
+    <!--Fonts-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+    <!--Beyond styles-->
+    <link href="~/assets/css/beyond.min.css" rel="stylesheet" />
+    <link href="~/assets/css/demo.min.css" rel="stylesheet" />
+    <link href="~/assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="~/assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="~/assets/js/skins.min.js"></script>
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+</head>
+<body>
+
+    <script src="~/assets/js/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!--Beyond Scripts-->
+    @*     <script src="~/assets/js/beyond.js"></script> *@
+    <script src="~/assets/js/beyond.min.js"></script>
+    <script src="~/assets/js/beyond.js"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <input type="button" id="sigout" value="Sign Out" class="btn btn-link" onclick="location.href='@Url.Action("Index", "Login")'" />
+
+
+                </form>
+                <label id="wc"> 
+                   Welcome @Accessor.HttpContext.Session.GetString("Message")
+</label>
+            </div>
+        </div>
+    </nav>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
+
