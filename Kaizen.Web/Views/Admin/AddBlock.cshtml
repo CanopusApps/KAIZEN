@@ -1,119 +1,29 @@
-﻿@model Kaizen.Web.Model.BlockModel
+﻿@model IEnumerable<Kaizen.Models.AdminModel.BlockModel>
 
 @{
     Layout = "SidebarLayout";
 }
-<style>
-
-    .cardsize {
-        border: 1px solid #ebeef6;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    }
+<link href="~/assets/css/costom/addblock.css" rel="stylesheet" />
+<link href="~/assets/css/common/common.css" rel="stylesheet" />
 
 
-
-    .bd {
-        background-color: rgb(16, 202, 147);
-        color: white;
-        font-size: small;
-        border: rgb(16, 202, 147);
-    }
-
-    #card-block {
-        height: 20vh !important;
-    }
-
-    .badge-sm {
-        font-size: 11px !important;
-        padding: 5px 8px;
-        line-height: 11px;
-        border-radius: 0px !important;
-    }
-
-    .table thead th {
-        border-bottom-width: 1px;
-        text-transform: uppercase;
-        font-size: 11px;
-        font-family: sans-serif;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        line-height: 3;
-        border-color: #d7dae3 !important;
-        background-color: #EEEEEE !important;
-    }
-
-    .table {
-        width: 100%;
-        margin-bottom: 1rem;
-        color: #39393a !important;
-        border: fff;
-        border-radius: 20px;
-        border-radius: 3px;
-    }
-
-    .icon {
-        padding: 3px;
-        width: 50px;
-        height: 35px;
-        min-width: 26px;
-        min-height: 26px;
-    }
-
-    .table-bordered {
-        border: 2px solid #EEEEEE;
-    }
-
-        .table-bordered th,
-        .table-bordered td {
-            border: 1px solid #EEEEEE;
-        }
-
-        .table-bordered thead th,
-        .table-bordered thead td {
-            border-bottom-width: 2px;
-        }
-
-    table {
-        display: table;
-        border-collapse: separate;
-        box-sizing: border-box;
-        text-indent: initial;
-        unicode-bidi: isolate;
-        border-spacing: 3px;
-        border-color: gray;
-    }
-
-    .tablesort td {
-        font-size: 11px !important;
-    }
-
-    .table tbody tr td {
-        vertical-align: middle;
-        border-color: #d7dae3;
-    }
-
-    .table th, .table td {
-        padding: 5px 10px;
-        font-size: 11px;
-    }
-</style>
 <div class="container-fluid center">
     <div class="row p-2">
         <div class="col-md-12">
             <div class=" card p-3 mt-2 mb-2 cardsize" id="card-block">
                 <div class="row">
-                    <div class="col-5">
-                        <label for="Block-name">Block Name<span class="text-danger">*</span></label>
-                    </div>
+                    
                 </div>
 
                 <div class="row">
                     <div class="col-8">
+                        <label><strong>Block Name</strong><span class="mandatory">*</span></label>
+
                         <input class="form-control" id="BlockName" name="BlockName" />
                         <span id="BlockError" class="error-message"></span>
                     </div>
                     <div class="col-2">
-                        <button class="btn btn-azure" id="btnAdd" @* onclick="AddBlock(this)" *@>Add</button>
+                        <button class="btn btn-azure" id="btnAdd">Add</button>
 
                     </div>
                 </div>
@@ -122,16 +32,17 @@
     </div>
 
     <!-- table  -->
+    <!-- table  -->
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <div><h4 class="card-title">Block details</h4><p class="responsemessage"></p></div>
+                <div><h4 class="card-title">Block Total</h4><p class="responsemessage"></p></div>
             </div>
 
             <div class="card-body">
-                <table class="table table-bordered table-responsive-sm tablerefresh" broder="">
+                <table class="table table-striped">
                     <thead>
-                        <tr class="tablesort">
+                        <tr>
                             <th class="text-center">ID</th>
                             <th class="text-center">Block Name</th>
                             <th class="text-center">Status</th>
@@ -139,38 +50,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td class="text-center">Block-1</td>
-                            <td class="text-center"><a><span class=" btn btn-success badge-sm bd">Active</span></a></td>
-                            <td class="text-center"><a class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td class="text-center">Block-2</td>
-                            <td class="text-center"><a><span class="btn btn-success badge-sm bd">Active</span></a></td>
-                            <td class="text-center"><a class="btn btn-danger   icon deleteuser"><i class="fa-solid fa-trash-can"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td class="text-center">Block-3</td>
-                            <td class="text-center"><a><span class="btn btn-success badge-sm bd">Active</span></a></td>
-                            <td class="text-center"><a class="btn btn-danger   icon deleteuser"><i class="fa-solid fa-trash-can"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td class=" text-center">Block-4</td>
-                            <td class="text-center"><a><span class="btn btn-warning badge-sm">Inactive</span></a></td>
-                            <td class="text-center"><a class="btn btn-danger   icon deleteuser"><i class="fa-solid fa-trash-can"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">5</td>
-                            <td class="text-center">Block-5</td>
-                            <td class="text-center"><a><span class="btn btn-success badge-sm bd">Active</span></a></td>
-                            <td class="text-center"><a class="btn btn-danger  icon deleteuser"><i class="fa-solid fa-trash-can"></i></a></td>
-                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.id</td>
+                                <td>@item.blockName</td>
 
+                                <td class="text-center"><a><span class=" btn btn-success badge-sm bd">Active</span></a></td>
+                                <td class="text-center"><a class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a></td>
+
+                            </tr>
+                        }
                     </tbody>
+
                 </table>
             </div>
         </div>
@@ -178,13 +70,9 @@
 </div>
 
 
-<script src="~/assets/js/jquery/jquery.min.js"></script>
-<script src="~/assets/js/jquery/jquery-ui.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
 
-  <script>
-
-   /*   function ValidateForm() {
+    function ValidateForm() {
         var isValid = true;
 
         // Remove red borders and error messages
@@ -196,66 +84,48 @@
         var blockNameValue = $("#BlockName").val();
 
         if (blockNameValue === "") {
-            $("#OfferName").css("border-color", "red");
-            $("#OfferError").text("Block Name is required.");
+            $("#BlockName").css("border-color", "red");
+            $("#BlockError").text("Block Name is required.");
             isValid = false;
+        }
+        if (!isValid) {
+            $("#error-message").text("Please fill in the required field correctly.");
+            // Add red border to the submit button
+            $("#submitButton").css("border-color", "red");
         }
         return isValid;
     }
 
-    */
     $(document).ready(function () {
-
-
         $("#btnAdd").click(function () {
 
-            debugger;
+            var BlockName = $('#BlockName').val();
 
-            var blockName = $('#BlockName').val();
-
+            if (!ValidateForm()) {
+                // If validation fails, return or perform any other necessary actions
+                return;
+            }
             $.ajax({
                 type: 'POST',
                 url: '/Admin/AddBlock',
-                data: { blockName: blockName },
-                contentType: "application/json",
+                dataType: "json",
+                data: { blockName: BlockName },
                 success: function (result) {
                     // Handle success (if needed)
-                    swal('Block saved successfully!!');
+                    var res = $.isEmptyObject(result);
+                    if (res) {
+                        swal('please Enter Block Name');
+                    }
+                    else {
+                        swal('Block saved successfully!!');
+                    }
                 },
                 error: function (error) {
                     // Handle errors (if needed)
-                    console.error('Error:', error);
+                    // console.error('Error:', error);
                 }
             });
-
         });
-
     });
 
-    /*
-    function AddBlock(BlockName) {
-        debugger;
-
-        // if (!ValidateForm()) {
-
-        //     return;
-        // }
-        var blockName = $('#BlockName').val();
-
-        $.ajax({
-            type: 'POST',
-            url: '/Admin/AddBlock',
-            data: { blockName: blockName },
-            contentType: "application/json",
-            success: function (result) {
-                // Handle success (if needed)
-                swal('Block saved successfully!!');
-            },
-            error: function (error) {
-                // Handle errors (if needed)
-                console.error('Error:', error);
-            }
-        });
-    }
-    */
-     </script>
+</script>

@@ -11,8 +11,8 @@ builder.Services.AddControllersWithViews();
 // Add services to the container.
 
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<IAccount, AccountWorker>();
-builder.Services.AddSingleton<IAccountData, AccountData>();
+builder.Services.AddSingleton<IBlock, BlockWorker>();
+builder.Services.AddSingleton<IBlockData, BlockData>();
 
 
 

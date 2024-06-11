@@ -1,4 +1,4 @@
-﻿@model Kaizen.Web.Models.Login;
+﻿@model Kaizen.Models.AdminModel.LoginModel
 @{
     Layout = "_EmptyLayout";
     ViewBag.Title = "CapEx Feedback System";
@@ -59,76 +59,5 @@
     <div class="col-sm-4"></div>
 </div>
 }
-
-@{
-    if (TempData["msg"] != null)
-    {
-        <script>
-            swal('@TempData["msg"]')
-        </script>
-    }
-}
-
-<script>
-
-
-    // $('#btnlogin').on('click', function () {
-    //     debugger;
-    //     $('#txtUserName').removeClass('manfieldredborder'); $('#txtPassword').removeClass('manfieldredborder');
-    //     if ($('#txtUserName').val().trim() != '' && $('#txtPassword').val().trim() != '') {
-    //         $.ajax({
-    //             url: "/Login/Login",
-    //             dataType: "json",
-    //             type: "POST",
-    //             contentType: 'application/json; charset=utf-8',
-    //             cache: false,
-    //             data: JSON.stringify({ LoginId: $('#txtUserName').val().trim(), password: $('#txtPassword').val().trim() }),
-    //             success: function (data) {
-    //                 if (data.success) {
-    //                     if (data.message == 'accessdenied')
-    //                         window.location = "/AccessDenied";
-    //                     else
-    //                         window.location = "/Dashboard";
-    //                 }
-    //                 else {
-    //                     $('.btn-danger').trigger('click');
-    //                     $('.modal-body').html('Username/Password wrong...');
-    //                 }
-    //             },
-    //             error: function (xhr) {
-    //                 //alert('error');
-    //             }
-    //         });
-    //     }
-    //     else {
-    //         var ermsg = '';
-    //         if ($('#txtUserName').val().trim() == '') {
-    //             $('#txtUserName').addClass('manfieldredborder');
-    //             ermsg = 'User Name<br/>';
-    //         }
-    //         else
-    //             $('#txtUserName').removeClass('manfieldredborder');
-    //         if ($('#txtPassword').val().trim() == '') {
-    //             ermsg += 'Password<br/>';
-    //             $('#txtPassword').addClass('manfieldredborder');
-    //         }
-    //         else
-    //             $('#txtPassword').removeClass('manfieldredborder');
-    //         //alert(ermsg);
-    //         if (ermsg != '') {
-    //             $('.btn-warning').trigger('click');
-    //             $('.modal-body').html(ermsg);
-    //         }
-    //         else {
-    //             $('.modal-body').html('');
-    //         }
-
-    //         $('#txtUserName').val($('#txtUserName').val().trim());
-    //         $('#txtPassword').val($('#txtPassword').val().trim());
-    //     }
-
-    // });
-</script>
-
 
 
