@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\LogFolder\**" />
-    <Content Remove="wwwroot\LogFolder\**" />
-    <EmbeddedResource Remove="wwwroot\LogFolder\**" />
-    <None Remove="wwwroot\LogFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
@@ -25,6 +18,10 @@
     <ProjectReference Include="..\Kaizen.Business\Kaizen.Business.csproj" />
     <ProjectReference Include="..\Kaizen.Data\Kaizen.Data.csproj" />
     <ProjectReference Include="..\Kaizen.Models\Kaizen.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\LogFolder\" />
   </ItemGroup>
 
 </Project>

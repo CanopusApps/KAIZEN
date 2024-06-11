@@ -1,0 +1,92 @@
+﻿.cardsize {
+    border: 1px solid #ebeef6;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.bd {
+    background-color: rgb(16, 202, 147);
+    color: white;
+    font-size: small;
+    border: rgb(16, 202, 147);
+}
+
+#card-block {
+    height: 20vh !important;
+}
+
+.badge-sm {
+    font-size: 11px !important;
+    padding: 5px 8px;
+    line-height: 11px;
+    border-radius: 0px !important;
+}
+
+.table thead th {
+    border-bottom-width: 1px;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-family: sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 3;
+    border-color: #d7dae3 !important;
+    background-color: #EEEEEE !important;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #39393a !important;
+    border: fff;
+    border-radius: 20px;
+    border-radius: 3px;
+}
+
+.icon {
+    padding: 3px;
+    width: 50px;
+    height: 35px;
+    min-width: 26px;
+    min-height: 26px;
+}
+
+.table-bordered {
+    border: 2px solid #EEEEEE;
+}
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #EEEEEE;
+    }
+
+    .table-bordered thead th,
+    .table-bordered thead td {
+        border-bottom-width: 2px;
+    }
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    unicode-bidi: isolate;
+    border-spacing: 3px;
+    border-color: gray;
+}
+
+.tablesort td {
+    font-size: 11px !important;
+}
+
+.table tbody tr td {
+    vertical-align: middle;
+    border-color: #d7dae3;
+}
+
+.table th, .table td {
+    padding: 5px 10px;
+    font-size: 11px;
+}
+

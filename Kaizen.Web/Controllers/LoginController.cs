@@ -8,9 +8,5 @@ namespace Kaizen.Web.Controllers
         {
             return View();
         }
-        public IActionResult Forgot()
-        {
-            return View();
-        }
     }
 }
