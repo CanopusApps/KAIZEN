@@ -10,7 +10,8 @@ namespace Kaizen.Business.Interface
 {
     public interface IBlock
     {
-        public string CreateBlock(string blockName);
+        public string CreateBlock(BlockModel model);
         public DataSet GetBlock(BlockModel model);
+        public string DeleteBlock(BlockModel model);
     }
 }

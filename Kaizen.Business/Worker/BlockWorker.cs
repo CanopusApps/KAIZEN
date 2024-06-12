@@ -17,16 +17,24 @@ namespace Kaizen.Business.Worker
         {
             this._repositoryBlockdata = repositoryBlockdata;
         }
-
-        public string CreateBlock(string blockName)
+        
+        public string CreateBlock(BlockModel model)
         {
 
             DataTable dt = new DataTable();
-            string message = _repositoryBlockdata.CreateBlockData(blockName);
+            string message = _repositoryBlockdata.CreateBlockData(model);
             return message;
 
         }
 
+        public string DeleteBlock(BlockModel model)
+        {
+
+            DataTable dt = new DataTable();
+            string message = _repositoryBlockdata.DeleteBlockData(model);
+            return message;
+
+        }
         public DataSet GetBlock(BlockModel model)
         {
             DataSet ds = new DataSet();

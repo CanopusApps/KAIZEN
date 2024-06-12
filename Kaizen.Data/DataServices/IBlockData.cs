@@ -10,7 +10,8 @@ namespace Kaizen.Data.DataServices
 {
     public interface IBlockData
     {
-        public string CreateBlockData(string blockName);
+        public string CreateBlockData(BlockModel model);
+        public string DeleteBlockData(BlockModel model);
         public DataSet GetBlockData(BlockModel model);
     }
 }

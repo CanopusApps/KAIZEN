@@ -11,6 +11,7 @@ namespace Kaizen.Models.AdminModel
         public int id { get; set; }
         public string blockName { get; set; } = "";
         public string flag { get; set; } = "";
+        public int statusID{ get; set; }
 
     }
 }
