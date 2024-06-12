@@ -80,8 +80,41 @@ namespace Kaizen.Web.Controllers
                 newList = Blocklist();
 
 
-            return Ok(newList);
+            return RedirectToAction("AddBlock");
         }
+
+        public IActionResult ActiveBlock(int id)
+        {
+            List<BlockModel> newList = new List<BlockModel>();
+            BlockModel model = new BlockModel();
+            DataTable dt = new DataTable();
+            string outmsg = "";
+            model.flag = "Active";
+            model.id = id;
+            outmsg = _worker.DeleteBlock(model);
+            newList = Blocklist();
+
+
+            return RedirectToAction("AddBlock");
+        }
+
+
+        public IActionResult InActiveBlock(int id)
+        {
+            List<BlockModel> newList = new List<BlockModel>();
+            BlockModel model = new BlockModel();
+            DataTable dt = new DataTable();
+            string outmsg = "";
+            model.flag = "InActive";
+            model.id = id;
+            outmsg = _worker.DeleteBlock(model);
+            newList = Blocklist();
+
+
+            return RedirectToAction("AddBlock");
+        }
+
+
 
         public List<BlockModel> Blocklist()
         {
