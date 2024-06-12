@@ -24,26 +24,42 @@ body {
     background-color: #fff;
 }
 
+.text-center text-uppercase border-bottom text-light
+{
+    background-color: #2dc3e8!important;
+}
+h4
+{
+    color:white;
+}
 #sidebar-wrapper {
     min-height: 100vh;
     width: 190px;
-    background-color: #2dc3e8 !important;
-    color: #fff;
+    /*    background-color: #2dc3e8 !important;*/
+    background-color: white !important;
+    /*color: #fff;*/
+    color: black;
     transition: all 0.3s;
 }
-
+.container {
+    background-color: #2dc3e8;
+}
 .logo {
     margin-top: 0px;
-    width: 150px;
+    width: 85px;
 }
 
 #page-content-wrapper {
     flex: 1;
 }
+.text-light
+{
+    color:black!important;
+}
 
 .list-group-item {
-    background-color: #2dc3e8 !important;
-    color: white;
+    background-color: white !important;
+    color: black;
     border: none;
     cursor: pointer;
     padding: 10px 30px;
