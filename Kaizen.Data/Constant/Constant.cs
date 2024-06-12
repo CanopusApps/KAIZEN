@@ -1,4 +1,4 @@
-﻿namespace ASPNETCoreWeb.Constant
+﻿namespace Kaizen.Data.Constant
 {
     public class Constant
     {
@@ -24,7 +24,10 @@
 
         public static string SpCreateBlock = "Sp_CreateBlock";
 
-        
+        public static string Sp_Fetch_UserType = "Sp_Fetch_UserType";
+        public static string Sp_Fetch_Domain = "Sp_Fetch_Domain";
+
+
 
 
 

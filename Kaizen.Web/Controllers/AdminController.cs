@@ -1,4 +1,4 @@
-﻿using ASPNETCoreWeb.Constant;
+﻿using Kaizen.Data.Constant;
 using Kaizen.Business.Interface;
 using Kaizen.Models.AdminModel;
 using Microsoft.AspNetCore.Mvc;

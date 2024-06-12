@@ -13,6 +13,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IBlock, BlockWorker>();
 builder.Services.AddSingleton<IBlockData, BlockData>();
+builder.Services.AddSingleton<IViewuser, ViewuserWorker>();
+builder.Services.AddSingleton<IViewuserData, Viewuser>();
 
 
 

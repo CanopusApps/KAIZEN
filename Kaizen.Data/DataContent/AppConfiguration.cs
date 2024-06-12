@@ -2,7 +2,7 @@
 using System.IO;
 using System.Data;
 using System.Data.SqlClient;
-using ASPNETCoreWeb.Constant;
+using Kaizen.Data.Constant;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 
