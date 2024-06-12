@@ -3,6 +3,7 @@ using Kaizen.Business.Interface;
 using Kaizen.Models.AdminModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Reflection;
 
 namespace Kaizen.Web.Controllers
 {
@@ -51,13 +52,15 @@ namespace Kaizen.Web.Controllers
         {
             List<BlockModel> newList = new List<BlockModel>();
             BlockModel model = new BlockModel();
+            model.blockName= blockName;
+            model.flag = "insert";
             string outmsg = "";
             DataTable dt = new DataTable();
             try
             {
-                if (!string.IsNullOrEmpty(blockName))
+                if (!string.IsNullOrEmpty(model.blockName))
                 {
-                    outmsg = _worker.CreateBlock(blockName);
+                    outmsg = _worker.CreateBlock(model);
                     newList = Blocklist();
                 }
             }
@@ -65,7 +68,20 @@ namespace Kaizen.Web.Controllers
             return Ok(newList);
         }
 
+        public IActionResult DeleteBlock(int id)
+        {
+            List<BlockModel> newList = new List<BlockModel>();
+            BlockModel model = new BlockModel();
+            DataTable dt = new DataTable();
+            string outmsg = "";
+            model.flag = "delete";
+            model.id = id;
+                outmsg = _worker.DeleteBlock(model);
+                newList = Blocklist();
 
+
+            return Ok(newList);
+        }
 
         public List<BlockModel> Blocklist()
         {
@@ -76,14 +92,15 @@ namespace Kaizen.Web.Controllers
             try
             {
                 DataSet ds = _worker.GetBlock(model);
-                if (ds.Tables.Count > 0)
+                if (ds.Tables.Count >=0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         list.Add(new BlockModel
                         {
-                            id = Convert.ToInt32(dr["Sr_no"]),
-                            blockName = dr["BlockName"].ToString()
+                            id = Convert.ToInt32(dr["SrNo"]),
+                            blockName = dr["BlockDescrption"].ToString(),
+                            statusID = Convert.ToInt32(dr["Status"])
                         });
                     }
                 }
