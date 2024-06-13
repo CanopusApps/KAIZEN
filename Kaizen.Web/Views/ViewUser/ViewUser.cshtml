@@ -136,12 +136,13 @@
                 <table id="example" class="display" style="width:100%">
                     <thead>
                         <tr>
-                            <th id="SLNo">SLNo</th>
                             <th id="EMPID">EMP ID</th>
-                            <th id="NAMEEMAILGENDER">NAME,EMAIL,GENDER</th>
+                            <th id="NAME">NAME</th>
+                            <th id="EMAIL">EMAIL</th>
+                            <th id="GENDER">GENDER</th>
                             <th id="TOTALKAIZENPOSTED">TOTAL KAIZEN POSTED</th>
-                            <th id="DOMAIN&DEPARTMENT">DOMAIN,DEPARTMENT</th>
-                            <th id="PLANTAREACARDE">PLANT, AREA,CARDE</th>
+                            <th id="DOMAIN&DEPARTMENT">DOMAIN</th>
+                            <th id="DOMAIN&DEPARTMENT">DEPARTMENT</th>
                             <th id="USERTYPE">USER TYPE</th>
                             <th id="IMGAPPROVAL">IMG APPROVAL</th>
                             <th id="STATUS">STATUS</th>
@@ -149,138 +150,40 @@
                         </tr>
                     </thead>
                     <tbody style="text-align:center">
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                        </tr>
+                        @foreach (var User in Model.UsergridList)
+                        {
+                            <tr>
+                                <td>@User.EmpID</td>
+                                <td>@User.Name</td>
+                                <td>@User.Email</td>
+                                <td>@User.Gender</td>
+                                <td>0</td>
+                                <td>@User.Domain</td>
+                                <td>@User.Department</td>
+                                <td>@User.UserType</td>
+                                <td><input type="checkbox" style="background-color:gray" @(User.ImageApprover == 1 ? "checked" : "") disabled /></td>
+                                <td>
+                                    @if (@User.Status == 0)
+                                        {
+                                        <a><span class="btn btn-danger badge-sm">InActive</span></a>
+
+                                        }
+                                    @if (@User.Status == 1)
+                                        {
+                                        <a><span class="tn btn-successr badge-sm bd">Active</span></a>
+
+                                        }
+                                </td>
+                                <td class="text-center">
+                                    <a class="btn btn-primary btn-sm edituser">
+                                        <i class="edit fas fa-solid fa-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-danger btn-sm deleteuser">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -290,7 +193,37 @@
                 $('#example').DataTable();
             });
         </script>
+        <script>
+            $(document).ready(function () {
+                $('#inputDomain').change(function () {
+                    var Domain = $('#inputDomain').val().trim();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/ViewUser/FetchDepartment',
+                        dataType: "json",
+                        data: { DomainName: Domain },
+                        success: function (result) {
+                            if (result) {
+                                var dropdown = $('#inputDepartment');
+                                dropdown.empty();
+                                dropdown.append($('<option>', {
+                                    value: 'all',
+                                    text: 'All'
+                                }));
+                                for (var i = 0; i < result.length; i++) {
+                                    $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
+                                }
+                            }
+                            else {
+                                swal('Please Select Domain');
+                            }
+                        },
+                        error: function (error) {
+                        }
+                    });
+                });
+            });
+        </script>
     </form>
-
 </div>
 

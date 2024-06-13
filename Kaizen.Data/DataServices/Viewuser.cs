@@ -56,5 +56,30 @@ namespace Kaizen.Data.DataServices
             da.Fill(ds);
             return ds;
         }
+        public DataSet GetDepartment(string DomainName)
+        {
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            com.Connection = con;
+            com.CommandType = CommandType.StoredProcedure;
+            com.Parameters.AddWithValue("@DomainName", DomainName);
+            com.CommandText = StoredProcedures.Sp_Fetch_Department;
+
+            SqlDataAdapter da = new SqlDataAdapter(com);
+            da.Fill(ds);
+            return ds;
+        }
+        public DataSet GetUser(UserGridModel model)
+        {
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            com.Connection = con;
+            com.CommandType = CommandType.StoredProcedure;
+            com.CommandText = StoredProcedures.Fetch_User;
+
+            SqlDataAdapter da = new SqlDataAdapter(com);
+            da.Fill(ds);
+            return ds;
+        }
     }
 }

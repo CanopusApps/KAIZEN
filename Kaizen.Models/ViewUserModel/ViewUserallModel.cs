@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Kaizen.Models.ViewUserModel
 {
-    public class ViewUserModel
+    public class ViewUserallModel
     {
         public List<UserTypeModel> UserTypeList { get; set; }
         public List<DomainModel> DomainList { get; set; }
+        public List<UserGridModel> UsergridList { get; set; }
 
     }
 }

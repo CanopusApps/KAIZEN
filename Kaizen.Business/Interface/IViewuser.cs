@@ -12,5 +12,8 @@ namespace Kaizen.Business.Interface
     {
         public DataSet GetUserType(UserTypeModel model);
         public DataSet GetDomain(DomainModel model);
+
+        public DataSet GetDepartment(string DomainName);
+        public DataSet GetUser(UserGridModel model);
     }
 }
