@@ -25,11 +25,12 @@ namespace Kaizen.Web.Controllers
         //Created by Manas 
         public IActionResult ViewUser()
         {
-            ViewUserModel viewModel = new ViewUserModel();
+            ViewUserallModel viewModel = new ViewUserallModel();
             try
             {
                 viewModel.UserTypeList = UserTypeList();
                 viewModel.DomainList = DomainList();
+                viewModel.UsergridList = UserList();
             }
             catch (Exception ex) {
                 //LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
@@ -72,6 +73,55 @@ namespace Kaizen.Web.Controllers
                     {
                         DomainID = dr["DomainID"].ToString(),
                         DomainDesc = dr["DomainDesc"].ToString()
+                    });
+                }
+            }
+            return list;
+        }
+        public List<DepartmentModel> FetchDepartment(string DomainName)
+        {
+            List<DepartmentModel> list = new List<DepartmentModel>();
+            DepartmentModel model = new DepartmentModel();
+            DataTable dt = new DataTable();
+            if (!string.IsNullOrEmpty(DomainName))
+            {
+                DataSet ds = _user.GetDepartment(DomainName);
+                if (ds.Tables.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        list.Add(new DepartmentModel
+                        {
+                            DeptId = dr["DeptId"].ToString(),
+                            DepartmentName = dr["DepartmentName"].ToString()
+                        });
+                    }
+                }
+                
+            }
+            return list;
+        }
+        public List<UserGridModel> UserList()
+        {
+            List<UserGridModel> list = new List<UserGridModel>();
+            UserGridModel model = new UserGridModel();
+            DataTable dt = new DataTable();
+            DataSet ds = _user.GetUser(model);
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    list.Add(new UserGridModel
+                    {
+                        EmpID = dr["EmpID"].ToString(),
+                        Name = dr["Name"].ToString(),
+                        Email = dr["Email"].ToString(),
+                        Gender = dr["Gender"].ToString(),
+                        Domain = dr["Domain"].ToString(),
+                        Department = dr["Department"].ToString(),
+                        UserType = dr["UserType"].ToString(),
+                        ImageApprover = Convert.ToInt16(dr["ImageApprover"]),
+                        Status = Convert.ToInt16(dr["Status"])
                     });
                 }
             }

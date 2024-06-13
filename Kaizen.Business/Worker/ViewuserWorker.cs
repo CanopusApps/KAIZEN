@@ -30,5 +30,17 @@ namespace Kaizen.Business.Worker
             ds = _repositoryUserTypedata.GetDomain(model);
             return ds;
         }
+        public DataSet GetDepartment(string DomainName)
+        {
+            DataSet ds = new DataSet();
+            ds = _repositoryUserTypedata.GetDepartment(DomainName);
+            return ds;
+        }
+        public DataSet GetUser(UserGridModel model)
+        {
+            DataSet ds = new DataSet();
+            ds = _repositoryUserTypedata.GetUser(model);
+            return ds;
+        }
     }
 }
