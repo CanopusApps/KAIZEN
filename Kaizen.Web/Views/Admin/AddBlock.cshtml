@@ -6,14 +6,16 @@
 <link href="~/assets/css/costom/addblock.css" rel="stylesheet" />
 <link href="~/assets/css/common/common.css" rel="stylesheet" />
 <script src="~/assets/js/custom/jquery.min.js"></script>
-      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/gh/wxtan2/Client-Side-Table-Pagination/table-pagination.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link href="~/assets/css/common/datatables.min.css" rel="stylesheet" />
+<script src="~/assets/js/custom/datatables.min.js"></script>
+
 
 
 <div class="container-fluid center">
     <div class="row p-2">
         <div class="col-md-12">
-            <div class=" card p-3 mt-2 mb-2 cardsize" id="card-block">
+            <div class=" card p-3 mt-2 mb-2 cardsize">
                 <div class="row">
                     
                 </div>
@@ -39,14 +41,14 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <div><h4 class="card-title">Block Total</h4><p class="responsemessage"></p></div>
+                <div><h4 class="card-title" id="blktotal">Block Names - @Model.Count()</h4></div>
             </div>
 
             <div class="card-body">
                 <table class="table table-striped" id="tblblock">
                     <thead>
                         <tr>
-                            <th class="text-center">ID</th>
+                            <th class="text-center" hidden>ID</th>
                             <th class="text-center">Block Name</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Action</th>
@@ -55,19 +57,19 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr data-item-id="@item.id">
-                                <td>@item.id</td>
+                            <tr>
+                                <td hidden>@item.id</td>
                                 <td>@item.blockName</td>
                                  <td class="text-center">
                                 @if(@item.statusID==0)
                                 {
-                                        <a href="/Admin/InActiveBlock?id=@item.id"><span class="btn btn-danger">Inactive</span></a>
+                                        <a href="/Admin/InActiveBlock?id=@item.id"><span class="btn btn-warning">Inactive</span></a>
 
                                 }
                                  @if(@item.statusID==1)
                                 {
 
-                                        <a href="/Admin/ActiveBlock?id=@item.id"><span class="btn btn-success badge-sm bd">Active</span></a>
+                                        <a href="/Admin/ActiveBlock?id=@item.id"><span class="btn btn-success">Active</span></a>
                                     
                                 }
                                 </td>
@@ -93,8 +95,9 @@
 
 <script>
 
-        $('#tblblock').createTablePagination();
- 
+    $(document).ready(function () {
+        $('#tblblock').DataTable({});
+    });
 
 
     function ValidateForm() {
@@ -142,7 +145,7 @@
                         swal('please Enter Block Name');
                     }
                     else {
-                        swal('Block saved successfully!!');
+                        // swal('Block saved successfully!!');
                          location.reload();
 
                     }
@@ -156,15 +159,7 @@
         });    
     })
 
-        $('#tblblock').createTablePagination({
-        rowPerPage: 5,
-        paginationColor: '#6f7ad7',
-        fontColor: '#555555',
-        paginationStyle: 'borderless',
-        transitionDuration: 300,
-        jumpPage: true
-    });
-
+     
 
 
 </script>

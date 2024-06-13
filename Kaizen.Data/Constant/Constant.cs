@@ -25,7 +25,8 @@
         public static string SpCreateBlock = "Sp_CreateBlock";
 
         public static string Sp_Fetch_UserType = "Sp_Fetch_UserType";
-        public static string Sp_Fetch_Domain = "Sp_Fetch_Domain";
+        public static string Sp_Fetch_Domain = "Sp_Fetch_Domain";   
+        public static string SpCreateDomain = "Sp_CreateDomain";
         public static string Sp_Fetch_Department = "Sp_Fetch_Department";
         public static string Fetch_User = "Fetch_User";
         
