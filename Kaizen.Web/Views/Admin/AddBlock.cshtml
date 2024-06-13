@@ -55,24 +55,28 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr data-item-id="@item.id">
                                 <td>@item.id</td>
                                 <td>@item.blockName</td>
                                  <td class="text-center">
                                 @if(@item.statusID==0)
                                 {
-                                   <a><span class="btn btn-danger badge-sm">InActive</span></a>
+                                        <a href="/Admin/InActiveBlock?id=@item.id"><span class="btn btn-danger">Inactive</span></a>
 
                                 }
                                  @if(@item.statusID==1)
                                 {
-                              <a><span class="tn btn-successr badge-sm bd">Active</span></a>
+
+                                        <a href="/Admin/ActiveBlock?id=@item.id"><span class="btn btn-success badge-sm bd">Active</span></a>
                                     
                                 }
                                 </td>
 
-@*                                 <td class="text-center"><a><span class=" btn btn-success badge-sm bd">Active</span></a></td> *@
-                                <td class="text-center"><a class="btn btn-danger icon  deleteuser" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash-can"></i></a></td
+
+                             
+                                <td class="text-center">
+                                    <a href="/Admin/DeleteBlock?id=@item.id" class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a>
+                                </td>
 
                             </tr>
                         }
@@ -149,35 +153,10 @@
                     // console.error('Error:', error);
                 }
             });
-        });
-    });
+        });    
+    })
 
-    $("#tblblock").on('click','tr',function() {
-          var id = $(this).find("td:first-child").text();
-          console.log(id);
-          $(this).toggleClass("select");
-                $.ajax({
-                type: 'POST',
-                url: '/Admin/DeleteBlock',
-                dataType: "json",
-                data: { id: id },
-    success: function(result) {
-                                swal('Block Deleted successfully!!');
-                                                    location.reload();
-
-     @*  var jsondata = $.parseJSON(result);
-       $("#name").val(jsondata.name);
-       $("#uid").val(jsondata.id)
-       $("#data").val(jsondata.date) *@
-    }
-  });
-
-
-
-        });
-
-
-            $('#tblblock').createTablePagination({
+        $('#tblblock').createTablePagination({
         rowPerPage: 5,
         paginationColor: '#6f7ad7',
         fontColor: '#555555',
