@@ -71,8 +71,8 @@ namespace Kaizen.Web.Controllers
                 {
                     list.Add(new DomainModel
                     {
-                        DomainID = dr["DomainID"].ToString(),
-                        DomainDesc = dr["DomainDesc"].ToString()
+                        id = Convert.ToInt32(dr["DomainID"]),
+                        DomainName = dr["DomainDesc"].ToString()
                     });
                 }
             }

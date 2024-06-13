@@ -18,13 +18,16 @@
 #card-block {
     height: 20vh !important;
 }
-
+#blktotal
+{
+    color:black;
+}
 .badge-sm {
     font-size: 11px !important;
     padding: 5px 8px;
     line-height: 11px;
     border-radius: 0px !important;
-    cursor:pointer!important;
+    cursor: pointer !important;
 }
 
 .table thead th {
@@ -50,8 +53,8 @@
 
 .icon {
     padding: 3px;
-    width: 50px;
-    height: 35px;
+   /* width: 50px;
+    height: 35px;*/
     min-width: 26px;
     min-height: 26px;
 }

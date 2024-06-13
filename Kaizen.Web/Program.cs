@@ -15,6 +15,8 @@ builder.Services.AddSingleton<IBlock, BlockWorker>();
 builder.Services.AddSingleton<IBlockData, BlockData>();
 builder.Services.AddSingleton<IViewuser, ViewuserWorker>();
 builder.Services.AddSingleton<IViewuserData, Viewuser>();
+builder.Services.AddSingleton<IDomain, DomainWorker>();
+builder.Services.AddSingleton<IDomainData, DomainData>();
 
 
 

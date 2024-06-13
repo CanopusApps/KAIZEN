@@ -1,76 +1,12 @@
-﻿@{
+﻿ @model IEnumerable<Kaizen.Models.ViewUserModel.DomainModel>
+
+@{
     Layout = "SidebarLayout";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-
-<style>
-    .domainBackground {
-        background-color: #ebeeff;
-    }
-
-    .domainCardBody {
-        border: 1px solid #ebeef6;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-        background-color: white;
-        padding: 10px;
-    }
-
-
-
-    #bd_active {
-        background-color: rgb(16, 202, 147);
-        color: white;
-        font-size: small;
-    }
-
-    #bd_inactive {
-        background-color: #ffa500;
-        color: white;
-        font-size: small;
-    }
-
-    .trsh {
-        background-color: #ff0000;
-        width: 30px;
-        height: 30px;
-        border-radius: 13%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-    }
-
-    .table tbody tr td {
-        vertical-align: middle;
-        border-color: #d7dae3;
-    }
-
-    .table th, .table td {
-        border: 1px solid #EEEEEE;
-        padding: 5px 10px;
-        font-size: 11px;
-    }
-
-    table {
-        display: table;
-        border-collapse: separate;
-        box-sizing: border-box;
-        text-indent: initial;
-        unicode-bidi: isolate;
-        border-spacing: 3px;
-        border-color: gray;
-        border: 2px solid #EEEEEE;
-    }
-
-    #cardBodyDomainHeight {
-        min-height: 100vh;
-    }
-
-    .page_heading {
-        font-size: 13px;
-    }
-</style>
+<link href="~/assets/css/costom/adddomain.css" rel="stylesheet" />
+<link href="~/assets/css/common/datatables.min.css" rel="stylesheet" />
+<script src="~/assets/js/custom/datatables.min.js"></script>
 
 
 
@@ -78,41 +14,25 @@
     <div class=" card p-3 mt-2 mb-2 cardsize" id="card-block">
         <div class="row">
             <div class="col-5">
-                <label for="Block-name">Domain Name<span class="text-danger">*</span></label>
+                <label for="Domain-name">Domain Name<span class="text-danger">*</span></label>
             </div>
         </div>
 
         <div class="row">
             <div class="col-8">
-                <input id="blockinput" class="form-control" />
+                <input class="form-control" id="domainname" name="domainname" asp-for="" />
+                <span id="DomainError" class="text-danger error-message"></span>
             </div>
             <div class="col-2">
-                <input class="btn btn-azure" value="Add" type="button" />
+                <input class="btn btn-azure" id="btnAdd" value="Add" type="button" />
             </div>
         </div>
     </div>
     <div class="card domainCardBody p-3" id="cardBodyDomainHeight">
 
-
-        <div class="loginbox-textbox">
-            <div class="row">
-                <div class="form-group">
-                    @*  <div class="col-md-12">
-                    <label class="label">Domain Name</label>
-                    <input class="form-control" />
-                    <div class="col-md-2">
-                    <br />
-                    <input class="btn btn-azure" value="Add" type="button" />
-                    </div>
-                    </div> *@
-
-                </div>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col-md-10">
-                <p>Domain Names - #</p>
+                <p>Domain Names - @Model.Count()</p>
             </div>
         </div>
         <div class="col-12"><hr></div>
@@ -121,7 +41,7 @@
             <table id="empTable" class="table table-responsive-sm text-center">
                 <thead>
                     <tr>
-                        <th scope="col" class="text-center" id="DomName">SNo</th>
+                        <th hidden scope="col" class="text-center" id="DomName">SNo</th>
                         <th scope="col" class="text-center" id="DomName">DOMAIN NAME</th>
                         <th scope="col" class="text-center" id="DomName">TOTAL EMP</th>
                         <th scope="col" class="text-center" id="DomName">STATUS</th>
@@ -129,30 +49,120 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <tr>
-                        <th scope="row" class="text-center">1</th>
-                        <td>Meterology</td>
-                        <td>200</td>
-                        <td class="text-center">
-                            <span id="bd_active" class="p-1 badge-sm badge-success">Active</span>
-                        </td>
-                        <td class="d-flex justify-content-center align-items-center">
-                            <i class="trsh fa-solid fa-trash-can"></i>
-                        </td>
-                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td hidden>@item.id</td>
+                            <td>@item.DomainName</td>
+                            <td class="text-center">0</td>
+                            <td class="text-center">
+                                @if (item.StatusID)
+                                {
+                                    <a href="/Admin/ActiveDomain?id=@item.id"><span class="btn btn-success badge-sm bd">Active</span></a>
+                                }
+                                else
+                                {
+                                    <a href="/Admin/IActiveDomain?id=@item.id"><span class="btn btn-warning badge-sm bd">Inactive</span></a>
+                                }
+                            </td>
 
+                            <td class="text-center">
+                                <a href="/Admin/DeleteDomain?id=@item.id" class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a>
+                            </td>
+
+                        </tr>
+
+                    }
                     <tr>
-                        <th scope="row" class="text-center ">2</th>
-                        <td>Production</td>
-                        <td>500</td>
-                        <td class="text-center">
-                            <span id="bd_inactive" class="p-1 badge-sm badge-success">InActive</span>
-                        </td>
-                        <td class="d-flex justify-content-center align-items-center">
-                            <i class="trsh fa-solid fa-trash-can text-center"></i>
-                        </td>
-                    </tr>
+                        <td colspan="2" align="right">Total Employees</td>
+                        <td class="text-center">@Model.Sum(i => i.TotalEmp)</td>
+                        <td colspan="3"></td>
+                    </tr> 
+
                 </tbody>
             </table>
         </div>
     </div>
+</div>
+
+
+@* 
+@{
+    if (TempData["msg"] != null)
+    {
+        <script>
+            swal('@TempData["msg"]')
+        </script>
+    }
+}  *@
+<script>
+
+    $(document).ready(function () {
+        $('#empTable').DataTable({});
+    });
+
+
+
+    function ValidateForm() {
+        var isValid = true;
+
+        // Remove red borders and error messages
+        $("#domainname").css("border-color", "red");
+        $("#DomainError").text("");
+        $(".error-message").text("");
+
+        // Check for empty or invalid fields
+        var blockNameValue = $("#domainname").val();
+
+        if (blockNameValue === "") {
+            $("#domainname").css("border-color", "red");
+            $("#DomainError").text("Domain Name is required.");
+            isValid = false;
+        }
+        if (!isValid) {
+            $("#error-message").text("Please fill in the required field correctly.");
+            // Add red border to the submit button
+            $("#submitButton").css("border-color", "red");
+        }
+        return isValid;
+    }
+
+    $(document).ready(function () {
+        $("#btnAdd").click(function () {
+
+            debugger;
+            var domainName = $('#domainname').val();
+
+            if (!ValidateForm()) {
+                // If validation fails, return or perform any other necessary actions
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/AddDomain',
+                dataType: "json",
+                data: { DomainName: domainName },
+                success: function (result) {
+                    // Handle success (if needed)
+                    var res = $.isEmptyObject(result);
+
+                    if (res) {
+                        swal('please Enter Domain Name');
+                    }
+                    else {
+                        // swal('Domain saved successfully!!');
+                        location.reload();
+                    }
+
+
+                },
+                error: function (error) {
+                    // Handle errors (if needed)
+                    // console.error('Error:', error);
+                }
+            });
+        });
+    });
+
+</script>
+

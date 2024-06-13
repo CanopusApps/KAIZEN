@@ -1,0 +1,66 @@
+﻿
+.domainBackground {
+    background-color: #ebeeff;
+}
+
+.domainCardBody {
+    border: 1px solid #ebeef6;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    padding: 10px;
+}
+
+
+
+#bd_active {
+    background-color: rgb(16, 202, 147);
+    color: white;
+    font-size: small;
+}
+
+#bd_inactive {
+    background-color: #ffa500;
+    color: white;
+    font-size: small;
+}
+
+.trsh {
+    background-color: #ff0000;
+    width: 30px;
+    height: 30px;
+    border-radius: 13%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.table tbody tr td {
+    vertical-align: middle;
+    border-color: #d7dae3;
+}
+
+.table th, .table td {
+    border: 1px solid #EEEEEE;
+    padding: 5px 10px;
+    font-size: 11px;
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    unicode-bidi: isolate;
+    border-spacing: 3px;
+    border-color: gray;
+    border: 2px solid #EEEEEE;
+}
+
+#cardBodyDomainHeight {
+    min-height: 100vh;
+}
+
+.page_heading {
+    font-size: 13px;
+}

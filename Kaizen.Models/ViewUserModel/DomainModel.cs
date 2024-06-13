@@ -8,9 +8,12 @@ namespace Kaizen.Models.ViewUserModel
 {
     public class DomainModel
     {
-        public string DomainID { get; set; } = "";
-        public string DomainDesc { get; set; } = "";
+        public int id { get; set; }
+        public string DomainName { get; set; } = "";
+        public bool StatusID { get; set; }
         public string flag { get; set; } = "";
+        public int TotalEmp { get; set; }
+
 
     }
 }
