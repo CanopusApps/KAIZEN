@@ -308,7 +308,7 @@ namespace Kaizen.Web.Controllers
 					{
 						list.Add(new DepartmentModel
 						{
-							DeptId = dr["DeptId"].ToString(),
+							DeptId = Convert.ToInt32(dr["DeptId"].ToString()),
 							DepartmentName = dr["DepartmentName"].ToString()
 						});
 					}
