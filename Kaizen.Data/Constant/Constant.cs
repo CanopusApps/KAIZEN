@@ -36,8 +36,11 @@ namespace Kaizen.Data.Constant
 		public static string SpCreateDomain = "Sp_CreateDomain";
 
 		public static string Fetch_User = "Fetch_User";
+        public static string Sp_Delete_User = "Sp_Delete_User";
+        
 
 
 
-	}
+
+    }
 }
