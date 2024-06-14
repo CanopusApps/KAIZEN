@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using Kaizen.Web;
 using System.Reflection.Metadata;
 using Kaizen.Models.ViewUserModel;
+using Kaizen.Models.AdminModel;
 
 namespace Kaizen.Web.Controllers
 {
@@ -148,6 +149,18 @@ namespace Kaizen.Web.Controllers
                 }
             }
             return list;
+        }
+
+        public IActionResult DeleteUser(int id)
+        {
+            List<UserGridModel> newList = new List<UserGridModel>();
+            UserGridModel model = new UserGridModel();
+            DataTable dt = new DataTable();
+            string outmsg = "";
+            model.EmpID = id.ToString();
+            outmsg = _user.DeleteUser(model);
+
+            return RedirectToAction("ViewUser");
         }
     }
 }

@@ -7,6 +7,7 @@ using Kaizen.Models.ViewUserModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kaizen.Models.AdminModel;
 
 namespace Kaizen.Business.Worker
 {
@@ -41,6 +42,14 @@ namespace Kaizen.Business.Worker
             DataSet ds = new DataSet();
             ds = _repositoryUserTypedata.GetUser(model);
             return ds;
+        }
+        public string DeleteUser(UserGridModel model)
+        {
+
+            DataTable dt = new DataTable();
+            string message = _repositoryUserTypedata.DeleteUserData(model);
+            return message;
+
         }
     }
 }

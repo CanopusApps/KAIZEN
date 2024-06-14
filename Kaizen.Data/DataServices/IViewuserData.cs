@@ -5,6 +5,7 @@ using Kaizen.Models.ViewUserModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kaizen.Models.AdminModel;
 
 namespace Kaizen.Data.DataServices
 {
@@ -15,5 +16,6 @@ namespace Kaizen.Data.DataServices
         public DataSet GetDepartment(string DomainName);
 
         public DataSet GetUser(UserGridModel model);
+        public string DeleteUserData(UserGridModel model);
     }
 }

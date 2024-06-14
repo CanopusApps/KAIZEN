@@ -8,6 +8,7 @@ using Kaizen.Models.ViewUserModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kaizen.Models.AdminModel;
 
 namespace Kaizen.Data.DataServices
 {
@@ -88,6 +89,28 @@ namespace Kaizen.Data.DataServices
             SqlDataAdapter da = new SqlDataAdapter(com);
             da.Fill(ds);
             return ds;
+        }
+        public string DeleteUserData(UserGridModel model)
+        {
+            string msg = "";
+
+            try
+            {
+                com = new SqlCommand();
+                SqlDataAdapter da = null;
+                DataTable dt = new DataTable();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@id", model.EmpID);
+                com.CommandText = StoredProcedures.Sp_Delete_User;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                msg = "Block Deleted Successfully !!";
+            }
+            catch (Exception ex) { }
+
+            return msg;
         }
     }
 }
