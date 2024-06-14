@@ -1,92 +1,241 @@
-﻿@{
+﻿@model Kaizen.Models.AdminModel.AddUserModel;
+@{
     Layout = "SidebarLayout";
 }
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <div class="container p-4 border bg-white">
     <h4 class="text-center">Add User</h4>
     <div class="custom-line mb-3"></div>
-    <form>
+    @using (Html.BeginForm(FormMethod.Post, new { id = "userForm" }))
+    {
+        @Html.AntiForgeryToken()
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label for="inputName">Name<span class="text-danger">*</span></label>
-                <input type="text" class="form-control" placeholder="Name">
+                @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
+                <span class="text-danger">*</span>
+                @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter your Employee Id" } })
+                @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-4">
-                <label for="inputEmail">Email<span class="text-danger">*</span></label>
-                <input type="email" class="form-control" placeholder="Email">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                <span class="text-danger">*</span>
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "Enter your Employee Name" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-4">
-                <label for="inputPhone">Phone No<span class="text-danger">*</span></label>
-                <input type="tel" class="form-control" placeholder="Phone Number">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                <span class="text-danger">*</span>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter your Email Id" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label for="inputEmpID">Emp ID<span class="text-danger">*</span></label>
-                <input type="text" class="form-control" placeholder="Employee ID">
+                @Html.LabelFor(model => model.Phoneno, htmlAttributes: new { @class = "control-label" })
+                <span class="text-danger">*</span>
+                @Html.EditorFor(model => model.Phoneno, new { htmlAttributes = new { @class = "form-control", type = "tel", pattern = "[0-9]{10}", title = "Please enter a 10-digit phone number", placeholder = "Enter your phone number" } })
+                @Html.ValidationMessageFor(model => model.Phoneno, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-4">
-                <label for="inputDepartment">Department<span class="text-danger">*</span></label>
-                <select id="inputDepartment" class="form-control">
+                @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domain, "DataValueField", "DataTextField"), new { @id = "Did", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                <select Asp-for="DeptId" name="DeptId" id="inputDepartment" class="form-control">
                     <option selected>All</option>
-                    <!-- Add department options here -->
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputDomain">Domain<span class="text-danger">*</span></label>
-                <select class="form-control">
-                    <option selected>All</option>
-                    <!-- Add domain options here -->
                 </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label for="inputUserType">User Type<span class="text-danger">*</span></label>
-                <select class="form-control">
-                    <option selected>SUPERADMIN</option>
-                    <!-- Add user type options here -->
-                </select>
+                @Html.LabelFor(model => model.Rid, "UserType", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                @Html.DropDownListFor(m => m.Rid, new SelectList(Model.UserType, "DataValueField", "DataTextField"), new { @id = "Rid", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Rid, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-4">
-                <label for="inputStatus">Status<span class="text-danger">*</span></label>
-                <select class="form-control">
-                    <option selected>Active</option>
-                    <!-- Add status options here -->
-                </select>
+                @Html.LabelFor(model => model.statusname, "Status", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                @Html.DropDownListFor(model => model.statusname, new SelectList(Model.Status, "DataValueField", "DataTextField"), "-- Select Status --", new { @class = "form-control", @id = "statusname" })
+                @Html.ValidationMessageFor(model => model.statusname, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-4">
-                <label for="inputCadre">Cadre<span class="text-danger">*</span></label>
-                <select class="form-control">
-                    <option selected>Select</option>
-                    <!-- Add cadre options here -->
-                </select>
+                @Html.LabelFor(model => model.Cid, "Cadre", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                @Html.DropDownListFor(m => m.Cid, new SelectList(Model.cadre, "DataValueField", "DataTextField"), new { @id = "cid", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Cid, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label>Gender<span class="text-danger">*</span></label>
+                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
+                <span class="text-danger">*</span>
                 <div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="genderOptions" value="Male">
-                        <label class="form-check-label" for="genderMale">Male</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="genderOptions" value="Female">
-                        <label class="form-check-label" for="genderFemale">Female</label>
-                    </div>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.Gender, "Male") Male
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.Gender, "Female") Female
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.Gender, "Other") Other
+                    </label>
+                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group col-md-4">
-                <label for="inputPassword">Password<span class="text-danger">*</span></label>
-                <input type="password" class="form-control" placeholder="Password">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                <span class="text-danger">*</span>
+                <div class="editor-container">
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Enter your password" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger validation-message" })
+                </div>
             </div>
             <div class="form-group col-md-4">
-                <label for="inputConfirmPassword">Confirm Password<span class="text-danger">*</span></label>
-                <input type="password" class="form-control" placeholder="Confirm Password">
+                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
+                <span class="text-danger">*</span>
+                <div class="editor-container">
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", placeholder = "Enter your password" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger validation-message" })
+                </div>
             </div>
-
         </div>
-        <!-- <button type="submit" class="btn btn-primary">Add</button> -->
         <button type="submit" class="btn btn-block-custom btn-azure ">Add New User</button>
-    </form>
+    }
 </div>
+@if (TempData["msg"] != null)
+{
+    <script>
+        swal('@TempData["msg"]')
+    </script>
+}
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Validate form using jQuery Validation Plugin
+        $("#userForm").validate({
+            errorClass: "text-danger",
+            rules: {
+                EmpId: {
+                    required: true
+                },
+                Name: {
+                    required: true,
+                    pattern: "[A-Za-z]+"
+                },
+                Email: {
+                    required: true,
+                    email: true
+                },
+                Phoneno: {
+                    required: true,
+                    pattern: "[0-9]{10}"
+                },
+                Did: {
+                    required: true
+                },
+                DeptId: {
+                    required: true
+                },
+                Rid: {
+                    required: true
+                },
+                statusname: {
+                    required: true
+                },
+                Cid: {
+                    required: true
+                },
+                Gender: {
+                    required: true
+                },
+                Password: {
+                    required: true,
+                    minlength: 6
+                },
+                ConfirmPassword: {
+                    required: true,
+                    equalTo: "#Password"
+                }
+            },
+            messages: {
+                EmpId: {
+                    required: "Employee ID is required"
+                },
+                Name: {
+                    required: "Name is required",
+                    pattern: "Please enter a valid name"
+                },
+                Email: {
+                    required: "Email is required",
+                    email: "Please enter a valid email address"
+                },
+                Phoneno: {
+                    required: "Phone number is required",
+                    pattern: "Please enter a 10-digit phone number"
+                },
+                Did: {
+                    required: "Domain is required"
+                },
+                DeptId: {
+                    required: "Department is required"
+                },
+                Rid: {
+                    required: "User type is required"
+                },
+                statusname: {
+                    required: "Status is required"
+                },
+                Cid: {
+                    required: "Cadre is required"
+                },
+                Gender: {
+                    required: "Gender is required"
+                },
+                Password: {
+                    required: "Password is required",
+                    minlength: "Password must be at least 6 characters long"
+                },
+                ConfirmPassword: {
+                    required: "Confirm password is required",
+                    equalTo: "Passwords do not match"
+                }
+            },
+            submitHandler: function (form) {
+                var formData = $(form).serialize();
+
+                return false; // Prevent default form submission
+            }
+        });
+
+        // Fetch departments based on selected domain
+        $('#Did').change(function () {
+            var Domain = $('#Did').val().trim();
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/FetchDepartment',
+                dataType: "json",
+                data: { DomainName: Domain },
+                success: function (result) {
+                    if (result) {
+                        var dropdown = $('#inputDepartment');
+                        dropdown.empty();
+                        dropdown.append($('<option>', {
+                            value: 'all',
+                            text: 'All'
+                        }));
+                        for (var i = 0; i < result.length; i++) {
+                            $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
+                        }
+                    } else {
+                        Swal.fire('Please Select Domain');
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        });
+    });
+</script>
