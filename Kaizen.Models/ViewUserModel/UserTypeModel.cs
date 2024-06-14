@@ -8,7 +8,7 @@ namespace Kaizen.Models.ViewUserModel
 {
     public class UserTypeModel
     {
-        public string UserTypeId { get; set; } = "";
+        public int UserTypeId { get; set; } = 0;
         public string UserDesc { get; set; } = "";
         public string flag { get; set; } = "";
 
