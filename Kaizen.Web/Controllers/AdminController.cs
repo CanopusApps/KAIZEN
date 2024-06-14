@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Reflection;
 using Kaizen.Models.ViewUserModel;
+using Kaizen.Data.DataServices;
 
 namespace Kaizen.Web.Controllers
 {
@@ -25,11 +26,60 @@ namespace Kaizen.Web.Controllers
         {
             return View();
         }
-        public IActionResult AddUser()
-        {
-            return View();
-        }
-        public IActionResult AddDepartment()
+		public IActionResult AddUser()
+		{
+			AddUserData db = new AddUserData();
+			AddUserModel model = new AddUserModel();
+			model.cadre = db.GetCadreList();
+			model.UserType = db.GetUserTypeList();
+			model.Domain = db.GetDomainTypeList();
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public IActionResult Adduser(AddUserModel ur)
+		{
+			try
+			{
+				string msg;
+				AddUserData db = new AddUserData();
+				ur.cadre = db.GetCadreList();
+				ur.UserType = db.GetUserTypeList();
+				ur.Domain = db.GetDomainTypeList();
+				if (ModelState.IsValid)
+				{
+					msg = db.InsertUserData(ur);
+					if (msg == "ok")
+					{
+						TempData["msg"] = "Data saved Sucessfully ";
+					}
+					else if (msg == "Duplicate Emp Id")
+					{
+						TempData["msg"] = msg;
+					}
+					else
+					{
+						TempData["msg"] = "some error occured";
+					}
+
+				}
+				else
+				{
+
+					TempData["msg"] = "some data Feids missing";
+				}
+
+				//return View(ur);
+                return RedirectToAction("Adduser");
+			}
+			catch (Exception ex)
+			{
+				LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
+				return View();
+			}
+		}
+		public IActionResult AddDepartment()
         {
             return View();
         }
@@ -241,8 +291,33 @@ namespace Kaizen.Web.Controllers
         }
 
 
-        //EndDomain
+		//EndDomain
 
+		public List<DepartmentModel> FetchDepartment(string DomainName)
+		{
+			List<DepartmentModel> list = new List<DepartmentModel>();
+			AddUserData db = new AddUserData();
+			DepartmentModel model = new DepartmentModel();
+			DataTable dt = new DataTable();
+			if (!string.IsNullOrEmpty(DomainName))
+			{
+				DataSet ds = db.GetDepartment(DomainName);
+				if (ds.Tables.Count > 0)
+				{
+					foreach (DataRow dr in ds.Tables[0].Rows)
+					{
+						list.Add(new DepartmentModel
+						{
+							DeptId = dr["DeptId"].ToString(),
+							DepartmentName = dr["DepartmentName"].ToString()
+						});
+					}
+				}
 
-    }
+			}
+
+			return list;
+		}
+
+	}
 }
