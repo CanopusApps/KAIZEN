@@ -75,6 +75,14 @@ namespace Kaizen.Data.DataServices
             DataSet ds = new DataSet();
             com.Connection = con;
             com.CommandType = CommandType.StoredProcedure;
+
+            com.Parameters.AddWithValue("@Name", string.IsNullOrEmpty(model.Name) ? " " : model.Name);
+            com.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(model.Email) ? " " : model.Email);
+            com.Parameters.AddWithValue("@EmpID", string.IsNullOrEmpty(model.EmpID) ? " " : model.EmpID);
+            com.Parameters.AddWithValue("@UserDesc", model.UserType == "All" ? "" : (string.IsNullOrEmpty(model.UserType) ? " " : model.UserType));
+            com.Parameters.AddWithValue("@DomainDesc", model.Domain == "All" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
+            com.Parameters.AddWithValue("@DepartmentName", model.Department == "All" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
+
             com.CommandText = StoredProcedures.Fetch_User;
 
             SqlDataAdapter da = new SqlDataAdapter(com);

@@ -12,5 +12,6 @@ namespace Kaizen.Models.ViewUserModel
         public List<DomainModel> DomainList { get; set; }
         public List<UserGridModel> UsergridList { get; set; }
 
+
     }
 }

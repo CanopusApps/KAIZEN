@@ -1,4 +1,5 @@
 ﻿@using Kaizen.Models.ViewUserModel
+
 @{
     Layout = "SidebarLayout";
 }
@@ -72,46 +73,53 @@
         <div class="card p-3 mt-2 mb-2">
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="inputName">Name<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control txt-width" placeholder="Name">
+                    <label for="inputName">Name</label>
+                    <input type="text" id="inputName" class="form-control txt-width" placeholder="Name">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="inputEmpID">Emp ID<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control txt-width" placeholder="Employee ID">
+                    <label for="inputEmpID">Emp ID</label>
+                    <input type="text" id="inputEmpID" class="form-control txt-width" placeholder="Employee ID">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="inputEmail">Email<span class="text-danger">*</span></label>
-                    <input type="email" class="form-control txt-width" placeholder="Email">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" id="inputEmail" class="form-control txt-width" placeholder="Email">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="inputUserType">User Type<span class="text-danger">*</span></label>
-                    <select class="form-control txt-width">
+                    <label for="inputUserType">User Type</label>
+                    <select id="inputUserType" class="form-control txt-width">
                         <option selected>All</option>
-                        @foreach (var userType in Model.UserTypeList)
+                        @if (Model.UserTypeList != null)
                         {
-                            <option value="@userType.UserTypeId">@userType.UserDesc</option>
+                            foreach (var userType in Model.UserTypeList)
+                            {
+                                <option value="@userType.UserTypeId">@userType.UserDesc</option>
+                            }
                         }
                     </select>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="inputDomain">Domain<span class="text-danger">*</span></label>
+                    <label for="inputDomain">Domain</label>
                     <select id="inputDomain" class="form-control txt-width">
                         <option selected>All</option>
-                        @foreach (var domain in Model.DomainList)
+                        @if (Model.DomainList != null)
                         {
-                            <option value="@domain.DomainID">@domain.DomainDesc</option>
+                            @foreach (var domain in Model.DomainList)
+                            {
+                                <option value="@domain.id">@domain.DomainName</option>
+                            }
                         }
+                        
                     </select>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="inputDepartment">Department<span class="text-danger">*</span></label>
+                    <label for="inputDepartment">Department</label>
                     <select id="inputDepartment" class="form-control txt-width">
                         <option selected>All</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-block-custom btn-azure" style="width:345px;margin-left:0px">Filter</button>
+                <input type="button" id="btn_filter" class="btn btn-block-custom btn-azure" style="width:345px;margin-left:0px" value="Filter" />
             </div>
         </div>
         <div class="custom-line mb-3"></div>
@@ -150,39 +158,42 @@
                         </tr>
                     </thead>
                     <tbody style="text-align:center">
-                        @foreach (var User in Model.UsergridList)
+                        @if (Model.UsergridList != null)
                         {
-                            <tr>
-                                <td>@User.EmpID</td>
-                                <td>@User.Name</td>
-                                <td>@User.Email</td>
-                                <td>@User.Gender</td>
-                                <td>0</td>
-                                <td>@User.Domain</td>
-                                <td>@User.Department</td>
-                                <td>@User.UserType</td>
-                                <td><input type="checkbox" style="background-color:gray" @(User.ImageApprover == 1 ? "checked" : "") disabled /></td>
-                                <td>
-                                    @if (@User.Status == 0)
+                            @foreach (var User in Model.UsergridList)
+                            {
+                                <tr>
+                                    <td>@User.EmpID</td>
+                                    <td>@User.Name</td>
+                                    <td>@User.Email</td>
+                                    <td>@User.Gender</td>
+                                    <td>0</td>
+                                    <td>@User.Domain</td>
+                                    <td>@User.Department</td>
+                                    <td>@User.UserType</td>
+                                    <td><input type="checkbox" style="background-color:gray" @(User.ImageApprover == 1 ? "checked" : "") disabled /></td>
+                                    <td>
+                                        @if (@User.Status == 0)
                                         {
-                                        <a><span class="btn btn-danger badge-sm">InActive</span></a>
+                                            <a><span class="btn btn-danger badge-sm">InActive</span></a>
 
                                         }
-                                    @if (@User.Status == 1)
+                                        @if (@User.Status == 1)
                                         {
-                                        <a><span class="tn btn-successr badge-sm bd">Active</span></a>
+                                            <a><span class="tn btn-successr badge-sm bd">Active</span></a>
 
                                         }
-                                </td>
-                                <td class="text-center">
-                                    <a class="btn btn-primary btn-sm edituser">
-                                        <i class="edit fas fa-solid fa-pencil"></i>
-                                    </a>
-                                    <a class="btn btn-danger btn-sm deleteuser">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-primary btn-sm edituser">
+                                            <i class="edit fas fa-solid fa-pencil"></i>
+                                        </a>
+                                        <a class="btn btn-danger btn-sm deleteuser">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -196,8 +207,11 @@
         <script>
             $(document).ready(function () {
                 $('#inputDomain').change(function () {
-                    var Domain = $('#inputDomain').val().trim();
-                    $.ajax({
+                    var Domain = $('#inputDomain').val();
+                    if (Domain.toLowerCase() === 'all') {
+                        return;
+                    }
+                   $.ajax({
                         type: 'POST',
                         url: '/ViewUser/FetchDepartment',
                         dataType: "json",
@@ -223,6 +237,70 @@
                     });
                 });
             });
+        </script>
+        <script>
+                $(document).ready(function () {
+                $("#btn_filter").button().click(function () {
+                    var Name = $('#inputName').val();
+                    var EmpId = $('#inputEmpID').val();
+                    var Email = $('#inputEmail').val();
+                    var UserType = $('#inputUserType option:selected').text();
+                    var Domain = $('#inputDomain option:selected').text();
+                    var Department = $('#inputDepartment option:selected').text();
+                        $.ajax({
+                            url: '/ViewUser/ViewFilterUser',
+                            type: 'GET',
+                            data: {
+                                Name: Name, EmpId: EmpId, Email: Email, UserType: UserType, Domain: Domain, Department: Department
+                            },
+                            success: function (response) {
+                                var tbody = $('#example tbody');
+                                tbody.empty();
+
+                            if (response && response.length > 0) {
+                                for (var i = 0; i < response.length; i++) {
+                                    var user = response[i];
+
+                                    var statusHtml = user.status == 0
+                                        ? '<a><span class="btn btn-danger badge-sm">InActive</span></a>'
+                                        : '<a><span class="btn btn-success badge-sm">Active</span></a>';
+
+                                    var row = '<tr>' +
+                                        '<td>' + user.empID + '</td>' +
+                                        '<td>' + user.name + '</td>' +
+                                        '<td>' + user.email + '</td>' +
+                                        '<td>' + user.gender + '</td>' +
+                                        '<td>' + "0" + '</td>' +
+                                        '<td>' + user.domain + '</td>' +
+                                        '<td>' + user.department + '</td>' +
+                                        '<td>' + user.userType + '</td>' +
+                                        '<td><input type="checkbox" style="background-color:gray"' + (user.imageApprover == 1 ? ' checked' : '') + ' disabled /></td>' +
+                                        '<td>' + statusHtml + '</td>' +
+                                        '<td class="text-center">' +
+                                        '<a class="btn btn-primary btn-sm edituser">' +
+                                        '<i class="edit fas fa-solid fa-pencil"></i>' +
+                                        '</a> ' +
+                                        '<a class="btn btn-danger btn-sm deleteuser">' +
+                                        '<i class="fa-solid fa-trash-can"></i>' +
+                                        '</a>' +
+                                        '</td>' +
+                                        '</tr>';
+
+                                    tbody.append(row);
+                                }
+                            }
+
+                                else {
+                                    var row = '<tr><td colspan="6">No users found</td></tr>';
+                                    tbody.append(row);
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching users:', error);
+                            }
+                        });
+                    });
+                });
         </script>
     </form>
 </div>
