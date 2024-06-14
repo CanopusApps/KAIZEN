@@ -8,7 +8,7 @@ namespace Kaizen.Models.ViewUserModel
 {
     public class DepartmentModel
     {
-        public string DeptId { get; set; } = "";
+        public int DeptId { get; set; } = 0;
         public string DepartmentName { get; set; } = "";
         public string flag { get; set; } = "";
 

@@ -23,20 +23,34 @@ namespace Kaizen.Web.Controllers
         }
 
         //Created by Manas 
-        public IActionResult ViewUser()
+        public IActionResult ViewUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
         {
             ViewUserallModel viewModel = new ViewUserallModel();
             try
             {
-                viewModel.UserTypeList = UserTypeList();
-                viewModel.DomainList = DomainList();
-                viewModel.UsergridList = UserList();
+                    viewModel.UserTypeList = UserTypeList();
+                    viewModel.DomainList = DomainList();
+                    viewModel.UsergridList = UserList(Name, EmpId, Email, UserType, Domain, Department); 
             }
             catch (Exception ex) {
                 //LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
             }
 
             return View(viewModel);
+        }
+        public JsonResult ViewFilterUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
+        {
+            try
+            {
+                var userList = UserList(Name, EmpId, Email, UserType, Domain, Department);
+                return Json(userList);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if needed
+                // LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
+                return Json(new { success = false, message = ex.Message });
+            }
         }
         public List<UserTypeModel> UserTypeList()
         {
@@ -51,7 +65,7 @@ namespace Kaizen.Web.Controllers
                 {
                     list.Add(new UserTypeModel
                     {
-                        UserTypeId = dr["UserTypeId"].ToString(),
+                        UserTypeId = Convert.ToInt16(dr["UserTypeId"]),
                         UserDesc = dr["UserDesc"].ToString()
                     });
                 }
@@ -92,7 +106,7 @@ namespace Kaizen.Web.Controllers
                     {
                         list.Add(new DepartmentModel
                         {
-                            DeptId = dr["DeptId"].ToString(),
+                            DeptId = Convert.ToInt16(dr["DeptId"]),
                             DepartmentName = dr["DepartmentName"].ToString()
                         });
                     }
@@ -101,11 +115,19 @@ namespace Kaizen.Web.Controllers
             }
             return list;
         }
-        public List<UserGridModel> UserList()
+        public List<UserGridModel> UserList(string Name, string EmpId, string Email, string UserType, string Domain, string Department)
         {
             List<UserGridModel> list = new List<UserGridModel>();
             UserGridModel model = new UserGridModel();
             DataTable dt = new DataTable();
+
+            model.Name = Name;
+            model.EmpID = EmpId;
+            model.Email = Email;
+            model.UserType = UserType;
+            model.Domain = Domain;
+            model.Department = Department;
+
             DataSet ds = _user.GetUser(model);
             if (ds.Tables.Count > 0)
             {
