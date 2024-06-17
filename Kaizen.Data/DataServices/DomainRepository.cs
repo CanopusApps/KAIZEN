@@ -56,7 +56,7 @@ namespace Kaizen.Data.DataServices
 				com.Connection = con;
 				com.CommandType = CommandType.StoredProcedure;
 				com.Parameters.AddWithValue("@DomainName", DomainName);
-				com.CommandText = StoredProcedures.sp_CreateDomain;
+				com.CommandText = StoredProcedures.sp_InsertDomain;
 				con.Open();
 				com.ExecuteNonQuery();
 				con.Close();
