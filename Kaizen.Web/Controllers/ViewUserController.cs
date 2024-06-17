@@ -120,12 +120,12 @@ namespace Kaizen.Web.Controllers
         //    }
         //    return list;
         //}
-        public List<DepartmentModel> FetchDepartment(string domainName)
+        public List<DepartmentModel> FetchDepartment(string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
-            if (!string.IsNullOrEmpty(domainName))
+            if (!string.IsNullOrEmpty(domainid))
             {
-				deptList = _departmentWorker.GetDepartments().Where(d=>d.DomainName == domainName).ToList();                
+				deptList = _departmentWorker.GetDepartments().Where(d=>d.DomainId == Convert.ToInt32(domainid)).ToList();                
 
             }
             return deptList;

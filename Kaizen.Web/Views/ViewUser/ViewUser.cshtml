@@ -211,10 +211,10 @@
                         return;
                     }
                    $.ajax({
-                        type: 'POST',
+                        type: 'GET',
                         url: '/ViewUser/FetchDepartment',
                         dataType: "json",
-                        data: { DomainName: Domain },
+                        data: { domainid: Domain },
                         success: function (result) {
                             if (result) {
                                 var dropdown = $('#inputDepartment');
