@@ -36,21 +36,15 @@
                 @Html.EditorFor(model => model.Phoneno, new { htmlAttributes = new { @class = "form-control", type = "tel", pattern = "[0-9]{10}", title = "Please enter a 10-digit phone number", placeholder = "Enter your phone number" } })
                 @Html.ValidationMessageFor(model => model.Phoneno, "", new { @class = "text-danger" })
             </div>
-@*             <div class="form-group col-md-4">
+           <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "DataValueField", "DataTextField"), new { @id = "Did", @class = "form-control" })
+                @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"),"Select Domain", new { @id = "Did", @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                <select Asp-for="DeptId" name="DeptId" id="inputDepartment" class="form-control">
-                    <option selected>All</option>
-                </select>
-            </div> *@
-            <div class="form-group col-md-4">
+            </div> 
+          @*   <div class="form-group col-md-4">
                 <label for="inputDomain">Domain</label>
-                <select id="inputDomain" class="form-control txt-width">
-                    <option selected>All</option>
+                <select id="Did" class="form-control txt-width">
+                    <option selected>Select Domain</option>
                     @if (Model.Domains != null)
                     {
                         @foreach (var domain in Model.Domains)
@@ -60,28 +54,37 @@
                     }
 
                 </select>
-            </div>
+            </div> *@
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                <select Asp-for="DeptId" name="DeptId" id="inputDepartment" class="form-control">
+                    <option selected>Select Department</option>
+                </select>
+            </div> 
+            
+        
+        @*
             <div class="form-group col-md-4">
                 <label for="inputDepartment">Department</label>
                 <select id="inputDepartment" class="form-control txt-width">
                     <option selected>All</option>
                 </select>
-            </div>
+            </div> *@
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.Rid, "UserType", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                @Html.DropDownListFor(m => m.Rid, new SelectList(Model.UserType, "DataValueField", "DataTextField"), new { @id = "Rid", @class = "form-control" })
+                @Html.DropDownListFor(m => m.Rid, new SelectList(Model.UserType, "UserTypeId", "UserDesc"),"--UserType--", new { @id = "Rid", @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Rid, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.statusname, "Status", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                @Html.DropDownListFor(model => model.statusname, new SelectList(Model.Status, "DataValueField", "DataTextField"), "-- Select Status --", new { @class = "form-control", @id = "statusname" })
+                @Html.DropDownListFor(model => model.statusname, new SelectList(Model.Status, "StatusID", "StatusName"), new { @class = "form-control", @id = "statusname" })
                 @Html.ValidationMessageFor(model => model.statusname, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.Cid, "Cadre", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                @Html.DropDownListFor(m => m.Cid, new SelectList(Model.Cadre, "DataValueField", "DataTextField"), new { @id = "cid", @class = "form-control" })
+                @Html.DropDownListFor(m => m.Cid, new SelectList(Model.Cadre, "Id", "CadreName"),"--Select Cadre--", new { @id = "cid", @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Cid, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -130,7 +133,7 @@
 }
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script> 
 
 <script>
     $(document).ready(function () {
@@ -237,14 +240,14 @@
                 type: 'POST',
                 url: '/Admin/FetchDepartment',
                 dataType: "json",
-                data: { DomainName: Domain },
+                data: { DomainID: Domain },
                 success: function (result) {
                     if (result) {
                         var dropdown = $('#inputDepartment');
                         dropdown.empty();
                         dropdown.append($('<option>', {
                             value: 'all',
-                            text: 'All'
+                            text: 'Select Department'
                         }));
                         for (var i = 0; i < result.length; i++) {
                             $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');

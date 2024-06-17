@@ -10,6 +10,8 @@ namespace Kaizen.Models.AdminModel
     {
         public int DeptId { get; set; }
         public string DepartmentName { get; set; }
+        public int DomainId { get; set; }
+
         public string DomainName { get; set; }
 
         public bool Status { get; set; }

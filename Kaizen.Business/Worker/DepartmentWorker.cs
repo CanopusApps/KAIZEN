@@ -36,10 +36,12 @@ namespace Kaizen.Business.Worker
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-					deptModels.Add(new DepartmentModel
-					{
-                        DeptId = Convert.ToInt32(dr["DepartmentId"]),
+                    deptModels.Add(new DepartmentModel
+                    {
+                        DeptId = Convert.ToInt32(dr["DeptId"]),
                         DepartmentName = dr["DepartmentName"].ToString(),
+                        DomainId = Convert.ToInt32(dr["DomainId"].ToString()),
+                        DomainName = dr["DomainName"].ToString(),
                         Status = Convert.ToBoolean(dr["Status"])
                     });
                 }

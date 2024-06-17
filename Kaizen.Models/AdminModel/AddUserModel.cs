@@ -39,77 +39,23 @@ namespace Kaizen.Models.AdminModel
 
         //cadre list
         public List<CadreModel> Cadre { get; set; }
-
         //Usertype list
         public List<UserTypeModel> UserType { get; set; }
-
         // Domain List
         public List<DomainModel> Domains { get; set; }
-
 		public List<DepartmentModel> Departments { get; set; }
-
-
-		// static list for status
-		public List<StatusDropDown> Status { get; set; } = new List<StatusDropDown>//
+      
+        // static list for status
+        public List<StatusModel> Status { get; set; } = new List<StatusModel>//
         {
-            new StatusDropDown { DataValueField = 1, DataTextField = "Active" },
-           new StatusDropDown { DataValueField = 0, DataTextField = "Inactive" }
+            new StatusModel  { StatusID = 1, StatusName = "Active" },
+           new StatusModel { StatusID = 0, StatusName = "Inactive" }
         };
-
-
-
-
         public int statusname { get; set; }// Stores status (1 or 0)
         public int Cid { get; set; } = 0;// stores cadre id
         public int Rid { get; set; } = 0;// stores usertype id
         public int Did { get; set; } = 0;// stores domain id 
-
-        public int DeptId { get; set; } = 0;// stores deptid
-
-
-      
+        public int DeptId { get; set; } = 0;// stores deptid 
     }
-    // class to store Usertype table data into a list
-    public class RoleDropDown
-    {
-        public virtual int? DataValueField { get; set; }
-        public virtual string? DataTextField { get; set; }
-
-        public virtual string DataCodeField { get; set; }
-        public virtual string DataAltValueField { get; set; }
-    }
-    //class to store cadre table data into a list
-    public class DropDownEntity
-    {
-        public virtual int? DataValueField { get; set; }
-        public virtual string? DataTextField { get; set; }
-
-        public virtual string DataCodeField { get; set; }
-        public virtual string DataAltValueField { get; set; }
-
-    }
-    // class to store Status table data into a list
-    public class StatusDropDown
-    {
-        public int DataValueField { get; set; }
-        public string DataTextField { get; set; }
-    }
-    // class to store domain table data into a list
-    public class DomainDropDown
-    {
-        public virtual int? DataValueField { get; set; }
-        public virtual string? DataTextField { get; set; }
-
-        public virtual string DataCodeField { get; set; }
-        public virtual string DataAltValueField { get; set; }
-    }
-    // department class to store dept list
-    //public class DepartmentModel
-    //{
-    //    public int DeptId { get; set; } =0;
-    //    public string DepartmentName { get; set; } = "";
-    //    public string flag { get; set; } = "";
-
-    //}
 }
 

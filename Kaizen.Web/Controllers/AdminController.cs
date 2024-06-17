@@ -45,39 +45,37 @@ namespace Kaizen.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Adduser(AddUserModel ur)
+        public IActionResult Adduser(AddUserModel userModel)
         {
             try
-            {
+            { 
                 string msg;
-                ////AddUserRepository db = new AddUserRepository();
-                //ur.cadre = db.GetCadreList();
-                //ur.UserType = db.GetUserTypeList();
-                //ur.Domain = db.GetDomainTypeList();
-                //if (ModelState.IsValid)
-                //{
-                //    msg = db.InsertUserData(ur);
-                //    if (msg == "ok")
-                //    {
-                //        TempData["msg"] = "Data saved Sucessfully ";
-                //    }
-                //    else if (msg == "Duplicate Emp Id")
-                //    {
-                //        TempData["msg"] = msg;
-                //    }
-                //    else
-                //    {
-                //        TempData["msg"] = "some error occured";
-                //    }
+                ModelState.Remove(nameof(userModel.UserType));
+                ModelState.Remove(nameof(userModel.Cadre));
+                ModelState.Remove(nameof(userModel.Domains));
+                ModelState.Remove(nameof(userModel.Departments));
+                if (ModelState.IsValid)
+                {
+                    msg = _addUserWorker.AddUser(userModel);
+                    if (msg == "ok")
+                   {
+                       TempData["msg"] = "Data saved Sucessfully ";
+                   }
+                   else if (msg == "Duplicate Emp Id")
+                   {
+                       TempData["msg"] = msg;
+                   }
+                    else
+                   {
+                        TempData["msg"] = "some error occured";
+                  }
 
-                //}
-                //else
-                //{
+                }
+                else
+                {
 
-                //    TempData["msg"] = "some data Feids missing";
-                //}
-
-                //return View(ur);
+                   TempData["msg"] = "some data Feids missing";
+                }
                 return RedirectToAction("Adduser");
             }
             catch (Exception ex)
@@ -135,13 +133,10 @@ namespace Kaizen.Web.Controllers
         }
         public IActionResult DeleteBlock(int id)
         {
-            //List<BlockModel> newList = new List<BlockModel>();
+            
             bool deleteStatus = false;
 
-            //BlockModel model = new BlockModel();
-            ////DataTable dt = new DataTable();
-            //model.flag = "delete";
-            //model.id = id;
+           
             deleteStatus = _blockWorker.DeleteBlock(id);
             if (deleteStatus)
             {
@@ -150,29 +145,8 @@ namespace Kaizen.Web.Controllers
 
             return RedirectToAction("AddBlock");
         }
-        //public IActionResult ActiveBlock(int id)
-        //{
-        //    List<BlockModel> newList = new List<BlockModel>();
-        //    BlockModel model = new BlockModel();
-        //    DataTable dt = new DataTable();
-        //    string outmsg = "";
-        //    model.flag = "Active";
-        //    model.id = id;
-        //    outmsg = _worker.DeleteBlock(model);
-        //    newList = Blocklist();
-
-
-        //    return RedirectToAction("AddBlock");
-        //}
         public IActionResult UpdateBlockStatus(int id, bool status)
         {
-            //List<BlockModel> newList = new List<BlockModel>();
-            //BlockModel model = new BlockModel();
-            ////DataTable dt = new DataTable();
-            //string outmsg = "";
-            //model.flag = "InActive";
-            //model.status = status;
-
             bool updateStatus = false;
             try
             {
@@ -188,34 +162,6 @@ namespace Kaizen.Web.Controllers
             }
             return RedirectToAction("AddBlock");
         }
-        //public List<BlockModel> Blocklist()
-        //{
-
-        //    List<BlockModel> list = new List<BlockModel>();
-        //    BlockModel model = new BlockModel();
-        //    model.flag = "get";
-        //    try
-        //    {
-        //        DataSet ds = _worker.GetBlock(model);
-        //        if (ds.Tables.Count >=0)
-        //        {
-        //            foreach (DataRow dr in ds.Tables[0].Rows)
-        //            {
-        //                list.Add(new BlockModel
-        //                {
-        //                    id = Convert.ToInt32(dr["BlockId"]),
-        //                    blockName = dr["BlockDescrption"].ToString(),
-        //                    statusID = Convert.ToInt32(dr["Status"])
-        //                });
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex) { LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); }
-
-        //    return list;
-        //}
-
-        //Domain
 
         public IActionResult AddDomain()
         {
@@ -251,47 +197,6 @@ namespace Kaizen.Web.Controllers
             }
             return Ok(domains);
         }
-
-        //[HttpPost]
-        //public IActionResult AddDomain(string DomainName)
-        //{
-
-        //    List<DomainModel> list = new List<DomainModel>();
-        //    DomainModel model = new DomainModel();
-        //    DataTable dt = new DataTable();
-        //    if (!string.IsNullOrEmpty(DomainName))
-        //    {
-        //        string flag = "insert";
-        //        string outmsg = _domainWorker.CreateDomain(DomainName);
-        //        if (outmsg == "Domain Created Successfully !!")
-        //        {
-        //            TempData["msg"] = outmsg;
-        //        }
-        //    }
-        //    List<DomainModel> newList = Domainlist();
-        //    return Ok(newList);
-
-        //}
-
-        //public List<DomainModel> Domainlist()
-        //{
-
-        //    domains = _domainWorker.GetDomain();
-        //    if (ds.Tables.Count > 0)
-        //    {
-        //        foreach (DataRow dr in ds.Tables[0].Rows)
-        //        {
-        //            list.Add(new DomainModel
-        //            {
-        //                id = Convert.ToInt32(dr["DomainID"]),
-        //                DomainName = dr["DomainDesc"].ToString(),
-        //                StatusID = Convert.ToBoolean(dr["Status"])
-        //            });
-        //        }
-        //    }
-        //    return list;
-        //}
-
         public IActionResult DeleteDomain(int id)
         {
             bool deleteStatus = false;
@@ -329,26 +234,6 @@ namespace Kaizen.Web.Controllers
             return View("AddDomain", domains);
 
         }
-
-		//public IActionResult IActiveDomain(int id)
-		//{
-		//    DomainModel model = new DomainModel();
-		//    model.flag = "Status";
-		//    DataTable dt = new DataTable();
-		//    if (id > 0)
-		//    {
-		//        string outmsg = _domainWorker.ActiveDomain(model, id);
-		//        //TempData["msg"] = "Status  Updated successfully!";
-
-		//    }
-		//    List<DomainModel> newList = Domainlist();
-		//    return View("AddDomain", newList);
-
-		//}
-
-
-		//EndDomain
-		//Deaprtments
 		public IActionResult DeleteDepartment(int id)
 		{
 			bool deleteStatus = false;
@@ -379,30 +264,10 @@ namespace Kaizen.Web.Controllers
 			return View("AddDomain", departments);
 
 		}
-		public List<DepartmentModel> FetchDepartment(string domainName)
+		public List<DepartmentModel> FetchDepartment(string domainId)
         {
-			//List<DepartmentModel> list = new List<DepartmentModel>();
-			//AddUserData db = new AddUserData();
-			//DepartmentModel model = new DepartmentModel();
-			//DataTable dt = new DataTable();
-			//if (!string.IsNullOrEmpty(DomainName))
-			//{
-			//    DataSet ds = db.GetDepartment(DomainName);
-			//    if (ds.Tables.Count > 0)
-			//    {
-			//        foreach (DataRow dr in ds.Tables[0].Rows)
-			//        {
-			//            list.Add(new DepartmentModel
-			//            {
-			//                DeptId = Convert.ToInt32(dr["DeptId"].ToString()),
-			//                DepartmentName = dr["DepartmentName"].ToString()
-			//            });
-			//        }
-			//    }
-
-			//}
 			departments = _departmentWorker.GetDepartments();
-            return departments.Where(m=>m.DomainName == domainName).ToList();
+            return departments.Where(m=>m.DomainId== Convert.ToInt32(domainId)).ToList();
 
         }
 

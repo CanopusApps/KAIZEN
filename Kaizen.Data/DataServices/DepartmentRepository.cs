@@ -11,7 +11,6 @@ using System.Data.SqlClient;
 using System.Linq;
 
 using System.Reflection;
-
 using System.Text;
 
 using System.Threading.Tasks;
@@ -132,7 +131,8 @@ namespace Kaizen.Data.DataServices
 				com = new SqlCommand();
 				com.Connection = con;
 				com.CommandType = CommandType.StoredProcedure;
-				com.CommandText = StoredProcedures.Sp_GetDepartments;
+                //com.Parameters.AddWithValue("@DomainName", Did);
+                com.CommandText = StoredProcedures.Sp_GetDepartments;
 				SqlDataAdapter da = new SqlDataAdapter(com);
 				da.Fill(ds);
 			}

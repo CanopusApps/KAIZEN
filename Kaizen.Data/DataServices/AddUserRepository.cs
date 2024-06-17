@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 
 namespace Kaizen.Data.DataServices
 {
-    public class AddUserRepository:IAddUserRepository
+    public class AddUserRepository : IAddUserRepository
     {
         public static string SqlConnectionString { get; set; }
-        public AddUserRepository() {
+        public AddUserRepository()
+        {
             var configuation = GetConfiguration();
             con = new SqlConnection(configuation.GetSection(DbFiles.Data).GetSection(DbFiles.ConnectionString).Value);
         }
@@ -28,7 +29,7 @@ namespace Kaizen.Data.DataServices
 
 
         //method to insert all the data into the data base
-        public string InsertUserData(AddUserModel  ur)
+        public string InsertUserData(AddUserModel ur)
         {
             string msg = "";
             int res;
@@ -41,7 +42,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@Email", ur.Email);
                 com.Parameters.AddWithValue("@Password", ur.Password);
                 com.Parameters.AddWithValue("@Phno", ur.Phoneno);
-                com.Parameters.AddWithValue("@Gender", ur.Gender.Substring(0,1));
+                com.Parameters.AddWithValue("@Gender", ur.Gender.Substring(0, 1));
                 com.Parameters.AddWithValue("@Cid", ur.Cid);
                 com.Parameters.AddWithValue("@Rid", ur.Rid);
                 com.Parameters.AddWithValue("@status", ur.statusname);
@@ -72,7 +73,8 @@ namespace Kaizen.Data.DataServices
                 if (con.State == ConnectionState.Open)
                 {
                     msg = ex.Message;
-                    con.Close(); }
+                    con.Close();
+                }
 
             }
             return msg;
@@ -100,7 +102,7 @@ namespace Kaizen.Data.DataServices
         //public List<DropDownEntity> GetCadreList()
         //{
         //    DataTable dt = new DataTable();
-           
+
         //    SqlCommand com = new SqlCommand(StoredProcedures.sp_Get_cadre, con);
         //    com.CommandType = CommandType.StoredProcedure;
         //    SqlDataAdapter da = new SqlDataAdapter(com);
@@ -111,50 +113,28 @@ namespace Kaizen.Data.DataServices
 
         public DataSet GetCadreList()
         {
-			DataSet ds = new DataSet();
-			try
-			{
-				com = new SqlCommand();
-				com.Connection = con;
-				com.CommandType = CommandType.StoredProcedure;
-				com.CommandText = StoredProcedures.sp_Get_cadre;
-				SqlDataAdapter da = new SqlDataAdapter(com);
-				da.Fill(ds);
-			}
-			catch (Exception ex)
-			{
-
-			}
-			return ds;
-		}
-        private List<DropDownEntity> DataTableToListWithExtraValue(DataTable table)
-        {
-            var list = new List<DropDownEntity>(table.Rows.Count);
-            var ddl = new DropDownEntity()
+            DataSet ds = new DataSet();
+            try
             {
-                DataValueField = -1,
-                DataTextField = "Select"
-            };
-            list.Add(ddl);
-            foreach (DataRow row in table.Rows)
-            {
-                var values = row.ItemArray;
-                ddl = new DropDownEntity()
-                {
-                    DataValueField = Convert.ToInt32(values[0]),
-                    DataTextField = values[1].ToString(),
-                    DataAltValueField = (values.Length > 2 && values[2] != null) ? values[2].ToString() : ""
-                };
-                list.Add(ddl);
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.sp_Get_cadre;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
             }
+            catch (Exception ex)
+            {
 
-            return list;
+            }
+            return ds;
         }
+
         //-----------------------------//
         //Get UserType Table into List
         //public List<RoleDropDown> GetUserTypeList()
         //{
-            
+
         //    DataTable dt = new DataTable();
         //    SqlCommand com = new SqlCommand(StoredProcedures.sp_Get_UserType, con);
         //    com.CommandType = CommandType.StoredProcedure;
@@ -163,81 +143,27 @@ namespace Kaizen.Data.DataServices
         //    return DataTableToListWithExtraValue1(dt);
         //}
 
-		public DataSet GetUserTypeList()
-		{
-			DataSet ds = new DataSet();
-			try
-			{
-				com = new SqlCommand();
-				com.Connection = con;
-				com.CommandType = CommandType.StoredProcedure;
-				com.CommandText = StoredProcedures.sp_Get_UserType;
-				SqlDataAdapter da = new SqlDataAdapter(com);
-				da.Fill(ds);
-			}
-			catch (Exception ex)
-			{
-
-			}
-			return ds;
-		}
-		private List<RoleDropDown> DataTableToListWithExtraValue1(DataTable table)
+        public DataSet GetUserTypeList()
         {
-            var list = new List<RoleDropDown>(table.Rows.Count);
-            var ddl = new RoleDropDown()
+            DataSet ds = new DataSet();
+            try
             {
-                DataValueField = -1,
-                DataTextField = "Select"
-            };
-            list.Add(ddl);
-            foreach (DataRow row in table.Rows)
-            {
-                var values = row.ItemArray;
-                ddl = new RoleDropDown()
-                {
-                    DataValueField = Convert.ToInt32(values[0]),
-                    DataTextField = values[1].ToString(),
-                    DataAltValueField = (values.Length > 2 && values[2] != null) ? values[2].ToString() : ""
-                };
-                list.Add(ddl);
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.sp_Get_UserType;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
             }
-            return list;
+            catch (Exception ex)
+            {
+
+            }
+            return ds;
         }
+
         //--------------------------------------------
         // to get Domain table data and convert it into a list
-        public List<DomainDropDown> GetDomainTypeList()
-        {
-            DataTable dt = new DataTable();
-            //SqlCommand com = new SqlCommand("[dbo].[Sp_Fetch_Domain]", con);
-            SqlCommand com = new SqlCommand(StoredProcedures.Sp_GetDomains, con);
-            com.CommandType = CommandType.StoredProcedure;
-           
-            SqlDataAdapter da = new SqlDataAdapter(com);
-            da.Fill(dt);
-            return DataTableToListWithExtraValue2(dt);
 
-        }
-        private List<DomainDropDown> DataTableToListWithExtraValue2(DataTable table)
-        {
-            var list = new List<DomainDropDown>(table.Rows.Count);
-            var ddl = new DomainDropDown()
-            {
-                DataValueField = -1,
-                DataTextField = "Select"
-            };
-            list.Add(ddl);
-            foreach (DataRow row in table.Rows)
-            {
-                var values = row.ItemArray;
-                ddl = new DomainDropDown()
-                {
-                    DataValueField = Convert.ToInt32(values[0]),
-                    DataTextField = values[1].ToString(),
-                    DataAltValueField = (values.Length > 2 && values[2] != null) ? values[2].ToString() : ""
-                };
-                list.Add(ddl);
-            }
-            return list;
-        }
     }
 }
