@@ -63,13 +63,13 @@
                                  <td class="text-center">
                                 @if(@item.Status == false)
                                 {
-                                        <a href="/Admin/UpdateBlockStatus?id=@item.Id && status= true"><span class="btn btn-warning">Inactive</span></a>
+                                        <a href="/Admin/UpdateBlockStatus?id=@item.Id &status= true"><span class="btn btn-warning">Inactive</span></a>
 
                                 }
-                                 @if(@item.Status== false)
+                                 @if(@item.Status== true)
                                 {
 
-                                        <a href="/Admin/UpdateBlockStatus?id=@item.Id && status= false"><span class="btn btn-success">Active</span></a>
+                                        <a href="/Admin/UpdateBlockStatus?id=@item.Id &status= false"><span class="btn btn-success">Active</span></a>
                                     
                                 }
                                 </td>
