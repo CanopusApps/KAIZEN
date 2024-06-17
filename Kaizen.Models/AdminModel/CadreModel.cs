@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Kaizen.Models.AdminModel
 {
-    public class BlockModel
+    public class CadreModel
     {
         public int Id { get; set; }
-        public string BlockName { get; set; } = "";
+        public string CadreName { get; set; }
         public bool Status{ get; set; }
 
     }

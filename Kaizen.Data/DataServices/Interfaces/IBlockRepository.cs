@@ -6,14 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kaizen.Business.Interface
+namespace Kaizen.Data.DataServices
 {
-    public interface IBlock
+    public interface IBlockRepository
     {
         public bool InsertBlockDetails(string blockName);
-        public List<BlockModel> GetBlock();
-        public bool DeleteBlock(int id);
-
-        public bool UpdateBlockStatus(int id, bool status);
+        public bool DeleteBlockData(int id);
+        public DataSet GetBlockData();
+        public bool UpdateBlockData(int id, bool status); 
     }
 }

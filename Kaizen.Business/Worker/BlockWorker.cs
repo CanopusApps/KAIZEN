@@ -12,34 +12,50 @@ namespace Kaizen.Business.Worker
 {
     public class BlockWorker : IBlock
     {
-        public readonly IBlockData _repositoryBlockdata;
-        public BlockWorker(IBlockData repositoryBlockdata)
+        public readonly IBlockRepository _repositoryBlockdata;
+        public BlockWorker(IBlockRepository repositoryBlockdata)
         {
             this._repositoryBlockdata = repositoryBlockdata;
         }
         
-        public string CreateBlock(BlockModel model)
+        public bool InsertBlockDetails(string blockName)
         {
 
-            DataTable dt = new DataTable();
-            string message = _repositoryBlockdata.CreateBlockData(model);
-            return message;
+            return _repositoryBlockdata.InsertBlockDetails(blockName);
 
         }
 
-        public string DeleteBlock(BlockModel model)
+        public bool DeleteBlock(int id)
         {
 
-            DataTable dt = new DataTable();
-            string message = _repositoryBlockdata.DeleteBlockData(model);
-            return message;
+            return _repositoryBlockdata.DeleteBlockData(id);
 
         }
-        public DataSet GetBlock(BlockModel model)
+
+        public bool UpdateBlockStatus(int id,bool status)
         {
-            DataSet ds = new DataSet();
-            ds = _repositoryBlockdata.GetBlockData(model);
-            return ds;
+
+            return _repositoryBlockdata.UpdateBlockData(id, status);
+
         }
-    }
+        public List<BlockModel> GetBlock()
+        {            
+            DataSet ds;
+			List<BlockModel> blackModels = new List<BlockModel>();
+            ds = _repositoryBlockdata.GetBlockData();
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+					blackModels.Add(new BlockModel
+                    {
+                        Id = Convert.ToInt32(dr["BlockId"]),
+                        BlockName = dr["BlockName"].ToString(),
+                        Status = Convert.ToBoolean(dr["Status"])
+                    });
+                }
+            }
+			return blackModels;
+        }
+	}
 }

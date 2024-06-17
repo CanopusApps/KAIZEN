@@ -1,6 +1,6 @@
 ﻿using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices;
-using Kaizen.Models.ViewUserModel;
+using Kaizen.Models.AdminModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,9 +12,9 @@ namespace Kaizen.Business.Worker
 {
     public class DomainWorker : IDomain
     {
-        public readonly IDomainData _repositoryDomaindata;
+        public readonly IDomainRepository _repositoryDomaindata;
 
-        public DomainWorker(IDomainData repositoryDomaindata)
+        public DomainWorker(IDomainRepository repositoryDomaindata)
 
         {
 
@@ -22,67 +22,42 @@ namespace Kaizen.Business.Worker
 
         }
 
-        public string CreateDomain(string DomainName)
+        public bool CreateDomain(string DomainName)
+        {           
+              return _repositoryDomaindata.InsertDomain(DomainName);
+        }
 
+        public List<DomainModel> GetDomain()
         {
-
-            DataTable dt = new DataTable();
-
-            string message = _repositoryDomaindata.CreateDomainData(DomainName);
-
-            return message;
+            DataSet ds;
+            List<DomainModel> domainModels = new List<DomainModel>();
+            ds = _repositoryDomaindata.GetDomaindetails();
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    domainModels.Add(new DomainModel
+                    {
+                        Id = Convert.ToInt32(dr["DomainId"]),
+                        DomainName = dr["DomainName"].ToString(),
+                        Status = Convert.ToBoolean(dr["Status"])
+                    });
+                }
+            }
+            return domainModels;
 
         }
 
-        public DataSet GetDomain(DomainModel model)
-
+        public bool DeleteDomain(int id)
         {
-
-            DataSet ds = new DataSet();
-
-            ds = _repositoryDomaindata.GetDomainData(model);
-
-            return ds;
+            return _repositoryDomaindata.DeleteDomain(id);
 
         }
 
-        public string DeleteDomain(DomainModel model, int id)
-
+        public bool UpdateDomainStatus(bool status, int id)
         {
-
-            DataTable dt = new DataTable();
-
-            string message = _repositoryDomaindata.DeleteDomainData(model, id);
-
-            return message;
+            return _repositoryDomaindata.UpdateDomainStatus(id,status);
 
         }
-
-        public string InActiveDomain(DomainModel model, int id)
-
-        {
-
-            DataTable dt = new DataTable();
-
-            string message = _repositoryDomaindata.DropDomainData(model, id);
-
-            return message;
-
-        }
-
-        public string ActiveDomain(DomainModel model, int id)
-
-        {
-
-            DataTable dt = new DataTable();
-
-            string message = _repositoryDomaindata.ActiveDomainData(model, id);
-
-            return message;
-
-        }
-
-
-
     }
 }

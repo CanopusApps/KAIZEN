@@ -58,18 +58,18 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td hidden>@item.id</td>
-                                <td>@item.blockName</td>
+                                <td hidden>@item.Id</td>
+                                <td>@item.BlockName</td>
                                  <td class="text-center">
-                                @if(@item.statusID==0)
+                                @if(@item.Status == false)
                                 {
-                                        <a href="/Admin/InActiveBlock?id=@item.id"><span class="btn btn-warning">Inactive</span></a>
+                                        <a href="/Admin/UpdateBlockStatus?id=@item.Id && status= true"><span class="btn btn-warning">Inactive</span></a>
 
                                 }
-                                 @if(@item.statusID==1)
+                                 @if(@item.Status== false)
                                 {
 
-                                        <a href="/Admin/ActiveBlock?id=@item.id"><span class="btn btn-success">Active</span></a>
+                                        <a href="/Admin/UpdateBlockStatus?id=@item.Id && status= false"><span class="btn btn-success">Active</span></a>
                                     
                                 }
                                 </td>
@@ -77,7 +77,7 @@
 
                              
                                 <td class="text-center">
-                                    <a href="/Admin/DeleteBlock?id=@item.id" class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a>
+                                    <a href="/Admin/DeleteBlock?id=@item.Id" class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a>
                                 </td>
 
                             </tr>

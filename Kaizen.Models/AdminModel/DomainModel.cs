@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Kaizen.Models.AdminModel
 {
-    public class BlockModel
+    public class DomainModel
     {
         public int Id { get; set; }
-        public string BlockName { get; set; } = "";
-        public bool Status{ get; set; }
+        public string? DomainName { get; set; } = string.Empty;
+        public bool Status { get; set; }
+        public int TotalEmp { get; set; }
+
 
     }
 }

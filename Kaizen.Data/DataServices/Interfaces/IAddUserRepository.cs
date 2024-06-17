@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace Kaizen.Data.DataServices
 {
-    public interface IBlockData
+    public interface IAddUserRepository
     {
-        public string CreateBlockData(BlockModel model);
-        public string DeleteBlockData(BlockModel model);
-        public DataSet GetBlockData(BlockModel model);
-    }
+       
+        public string InsertUserData(AddUserModel addUserModel);
+
+        public DataSet GetCadreList();
+        public DataSet GetUserTypeList();
+
+        
+
+
+	}
 }

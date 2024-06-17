@@ -35,20 +35,22 @@ namespace Kaizen.Models.AdminModel
 
         [Required(ErrorMessage = "Gender is required")]
         [RegularExpression(@"^(Male|Female|Other)$", ErrorMessage = "Gender must be Male, Female, or Other")]
-        public string Gender { get; set; } = "";
+        public string Gender { get; set; } = string.Empty;
 
         //cadre list
-        public List<DropDownEntity>? cadre { get; set; }
+        public List<CadreModel> Cadre { get; set; }
 
         //Usertype list
-        public List<RoleDropDown>? UserType { get; set; }
+        public List<UserTypeModel> UserType { get; set; }
 
         // Domain List
-        public List<DomainDropDown>? Domain { get; set; }
-       
-        
-        // static list for status
-        public List<StatusDropDown> Status { get; set; } = new List<StatusDropDown>//
+        public List<DomainModel> Domains { get; set; }
+
+		public List<DepartmentModel> Departments { get; set; }
+
+
+		// static list for status
+		public List<StatusDropDown> Status { get; set; } = new List<StatusDropDown>//
         {
             new StatusDropDown { DataValueField = 1, DataTextField = "Active" },
            new StatusDropDown { DataValueField = 0, DataTextField = "Inactive" }

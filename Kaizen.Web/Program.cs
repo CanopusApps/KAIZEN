@@ -11,12 +11,16 @@ builder.Services.AddControllersWithViews();
 // Add services to the container.
 
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<IBlock, BlockWorker>();
-builder.Services.AddSingleton<IBlockData, BlockData>();
-builder.Services.AddSingleton<IViewuser, ViewuserWorker>();
-builder.Services.AddSingleton<IViewuserData, Viewuser>();
-builder.Services.AddSingleton<IDomain, DomainWorker>();
-builder.Services.AddSingleton<IDomainData, DomainData>();
+builder.Services.AddScoped<IBlock, BlockWorker>();
+builder.Services.AddScoped<IBlockRepository, BlockRepository>();
+builder.Services.AddScoped<IAddUser, AddUserWorker>();
+builder.Services.AddScoped<IAddUserRepository, AddUserRepository>();
+builder.Services.AddScoped<IViewuser, ViewuserWorker>();
+builder.Services.AddScoped<IViewuserRepository, ViewuserRepository>();
+builder.Services.AddScoped<IDomain, DomainWorker>();
+builder.Services.AddScoped<IDomainRepository, DomainRepository>();
+builder.Services.AddScoped<IDepartment, DepartmentWorker>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
 
 

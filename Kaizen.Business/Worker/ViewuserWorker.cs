@@ -3,7 +3,6 @@ using Kaizen.Data.DataServices;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Kaizen.Models.ViewUserModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,43 +12,87 @@ namespace Kaizen.Business.Worker
 {
     public  class ViewuserWorker : IViewuser
     {
-        public readonly IViewuserData _repositoryUserTypedata;      
-             public ViewuserWorker(IViewuserData repositoryBlockdata)
+        public readonly IViewuserRepository _repositoryUserTypedata;
+        public readonly IDomain _domain;
+
+		public ViewuserWorker(IViewuserRepository repositoryUserdata)
               {
-                this._repositoryUserTypedata = repositoryBlockdata;
+                this._repositoryUserTypedata = repositoryUserdata;
               }
 
-        public DataSet GetUserType(UserTypeModel model)
-        {
-            DataSet ds = new DataSet();
-            ds = _repositoryUserTypedata.GetUserType(model);
-            return ds;
-        }
-        public DataSet GetDomain(DomainModel model)
-        {
-            DataSet ds = new DataSet();
-            ds = _repositoryUserTypedata.GetDomain(model);
-            return ds;
-        }
-        public DataSet GetDepartment(string DomainName)
-        {
-            DataSet ds = new DataSet();
-            ds = _repositoryUserTypedata.GetDepartment(DomainName);
-            return ds;
-        }
-        public DataSet GetUser(UserGridModel model)
-        {
-            DataSet ds = new DataSet();
-            ds = _repositoryUserTypedata.GetUser(model);
-            return ds;
-        }
-        public string DeleteUser(UserGridModel model)
-        {
+  //      public List<UserTypeModel> GetUserType()
+  //      {
+		//	DataTable dt;
+		//	List<UserTypeModel> userType = new List<UserTypeModel>();
+		//	dt = _repositoryUserTypedata.GetUserType();
+		//	if (dt.Rows.Count > 0)
+		//	{
+		//		foreach (DataRow dr in dt.Rows)
+		//		{
+		//			userType.Add(new UserTypeModel
+		//			{
+		//				UserTypeId = Convert.ToInt16(dr["UserTypeId"]),
+		//				UserDesc = dr["UserDesc"].ToString()
+		//			});
+		//		}
+		//	}
+		//	return userType;
+		//}
+		//public List<DomainModel> GetDomain()
+		//{
+		//	DataTable dt;
+		//	List<DomainModel> domainModels = new List<DomainModel>();
+		//	dt = _repositoryDomaindata.GetDomaindetails();
+		//	if (dt.Rows.Count > 0)
+		//	{
+		//		foreach (DataRow dr in dt.Rows)
+		//		{
+		//			domainModels.Add(new DomainModel
+		//			{
+		//				id = Convert.ToInt32(dr["DomainId"]),
+		//				domainName = dr["DomainName"].ToString(),
+		//				status = Convert.ToBoolean(dr["Status"])
+		//			});
+		//		}
+		//	}
+		//	return domainModels;
 
-            DataTable dt = new DataTable();
-            string message = _repositoryUserTypedata.DeleteUserData(model);
-            return message;
+		//}
+		//public DataSet GetDepartment(string DomainName)
+  //      {
+  //          DataSet ds = new DataSet();
+  //          ds = _repositoryUserTypedata.GetDepartment(DomainName);
+  //          return ds;
+  //      }
+        public List<UserGridModel> GetUser(UserGridModel model)
+        {
+			DataSet userType = new DataSet();
+			List<UserGridModel> UserGridData = new List<UserGridModel>();
+			userType = _repositoryUserTypedata.GetUser(model);
 
+			if (userType.Tables.Count > 0)
+			{
+				foreach (DataRow dr in userType.Tables[0].Rows)
+				{
+					UserGridData.Add(new UserGridModel
+					{
+						EmpID = dr["EmpID"].ToString(),
+						Name = dr["Name"].ToString(),
+						Email = dr["Email"].ToString(),
+						Gender = dr["Gender"].ToString(),
+						Domain = dr["Domain"].ToString(),
+						Department = dr["Department"].ToString(),
+						UserType = dr["UserType"].ToString(),
+						ImageApprover = Convert.ToInt16(dr["ImageApprover"]),
+						Status = Convert.ToInt16(dr["Status"])
+					});
+				}
+			}
+			return UserGridData;
+        }
+        public bool DeleteUser(int id)
+        {
+            return _repositoryUserTypedata.DeleteUserData(id);
         }
     }
 }

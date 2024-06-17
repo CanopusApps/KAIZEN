@@ -1,4 +1,4 @@
-﻿ @model IEnumerable<Kaizen.Models.ViewUserModel.DomainModel>
+﻿ @model IEnumerable<Kaizen.Models.AdminModel.DomainModel>
 
 @{
     Layout = "SidebarLayout";
@@ -52,22 +52,22 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td hidden>@item.id</td>
+                            <td hidden>@item.Id</td>
                             <td>@item.DomainName</td>
                             <td class="text-center">0</td>
                             <td class="text-center">
-                                @if (item.StatusID)
+                                @if (item.Status)
                                 {
-                                    <a href="/Admin/ActiveDomain?id=@item.id"><span class="btn btn-success badge-sm bd">Active</span></a>
+                                    <a href="/Admin/UpdateDomainStatus?id=@item.Id"><span class="btn btn-success badge-sm bd">Active</span></a>
                                 }
                                 else
                                 {
-                                    <a href="/Admin/IActiveDomain?id=@item.id"><span class="btn btn-warning badge-sm bd">Inactive</span></a>
+                                    <a href="/Admin/UpdateDomainStatus?id=@item.Id"><span class="btn btn-warning badge-sm bd">Inactive</span></a>
                                 }
                             </td>
 
                             <td class="text-center">
-                                <a href="/Admin/DeleteDomain?id=@item.id" class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a>
+                                <a href="/Admin/DeleteDomain?id=@item.Id" class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a>
                             </td>
 
                         </tr>
