@@ -1,4 +1,4 @@
-﻿using Kaizen.Models.ViewUserModel;
+﻿using Kaizen.Models.AdminModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,15 +10,13 @@ namespace Kaizen.Business.Interface
 {
     public interface IDomain
     {
-        public string CreateDomain(string DomainName);
+        public bool CreateDomain(string DomainName);
 
-        public DataSet GetDomain(DomainModel model);
+        public List<DomainModel> GetDomain();
 
-        public string DeleteDomain(DomainModel model, int id);
+        public bool DeleteDomain(int id);
 
-        public string InActiveDomain(DomainModel model, int id);
-
-        public string ActiveDomain(DomainModel model, int id);
+        public bool UpdateDomainStatus( bool status, int id);
 
 
     }

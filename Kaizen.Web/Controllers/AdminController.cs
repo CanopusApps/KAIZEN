@@ -4,320 +4,407 @@ using Kaizen.Models.AdminModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Reflection;
-using Kaizen.Models.ViewUserModel;
-using Kaizen.Data.DataServices;
 
 namespace Kaizen.Web.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly IBlock _worker;
+        private readonly IBlock _blockWorker;
         private readonly IDomain _domainWorker;
+		private readonly IDepartment _departmentWorker;
+		private readonly IAddUser _addUserWorker;
+		List<BlockModel> blocks;
+        List<DepartmentModel> departments;
+        List<DomainModel> domains;
+
 
         private readonly IWebHostEnvironment _environment;
 
-        public AdminController(IBlock worker, IDomain domainWorker)
+        public AdminController(IBlock worker, IDomain domainWorker, IDepartment departmentWorker, IAddUser addUserWorker)
         {
-            _worker = worker;
+            _blockWorker = worker;
             _domainWorker = domainWorker;
+            _departmentWorker = departmentWorker;
+            _addUserWorker = addUserWorker;
 
         }
         public IActionResult Index()
         {
             return View();
         }
-		public IActionResult AddUser()
-		{
-			AddUserData db = new AddUserData();
-			AddUserModel model = new AddUserModel();
-			model.cadre = db.GetCadreList();
-			model.UserType = db.GetUserTypeList();
-			model.Domain = db.GetDomainTypeList();
+        public IActionResult AddUser()
+        {
+            AddUserModel model = new AddUserModel();
+            model.Cadre = _addUserWorker.GetCadre();
+            model.UserType = _addUserWorker.GetUserType();
+            model.Domains = _domainWorker.GetDomain();
+            //model.Departments = _departmentWorker.GetDepartments();
 
-			return View(model);
-		}
 
-		[HttpPost]
-		public IActionResult Adduser(AddUserModel ur)
-		{
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Adduser(AddUserModel ur)
+        {
+            try
+            {
+                string msg;
+                ////AddUserRepository db = new AddUserRepository();
+                //ur.cadre = db.GetCadreList();
+                //ur.UserType = db.GetUserTypeList();
+                //ur.Domain = db.GetDomainTypeList();
+                //if (ModelState.IsValid)
+                //{
+                //    msg = db.InsertUserData(ur);
+                //    if (msg == "ok")
+                //    {
+                //        TempData["msg"] = "Data saved Sucessfully ";
+                //    }
+                //    else if (msg == "Duplicate Emp Id")
+                //    {
+                //        TempData["msg"] = msg;
+                //    }
+                //    else
+                //    {
+                //        TempData["msg"] = "some error occured";
+                //    }
+
+                //}
+                //else
+                //{
+
+                //    TempData["msg"] = "some data Feids missing";
+                //}
+
+                //return View(ur);
+                return RedirectToAction("Adduser");
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
+                return View();
+            }
+        }
+        public IActionResult AddDepartment()
+        {
 			try
 			{
-				string msg;
-				AddUserData db = new AddUserData();
-				ur.cadre = db.GetCadreList();
-				ur.UserType = db.GetUserTypeList();
-				ur.Domain = db.GetDomainTypeList();
-				if (ModelState.IsValid)
-				{
-					msg = db.InsertUserData(ur);
-					if (msg == "ok")
-					{
-						TempData["msg"] = "Data saved Sucessfully ";
-					}
-					else if (msg == "Duplicate Emp Id")
-					{
-						TempData["msg"] = msg;
-					}
-					else
-					{
-						TempData["msg"] = "some error occured";
-					}
-
-				}
-				else
-				{
-
-					TempData["msg"] = "some data Feids missing";
-				}
-
-				//return View(ur);
-                return RedirectToAction("Adduser");
+				departments = _departmentWorker.GetDepartments();
 			}
 			catch (Exception ex)
 			{
 				LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
-				return View();
 			}
+
+			return View(departments);
 		}
-		public IActionResult AddDepartment()
-        {
-            return View();
-        }
         public IActionResult AddBlock()
         {
-            List<BlockModel> newList = new List<BlockModel>();
             try
             {
-                DataTable dt = new DataTable();
-                newList = Blocklist();
+                blocks = _blockWorker.GetBlock();
             }
-            catch (Exception ex) { LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
+            }
 
-            return View(newList);
+            return View(blocks);
         }
         [HttpPost]
         public IActionResult AddBlock(string blockName)
         {
-            List<BlockModel> newList = new List<BlockModel>();
-            BlockModel model = new BlockModel();
-            model.blockName= blockName;
-            model.flag = "insert";
-            string outmsg = "";
-            DataTable dt = new DataTable();
+            bool insertStatus = false;
             try
             {
-                if (!string.IsNullOrEmpty(model.blockName))
+                if (!string.IsNullOrEmpty(blockName))
                 {
-                    outmsg = _worker.CreateBlock(model);
-                    newList = Blocklist();
-                }
-            }
-            catch (Exception ex) { LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); }
-            return Ok(newList);
-        }
-        public IActionResult DeleteBlock(int id)
-        {
-            List<BlockModel> newList = new List<BlockModel>();
-            BlockModel model = new BlockModel();
-            DataTable dt = new DataTable();
-            string outmsg = "";
-            model.flag = "delete";
-            model.id = id;
-                outmsg = _worker.DeleteBlock(model);
-                newList = Blocklist();
-
-
-            return RedirectToAction("AddBlock");
-        }
-        public IActionResult ActiveBlock(int id)
-        {
-            List<BlockModel> newList = new List<BlockModel>();
-            BlockModel model = new BlockModel();
-            DataTable dt = new DataTable();
-            string outmsg = "";
-            model.flag = "Active";
-            model.id = id;
-            outmsg = _worker.DeleteBlock(model);
-            newList = Blocklist();
-
-
-            return RedirectToAction("AddBlock");
-        }
-        public IActionResult InActiveBlock(int id)
-        {
-            List<BlockModel> newList = new List<BlockModel>();
-            BlockModel model = new BlockModel();
-            DataTable dt = new DataTable();
-            string outmsg = "";
-            model.flag = "InActive";
-            model.id = id;
-            outmsg = _worker.DeleteBlock(model);
-            newList = Blocklist();
-
-
-            return RedirectToAction("AddBlock");
-        }
-        public List<BlockModel> Blocklist()
-        {
-
-            List<BlockModel> list = new List<BlockModel>();
-            BlockModel model = new BlockModel();
-            model.flag = "get";
-            try
-            {
-                DataSet ds = _worker.GetBlock(model);
-                if (ds.Tables.Count >=0)
-                {
-                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    insertStatus = _blockWorker.InsertBlockDetails(blockName);
+                    if (insertStatus)
                     {
-                        list.Add(new BlockModel
-                        {
-                            id = Convert.ToInt32(dr["BlockId"]),
-                            blockName = dr["BlockDescrption"].ToString(),
-                            statusID = Convert.ToInt32(dr["Status"])
-                        });
+                        blocks = _blockWorker.GetBlock();
                     }
                 }
             }
-            catch (Exception ex) { LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); }
-
-            return list;
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
+            }
+            return Ok(blocks);
         }
-
-        //Domain
-        public IActionResult AddDomain()
+        public IActionResult DeleteBlock(int id)
         {
-            List<DomainModel> newList = new List<DomainModel>();
+            //List<BlockModel> newList = new List<BlockModel>();
+            bool deleteStatus = false;
+
+            //BlockModel model = new BlockModel();
+            ////DataTable dt = new DataTable();
+            //model.flag = "delete";
+            //model.id = id;
+            deleteStatus = _blockWorker.DeleteBlock(id);
+            if (deleteStatus)
+            {
+                blocks = _blockWorker.GetBlock();
+            }
+
+            return RedirectToAction("AddBlock");
+        }
+        //public IActionResult ActiveBlock(int id)
+        //{
+        //    List<BlockModel> newList = new List<BlockModel>();
+        //    BlockModel model = new BlockModel();
+        //    DataTable dt = new DataTable();
+        //    string outmsg = "";
+        //    model.flag = "Active";
+        //    model.id = id;
+        //    outmsg = _worker.DeleteBlock(model);
+        //    newList = Blocklist();
+
+
+        //    return RedirectToAction("AddBlock");
+        //}
+        public IActionResult UpdateBlockStatus(int id, bool status)
+        {
+            //List<BlockModel> newList = new List<BlockModel>();
+            //BlockModel model = new BlockModel();
+            ////DataTable dt = new DataTable();
+            //string outmsg = "";
+            //model.flag = "InActive";
+            //model.status = status;
+
+            bool updateStatus = false;
             try
             {
-                DataTable dt = new DataTable();
-                newList = Domainlist();
+                updateStatus = _blockWorker.UpdateBlockStatus(id, status);
+                if (updateStatus)
+                {
+                    blocks = _blockWorker.GetBlock();
+                }
             }
-            catch (Exception ex) { }
-
-            return View(newList);
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
+            }
+            return RedirectToAction("AddBlock");
         }
+        //public List<BlockModel> Blocklist()
+        //{
 
+        //    List<BlockModel> list = new List<BlockModel>();
+        //    BlockModel model = new BlockModel();
+        //    model.flag = "get";
+        //    try
+        //    {
+        //        DataSet ds = _worker.GetBlock(model);
+        //        if (ds.Tables.Count >=0)
+        //        {
+        //            foreach (DataRow dr in ds.Tables[0].Rows)
+        //            {
+        //                list.Add(new BlockModel
+        //                {
+        //                    id = Convert.ToInt32(dr["BlockId"]),
+        //                    blockName = dr["BlockDescrption"].ToString(),
+        //                    statusID = Convert.ToInt32(dr["Status"])
+        //                });
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex) { LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); }
+
+        //    return list;
+        //}
+
+        //Domain
+
+        public IActionResult AddDomain()
+        {
+            try
+            {
+                domains = _domainWorker.GetDomain();
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
+            }
+
+            return View(domains);
+        }
         [HttpPost]
-        public IActionResult AddDomain(string DomainName)
+        public IActionResult AddDomain(string domainName)
         {
-
-            List<DomainModel> list = new List<DomainModel>();
-            DomainModel model = new DomainModel();
-            DataTable dt = new DataTable();
-            if (!string.IsNullOrEmpty(DomainName))
+            bool insertStatus = false;
+            try
             {
-                string flag = "insert";
-                string outmsg = _domainWorker.CreateDomain(DomainName);
-                if (outmsg == "Domain Created Successfully !!")
+                if (!string.IsNullOrEmpty(domainName))
                 {
-                    TempData["msg"] = outmsg;
-                }
-            }
-            List<DomainModel> newList = Domainlist();
-            return Ok(newList);
-
-        }
-
-        public List<DomainModel> Domainlist()
-        {
-            List<DomainModel> list = new List<DomainModel>();
-            DomainModel model = new DomainModel();
-            DataTable dt = new DataTable();
-            model.flag = "get";
-            DataSet ds = _domainWorker.GetDomain(model);
-            if (ds.Tables.Count > 0)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    list.Add(new DomainModel
+                    insertStatus = _domainWorker.CreateDomain(domainName);
+                    if (insertStatus)
                     {
-                        id = Convert.ToInt32(dr["DomainID"]),
-                        DomainName = dr["DomainDesc"].ToString(),
-                        StatusID = Convert.ToBoolean(dr["Status"])
-                    });
+                        domains = _domainWorker.GetDomain();
+                    }
                 }
             }
-            return list;
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
+            }
+            return Ok(domains);
         }
+
+        //[HttpPost]
+        //public IActionResult AddDomain(string DomainName)
+        //{
+
+        //    List<DomainModel> list = new List<DomainModel>();
+        //    DomainModel model = new DomainModel();
+        //    DataTable dt = new DataTable();
+        //    if (!string.IsNullOrEmpty(DomainName))
+        //    {
+        //        string flag = "insert";
+        //        string outmsg = _domainWorker.CreateDomain(DomainName);
+        //        if (outmsg == "Domain Created Successfully !!")
+        //        {
+        //            TempData["msg"] = outmsg;
+        //        }
+        //    }
+        //    List<DomainModel> newList = Domainlist();
+        //    return Ok(newList);
+
+        //}
+
+        //public List<DomainModel> Domainlist()
+        //{
+
+        //    domains = _domainWorker.GetDomain();
+        //    if (ds.Tables.Count > 0)
+        //    {
+        //        foreach (DataRow dr in ds.Tables[0].Rows)
+        //        {
+        //            list.Add(new DomainModel
+        //            {
+        //                id = Convert.ToInt32(dr["DomainID"]),
+        //                DomainName = dr["DomainDesc"].ToString(),
+        //                StatusID = Convert.ToBoolean(dr["Status"])
+        //            });
+        //        }
+        //    }
+        //    return list;
+        //}
 
         public IActionResult DeleteDomain(int id)
         {
-            DomainModel model = new DomainModel();
-            model.flag = "delete";
-            DataTable dt = new DataTable();
-            if (id > 0)
+            bool deleteStatus = false;
+            try
             {
-                string outmsg = _domainWorker.DeleteDomain(model, id);
-                if (outmsg == "Domain deleted successfully!")
+                deleteStatus = _domainWorker.DeleteDomain(id);
+                if (deleteStatus)
                 {
-                    TempData["msg"] = outmsg;
+                    domains = _domainWorker.GetDomain();
                 }
             }
-            List<DomainModel> newList = Domainlist();
-            return View("AddDomain", newList);
-        }
-
-        public IActionResult ActiveDomain(int id)
-        {
-            DomainModel model = new DomainModel();
-            model.flag = "Status";
-            DataTable dt = new DataTable();
-            if (id > 0)
+            catch (Exception ex)
             {
-                string outmsg = _domainWorker.InActiveDomain(model, id);
-                //TempData["msg"] = "Status  Updated successfully!";
-
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
             }
-            List<DomainModel> newList = Domainlist();
-            return View("AddDomain", newList);
 
+            return View("AddDomain", domains);
         }
 
-        public IActionResult IActiveDomain(int id)
+        public IActionResult UpdateDomainStatus(int id, bool status)
         {
-            DomainModel model = new DomainModel();
-            model.flag = "Status";
-            DataTable dt = new DataTable();
-            if (id > 0)
+            bool updateStatus = false;
+            try
             {
-                string outmsg = _domainWorker.ActiveDomain(model, id);
-                //TempData["msg"] = "Status  Updated successfully!";
-
+                updateStatus = _domainWorker.UpdateDomainStatus(status,id);
+                if (updateStatus)
+                {
+                    domains = _domainWorker.GetDomain();
+                }
             }
-            List<DomainModel> newList = Domainlist();
-            return View("AddDomain", newList);
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
+            }
+            return View("AddDomain", domains);
 
         }
+
+		//public IActionResult IActiveDomain(int id)
+		//{
+		//    DomainModel model = new DomainModel();
+		//    model.flag = "Status";
+		//    DataTable dt = new DataTable();
+		//    if (id > 0)
+		//    {
+		//        string outmsg = _domainWorker.ActiveDomain(model, id);
+		//        //TempData["msg"] = "Status  Updated successfully!";
+
+		//    }
+		//    List<DomainModel> newList = Domainlist();
+		//    return View("AddDomain", newList);
+
+		//}
 
 
 		//EndDomain
-
-		public List<DepartmentModel> FetchDepartment(string DomainName)
+		//Deaprtments
+		public IActionResult DeleteDepartment(int id)
 		{
-			List<DepartmentModel> list = new List<DepartmentModel>();
-			AddUserData db = new AddUserData();
-			DepartmentModel model = new DepartmentModel();
-			DataTable dt = new DataTable();
-			if (!string.IsNullOrEmpty(DomainName))
+			bool deleteStatus = false;
+			deleteStatus = _departmentWorker.DeleteDepartment(id);
+			if (deleteStatus)
 			{
-				DataSet ds = db.GetDepartment(DomainName);
-				if (ds.Tables.Count > 0)
-				{
-					foreach (DataRow dr in ds.Tables[0].Rows)
-					{
-						list.Add(new DepartmentModel
-						{
-							DeptId = Convert.ToInt32(dr["DeptId"].ToString()),
-							DepartmentName = dr["DepartmentName"].ToString()
-						});
-					}
-				}
-
+				departments = _departmentWorker.GetDepartments();
 			}
 
-			return list;
+			return RedirectToAction("AddDepartment");
 		}
 
-	}
+		public IActionResult UpdateDepartmentStatus(int id, bool status)
+		{
+			bool updateStatus = false;
+			try
+			{
+				updateStatus = _departmentWorker.UpdateDepartmentStatus(status, id);
+				if (updateStatus)
+				{
+					departments = _departmentWorker.GetDepartments();
+				}
+			}
+			catch (Exception ex)
+			{
+				LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
+			}
+			return View("AddDomain", departments);
+
+		}
+		public List<DepartmentModel> FetchDepartment(string domainName)
+        {
+			//List<DepartmentModel> list = new List<DepartmentModel>();
+			//AddUserData db = new AddUserData();
+			//DepartmentModel model = new DepartmentModel();
+			//DataTable dt = new DataTable();
+			//if (!string.IsNullOrEmpty(DomainName))
+			//{
+			//    DataSet ds = db.GetDepartment(DomainName);
+			//    if (ds.Tables.Count > 0)
+			//    {
+			//        foreach (DataRow dr in ds.Tables[0].Rows)
+			//        {
+			//            list.Add(new DepartmentModel
+			//            {
+			//                DeptId = Convert.ToInt32(dr["DeptId"].ToString()),
+			//                DepartmentName = dr["DepartmentName"].ToString()
+			//            });
+			//        }
+			//    }
+
+			//}
+			departments = _departmentWorker.GetDepartments();
+            return departments.Where(m=>m.DomainName == domainName).ToList();
+
+        }
+
+    }
 }
