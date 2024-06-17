@@ -10,6 +10,8 @@ using Kaizen.Web;
 using System.Reflection.Metadata;
 using Kaizen.Models.ViewUserModel;
 using Kaizen.Models.AdminModel;
+using Kaizen.Business.Worker;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Kaizen.Web.Controllers
 {
@@ -162,5 +164,20 @@ namespace Kaizen.Web.Controllers
         //    }
         //    return list;
         //}
+
+        public IActionResult DeleteUser(int id)
+        {
+            bool deleteStatus = false;
+            ViewUserallModel viewModel = new ViewUserallModel();
+
+            deleteStatus = _viewUserWorker.DeleteUser(id);
+            if (deleteStatus)
+            {
+
+            }
+
+            return RedirectToAction("ViewUser");
+
+        }
     }
 }

@@ -105,5 +105,28 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+
+        public bool DeleteUserData(int id)
+        {
+            bool deleteStatus = false;
+
+            try
+            {
+                com = new SqlCommand();
+                SqlDataAdapter da = null;
+                DataTable dt = new DataTable();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@id", id);
+                com.CommandText = StoredProcedures.sp_Delete_User;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                deleteStatus = true;
+            }
+            catch (Exception ex) { }
+
+            return deleteStatus;
+        }
     }
 }

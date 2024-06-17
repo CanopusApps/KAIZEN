@@ -90,5 +90,9 @@ namespace Kaizen.Business.Worker
 			}
 			return UserGridData;
         }
+        public bool DeleteUser(int id)
+        {
+            return _repositoryUserTypedata.DeleteUserData(id);
+        }
     }
 }

@@ -15,5 +15,6 @@ namespace Kaizen.Business.Interface
 
         //public DataSet GetDepartment(string DomainName);
         public List<UserGridModel> GetUser(UserGridModel model);
+        public bool DeleteUser(int id);
     }
 }
