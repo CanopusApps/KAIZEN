@@ -101,7 +101,7 @@ namespace Kaizen.Data.DataServices
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
             return ds;
         }
@@ -124,7 +124,10 @@ namespace Kaizen.Data.DataServices
                 con.Close();
                 deleteStatus = true;
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             return deleteStatus;
         }

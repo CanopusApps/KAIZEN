@@ -1,4 +1,5 @@
-﻿using Kaizen.Models.ViewUserModel;
+﻿using Kaizen.Models.AdminModel;
+using Kaizen.Models.ViewUserModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,18 +11,10 @@ namespace Kaizen.Data.DataServices
 {
     public interface IDepartmentRepository
 	{
-        public bool InsertDepartment(string DomainName, int DomainId, string DepartmentName);
-
+        public bool CreateDepartmentData(int domainId, string DomainName, string DepartmentName);
         public DataSet GetDepartments();
-		//public DataSet GetDepartment(string DomainName);
-		public bool DeleteDepartment(int id);
-
-        //public string DropDomainData(DomainModel model, int id);
-
+        public bool DeleteDepartment(int id);
+        public DataSet GetDomainData(DomainModel model);
         public bool UpdateDepartmentStatus(int id, bool status);
-
-      
-
-
-	}
+    }
 }

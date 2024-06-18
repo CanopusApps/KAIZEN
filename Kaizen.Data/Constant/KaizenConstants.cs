@@ -9,6 +9,7 @@ namespace Kaizen.Data.Constant
     public class KaizenConstants
     {
 
+       public  static string LoggerPath = @"C:/LogFolder/";
 
     }
     public class DbFiles

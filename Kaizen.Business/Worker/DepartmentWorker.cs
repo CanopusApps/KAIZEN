@@ -15,18 +15,13 @@ namespace Kaizen.Business.Worker
         public readonly IDepartmentRepository _repositoryDepartmentdata;
 
         public DepartmentWorker(IDepartmentRepository repositoryDepartmentdata)
-
         {
-
             this._repositoryDepartmentdata = repositoryDepartmentdata;
-
         }
-
-        public bool InsertDepartment(int domainId, string domainName, string departmentName)
-        {           
-              return _repositoryDepartmentdata.InsertDepartment(domainName,domainId,departmentName);
+        public bool CreateDepartment(int domainId, string DomainName, string DepartmentName)
+        {
+            return _repositoryDepartmentdata.CreateDepartmentData(domainId, DomainName, DepartmentName);
         }
-
         public List<DepartmentModel> GetDepartments()
         {
             DataSet ds;
@@ -36,26 +31,42 @@ namespace Kaizen.Business.Worker
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-					deptModels.Add(new DepartmentModel
-					{
-                        DeptId = Convert.ToInt32(dr["DepartmentId"]),
+                    deptModels.Add(new DepartmentModel
+                    {
+                        DeptId = Convert.ToInt32(dr["DeptId"]),
+                        DomainName = dr["DomainName"].ToString(),
                         DepartmentName = dr["DepartmentName"].ToString(),
                         Status = Convert.ToBoolean(dr["Status"])
                     });
                 }
             }
             return deptModels;
-
-        }		
-
-		public bool DeleteDepartment(int id)
-		{
-			return _repositoryDepartmentdata.DeleteDepartment(id);
-		}
-
-		public bool UpdateDepartmentStatus(bool status, int id)
-		{
-			return _repositoryDepartmentdata.UpdateDepartmentStatus(id, status);
-		}
-	}
+        }
+        public bool DeleteDepartment(int id)
+        {
+            return _repositoryDepartmentdata.DeleteDepartment(id);
+        }
+        public bool UpdateDepartmentStatus(bool status, int id)
+        {
+            return _repositoryDepartmentdata.UpdateDepartmentStatus(id, status);
+        }
+        public List<DomainModel>GetDomain(DomainModel model)
+        {
+            List<DomainModel> list = new List<DomainModel>();
+            DataSet ds = new DataSet();
+            ds = _repositoryDepartmentdata.GetDomainData(model);
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    list.Add(new DomainModel
+                    {
+                        Id = Convert.ToInt32(dr["DomainID"]),
+                        DomainName = dr["DomainName"].ToString()
+                    });
+                }
+            }
+            return list;
+        }
+    }
 }
