@@ -33,6 +33,7 @@ namespace Kaizen.Web.Controllers
             return View();
         }
         public IActionResult AddUser()
+        
         {
             AddUserModel model = new AddUserModel();
             model.Cadre = _addUserWorker.GetCadre();
