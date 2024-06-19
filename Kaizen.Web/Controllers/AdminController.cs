@@ -287,43 +287,12 @@ namespace Kaizen.Web.Controllers
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
             return Ok(departments);
-        }
-
-		public IActionResult DeleteDepartment(int id)
-		{
-			bool deleteStatus = false;
-			deleteStatus = _departmentWorker.DeleteDepartment(id);
-			if (deleteStatus)
-			{
-				departments = _departmentWorker.GetDepartments();
-			}
-
-			return RedirectToAction("AddDepartment");
-		}
-
-		public IActionResult UpdateDepartmentStatus(int id, bool status)
-		{
-			bool updateStatus = false;
-			try
-			{
-				updateStatus = _departmentWorker.UpdateDepartmentStatus(status, id);
-				if (updateStatus)
-				{
-					departments = _departmentWorker.GetDepartments();
-				}
-			}
-			catch (Exception ex)
-			{
-				LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
-			}
-			return View("AddDomain", departments);
-
-		}
-		public List<DepartmentModel> FetchDepartment(string domainId)
+        }		
+        public List<DepartmentModel> FetchDepartment(string domainId)
         {
-			departments = _departmentWorker.GetDepartments();
-            return departments.Where(m=>m.DomainId== Convert.ToInt32(domainId)).ToList();
-
+            departments = _departmentWorker.GetDepartments();
+            return departments.Where(m => m.DomainId == Convert.ToInt32(domainId)).ToList();
+        }
 
         public List<DomainModel> DomainList()
         {
