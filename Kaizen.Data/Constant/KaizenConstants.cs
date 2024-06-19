@@ -47,7 +47,8 @@ namespace Kaizen.Data.Constant
 		public static string sp_DeleteDepartment = "Sp_Delete_Department";
 		public static string sp_InsertDepartment = "Sp_InsertDepartment";
         public static string sp_Delete_User = "Sp_Delete_User";
-        public static string sp_InsertDomain = "Sp_InsertDomain";
+        public static string sp_InsertDomain = "Sp_InsertDomain"; 
+        public static string Sp_Get_Status = "Sp_Get_Status";
 
 
 

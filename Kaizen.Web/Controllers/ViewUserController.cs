@@ -48,7 +48,8 @@ namespace Kaizen.Web.Controllers
                     Domain = Domain,
                     Department = Department
                 };
-				viewModel.UsergridList = _viewUserWorker.GetUser(model); 
+				viewModel.UsergridList = _viewUserWorker.GetUser(model);
+                viewModel.StatusList = _viewUserWorker.GetStatus();
             }
             catch (Exception ex) {
                 //LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
@@ -79,47 +80,6 @@ namespace Kaizen.Web.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
-        //public List<UserTypeModel> UserTypeList()
-        //{
-        //    List<UserTypeModel> list = new List<UserTypeModel>();
-        //    UserTypeModel model = new UserTypeModel();
-        //    DataTable dt = new DataTable();
-        //    model.flag = "get";
-        //    DataSet ds = _user.GetUserType(model);
-        //    if (ds.Tables.Count > 0)
-        //    {
-        //        foreach (DataRow dr in ds.Tables[0].Rows)
-        //        {
-        //            list.Add(new UserTypeModel
-        //            {
-        //                UserTypeId = Convert.ToInt16(dr["UserTypeId"]),
-        //                UserDesc = dr["UserDesc"].ToString()
-        //            });
-        //        }
-        //    }
-        //    return list;
-        //}
-        //public List<DomainModel> DomainList()
-        //{
-
-        //    List<DomainModel> list = new List<DomainModel>();
-        //    DomainModel model = new DomainModel();
-        //    DataTable dt = new DataTable();
-        //    model.flag = "get";
-        //    DataSet ds = _user.GetDomain(model);
-        //    if (ds.Tables.Count > 0)
-        //    {
-        //        foreach (DataRow dr in ds.Tables[0].Rows)
-        //        {
-        //            list.Add(new DomainModel
-        //            {
-        //                id = Convert.ToInt32(dr["DomainID"]),
-        //                domainName = dr["DomainName"].ToString()
-        //            });
-        //        }
-        //    }
-        //    return list;
-        //}
         public List<DepartmentModel> FetchDepartment(string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
@@ -130,41 +90,7 @@ namespace Kaizen.Web.Controllers
             }
             return deptList;
         }
-        //public List<UserGridModel> UserList(string Name, string EmpId, string Email, string UserType, string Domain, string Department)
-        //{
-        //    List<UserGridModel> list = new List<UserGridModel>();
-        //    UserGridModel model = new UserGridModel();
-        //    DataTable dt = new DataTable();
-
-        //    model.Name = Name;
-        //    model.EmpID = EmpId;
-        //    model.Email = Email;
-        //    model.UserType = UserType;
-        //    model.Domain = Domain;
-        //    model.Department = Department;
-
-        //    DataSet ds = _user.GetUser(model);
-        //    if (ds.Tables.Count > 0)
-        //    {
-        //        foreach (DataRow dr in ds.Tables[0].Rows)
-        //        {
-        //            list.Add(new UserGridModel
-        //            {
-        //                EmpID = dr["EmpID"].ToString(),
-        //                Name = dr["Name"].ToString(),
-        //                Email = dr["Email"].ToString(),
-        //                Gender = dr["Gender"].ToString(),
-        //                Domain = dr["Domain"].ToString(),
-        //                Department = dr["Department"].ToString(),
-        //                UserType = dr["UserType"].ToString(),
-        //                ImageApprover = Convert.ToInt16(dr["ImageApprover"]),
-        //                Status = Convert.ToInt16(dr["Status"])
-        //            });
-        //        }
-        //    }
-        //    return list;
-        //}
-
+      
         public IActionResult DeleteUser(int id)
         {
             bool deleteStatus = false;

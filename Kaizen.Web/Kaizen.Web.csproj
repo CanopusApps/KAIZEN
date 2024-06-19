@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\assets\Template\" />
     <Folder Include="wwwroot\LogFolder\" />
   </ItemGroup>
 
