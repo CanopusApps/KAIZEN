@@ -105,5 +105,18 @@ namespace Kaizen.Web.Controllers
             return RedirectToAction("ViewUser");
 
         }
+
+        [HttpPost]
+        public string Upload(IFormFile file, string Status, string UserType, string Password)
+        {
+            var Return = "";
+            if (file == null || file.Length == 0)
+            {
+                return "No file uploaded.";
+            }
+            Return=_viewUserWorker.SendFile(file,Status,UserType,Password);
+            return Return;
+        }
+        
     }
 }

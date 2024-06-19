@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
+using System.Data.OleDb;
 
 namespace Kaizen.Data.DataServices
 {
@@ -103,9 +104,57 @@ namespace Kaizen.Data.DataServices
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
             return ds;
+        }
+        public DataTable ReadExcelIntoDataTable(string filePath)
+        {
+            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={filePath};Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'";
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "SELECT * FROM [Sheet1$]";
+                using (OleDbDataAdapter adapter = new OleDbDataAdapter(sql, connection))
+                {
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+                    return dataTable;
+                }
+            }
+        }
+
+        public void SaveUploadedFile(UploadUserModel Employee)
+        {
+            try
+            {
+                com = new SqlCommand();
+
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.Sp_Upload_Users;
+
+                com.Parameters.Add(new SqlParameter("@EmpId", Employee.EmpID));
+                com.Parameters.Add(new SqlParameter("@FirstName", Employee.FirstName));
+                com.Parameters.Add(new SqlParameter("@MiddleName", Employee.MiddleName));
+                com.Parameters.Add(new SqlParameter("@LastName", Employee.LastName));
+                com.Parameters.Add(new SqlParameter("@Gender", Employee.Gender));
+                com.Parameters.Add(new SqlParameter("@Email", Employee.Email));
+                com.Parameters.Add(new SqlParameter("@Domain", Employee.Domain));
+                com.Parameters.Add(new SqlParameter("@Department", Employee.Department));
+                com.Parameters.Add(new SqlParameter("@Cadre", Employee.Cadre));
+                com.Parameters.Add(new SqlParameter("@MobileNo", Employee.PhoneNumber));
+                com.Parameters.Add(new SqlParameter("@Status", Employee.Status));
+                com.Parameters.Add(new SqlParameter("@UserType", Employee.UserType));
+                com.Parameters.Add(new SqlParameter("@Password", Employee.Password));
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

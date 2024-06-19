@@ -18,5 +18,8 @@ namespace Kaizen.Data.DataServices
         public bool DeleteUserData(int id);
 
         public DataSet GetStatus();
+        public void SaveUploadedFile(UploadUserModel Employee);
+
+        public DataTable ReadExcelIntoDataTable(string filePath);
     }
 }
