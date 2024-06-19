@@ -13,6 +13,8 @@ namespace Kaizen.Models.AdminModel
         public List<DepartmentModel> DepartmentList { get; set; }
         public string DomainName { get; set; } = string.Empty;
         public List<DomainModel> DomainList { get; set; }
+        public int DomainId { get; set; }
+
         public bool Status { get; set; }
 
     }

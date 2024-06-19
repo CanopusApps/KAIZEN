@@ -34,8 +34,9 @@ namespace Kaizen.Business.Worker
                     deptModels.Add(new DepartmentModel
                     {
                         DeptId = Convert.ToInt32(dr["DeptId"]),
-                        DomainName = dr["DomainName"].ToString(),
                         DepartmentName = dr["DepartmentName"].ToString(),
+                        DomainId = Convert.ToInt32(dr["DomainId"].ToString()),
+                        DomainName = dr["DomainName"].ToString(),
                         Status = Convert.ToBoolean(dr["Status"])
                     });
                 }

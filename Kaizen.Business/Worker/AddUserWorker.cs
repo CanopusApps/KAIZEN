@@ -22,15 +22,6 @@ namespace Kaizen.Business.Worker
             string msg = _addUserData.InsertUserData(addUserModel);
             return msg;                
         }
-
-  //      public AddUserModel UserDropdownValues()
-  //      {
-		//	AddUserModel user = new AddUserModel();
-		//	user.Cadre = GetCadre(); ;
-  //          user.UserType = GetUserType();
-
-		//}
-
 		public List<UserTypeModel> GetUserType()
 		{
 			DataSet ds;
@@ -67,6 +58,5 @@ namespace Kaizen.Business.Worker
 			}
 			return cadre;
 		}
-
-	}
+    }
 }

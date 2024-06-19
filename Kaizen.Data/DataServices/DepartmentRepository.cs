@@ -11,7 +11,6 @@ using System.Data.SqlClient;
 using System.Linq;
 
 using System.Reflection;
-
 using System.Text;
 
 using System.Threading.Tasks;
@@ -43,6 +42,7 @@ namespace Kaizen.Data.DataServices
 
 		private static SqlConnection con = null;
 		private static SqlCommand com = null;
+
 
         public bool CreateDepartmentData(int domainId, string DomainName, string DepartmentName)
         {
@@ -142,6 +142,6 @@ namespace Kaizen.Data.DataServices
             da.Fill(ds);
             return ds;
         }
-    }
+    }	
 
 }
