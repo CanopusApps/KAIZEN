@@ -21,8 +21,8 @@ builder.Services.AddScoped<IDomain, DomainWorker>();
 builder.Services.AddScoped<IDomainRepository, DomainRepository>();
 builder.Services.AddScoped<IDepartment, DepartmentWorker>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-
-
+builder.Services.AddScoped<ILogin, LoginWorker>();
+builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 
 var app = builder.Build();
 

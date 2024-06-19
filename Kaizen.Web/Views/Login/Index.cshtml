@@ -3,7 +3,7 @@
     Layout = "Empty";
 }
 
-@using (Html.BeginForm("AddUser", "Admin", FormMethod.Post))
+@using (Html.BeginForm("Index", "Login", FormMethod.Post, new { id = "userForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -13,7 +13,7 @@
         </div>
         <div class="loginbox bg-white">
 
-            <div class="loginbox-title">Sign in your account</div>
+            <div class="loginbox-title">Sign in to your account</div>
             <div class="loginbox-or">
                 <div class="or-line"></div>
             </div>
@@ -21,11 +21,12 @@
             <div class="loginbox-textbox">
                 <div class="row">
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Empid, "Emp ID", htmlAttributes: new { @class = "control-label" })
+                        @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
                         <span class="text-danger">*</span>
-                        @Html.EditorFor(model => model.Empid, new { htmlAttributes = new { @class = "form-control col-md-6", placeholder = "Enter Employee Id" } })
-                        <br />
-                        @Html.ValidationMessageFor(model => model.Empid, "", new { @class = "text-danger" })
+                        <div>
+                            @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control col-md-6", placeholder = "Enter Employee Id", id = "EmpId" } })
+                            @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
             </div>
@@ -35,22 +36,72 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
                         <span class="text-danger">*</span>
-                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control col-md-6", @type = "password", placeholder = "Enter Password" } })
-                        <br />
-                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        <div class="editor-container">
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Enter your password", id = "Password" })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger validation-message" })
+                        </div>
                     </div>
                 </div>
             </div>
 
-
-
             <div class="loginbox-submit">
-                <input type="submit" class="btn btn-block btn-azure" value="Sign in here" onclick="location.href='@Url.Action("Admin", "AddUser") "/>
+                <input type="submit" class="btn btn-block btn-azure" value="Sign in here" />
             </div>
-            <a href="/Register/Index" class="padding-30 ">Register New User </a>
+            <a href="/Register/Index" class="padding-30">Register New User</a>
             <a href="/Login/Forgot">Forgot password</a>
 
         </div>
         <div class="col-sm-4"></div>
     </div>
+
+    @if (TempData["msg"] != null)
+    {
+        <script>
+            swal('@TempData["msg"]')
+        </script>
+    }
 }
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $.validator.addMethod("exactlength", function (value, element, param) {
+            return this.optional(element) || value.length === param;
+        }, "Please enter exactly {0} digits.");
+
+        $("#userForm").validate({
+            errorClass: "text-danger",
+            rules: {
+                EmpId: {
+                    required: true,
+                    digits: true,
+                    exactlength: 6
+                },
+                Password: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                EmpId: {
+                    required: "Employee ID is required",
+                    digits: "Employee ID must be digits only",
+                    exactlength: "Employee ID must be exactly 6 digits long"
+                },
+                Password: {
+                    required: "Password is required",
+                    minlength: "Password must be at least 6 characters long"
+                }
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+
+        $("#EmpId, #Password").on('keyup', function () {
+            $(this).valid();
+        });
+    });
+</script>
