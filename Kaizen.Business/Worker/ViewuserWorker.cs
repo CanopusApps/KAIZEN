@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
 using System.Data.SqlClient;
 using System.Data.OleDb;
+using Microsoft.AspNetCore.Http;
+using Kaizen.Data.Constant;
 
 namespace Kaizen.Business.Worker
 {
@@ -69,6 +71,28 @@ namespace Kaizen.Business.Worker
             }
             return Status;
         }
+        public string SendFile(IFormFile file, string Status, string UserType, string Password)
+        {
+            var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+            Directory.CreateDirectory(uploadsPath); // Ensure the directory exists
+            var filePath = Path.Combine(uploadsPath, file.FileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+            try
+            {
+                DataTable dataTable = ReadExcelIntoDataTable(filePath);
+                Senddatatable(dataTable, Status, UserType, Password);
+                return "File uploaded and data processed successfully.";
+            }
+            catch (Exception ex)
+            {
+                return $"Internal server error";
+            }
+        }
+
         public void Senddatatable(DataTable dataTable, string Status, string UserType, string Password)
         {
             foreach (DataRow row in dataTable.Rows)

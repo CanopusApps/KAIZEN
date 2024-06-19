@@ -109,30 +109,13 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public string Upload(IFormFile file, string Status, string UserType, string Password)
         {
+            var Return = "";
             if (file == null || file.Length == 0)
             {
                 return "No file uploaded.";
             }
-
-            var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
-            Directory.CreateDirectory(uploadsPath); // Ensure the directory exists
-            var filePath = Path.Combine(uploadsPath, file.FileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                file.CopyTo(stream);
-            }
-            try
-            {
-                DataTable dataTable = _viewUserWorker.ReadExcelIntoDataTable(filePath);
-                _viewUserWorker.Senddatatable(dataTable,Status,UserType,Password);
-                return "File uploaded and data processed successfully.";
-            }
-            catch (Exception ex)
-            {
-                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
-                return $"Internal server error";
-            }
+            Return=_viewUserWorker.SendFile(file,Status,UserType,Password);
+            return Return;
         }
         
     }
