@@ -1,4 +1,5 @@
-﻿
+﻿@inject IHttpContextAccessor Accessor
+
 @{
 
     var title = "Responsive Sidebar";
@@ -20,9 +21,12 @@
    
 </head>
 <style>
-    
+    #wc{
+      font-size:18px;
+      color:white;
+    }
 </style>
-<body>
+<body class="bg-light">
     <div id="wrapper" class="d-flex">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
@@ -55,7 +59,7 @@
                 <a href="#" class="list-group-item list-group-item-action text-light  fw-bold">Tables</a>
                 <a href="#" class="list-group-item list-group-item-action text-light fw-bold">Charts</a>
                 <a href="#" class="list-group-item list-group-item-action text-light  fw-bold">Icons</a>
-                <a class="LogoutIcon list-group-item" href="/Login/Index"><i class="fa-solid fa-right-from-bracket icon1 padding-left-20 margin-left-20"></i></a>
+                <a class="LogoutIcon list-group-item" href="/Login/Logout"><i class="fa-solid fa-right-from-bracket icon1 padding-left-20 margin-left-20"></i></a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -94,7 +98,7 @@
             </nav>  
             *@
             <nav class="navbar navbar-light bg-light">
-                <div class="container">
+                <div class="container" id="container-header">
                     <button class="btn  menu-toggle " id="menu-toggle">
                        
                         <i class="fas fa-bars"></i>
@@ -109,9 +113,11 @@
                                 <div class="header-info">
 
                                    <div class="text-align-right">
-                                        <span><i class="fa-regular fa-user"></i></span>
-                                   
-                                    <h3><span class="text-secondary ">Hi, <strong>Admin  </strong></span></h3>
+                                    <h3>
+                                        <label id="wc">
+                                            Hi  @Accessor.HttpContext.Session.GetString("Message")
+                                        </label>
+                                    </h3>
                                     </div>
                                 </div>
                                 </a>
