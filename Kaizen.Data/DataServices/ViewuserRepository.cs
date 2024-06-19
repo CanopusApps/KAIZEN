@@ -30,52 +30,6 @@ namespace Kaizen.Data.DataServices
         private static SqlConnection con = null;
         private static SqlCommand com = null;
 
-        //      public DataTable GetUserType()
-        //      {
-        //	DataTable userType = null;
-        //	try
-        //	{
-        //		com = new SqlCommand();
-        //		DataSet ds = new DataSet();
-        //		com.Connection = con;
-        //		com.CommandType = CommandType.StoredProcedure;
-        //		com.CommandText = StoredProcedures.sp_Get_UserType;
-        //		SqlDataAdapter da = new SqlDataAdapter(com);
-        //		da.Fill(ds);
-        //		userType = ds.Tables[0];
-        //	}
-        //	catch (Exception ex)
-        //	{
-
-        //	}
-        //          return userType;
-        //}
-        //public DataSet GetDomain(DomainModel model)
-        //{
-        //    model.flag = "get";
-        //    com = new SqlCommand();
-        //    DataSet ds = new DataSet();
-        //    com.Connection = con;
-        //    com.CommandType = CommandType.StoredProcedure;
-        //    com.CommandText = StoredProcedures.Sp_GetDomains;
-
-        //    SqlDataAdapter da = new SqlDataAdapter(com);
-        //    da.Fill(ds);
-        //    return ds;
-        //}
-        //public DataSet GetDepartment(string DomainName)
-        //{
-        //    com = new SqlCommand();
-        //    DataSet ds = new DataSet();
-        //    com.Connection = con;
-        //    com.CommandType = CommandType.StoredProcedure;
-        //    com.Parameters.AddWithValue("@DomainName", DomainName);
-        //    com.CommandText = StoredProcedures.sp_Fetch_Department;
-
-        //    SqlDataAdapter da = new SqlDataAdapter(com);
-        //    da.Fill(ds);
-        //    return ds;
-        //}
         public DataSet GetUser(UserGridModel model)
         {
             DataSet ds = new DataSet();
@@ -130,6 +84,28 @@ namespace Kaizen.Data.DataServices
             }
 
             return deleteStatus;
+        }
+
+        public DataSet GetStatus()
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            try
+            {
+                com = new SqlCommand();
+
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.Sp_Get_Status;
+
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return ds;
         }
     }
 }

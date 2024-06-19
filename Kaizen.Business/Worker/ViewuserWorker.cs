@@ -16,54 +16,9 @@ namespace Kaizen.Business.Worker
         public readonly IDomain _domain;
 
 		public ViewuserWorker(IViewuserRepository repositoryUserdata)
-              {
+        {
                 this._repositoryUserTypedata = repositoryUserdata;
-              }
-
-  //      public List<UserTypeModel> GetUserType()
-  //      {
-		//	DataTable dt;
-		//	List<UserTypeModel> userType = new List<UserTypeModel>();
-		//	dt = _repositoryUserTypedata.GetUserType();
-		//	if (dt.Rows.Count > 0)
-		//	{
-		//		foreach (DataRow dr in dt.Rows)
-		//		{
-		//			userType.Add(new UserTypeModel
-		//			{
-		//				UserTypeId = Convert.ToInt16(dr["UserTypeId"]),
-		//				UserDesc = dr["UserDesc"].ToString()
-		//			});
-		//		}
-		//	}
-		//	return userType;
-		//}
-		//public List<DomainModel> GetDomain()
-		//{
-		//	DataTable dt;
-		//	List<DomainModel> domainModels = new List<DomainModel>();
-		//	dt = _repositoryDomaindata.GetDomaindetails();
-		//	if (dt.Rows.Count > 0)
-		//	{
-		//		foreach (DataRow dr in dt.Rows)
-		//		{
-		//			domainModels.Add(new DomainModel
-		//			{
-		//				id = Convert.ToInt32(dr["DomainId"]),
-		//				domainName = dr["DomainName"].ToString(),
-		//				status = Convert.ToBoolean(dr["Status"])
-		//			});
-		//		}
-		//	}
-		//	return domainModels;
-
-		//}
-		//public DataSet GetDepartment(string DomainName)
-  //      {
-  //          DataSet ds = new DataSet();
-  //          ds = _repositoryUserTypedata.GetDepartment(DomainName);
-  //          return ds;
-  //      }
+        }
         public List<UserGridModel> GetUser(UserGridModel model)
         {
 			DataSet userType = new DataSet();
@@ -93,6 +48,24 @@ namespace Kaizen.Business.Worker
         public bool DeleteUser(int id)
         {
             return _repositoryUserTypedata.DeleteUserData(id);
+        }
+        public List<StatusModel> GetStatus()
+        {
+            DataSet ds;
+            List<StatusModel> Status = new List<StatusModel>();
+            ds = _repositoryUserTypedata.GetStatus();
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    Status.Add(new StatusModel
+                    {
+                        StatusID = Convert.ToInt16(dr["StatusID"]),
+                        StatusName = dr["StatusName"].ToString()
+                    });
+                }
+            }
+            return Status;
         }
     }
 }

@@ -16,5 +16,7 @@ namespace Kaizen.Data.DataServices
 
         public DataSet GetUser(UserGridModel model);
         public bool DeleteUserData(int id);
+
+        public DataSet GetStatus();
     }
 }
