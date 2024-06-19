@@ -1,90 +1,11 @@
-﻿@{
+﻿@model Kaizen.Models.AdminModel.DepartmentModel
+@{
     Layout = "SidebarLayout";
 }
-<style>
-    .cb {
-        border: 1px solid #ebeef6;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    }
+<link href="~/assets/css/common/datatables.min.css" rel="stylesheet" />
+<link href="~/assets/css/custom/adddepartment.css" rel="stylesheet" />
 
-
-    .mine {
-        min-height: 100vh;
-    }
-
-
-    .bor {
-        border: 1px solid black;
-    }
-
-
-    #DomName,
-    .dep-name {
-        border: 1px solid rgb(203, 203, 203);
-    }
-
-
-    #DomName {
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-    }
-
-
-    #theGray {
-        background-color: rgb(203, 203, 203);
-    }
-
-
-    #NameAddBtn {
-        color: white;
-        border: rgb(14, 85, 132);
-        background-color: #3E7DBE;
-    }
-
-
-    #employeeTable {
-        width: 100%;
-    }
-
-
-    #bd {
-        background-color: rgb(16, 202, 147);
-        color: white;
-        font-size: small;
-    }
-
-
-    .trsh {
-        background-color: rgb(242, 87, 103);
-        width: 30px;
-        height: 30px;
-        border-radius: 13%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-    }
-
-
-    td {
-        border: 1px solid rgb(203, 203, 203);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-    }
-
-    th {
-        border: 1px solid rgb(203, 203, 203);
-    }
-
-
-    table {
-        display: table;
-        border-collapse: separate;
-        box-sizing: border-box;
-        text-indent: initial;
-        unicode-bidi: isolate;
-        border-spacing: 3px;
-        border-color: gray;
-    }
-</style>
+<script src="~/assets/js/custom/datatables.min.js"></script>
 <div class="container-fluid">
     <div class="row p-2">
         <div class="col">
@@ -92,31 +13,37 @@
                 <div class="row">
                     <div class=" col-md-6">
                         <label for="DomainName">Domain Name</label>
-                        <select class="form-select form-control" id="department" required="">
-                            <option value="">All</option>
-                            <!-- Add more options as needed -->
+                        <select id="domainName" class="form-control txt-width">
+                            <option selected>--Select--</option>
+                            @foreach (var domain in Model.DomainList)
+                            {
+                                <option value="@domain.Id">@domain.DomainName</option>
+                            }
                         </select>
+                        <span id="DomError" class="text-danger error-message"></span>
                     </div>
                     <div class=" col-md-4">
+
                         <label for="DepartmentName">Department Name</label>
-                        <input id="DepartmentName" class="form-control dep-name" />
+                        <input id="departmentName" class="form-control dep-name" />
+                        <span id="DepError" class="text-danger error-message"></span>
                     </div>
                     <div class=" col-md-2">
                         <br />
-                        <input class="btn btn-azure" value="Add" type="button" />
+                        <input class="btn btn-azure" id="btnAdd" value="Add" type="button" />
                     </div>
                 </div>
                 <div class="mt-5">
-                    <p>Department Names - 6</p>
+                    <p><b>Department Names - @ViewBag.DepartmentList.Count</b></p>
                     <div class="col-12">
                         <hr />
                     </div>
                     <br />
                     <div class="table-responsive">
-                        <table id="employeeTable" class="table table-responsive-sm text-center">
+                        <table id="employeeTable" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="text-center" id="DomName">ID</th>
+                                    <th hidden scope="col" class="text-center" id="DomName">ID</th>
                                     <th scope="col" class="text-center" id="DomName">DOMAIN NAME</th>
                                     <th scope="col" class="text-center" id="DomName">DEPARTMENT NAME</th>
                                     <th scope="col" class="text-center" id="DomName">TOTAL EMP</th>
@@ -125,31 +52,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row" class="text-center">1</th>
-                                    <td class="text-center">Sudhan</td>
-                                    <td class="text-center">KAR</td>
-                                    <td class="text-center">INDIA</td>
-                                    <td class="text-center">
-                                        <span id="bd" class="p-1 badge-sm badge-success">Active</span>
-                                    </td>
-                                    <td class="d-flex justify-content-center align-items-center">
-                                        <i class="trsh fa-solid fa-trash-can"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="text-center">2</th>
-                                    <td class="text-center">Manuel</td>
-                                    <td class="text-center">KAR</td>
-                                    <td class="text-center">India</td>
-                                    <td class="text-center">
-                                        <span id="bd" class="p-1 badge-sm badge-success">Active</span>
-                                    </td>
-                                    <td class="d-flex justify-content-center align-items-center">
-                                        <i class="trsh fa-solid fa-trash-can"></i>
-                                    </td>
-                                </tr>
-
+                                @foreach (var item in ViewBag.DepartmentList)
+                                {
+                                    <tr>
+                                        <td hidden>@item.DeptId</td>
+                                        <td>@item.DomainName</td>
+                                        <td>@item.DepartmentName</td>
+                                        <td>0</td>
+                                        <td class="text-center">
+                                            @if (@item.Status == false)
+                                            {
+                                                <a href="/Admin/UpdateDepartmentStatus?id=@item.DeptId &status= true"><span class="btn btn-warning">Inactive</span></a>
+                                            }
+                                            @if (@item.Status == true)
+                                            {
+                                                <a href="/Admin/UpdateDepartmentStatus?id=@item.DeptId &status= false"><span class="btn btn-success">Active</span></a>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="/Admin/DeleteDepartment?id=@item.DeptId" class="btn btn-danger icon deleteuser"><i class="fa-solid fa-trash-can"></i></a>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -157,3 +81,95 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $('#employeeTable').DataTable({});
+        });
+        function ValidateForm() {
+            var isValid = true;
+            $("#departmentName").css("border-color", "red");
+            $("#DepError").text("");
+            $("#domainName").css("border-color", "red");
+            $("#DomError").text("");
+            $(".error-message").text("");
+            // Check for empty or invalid fields
+            var departmentNameValue = $("#departmentName").val();
+            var domainnamevalue = $("#domainName").val();
+            if (departmentNameValue === "") {
+                $("#departmentName").css("border-color", "red");
+                $("#DepError").text("Department Name is required.");
+                isValid = false;
+            }
+            if (domainnamevalue === "--Select--") {
+                $("#domainName").css("border-color", "red");
+                $("#DomError").text("Please Select Domain");
+                isValid = false;
+            }
+            if (!isValid) {
+                $("#error-message").text("Please fill in the required field correctly.");
+                // Add red border to the submit button
+                $("#submitButton").css("border-color", "red");
+            }
+            return isValid;
+        }
+
+        function addDepartment() {
+            var departmentName = $('#departmentName').val();
+            var domainId = $('#domainName').val();
+            var domainName = $('#domainName option:selected').text();
+            if (!ValidateForm()) {
+                // If validation fails, return or perform any other necessary actions
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/AddDepartment',
+                dataType: "json",
+                data: {
+                    DepartmentName: departmentName,
+                    DomainName: domainName,
+                    DomainId: domainId
+                },
+                success: function (result) {
+                    var res = $.isEmptyObject(result);
+
+                    if (res) {
+                        swal('Unable to Save the Department Details - Please Check the logs');
+                    }
+                    else {
+                        swal({
+                            text: "Department saved successfully !!",
+                            type: "success"
+                        }).then(okay => {
+                            if (okay) {
+                                location.reload();
+                            }
+                        });
+                    }
+
+                },
+                error: function (error) {
+                    swal('Unable to Save the Department Details - Please Check the logs');
+                    // Handle errors (if needed)
+                    // console.error('Error:', error);
+                }
+            });
+        }
+        $(document).ready(function () {
+            $(".btn-azure").click(function () {
+                addDepartment();
+            });
+
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.badge-sm').forEach(function (element) {
+                element.addEventListener('click', function () {
+                    toggleStatus(element);
+                });
+            });
+        });
+    </script>
+
+</div>

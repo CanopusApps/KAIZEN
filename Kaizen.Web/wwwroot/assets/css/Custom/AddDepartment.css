@@ -1,0 +1,86 @@
+﻿.cb {
+    border: 1px solid #ebeef6;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+#btnAdd
+{
+    margin-top:7px!important;
+}
+.mine {
+    min-height: 100vh;
+}
+
+
+.bor {
+    border: 1px solid black;
+}
+
+
+#DomName,
+.dep-name {
+    border: 1px solid rgb(203, 203, 203);
+}
+
+
+#DomName {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+#theGray {
+    background-color: rgb(203, 203, 203);
+}
+
+
+#NameAddBtn {
+    color: white;
+    border: rgb(14, 85, 132);
+    background-color: #3E7DBE;
+}
+
+
+#employeeTable {
+    width: 100%;
+}
+
+
+#bd {
+    background-color: rgb(16, 202, 147);
+    color: white;
+    font-size: small;
+}
+
+
+.trsh {
+    background-color: rgb(242, 87, 103);
+    width: 30px;
+    height: 30px;
+    border-radius: 13%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+
+td {
+    border: 1px solid rgb(203, 203, 203);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+th {
+    border: 1px solid rgb(203, 203, 203);
+}
+
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    unicode-bidi: isolate;
+    border-spacing: 3px;
+    border-color: gray;
+}
+

@@ -49,6 +49,7 @@ namespace Kaizen.Data.DataServices
             }
             catch (Exception ex) 
             {
+                throw ex;
             }
 
             return status;
@@ -74,7 +75,7 @@ namespace Kaizen.Data.DataServices
             }
             catch (Exception ex) 
             {
-
+                throw ex;
             }
 
             return status;
@@ -101,7 +102,7 @@ namespace Kaizen.Data.DataServices
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
 
             return updStatus;
@@ -113,7 +114,7 @@ namespace Kaizen.Data.DataServices
 
 			try
 			{
-				com = new SqlCommand();
+		    com = new SqlCommand();
             com.Connection = con;
             com.CommandType = CommandType.StoredProcedure;
             com.CommandText = StoredProcedures.sp_GetBlockDetails;
@@ -122,8 +123,8 @@ namespace Kaizen.Data.DataServices
 			}
 			catch (Exception ex)
 			{
-
-			}
+                throw ex;
+            }
 			return ds;
 
 		}
