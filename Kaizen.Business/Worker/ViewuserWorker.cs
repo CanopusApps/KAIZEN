@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
+using System.Data.SqlClient;
 
 namespace Kaizen.Business.Worker
 {
@@ -66,6 +67,10 @@ namespace Kaizen.Business.Worker
                 }
             }
             return Status;
+        }
+        public void SaveUploadedFile(UploadUserModel Employee)
+        {
+            _repositoryUserTypedata.SaveUploadedFile(Employee);
         }
     }
 }

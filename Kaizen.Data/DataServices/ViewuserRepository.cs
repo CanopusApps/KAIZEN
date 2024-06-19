@@ -103,9 +103,42 @@ namespace Kaizen.Data.DataServices
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
             return ds;
+        }
+
+        public void SaveUploadedFile(UploadUserModel Employee)
+        {
+            try
+            {
+                com = new SqlCommand();
+
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.Sp_Upload_Users;
+
+                com.Parameters.Add(new SqlParameter("@EmpId", Employee.EmpID));
+                com.Parameters.Add(new SqlParameter("@FirstName", Employee.FirstName));
+                com.Parameters.Add(new SqlParameter("@MiddleName", Employee.MiddleName));
+                com.Parameters.Add(new SqlParameter("@LastName", Employee.LastName));
+                com.Parameters.Add(new SqlParameter("@Gender", Employee.Gender));
+                com.Parameters.Add(new SqlParameter("@Email", Employee.Email));
+                com.Parameters.Add(new SqlParameter("@Domain", Employee.Domain));
+                com.Parameters.Add(new SqlParameter("@Department", Employee.Department));
+                com.Parameters.Add(new SqlParameter("@Cadre", Employee.Cadre));
+                com.Parameters.Add(new SqlParameter("@MobileNo", Employee.PhoneNumber));
+                com.Parameters.Add(new SqlParameter("@Status", Employee.Status));
+                com.Parameters.Add(new SqlParameter("@UserType", Employee.UserType));
+                com.Parameters.Add(new SqlParameter("@Password", Employee.Password));
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

@@ -124,7 +124,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputstatus">Status<span class="text-danger">*</span></label>
-                                    <select id="inputstatus" class="form-control">
+                                    <select id="ModalStatus" class="form-control">
                                         <option selected>All</option>
                                         @if (Model.StatusList != null)
                                         {
@@ -137,7 +137,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputUserType">User Type<span class="text-danger">*</span></label>
-                                    <select class="form-control">
+                                    <select class="form-control" id="ModalUserType">
                                         <option selected>All</option>
                                         @if (Model.UserTypeList != null)
                                         {
@@ -150,17 +150,17 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputpassword">Password to all<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" style="background-color:lightgray" placeholder="Password to all">
+                                    <input type="text" id="ModalPassword" class="form-control" style="background-color:lightgray" placeholder="Password to all">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Upload<span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="userfile" id="userfile" required="">
+                                    <input type="file" id="file" name="file" class="form-control" accept=".xlsx, .xls">
                                 </div>
 
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <button type="submit" class="btn btn-block-custom btn-azure" style="width:100%;margin-left:0px;">Upload & Submit</button>
+                                    <button type="button" id="uploadusers" class="btn btn-block-custom btn-azure" style="width:100%;margin-left:0px;">Upload & Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -368,5 +368,51 @@
         document.body.appendChild(link);
         link.click();
     }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#uploadusers').click(function () {
+            var fileInput = $('#file')[0];
+            var file = fileInput.files[0];
+
+            var StatusModal = $('#ModalStatus option:selected').text();
+            var UserTypemodal = $('#ModalUserType option:selected').text();
+            var PasswordModal = $('#ModalPassword').val();
+
+            if (!StatusModal || !UserTypemodal || !PasswordModal) {
+                swal('Please Select all field');
+                return;
+            }
+
+            if (file) {
+                var formData = new FormData();
+                formData.append('file', file);
+                formData.append('Status', StatusModal);
+                formData.append('UserType', UserTypemodal);
+                formData.append('Password', PasswordModal);
+
+                $.ajax({
+                    url: '/ViewUser/Upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        $('#ModalStatus').prop('selectedIndex', 0); 
+                        $('#ModalUserType').prop('selectedIndex', 0);
+                        $('#ModalPassword').val('');
+                        $('#file').val('');
+                        swal(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("Error response:", jqXHR, textStatus, errorThrown);
+                        swal('File upload failed.');
+                    }
+                });
+            } else {
+                alert('Please select a file to upload.');
+            }
+        });
+    });
 </script>
 

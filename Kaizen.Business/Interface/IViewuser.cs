@@ -10,12 +10,11 @@ namespace Kaizen.Business.Interface
 {
     public interface IViewuser
     {
-        //public List<UserTypeModel> GetUserType();
-        //public List<DomainModel> GetDomain();
-
-        //public DataSet GetDepartment(string DomainName);
         public List<UserGridModel> GetUser(UserGridModel model);
         public bool DeleteUser(int id);
         public List<StatusModel> GetStatus();
+        public void SaveUploadedFile(UploadUserModel Employee);
+
+
     }
 }
