@@ -41,7 +41,7 @@ h4
     color: black;
     transition: all 0.3s;
 }
-.container {
+#container-header {
     background-color: #2dc3e8;
 }
 .logo {

@@ -1,18 +1,22 @@
 ﻿using Kaizen.Business.Interface;
 using Kaizen.Data.Constant;
+using Microsoft.AspNetCore.Session;
 using Kaizen.Models.AdminModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using Microsoft.AspNetCore.Http;
 namespace Kaizen.Web.Controllers
 {
     public class LoginController : Controller
     {
+        public IHttpContextAccessor conAccessor;
         private readonly ILogin _loginworker;
         private readonly IWebHostEnvironment _environment;
 
-        public LoginController(ILogin _loginworker)
+        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor)
         {
             this._loginworker = _loginworker;
+            this.conAccessor = conAccessor;
         }
         public IActionResult Index()
         {
@@ -22,7 +26,7 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public IActionResult Index([Bind] LoginModel loginmodel)
         {
-            string EmpId, password;
+            string EmpId, password,Username;
             DataTable dataTable = new DataTable();
             try
             {
@@ -34,11 +38,17 @@ namespace Kaizen.Web.Controllers
                         DataRow row = dataTable.Rows[0];
                         EmpId = row["EmpId"].ToString();
                         password = row["Password"].ToString();
+                        Username= row["FirstName"].ToString();
                         if (EmpId == loginmodel.EmpId && password == loginmodel.Password)
                         {
-
-                            Response.Redirect("Admin/AddDepartment");
-
+                           String Id= conAccessor.HttpContext.Session.Id;
+                           if(HttpContext != null && HttpContext.Session != null)
+                            {
+                                Response.Redirect("Admin/Adduser");
+                                HttpContext.Session.SetString("Message",Username);
+                            }
+                         
+                                
                         }
                         else
                         {
@@ -52,12 +62,21 @@ namespace Kaizen.Web.Controllers
             }
             catch (Exception ex)
             {
-                LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment);
-                return View();
+               
             }
 
 
             return View();
+        }
+        public IActionResult Logout()
+        {
+            conAccessor.HttpContext.Session.GetString("Message");
+            if (HttpContext.Session.IsAvailable)
+            {
+
+                HttpContext.Session.Clear();
+            }
+            return RedirectToAction("Index");
         }
     }
 }
