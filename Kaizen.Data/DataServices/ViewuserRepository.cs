@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
+using System.Data.OleDb;
 
 namespace Kaizen.Data.DataServices
 {
@@ -106,6 +107,21 @@ namespace Kaizen.Data.DataServices
                 throw ex;
             }
             return ds;
+        }
+        public DataTable ReadExcelIntoDataTable(string filePath)
+        {
+            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={filePath};Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'";
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "SELECT * FROM [Sheet1$]";
+                using (OleDbDataAdapter adapter = new OleDbDataAdapter(sql, connection))
+                {
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+                    return dataTable;
+                }
+            }
         }
 
         public void SaveUploadedFile(UploadUserModel Employee)

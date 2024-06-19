@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
 using System.Data.SqlClient;
-using System.Data.OleDb;
 using Microsoft.AspNetCore.Http;
 using Kaizen.Data.Constant;
 
@@ -83,7 +82,7 @@ namespace Kaizen.Business.Worker
             }
             try
             {
-                DataTable dataTable = ReadExcelIntoDataTable(filePath);
+                DataTable dataTable = _repositoryUserTypedata.ReadExcelIntoDataTable(filePath);
                 Senddatatable(dataTable, Status, UserType, Password);
                 return "File uploaded and data processed successfully.";
             }
@@ -117,20 +116,6 @@ namespace Kaizen.Business.Worker
             }
             
         }
-        public DataTable ReadExcelIntoDataTable(string filePath)
-        {
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={filePath};Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'";
-            using (OleDbConnection connection = new OleDbConnection(connectionString))
-            {
-                connection.Open();
-                string sql = "SELECT * FROM [Sheet1$]";
-                using (OleDbDataAdapter adapter = new OleDbDataAdapter(sql, connection))
-                {
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-                    return dataTable;
-                }
-            }
-        }
+        
     }
 }
