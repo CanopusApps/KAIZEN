@@ -13,8 +13,7 @@ namespace Kaizen.Business.Interface
         public List<UserGridModel> GetUser(UserGridModel model);
         public bool DeleteUser(int id);
         public List<StatusModel> GetStatus();
-        public void SaveUploadedFile(UploadUserModel Employee);
-
-
+        public void Senddatatable(DataTable datatable, string Status, string UserType, string Password);
+        public DataTable ReadExcelIntoDataTable(string filePath);
     }
 }

@@ -12,7 +12,6 @@ using Kaizen.Models.ViewUserModel;
 using Kaizen.Models.AdminModel;
 using Kaizen.Business.Worker;
 using static System.Reflection.Metadata.BlobBuilder;
-using System.Data.OleDb;
 
 namespace Kaizen.Web.Controllers
 {
@@ -125,28 +124,8 @@ namespace Kaizen.Web.Controllers
             }
             try
             {
-                DataTable dataTable = ReadExcelIntoDataTable(filePath);
-
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    var employee = new UploadUserModel
-                    {
-                        EmpID = row["Emp Id"].ToString(),
-                        FirstName = row["First Name"].ToString(),
-                        MiddleName = row["Middle Name"].ToString(),
-                        LastName = row["Last Name"].ToString(),
-                        Gender = row["Gender"].ToString(),
-                        Email = row["Email Id"].ToString(),
-                        Domain = row["Domain"].ToString(),
-                        Department = row["Department"].ToString(),
-                        Cadre = row["Cadre"].ToString(),
-                        PhoneNumber = row["Mobile No"].ToString(),
-                        Status= Status,
-                        UserType= UserType,
-                        Password= Password
-                    };
-                    _viewUserWorker.SaveUploadedFile(employee);
-                }
+                DataTable dataTable = _viewUserWorker.ReadExcelIntoDataTable(filePath);
+                _viewUserWorker.Senddatatable(dataTable,Status,UserType,Password);
                 return "File uploaded and data processed successfully.";
             }
             catch (Exception ex)
@@ -155,20 +134,6 @@ namespace Kaizen.Web.Controllers
                 return $"Internal server error";
             }
         }
-        private DataTable ReadExcelIntoDataTable(string filePath)
-        {
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={filePath};Extended Properties='Excel 12.0;HDR=YES;IMEX=1;'";
-            using (OleDbConnection connection = new OleDbConnection(connectionString))
-            {
-                connection.Open();
-                string sql = "SELECT * FROM [Sheet1$]";
-                using (OleDbDataAdapter adapter = new OleDbDataAdapter(sql, connection))
-                {
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-                    return dataTable;
-                }
-            }
-        }
+        
     }
 }
