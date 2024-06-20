@@ -19,5 +19,9 @@ namespace Kaizen.Models.AdminModel
         public int ImageApprover { get; set; } = 0;
         public int Status { get; set; } = 0;
 
+        public string PhoneNo { get; set; } = "";
+        public string Password { get; set; } = "";
+        public string Cadre { get; set; } = "";
+
     }
 }

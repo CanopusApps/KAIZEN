@@ -42,8 +42,11 @@ namespace Kaizen.Business.Worker
 						Department = dr["Department"].ToString(),
 						UserType = dr["UserType"].ToString(),
 						ImageApprover = Convert.ToInt16(dr["ImageApprover"]),
-						Status = Convert.ToInt16(dr["Status"])
-					});
+						Status = Convert.ToInt16(dr["Status"]),
+                        PhoneNo = dr["MobileNumber"].ToString(),
+                        Password = dr["Password"].ToString(),
+                        Cadre = dr["CadreDesc"].ToString(),
+                    });
 				}
 			}
 			return UserGridData;
