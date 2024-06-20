@@ -20,13 +20,16 @@ namespace Kaizen.Web.Controllers
         List<DomainModel> list = new List<DomainModel>();
         DomainModel model = new DomainModel();
 
-        public AdminController(IBlock worker, IDomain domainWorker, IDepartment departmentWorker, IAddUser addUserWorker)
+        EditUserModel editmodel = new EditUserModel();
+        private readonly IEditUser _editUserWorker;
+
+        public AdminController(IBlock worker, IDomain domainWorker, IDepartment departmentWorker, IAddUser addUserWorker,IEditUser editUserWorker)
         {
             _blockWorker = worker;
             _domainWorker = domainWorker;
             _departmentWorker = departmentWorker;
             _addUserWorker = addUserWorker;
-
+            _editUserWorker = editUserWorker;
         }
         public IActionResult Index()
         {
@@ -342,6 +345,13 @@ namespace Kaizen.Web.Controllers
         }
 
         //End Department
+
+        public IActionResult EditUser()
+        {
+            editmodel.Domains = _domainWorker.GetDomain();
+            editmodel.Departments = _departmentWorker.GetDepartments();
+            return View(editmodel);
+        }
 
     }
 }
