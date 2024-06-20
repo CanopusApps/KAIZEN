@@ -108,7 +108,8 @@
                         <option selected>All</option>
                     </select>
                 </div>
-                <input type="button" id="btn_filter" class="btn btn-block-custom btn-azure" style="width:345px;margin-left:4px" value="Filter" />
+                <input type="button" id="btn_filter" class="btn btn-block-custom btn-azure" style="width:116px;margin-left:4px" value="Filter" />
+                <button type="button" id="btnreset" class="btn btn-block-custom btn-warning" style="width:116px;margin-left:4px">Reset</button>
             </div>
         </div>
         <div class="custom-line mb-3"></div>
@@ -376,7 +377,14 @@
                 method: 'POST',
                 data: { id: empid },
                 success: function (response) {
-                    swal('User Deleted Sucessfully');
+                    swal({
+                        text: "User Deleted Sucessfully",
+                        type: "success"
+                    }).then(okay => {
+                        if (okay) {
+                            location.reload();
+                        }
+                    });
                 },
                 error: function (xhr, status, error) {
                     swal('Delete user error');
@@ -478,5 +486,26 @@
         });
     });
 
+</script>
+<script>
+    $(document).ready(function () {
+        function Resetform() {
+            $('#inputEmpID').val('');
+            $('#inputEmail').val('');
+            $('#inputName').val('');
+            $('#inputUserType').prop('selectedIndex', 0);
+            $('#inputDomain').prop('selectedIndex', 0);
+            var dropdown = $('#inputDepartment');
+            dropdown.empty();
+            dropdown.append($('<option>', {
+                value: 'all',
+                text: 'All'
+            }));
+        }
+
+        $('#btnreset').click(function () {
+            Resetform();
+        });
+    });
 </script>
 
