@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Kaizen.Models.ViewUserModel
+@{
     Layout = "SidebarLayout";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,16 +10,34 @@
         font-size: 25px !important;
     }
 
+    input[type="date"] {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: #fff;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+        input[type="date"]:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
     .no-margin {
         margin-right: 0;
         margin-left: 0;
     }
+
     .viewuserCardBody {
         border: 1px solid #ebeef6;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
         background-color: white;
         padding: 10px;
     }
+
     .table tbody tr td {
         vertical-align: middle;
         border-color: #d7dae3;
@@ -55,6 +74,159 @@
                 </div>
             </div>
         </div>
+        <div class="card p-3 mt-2 mb-2 cardsize">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="datePicker">Start Date</label><br />
+                    <input type="date" id="datePicker" name="datePicker">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="datePicker">End Date</label><br />
+                    <input type="date" id="datePicker" name="datePicker">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputDomain">Domain</label>
+                    <select id="inputDomain" class="form-control txt-width">
+                        <option selected>All</option>
+                        @if (Model.DomainList != null)
+                        {
+                            @foreach (var domain in Model.DomainList)
+                            {
+                                <option value="@domain.Id">@domain.DomainName</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="inputDepartment">Department</label>
+                    <select id="inputDepartment" class="form-control txt-width">
+                        <option selected>All</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputTheme">Kaizen Theme</label>
+                    <input id="inputTheme" class="form-control txt-width" style="background-color:lightgray">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputStatus">Status</label>
+                    <select id="inputStatus" class="form-control txt-width">
+                        <option selected>All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="inputShortlist">Shortlisted</label>
+                    <select id="inputShortlist" class="form-control txt-width">
+                        <option selected>All</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-8">
+                    <input type="button" id="btn_filter" class="btn btn-block-custom btn-azure" style="width:116px;margin-left:4px;margin-top:21px;" value="Filter" />
+                    <button type="button" id="btnreset" class="btn btn-block-custom btn-warning" style="width:116px;margin-left:4px;margin-top:21px;">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="custom-line mb-3"></div>
+        <div class="card viewuserCardBody p-3" id="grid">
+            <div class="row">
+                <div class="col-md-8">
+                    <p style="font-weight:bolder">
+                        Kaizen List
+                    </p>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="KalizenTable" class="table table-striped" style="width:100%;table-layout:fixed">
+                    <thead>
+                        <tr style="text-align:center">
+                            <th id="KaizenTheme">Kaizen Theme</th>
+                            <th id="TeamMembers">Team Members</th>
+                            <th id="PLANTNAME">Plant Name</th>
+                            <th id="HORIZENTALDEP">Horizontal Dep</th>
+                            <th id="IEAPPROVAL">IE Dept Approval</th>
+                            <th id="FINNANCEAPPROVAL">Finance Dept Approval</th>
+                            <th id="SHORTLISTED">Shortlisted</th>
+                            <th id="STATUS">Status </th>
+                            <th id="POSTEDBY">Posted by</th>
+                            <th id="POSTEDON">Posted on</th>
+                            <th id="Action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </form>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#KalizenTable').DataTable();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#inputDomain').change(function () {
+            var Domain = $('#inputDomain').val();
+            var dropdown = $('#inputDepartment');
+            if (Domain.toLowerCase() === 'all') {
+                dropdown.empty();
+                dropdown.append($('<option>', {
+                    value: 'all',
+                    text: 'All'
+                }));
+                return;
+            }
+            $.ajax({
+                type: 'GET',
+                url: '/ViewUser/FetchDepartment',
+                dataType: "json",
+                data: { domainid: Domain },
+                success: function (result) {
+                    if (result) {
+                        dropdown.empty();
+                        dropdown.append($('<option>', {
+                            value: 'all',
+                            text: 'All'
+                        }));
+                        for (var i = 0; i < result.length; i++) {
+                            $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
+                        }
+                    }
+                    else {
+                        swal('Please Select Domain');
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+            $.ajax({
+            type: 'GET',
+            url: '/SubmittedKaizen/ApprovalStatusList',
+                dataType: "json",
+                success: function (result) {
+                    if (result) {
+                        for (var i = 0; i < result.length; i++) {
+                        $('#inputStatus').append('<option value="' + result[i].statusId + '">' + result[i].statusDescription + '</option>');
+                        }
+                    }
+                    else {
+                        swal('Please Select Domain');
+                    }
+                },
+                error: function (error) {
+                }
+            });
+    });
+</script>
 
