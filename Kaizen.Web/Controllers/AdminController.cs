@@ -350,6 +350,9 @@ namespace Kaizen.Web.Controllers
         {
             editmodel.Domains = _domainWorker.GetDomain();
             editmodel.Departments = _departmentWorker.GetDepartments();
+            editmodel.Cadre = _editUserWorker.GetCadre();
+            editmodel.StatusName = _editUserWorker.GetStatus();
+            //editmodel.UserType = _editUserWo
             return View(editmodel);
         }
 
