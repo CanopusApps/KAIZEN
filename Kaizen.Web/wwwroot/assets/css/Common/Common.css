@@ -3,6 +3,18 @@
     color:red;
     font-size:10px;
 }
+.text-Azure {
+    color: #2dc3e8;
+    font-size: 25px !important;
+    font-weight: 400 !important;
+}
+.btn-warning {
+    color: #fff !important;
+}
+
+    .btn-warning:hover {
+        color: #fff !important;
+    }
 .mandatory {
     color: red;
 }
