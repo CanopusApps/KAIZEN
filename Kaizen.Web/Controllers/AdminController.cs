@@ -122,11 +122,10 @@ namespace Kaizen.Web.Controllers
             }
             return Ok(blocks);
         }
+        [HttpPost]
         public IActionResult DeleteBlock(int id)
         {
-            
             bool deleteStatus = false;
-
            try
 
             {
@@ -141,7 +140,7 @@ namespace Kaizen.Web.Controllers
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
 
             }
-            return RedirectToAction("AddBlock");
+            return Ok(blocks);
         }
         public IActionResult UpdateBlockStatus(int id, bool status)
         {
@@ -195,7 +194,7 @@ namespace Kaizen.Web.Controllers
             }
             return Ok(domains);
         }
-        
+        [HttpPost]
         public IActionResult DeleteDomain(int id)
         {
             bool deleteStatus = false;
@@ -212,7 +211,7 @@ namespace Kaizen.Web.Controllers
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
 
-            return View("AddDomain", domains);
+            return Ok(domains);
         }
 
         public IActionResult UpdateDomainStatus(int id, bool status)
@@ -303,6 +302,8 @@ namespace Kaizen.Web.Controllers
             list = _departmentWorker.GetDomain(model);
             return list;
         }
+
+        [HttpPost]
         public IActionResult DeleteDepartment(int id)
         {
             bool deleteStatus = false;
@@ -318,7 +319,7 @@ namespace Kaizen.Web.Controllers
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            return RedirectToAction("AddDepartment");
+            return Ok(departments);
         }
         public IActionResult UpdateDepartmentStatus(int id, bool status)
         {
