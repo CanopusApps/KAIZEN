@@ -73,10 +73,9 @@ namespace Kaizen.Web.Controllers
             conAccessor.HttpContext.Session.GetString("Message");
             if (HttpContext.Session.IsAvailable)
             {
-
                 HttpContext.Session.Clear();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Login", new { area = "" });
         }
     }
 }
