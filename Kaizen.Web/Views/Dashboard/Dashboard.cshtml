@@ -2,6 +2,28 @@
 @{
     Layout = "SidebarLayout";
 }
+    <style>
+        .card-container {
+            margin-bottom: 20px;
+        }
+        .card {
+            padding: 15px;
+            
+        }
+        .card-header {
+            font-weight: bold;
+        }
+        .card-item {
+          background-color: rgb(135, 206, 235); /* Sky blue color */
+           color:#fff;
+            border: 1px dashed #007bff ;
+            text-align: center;
+            border-radius: 10px;
+            margin-left: 2px;
+            margin-bottom: 10px;
+              cursor: pointer;
+        }
+    </style>
 <link href="~/assets/css/custom/dashboard.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="container my-5">
@@ -26,6 +48,186 @@
 	    @* tab-1 *@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="container" id="main-container">
+    <!-- First Row of Cards -->
+    <div class="card-container">
+        <div class="card mt-2">
+            <div class="card-header">Total Kaizens Submitted / Total Employees in Domain</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Tool room</div>
+                        <div>0 / 77</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Quality</div>
+                        <div>85 / 1171</div>
+                        <div>7.26%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Projects</div>
+                        <div>0 / 39</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Production</div>
+                        <div>5 / 2562</div>
+                        <div>0.20%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Planning</div>
+                        <div>0 / 107</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>IT</div>
+                        <div>0 / 51</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>HR</div>
+                        <div>5 / 74</div>
+                        <div>6.76%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Finance and Legal</div>
+                        <div>0 / 22</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Engineering</div>
+                        <div>2 / 1</div>
+                        <div>200.00%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container" id="new-container" style="display: none;">
+		
+		<!-- First Row of Cards (copy) -->
+		<div class="card-container">
+			<div class="card mt-2">
+				<div class="card-header">Total Kaizens Submitted / Total Employees in Domain</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-4 col-lg-3 col-xl-2 card-item">
+							<div>Tool room</div>
+							<div>0 / 77</div>
+							<div>0.00%</div>
+						</div>
+						<div class="col-md-4 col-lg-3 col-xl-2 card-item">
+							<div>Quality</div>
+							<div>85 / 1171</div>
+							<div>7.26%</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    <!-- Second Row of Cards -->
+    <div class="card-container">
+        <div class="card">
+            <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Domain</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Tool room</div>
+                        <div>0 / 77</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Quality</div>
+                        <div>6 / 1171</div>
+                        <div>0.51%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Projects</div>
+                        <div>0 / 39</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Production</div>
+                        <div>3 / 2562</div>
+                        <div>0.12%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Planning</div>
+                        <div>0 / 107</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>IT</div>
+                        <div>0 / 51</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>HR</div>
+                        <div>1 / 74</div>
+                        <div>1.35%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Finance and Legal</div>
+                        <div>0 / 22</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Engineering</div>
+                        <div>2 / 1</div>
+                        <div>200.00%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Second Row of Cards (copy) -->
+    <div class="card-container">
+        <div class="card">
+            <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Domain</div>
+            <div class="card-body">
+                <div class="row">
+                   
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Projects</div>
+                        <div>0 / 39</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Production</div>
+                        <div>3 / 2562</div>
+                        <div>0.12%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Planning</div>
+                        <div>0 / 107</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>IT</div>
+                        <div>0 / 51</div>
+                        <div>0.00%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>HR</div>
+                        <div>1 / 74</div>
+                        <div>1.35%</div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>Finance and Legal</div>
+                        <div>0 / 22</div>
+                        <div>0.00%</div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
             </div>
 			@* ----------------------------------------------------Tab1------------------------------------- *@
@@ -681,4 +883,17 @@
                 }
             });
        });
+</script>
+<script>
+  document.querySelectorAll('.card-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const newContainer = document.getElementById('new-container');
+        if (newContainer.style.display === 'block') {
+            newContainer.style.display = 'none';
+        } else {
+            newContainer.style.display = 'block';
+        }
+    });
+});
+
 </script>
