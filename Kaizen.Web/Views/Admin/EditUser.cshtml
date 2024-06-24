@@ -3,8 +3,35 @@
 	Layout = "SidebarLayout";
 }
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<div class="container p-4 border bg-white">
-	<h4 class="text-center">Edit User</h4>
+<style>
+	#dHeader {
+		font-size: 16px !important;
+		margin-top: -10px;
+		margin-left: 7px;
+	}
+
+	#blkh {
+		color: black;
+		font-weight: 500;
+		font-size: 13px;
+		margin-left: -17px;
+	}
+</style>
+<div class="card bg-light">
+
+	<div class="card rounded bg-white p-2  mt-2 ml-2 mr-2 mb-2">
+		<div class="col-lg-12 p-md-0 p-2">
+			<div class="welcome-text">
+				<label class="" id="dHeader">Masters --> Users</label>
+			</div>
+		</div>
+	</div>
+
+	<div class="card p-3 border rounded ml-2 mr-2 mb-2 bg-white ">
+
+		<div class="col-md-10">
+			<div><label class="card-title" id="blkh">Edit User</label></div>
+		</div>
 	<div class="custom-line mb-3"></div>
 	@using (Html.BeginForm(FormMethod.Post, new { id = "editUserForm" }))
 	{
@@ -121,7 +148,14 @@
 		</span>
 	}
 
+	</div>
 </div>
+@if (TempData["msg"] != null)
+{
+	<script>
+		swal('@TempData["msg"]')
+	</script>
+}
 
 @* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
