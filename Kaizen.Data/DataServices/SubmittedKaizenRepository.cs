@@ -52,5 +52,26 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+        public DataSet GetKaizenList()
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            try
+            {
+                com = new SqlCommand();
+
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.sp_getUsers;
+
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
     }
 }

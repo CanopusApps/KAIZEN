@@ -12,5 +12,6 @@ namespace Kaizen.Business.Interface
     public interface ISubmittedKaizen
     {
         public List<ApprovalStatusModel> GetApprovalStatus();
+        public List<KaizenListModel> GetKaizenList();
     }
 }

@@ -77,10 +77,12 @@
         <div class="custom-line mb-3"></div>
         <div class="card viewuserCardBody p-3" id="grid">
             <div class="row">
-                <div class="col-md-8">
-                    <p style="font-weight:bold">
-                        Total Employees - @userCount
-                    </p>
+                <div class="col-md-8" style="font-weight:bold">
+                    <div>
+                        <p style="font-weight:bold;font-size: 16px">
+                            User List - <span id="blkuserlist" style="font-size: 16px">@userCount</span>
+                        </p>
+                    </div>
                 </div>
                 <div class="col-md-4" style="padding-left: 130px;">
                     <button type="button" class="btn btn-block-custom btn-warning no-margin" style="width:100px;" data-toggle="modal" data-target="#importExcelModel">Import Kaizen</button>
@@ -149,7 +151,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12"><hr></div>
             <div class="table-responsive">
                 <table id="Usertable" class="table table-striped" style="width:100%;table-layout:fixed">
                     <thead>
@@ -200,9 +201,6 @@
                                     <td class="text-center">
                                         <a id="edituser" class="btn btn-primary btn-sm edituser" data-empid="@User.EmpID">
                                             <i class="edit fas fa-solid fa-pencil"></i>
-                                        </a>
-                                        <a id="deleteuser" class="btn btn-danger btn-sm deleteuser" data-empid="@User.EmpID" data-status="@User.Status">
-                                            <i class="fa-solid fa-trash-can"></i>
                                         </a>
                                     </td>
                                     <td hidden>@User.PhoneNo</td>
@@ -278,11 +276,16 @@
                     Name: Name, EmpId: EmpId, Email: Email, UserType: UserType, Domain: Domain, Department: Department
                 },
                 success: function (response) {
-                    var tbody = $('#Usertable tbody');
-                    tbody.empty();
+                    var dataTable = $('#Usertable').DataTable();
+                    dataTable.clear().draw(); // Clear existing DataTable content
+
 
                     if (response && response.length > 0) {
                         for (var i = 0; i < response.length; i++) {
+                            var blktotalElement = document.getElementById('blkuserlist');
+                            if (blktotalElement) {
+                                blktotalElement.textContent = response.length;
+                            }
                             var user = response[i];
 
                             var statusHtml = user.status == 0
@@ -304,8 +307,6 @@
                                 '<a class="btn btn-primary btn-sm edituser">' +
                                 '<i class="edit fas fa-solid fa-pencil"></i>' +
                                 '</a> ' +
-                                '<a id="deleteuser" class="btn btn-danger btn-sm deleteuser" data-empid="' + user.empID + '">' +
-                                '<i class="fa-solid fa-trash-can"></i>' +
                                 '</a>' +
                                 '</td>' +
                                 '<td hidden>' + user.phoneNo + '</td>' +
@@ -313,14 +314,17 @@
                                 '<td hidden>' + user.cadre + '</td>' +
                                 '</tr>';
 
-                            tbody.append(row);
+                            dataTable.row.add($(row)).draw();
                         }
                     }
 
                     else {
-                        var row = '<tr><td colspan="6">No users found</td></tr>';
-                        tbody.append(row);
+                        dataTable.clear().draw();
+                        $('#Usertable tbody').html('<tr><td colspan="10">No users found</td></tr>');
+
                     }
+                    // Reset pagination to first page
+                    dataTable.page('first').draw('page');
                 },
                 error: function (xhr, status, error) {
                     console.error('Error fetching users:', error);
@@ -328,59 +332,6 @@
             });
         });
     });
-</script>
-<script>
-    $(document).ready(function () {
-        $('tbody').on('click', '.deleteuser', function (e) {
-            e.preventDefault();
-            var empid = $(this).data('empid'); // Get the empid from data-empid attribute
-            var status = $(this).data('status');
-            if (status=="1")
-            {
-                swal({
-                    text: "Are you sure you want to Delete ?",
-                    buttons: {
-                        cancel: "No",
-                        confirm: "Yes",
-                    },
-                }).then((userConfirmation) => {
-                    if (userConfirmation) {
-                        $.ajax({
-                            url: '/ViewUser/DeleteUser',
-                            method: 'POST',
-                            data: { id: empid },
-                            success: function (response) {
-                                swal({
-                                    text: "User Deleted Successfully",
-                                    icon: "success"
-                                }).then(okay => {
-                                    if (okay) {
-                                        location.reload();
-                                    }
-                                });
-                            },
-                            error: function (xhr, status, error) {
-                                swal('Delete user error');
-                            }
-                        });
-                    }
-                });
-            }
-            else
-            {
-                swal({
-                    text: "Its Areadly Deleted",
-                    icon: "success"
-                }).then(okay => {
-                    if (okay) {
-                        location.reload();
-                    }
-                });
-            }
-            
-        });
-    });
-
 </script>
 <script>
     function DownloadTemplate() {
@@ -494,6 +445,7 @@
 
         $('#btnreset').click(function () {
             Resetform();
+            location.reload();
         });
     });
 </script>

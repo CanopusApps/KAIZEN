@@ -30,8 +30,16 @@ namespace Kaizen.Web.Controllers
 
         public IActionResult ViewKaizen()
         {
-            ViewUserallModel viewModel = new ViewUserallModel();
-            viewModel.DomainList = _domainWorker.GetDomain();
+            SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
+            try
+            {
+                viewModel.DomainList = _domainWorker.GetDomain();
+                viewModel.SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList();
+            }
+            catch (Exception ex)
+            {
+                //LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
+            }
             return View(viewModel);
         }
         public List<DepartmentModel> FetchDepartment(string domainid)

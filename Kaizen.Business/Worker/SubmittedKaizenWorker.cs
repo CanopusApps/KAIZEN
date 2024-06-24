@@ -40,5 +40,23 @@ namespace Kaizen.Business.Worker
             }
             return ApprovalStatus;
         }
+        public List<KaizenListModel> GetKaizenList()
+        {
+            DataSet userType = new DataSet();
+            List<KaizenListModel> KaizenGridData = new List<KaizenListModel>();
+            userType = _repositorySubmittedKaizenData.GetKaizenList();
+
+            if (userType.Tables.Count > 0)
+            {
+                foreach (DataRow dr in userType.Tables[0].Rows)
+                {
+                    KaizenGridData.Add(new KaizenListModel
+                    { 
+                        //will map column details once will have column details .
+                    });
+                }
+            }
+            return KaizenGridData;
+        }
     }
 }
