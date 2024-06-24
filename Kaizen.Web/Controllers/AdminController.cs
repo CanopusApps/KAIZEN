@@ -390,7 +390,6 @@ namespace Kaizen.Web.Controllers
 			return RedirectToAction("ViewUser", "ViewUser");
 		}
 
-	}
         public IActionResult TeamTable()
         {
             return View();
