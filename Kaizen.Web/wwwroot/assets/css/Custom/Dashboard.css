@@ -1,0 +1,61 @@
+﻿
+
+#chart-container {
+    width: 75%;
+}
+
+.custom-table {
+    border-spacing: 10px; /* Space between cells */
+}
+
+    .custom-table th {
+        background-color: #2dc3e8;
+        color: white;
+        padding: 15px;
+    }
+
+
+
+.bg-azure {
+    background-color: #2dc3e8 !important;
+    color: white !important;
+}
+
+.custom-table td {
+    background-color: #e9f7fe;
+    padding: 15px;
+}
+
+.custom-table th, .custom-table td {
+    text-align: center;
+}
+
+.table-cus th, .table-cus {
+    text-align: center;
+}
+
+    .table-cus th {
+        background-color: #a09f9fec;
+        color: white
+    }
+
+.submitted-td {
+    background-color: #e9f7fe !important;
+}
+
+.image-sanitization {
+    background-color: #f8f9fa !important;
+}
+
+.pending-td {
+    background-color: #fff3cd !important;
+}
+
+.rejected-td {
+    background-color: #f8d7da !important;
+}
+
+.approved-td {
+    background-color: #c8f0d2 !important;
+}
+

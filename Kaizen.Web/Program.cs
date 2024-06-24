@@ -2,6 +2,7 @@ using Kaizen.Business.Interface;
 using Kaizen.Business.Worker;
 using Kaizen.Data.DataContent;
 using Kaizen.Data.DataServices;
+using Kaizen.Data.DataServices.Interfaces;
 
 
 
@@ -25,6 +26,10 @@ builder.Services.AddScoped<IDepartment, DepartmentWorker>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<ILogin, LoginWorker>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+builder.Services.AddScoped<IEditUser, EditUserWorker>();
+builder.Services.AddScoped<IEditUserRepository, EditUserRepository>();
+builder.Services.AddScoped<ISubmittedKaizen, SubmittedKaizenWorker>();
+builder.Services.AddScoped<ISubmittedKaizenRepository, SubmittedKaizenRepository>();
 
 var app = builder.Build();
 

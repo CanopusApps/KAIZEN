@@ -3,6 +3,18 @@
     color:red;
     font-size:10px;
 }
+.text-Azure {
+    color: #2dc3e8;
+    font-size: 25px !important;
+    font-weight: 400 !important;
+}
+.btn-warning {
+    color: #fff !important;
+}
+
+    .btn-warning:hover {
+        color: #fff !important;
+    }
 .mandatory {
     color: red;
 }
@@ -45,8 +57,8 @@ h4
     background-color: #2dc3e8;
 }
 .logo {
-    margin-top: 0px;
-    width: 85px;
+    margin-top: 1px;
+    width: 45px;
 }
 
 #page-content-wrapper {
@@ -62,14 +74,14 @@ h4
     color: black;
     border: none;
     cursor: pointer;
-    padding: 10px 30px;
+/*    padding: 10px 30px;*/
 }
 
 .LogoutIcon {
     color: #2dc3e8;
     font-size: 40px;
     position: fixed;
-    bottom: 0px;
+    bottom: 58px;
 }
 
 .footer {

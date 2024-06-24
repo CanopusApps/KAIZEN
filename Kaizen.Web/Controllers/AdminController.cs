@@ -20,13 +20,16 @@ namespace Kaizen.Web.Controllers
         List<DomainModel> list = new List<DomainModel>();
         DomainModel model = new DomainModel();
 
-        public AdminController(IBlock worker, IDomain domainWorker, IDepartment departmentWorker, IAddUser addUserWorker)
+        EditUserModel editmodel = new EditUserModel();
+        private readonly IEditUser _editUserWorker;
+
+        public AdminController(IBlock worker, IDomain domainWorker, IDepartment departmentWorker, IAddUser addUserWorker,IEditUser editUserWorker)
         {
             _blockWorker = worker;
             _domainWorker = domainWorker;
             _departmentWorker = departmentWorker;
             _addUserWorker = addUserWorker;
-
+            _editUserWorker = editUserWorker;
         }
         public IActionResult Index()
         {
@@ -119,11 +122,10 @@ namespace Kaizen.Web.Controllers
             }
             return Ok(blocks);
         }
+        [HttpPost]
         public IActionResult DeleteBlock(int id)
         {
-            
             bool deleteStatus = false;
-
            try
 
             {
@@ -138,7 +140,7 @@ namespace Kaizen.Web.Controllers
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
 
             }
-            return RedirectToAction("AddBlock");
+            return Ok(blocks);
         }
         public IActionResult UpdateBlockStatus(int id, bool status)
         {
@@ -192,7 +194,7 @@ namespace Kaizen.Web.Controllers
             }
             return Ok(domains);
         }
-        
+        [HttpPost]
         public IActionResult DeleteDomain(int id)
         {
             bool deleteStatus = false;
@@ -209,7 +211,7 @@ namespace Kaizen.Web.Controllers
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
 
-            return View("AddDomain", domains);
+            return Ok(domains);
         }
 
         public IActionResult UpdateDomainStatus(int id, bool status)
@@ -300,6 +302,8 @@ namespace Kaizen.Web.Controllers
             list = _departmentWorker.GetDomain(model);
             return list;
         }
+
+        [HttpPost]
         public IActionResult DeleteDepartment(int id)
         {
             bool deleteStatus = false;
@@ -315,7 +319,7 @@ namespace Kaizen.Web.Controllers
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            return RedirectToAction("AddDepartment");
+            return Ok(departments);
         }
         public IActionResult UpdateDepartmentStatus(int id, bool status)
         {
@@ -343,6 +347,50 @@ namespace Kaizen.Web.Controllers
 
         //End Department
 
+        public IActionResult EditUser()
+        {
+            editmodel.Domains = _domainWorker.GetDomain();
+            editmodel.Cadre = _addUserWorker.GetCadre();
+            editmodel.UserType = _addUserWorker.GetUserType();
+
+            //editmodel.Departments = _departmentWorker.GetDepartments();
+            return View(editmodel);
+        }
+		[HttpPost]
+		public IActionResult EditUser(EditUserModel editUserModel)
+		{
+			string msg="";
+			ModelState.Remove(nameof(editUserModel.UserType));
+			ModelState.Remove(nameof(editUserModel.Cadre));
+			ModelState.Remove(nameof(editUserModel.Domains));
+			ModelState.Remove(nameof(editUserModel.Departments));
+			if (ModelState.IsValid)
+			{
+                msg = _editUserWorker.EditUser(editUserModel);
+                if (msg == "ok")
+				{
+					TempData["msg"] = "Data saved Sucessfully ";
+				}
+				else if (msg == "Employee doesnot exist.")
+				{
+					TempData["msg"] = msg;
+				}
+				else
+				{
+					TempData["msg"] = "some error occured";
+				}
+
+			}
+			else
+			{
+
+				TempData["msg"] = "some data Feids missing";
+			}
+
+			return RedirectToAction("ViewUser", "ViewUser");
+		}
+
+	}
         public IActionResult TeamTable()
         {
             return View();

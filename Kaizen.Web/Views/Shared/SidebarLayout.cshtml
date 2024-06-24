@@ -1,9 +1,7 @@
 ﻿@inject IHttpContextAccessor Accessor
 
 @{
-
-    var title = "Responsive Sidebar";
-   
+    var title = "TEPL Kaizen Idea";
 }
 
 <!DOCTYPE html>
@@ -12,159 +10,147 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@title</title>
+    <link rel="shortcut icon" href="~/assets/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="~/assets/css/common/common.css" rel="stylesheet" />
     <script src="~/assets/js/custom/jquery.min.js"></script>
     <script src="~/assets/js/custom/sweetalert.min.js"></script>
-   
 </head>
 <style>
-    #wc{
-      font-size:18px;
-      color:white;
+
+    #wc {
+        font-size: 15px;
+        color: white;
+        cursor:pointer!important;
     }
+
+    hr {
+        display: block;
+     /*    height: 1px; */
+        border: 0;
+        border-top: 1px solid #ccc;
+        margin: 0em 0;
+        padding: 0;
+        margin-left:12px;
+        margin-right:20px;
+    }
+    .menupadding
+    {
+        padding-top:8px;
+        padding-bottom:8px;
+    }
+
+
 </style>
-<body class="bg-light">
-    <div id="wrapper" class="d-flex">
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <div class="text-center text-uppercase border-bottom text-light" style="background-color:#2dc3e8!important">
-                <img class="logo " src="~/assets/img/logo-white.png" alt="Tata Logo" />
-                <h4>Tepl Kaizen Idea</h4>
-              </div>
-                
-            
-            <div class="list-group list-group-flush my-3">
-                <a href="#" class="list-group-item list-group-item-action  fw-bold  text-light">Dashboard</a>
-                <div class="collapse" id="basicUIElementsSubmenu">
-                    <a href="#" class="list-group-item list-group-item-action  fw-bold">Element 1</a>
-                    <a href="#" class="list-group-item list-group-item-action  fw-bold">Element 2</a>
+@* <body class="bg-light" style="background-color:#e9ecef"> *@
+<body style="background-color:#e9ecef"> 
+    <div id="wrapper" class="d-flex flex-column">
+        <!-- Navbar -->
+        <nav class="navbar navbar-light " id="container-header">
+                <div class="text-center text-uppercase border-bottom text-light pl-5" style="background-color:#2dc3e8!important">
+                    <img class="logo" src="~/assets/img/Tata_Logo2 (1).svg" alt="Tata Logo" />
+                    <h4>Tepl Kaizen Idea</h4>
                 </div>
-
-                <!-- drop down   -->
-                <div class="list-group-item list-group-item-action" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
-                <div class="sub-menu collapse" id="demo">
-                    <a class="list-group-item text-light  ml-3" href="/Admin/AddBlock">Block</a>
-                    <a class="list-group-item text-light  ml-3" href="/Admin/AddDomain">Domain</a>
-                    <a class="list-group-item text-light  ml-3" href="/Admin/AddDepartment">Department</a>
-                    <a class="list-group-item  text-light ml-3" href="/Admin/AddUser">User</a>
-                    <a class="list-group-item  text-light ml-3" href="/ViewUser/ViewUser">View User</a>
-
-                </div>
-                
-
-                <a href="#" class="list-group-item list-group-item-action text-light fw-bold">Form Elements</a>
-                <a href="#" class="list-group-item list-group-item-action text-light  fw-bold">Tables</a>
-                <a href="#" class="list-group-item list-group-item-action text-light fw-bold">Charts</a>
-                <a href="#" class="list-group-item list-group-item-action text-light  fw-bold">Icons</a>
-                <a class="LogoutIcon list-group-item" href="/Login/Logout"><i class="fa-solid fa-right-from-bracket icon1 padding-left-20 margin-left-20"></i></a>
-            </div>
+                <ul class="navbar-nav header-right pr-4">
+                    <li class="nav-item">
+                        <div class="header-info">
+                            <div class="d-flex align-items-center">
+                                <img src="~/assets/img/Profile.png" width="30px" class="mr-2" />
+                             <div id="wc">Hi, @Accessor.HttpContext.Session.GetString("Message")</div>                                                 
+                            </div>
+                        </div>
+                    </li>
+                </ul>          
+        </nav>
+        <div>
+        <button class="btn menu-toggle m-3" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
         </div>
-        <!-- /#sidebar-wrapper -->
+        <!-- /Navbar -->
+        <div class="d-flex flex-row">
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+               
+                <div class="list-group list-group-flush my-3">
+                    <hr />
+                    <a href="/Dashboard/Dashboard" class="list-group-item list-group-item-action fw-bold text-light menupadding">Dashboard</a>
+                    <hr />
 
-        <!-- Page Content -->
-       <!-- Header-->
-        <div id="page-content-wrapper">
-            @*
-            <nav class="navbar navbar-light ">
-                <a class="navbar-brand" href="#">
-                    <div class="header-left">
-                        <img src="~/assets/img/favicon.png" width="40px" />
-                      
-                        <button class="btn  menu-toggle" id="menu-toggle">
-                             
-                            <i class="fas fa-bars"></i>
-                            
-                        </button>
-                        
-                      
+                    <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding">NewKaizen</a>
+                    <hr />
+
+                    <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding">Submitted Kaizen</a>
+                    <hr />
+
+                    <div class="collapse" id="basicUIElementsSubmenu">
+                        <a href="#" class="list-group-item list-group-item-action fw-bold">Element 1</a>
+                        <a href="#" class="list-group-item list-group-item-action fw-bold">Element 2</a>
                     </div>
-                    <div class="d-flex align-items-center ">
-                        <ul class="navbar-nav header-right">
-                            <li class="nav-item ">
-                                <div class="header-info">
-                                    <span><i class="fa-regular fa-user"></i></span>
-                                    <span class="text-secondary ">Hi, <strong>Admin  </strong></span>   
-                                </div>
-                                </a>
-                                
-                            </li>
-                        </ul>
-                        
+                    <!-- Drop down -->
+                    <div class="list-group-item list-group-item-action menupadding" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
+                    <div class="sub-menu collapse menupadding" id="demo" style="margin-top:-15px;">
+                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">Block</a>  <hr />
+                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDomain">Domain</a>  <hr />
+                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDepartment">Department</a>  <hr />
+                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddUser">User</a>  <hr />
+                        <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewUser">View User</a>  <hr />
                     </div>
-                </a>
-            </nav>  
-            *@
-            <nav class="navbar navbar-light bg-light">
-                <div class="container" id="container-header">
-                    <button class="btn  menu-toggle " id="menu-toggle">
-                       
-                        <i class="fas fa-bars"></i>
+                    <hr />
+                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold menupadding">Form Elements</a>
+                    <hr />
+                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold menupadding">Tables</a>
+                    <hr />
 
-                    </button>
-                    <img src="~/assets/img/favicon.png" width="50px"  class="float-start"/>
-                   
-                    
-                   @*  <div class="d-flex align-items-center "> *@
-                        <ul class="navbar-nav header-right >
-                            <li class="nav-item ">
-                                <div class="header-info">
+                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold menupadding">Charts</a>
+                    <hr />
 
-                                   <div class="text-align-right">
-                                    <h3>
-                                        <label id="wc">
-                                            Hi  @Accessor.HttpContext.Session.GetString("Message")
-                                        </label>
-                                    </h3>
-                                    </div>
-                                </div>
-                                </a>
-                            </li>
-                        </ul>
+                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold menupadding">Icons</a>
+                    <hr />
 
-                    @* </div> *@
+                    <a class="LogoutIcon list-group-item menupadding" onclick="LogoutOption();" href="#"><i class="fa-solid fa-right-from-bracket icon1 padding-left-20 margin-left-20"></i></a>
                 </div>
-            </nav>
-            <!-- Header-->
-     
-       @*  <button class="btn  menu-toggle " id="menu-toggle">
-             <div>
-                <img src="~/assets/img/favicon.png" width="40px" />
-             </div>
-
-            <i class="fas fa-bars"></i> 
-
-        </button> *@
-           
-                
-         
-                
-       
-
-      
-            <!-- Your content goes here -->
-            @RenderBody()
-        <!-- Footer-->
-            <div class="footer">
+            </div>
+            <!-- /Sidebar -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper" class="flex-grow-1">
+                @RenderBody()
+                <!-- Footer-->
+               @*  <div class="footer">
                     <p>Copyright © TEPL-KAIZEN-IDEA 2024</p>
-            </div>
-           
-           
+                </div> 
+            </div> *@
         </div>
-
-   </div>
-        
     </div>
-    <!-- /#wrapper -->
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+    <!-- /#wrapper -->
+        <div class="footer bg-white  text-center">
+            <div class="container py-3 ">
+                <p class="mb-0 ">Copyright © TEPL-KAIZEN-IDEA 2024</p>
+            </div>
+        </div>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script>
-        $("#menu-toggle").click(function(e) {
+        $("#menu-toggle").click(function (e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
+        function LogoutOption() 
+        {
+                swal({
+                    text: "Are you sure you want to Logout ?",
+                    buttons: {
+                        confirm: "Yes",
+                        cancel: "No",
+                    },
+                }).then((userConfirmation) => {
+                    if (userConfirmation) {
+                        window.location = "/Login/Logout";
+                    }
+                });
+        }
     </script>
 </body>
 </html>

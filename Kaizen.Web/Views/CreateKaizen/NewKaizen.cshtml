@@ -1,0 +1,675 @@
+﻿@{
+    Layout = "SidebarLayout";
+}
+
+<link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
+
+<body>
+    
+
+    <div class="content-body" >
+
+        <div class="container-fluid mt-5">
+
+            <!-- Page Title -->
+
+            <div class="row page-titles mx-0 mt-5">
+
+                <div class="col-sm-12 p-md-0">
+
+                    <div class="welcome-text">
+
+                        <h4>Post Idea<button class="btn btn-primary float-right" type="button">Sample Kaizen Form</button></h4>
+                        <p class="responsemessage"></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- END Page Title -->
+            <!-- Accordion Section -->
+
+            <div class="accordion-bral">
+
+                <!-- Accordion Item 1 -->
+
+                <input class="ac-input" id="ac-1" name="accordion-1" type="checkbox" checked />
+
+                <label class="ac-label" for="ac-1"> Block-1 <i></i></label>
+
+                <div class="article ac-content">
+
+                    <div class="card-body">
+                        <h3 class="card-title">Post My Idea</h3>
+                        <hr>
+                        <div class="basic-form">
+                            <div class="col-lg-12">
+
+                                <div class="row">
+                                    <!-- 1th box -->
+                                    <div class="col-lg-3">
+                                        <div class="carddashed">
+
+                                            <div class="card-body">
+
+                                                <div class="right-box-padding">
+
+                                                    <div class="read-content">
+                                                        <div class="row justify-content-center">
+
+                                                        <div class="card-body text-center">
+
+                                                            <img src="~/assets/img/tatalogo.png" class="kaizenlogo" alt="TEPL KAIZEN IDEA Logo">
+
+                                                            <br><b>TEPL KAIZEN IDEA</b>
+
+                                                        </div>
+
+                                                    </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <!-- 2th box -->
+                                    <div class="col-lg-4">
+                                        <div class="carddashed">
+                                            <div class="card-body">
+
+                                                <div class="right-box-padding">
+                                                    <div class="read-content">
+
+                                                        <div class="card-body">
+
+                                                            <div class="activity-group ">
+                                                                <label>ACTIVITY<span class="mandatory">*</span></label>
+                                                                <label ><input type="checkbox" class="hideradio " value="MURA">MURA</label>
+
+                                                                <label ><input type="checkbox" class="hideradio" value="MURI"> MURI</label>
+
+                                                                <label><input type="checkbox" class="hideradio" value="MUDA"> MUDA</label>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <textarea class="form-control mb10" name="activity_desc" id="activity_desc"></textarea>
+                                                            </div>
+
+
+
+                                                            <div class="form-group">
+                                                                <!-- <label> -->
+                                                                <label class="d-block">Benefit Area <span class="mandatory">*</span></label>
+
+                                                                <label class="tab tabcheckbox">
+                                                                    <input type="checkbox"  value="P" class="tab-input">
+                                                                    <div class="tab-box">P</div>
+                                                                </label>
+
+                                                                <label class="tab tabcheckbox">
+                                                                    <input type="checkbox"  value="Q" class="tab-input">
+                                                                    <div class="tab-box">Q</div>
+                                                                </label>
+
+                                                                <label class="tab tabcheckbox">
+                                                                    <input type="checkbox"  value="D" class="tab-input">
+                                                                    <div class="tab-box">D</div>
+                                                                </label>
+
+                                                                <label class="tab tabcheckbox">
+                                                                    <input type="checkbox"  value="S" class="tab-input">
+                                                                    <div class="tab-box">S</div>
+                                                                </label>
+
+                                                                <label class="tab tabcheckbox">
+                                                                    <input type="checkbox"  value="M" class="tab-input">
+                                                                    <div class="tab-box">M</div>
+                                                                </label>
+
+                                                                <label class="tab tabcheckbox ">
+                                                                    <input type="checkbox" value="E" class="tab-input">
+                                                                    <div class="tab-box">E</div>
+                                                                </label>
+                                                                <!-- </label> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end2nd -->
+                                    <!--3rd-->
+                                    <div class="col-lg-5">
+                                        <div class="carddashed">
+                                            <div class="card-body">
+
+                                                <div class="right-box-padding">
+                                                    <div class="read-content">
+
+                                                        <div class="card-body">
+
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label>Doc No <span class="mandatory">*</span></label>
+                                                                        <input type="text" name="doc_no" class="form-control mb10" value="">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label>Version No/Date<span class="mandatory">*</span></label>
+                                                                        <input type="text" name="version_no" class="form-control mb10" value="">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label>Cost Centre<span class="mandatory">*</span></label>
+                                                                        <input type="text" required="" name="proj_code" id="proj_code" class="form-control mb10 " value="" title="">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label>KAIZEN Ref.No<span class="mandatory">*</span></label>
+                                                                        <input type="text" required="" name="ref_no" id="ref_no" class="form-control " value="" title="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--3rdend-->
+                                </div>
+                                <!-- End Row -->
+                            </div>
+                            @* table2 *@
+                            <div class="col-lg-12">
+                                <div class="carddashed">
+                                    <div class="right-box-padding">
+                                        <div class="read-content">
+
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Block<span class="mandatory">*</span></label> <br>
+                                                            <div class="dropdown bootstrap-select ">
+                                                                <select class="form-control selectized" name="plantname" id="plantname" required="" tabindex="-1">
+                                                                    <option value="" selected="selected">Select</option>
+                                                                    <!-- Add options here -->
+                                                                    <option value="option1">Option 1</option>
+                                                                    <option value="option2">Option 2</option>
+                                                                    <option value="option3">Option 3</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Kaizen Theme <span class="mandatory">*</span></label>
+                                                            <input type="text" name="ktheme" id="ktheme" required="" class="form-control" value="" title="">
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Block/Line/Machine/Others <span class="mandatory">*</span></label>
+                                                            <input type="text" name="tepl_plant" id="tepl_plant" required="" class="form-control" value="">
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label><!--Idea-->Suggested Kaizen ( Logical Correlation with root cause) <span class="mandatory">*</span></label>
+                                                            <input type="text" required="" name="idea" id="idea" class="form-control" value="" title="">
+                                                        </div>
+                                                    </div>
+                                                </div><!--row-->
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            @* endtable2 *@
+                            @* table3 *@
+                            <div class="col-lg-12">
+                                <div class="carddashed">
+                                    <!-- <div class="card-body"> -->
+
+                                    <div class="right-box-padding">
+                                        <div class="read-content">
+
+                                            <div class="card-body">
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Problem Statement<span class="mandatory">*</span></label> <br>
+                                                            <textarea class="textarea50" name="prob_stmt"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Counter measure( Engineering solution)<span class="mandatory">*</span></label> <br>
+                                                            <textarea class="textarea50" name="count_measur"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            @* Endtable3 *@
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- End Accordion Item 1 -->
+                <!-- Accordion item 2 -- start -->
+
+                <div>
+                    
+                    <input class="ac-input" id="ac-2" name="accordion-1" type="checkbox" checked />
+                    <label class="ac-label" for="ac-2">Block-2<i></i></label>
+                    <div class="article ac-content">
+                        <div class="col-lg-12">
+                            <div class="carddashed mt-2">
+                                <div class="card-body">
+                                    <div class="right-box-padding">
+                                        <div class="read-content">
+
+                                            <div class="card-body">
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>BEFORE<span class="mandatory">*</span></label> <br>
+                                                                <div class="inpfilelabel ">
+                                                                    <input id="attach_file" type="file" name="files" style="display: none;">
+                                                                    <label for="attach_file" id="file-drag" class="">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
+                                                                                <div class="attachtitle">Click here to attach files</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </label>
+                                                                </div>
+                                                                <span id="uploaded_image"></span> <br>
+                                                                <span class="responsemessage_img_before"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>AFTER<span class="mandatory">*</span></label> <br>
+                                                                <div class="inpfilelabel ">
+                                                                    <input id="attach_file_after" type="file" name="files_a" style="display: none;">
+                                                                    <label for="attach_file_after" id="file-drag" class="">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
+                                                                                <div class="attachtitle">Click here to attach files</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </label>
+                                                                </div>
+                                                                <span id="uploaded_image_after"></span> <br>
+                                                                <span class="responsemessage_img_after"></span>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- row -->
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        @* //2nd *@
+                        <div class="col-lg-12">
+                            <div class="carddashed mt-2">
+                                <div class="card-body">
+                                    <div class="right-box-padding">
+                                        <div class="read-content">
+
+                                            <div class="card-body">
+
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label>Add Additional Attachments</label> <br>
+                                                                <div class="inpfilelabel addattachfile">
+                                                                    <input id="attach_file" type="file" name="files" style="display: none;">
+                                                                    <label for="attach_file" id="file-drag" class="">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
+                                                                                <div class="attachtitle">Click here to attach more files</div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </label>
+                                                                </div>
+                                                                <span id="uploaded_image"></span> <br>
+                                                                <span class="responsemessage_img_before"></span>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div><!-- row -->
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <!-- accordion item 2 -- end -->
+
+                    </div>
+
+
+                </div>
+
+                <!-- End Accordion Section -->
+                <!--startAccordin-3-->
+                <div>
+                    <input class="ac-input" id="ac-3" name="accordion-1" type="checkbox" checked />
+                    <label class="ac-label" for="ac-3">Block-3<i></i></label>
+                    <div class="article ac-content">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                @* <div class="col-sm-6"> *@
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="carddashed mt-2">
+                                        <div class="card-body">
+                                            <div class="right-box-padding">
+                                                <div class="read-content">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <span class="col-sm-12">SAVINGS </span>
+                                                            <hr style="border-top: 1px solid grey; width: 100%;">
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label>Yield <span class="mandatory">*</span></label>
+                                                                    <input type="text" name="yield1" id="yield1" required class="form-control" value="" title="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label>Cycle Time <span class="mandatory">*</span></label>
+                                                                    <input type="text" name="cycle_time1" id="cycle_time1" required class="form-control" value="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label>Cost <span class="mandatory">*</span></label>
+                                                                    <input type="text" name="cost1" id="cost1" required class="form-control" value="" title="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- 2nd row -->
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label>Man power <span class="mandatory">*</span></label>
+                                                                    <input type="text" name="Man power" id="Manpower" required class="form-control" value="" title="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label>Consumables <span class="mandatory">*</span></label>
+                                                                    <input type="text" name="Consumables" id="Consumables" required class="form-control" value="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label>Others <span class="mandatory">*</span></label>
+                                                                    <input type="text" name="Others" id="Others" required class="form-control" value="" title="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- end 2nd row -->
+                                                        <!-- 3rd row -->
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label>Total Savings <span class="mandatory">*</span></label>
+                                                                    <input type="text" name="TotalSavings" id="TotalSavings" required class="form-control" value="" title="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <div class="form-group">
+                                                                    <label>Approved by (IE) <span class="mandatory">*</span></label>
+                                                                    <input type="text" name="Approvedby(IE)" id="Approvedby(IE)" required class="form-control" value="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- end 3rd row -->
+                                                        <!-- 4th row -->
+                                                        <div class="row">
+                                                            <div class="col-sm-8">
+                                                                <div class="form-group">
+                                                                    <label>Approved by (Accounts)<span class="mandatory">*</span></label>
+                                                                    <input type="text" name="Approvedby(IE)" id="Approvedby(IE)" required class="form-control" value="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- end 4th row -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @* 2ndsection *@
+
+
+                                @* endsection *@
+                            </div>
+                        </div>
+                        @* <col-12Ended> *@
+                        @* step2start *@
+                        <div class="col-lg-12">
+                            <div class="carddashed mt-2">
+                                <div class="card-body">
+                                    <div class="right-box-padding">
+                                        <div class="read-content">
+
+                                            <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Root Cause (Problem Phenomena)<span class="mandatory">*</span></label>
+                                        <br>
+                                        <label>Type:</label>
+                                        <input type="type" name="name" value="" class="form-control" placeholder="select" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Attachment</label>
+                                        <br>
+                                        <div class="inpfilelabel addattachfile">
+                                            <input id="attach_file" type="file" name="files" style="display: none;">
+                                            <label for="attach_file" id="file-drag">
+                                                    <div class="col-sm-12">
+                                                            <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden">
+                                                        <div class="attachtitle">Click here to attach files</div>
+                                                    </div>
+                                                                   
+                                            </label>
+                                        </div>
+                                        <span id="uploaded_image"></span>
+                                        <br>
+                                        <span class="responsemessage_img_before"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Root Cause Explanation</label>
+                                        <br>
+                                        <textarea class="form-control" name="prob_stmt"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Brief explanation of present conditions<span class="mandatory">*</span></label>
+                                        <br>
+                                         <textarea class="textarea331" name="present_conditions"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Brief explanation of Improvements done<span class="mandatory">*</span></label>
+                                        <br>
+                                          <textarea class="textarea331" name="improvements_done"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                            </div>
+                        </div>
+                    @* </div> *@
+               
+                
+
+                @* endpagedivs *@
+            </div>
+        </div>
+                <!--EndAccordin-3-->
+
+                <!--StartAccordin-4-->
+                 <div>
+                    
+                    <input class="ac-input" id="ac-4" name="accordion-2" type="checkbox" checked />
+                    <label class="ac-label" for="ac-4">Block-4<i></i></label>
+                    <div class="article ac-content">
+                        <div class="col-lg-12">
+                            <div class="carddashed mt-2">
+                                <P>TABLE</P>
+                            </div>
+                        </div>
+                          
+                    </div>
+                </div> 
+
+                <!--EndAccordin-4-->
+                <!--StartAccordin-5-->
+                <div>
+                    <input class="ac-input" id="ac-5" name="accordion-5" type="checkbox" checked />
+                    <label class="ac-label" for="ac-5">Block-5<i></i></label>
+                    <div class="article ac-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="carddashed mt-2">
+                                                <div class="right-box-padding">
+                                                <div class="card-body">
+                                                    <div class="read-content">
+                                                        <div class="col-sm-12">
+                                                        <div class="form-group ">
+                                                            <label>Benefits (P,Q,C,S,D,M,E)<span class="mandatory">*</span></label>
+                                                            <textarea class="textarea331" name="present_conditions"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="carddashed mt-2">
+                                            <div class="right-box-padding">
+                                                <div class="card-body">
+                                                <div class="read-content">
+                                                    <div class="form-group">
+                                                        <p>Table pending</p>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                           @*  </div> *@
+                        </div>
+                        </div>@* 1strowend *@
+                        <div class="row">@* 2ndrowstart *@
+                                <div class="col-md-12">
+                                            <div class="carddashed mt-2">
+                                                <div class="right-box-padding">
+                                            <div class="card-body">
+                                                        <div class="form-group">
+                                                    <p>
+                                                        FORMAT/ Ver,No : TEPL-IE-C-FR-0005/01
+                                                        Tata Electronics Private Limited
+                                                    </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                       </div>
+                           
+                        </div>@* 2ndrowend *@
+                </div>
+                </div>
+
+
+
+                <!--EndAccordin-5-->
+
+    </div>
+    @* containerdivs *@
+    </div>
+    </div>
+
+    <div class="row page-titles mx-0 mt-5">
+
+        <div class="col-sm-12 p-md-0">
+
+            <div class="card-body">
+                <button class="btn btn-warning">Save It</button>
+                <button class="btn btn-azure">Submit to DRI</button>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+</body>

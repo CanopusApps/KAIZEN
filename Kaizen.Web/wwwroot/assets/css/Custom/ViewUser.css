@@ -1,0 +1,46 @@
+﻿
+.text-Azure {
+    color: #2dc3e8;
+    font-size: 25px !important;
+}
+
+.no-margin {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.viewuserCardBody {
+    border: 1px solid #ebeef6;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    padding: 10px;
+}
+
+.table tbody tr td {
+    vertical-align: middle;
+    border-color: #d7dae3;
+}
+
+.table th, .table td {
+    border: 1px solid #EEEEEE;
+    padding: 5px 10px;
+    font-size: 11px;
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    unicode-bidi: isolate;
+    border-spacing: 3px;
+    border-color: gray;
+    border: 2px solid #EEEEEE;
+}
+
+#dHeader {
+    font-size: 16px !important;
+    margin-top: -10px;
+    margin-left: 7px;
+}
+
