@@ -201,7 +201,7 @@
                                         <a id="edituser" class="btn btn-primary btn-sm edituser" data-empid="@User.EmpID">
                                             <i class="edit fas fa-solid fa-pencil"></i>
                                         </a>
-                                        <a id="deleteuser" class="btn btn-danger btn-sm deleteuser" data-empid="@User.EmpID">
+                                        <a id="deleteuser" class="btn btn-danger btn-sm deleteuser" data-empid="@User.EmpID" data-status="@User.Status">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>
                                     </td>
@@ -334,26 +334,53 @@
         $('tbody').on('click', '.deleteuser', function (e) {
             e.preventDefault();
             var empid = $(this).data('empid'); // Get the empid from data-empid attribute
-            $.ajax({
-                url: '/ViewUser/DeleteUser',
-                method: 'POST',
-                data: { id: empid },
-                success: function (response) {
-                    swal({
-                        text: "User Deleted Sucessfully",
-                        type: "success"
-                    }).then(okay => {
-                        if (okay) {
-                            location.reload();
-                        }
-                    });
-                },
-                error: function (xhr, status, error) {
-                    swal('Delete user error');
-                }
-            });
+            var status = $(this).data('status');
+            if (status=="1")
+            {
+                swal({
+                    text: "Are you sure you want to Delete ?",
+                    buttons: {
+                        cancel: "No",
+                        confirm: "Yes",
+                    },
+                }).then((userConfirmation) => {
+                    if (userConfirmation) {
+                        $.ajax({
+                            url: '/ViewUser/DeleteUser',
+                            method: 'POST',
+                            data: { id: empid },
+                            success: function (response) {
+                                swal({
+                                    text: "User Deleted Successfully",
+                                    icon: "success"
+                                }).then(okay => {
+                                    if (okay) {
+                                        location.reload();
+                                    }
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                swal('Delete user error');
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                swal({
+                    text: "Its Areadly Deleted",
+                    icon: "success"
+                }).then(okay => {
+                    if (okay) {
+                        location.reload();
+                    }
+                });
+            }
+            
         });
     });
+
 </script>
 <script>
     function DownloadTemplate() {
