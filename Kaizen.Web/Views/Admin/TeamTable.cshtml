@@ -1,0 +1,122 @@
+﻿@{
+    Layout = "SidebarLayout";
+}
+<link rel="stylesheet" href="~/assets/css/teamTable.css" />
+<div class="mo card p-3 mt-3 mx-3">
+    <div class="container-fluid">
+        <div class="row p-2">
+            <div class="table-responsive">
+                <table id="employeeTable" class="table table-bordered">
+                    <thead>
+                        <tr class="text-start">
+                            <th>EMP.ID</th>
+                            <th>Team Member Name</th>
+                            <th>Function</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="inputMaster text-left">
+                                <input type="text" class="inputMaster">
+                            </td>
+                            <td class="inputMaster text-left">
+                                <input type="text" class="inputMaster">
+                            </td>
+                            <td class="inputMaster text-left">
+                                <input type="text" class="inputMaster">
+                            </td>
+                            <td class="bbg">
+                                <input type="button" value="Add" id="NameAddBtn" class="inputMaster btn btn-azure w-100 h-100">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row" class="text-left">
+                                <input id="empId1" value="123456" readonly type="text" class="">
+                            </td>
+                            <td class="text-left">
+                                <input value="DummyDetail" readonly type="text" class="">
+                            </td>
+                            <td class="text-center">
+                                <input value="DummyDetail" readonly type="text" class="">
+                            </td>
+                            <td class="text-center">
+                                <i class="cancelIcon fas fa-circle-xmark fa-lg text-danger"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row" class="text-left">
+                                <input id="empId2" readonly type="text" class="">
+                            </td>
+                            <td class="text-left">
+                                <input readonly type="text" class="">
+                            </td>
+                            <td class="text-left">
+                                <input readonly type="text" class="">
+                            </td>
+                            <td class="text-center">
+                                <i class="cancelIcon fas fa-circle-xmark fa-lg text-danger"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row" class="text-left">
+                                <input id="empId3" readonly type="text" class="">
+                            </td>
+                            <td class="text-left">
+                                <input readonly type="text" class="">
+                            </td>
+                            <td class="text-left">
+                                <input readonly type="text" class="">
+                            </td>
+                            <td class="text-center">
+                                <i class="cancelIcon fas fa-circle-xmark fa-lg text-danger"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row" class="text-left">
+                                <input id="empId4" readonly type="text" class="">
+                            </td>
+                            <td class="text-left">
+                                <input readonly type="text" class="">
+                            </td>
+                            <td class="text-left">
+                                <input readonly type="text" class="">
+                            </td>
+                            <td class="text-center">
+                                <i class="cancelIcon fas fa-circle-xmark fa-lg text-danger"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row" class="text-left">
+                                <input id="empId5" readonly type="text" class="">
+                            </td>
+                            <td class="text-left">
+                                <input readonly type="text" class="">
+                            </td>
+                            <td class="text-left">
+                                <input readonly type="text" class="">
+                            </td>
+                            <td class="text-center">
+                                <i class="cancelIcon fas fa-circle-xmark fa-lg text-danger"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#employeeTable tbody tr').each(function () {
+            var id = $(this).find('input[id^="empId"]').val();
+            if (id > 0) {
+                $(this).find('.cancelIcon').show();
+            } else {
+                $(this).find('.cancelIcon').hide();
+            }
+        });
+    });
+</script>

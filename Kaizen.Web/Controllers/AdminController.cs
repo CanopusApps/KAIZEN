@@ -391,4 +391,10 @@ namespace Kaizen.Web.Controllers
 		}
 
 	}
+        public IActionResult TeamTable()
+        {
+            return View();
+        }
+
+    }
 }
