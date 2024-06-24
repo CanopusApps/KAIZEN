@@ -4,7 +4,7 @@
 
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
 
-<body>
+@* <body> *@
     
 
     <div class="content-body" >
@@ -19,7 +19,7 @@
 
                     <div class="welcome-text">
 
-                        <h4>Post Idea<button class="btn btn-primary float-right" type="button">Sample Kaizen Form</button></h4>
+                        <h4>Post Idea<button class="btn btn-azure float-right" type="button">Sample Kaizen Form</button></h4>
                         <p class="responsemessage"></p>
 
                     </div>
@@ -43,7 +43,7 @@
 
                     <div class="card-body">
                         <h3 class="card-title">Post My Idea</h3>
-                        <hr>
+                        <hr><br>
                         <div class="basic-form">
                             <div class="col-lg-12">
 
@@ -413,7 +413,7 @@
                     <div class="article ac-content">
                         <div class="col-lg-12">
                             <div class="row">
-                                @* <div class="col-sm-6"> *@
+                                @* <div class="col-sm-6"> *@ 
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="carddashed mt-2">
                                         <div class="card-body">
@@ -423,19 +423,19 @@
                                                         <div class="row">
                                                             <span class="col-sm-12">SAVINGS </span>
                                                             <hr style="border-top: 1px solid grey; width: 100%;">
-                                                            <div class="col-sm-4">
+                                                            <div class="col-sm-4 mt-3">
                                                                 <div class="form-group">
                                                                     <label>Yield <span class="mandatory">*</span></label>
                                                                     <input type="text" name="yield1" id="yield1" required class="form-control" value="" title="">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-4">
+                                                            <div class="col-sm-4 mt-3">
                                                                 <div class="form-group">
                                                                     <label>Cycle Time <span class="mandatory">*</span></label>
                                                                     <input type="text" name="cycle_time1" id="cycle_time1" required class="form-control" value="">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-4">
+                                                            <div class="col-sm-4 mt-3">
                                                                 <div class="form-group">
                                                                     <label>Cost <span class="mandatory">*</span></label>
                                                                     <input type="text" name="cost1" id="cost1" required class="form-control" value="" title="">
@@ -497,8 +497,147 @@
                                     </div>
                                 </div>
                                 @* 2ndsection *@
+                                
+                                <div class="col-sm-12 col-lg-6">
 
+                                    <div class="carddashed mt-2">
 
+                                        <div class="card-body">
+
+                                            <div class="table-responsive">
+
+                                                <table class="table table-bordered mb10">
+
+                                                    <thead>
+
+                                                        <tr>
+
+                                                            <th scope="col" class="align-top">EMP.ID</th>
+
+                                                            <th scope="col" class="align-top">Team Member Name</th>
+
+                                                            <th scope="col" class="align-top">Function</th>
+
+                                                            <th scope="col" class="align-top">Action</th>
+
+                                                        </tr>
+
+                                                    </thead>
+
+                                                    <tbody>
+
+                                                        <tr>
+
+                                                            <td class="border-0 text-left px-0">
+
+                                                                <input type="text" class="form-control">
+
+                                                            </td>
+
+                                                            <td class="border-0 text-left px-0">
+
+                                                                <input type="text" class="form-control">
+
+                                                            </td>
+
+                                                            <td class="border-0 text-left px-0">
+
+                                                                <input type="text" class="form-control">
+
+                                                            </td>
+
+                                                            <td class="border-0 px-0 align-middle">
+
+                                                                <input type="button" value="Add" id="NameAddBtn" class="btn btn-azure w-100">
+
+                                                            </td>
+
+                                                        </tr>
+
+                                                        <tr>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                        </tr>
+
+                                                        <tr>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                        </tr>
+
+                                                        <tr>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                        </tr>
+
+                                                        <tr>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                        </tr>
+
+                                                        <tr>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                        </tr>
+
+                                                        <tr>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                            <td></td>
+
+                                                        </tr>
+
+                                                    </tbody>
+
+                                                </table>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                
                                 @* endsection *@
                             </div>
                         </div>
@@ -522,7 +661,7 @@
                                     <div class="form-group">
                                         <label>Attachment</label>
                                         <br>
-                                        <div class="inpfilelabel addattachfile">
+                                        <div class="inpfilelabel addattachfile mb-3">
                                             <input id="attach_file" type="file" name="files" style="display: none;">
                                             <label for="attach_file" id="file-drag">
                                                     <div class="col-sm-12">
@@ -579,8 +718,281 @@
                     <label class="ac-label" for="ac-4">Block-4<i></i></label>
                     <div class="article ac-content">
                         <div class="col-lg-12">
-                            <div class="carddashed mt-2">
-                                <P>TABLE</P>
+                            
+                            <div class="row ">
+
+                                <div class="col-lg-4">
+
+                                    <div class="carddashed mt-2">
+                                        <div class="card-body">
+                                            <div class="right-box-padding">
+                                                <div class="read-content">
+                                                    <div class="card-body">
+
+                                                        <div class="row">
+
+                                                            <div class="col-sm-6">
+
+                                                                <label for="">Horizontal Deployment</label>
+
+                                                            </div>
+
+                                                            <div class="col-sm-3 text-end">
+
+                                                                <div class="">
+
+                                                                    <input class="form-check-input" type="radio" name="gender" id="Y" value="male">
+
+                                                                    <label class="form-check-label" for="Y">Yes</label>
+
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-sm-3 text-end">
+
+                                                                <div class="">
+
+                                                                    <input class="form-check-input" type="radio" name="gender" id="N" value="female">
+
+                                                                    <label class="form-check-label" for="N">No</label>
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <span class="targetGrayed">
+
+                                                           
+
+                                                                <div class="col-sm-12 mt-2">
+
+                                                                    <label for="">In Other Machines within the cell</label>
+
+                                                                    <input class="form-control" type="text">
+
+                                                                </div>
+
+                                                          
+
+                                                                <div class="col-sm-12 mt-2">
+
+                                                                    <label for="">Within the Department in all the machine groups</label>
+
+                                                                    <input class="form-control" type="text">
+
+                                                                </div>
+
+                                                           
+
+                                                                <div class="col-sm-12 mt-2">
+
+                                                                    <label for="">In Other Dept/ Other Location</label>
+
+                                                                    <input class="form-control" type="text">
+
+                                                                </div>
+
+                                                            
+
+                                                                <div class="col-sm-12 mt-2">
+
+                                                                    <label for="">Any other Relevant Points</label>
+
+                                                                    <input class="form-control" type="text">
+
+                                                                </div>
+
+                                                        </span>
+                                                        </div>
+                                                    </div>
+
+                                            </div>
+                                        </div>   
+                                    </div>
+                                    </div>
+                            @* 2ndsection *@
+
+                            <div class="col-sm-12 col-lg-8">
+
+                                <div class="carddashed mt-2">
+
+                                    <div class="card-body">
+
+                                        <div class="table-responsive" id="table2">
+
+                                            <table class="table table-bordered mb10">
+
+                                                <thead>
+
+                                                    <tr>
+
+                                                        <th scope="col" class="align-top">SN</th>
+
+                                                        <th scope="col" class="align-top">M/C</th>
+
+                                                        <th scope="col" class="align-top">Target Date</th>
+
+                                                        <th scope="col" class="align-top">Responsibility</th>
+
+                                                        <th scope="col" class="align-top">Status</th>
+
+                                                        <th scope="col" class="align-top">Action</th>
+
+                                                    </tr>
+
+                                                </thead>
+
+                                                <tbody>
+
+                                                    <tr>
+
+                                                        <td class="border-0 text-left px-0">
+
+                                                            <input type="text" class="form-control">
+
+                                                        </td>
+
+                                                        <td class="border-0 text-left px-0">
+
+                                                            <input type="text" class="form-control">
+
+                                                        </td>
+
+                                                        <td class="border-0 text-left px-0">
+
+                                                            <input type="text" class="form-control">
+
+                                                        </td>
+
+                                                        <td class="border-0 text-left px-0">
+
+                                                            <input type="text" class="form-control">
+
+                                                        </td>
+
+                                                        <td class="border-0 text-left px-0">
+
+                                                            <input type="text" class="form-control">
+
+                                                        </td>
+
+                                                        <td class="border-0 px-0 align-middle">
+
+                                                            <input type="button" value="Add" id="NameAddBtn" class="btn btn-azure w-100">
+
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <tr>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                        <td></td>
+
+                                                    </tr>
+
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            @* endsection *@
+                                
+
                             </div>
                         </div>
                           
@@ -590,67 +1002,60 @@
                 <!--EndAccordin-4-->
                 <!--StartAccordin-5-->
                 <div>
-                    <input class="ac-input" id="ac-5" name="accordion-5" type="checkbox" checked />
+
+                    <input class="ac-input" id="ac-5" name="accordion-2" type="checkbox" checked />
                     <label class="ac-label" for="ac-5">Block-5<i></i></label>
                     <div class="article ac-content">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="carddashed mt-2">
-                                                <div class="right-box-padding">
-                                                <div class="card-body">
-                                                    <div class="read-content">
-                                                        <div class="col-sm-12">
-                                                        <div class="form-group ">
-                                                            <label>Benefits (P,Q,C,S,D,M,E)<span class="mandatory">*</span></label>
-                                                            <textarea class="textarea331" name="present_conditions"></textarea>
-                                                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                           <div class="col-lg-4">
+                            <div class="carddashed mt-2">
+                                 <div class="card-body"> 
+                                    <div class="right-box-padding">
+                                        <div class="read-content">
+                                                    <div class="form-group ">
+                                                        <label>Benefits (P,Q,C,S,D,M,E)<span class="mandatory">*</span></label>
+                                                        <textarea class="textarea331" name="present_conditions"></textarea>
                                                     </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="carddashed mt-2">
+                                          </div>
+                                    </div>
+                                    </div>
+                                    </div>
+                             </div>
+                                <div class="col-lg-8">
+                                    <div class="carddashed mt-2">
+                                        <div class="card-body">
                                             <div class="right-box-padding">
-                                                <div class="card-body">
                                                 <div class="read-content">
-                                                    <div class="form-group">
-                                                        <p>Table pending</p>
+                                                    <div class="form-group ">
+                                                        <p>table pending</p>
                                                     </div>
-                                                </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                           @*  </div> *@
-                        </div>
-                        </div>@* 1strowend *@
-                        <div class="row">@* 2ndrowstart *@
-                                <div class="col-md-12">
-                                            <div class="carddashed mt-2">
-                                                <div class="right-box-padding">
-                                            <div class="card-body">
-                                                        <div class="form-group">
-                                                    <p>
-                                                        FORMAT/ Ver,No : TEPL-IE-C-FR-0005/01
-                                                        Tata Electronics Private Limited
-                                                    </p>
-                                                        </div>
+                            </div> @*  rowend *@
+                        </div> @* col-12end *@
+
+                        <div class="col-lg-12">
+                           <div class="carddashed mt-2">
+                                        <div class="card-body">
+                                            <div class="right-box-padding">
+                                                <div class="read-content">
+                                                    <div class="form-group ">
+                                                <p>
+                                                    FORMAT/ Ver,No : TEPL-IE-C-FR-0005/01
+                                                    Tata Electronics Private Limited
+                                                </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                       </div>
-                           
-                        </div>@* 2ndrowend *@
-                </div>
-                </div>
-
-
-
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
                 <!--EndAccordin-5-->
 
     </div>
@@ -658,18 +1063,11 @@
     </div>
     </div>
 
-    <div class="row page-titles mx-0 mt-5">
-
-        <div class="col-sm-12 p-md-0">
-
-            <div class="card-body">
+            <div class="col-sm-12 ">
+            <div class="card-body float-right">
                 <button class="btn btn-warning">Save It</button>
                 <button class="btn btn-azure">Submit to DRI</button>
-
+            </div>
             </div>
 
-        </div>
-
-    </div>
-    
-</body>
+@* </body *@
