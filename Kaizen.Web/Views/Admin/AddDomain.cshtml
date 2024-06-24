@@ -8,20 +8,19 @@
 <link href="~/assets/css/common/datatables.min.css" rel="stylesheet" />
 <script src="~/assets/js/custom/datatables.min.js"></script>
 
-
-
-
-
-<div class="container-fluid p-2">
+<div class="container-fluid">
     <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
-    <div class="col-lg-12 p-md-0 p-2">
-
-        <div class="welcome-text ">
-            <h4 class="text-Azure">Add Domain</h4>
+        <div class="col-lg-12 p-md-0 p-2">
+            <div class="welcome-text">
+                <label class="" id="dHeader">Masters > Domains</label>
+            </div>
         </div>
     </div>
-</div>
-    <div class=" card p-3 mt-2 mb-2 cardsize" id="card-block">
+
+    <div class="card p-3 mt-2 mb-2 cardsize" id="card-block">
+        <div class="col-md-10">
+            <div><label class="card-title" id="blkh">Add Domain</label></div>
+        </div>
         <div class="row">
             <div class="col-md-5">
                 <label for="Domain-name">Domain Name<span class="text-danger">*</span></label>
@@ -42,12 +41,12 @@
 
         <div class="row">
             <div class="col-md-10">
-                <p>Domain Names - @Model.Count()</p>
+                <label id="lblTotal">Domain  List - @Model.Count()</label>
             </div>
         </div>
 
         <div class="card-body">
-            <table id="empTable" class="table table-striped " style="overflow-x:auto; >
+            <table id="empTable" class="table table-striped" style="width:100%!important">
                 <thead>
                     <tr>
                         <th hidden scope="col" class="text-center" id="DomName">SNo</th>
@@ -66,30 +65,19 @@
                             <td class="text-center">0</td>
                             <td class="text-center">
                                 @if (@item.Status == false)
-
                                 {
-
                                     <a href="/Admin/UpdateDomainStatus?id=@item.Id &status= true"><span class="btn btn-warning">Inactive</span></a>
-
                                 }
-
                                 @if (@item.Status == true)
-
                                 {
-
                                     <a href="/Admin/UpdateDomainStatus?id=@item.Id &status= false"><span class="btn btn-success">Active</span></a>
-
                                 }
                             </td>
-
                             <td class="text-center">
-                                <a href="/Admin/DeleteDomain?id=@item.Id" class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a>
+                                <a href="#" class="btn btn-danger icon deleteuser" onclick="Deletedomain(@item.Id);"><i class="fa-solid fa-trash-can"></i></a>
                             </td>
-
                         </tr>
-
                     }
-  
                 </tbody>
                        <tr>
                         <td colspan="1" align="right">Total Employees</td>
@@ -100,17 +88,12 @@
         </div>
     </div>
 </div>
-
-
 <script>
-
     $(document).ready(function () {
         $('#empTable').DataTable({});
     });
-
     function ValidateForm() {
         var isValid = true;
-
         // Remove red borders and error messages
         $("#domainname").css("border-color", "red");
         $("#DomainError").text("");
@@ -154,7 +137,7 @@
                     }
                     else {
                         swal({
-                            text: "Domain saved successfully !!",
+                            text: "Domain Added successfully !!",
                             type: "success"
                         }).then(okay => {
                             if (okay) {
@@ -170,6 +153,50 @@
             });
         });
     });
+
+
+
+    function Deletedomain(id) {
+        var id = id;
+        swal({
+            text: "Are you sure you want to Delete the Domain ?",
+            buttons: {
+                confirm: "Yes",
+                cancel: "No",
+            },
+        }).then((userConfirmation) => {
+            if (userConfirmation) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/DeleteDomain',
+                    dataType: "json",
+                    data: { id: id },
+                    success: function (result) {
+                        var res = $.isEmptyObject(result);
+                        if (res) {
+                            swal('Unable to Dalete the Domain Details - Please Check the logs');
+                        }
+                        else {
+                            swal({
+                                text: "Domain Deleted successfully !!",
+                                type: "success"
+                            }).then(okay => {
+                                if (okay) {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        swal('Unable to Delete the Domain Details - Please Check the logs');
+
+                    }
+                });
+            }
+        });
+
+    }
+
 
 </script>
 

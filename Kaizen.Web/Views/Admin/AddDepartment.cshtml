@@ -6,20 +6,22 @@
 <link href="~/assets/css/custom/adddepartment.css" rel="stylesheet" />
 
 <script src="~/assets/js/custom/datatables.min.js"></script>
+
 <div class="container-fluid">
+
     <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
         <div class="col-lg-12 p-md-0 p-2">
-
-            <div class="welcome-text ">
-                <h4 class="text-Azure">Add Department</h4>
+            <div class="welcome-text">
+                <label class="" id="dHeader">Masters > Departments</label>
             </div>
         </div>
     </div>
-    <div class="row p-2">
-        <div class="col">
-            <div class="cb mine card p-3 mt-2 mb-2">
+                <div class="card p-3 mt-2 mb-2 cardsize">
+        <div class="col-md-10">
+            <div><label class="card-title" id="blkh">Add Department</label></div>
+        </div>
                 <div class="row">
-                    <div class=" col-md-6">
+                    <div class=" col-md-3">
                         <label for="DomainName">Domain Name</label>
                         <select id="domainName" class="form-control txt-width">
                             <option selected>--Select--</option>
@@ -41,14 +43,14 @@
                         <input class="btn btn-azure" id="btnAdd" value="Add" type="button" />
                     </div>
                 </div>
-                <div class="mt-5">
-                    <p><b>Department Names - @ViewBag.DepartmentList.Count</b></p>
+                </div>
+                <div class="card p-3 mt-2 mb-2 cardsize">
                     <div class="col-12">
-                        <hr />
+            <labe class="card-title" id="blktotal">Department List - @ViewBag.DepartmentList.Count</labe>
                     </div>
                     <br />
-                *    <div class="table-responsive">
-                        <table id="employeeTable" class="table table-striped ">
+                     <div class="card-body">
+                        <table id="employeeTable" class="table table-striped" style="width:100%!important">
                             <thead>
                                 <tr>
                                     <th hidden scope="col" class="text-center" id="DomName">ID</th>
@@ -78,7 +80,7 @@
                                             }
                                         </td>
                                         <td class="text-center">
-                                            <a href="/Admin/DeleteDepartment?id=@item.DeptId" class="btn btn-danger icon deleteuser"><i class="fa-solid fa-trash-can"></i></a>
+                                <a href="#" class="btn btn-danger icon deleteuser" onclick="Deletedepartment(@item.DeptId);"><i class="fa-solid fa-trash-can"></i></a>
                                         </td>
                                     </tr>
                                 }
@@ -86,9 +88,8 @@
                         </table>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            
+
     <script>
         $(document).ready(function () {
             $('#employeeTable').DataTable({});
@@ -146,7 +147,7 @@
                     }
                     else {
                         swal({
-                            text: "Department saved successfully !!",
+                            text: "Department Addedd successfully !!",
                             type: "success"
                         }).then(okay => {
                             if (okay) {
@@ -164,20 +165,54 @@
             });
         }
         $(document).ready(function () {
-            $(".btn-azure").click(function () {
+            $("#btnAdd").click(function () {
                 addDepartment();
             });
 
         });
 
 
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.badge-sm').forEach(function (element) {
-                element.addEventListener('click', function () {
-                    toggleStatus(element);
-                });
+
+        function Deletedepartment(id) {
+            var id = id;
+            swal({
+                text: "Are you sure you want to Delete the Department ?",
+                buttons: {
+                    confirm: "Yes",
+                    cancel: "No",
+                },
+            }).then((userConfirmation) => {
+                if (userConfirmation) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Admin/DeleteDepartment',
+                        dataType: "json",
+                        data: { id: id },
+                        success: function (result) {
+                            var res = $.isEmptyObject(result);
+                            if (res) {
+                                swal('Unable to Dalete the Department Details - Please Check the logs');
+                            }
+                            else {
+                                swal({
+                                    text: "Department Deleted successfully !!",
+                                    type: "success"
+                                }).then(okay => {
+                                    if (okay) {
+                                        location.reload();
+                                    }
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            swal('Unable to Delete the Department Details - Please Check the logs');
+                        }
+                    });
+                }
             });
-        });
+
+        }
+
     </script>
 
 </div>
