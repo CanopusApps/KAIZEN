@@ -129,5 +129,30 @@ namespace Kaizen.Data.DataServices
 
 		}
 
-	}
+        public bool UpdateBlockDetails(string blockName, int id)
+        {
+            bool status = false;
+            try
+            {
+                com = new SqlCommand();
+                DataTable dt = new DataTable();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@blockname", blockName);
+                com.Parameters.AddWithValue("@blockId", id);
+                com.CommandText = StoredProcedures.sp_UpdateBlock;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return status;
+        }
+
+    }
 }

@@ -122,6 +122,31 @@ namespace Kaizen.Web.Controllers
             }
             return Ok(blocks);
         }
+
+
+        [HttpPost]
+        public IActionResult UpdateBlock(string blockName,int blockId)
+        {
+            bool updateStatus = false;
+            try
+            {
+                if (!string.IsNullOrEmpty(blockName))
+                {
+                    updateStatus = _blockWorker.UpdateBlockDetails(blockName, blockId);
+                    if (updateStatus)
+                    {
+                        blocks = _blockWorker.GetBlock();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+            return Ok(blocks);
+        }
+
+
         [HttpPost]
         public IActionResult DeleteBlock(int id)
         {
@@ -352,8 +377,9 @@ namespace Kaizen.Web.Controllers
             editmodel.Domains = _domainWorker.GetDomain();
             editmodel.Cadre = _addUserWorker.GetCadre();
             editmodel.UserType = _addUserWorker.GetUserType();
-            editmodel.Departments = _departmentWorker.GetDepartments();
-            return View(editmodel);
+            //editmodel.Departments = FetchDepartment("1002");
+			//editmodel.Departments = _departmentWorker.GetDepartments();
+			return View(editmodel);
         }
 		[HttpPost]
 		public IActionResult EditUser(EditUserModel editUserModel)

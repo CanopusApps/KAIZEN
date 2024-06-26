@@ -57,5 +57,14 @@ namespace Kaizen.Business.Worker
             }
 			return blackModels;
         }
-	}
+
+        public bool UpdateBlockDetails(string blockName,int id)
+        {
+
+            return _repositoryBlockdata.UpdateBlockDetails(blockName,id);
+
+        }
+
+
+    }
 }

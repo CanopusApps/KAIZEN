@@ -15,5 +15,6 @@ namespace Kaizen.Business.Interface
         public bool DeleteBlock(int id);
 
         public bool UpdateBlockStatus(int id, bool status);
+        public bool UpdateBlockDetails(string blockName,int id);
     }
 }
