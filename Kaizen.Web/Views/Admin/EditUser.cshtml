@@ -2,6 +2,20 @@
 @{
 	Layout = "SidebarLayout";
 }
+<style>
+    #dHeader {
+        font-size: 16px !important;
+        margin-top: -10px;
+        margin-left: 7px;
+    }
+
+    #blkh {
+        color: black;
+        font-weight: 500;
+        font-size: 13px;
+        margin-left: -17px;
+    }
+</style>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 	#dHeader {
@@ -259,7 +273,6 @@
 			submitHandler: function (form) {
 				$("#EmpID").attr("readonly", false);
 				var formData = $(form).serialize();
-
 				return false; // Prevent default form submission
 			}
 		});
@@ -279,6 +292,8 @@
 				$('#Did option').map(function () {
 					if ($(this).text() == editUser['domain']) return this;
 				}).attr('selected', 'selected').change();
+				
+				
 				$('#Rid option').map(function () {
 					if ($(this).text() == editUser['usertype']) return this;
 				}).attr('selected', 'selected');
@@ -335,10 +350,13 @@
 
 		$(function selectDepartment() {
 			var dept = editUser['department'];
-			$('#inputDepartment option').map(function () {
-				if ($(this).text() == dept) return this;
-			}).attr('selected', 'selected');
+			$('#inputDepartment option').each(function () {
+				if ($(this).text() == dept) {
+					$(this).attr('selected', 'selected');
+				}
+			});
 		});
+
 
 	});
 
