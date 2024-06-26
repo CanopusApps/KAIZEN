@@ -1,0 +1,101 @@
+﻿@using Kaizen.Models.AdminModel
+@model IEnumerable<UserGridModel>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+<link href="~/assets/css/common/datatables.min.css" rel="stylesheet" />
+<script src="~/assets/js/custom/datatables.min.js"></script>
+<link href="~/assets/css/custom/viewuser.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        $('tbody').on('click', '.edituser', function (e) {
+            e.preventDefault();
+
+            var $row = $(this).closest('tr');
+            var empid = $row.data('empid');
+            var name = $row.data('name');
+            var email = $row.data('email');
+            var gender = $row.data('gender');
+            var domain = $row.data('domain');
+            var department = $row.data('department');
+            var usertype = $row.data('usertype');
+            var status = $row.data('status');
+            var phoneno = $row.data('phoneno');
+            var password = $row.data('password');
+            var cadre = $row.data('cadre');
+            var ImageApprove = $row.data('imageapprover');
+
+            sessionStorage.setItem('editUser', JSON.stringify({
+                empid: empid,
+                name: name,
+                email: email,
+                gender: gender,
+                domain: domain,
+                department: department,
+                usertype: usertype,
+                status: status,
+                phoneno: phoneno,
+                password: password,
+                cadre: cadre,
+                ImageApprove: ImageApprove
+            }));
+            window.location.href = '/Admin/EditUser';
+        });
+    });
+
+</script>
+<table id="Usertable" class="table table-striped" style="width:100%;table-layout:fixed">
+    <thead>
+        <tr style="text-align:center">
+            <th>EMP ID</th>
+            <th>NAME</th>
+            <th>EMAIL</th>
+            <th>GENDER</th>
+            <th>TOTAL KAIZEN POSTED</th>
+            <th>DOMAIN</th>
+            <th>DEPARTMENT</th>
+            <th>USER TYPE</th>
+            <th>IMG APPROVAL</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+        </tr>
+    </thead>
+    <tbody style="text-align:center">
+        @if (Model != null)
+        {
+            foreach (var User in Model)
+            {
+                <tr data-empid="@User.EmpID" data-name="@User.Name" data-email="@User.Email" data-gender="@User.Gender" data-domain="@User.Domain" data-department="@User.Department" data-usertype="@User.UserType" data-status="@User.Status" data-phoneno="@User.PhoneNo" data-password="@User.Password" data-cadre="@User.Cadre" data-imageapprover="@User.ImageApprover">
+                    <td>@User.EmpID</td>
+                    <td>@User.Name</td>
+                    <td>@User.Email</td>
+                    <td>@User.Gender</td>
+                    <td>0</td>
+                    <td>@User.Domain</td>
+                    <td>@User.Department</td>
+                    <td>@User.UserType</td>
+                    <td><input type="checkbox" style="background-color:gray" @(User.ImageApprover == 1 ? "checked" : "") disabled /></td>
+                    <td>
+                        @if (@User.Status == 0)
+                        {
+                            <a><span class="btn btn-warning badge-sm">InActive</span></a>
+                        }
+                        else
+                        {
+                            <a><span class="btn btn-success badge-sm">Active</span></a>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-primary btn-sm edituser" data-empid="@User.EmpID">
+                            <i class="edit fas fa-solid fa-pencil"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Usertable').DataTable();
+    });
+</script>
