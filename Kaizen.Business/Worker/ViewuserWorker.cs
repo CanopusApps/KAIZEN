@@ -46,6 +46,9 @@ namespace Kaizen.Business.Worker
                         PhoneNo = dr["MobileNumber"].ToString(),
                         Password = dr["Password"].ToString(),
                         Cadre = dr["CadreDesc"].ToString(),
+                        FirstName= dr["FirstName"].ToString(),
+                        MiddleName = dr["MiddleName"].ToString(),
+                        LastName = dr["LastName"].ToString()
                     });
 				}
 			}

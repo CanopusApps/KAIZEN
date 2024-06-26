@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 <link href="~/assets/css/custom/viewuser.css" rel="stylesheet" />
-<div class="container-fluid">
+<div class="container-fluid" style="padding-bottom:12px;">
     <form id="filterForm">
         <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
             <div class="col-lg-12 p-md-0 p-2">
@@ -52,7 +52,7 @@
                         }
                     </select>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-4" style="display:none">
                     <label for="inputDomain">Domain</label>
                     <select id="inputDomain" class="form-control txt-width" name="Domain">
                         <option selected>All</option>
@@ -65,14 +65,17 @@
                         }
                     </select>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-4" style="display:none">
                     <label for="inputDepartment">Department</label>
                     <select id="inputDepartment" class="form-control txt-width" name="Department">
                         <option selected>All</option>
                     </select>
                 </div>
-                <input type="button" id="btn_filter" class="btn btn-block-custom btn-azure" style="width:116px;margin-left:4px" value="Filter" />
-                <button type="button" id="btnreset" class="btn btn-block-custom btn-warning" style="width:116px;margin-left:4px">Reset</button>
+                <div class="form-group col-md-4">
+                    <input type="button" id="btn_filter" class="btn btn-azure" style="width:116px;margin-left:4px;margin-top:23px" value="Filter" />
+                    <button type="button" id="btnreset" class="btn btn-warning" style="width:116px;margin-left:4px;margin-top:23px">Reset</button>
+
+                </div>
             </div>
         </div>
         <div class="custom-line mb-3"></div>
@@ -89,6 +92,9 @@
                     <button type="button" class="btn btn-block-custom btn-warning no-margin" style="width:100px;" data-toggle="modal" data-target="#importExcelModel">Import Kaizen</button>
                     <button type="button" class="btn btn-block-custom btn-azure no-margin" style="width:100px;">Kaizen Sorted</button>
                 </div>
+            </div>
+            <div id="userGridContainer" style="padding:2px">
+                @Html.Partial("_UserGridPartial", Model.UsergridList)
             </div>
             <div class="modal fade" id="importExcelModel" tabindex="-1" role="dialog" aria-labelledby="importExcelModelLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -152,13 +158,10 @@
                     </div>
                 </div>
             </div>
-            <div id="userGridContainer">
-                @Html.Partial("_UserGridPartial", Model.UsergridList)
-            </div>
         </div>
     </form>
 </div>
-<script>
+@* <script>
     $(document).ready(function () {
         $('#inputDomain').change(function () {
             var Domain = $('#inputDomain').val();
@@ -196,7 +199,7 @@
             });
         });
     });
-</script>
+</script> *@
 <script>
     $('#btn_filter').click(function () {
         var Name = $('#inputName').val();
@@ -318,13 +321,13 @@
             $('#inputEmail').val('');
             $('#inputName').val('');
             $('#inputUserType').prop('selectedIndex', 0);
-            $('#inputDomain').prop('selectedIndex', 0);
-            var dropdown = $('#inputDepartment');
-            dropdown.empty();
-            dropdown.append($('<option>', {
-                value: 'all',
-                text: 'All'
-            }));
+            // $('#inputDomain').prop('selectedIndex', 0);
+            // var dropdown = $('#inputDepartment');
+            // dropdown.empty();
+            // dropdown.append($('<option>', {
+            //     value: 'all',
+            //     text: 'All'
+            // }));
         }
 
         $('#btnreset').click(function () {
