@@ -25,10 +25,12 @@
                         <div class="col-md-4">
                         <label>Block Name</strong><span class="mandatory">*</span></label>
                         <input class="form-control" id="BlockName" name="BlockName" />
+                        <label id="BlockId" hidden></label>
                         <span id="BlockError" class="error-message"></span>
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-azure" id="btnAdd">Add</button>
+                <button class="btn btn-azure" id="btnupdate" onclick="">Update</button>
                     </div>
                 </div>
         
@@ -54,7 +56,7 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
+                        <tr data-id="@item.Id" data-name="@item.BlockName">
                                 <td hidden>@item.Id</td>
                                 <td>@item.BlockName</td>
                                  <td class="text-center">
@@ -75,7 +77,11 @@
                              
                                 <td class="text-center">
                                    @*  <a href="/Admin/DeleteBlock?id=@item.Id" class="btn btn-danger icon deleteuser"><i class="fa-solid fa-trash-can"></i></a> *@
-                                <a href="#" class="btn btn-danger icon deleteuser" onclick="Deleteblock(@item.Id);"><i class="fa-solid fa-trash-can"></i></a>
+                               @*  <a href="#" class="btn btn-danger icon deleteuser" onclick="Deleteblock(@item.Id);"><i class="fa-solid fa-trash-can"></i></a> *@
+
+                                <a id="editblock" class="btn btn-primary btn-sm editblock" data-empid="@item.Id">
+                                    <i class="edit fas fa-solid fa-pencil"></i>
+                                </a>
 
                             </td>
 
@@ -91,6 +97,8 @@
 
     $(document).ready(function () {
         $('#tblblock').DataTable({});
+        $('#btnupdate').hide();
+
     });
 
     function ValidateForm() {
@@ -108,11 +116,6 @@
             $("#BlockName").css("border-color", "red");
             $("#BlockError").text("Block Name is required.");
             isValid = false;
-        }
-        if (!isValid) {
-            $("#error-message").text("Please fill in the required field correctly.");
-            // Add red border to the submit button
-            $("#submitButton").css("border-color", "red");
         }
         return isValid;
     }
@@ -154,8 +157,55 @@
                     // console.error('Error:', error);
                 }
             });
-        });    
+        });
+        $('tbody').on('click', '.editblock', function (e) {
+            e.preventDefault();
+            $('#btnAdd').hide();
+            $('#btnupdate').show();
+            var $row = $(this).closest('tr');
+            var blockid = $row.data('id');
+            var blockname = $row.data('name');
+            document.getElementById("BlockName").value = blockname;
+            document.getElementById("BlockId").value = blockid;
+        });
     })
+       $("#btnupdate").click(function () {
+            debugger;
+            var BName = $('#BlockName').val();
+        var BId = $('#BlockId').val();
+            if (!ValidateForm()) {
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/UpdateBlock',
+                dataType: "json",
+            data: { blockName: BName, blockId: BId },
+                success: function (result) {
+                    // Handle success (if needed)
+                    var res = $.isEmptyObject(result);
+                    if (res) {
+                        swal('Unable to Update the Block Details - Please Check the logs');
+                    }
+                    else {
+                        swal({
+                            text: "Block Updated successfully !!",
+                            type: "success"
+                        }).then(okay => {
+                            if (okay) {
+                                location.reload();
+                            }
+                        });
+                    }
+                },
+                error: function (error) {
+                    swal('Unable to Update the Block Details - Please Check the logs');
+                    // Handle errors (if needed)
+                    // console.error('Error:', error);
+                }
+            });
+        });
+
     function Deleteblock(id) {
         var id = id;
         swal({

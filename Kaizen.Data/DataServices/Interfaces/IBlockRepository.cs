@@ -13,6 +13,7 @@ namespace Kaizen.Data.DataServices
         public bool InsertBlockDetails(string blockName);
         public bool DeleteBlockData(int id);
         public DataSet GetBlockData();
-        public bool UpdateBlockData(int id, bool status); 
+        public bool UpdateBlockData(int id, bool status);
+        public bool UpdateBlockDetails(string blockName,int id);
     }
 }
