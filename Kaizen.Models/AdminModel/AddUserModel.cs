@@ -14,10 +14,19 @@ namespace Kaizen.Models.AdminModel
         [RegularExpression(@"^\d{1,6}$", ErrorMessage = "Employee ID must be a number with 6 digits only")]
         public string EmpId { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
-        [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters")]
-        public string Name { get; set; }
-        [Required(ErrorMessage = "Phone number is required")]
+        [Required(ErrorMessage = "First-name is required")]
+        [StringLength(10, ErrorMessage = "Name cannot be longer than 50 characters")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
+        public string FirstName { get; set; }
+
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
+        public string MiddleName { get; set; }
+
+        [Required(ErrorMessage = "Last-name is required")]
+        [StringLength(10, ErrorMessage = "Name cannot be longer than 50 characters")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
+        public string LastName { get; set; }
+		[Required(ErrorMessage = "Phone number is required")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Phone Number")]
         public string Phoneno { get; set; }
 
@@ -38,8 +47,10 @@ namespace Kaizen.Models.AdminModel
         public string Gender { get; set; } = string.Empty;
 
         //cadre list
+        
         public List<CadreModel> Cadre { get; set; }
         //Usertype list
+        
         public List<UserTypeModel> UserType { get; set; }
         // Domain List
         public List<DomainModel> Domains { get; set; }
@@ -52,10 +63,13 @@ namespace Kaizen.Models.AdminModel
            new StatusModel { StatusID = 0, StatusName = "Inactive" }
         };
         public int statusname { get; set; }// Stores status (1 or 0)
+
+        [Required(ErrorMessage = "Cadre is required")]
         public int Cid { get; set; } = 0;// stores cadre id
+        [Required(ErrorMessage = "Usertype is required")]
         public int Rid { get; set; } = 0;// stores usertype id
+        [Required(ErrorMessage = "Domain  is required")]
         public int Did { get; set; } = 0;// stores domain id 
         public int DeptId { get; set; } = 0;// stores deptid 
     }
 }
-

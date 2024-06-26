@@ -50,7 +50,7 @@ namespace Kaizen.Web.Controllers
 
         [HttpPost]
         public IActionResult Adduser(AddUserModel userModel)
-        {
+            {
             try
             { 
                 string msg;
