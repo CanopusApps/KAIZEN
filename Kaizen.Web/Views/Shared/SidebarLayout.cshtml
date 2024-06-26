@@ -19,6 +19,41 @@
     <script src="~/assets/js/custom/sweetalert.min.js"></script>
 </head>
 <style>
+    /* styles.css */
+
+    #loader-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+        z-index: 1000; /* Make sure it covers everything */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #loader {
+        border: 10px solid #f3f3f3; /* Light grey */
+        border-top: 10px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        animation: spin 2s linear infinite;
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
     .logo{
         width:50px;
     }
@@ -114,7 +149,10 @@
                     <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding">Submitted Kaizen</a>
                     <hr />
 
-                   
+                    <div class="collapse" id="basicUIElementsSubmenu">
+                        <a href="#" class="list-group-item list-group-item-action fw-bold">Element 1</a>
+                        <a href="#" class="list-group-item list-group-item-action fw-bold">Element 2</a>
+                    </div>
                     <!-- Drop down -->
                     <div class="list-group-item list-group-item-action menupadding" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
                     <div class="sub-menu collapse menupadding" id="demo" style="margin-top:-15px;">
@@ -141,6 +179,9 @@
             </div>
             <!-- /Sidebar -->
             <!-- Page Content -->
+            <div id="loader-wrapper">
+                <div id="loader"></div>
+            </div>
             <div id="page-content-wrapper" class="flex-grow-1">
                 @RenderBody()
                 <!-- Footer-->
@@ -177,6 +218,13 @@
                     }
                 });
         }
+    </script>
+    <script>
+            $(window).on('load', function () {
+                $('#loader-wrapper').fadeOut('slow', function () {
+                    $(this).remove();
+                });
+            });
     </script>
 </body>
 </html>

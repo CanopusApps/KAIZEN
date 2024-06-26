@@ -57,29 +57,21 @@ namespace Kaizen.Web.Controllers
 
             return View(viewModel);
         }
-        public JsonResult ViewFilterUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
+        public IActionResult ViewFilterUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
         {
-            try
+            UserGridModel model = new UserGridModel()
             {
-				UserGridModel model = new UserGridModel()
-				{
-					Name = Name,
-					EmpID = EmpId,
-					Email = Email,
-					UserType = UserType,
-					Domain = Domain,
-					Department = Department
-				};
-				var userList = _viewUserWorker.GetUser(model);
-                return Json(userList);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception if needed
-                // LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
-                return Json(new { success = false, message = ex.Message });
-            }
+                Name = Name,
+                EmpID = EmpId,
+                Email = Email,
+                UserType = UserType,
+                Domain = Domain,
+                Department = Department
+            };
+            var userList = _viewUserWorker.GetUser(model);
+            return PartialView("_UserGridPartial", userList);
         }
+
         public List<DepartmentModel> FetchDepartment(string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
