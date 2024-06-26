@@ -10,9 +10,9 @@ namespace Kaizen.Models.AdminModel
 {
     public class EditUserModel
     {
-        public string EmpID { get; }
+        public string EmpID { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
+		[Required(ErrorMessage = "Name is required")]
         [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters")]
         public string Name { get; set; }
 
@@ -50,26 +50,17 @@ namespace Kaizen.Models.AdminModel
 
 
         //static list for status
-        public List<StatusModel> StatusName { get; set; } = new List<StatusModel>
+        public List<StatusModel> Status { get; set; } = new List<StatusModel>
         {
             new StatusModel { StatusID = 1, StatusName = "Active" },
            new StatusModel { StatusID = 0, StatusName = "Inactive" }
         };
 
-        //stores status 0 or 1
-        public int StatusState { get; set; }
-
-        //stores cadre ID
-        public int Cid { get; set; } = 0;
-
-        //stores Role ID for Usertype
-        public int Rid { get; set; } = 0;
-
-        //stores domain ID
-        public int Did { get; set; } = 0;
-
-        //stores department ID
-        public int Deptid { get; set; } = 0;
+        public int StatusName { get; set; }// Stores status (1 or 0)
+        public int Cid { get; set; } = 0;// stores cadre id
+        public int Rid { get; set; } = 0;// stores usertype id
+        public int Did { get; set; } = 0;// stores domain id 
+        public int DeptId { get; set; } = 0;// stores deptid 
     }
 
 }
