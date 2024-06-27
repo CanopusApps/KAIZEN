@@ -10,6 +10,7 @@ namespace Kaizen.Web.Controllers
 {
     public class AdminController : Controller
     {
+        public IHttpContextAccessor conAccessor;
         private readonly IBlock _blockWorker;
         private readonly IDomain _domainWorker;
 		private readonly IDepartment _departmentWorker;
@@ -23,13 +24,14 @@ namespace Kaizen.Web.Controllers
         EditUserModel editmodel = new EditUserModel();
         private readonly IEditUser _editUserWorker;
 
-        public AdminController(IBlock worker, IDomain domainWorker, IDepartment departmentWorker, IAddUser addUserWorker,IEditUser editUserWorker)
+        public AdminController(IBlock worker, IDomain domainWorker, IDepartment departmentWorker, IAddUser addUserWorker,IEditUser editUserWorker, IHttpContextAccessor conAccessor)
         {
             _blockWorker = worker;
             _domainWorker = domainWorker;
             _departmentWorker = departmentWorker;
             _addUserWorker = addUserWorker;
             _editUserWorker = editUserWorker;
+            this.conAccessor = conAccessor;
         }
         public IActionResult Index()
         {
@@ -58,9 +60,20 @@ namespace Kaizen.Web.Controllers
                 ModelState.Remove(nameof(userModel.Cadre));
                 ModelState.Remove(nameof(userModel.Domains));
                 ModelState.Remove(nameof(userModel.Departments));
+                ModelState.Remove(nameof(userModel.CreatedbyId));
+              
+                //userModel.CreatedbyId = conAccessor.HttpContext.Session.GetString("EmpId");
+                //userModel.CreatedbyId = Username;
+                if (userModel.MiddleName==null)
+                {
+                    ModelState.Remove(nameof(userModel.MiddleName));
+                }
+               
                 if (ModelState.IsValid)
                 {
+                    userModel.CreatedbyId = conAccessor.HttpContext.Session.GetString("EmpId");
                     msg = _addUserWorker.AddUser(userModel);
+                   
                     if (msg == "ok")
                    {
                        TempData["msg"] = "Data saved Sucessfully ";
