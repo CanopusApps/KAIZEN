@@ -8,7 +8,7 @@
     }
 
     .card {
-        padding: 10apx;
+        padding: 15px;
     }
 
     .card-header {
@@ -18,22 +18,30 @@
     .card-item {
       /*   background-color: #ADD8E6; */
     
-        background-color: rgb(135, 206, 235,1); 
+        background-color: rgb(135, 206, 235,0.5); 
         color: black;
         
         border: 1px dashed #007bff;
         text-align: center;
         border-radius: 10px;
-        margin-left: 2px;
+        margin-left: 5px;
+        margin-right:15px;
         margin-bottom: 10px;
         cursor: pointer;
         font-weight:600;
+    }
+
+    #dHeader {
+        text-align:center;
+        font-size: 16px !important;
+        margin-top: -10px;
+        margin-left: 7px;
     }
 </style>
 
 <div class="card ml-2 mr-2 bg-light">
     <nav>
-        <div class="row page-titles mx-0">
+       @*  <div class="row page-titles mx-0">
             <div class="card rounded bg-white p-2  mt-2 mb-2">
                 <div class="col-lg-12 p-md-0 p-2">
 
@@ -42,12 +50,19 @@
                     </div>
                 </div>
             </div>
+        </div> *@
+        <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+            <div class="col-lg-12 p-md-0 p-2">
+                <div class="welcome-text">
+                    <label id="dHeader">Masters -->Dashboard</label>
+                </div>
+            </div>
         </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-link active" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="true">Total Kaizen's Submitted</a>
-                <a class="nav-link" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Filter by Department, Domain</a>
-                <a class="nav-link" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Monthly, Yearly table</a>
+                <a class="nav-link text-Azure active" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="true">Total Kaizen's Submitted</a>
+                <a class="nav-link text-Azure" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Filter by Department, Domain</a>
+                <a class="nav-link text-Azure" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Monthly, Yearly table</a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">

@@ -47,6 +47,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@Gender", ur.Gender.Substring(0, 1));
                 com.Parameters.AddWithValue("@Cid", ur.Cid);
                 com.Parameters.AddWithValue("@Rid", ur.Rid);
+                com.Parameters.AddWithValue("@Createdby", ur.CreatedbyId);
                 com.Parameters.AddWithValue("@status", ur.statusname);
                 com.Parameters.AddWithValue("@Did", ur.Did);
                 com.Parameters.AddWithValue("@Deptid", ur.DeptId);
