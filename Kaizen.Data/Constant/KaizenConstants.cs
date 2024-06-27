@@ -50,6 +50,8 @@ namespace Kaizen.Data.Constant
         public static string sp_InsertDomain = "Sp_InsertDomain"; 
         public static string Sp_Get_Status = "Sp_Get_Status"; 
         public static string Sp_Upload_Users = "Sp_Upload_Users";
-
+		public static string Sp_Update_Users = "Sp_UpdateUser";
+        public static string sp_UpdateBlock = "Sp_UpdateBlock";
+        public static string Sp_Get_Approval_Status = "Sp_Get_Approval_Status";
     }
 }

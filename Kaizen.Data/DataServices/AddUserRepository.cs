@@ -38,7 +38,9 @@ namespace Kaizen.Data.DataServices
                 SqlCommand com = new SqlCommand(StoredProcedures.Sp_InsertUser, con);
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@EmpId", ur.EmpId);
-                com.Parameters.AddWithValue("@Name", ur.Name);
+                com.Parameters.AddWithValue("@Name", ur.FirstName);
+                com.Parameters.AddWithValue("@MiddleName", ur.MiddleName);
+                com.Parameters.AddWithValue("@LastName", ur.LastName);
                 com.Parameters.AddWithValue("@Email", ur.Email);
                 com.Parameters.AddWithValue("@Password", ur.Password);
                 com.Parameters.AddWithValue("@Phno", ur.Phoneno);

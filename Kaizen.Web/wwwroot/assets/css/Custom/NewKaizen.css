@@ -1,8 +1,4 @@
 ﻿
-/*.content-body {
-    background-color: #e9ecef !important;
-}
-*/
 .mandatory {
     color: red;
 }
@@ -71,7 +67,7 @@ textarea, input {
 }
 
 .tab-box {
-    padding: 4px 9px;
+    padding: 4px 7px;
     border: 1px solid #ccc;
     cursor: pointer;
 }
@@ -152,6 +148,13 @@ textarea, input {
     .activity-group input[type="checkbox"] {
         vertical-align: middle;
     }
+@media (max-width: 1024px) {
+    .activity-group {
+        white-space: normal; 
+    }
+
+        
+}
 
 
 @media (max-width: 768px) {
@@ -167,6 +170,59 @@ textarea, input {
         flex-basis: 100%; 
     }
 }
+/*table styles*/
+
+th {
+    border: none !important;
+}
+
+td {
+    height: 35px !important;
+}
+
+table {
+    padding: 0px !important;
+    border-collapse: separate;
+}
+
+
+/*HORIZONTAL DEPLOYMENT TABLE*/
+
+.table-bordered td, .table-bordered th {
+    padding: 0 !important;
+}
+
+/*tooltip-styles*/
+.popover-header {
+    font-size: 25px;
+    background-color: darkslateblue;
+    color: white;
+}
+
+.popover {
+    border: darkslateblue 2px solid !important;
+    width: auto !important;
+    height: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border-radius: 0.3rem;
+    position: relative;
+    /* max-width: 276px !important;  */
+    /*  width:276px ; */
+    /* height:80px !important; */
+}
+    
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -283,5 +339,12 @@ table.ac-table {
         margin-top: 2%;
     }
 }
+
+
+
+
+
+
+
 
 

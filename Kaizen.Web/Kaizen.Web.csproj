@@ -13,7 +13,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.Identity.Client" Version="4.61.2" />
-    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="uploads\" />
+    <Folder Include="wwwroot\assets\img\Tooltip-imgs\" />
     <Folder Include="wwwroot\assets\Template\" />
     <Folder Include="wwwroot\LogFolder\" />
   </ItemGroup>

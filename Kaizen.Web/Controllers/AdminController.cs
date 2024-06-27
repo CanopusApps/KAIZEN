@@ -50,7 +50,7 @@ namespace Kaizen.Web.Controllers
 
         [HttpPost]
         public IActionResult Adduser(AddUserModel userModel)
-        {
+            {
             try
             { 
                 string msg;
@@ -122,6 +122,31 @@ namespace Kaizen.Web.Controllers
             }
             return Ok(blocks);
         }
+
+
+        [HttpPost]
+        public IActionResult UpdateBlock(string blockName,int blockId)
+        {
+            bool updateStatus = false;
+            try
+            {
+                if (!string.IsNullOrEmpty(blockName))
+                {
+                    updateStatus = _blockWorker.UpdateBlockDetails(blockName, blockId);
+                    if (updateStatus)
+                    {
+                        blocks = _blockWorker.GetBlock();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+            return Ok(blocks);
+        }
+
+
         [HttpPost]
         public IActionResult DeleteBlock(int id)
         {
@@ -350,11 +375,49 @@ namespace Kaizen.Web.Controllers
         public IActionResult EditUser()
         {
             editmodel.Domains = _domainWorker.GetDomain();
-            editmodel.Departments = _departmentWorker.GetDepartments();
-            editmodel.Cadre = _editUserWorker.GetCadre();
-            editmodel.StatusName = _editUserWorker.GetStatus();
-            //editmodel.UserType = _editUserWo
-            return View(editmodel);
+            editmodel.Cadre = _addUserWorker.GetCadre();
+            editmodel.UserType = _addUserWorker.GetUserType();
+            //editmodel.Departments = FetchDepartment("1002");
+			//editmodel.Departments = _departmentWorker.GetDepartments();
+			return View(editmodel);
+        }
+		[HttpPost]
+		public IActionResult EditUser(EditUserModel editUserModel)
+		{
+			string msg="";
+			ModelState.Remove(nameof(editUserModel.UserType));
+			ModelState.Remove(nameof(editUserModel.Cadre));
+			ModelState.Remove(nameof(editUserModel.Domains));
+			ModelState.Remove(nameof(editUserModel.Departments));
+			if (ModelState.IsValid)
+			{
+                msg = _editUserWorker.EditUser(editUserModel);
+                if (msg == "ok")
+				{
+					TempData["msg"] = "Data saved Sucessfully ";
+				}
+				else if (msg == "Employee doesnot exist.")
+				{
+					TempData["msg"] = msg;
+				}
+				else
+				{
+					TempData["msg"] = "some error occured";
+				}
+
+			}
+			else
+			{
+
+				TempData["msg"] = "some data Feids missing";
+			}
+
+			return RedirectToAction("ViewUser", "ViewUser");
+		}
+
+        public IActionResult TeamTable()
+        {
+            return View();
         }
 
     }

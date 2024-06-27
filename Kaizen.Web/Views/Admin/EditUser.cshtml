@@ -1,210 +1,175 @@
 ﻿@model Kaizen.Models.AdminModel.EditUserModel;
 @{
-    Layout = "SidebarLayout";
+	Layout = "SidebarLayout";
 }
 <style>
-    .text-Azure {
-        color: #2dc3e8;
-        font-size: 25px !important;
+    #dHeader {
+        font-size: 16px !important;
+        margin-top: -10px;
+        margin-left: 7px;
     }
 
-    .btn-warning {
-        color: #fff !important;
-    }
-
-    .btn-warning:hover {
-        color: #fff !important;
+    #blkh {
+        color: black;
+        font-weight: 500;
+        font-size: 13px;
+        margin-left: -17px;
     }
 </style>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+	#dHeader {
+		font-size: 16px !important;
+		margin-top: -10px;
+		margin-left: 7px;
+	}
 
-<div class="container bg-light p-2">
-    <div class="container-fluid  border rounded bg-white p-2  mt-2 mb-2">
-        <div class="col-lg-12 p-md-0 p-2">
+	#blkh {
+		color: black;
+		font-weight: 500;
+		font-size: 13px;
+		margin-left: -17px;
+	}
+</style>
+<div class="card bg-light">
 
-            <div class="welcome-text ">
-                <h4 class="text-Azure">Edit User</h4>
-            </div>
-        </div>
-    </div>
+	<div class="card rounded bg-white p-2  mt-2 ml-2 mr-2 mb-2">
+		<div class="col-lg-12 p-md-0 p-2">
+			<div class="welcome-text">
+				<label class="" id="dHeader">Masters --> Users</label>
+			</div>
+		</div>
+	</div>
+
+	<div class="card p-3 border rounded ml-2 mr-2 mb-2 bg-white ">
+
+		<div class="col-md-10">
+			<div><label class="card-title" id="blkh">Edit User</label></div>
+		</div>
+	<div class="custom-line mb-3"></div>
+	@using (Html.BeginForm(FormMethod.Post, new { id = "editUserForm" }))
+	{
+		@Html.AntiForgeryToken()
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.EmpID, "Emp ID", htmlAttributes: new { @class = "control-label" })
+				<span class="text-danger">*</span>
+				@Html.EditorFor(model => model.EmpID, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter your Employee Id", @readonly = true } })
+				@Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
+			</div>
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+				<span class="text-danger">*</span>
+				@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "Enter your Employee Name" } })
+				@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+			</div>
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+				<span class="text-danger">*</span>
+				@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter your Email Id" } })
+				@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.PhoneNo, htmlAttributes: new { @class = "control-label" })
+				<span class="text-danger">*</span>
+				@Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", type = "tel", pattern = "[0-9]{10}", title = "Please enter a 10-digit phone number", placeholder = "Enter your phone number" } })
+				@Html.ValidationMessageFor(model => model.PhoneNo, "", new { @class = "text-danger" })
+			</div>
+
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+				@Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "Select Domain", new { @id = "Did", @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger" })
+			</div>
+
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+				<select Asp-for="DeptId" name="DeptId" id="inputDepartment" class="form-control">
+					<option selected>Select Department</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.Rid, "UserType", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+				@Html.DropDownListFor(m => m.Rid, new SelectList(Model.UserType, "UserTypeId", "UserDesc"), "--UserType--", new { @id = "Rid", @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.Rid, "", new { @class = "text-danger" })
+			</div>
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.StatusName, "Status", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+				@Html.DropDownListFor(model => model.StatusName, new SelectList(Model.Status, "StatusID", "StatusName"), new { @class = "form-control", @id = "statusname" })
+				@Html.ValidationMessageFor(model => model.StatusName, "", new { @class = "text-danger" })
+			</div>
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.Cid, "Cadre", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+				@Html.DropDownListFor(m => m.Cid, new SelectList(Model.Cadre, "Id", "CadreName"), "--Select Cadre--", new { @id = "cid", @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.Cid, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
+				<span class="text-danger">*</span>
+				<div class="container border rounded p-1 ">
+					<label class="radio-inline">
+						@Html.RadioButtonFor(model => model.Gender, "Male") Male
+					</label>
+					<label class="radio-inline">
+						@Html.RadioButtonFor(model => model.Gender, "Female") Female
+					</label>
+					<label class="radio-inline">
+						@Html.RadioButtonFor(model => model.Gender, "Other") Other
+					</label>
+					@Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+				<span class="text-danger">*</span>
+				<div class="editor-container">
+					@Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Enter your password" })
+					@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger validation-message" })
+				</div>
+			</div>
+			<div class="form-group col-md-4">
+				@Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
+				<span class="text-danger">*</span>
+				<div class="editor-container">
+					@Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", placeholder = "Enter your password" })
+					@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger validation-message" })
+				</div>
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group col-md-3">
+				@Html.LabelFor(model => model.ImageApprover, htmlAttributes: new { @class = "control-label" })
+				<span class="text-danger">*</span>
+				<div>
+					<label class="checkbox-inline">
+						@Html.CheckBoxFor(model => model.ImageApprover)
+					</label>
+					@Html.ValidationMessageFor(model => model.ImageApprover, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+		<span class="form-row p-4 container border ">
+			<button type="submit" class="btn  col-lg-2 m-1 btn-azure ">Update User</button>
+			<button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset" value="Reset">Reset</button>
+		</span>
+	}
+
+	</div>
 </div>
-    <div class="container p-4 border bg-white">
-    <h4 class="text-center">Edit User</h4>
-    <div class="custom-line mb-3"></div>
-    @using (Html.BeginForm(FormMethod.Post, new { id = "editUserForm" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.EmpID, "Emp ID", htmlAttributes: new { @class = "control-label" })
-                <span class="text-danger">*</span>
-                @Html.EditorFor(model => model.EmpID, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter your Employee Id" } })
-                @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
-                <span class="text-danger">*</span>
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "Enter your Employee Name" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
-                <span class="text-danger">*</span>
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter your Email Id" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.PhoneNo, htmlAttributes: new { @class = "control-label" })
-                <span class="text-danger">*</span>
-                @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", type = "tel", pattern = "[0-9]{10}", title = "Please enter a 10-digit phone number", placeholder = "Enter your phone number" } })
-                @Html.ValidationMessageFor(model => model.PhoneNo, "", new { @class = "text-danger" })
-            </div>
-            @*
-        <div class="form-group col-md-4">
-        @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-        @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "Select Domain", new { @id = "Did", @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger" })
-        </div>
-        *@
-
-            <div class="form-group col-md-4">
-                <label for="inputDomain">Domain<span class="text-danger">*</span></label>
-                <select id="inputDomain" class="form-control txt-width">
-                    <option selected>All</option>
-                    @foreach (var domain in Model.Domains)
-                    {
-                        @* <option value="@domain.DomainName">@domain.DomainDesc</option> *@
-                        <option value="@domain.Id" id="ddldomain">@domain.DomainName</option>
-                    }
-                </select>
-            </div>
-
-            @*   <div class="form-group col-md-4">
-        @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-        @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domain, "DataValueField", "DataTextField"), new { @id = "Did", @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger" })
-        </div> *@
-            <div class="form-group col-md-4">
-                <label for="inputDepartment">Department<span class="text-danger">*</span></label>
-                <select id="inputDepartment" class="form-control">
-                    <option selected>All</option>
-                    @foreach (var deptmt in Model.Departments)
-                    {
-                        <option value="@deptmt.DomainName">@deptmt.DepartmentName</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label for="inputUsertype">Usertype<span class="text-danger">*</span></label>
-                <select id="inputUsertype" class="form-control txt-width">
-                    <option selected>All</option>
-                    @* @foreach (var user in Model.UserType)
-                {
-                <option value="@user.UserDesc"> @domain.DomainDesc </option>
-                } *@
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputStatus">Status<span class="text-danger">*</span></label>
-                <select id="inputStatus" class="form-control txt-width">
-                    <option selected>All</option>
-                    @foreach (var st in Model.StatusName)
-                    {
-                        <option value="@st.StatusID">@st.StatusName</option>
-                    } 
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputCadre">Cadre<span class="text-danger">*</span></label>
-                <select id="inputDomain" class="form-control txt-width">
-                    <option selected>All</option>
-                      @foreach (var cadre in Model.Cadre)
-                      {
-                        <option value="@cadre.Id">@cadre.CadreName</option>
-                      } 
-                </select>
-            </div>
-            @* <div class="form-group col-md-4">
-        @Html.LabelFor(model => model.Rid, "UserType", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-        @Html.DropDownListFor(m => m.Rid, new SelectList(Model.UserType, "DataValueField", "DataTextField"), new { @id = "Rid", @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Rid, "", new { @class = "text-danger" })
-
-        </div>
-        <div class="form-group col-md-4">
-        @Html.LabelFor(model => model.StatusID, "Status", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-        @Html.DropDownListFor(model => model.StatusID, new SelectList(Model.Status, "DataValueField", "DataTextField"), "-- Select Status --", new { @class = "form-control", @id = "statusname" })
-        @Html.ValidationMessageFor(model => model.StatusID, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group col-md-4">
-        @Html.LabelFor(model => model.Cid, "Cadre", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-        @Html.DropDownListFor(m => m.Cid, new SelectList(Model.Cadre, "DataValueField", "DataTextField"), new { @id = "cid", @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Cid, "", new { @class = "text-danger" })
-
-        </div>  *@
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
-                <span class="text-danger">*</span>
-                <div>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.Gender, "Male") Male
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.Gender, "Female") Female
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.Gender, "Other") Other
-                    </label>
-                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
-                <span class="text-danger">*</span>
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter your password" } })
-                @*   <input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Password" minlength="6" required /> *@
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-4">
-                <label for="ConfirmPassword">Confirm Password<span class="text-danger">*</span></label>
-                <input type="password" class="form-control" placeholder="Confirm Password" equalTo="#Password">
-            </div>
-
-
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                @Html.LabelFor(model => model.ImageApprover, htmlAttributes: new { @class = "control-label" })
-                <span class="text-danger">*</span>                
-                    <label class="checkbox-inline">
-                        @Html.CheckBoxFor(model => model.ImageApprover, "ImageApproval")
-                    </label>
-                    @Html.ValidationMessageFor(model => model.ImageApprover, "", new { @class = "text-danger" })
-                
-            </div>
-        </div>
-
-        @* <div class="form-group col-md-4">
-            <label for="inputImageApprover">ImageApprover<span class="text-danger">*</span></label>
-            <input type="checkbox" class="form-control txt-width" name="m">
-        </div> *@
-        <!-- <button type="submit" class="btn btn-primary">Add</button> -->
-
-
-        <span class="form-row p-2 container border ">            
-                <button type="submit" class="btn  col-lg-3 m-1  btn-azure">Edit User</button>  
-            
-                <button type="reset" class="btn col-lg-3  m-1 btn-warning" id="configreset" value="Reset">Reset page</button>            
-        </span>
-    }
-</div>
-
+@if (TempData["msg"] != null)
+{
+	<script>
+		swal('@TempData["msg"]')
+	</script>
+}
 
 @* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -212,132 +177,190 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        // Validate form using jQuery Validation Plugin
-        $("#editUserForm").validate({
-            errorClass: "text-danger",
-            rules: {
-                EmpID: {
-                    required: true
-                },
-                Name: {
-                    required: true,
-                    pattern: "[A-Za-z]+"
-                },
-                Email: {
-                    required: true,
-                    email: true
-                },
-                PhoneNo: {
-                    required: true,
-                    pattern: "[0-9]{10}"
-                },
-                Did: {
-                    required: true
-                },
-                Deptid: {
-                    required: true
-                },
-                Rid: {
-                    required: true
-                },
-                StatusID: {
-                    required: true
-                },
-                Cid: {
-                    required: true
-                },
-                Gender: {
-                    required: true
-                },
-                Password: {
-                    required: true,
-                    minlength: 6
-                },
-                ConfirmPassword: {
-                    required: true,
-                    equalTo: "#Password"
-                }
-                ImageApprover:{
-                   required:true
-                }
-            },
-            messages: {
-                EmpID: {
-                    required: "Employee ID is required"
-                },
-                Name: {
-                    required: "Name is required",
-                    pattern: "Please enter a valid name"
-                },
-                Email: {
-                    required: "Email is required",
-                    email: "Please enter a valid email address"
-                },
-                PhoneNo: {
-                    required: "Phone number is required",
-                    pattern: "Please enter a 10-digit phone number"
-                },
-                Did: {
-                    required: "Domain is required"
-                },
-                Deptid: {
-                    required: "Department is required"
-                },
-                Rid: {
-                    required: "User type is required"
-                },
-                StatusID: {
-                    required: "Status is required"
-                },
-                Cid: {
-                    required: "Cadre is required"
-                },
-                Gender: {
-                    required: "Gender is required"
-                },
-                Password: {
-                    required: "Password is required",
-                    minlength: "Password must be at least 6 characters long"
-                },
-                ConfirmPassword: {
-                    required: "Confirm password is required",
-                    equalTo: "Passwords do not match"
-                }
-            },
-            submitHandler: function (form) {
-                var formData = $(form).serialize();
+	$('#configreset').click(function () {
+		$('#configform')[0].reset();
+	});
+	$(document).ready(function () {
+		// Validate form using jQuery Validation Plugin
+		$("#userForm").validate({
+			errorClass: "text-danger",
+			rules: {
+				EmpId: {
+					required: true
+				},
+				Name: {
+					required: true,
+					pattern: "[A-Za-z]+"
+				},
+				Email: {
+					required: true,
+					email: true
+				},
+				Phoneno: {
+					required: true,
+					pattern: "[0-9]{10}"
+				},
+				Did: {
+					required: true
+				},
+				DeptId: {
+					required: true
+				},
+				Rid: {
+					required: true
+				},
+				statusname: {
+					required: true
+				},
+				Cid: {
+					required: true
+				},
+				Gender: {
+					required: true
+				},
+				Password: {
+					required: true,
+					minlength: 6
+				},
+				ConfirmPassword: {
+					required: true,
+					equalTo: "#Password"
+				}
+			},
+			messages: {
+				EmpId: {
+					required: "Employee ID is required"
+				},
+				Name: {
+					required: "Name is required",
+					pattern: "Please enter a valid name"
+				},
+				Email: {
+					required: "Email is required",
+					email: "Please enter a valid email address"
+				},
+				Phoneno: {
+					required: "Phone number is required",
+					pattern: "Please enter a 10-digit phone number"
+				},
+				Did: {
+					required: "Domain is required"
+				},
+				DeptId: {
+					required: "Department is required"
+				},
+				Rid: {
+					required: "User type is required"
+				},
+				statusname: {
+					required: "Status is required"
+				},
+				Cid: {
+					required: "Cadre is required"
+				},
+				Gender: {
+					required: "Gender is required"
+				},
+				Password: {
+					required: "Password is required",
+					minlength: "Password must be at least 6 characters long"
+				},
+				ConfirmPassword: {
+					required: "Confirm password is required",
+					equalTo: "Passwords do not match"
+				}
+			},
+			submitHandler: function (form) {
+				$("#EmpID").attr("readonly", false);
+				var formData = $(form).serialize();
+				return false; // Prevent default form submission
+			}
+		});
 
-                return false; // Prevent default form submission
-            }
-        });
+		$(function getSesson() {
+			debugger;
+			if (sessionStorage.getItem("editUser")) {
+				var editUser = JSON.parse(sessionStorage.getItem("editUser"));
+				$("#EmpID").val(editUser['empid']); 
+				$("#HidEmpID").val(editUser['empid']); 
+				$("#Name").val(editUser['name']);
+				$("#Email").val(editUser['email']);
+				$("#PhoneNo").val(editUser['phoneno']);
+				$("#Password").val(editUser['password']);
+				$("#ConfirmPassword").val(editUser['password']);
+				// var domainName = editUser['domain'];
+				$('#Did option').map(function () {
+					if ($(this).text() == editUser['domain']) return this;
+				}).attr('selected', 'selected').change();
+				
+				
+				$('#Rid option').map(function () {
+					if ($(this).text() == editUser['usertype']) return this;
+				}).attr('selected', 'selected');
+				$('#cid option').map(function () {
+					if ($(this).text() == editUser['cadre']) return this;
+				}).attr('selected', 'selected');
+				$('#statusname').val(editUser['status']);
+				// $("input[name=mygroup]").val([5]);
+				if (editUser['ImageApprove'] == 1) {
+					$('#ImageApprover').prop('checked', true);
+				}
+				// $('#Gender option[value="Male"]').attr('selected', 'selected');
+				// $('#Gender option[value="M"]').attr('selected', 'selected');
+				// $("input[name='Gender'][value='Male']").attr("checked", true);
+				if (editUser['gender'] == 'M') {
+					$("input[name='Gender'][value='Male']").attr("checked", true);
+				} else if (editUser['gender'] == 'F') {
+					$("input[name='Gender'][value='Female']").attr("checked", true);
+				} else if (editUser['gender'] == 'O') {
+					$("input[name='Gender'][value='Other']").attr("checked", true);
+				}
+			} else {
+				// don't do it after
+			}
+		});
 
-        // Fetch departments based on selected domain
-        $('#ddldomain').change(function () {
-            var Domain = $('#ddldomain').val().trim();
-            $.ajax({
-                type: 'POST',
-                url: '/Admin/FetchDepartment',
-                dataType: "json",
-                data: { domainName: Domain },
-                success: function (result) {
-                    if (result) {
-                        var dropdown = $('#inputDepartment');
-                        dropdown.empty();
-                        dropdown.append($('<option>', {
-                            value: 'all',
-                            text: 'Select Department'
-                        }));
-                        for (var i = 0; i < result.length; i++) {
-                            $('#inputDepartment').append('<option value="' + result[i].Deptid + '">' + result[i].departmentName + '</option>');
-                        }
-                    } else {
-                        Swal.fire('Please Select Domain');
-                    }
-                },
-                error: function (error) {
-                }
-            });
-        });
-    });
+		// Fetch departments based on selected domain
+		$('#Did').change(function () {
+			var Domain = $('#Did').val().trim();
+			$.ajax({
+				type: 'POST',
+				url: '/Admin/FetchDepartment',
+				dataType: "json",
+				data: { DomainID: Domain },
+				success: function (result) {
+					if (result) {
+						var dropdown = $('#inputDepartment');
+						dropdown.empty();
+						dropdown.append($('<option>', {
+							value: 'all',
+							text: '--Select Department--'
+						}));
+						for (var i = 0; i < result.length; i++) {
+							$('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
+						}
+					} else {
+						Swal.fire('Please Select Domain');
+					}
+				},
+				error: function (error) {
+				}
+			});
+		});
+
+		$(function selectDepartment() {
+			var dept = editUser['department'];
+			$('#inputDepartment option').each(function () {
+				if ($(this).text() == dept) {
+					$(this).attr('selected', 'selected');
+				}
+			});
+		});
+
+
+	});
+
+
 </script>
+
+
