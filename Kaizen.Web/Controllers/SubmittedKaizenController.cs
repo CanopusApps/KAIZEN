@@ -12,6 +12,7 @@ using Kaizen.Models.ViewUserModel;
 using Kaizen.Models.AdminModel;
 using Kaizen.Business.Worker;
 using static System.Reflection.Metadata.BlobBuilder;
+using Kaizen.Models.SubmmitedKaizen;
 
 namespace Kaizen.Web.Controllers
 {

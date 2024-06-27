@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
 
-namespace Kaizen.Models.ViewUserModel
+namespace Kaizen.Models.SubmmitedKaizen
 {
     public class SubmittedKaizenallModel
     {
