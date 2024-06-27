@@ -685,6 +685,7 @@
                                     <div class="card-body">
                                         <div class="right-box-padding">
                                             <div class="read-content">
+                                               
                                                 <div class="card-body">
 
                                                     <div class="row">
@@ -699,7 +700,7 @@
 
                                                             <div class="">
 
-                                                                <input class="form-check-input" type="radio" name="gender" id="Y" value="male">
+                                                                <input class="form-check-input" type="radio" name="onnOff" id="Y" value="male">
 
                                                                 <label class="form-check-label" for="Y">Yes</label>
 
@@ -711,7 +712,7 @@
 
                                                             <div class="">
 
-                                                                <input class="form-check-input" type="radio" name="gender" id="N" value="female">
+                                                                <input class="form-check-input" type="radio" name="onnOff" id="N" value="female">
 
                                                                 <label class="form-check-label" for="N">No</label>
 
@@ -724,7 +725,7 @@
                                                     <span class="targetGrayed">
 
 
-
+                                                        
                                                         <div class="col-sm-12 mt-2">
 
                                                             <label for="">In Other Machines within the cell</label>
@@ -777,7 +778,7 @@
 
                                 <div class="carddashed mt-2">
 
-                                    <div class="card-body">
+                                    <div class="card-body targetGrayed">
 
                                         <div class="table-responsive" id="table2">
 
@@ -927,7 +928,88 @@
                                         <div class="right-box-padding">
                                             <div class="read-content">
                                                 <div class="form-group ">
-                                                    <p>table pending</p>
+                                                    <table class="table table-bordered" style="height: 50vh;">
+
+                                                        <thead>
+
+                                                            <tr>
+
+                                                                <th class="border-0"></th>
+
+                                                                <th class="border-0">KAIZEN Originated By</th>
+
+                                                                <th class="border-0">KAIZEN Approved By</th>
+                                                                <th class="border-0">KAIZEN Confirmed By</th>
+
+
+                                                            </tr>
+
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            <tr>
+
+                                                                <td class="text-center align-middle py-5">
+                                                                    Name
+                                                                </td>
+
+                                                                <td class="align-middle align-items-center justify-content-center col-3">
+                                                                    <input type="text" class="mx-auto form-control col-9">
+                                                                </td>
+                                                                <td class="align-items-center d-flex justify-content-center h-100">
+                                                                    <select name="" id="" class="form-control col-9">
+                                                                        <option>Mem1</option>
+                                                                        <option>Mem2</option>
+                                                                        <option>Mem3</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td class="align-middle align-items-center justify-content-center col-3">
+                                                                    <input type="text" class="mx-auto form-control col-4">
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td class="text-center align-middle py-5">
+                                                                    Dept
+                                                                </td>
+
+                                                                <td class="align-middle align-items-center justify-content-center col-3">
+                                                                    <input type="text" class="mx-auto form-control col-9">
+                                                                </td>
+                                                                <td class="align-items-center d-flex justify-content-center h-100">
+                                                                    <input name="" id="" class="form-control col-9">
+                                                                </td>
+                                                                <td class="align-middle align-items-center justify-content-center col-3">
+                                                                    <input type="text" class="mx-auto form-control col-4">
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td class="text-center align-middle py-5">
+                                                                    Date
+                                                                </td>
+
+                                                                <td class="align-middle align-items-center justify-content-center col-3">
+                                                                    <input type="date" class="mx-auto form-control col-9">
+                                                                </td>
+                                                                <td class="align-items-center d-flex justify-content-center h-100">
+                                                                    <input name="" type="date" id="" class="form-control col-9">
+                                                                </td>
+                                                                <td class="align-middle align-items-center justify-content-center col-3">
+                                                                    <input type="text" class="mx-auto form-control col-4">
+                                                                </td>
+
+                                                            </tr>
+
+
+
+                                                        </tbody>
+
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -975,5 +1057,20 @@
     $(document).ready(function () {
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
+    });
+
+    function toggleTableGrayedOut(grayOut) {
+        if (grayOut) {
+            $('.targetGrayed').addClass('grayed-out');
+        } else {
+            $('.targetGrayed').removeClass('grayed-out');
+        }
+    }
+
+    toggleTableGrayedOut($('#N').is(':checked'));
+
+    $('input[type="radio"][name="onnOff"]').change(function () {
+        var isChecked = $(this).prop('id') === 'N';
+        toggleTableGrayedOut(isChecked);
     });
 </script>
