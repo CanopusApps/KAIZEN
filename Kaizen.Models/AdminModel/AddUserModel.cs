@@ -20,7 +20,7 @@ namespace Kaizen.Models.AdminModel
         public string FirstName { get; set; }
 
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
-        public string MiddleName { get; set; }
+        public string MiddleName { get; set; } = "";
 
         [Required(ErrorMessage = "Last-name is required")]
         [StringLength(10, ErrorMessage = "Name cannot be longer than 50 characters")]
@@ -32,6 +32,8 @@ namespace Kaizen.Models.AdminModel
 
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
+
+        public string CreatedbyId { get; set; } = "";
         public string Email { get; set; }
        
         [Required(ErrorMessage = "Password is required")]

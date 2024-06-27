@@ -46,6 +46,8 @@ namespace Kaizen.Web.Controllers
                             {
                                 Response.Redirect("Admin/Adduser");
                                 HttpContext.Session.SetString("Message",Username);
+                                HttpContext.Session.SetString("EmpId", EmpId);
+                               
                             }
                          
                                 
