@@ -22,9 +22,9 @@ namespace Kaizen.Business.Worker
 
         }
 
-        public bool CreateDomain(string DomainName)
+        public bool CreateDomain(string DomainName, string CreatedBy)
         {           
-              return _repositoryDomaindata.InsertDomain(DomainName);
+              return _repositoryDomaindata.InsertDomain(DomainName, CreatedBy);
         }
 
         public List<DomainModel> GetDomain()
@@ -57,6 +57,12 @@ namespace Kaizen.Business.Worker
         public bool UpdateDomainStatus(bool status, int id)
         {
             return _repositoryDomaindata.UpdateDomainStatus(id,status);
+
+        }
+        public bool UpdateDomainDetails(string domainName, int id, string ModifiedBy)
+        {
+
+            return _repositoryDomaindata.UpdateDomainDetails( domainName, id, ModifiedBy);
 
         }
     }

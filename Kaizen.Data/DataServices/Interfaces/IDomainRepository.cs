@@ -10,7 +10,7 @@ namespace Kaizen.Data.DataServices
 {
     public interface IDomainRepository
     {
-        public bool InsertDomain(string domainName);
+        public bool InsertDomain(string domainName, string CreatedBy);
 
         public DataSet GetDomaindetails();
 
@@ -19,6 +19,8 @@ namespace Kaizen.Data.DataServices
         //public string DropDomainData(DomainModel model, int id);
 
         public bool UpdateDomainStatus(int id, bool status);
+
+        public bool UpdateDomainDetails(string domainName, int id, string ModifiedBy);
 
     }
 }

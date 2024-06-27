@@ -217,10 +217,33 @@ namespace Kaizen.Web.Controllers
             bool insertStatus = false;
             try
             {
+                string CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
                 if (!string.IsNullOrEmpty(domainName))
                 {
-                    insertStatus = _domainWorker.CreateDomain(domainName);
+                    insertStatus = _domainWorker.CreateDomain(domainName, CreatedBy);
                     if (insertStatus)
+                    {
+                        domains = _domainWorker.GetDomain();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+            return Ok(domains);
+        }
+        [HttpPost]
+        public IActionResult UpdateDomain(string domainName, int domainId)
+        {
+            bool updateStatus = false;
+            try
+            {
+                string ModifiedBy =conAccessor.HttpContext.Session.GetString("EmpId");
+                if (!string.IsNullOrEmpty(domainName))
+                {
+                    updateStatus = _domainWorker.UpdateDomainDetails(domainName, domainId, ModifiedBy);
+                    if (updateStatus)
                     {
                         domains = _domainWorker.GetDomain();
                     }

@@ -23,9 +23,7 @@
 
   <ItemGroup>
     <Folder Include="uploads\" />
-    <Folder Include="wwwroot\assets\img\Tooltip-imgs\" />
-    <Folder Include="wwwroot\assets\Template\" />
-    <Folder Include="wwwroot\LogFolder\" />
+    <Folder Include="wwwroot\LogFolder\Template\" />
   </ItemGroup>
 
 </Project>

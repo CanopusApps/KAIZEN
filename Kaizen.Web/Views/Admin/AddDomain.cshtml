@@ -30,10 +30,12 @@
         <div class="row">
             <div class="col-md-4">
                 <input class="form-control" id="domainname" name="domainname" asp-for="" />
+                 <label id="DomainId" hidden></label> 
                 <span id="DomainError" class="text-danger error-message"></span>
             </div>
             <div class="col-2">
                 <input class="btn btn-azure" id="btnAdd" value="Add" type="button" />
+                 <button class="btn btn-azure" id="btnupdate" onclick="">Update</button> 
             </div>
         </div>
     </div>
@@ -59,7 +61,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr data-id="@item.Id" data-name="@item.DomainName"> 
                             <td hidden>@item.Id</td>
                             <td>@item.DomainName</td>
                             <td class="text-center">0</td>
@@ -74,13 +76,14 @@
                                 }
                             </td>
                             <td class="text-center">
-                                <a href="#" class="btn btn-danger icon deleteuser" onclick="Deletedomain(@item.Id);"><i class="fa-solid fa-trash-can"></i></a>
+                                @* <a href="#" class="btn btn-danger icon deleteuser" onclick="Deletedomain(@item.Id);"><i class="fa-solid fa-trash-can"></i></a> *@
+                                <a id="editdomain" class="btn btn-primary btn-sm editdomain" data-empid="@item.Id" ><i class="edit fas fa-solid fa-pencil"></i></a>
                             </td>
                         </tr>
                     }
                 </tbody>
                        <tr>
-                        <td colspan="1" align="right">Total Employees</td>
+                        <td colspan="1" align="right">Total Employees</td> 
                         <td class="text-center">@Model.Sum(i => i.TotalEmp)</td>
                         <td colspan="2"></td>
                     </tr> 
@@ -91,6 +94,7 @@
 <script>
     $(document).ready(function () {
         $('#empTable').DataTable({});
+        $('#btnupdate').hide();
     });
     function ValidateForm() {
         var isValid = true;
@@ -154,6 +158,55 @@
         });
     });
 
+    // When edit button is clicked
+    $('tbody').on('click', '.editdomain', function (e) {
+        e.preventDefault();
+        $('#btnAdd').hide();
+        $('#btnupdate').show();
+        debugger;
+        var $row = $(this).closest('tr');
+        var domainid = $row.data('id');
+        var domainname = $row.data('name');
+        document.getElementById("domainname").value = domainname;
+        document.getElementById("DomainId").value = domainid;
+    }); 
+
+    $('#btnupdate').click(function () {
+        debugger;
+        var DName = $('#domainname').val();
+        var DId = $('#DomainId').val();
+
+        // Validate form fields
+        if (!ValidateForm()) {
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/UpdateDomain',
+            dataType: "json",
+            data: { domainName: DName, domainId: DId },
+            success: function (result) {
+                // Handle success
+                if ($.isEmptyObject(result)) {
+                    swal('Unable to Update the Domain Details - Please Check the logs');
+                } else {
+                    swal({
+                        text: "Domain Updated successfully !!",
+                        type: "success"
+                    }).then(okay => {
+                        if (okay) {
+                            location.reload(); 
+                        }
+                    });
+                }
+            },
+            error: function (error) {
+                swal('Unable to Update the Domain Details - Please Check the logs');
+                // Handle errors if needed
+                console.error('Error:', error);
+            }
+        });
+    });
 
 
     function Deletedomain(id) {

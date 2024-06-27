@@ -38,7 +38,7 @@ namespace Kaizen.Data.DataServices
 		private static SqlCommand com = null;
 
 
-		public bool InsertDomain(string DomainName)
+		public bool InsertDomain(string DomainName, string CreatedBy)
 		{
 			bool status = false;
 			try
@@ -49,6 +49,7 @@ namespace Kaizen.Data.DataServices
 				com.Connection = con;
 				com.CommandType = CommandType.StoredProcedure;
 				com.Parameters.AddWithValue("@DomainName", DomainName);
+				com.Parameters.AddWithValue("@CreatedBy", CreatedBy);
 				com.CommandText = StoredProcedures.sp_InsertDomain;
 				con.Open();
 				com.ExecuteNonQuery();
@@ -137,6 +138,31 @@ namespace Kaizen.Data.DataServices
 			return ds;
 		}
 
-	}
+        public bool UpdateDomainDetails(string domainName, int id, string ModifiedBy)
+        {
+            bool status = false;
+            try
+            {
+                com = new SqlCommand();
+                DataTable dt = new DataTable();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@domainname", domainName);
+                com.Parameters.AddWithValue("@domainId", id);
+				com.Parameters.AddWithValue("@ModifiedBy", ModifiedBy);
+                com.CommandText = StoredProcedures.Sp_UpdateDomain;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return status;
+        }
+    }
 
 }

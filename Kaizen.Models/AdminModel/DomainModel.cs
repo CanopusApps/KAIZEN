@@ -9,10 +9,13 @@ namespace Kaizen.Models.AdminModel
     public class DomainModel
     {
         public int Id { get; set; }
-        public string? DomainName { get; set; } = string.Empty;
+        public string DomainName { get; set; } = "";
         public bool Status { get; set; }
         public int TotalEmp { get; set; }
 
+        public string CreatedbyId { get; set; } = "";
+
+        public string ModifiedBy { get; set; }
 
     }
 }

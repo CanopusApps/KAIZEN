@@ -162,10 +162,11 @@
             e.preventDefault();
             $('#btnAdd').hide();
             $('#btnupdate').show();
+            debugger;
             var $row = $(this).closest('tr');
             var blockid = $row.data('id');
             var blockname = $row.data('name');
-            document.getElementById("BlockName").value = blockname;
+            document.getElementById("DomainName").value = blockname;
             document.getElementById("BlockId").value = blockid;
         });
     })
