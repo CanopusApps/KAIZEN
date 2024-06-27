@@ -341,10 +341,8 @@ table.ac-table {
 }
 
 
-
-
-
-
-
-
-
+/*GRAYING OUT TABLE*/
+.grayed-out {
+    pointer-events: none;
+    opacity: 0.5;
+}
