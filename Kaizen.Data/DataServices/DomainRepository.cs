@@ -38,7 +38,7 @@ namespace Kaizen.Data.DataServices
 		private static SqlCommand com = null;
 
 
-		public bool InsertDomain(string DomainName, string CreatedBy)
+		public bool InsertDomain(DomainModel domainmodel)
 		{
 			bool status = false;
 			try
@@ -48,8 +48,8 @@ namespace Kaizen.Data.DataServices
 				DataTable dt = new DataTable();
 				com.Connection = con;
 				com.CommandType = CommandType.StoredProcedure;
-				com.Parameters.AddWithValue("@DomainName", DomainName);
-				com.Parameters.AddWithValue("@CreatedBy", CreatedBy);
+				com.Parameters.AddWithValue("@DomainName", domainmodel.DomainName);
+				com.Parameters.AddWithValue("@CreatedBy", domainmodel.CreatedBy);
 				com.CommandText = StoredProcedures.sp_InsertDomain;
 				con.Open();
 				com.ExecuteNonQuery();
@@ -138,7 +138,7 @@ namespace Kaizen.Data.DataServices
 			return ds;
 		}
 
-        public bool UpdateDomainDetails(string domainName, int id, string ModifiedBy)
+        public bool UpdateDomainDetails(DomainModel domainmodel)
         {
             bool status = false;
             try
@@ -147,9 +147,9 @@ namespace Kaizen.Data.DataServices
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@domainname", domainName);
-                com.Parameters.AddWithValue("@domainId", id);
-				com.Parameters.AddWithValue("@ModifiedBy", ModifiedBy);
+                com.Parameters.AddWithValue("@domainId", domainmodel.Id);
+                com.Parameters.AddWithValue("@domainname", domainmodel.DomainName);
+				com.Parameters.AddWithValue("@ModifiedBy", domainmodel.ModifiedBy);
                 com.CommandText = StoredProcedures.Sp_UpdateDomain;
                 con.Open();
                 com.ExecuteNonQuery();

@@ -12,10 +12,9 @@ namespace Kaizen.Models.AdminModel
         public string DomainName { get; set; } = "";
         public bool Status { get; set; }
         public int TotalEmp { get; set; }
+        public string CreatedBy { get; set; } = "";
 
-        public string CreatedbyId { get; set; } = "";
-
-        public string ModifiedBy { get; set; }
+        public string ModifiedBy { get; set; } = "";
 
     }
 }

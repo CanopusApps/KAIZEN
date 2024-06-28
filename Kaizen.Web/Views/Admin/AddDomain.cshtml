@@ -121,8 +121,9 @@
 
     $(document).ready(function () {
         $("#btnAdd").click(function () {
-            var domainName = $('#domainname').val();
-
+            var domainmodel = {
+                DomainName: $('#domainname').val()
+            }
             if (!ValidateForm()) {
                 // If validation fails, return or perform any other necessary actions
                 return;
@@ -131,7 +132,7 @@
                 type: 'POST',
                 url: '/Admin/AddDomain',
                 dataType: "json",
-                data: { DomainName: domainName },
+                data: { DomainModel: domainmodel },
                 success: function (result) {
                     // Handle success (if needed)
                     var res = $.isEmptyObject(result);
@@ -158,7 +159,6 @@
         });
     });
 
-    // When edit button is clicked
     $('tbody').on('click', '.editdomain', function (e) {
         e.preventDefault();
         $('#btnAdd').hide();
@@ -169,44 +169,48 @@
         var domainname = $row.data('name');
         document.getElementById("domainname").value = domainname;
         document.getElementById("DomainId").value = domainid;
-    }); 
+    });
 
     $('#btnupdate').click(function () {
         debugger;
-        var DName = $('#domainname').val();
-        var DId = $('#DomainId').val();
+        var domainmodel = {
+            DomainName: $('#domainname').val(),
+            Id: $('#DomainId').val()
+        };
 
         // Validate form fields
         if (!ValidateForm()) {
             return;
         }
+
+        // Perform AJAX request
         $.ajax({
             type: 'POST',
             url: '/Admin/UpdateDomain',
-            dataType: "json",
-            data: { domainName: DName, domainId: DId },
+            dataType: 'json',
+            data: domainmodel,
             success: function (result) {
                 // Handle success
                 if ($.isEmptyObject(result)) {
                     swal('Unable to Update the Domain Details - Please Check the logs');
                 } else {
                     swal({
-                        text: "Domain Updated successfully !!",
-                        type: "success"
+                        text: 'Domain Updated successfully !!',
+                        type: 'success'
                     }).then(okay => {
                         if (okay) {
-                            location.reload(); 
+                            location.reload();
                         }
                     });
                 }
             },
             error: function (error) {
                 swal('Unable to Update the Domain Details - Please Check the logs');
-                // Handle errors if needed
                 console.error('Error:', error);
             }
         });
     });
+
 
 
     function Deletedomain(id) {

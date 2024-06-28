@@ -115,14 +115,15 @@ namespace Kaizen.Web.Controllers
             return View(blocks);
         }
         [HttpPost]
-        public IActionResult AddBlock(string blockName)
+        public IActionResult AddBlock(BlockModel blockmodel)
         {
             bool insertStatus = false;
             try
             {
-                if (!string.IsNullOrEmpty(blockName))
+                blockmodel.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+                if (ModelState.IsValid)
                 {
-                    insertStatus = _blockWorker.InsertBlockDetails(blockName);
+                    insertStatus = _blockWorker.InsertBlockDetails(blockmodel);
                     if (insertStatus)
                     {
                         blocks = _blockWorker.GetBlock();
@@ -138,14 +139,15 @@ namespace Kaizen.Web.Controllers
 
 
         [HttpPost]
-        public IActionResult UpdateBlock(string blockName,int blockId)
+        public IActionResult UpdateBlock(BlockModel blockmodel)
         {
             bool updateStatus = false;
             try
             {
-                if (!string.IsNullOrEmpty(blockName))
+                blockmodel. ModifiedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+                if (ModelState.IsValid)
                 {
-                    updateStatus = _blockWorker.UpdateBlockDetails(blockName, blockId);
+                    updateStatus = _blockWorker.UpdateBlockDetails( blockmodel);
                     if (updateStatus)
                     {
                         blocks = _blockWorker.GetBlock();
@@ -212,15 +214,16 @@ namespace Kaizen.Web.Controllers
             return View(domains);
         }
         [HttpPost]
-        public IActionResult AddDomain(string domainName)
+        public IActionResult AddDomain(DomainModel domainmodel)
         {
             bool insertStatus = false;
             try
             {
-                string CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
-                if (!string.IsNullOrEmpty(domainName))
+                
+                domainmodel. CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+                if (ModelState.IsValid)
                 {
-                    insertStatus = _domainWorker.CreateDomain(domainName, CreatedBy);
+                    insertStatus = _domainWorker.CreateDomain(domainmodel);
                     if (insertStatus)
                     {
                         domains = _domainWorker.GetDomain();
@@ -234,15 +237,15 @@ namespace Kaizen.Web.Controllers
             return Ok(domains);
         }
         [HttpPost]
-        public IActionResult UpdateDomain(string domainName, int domainId)
+        public IActionResult UpdateDomain(DomainModel domainmodel)
         {
             bool updateStatus = false;
             try
             {
-                string ModifiedBy =conAccessor.HttpContext.Session.GetString("EmpId");
-                if (!string.IsNullOrEmpty(domainName))
+                domainmodel. ModifiedBy =conAccessor.HttpContext.Session.GetString("EmpId");
+                if (ModelState.IsValid)
                 {
-                    updateStatus = _domainWorker.UpdateDomainDetails(domainName, domainId, ModifiedBy);
+                    updateStatus = _domainWorker.UpdateDomainDetails(domainmodel);
                     if (updateStatus)
                     {
                         domains = _domainWorker.GetDomain();
