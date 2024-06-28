@@ -1,4 +1,5 @@
-﻿using Kaizen.Models.ViewUserModel;
+﻿using Kaizen.Models.AdminModel;
+using Kaizen.Models.ViewUserModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,7 @@ namespace Kaizen.Data.DataServices
 {
     public interface IDomainRepository
     {
-        public bool InsertDomain(string domainName);
+        public bool InsertDomain(DomainModel domainmodel);
 
         public DataSet GetDomaindetails();
 
@@ -19,6 +20,8 @@ namespace Kaizen.Data.DataServices
         //public string DropDomainData(DomainModel model, int id);
 
         public bool UpdateDomainStatus(int id, bool status);
+
+        public bool UpdateDomainDetails(DomainModel domainmodel);
 
     }
 }

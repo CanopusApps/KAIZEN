@@ -18,10 +18,10 @@ namespace Kaizen.Business.Worker
             this._repositoryBlockdata = repositoryBlockdata;
         }
         
-        public bool InsertBlockDetails(string blockName)
+        public bool InsertBlockDetails(BlockModel blockmodel)
         {
 
-            return _repositoryBlockdata.InsertBlockDetails(blockName);
+            return _repositoryBlockdata.InsertBlockDetails( blockmodel);
 
         }
 
@@ -58,10 +58,10 @@ namespace Kaizen.Business.Worker
 			return blackModels;
         }
 
-        public bool UpdateBlockDetails(string blockName,int id)
+        public bool UpdateBlockDetails(BlockModel blockmodel)
         {
 
-            return _repositoryBlockdata.UpdateBlockDetails(blockName,id);
+            return _repositoryBlockdata.UpdateBlockDetails( blockmodel);
 
         }
 
