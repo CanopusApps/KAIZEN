@@ -1,218 +1,288 @@
 ﻿@model Kaizen.Models.AdminModel.DepartmentModel
+
 @{
     Layout = "SidebarLayout";
 }
+
 <link href="~/assets/css/common/datatables.min.css" rel="stylesheet" />
 <link href="~/assets/css/custom/adddepartment.css" rel="stylesheet" />
-
 <script src="~/assets/js/custom/datatables.min.js"></script>
 
 <div class="container-fluid">
-
-    <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+    <div class="container-fluid rounded bg-white p-2 mt-2 mb-2">
         <div class="col-lg-12 p-md-0 p-2">
             <div class="welcome-text">
-                <label class="" id="dHeader">Masters --> Departments</label>
+                <label class="" id="dHeader">Masters --&gt; Departments</label>
             </div>
         </div>
     </div>
-                <div class="card p-3 mt-2 mb-2 cardsize">
+
+    <div class="card p-3 mt-2 mb-2 cardsize">
         <div class="col-md-10">
             <div><label class="card-title" id="blkh">Add Department</label></div>
         </div>
-                <div class="row">
-                    <div class=" col-md-3">
-                        <label for="DomainName">Domain Name</label>
-                        <select id="domainName" class="form-control txt-width">
-                            <option selected>--Select--</option>
-                            @foreach (var domain in Model.DomainList)
-                            {
-                                <option value="@domain.Id">@domain.DomainName</option>
-                            }
-                        </select>
-                        <span id="DomError" class="text-danger error-message"></span>
-                    </div>
-                    <div class=" col-md-4">
 
-                        <label for="DepartmentName">Department Name</label>
-                        <input id="departmentName" class="form-control dep-name" />
-                        <span id="DepError" class="text-danger error-message"></span>
-                    </div>
-                    <div class=" col-md-2">
-                        <br />
-                        <input class="btn btn-azure" id="btnAdd" value="Add" type="button" />
-                    </div>
-                </div>
-                </div>
-                <div class="card p-3 mt-2 mb-2 cardsize">
-                    <div class="col-12">
-            <labe class="card-title" id="blktotal">Department List - @ViewBag.DepartmentList.Count</labe>
-                    </div>
-                    <br />
-                     <div class="card-body">
-                        <table id="employeeTable" class="table table-striped" style="width:100%!important">
-                            <thead>
-                                <tr>
-                                    <th hidden scope="col" class="text-center" id="DomName">ID</th>
-                                    <th scope="col" class="text-center" id="DomName">DOMAIN NAME</th>
-                                    <th scope="col" class="text-center" id="DomName">DEPARTMENT NAME</th>
-                                    <th scope="col" class="text-center" id="DomName">TOTAL EMP</th>
-                                    <th scope="col" class="text-center" id="DomName">STATUS</th>
-                                    <th scope="col" class="text-center" id="DomName">ACTION</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in ViewBag.DepartmentList)
+        <div class="row">
+            <div class="col-md-3">
+                <label for="domainName">Domain Name</label>
+                <select id="domainName" class="form-control txt-width">
+                    <option selected>--Select--</option>
+                    @foreach (var domain in Model.DomainList)
+                    {
+                        <option value="@domain.Id">@domain.DomainName</option>
+                    }
+                </select>
+                <span id="DomError" class="text-danger error-message"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label for="departmentName">Department Name</label>
+                <input id="departmentName" class="form-control dep-name" />
+                <span id="DepError" class="text-danger error-message"></span>
+            </div>
+
+            <div class="col-md-2">
+                <br />
+                <input class="btn btn-azure" id="btnAdd" value="Add" type="button" />
+                <input class="btn btn-azure" id="btnupdate" value="Update" type="button" />
+                <input type="hidden" id="DepartmentId" />
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-3 mt-2 mb-2 cardsize">
+        <div class="col-12">
+            <label class="card-title" id="blktotal">Department List - @ViewBag.DepartmentList.Count</label>
+        </div>
+
+        <br />
+
+        <div class="card-body">
+            <table id="employeeTable" class="table table-striped" style="width:100%!important">
+                <thead>
+                    <tr>
+                        <th hidden scope="col" class="text-center" id="DomName">ID</th>
+                        <th scope="col" class="text-center" id="DomName">DOMAIN NAME</th>
+                        <th scope="col" class="text-center" id="DomName">DEPARTMENT NAME</th>
+                        <th scope="col" class="text-center" id="DomName">TOTAL EMP</th>
+                        <th scope="col" class="text-center" id="DomName">STATUS</th>
+                        <th scope="col" class="text-center" id="DomName">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.DepartmentList)
+                    {
+                        <tr>
+                            <td hidden>@item.DeptId</td>
+                            <td>@item.DomainName</td>
+                            <td>@item.DepartmentName</td>
+                            <td>0</td>
+                            <td class="text-center">
+                                @if (!item.Status)
                                 {
-                                    <tr>
-                                        <td hidden>@item.DeptId</td>
-                                        <td>@item.DomainName</td>
-                                        <td>@item.DepartmentName</td>
-                                        <td>0</td>
-                                        <td class="text-center">
-                                            @if (@item.Status == false)
-                                            {
-                                                <a href="/Admin/UpdateDepartmentStatus?id=@item.DeptId &status= true"><span class="btn btn-warning">Inactive</span></a>
-                                            }
-                                            @if (@item.Status == true)
-                                            {
-                                                <a href="/Admin/UpdateDepartmentStatus?id=@item.DeptId &status= false"><span class="btn btn-success">Active</span></a>
-                                            }
-                                        </td>
-                                        <td class="text-center">
-                                <a href="#" class="btn btn-danger icon deleteuser" onclick="Deletedepartment(@item.DeptId);"><i class="fa-solid fa-trash-can"></i></a>
-                                        </td>
-                                    </tr>
+                                    <a href="/Admin/UpdateDepartmentStatus?id=@item.DeptId&status=true"><span class="btn btn-warning">Inactive</span></a>
                                 }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            
+                                else
+                                {
+                                    <a href="/Admin/UpdateDepartmentStatus?id=@item.DeptId&status=false"><span class="btn btn-success">Active</span></a>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a class="btn btn-primary btn-sm editdepartment" data-depid="@item.DeptId">
+                                    <i class="edit fas fa-pencil"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-    <script>
-        $(document).ready(function () {
-            $('#employeeTable').DataTable({});
+<script>
+    $(document).ready(function () {
+        $('#btnupdate').hide(); // Initially hide the update button
+        $('#employeeTable').DataTable({});
+
+        // Add Department button click handler
+        $("#btnAdd").click(function () {
+            addDepartment();
         });
-        function ValidateForm() {
-            var isValid = true;
-            $("#departmentName").css("border-color", "red");
-            $("#DepError").text("");
-            $("#domainName").css("border-color", "red");
-            $("#DomError").text("");
-            $(".error-message").text("");
-            // Check for empty or invalid fields
-            var departmentNameValue = $("#departmentName").val();
-            var domainnamevalue = $("#domainName").val();
-            if (departmentNameValue === "") {
-                $("#departmentName").css("border-color", "red");
-                $("#DepError").text("Department Name is required.");
-                isValid = false;
-            }
-            if (domainnamevalue === "--Select--") {
-                $("#domainName").css("border-color", "red");
-                $("#DomError").text("Please Select Domain");
-                isValid = false;
-            }
-            if (!isValid) {
-                $("#error-message").text("Please fill in the required field correctly.");
-                // Add red border to the submit button
-                $("#submitButton").css("border-color", "red");
-            }
-            return isValid;
+
+        // Edit Department button click handler
+        $('tbody').on('click', '.editdepartment', function (e) {
+            e.preventDefault();
+            $('#btnAdd').hide(); // Hide add button
+            $('#btnupdate').show(); // Show update button
+
+            // Retrieve data from the row for editing
+            var $row = $(this).closest('tr');
+            var departmentId = $row.find('td:first').text().trim();
+            var departmentName = $row.find('td:eq(2)').text().trim();
+            var domainName = $row.find('td:eq(1)').text().trim();
+
+            // Populate form fields for editing
+            $('#departmentName').val(departmentName);
+            $('#DepartmentId').val(departmentId);
+            $('#domainName option').filter(function () {
+                return $(this).text() == domainName;
+            }).prop('selected', true);
+        });
+
+        // Update Department button click handler
+        $("#btnupdate").click(function () {
+            updateDepartment();
+        });
+    });
+
+    function addDepartment() {
+        var departmentName = $('#departmentName').val();
+        var domainId = $('#domainName').val();
+        var domainName = $('#domainName option:selected').text();
+
+        if (!ValidateForm()) {
+            return;
         }
 
-        function addDepartment() {
-            var departmentName = $('#departmentName').val();
-            var domainId = $('#domainName').val();
-            var domainName = $('#domainName option:selected').text();
-            if (!ValidateForm()) {
-                // If validation fails, return or perform any other necessary actions
-                return;
-            }
-            $.ajax({
-                type: 'POST',
-                url: '/Admin/AddDepartment',
-                dataType: "json",
-                data: {
-                    DepartmentName: departmentName,
-                    DomainName: domainName,
-                    DomainId: domainId
-                },
-                success: function (result) {
-                    var res = $.isEmptyObject(result);
-
-                    if (res) {
-                        swal('Unable to Save the Department Details - Please Check the logs');
-                    }
-                    else {
-                        swal({
-                            text: "Department Addedd successfully !!",
-                            type: "success"
-                        }).then(okay => {
-                            if (okay) {
-                                location.reload();
-                            }
-                        });
-                    }
-
-                },
-                error: function (error) {
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/AddDepartment',
+            dataType: "json",
+            data: {
+                DepartmentName: departmentName,
+                DomainName: domainName,
+                DomainId: domainId
+            },
+            success: function (result) {
+                var res = $.isEmptyObject(result);
+                if (res) {
                     swal('Unable to Save the Department Details - Please Check the logs');
-                    // Handle errors (if needed)
-                    // console.error('Error:', error);
-                }
-            });
-        }
-        $(document).ready(function () {
-            $("#btnAdd").click(function () {
-                addDepartment();
-            });
-
-        });
-
-
-
-        function Deletedepartment(id) {
-            var id = id;
-            swal({
-                text: "Are you sure you want to Delete the Department ?",
-                buttons: {
-                    confirm: "Yes",
-                    cancel: "No",
-                },
-            }).then((userConfirmation) => {
-                if (userConfirmation) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Admin/DeleteDepartment',
-                        dataType: "json",
-                        data: { id: id },
-                        success: function (result) {
-                            var res = $.isEmptyObject(result);
-                            if (res) {
-                                swal('Unable to Dalete the Department Details - Please Check the logs');
-                            }
-                            else {
-                                swal({
-                                    text: "Department Deleted successfully !!",
-                                    type: "success"
-                                }).then(okay => {
-                                    if (okay) {
-                                        location.reload();
-                                    }
-                                });
-                            }
-                        },
-                        error: function (error) {
-                            swal('Unable to Delete the Department Details - Please Check the logs');
+                } else {
+                    swal({
+                        text: "Department Added successfully !!",
+                        type: "success"
+                    }).then(okay => {
+                        if (okay) {
+                            location.reload();
                         }
                     });
                 }
-            });
+            },
+            error: function (error) {
+                swal('Unable to Save the Department Details - Please Check the logs');
+            }
+        });
+    }
 
+    function updateDepartment() {
+        var departmentmodel = {
+            DeptId: $('#DepartmentId').val(),
+            DepartmentName: $('#departmentName').val(),
+            DomainId: $('#domainName').val(),
+            DomainName: $('#domainName option:selected').text()
+        };
+
+        if (!ValidateForm()) {
+            return;
         }
 
-    </script>
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/UpdateDepartment',
+            dataType: "json",
+            data: departmentmodel,
+            success: function (result) {
+                console.log(result); // Log the result to the console for debugging
 
-</div>
+            if($.isEmptyObject(result)) {
+            swal('Unable2 to Update the Department Details - Please Check the logs');
+        } else {
+            swal({
+                text: "Department Updated successfully !!",
+                type: "success"
+            }).then(okay => {
+                if (okay) {
+                    location.reload();
+                }
+            });
+
+                }
+            },
+            error: function (error) {
+                swal('Unable1 to Update the Department Details - Please Check the logs');
+            }
+        });
+    }
+
+    function ValidateForm() {
+        var isValid = true;
+
+        $("#departmentName").css("border-color", "red");
+        $("#DepError").text("");
+
+        $("#domainName").css("border-color", "red");
+        $("#DomError").text("");
+
+        $(".error-message").text("");
+
+        var departmentNameValue = $("#departmentName").val();
+        var domainNameValue = $("#domainName").val();
+
+        if (departmentNameValue === "") {
+            $("#departmentName").css("border-color", "red");
+            $("#DepError").text("Department Name is required.");
+            isValid = false;
+        }
+
+        if (domainNameValue === "--Select--") {
+            $("#domainName").css("border-color", "red");
+            $("#DomError").text("Please Select Domain");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            $("#error-message").text("Please fill in the required field correctly.");
+            $("#submitButton").css("border-color", "red");
+        }
+
+        return isValid;
+    }
+
+    function Deletedepartment(id) {
+        swal({
+            text: "Are you sure you want to Delete the Department ?",
+            buttons: {
+                confirm: "Yes",
+                cancel: "No"
+            }
+        }).then((userConfirmation) => {
+            if (userConfirmation) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/DeleteDepartment',
+                    dataType: "json",
+                    data: { id: id },
+                    success: function (result) {
+                        var res = $.isEmptyObject(result);
+                        if (res) {
+                            swal('Unable to Delete the Department Details - Please Check the logs');
+                        } else {
+                            swal({
+                                text: "Department Deleted successfully !!",
+                                type: "success"
+                            }).then(okay => {
+                                if (okay) {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        swal('Unable to Delete the Department Details - Please Check the logs');
+                    }
+                });
+            }
+        });
+    }
+</script>
