@@ -115,7 +115,10 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle no-caret text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="~/assets/img/Profile.png" width="30px" class="mr-2" />
-                            <Label id="wc" class="text-white">Hi, @Accessor.HttpContext.Session.GetString("Message")</Label>
+                            <Label id="wc" class="text-white">Hi, @Accessor.HttpContext.Session.GetString("Message")
+                                <div class="text-white"> @Accessor.HttpContext.Session.GetString("Domain")  @Accessor.HttpContext.Session.GetString("Department")</div>
+                            </Label>
+                            
                            
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -149,10 +152,6 @@
                     <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding">Submitted Kaizen</a>
                     <hr />
 
-                    <div class="collapse" id="basicUIElementsSubmenu">
-                        <a href="#" class="list-group-item list-group-item-action fw-bold">Element 1</a>
-                        <a href="#" class="list-group-item list-group-item-action fw-bold">Element 2</a>
-                    </div>
                     <!-- Drop down -->
                     <div class="list-group-item list-group-item-action menupadding" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
                     <div class="sub-menu collapse menupadding" id="demo" style="margin-top:-15px;">

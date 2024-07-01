@@ -14,6 +14,8 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IDashboard, DashboardWorker>();
+builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IBlock, BlockWorker>();
 builder.Services.AddScoped<IBlockRepository, BlockRepository>();
 builder.Services.AddScoped<IAddUser, AddUserWorker>();

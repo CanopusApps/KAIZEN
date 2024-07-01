@@ -54,7 +54,7 @@
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label" })
                     <input type="text" asp-for="MiddleName" id="MiddleName" name="MiddleName" class="form-control txt-width" placeholder="Enter Middle Name">
-
+                    <span id="middleNameError" class="text-danger"></span>
                 </div>
         </div>
             <div class="form-row">
@@ -166,18 +166,6 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script> 
 <script>
-    function validateMiddleName() {
-        const input = document.getElementById('MiddleName');
-        const regex = /^[A-Za-z\s]*$/;
-        if (!regex.test(input.value)) {
-            input.setCustomValidity('Only letters Or Empty are allowed');
-        } else {
-            input.setCustomValidity('');
-        }
-    }
-</script>
-
-<script>
     $('#configreset').click(function () {
         $('#configform')[0].reset();
     });
@@ -279,8 +267,16 @@
                     required: "Confirm password is required",
                     equalTo: "Passwords do not match"
                 }
-            },
-           
+            },     
+        });
+        // middle name  validation 
+        $('#MiddleName').on('input', function () {
+            let value = $(this).val();
+            if (/[^a-zA-Z]/.test(value)) {
+                $('#middleNameError').text('Only letters are allowed.');
+            } else {
+                $('#middleNameError').text('');
+            }
         });
 
         // Fetch departments based on selected domain
