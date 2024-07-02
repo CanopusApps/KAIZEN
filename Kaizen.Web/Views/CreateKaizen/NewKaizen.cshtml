@@ -1,9 +1,10 @@
-﻿@{
+﻿@using Kaizen.Models.NewKaizen;
+@model NewKaizenModel;
+@{
     Layout = "SidebarLayout";
 }
 
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
-
 
 
 <div class="content-body">
@@ -171,7 +172,7 @@
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label>Version No/Date<span class="mandatory">*</span></label>
-                                                                    <input type="text" name="version_no" class="form-control mb10" value="">
+                                                                    <input type="text" name="version_no" class="form-control mb10" value= "01/ @Model.OriginatedDate">
                                                                 </div>
                                                             </div>
 
@@ -212,13 +213,26 @@
                                                     <div class="form-group">
                                                         <label>Block<span class="mandatory">*</span></label> <br>
                                                         <div class="dropdown bootstrap-select ">
-                                                            <select class="form-control selectized" name="plantname" id="plantname" required="" tabindex="-1">
+                                                            @* <select class="form-control selectized" name="plantname" id="plantname" required="" tabindex="-1">
                                                                 <option value="" selected="selected">Select</option>
                                                                 <!-- Add options here -->
                                                                 <option value="option1">Option 1</option>
                                                                 <option value="option2">Option 2</option>
                                                                 <option value="option3">Option 3</option>
+                                                            </select> *@
+
+                                                            <select id="inputUserType" class="form-control txt-width" name="UserType">
+                                                                <option selected>Select</option>
+                                                                @if (Model.BlockList != null)
+                                                                {
+                                                                    foreach (var modellist in Model.BlockList)
+                                                                    {
+                                                                        <option value="@modellist.Id">@modellist.BlockName</option>
+                                                                    }
+                                                                }
                                                             </select>
+
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -512,78 +526,42 @@
 
                                         <div class="table-responsive">
 
-                                            <table class="table table-bordered mb10">
-
+                                            <table class="table table-bordered mb10" id="idAddteammember">
                                                 <thead>
-
                                                     <tr>
-
-                                                        <th scope="col" class="align-top">EMP.ID</th>
-
+                                                        <th scope="col" class="align-top">EMP ID</th>
                                                         <th scope="col" class="align-top">Team Member Name</th>
-
                                                         <th scope="col" class="align-top">Function</th>
-
                                                         <th scope="col" class="align-top">Action</th>
-
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="IdMemberAdd" style="width:80px;"></td>
+                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="IdTeamMemberName"> </td>
+                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="IdFunction"></td>
+                                                        <td class="border-0 px-0 align-middle">
+                                                            <input type="button" value="Add" id="teamAddBtn" class="btn btn-azure">
+                                                        </td>
+                                                        <td class="border-0 px-0 align-middle">
+                                                            <input type="button" value="Delete" id="teamDelBtn" class="btn btn-azure">
+                                                        </td>
                                                     </tr>
 
-                                                </thead>
+                                                </tbody>
 
+                                            </table>
+
+
+                                            <table id="tblteammemberResult">
                                                 <tbody>
 
                                                     <tr>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control"></td>
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control"> </td>
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control"></td>
-                                                        <td class="border-0 px-0 align-middle"><input type="button" value="Add" id="NameAddBtn" class="btn btn-azure w-100"></td>
 
                                                     </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
                                                 </tbody>
+
 
                                             </table>
 
@@ -779,10 +757,13 @@
                                 <div class="carddashed mt-2">
 
                                     <div class="card-body targetGrayed">
+                                        <label>
+                                            Scope and Plan for Horizontal Deployment
+                                        </label>
 
                                         <div class="table-responsive" id="table2">
 
-                                            <table class="table table-bordered mb10">
+                                            <table class="table table-bordered mb10" id="tblDeployment">
 
                                                 <thead>
 
@@ -808,76 +789,32 @@
 
                                                     <tr>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control"></td>
+                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="txtNo" style="width:40px;" readonly></td>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control"></td>
+                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="txtMc"></td>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control"></td>
+                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="txtTargetDate"></td>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control"></td>
+                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="txtResponsibility"></td>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control"></td>
+                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="txtStatus"></td>
 
-                                                        <td class="border-0 px-0 align-middle"><input type="button" value="Add" id="NameAddBtn" class="btn btn-azure w-100"></td>
-
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
+                                                        <td class="border-0 px-0 align-middle">
+                                                            <input type="button" value="Add" id="btnAddDeployment" class="btn btn-azure">
+                                                            <input type="button" value="Delete" id="btnDeleteDeployment" class="btn btn-azure">
+                                                        </td>
                                                     </tr>
 
                                                 </tbody>
 
+                                            </table>
+
+                                            <table id="tblDeploymentrResult">
+                                                <tbody>
+                                                    <tr>
+
+                                                    </tr>
+                                                </tbody>
                                             </table>
 
                                         </div>
@@ -955,7 +892,7 @@
                                                                 </td>
 
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
-                                                                    <input type="text" class="mx-auto form-control col-9">
+                                                                    <input type="text" class="mx-auto form-control col-9" id="name" name="name" value="@Model.name">
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
                                                                     <select name="" id="" class="form-control col-9">
@@ -977,10 +914,10 @@
                                                                 </td>
 
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
-                                                                    <input type="text" class="mx-auto form-control col-9">
+                                                                    <input type="text" class="mx-auto form-control col-9" id="DomainId" name="DomainId" value="@Model.Domain - @Model.Department">
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
-                                                                    <input name="" id="" class="form-control col-9">
+                                                                    <input name="DeptId" id="DeptId" class="form-control col-9" value="@Model.Domain - @Model.Department">
                                                                 </td>
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-4">
@@ -994,7 +931,7 @@
                                                                 </td>
 
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
-                                                                    <input type="date" class="mx-auto form-control col-9">
+                                                                    <input class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@Model.OriginatedDate" readonly>
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
                                                                     <input name="" type="date" id="" class="form-control col-9">
@@ -1057,6 +994,8 @@
     $(document).ready(function () {
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
+
+
     });
 
     function toggleTableGrayedOut(grayOut) {
@@ -1073,4 +1012,144 @@
         var isChecked = $(this).prop('id') === 'N';
         toggleTableGrayedOut(isChecked);
     });
+
+
+    jQuery("#IdMemberAdd").blur(function () {
+        var EmpId = $('#IdMemberAdd').val();
+        $.ajax({
+            type: 'POST',
+            url: '/CreateKaizen/GetTeamMemberDetails',
+            dataType: "json",
+            data: {
+              EmpId: EmpId
+            },
+            success: function (result) {
+                debugger;
+                $("#IdTeamMemberName").val(result.name);
+                $("#IdFunction").val(result.domain);
+               
+            },
+            error: function (error) {
+                swal('Unable to Save the Department Details - Please Check the logs');
+                // Handle errors (if needed)
+                // console.error('Error:', error);
+            }
+        });
+
+       
+
+
+    });
+    
+    $("#teamAddBtn").click(function () {
+
+        var mytable = document.getElementById("tblteammemberResult");
+        var rows = mytable.rows.length;
+        var r = mytable.insertRow(rows);
+        var c1 = r.insertCell(0);
+        var c2 = r.insertCell(1);
+        var c3 = r.insertCell(2);
+        var c4 = r.insertCell(3);
+
+        var checkbox = document.createElement("input");
+        var empId = document.createElement("input");
+        var teamMemberName = document.createElement("input");
+        var teamMemberfunction = document.createElement("input");
+
+        checkbox.type = "checkbox";
+        empId.type = "text"; 
+        empId.value = $("#IdMemberAdd").val();
+        teamMemberName.type = "text";
+        teamMemberName.value = $("#IdTeamMemberName").val();
+        teamMemberfunction.type = "text";
+        teamMemberfunction.value = $("#IdFunction").val();
+        c1.appendChild(checkbox);
+        c2.appendChild(empId);
+        c3.appendChild(teamMemberName);
+        c4.appendChild(teamMemberfunction);
+
+        $("#IdMemberAdd").val("");
+        $("#IdTeamMemberName").val("");
+        $("#IdFunction").val("");
+
+
+ 
+    });
+
+    $("#teamDelBtn").click(function () {
+
+        var mytable = document.getElementById("tblteammemberResult");
+        var rows = mytable.rows.length;
+        for (var i = rows - 1; i > 0; i--) {
+            if (mytable.rows[i].cells[0].children[0].checked) {
+                mytable.deleteRow(i);
+            }
+        }
+
+
+    });
+
+
+    $("#btnAddDeployment").click(function () {
+      
+        
+            //var rowCount = table.rows.length;  
+
+
+        var mytable = document.getElementById("tblDeploymentrResult");
+        var rows = mytable.rows.length;
+        var r = mytable.insertRow(rows);
+        var c1 = r.insertCell(0);
+        var c2 = r.insertCell(1);
+        var c3 = r.insertCell(2);
+        var c4 = r.insertCell(3);
+        var c5 = r.insertCell(4);
+        var c6 = r.insertCell(5);
+
+        var checkbox = document.createElement("input");
+        var Sno = document.createElement("input");
+        var mc = document.createElement("input");
+        var targetDate = document.createElement("input");
+        var responsibility = document.createElement("input");
+        var status = document.createElement("input");
+
+
+        checkbox.type = "checkbox";
+        Sno.type = "text";
+        Sno.value = $("#txtNo").val();
+        mc.type = "text";
+        mc.value = $("#txtMc").val();
+        targetDate.type = "text";
+        targetDate.value = $("#txtTargetDate").val();
+        responsibility.type = "text";
+        responsibility.value = $("#txtResponsibility").val();
+        status.type = "text";
+        status.value = $("#txtStatus").val();
+
+        c1.appendChild(checkbox);
+        c2.appendChild(Sno);
+        c3.appendChild(mc);
+        c4.appendChild(targetDate);
+        c5.appendChild(responsibility);
+        c6.appendChild(status);
+      
+        $("#txtMc").val("");
+        $("#txtTargetDate").val("");
+        $("#txtResponsibility").val("");
+        $("#txtStatus").val("");
+    });
+
+    $("#btnDeleteDeployment").click(function () {
+
+        var mytable = document.getElementById("tblDeploymentrResult");
+        var rows = mytable.rows.length;
+        for (var i = rows - 1; i > 0; i--) {
+            if (mytable.rows[i].cells[0].children[0].checked) {
+                mytable.deleteRow(i);
+            }
+        }
+
+
+    });
+
 </script>

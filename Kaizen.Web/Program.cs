@@ -30,7 +30,8 @@ builder.Services.AddScoped<IEditUser, EditUserWorker>();
 builder.Services.AddScoped<IEditUserRepository, EditUserRepository>();
 builder.Services.AddScoped<ISubmittedKaizen, SubmittedKaizenWorker>();
 builder.Services.AddScoped<ISubmittedKaizenRepository, SubmittedKaizenRepository>();
-
+builder.Services.AddScoped<ICreateNewKaizen, CreateNewKaizenWorker>();
+builder.Services.AddScoped<ICreateNewKaizenRepository,CreateNewKaizenRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
