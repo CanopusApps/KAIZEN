@@ -27,6 +27,7 @@ namespace Kaizen.Web.Controllers
         public IActionResult Index([Bind] LoginModel loginmodel)
         {
             string EmpId, password,Username;
+            string Domainname, departmentname;
             DataTable dataTable = new DataTable();
             try
             {
@@ -39,6 +40,8 @@ namespace Kaizen.Web.Controllers
                         EmpId = row["EmpId"].ToString();
                         password = row["Password"].ToString();
                         Username= row["FirstName"].ToString();
+                        HttpContext.Session.SetString("Department", row["DepartmentName"].ToString());
+                        HttpContext.Session.SetString("Domain", row["DomainName"].ToString());
                         if (EmpId == loginmodel.EmpId && password == loginmodel.Password)
                         {
                            String Id= conAccessor.HttpContext.Session.Id;
@@ -47,7 +50,6 @@ namespace Kaizen.Web.Controllers
                                 Response.Redirect("Admin/Adduser");
                                 HttpContext.Session.SetString("Message",Username);
                                 HttpContext.Session.SetString("EmpId", EmpId);
-                               
                             }
                          
                                 
