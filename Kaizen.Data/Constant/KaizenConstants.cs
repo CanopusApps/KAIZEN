@@ -56,5 +56,6 @@ namespace Kaizen.Data.Constant
         public static string Sp_UpdateDomain = "Sp_UpdateDomain";
         public static string Sp_Get_Approval_Status = "Sp_Get_Approval_Status"; 
         public static string Sp_Get_Kaizen_Details = "Sp_Get_Kaizen_Details";
+        public static string SpGetKaizenOriginetedby = "Sp_Get_KaizenOriginetedby";
     }
 }
