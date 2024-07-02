@@ -334,20 +334,25 @@ namespace Kaizen.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddDepartment(int domainId, string DomainName, string DepartmentName)
+        public IActionResult AddDepartment(DepartmentModel departmentModel)
         {
             bool insertStatus = false;
             List<DepartmentModel> departments = new List<DepartmentModel>();
             try
             {
-                if (domainId > 0 && !string.IsNullOrEmpty(DomainName) && !string.IsNullOrEmpty(DepartmentName))
-                {
-                    insertStatus = _departmentWorker.CreateDepartment(domainId, DomainName, DepartmentName);
+                string msg;
+                //ModelState.Remove(nameof(departmentModel.DepartmentList));
+                //ModelState.Remove(nameof(departmentModel.DomainList ));
+                departmentModel.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+                
+                //if (/*ModelState.IsValid*/)
+                //{
+                    insertStatus = _departmentWorker.CreateDepartment( departmentModel);
                     if(insertStatus)
                     {
                         departments = _departmentWorker.GetDepartments();
                     }
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -370,6 +375,32 @@ namespace Kaizen.Web.Controllers
             list = _departmentWorker.GetDomain(model);
             return list;
         }
+        [HttpPost]
+        public IActionResult UpdateDepartment(DepartmentModel departmentmodel)
+        {
+            bool updateStatus = false;
+            try
+            {
+                ModelState.Remove(nameof(departmentmodel.DepartmentList));
+                ModelState.Remove(nameof(departmentmodel.DomainList ));
+                departmentmodel.ModifiedBY = conAccessor.HttpContext.Session.GetString("EmpId");
+                if (ModelState.IsValid)
+                {
+                    updateStatus = _departmentWorker.UpdateDepartmentDetails(departmentmodel);
+                    if (updateStatus)
+                    {
+                        //domains = _domainWorker.GetDomain();
+                        departments = _departmentWorker.GetDepartments();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+            return Ok(departments);
+        }
+
 
         [HttpPost]
         public IActionResult DeleteDepartment(int id)

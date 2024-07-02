@@ -44,7 +44,8 @@ namespace Kaizen.Data.Constant
 		public static string sp_getUsers = "Sp_Get_Users";
 		public static string Sp_GetDepartments = "Sp_Get_Departments";
 		public static string sp_UpdateDepartmentStatus = "Sp_UpdateDepartmentStatus";
-		public static string sp_DeleteDepartment = "Sp_Delete_Department";
+        public static string Sp_UpdateDepartment = "Sp_UpdateDepartment";
+        public static string sp_DeleteDepartment = "Sp_Delete_Department";
 		public static string sp_InsertDepartment = "Sp_InsertDepartment";
         public static string sp_Delete_User = "Sp_Delete_User";
         public static string sp_InsertDomain = "Sp_InsertDomain"; 
@@ -53,6 +54,7 @@ namespace Kaizen.Data.Constant
 		public static string Sp_Update_Users = "Sp_UpdateUser";
         public static string sp_UpdateBlock = "Sp_UpdateBlock";
         public static string Sp_UpdateDomain = "Sp_UpdateDomain";
-        public static string Sp_Get_Approval_Status = "Sp_Get_Approval_Status";
+        public static string Sp_Get_Approval_Status = "Sp_Get_Approval_Status"; 
+        public static string Sp_Get_Kaizen_Details = "Sp_Get_Kaizen_Details";
     }
 }
