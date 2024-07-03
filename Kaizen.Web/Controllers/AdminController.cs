@@ -459,11 +459,15 @@ namespace Kaizen.Web.Controllers
 		public IActionResult EditUser(EditUserModel editUserModel)
 		{
 			string msg="";
-			ModelState.Remove(nameof(editUserModel.UserType));
+            editUserModel.ModifiedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+            ModelState.Remove(nameof(editUserModel.UserType));
 			ModelState.Remove(nameof(editUserModel.Cadre));
 			ModelState.Remove(nameof(editUserModel.Domains));
 			ModelState.Remove(nameof(editUserModel.Departments));
-			if (ModelState.IsValid)
+            ModelState.Remove(nameof(editUserModel.ModifiedBy));
+            ModelState.Remove(nameof(editUserModel.MiddleName));
+
+            if (ModelState.IsValid)
 			{
                 msg = _editUserWorker.EditUser(editUserModel);
                 if (msg == "ok")

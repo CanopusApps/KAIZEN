@@ -40,20 +40,22 @@ namespace Kaizen.Data.DataServices
 				{
 					SqlCommand com = new SqlCommand(StoredProcedures.Sp_Update_Users, con);
 					com.CommandType = CommandType.StoredProcedure;
-					com.Parameters.AddWithValue("@EmpId", editUserModel.EmpID);
-					com.Parameters.AddWithValue("@Name", editUserModel.Name);
-					com.Parameters.AddWithValue("@Email", editUserModel.Email);
-					com.Parameters.AddWithValue("@Password", editUserModel.Password);
-					com.Parameters.AddWithValue("@Phno", editUserModel.PhoneNo);
+					com.Parameters.AddWithValue("@EmployeeID", editUserModel.EmpID);
+					com.Parameters.AddWithValue("@FirstName", editUserModel.FirstName);
+                    com.Parameters.AddWithValue("@MiddleName", editUserModel.MiddleName);
+                    com.Parameters.AddWithValue("@LastName", editUserModel.LastName);
+                    com.Parameters.AddWithValue("@Email", editUserModel.Email);
+					//com.Parameters.AddWithValue("@Password", editUserModel.Password);
+					com.Parameters.AddWithValue("@PhoneNo", editUserModel.PhoneNo);
 					com.Parameters.AddWithValue("@Gender", editUserModel.Gender.Substring(0, 1));
 					com.Parameters.AddWithValue("@Cid", editUserModel.Cid);
 					com.Parameters.AddWithValue("@Rid", editUserModel.Rid);
-					com.Parameters.AddWithValue("@status", editUserModel.StatusName);
+					com.Parameters.AddWithValue("@Status", editUserModel.StatusName);
 					com.Parameters.AddWithValue("@Did", editUserModel.Did);
 					com.Parameters.AddWithValue("@Deptid", editUserModel.DeptId);
 					com.Parameters.AddWithValue("@ImageApprover", editUserModel.ImageApprover);
-
-					SqlParameter obreg = new SqlParameter();
+					com.Parameters.AddWithValue("@ModifiedEmpId", editUserModel.ModifiedBy);
+                    SqlParameter obreg = new SqlParameter();
 					obreg.ParameterName = "@result";
 					obreg.SqlDbType = SqlDbType.Bit;
 					obreg.Direction = ParameterDirection.Output;
