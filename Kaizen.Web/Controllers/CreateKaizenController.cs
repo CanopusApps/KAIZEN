@@ -20,13 +20,15 @@ namespace Kaizen.Web.Controllers
 		{
 			_blockWorker = worker;
 			_createNewKaizen = kaizenWorker;
-		}
+            this.conAccessor = conAccessor;
+        }
 		public IActionResult NewKaizen()
 		{
 			try
 			{
-				model.EmpId = "614678";
-				model.BlockList = _blockWorker.GetBlock();
+                //model.EmpId = "614678";
+                model.EmpId = conAccessor.HttpContext.Session.GetString("EmpId");
+                model.BlockList = _blockWorker.GetBlock();
 				model = _createNewKaizen.GetKaizenOriginatedby(model);
 			}
 			catch (Exception ex) { LogEvents.LogToFile(DbFiles.Title, ex.ToString()); }
@@ -35,8 +37,12 @@ namespace Kaizen.Web.Controllers
 		[HttpPost]
 		public IActionResult NewKaizen(NewKaizenModel model)
 		{
+            bool insertStatus = false;
+            model.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
 
-			return View();
+            insertStatus = _createNewKaizen.CreateNewKaizen(model);
+
+            return Ok();
 		}
 
 		[HttpPost]
@@ -47,5 +53,9 @@ namespace Kaizen.Web.Controllers
 
             return Ok(model); 
 		}
+
+
+
+		
     }
 }

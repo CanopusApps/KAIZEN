@@ -10,7 +10,8 @@ namespace Kaizen.Models.NewKaizen
 	public class NewKaizenModel
 	{
 		public int Id { get; set; }
-		public string VersionDate { get; set; }
+        public string CreatedBy { get; set; }
+        public string VersionDate { get; set; }
 		public string KaizenId { get; set; }
 		public string KaizenType { get; set; }
 		public string ACTIVITY { get; set; }

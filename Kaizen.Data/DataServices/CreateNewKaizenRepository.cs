@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Kaizen.Models.NewKaizen;
+using Kaizen.Models.AdminModel;
 
 namespace Kaizen.Data.DataServices
 {
@@ -47,6 +48,30 @@ namespace Kaizen.Data.DataServices
             }
             return dt;
         }
+
+        public bool CreateNewKaizenData(NewKaizenModel model)
+        {
+            bool status = false;
+            try
+            {
+                com = new SqlCommand();
+                DataTable dt = new DataTable();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@ID", model.Id);
+                com.CommandText = StoredProcedures.SpKaizen_Insert;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return status;
+        }
+
 
     }
 }

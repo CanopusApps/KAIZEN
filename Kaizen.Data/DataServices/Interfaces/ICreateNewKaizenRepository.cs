@@ -1,4 +1,5 @@
-﻿using Kaizen.Models.NewKaizen;
+﻿using Kaizen.Models.AdminModel;
+using Kaizen.Models.NewKaizen;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,5 +12,6 @@ namespace Kaizen.Data.DataServices.Interfaces
     public interface ICreateNewKaizenRepository
     {
       public DataTable GetKaizenOriginatedbyData(NewKaizenModel model);
+        public bool CreateNewKaizenData(NewKaizenModel model);
     }
 }
