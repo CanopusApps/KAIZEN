@@ -6,26 +6,16 @@
 
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
 
-
 <div class="content-body">
-
     <div class="container-fluid mt-5">
-
         <!-- Page Title -->
-
         <div class="row page-titles mx-0 mt-5">
-
             <div class="col-sm-12 p-md-0">
-
                 <div class="welcome-text">
-
                     <h4>Post Idea<button class="btn btn-azure float-right" type="button">Sample Kaizen Form</button></h4>
                     <p class="responsemessage"></p>
-
                 </div>
-
             </div>
-
         </div>
 
         <!-- END Page Title -->
@@ -37,7 +27,7 @@
 
             <input class="ac-input" id="ac-1" name="accordion-1" type="checkbox" checked />
 
-            <label class="ac-label" for="ac-1"> Block-1 <i></i></label>
+            <label class="ac-label" for="ac-1"> Kaizen Idea Details <i></i></label>
 
             <div class="article ac-content">
 
@@ -221,7 +211,7 @@
                                                                 <option value="option3">Option 3</option>
                                                             </select> *@
 
-                                                            <select id="inputUserType" class="form-control txt-width" name="UserType">
+                                                            <select id="BlockName" class="form-control txt-width" name="UserType">
                                                                 <option selected>Select</option>
                                                                 @if (Model.BlockList != null)
                                                                 {
@@ -231,7 +221,7 @@
                                                                     }
                                                                 }
                                                             </select>
-
+                                                            <span id="BlockError" class="text-danger error-message"></span>
 
                                                         </div>
                                                     </div>
@@ -241,6 +231,8 @@
                                                     <div class="form-group">
                                                         <label>Kaizen Theme <span class="mandatory">*</span></label>
                                                         <input type="text" name="ktheme" id="ktheme" required="" class="form-control" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">Poka yoke in Rail placing</p>' title=" Kaizen Theme [Example] ">
+                                                        <span id="themeError" class="text-danger error-message"></span>
+
                                                     </div>
                                                 </div>
 
@@ -248,7 +240,8 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>Block/Line/Machine/Others <span class="mandatory">*</span></label>
-                                                        <input type="text" name="tepl_plant" id="tepl_plant" required="" class="form-control" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">IM 01 Process</p>' title="Block/Line/Machine/Others [Example]">
+                                                        <input type="text" name="teplplant" id="teplplant" required="" class="form-control" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">IM 01 Process</p>' title="Block/Line/Machine/Others [Example]">
+                                                        <span id="plantError" class="text-danger error-message"></span>
                                                     </div>
                                                 </div>
 
@@ -258,7 +251,8 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>Suggested Kaizen ( Logical Correlation with root cause) <span class="mandatory">*</span></label>
-                                                        <input type="text" required="" name="idea" id="idea" class="form-control" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">Provide stopper pin in Heating Fixture</p>' title="Suggested Kaizen [Example]">
+                                                        <input type="text" required="" name="suggestedKaizen" id="suggestedKaizen" class="form-control" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">Provide stopper pin in Heating Fixture</p>' title="Suggested Kaizen [Example]">
+                                                        <span id="suggestedKaizenError" class="text-danger error-message"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -285,14 +279,16 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>Problem Statement<span class="mandatory">*</span></label> <br>
-                                                        <textarea class="textarea50" name="prob_stmt" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center justify-content-center">There is no POKA YOKE for Rail placing in Heating Fixture, due to this rail can place wrong direction and it possible for Mold damage and it affect part qualitity.</p>' title="Problem Statement [Example]"></textarea>
+                                                        <textarea class="textarea50" name="probstmt" id="probstmt" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center justify-content-center">There is no POKA YOKE for Rail placing in Heating Fixture, due to this rail can place wrong direction and it possible for Mold damage and it affect part qualitity.</p>' title="Problem Statement [Example]"></textarea>
+                                                        <span id="probstmtError" class="text-danger error-message"></span>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>Counter measure( Engineering solution)<span class="mandatory">*</span></label> <br>
-                                                        <textarea class="textarea50" name="count_measur" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center justify-content-center">Locating guide pin placed in fixture 3 places to avoid rail placing wrong orientation</p>' title="Counter measure [Example]"></textarea>
+                                                        <textarea class="textarea50" name="countmeasur" id="countmeasur" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center justify-content-center">Locating guide pin placed in fixture 3 places to avoid rail placing wrong orientation</p>' title="Counter measure [Example]"></textarea>
+                                                        <span id="countmeasurError" class="text-danger error-message"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -317,7 +313,7 @@
             <div>
 
                 <input class="ac-input" id="ac-2" name="accordion-1" type="checkbox" checked />
-                <label class="ac-label" for="ac-2">Block-2<i></i></label>
+                <label class="ac-label" for="ac-2">Kaizen Image Details<i></i></label>
                 <div class="article ac-content">
                     <div class="col-lg-12">
                         <div class="carddashed mt-2">
@@ -429,7 +425,7 @@
             <!--startAccordin-3-->
             <div>
                 <input class="ac-input" id="ac-3" name="accordion-1" type="checkbox" checked />
-                <label class="ac-label" for="ac-3">Block-3<i></i></label>
+                <label class="ac-label" for="ac-3">Kaizen Member Details<i></i></label>
                 <div class="article ac-content">
                     <div class="col-lg-12">
                         <div class="row">
@@ -590,8 +586,18 @@
                                                     <div class="form-group">
                                                         <label>Root Cause (Problem Phenomena)<span class="mandatory">*</span></label>
                                                         <br>
-                                                        <label>Type:</label>
-                                                        <input type="type" name="name" value="" class="form-control" placeholder="select" />
+@*                                                         <label>Type:</label>
+                                                        <input type="type" name="name" value="" class="form-control" placeholder="select" /> *@
+
+
+                                                        <select class="form-select" id="multiple-select-field" data-placeholder="Select" multiple>
+                                                            <option>5 Ways</option>
+                                                            <option>Fishbone Diag</option>
+                                                            <option>FMEA</option>
+                                                            <option>Others</option>
+                                                            <option>Pareto chart</option>
+                                                            <option>Scatter Plot Diag</option>
+                                                        </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Attachment</label>
@@ -651,7 +657,10 @@
             <div>
 
                 <input class="ac-input" id="ac-4" name="accordion-2" type="checkbox" checked />
-                <label class="ac-label" for="ac-4">Block-4<i></i></label>
+                <label class="ac-label" for="ac-4">
+                    Kaizen Horizontal Deployment Details
+                    <i></i>
+                </label>
                 <div class="article ac-content">
                     <div class="col-lg-12">
 
@@ -839,7 +848,7 @@
             <div>
 
                 <input class="ac-input" id="ac-5" name="accordion-2" type="checkbox" checked />
-                <label class="ac-label" for="ac-5">Block-5<i></i></label>
+                <label class="ac-label" for="ac-5">Kaizen Approver Details<i></i></label>
                 <div class="article ac-content">
                     <div class="col-lg-12">
                         <div class="row">
@@ -983,21 +992,27 @@
 
 <div class="col-sm-12 ">
     <div class="card-body float-right">
-        <button class="btn btn-warning">Save It</button>
-        <button class="btn btn-azure">Submit to DRI</button>
+        <button class="btn btn-warning" id="btnSaveKaizen">Save It</button>
+        <button class="btn btn-azure" id="btnSubmitKaizen">Submit to DRI</button>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Styles -->
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" crossorigin="anonymous" />
+<!-- Or for RTL support -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" crossorigin="anonymous" />
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" crossorigin="anonymous"></script>
 <script>
-    $(document).ready(function () {
-        // Initialize all popovers
-        $('[data-toggle="popover"]').popover();
-
-
+    $('#multiple-select-field').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
     });
-
     function toggleTableGrayedOut(grayOut) {
         if (grayOut) {
             $('.targetGrayed').addClass('grayed-out');
@@ -1007,12 +1022,10 @@
     }
 
     toggleTableGrayedOut($('#N').is(':checked'));
-
     $('input[type="radio"][name="onnOff"]').change(function () {
         var isChecked = $(this).prop('id') === 'N';
         toggleTableGrayedOut(isChecked);
     });
-
 
     jQuery("#IdMemberAdd").blur(function () {
         var EmpId = $('#IdMemberAdd').val();
@@ -1035,10 +1048,6 @@
                 // console.error('Error:', error);
             }
         });
-
-       
-
-
     });
     
     $("#teamAddBtn").click(function () {
@@ -1072,8 +1081,6 @@
         $("#IdTeamMemberName").val("");
         $("#IdFunction").val("");
 
-
- 
     });
 
     $("#teamDelBtn").click(function () {
@@ -1085,17 +1092,10 @@
                 mytable.deleteRow(i);
             }
         }
-
-
     });
-
 
     $("#btnAddDeployment").click(function () {
       
-        
-            //var rowCount = table.rows.length;  
-
-
         var mytable = document.getElementById("tblDeploymentrResult");
         var rows = mytable.rows.length;
         var r = mytable.insertRow(rows);
@@ -1148,8 +1148,142 @@
                 mytable.deleteRow(i);
             }
         }
+    });
 
+      function ValidateForm() {
+        var isValid = true;
+        // Remove red borders and error messages
+        $("#BlockName").css("border-color", "red");
+        $("#Blockerror").text("");
+        $(".error-message").text("");
+
+        $("#ktheme").css("border-color", "red");
+        $("#themeError").text("");
+        $(".error-message").text("");
+
+        $("#teplplant").css("border-color", "red");
+        $("#teplplantError").text("");
+        $(".error-message").text("");
+
+        $("#suggestedKaizen").css("border-color", "red");
+        $("#suggestedKaizenError").text("");
+        $(".error-message").text("");
+
+        $("#probstmt").css("border-color", "red");
+        $("#probstmtError").text("");
+        $(".error-message").text("");
+
+        
+        $("#countmeasur").css("border-color", "red");
+        $("#countmeasurError").text("");
+        $(".error-message").text("");
+
+
+        
+        // Check for empty or invalid fields
+        var blockNameValue = $("#BlockName").val();
+        var themeName = $("#ktheme").val();
+        var plantName = $("#teplplant").val();
+        var suggestedKaizenName = $("#suggestedKaizen").val();
+        var problemName = $("#probstmt").val();
+        var counterMeasuremName = $("#countmeasur").val();
+
+
+        if (blockNameValue === "--Select--") {
+            debugger;
+            $("#BlockName").css("border-color", "red");
+            $("#BlockError").text("Please Select Domain");
+            isValid = false;
+        }
+
+        if (themeName === "") {
+            debugger;
+            $("#ktheme").css("border-color", "red");
+            $("#themeError").text("Theme Name is required.");
+            isValid = false;
+        }
+        if (plantName === "") {
+            debugger;
+            $("#teplplant").css("border-color", "red");
+            $("#plantError").text("Block/Line/Machine/Others [Example] is required.");
+            isValid = false;
+        }
+
+        if (suggestedKaizenName === "") {
+            debugger;
+            $("#suggestedKaizen").css("border-color", "red");
+            $("#suggestedKaizenError").text("Theme Sggested Kaizen Name is required.");
+            isValid = false;
+        }
+
+        if (problemName === "") {
+            debugger;
+            $("#probstmt").css("border-color", "red");
+            $("#probstmtError").text("Theme Problem Statement  is required.");
+            isValid = false;
+        }
+        if (counterMeasuremName === "") {
+            debugger;
+            $("#countmeasur").css("border-color", "red");
+            $("#countmeasurError").text("Theme Counter Measure  is required.");
+            isValid = false;
+        }
+        return isValid;
+    }
+
+
+    $(document).ready(function () {
+        // Initialize all popovers
+        $('[data-toggle="popover"]').popover();
+
+        $("#btnSaveKaizen").click(function () {
+            debugger;
+            var kaizenModel = {
+                // var blockName = $('#BlockName').val();
+                 blockId : $('#BlockName').val(),
+                 blockName : $('#BlockName option:selected').text(),
+                 themeName: $('#ktheme').val(),
+                 plantName: $('#teplplant').val(),
+                suggestedKaizenName: $('#teplplant').val(),
+                problemName: $('#probstmt').val()
+
+            }
+            if (!ValidateForm()) {
+                // If validation fails, return or perform any other necessary actions
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/CreateKaizen/NewKaizen',
+                dataType: "json",
+                data: { model: kaizenModel },
+                success: function (result) {
+                    // Handle success (if needed)
+                    var res = $.isEmptyObject(result);
+                    if (res) {
+                        swal('Unable to Save the Kaizen Details - Please Check the logs');
+                    }
+                    else {
+                        swal({
+                            text: "Kaizen Added successfully !!",
+                            type: "success"
+                        }).then(okay => {
+                            if (okay) {
+                                //   location.reload();
+                            }
+                        });
+                    }
+                },
+                error: function (error) {
+                    swal('Unable to Save the Kaizen Details - Please Check the logs');
+                    // Handle errors (if needed)
+                    // console.error('Error:', error);
+                }
+            });
+        });
 
     });
+
+
 
 </script>

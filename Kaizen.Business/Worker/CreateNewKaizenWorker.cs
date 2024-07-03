@@ -24,7 +24,6 @@ namespace Kaizen.Business.Worker
             this._createNewKaizenRepository = repositoryDomaindata;
 
         }
-
         public NewKaizenModel GetKaizenOriginatedby(NewKaizenModel model)
         {
           DataTable  dt = _createNewKaizenRepository.GetKaizenOriginatedbyData(model);
@@ -37,5 +36,11 @@ namespace Kaizen.Business.Worker
             }
             return model;
         }
+
+        public bool CreateNewKaizen(NewKaizenModel model)
+        {
+            return _createNewKaizenRepository.CreateNewKaizenData(model);
+        }
+
     }
 }
