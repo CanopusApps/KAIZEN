@@ -40,7 +40,10 @@ namespace Kaizen.Business.Worker
                     {
                         Id = Convert.ToInt32(dr["DomainId"]),
                         DomainName = dr["DomainName"].ToString(),
-                        Status = Convert.ToBoolean(dr["Status"])
+                        Status = Convert.ToBoolean(dr["Status"]),
+                        User_count = Convert.ToInt32(dr["user_count"]),
+                        KaizenSubmitted= Convert.ToInt32(dr["kaizen_count"]),
+                        AllKaizenSubmitted = Convert.ToInt32(dr["AllKaizen_count"])
                     });
                 }
             }
