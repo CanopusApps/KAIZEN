@@ -4,6 +4,7 @@ using Kaizen.Data.Constant;
 using Kaizen.Models.AdminModel;
 using Kaizen.Models.NewKaizen;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
@@ -15,18 +16,22 @@ namespace Kaizen.Web.Controllers
 		public IHttpContextAccessor conAccessor;
 		private readonly IBlock _blockWorker;
 		private readonly ICreateNewKaizen _createNewKaizen;
+        private readonly NewKaizenModel _infoSettings;
+
         NewKaizenModel model = new NewKaizenModel();
-		public CreateKaizenController(IBlock worker,ICreateNewKaizen kaizenWorker, IHttpContextAccessor conAccessor)
+		public CreateKaizenController(IBlock worker,ICreateNewKaizen kaizenWorker, IHttpContextAccessor conAccessor, IOptions<NewKaizenModel> infoSettings)
 		{
 			_blockWorker = worker;
 			_createNewKaizen = kaizenWorker;
             this.conAccessor = conAccessor;
+            _infoSettings = infoSettings.Value;
         }
-		public IActionResult NewKaizen()
+        public IActionResult NewKaizen()
 		{
 			try
 			{
-                //model.EmpId = "614678";
+                model.IEEmail = _infoSettings.IEEmail;
+				model.AccountEmail= _infoSettings.AccountEmail;
                 model.EmpId = conAccessor.HttpContext.Session.GetString("EmpId");
                 model.BlockList = _blockWorker.GetBlock();
 				model = _createNewKaizen.GetKaizenOriginatedby(model);
@@ -38,6 +43,8 @@ namespace Kaizen.Web.Controllers
 		public IActionResult NewKaizen(NewKaizenModel model)
 		{
             bool insertStatus = false;
+            Guid id = Guid.NewGuid();
+            model.Id = id;
             model.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
 
             insertStatus = _createNewKaizen.CreateNewKaizen(model);
