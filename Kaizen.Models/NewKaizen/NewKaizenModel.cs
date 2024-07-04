@@ -9,7 +9,7 @@ namespace Kaizen.Models.NewKaizen
 {
 	public class NewKaizenModel
 	{
-		public Guid Id { get; set; }
+		public string Id { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedDate { get; set; }
         
@@ -23,7 +23,7 @@ namespace Kaizen.Models.NewKaizen
 		public string VersionNoDate { get; set; }
 		public string CostCentre { get; set; }
 		public string KaizenRefNo { get; set; }
-		public int Block { get; set; }
+		public string Block { get; set; }
 		public string BlockDetails { get; set; }
 		public string KaizenTheme { get; set; }
 		public string SuggestedKaizen { get; set; }
@@ -63,7 +63,7 @@ namespace Kaizen.Models.NewKaizen
         public string  IEEmail { get; set; }
         public string AccountEmail { get; set; }
         public int Shortlisted { get; set; }
-        public string ApprovalStatus { get; set; }
+        public int ApprovalStatus { get; set; }
         public string IEApprovedDate { get; set; }
         public string IEApprovedBy { get; set; }
         
@@ -77,7 +77,9 @@ namespace Kaizen.Models.NewKaizen
         public string OrigionatedDept { get; set; }
         public string ModifiedBy { get; set; }
         public string ModifiedDate { get; set; }
-        
+		public bool insertStatus { get; set; }
+
+
 
         public List<BlockModel> BlockList { get; set; }
 	}

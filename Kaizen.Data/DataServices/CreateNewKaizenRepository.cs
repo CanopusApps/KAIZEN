@@ -54,12 +54,14 @@ namespace Kaizen.Data.DataServices
             bool status = false;
             try
             {
+                model.KaizenType = ConstantValue.KaizenType;
+                model.ApprovalStatus = ConstantValue.ApprovalStatus;
                 com = new SqlCommand();
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@ID", model.Id);
-                com.Parameters.AddWithValue("@KaizenId", model.KaizenId);
+                //com.Parameters.AddWithValue("@KaizenId", model.KaizenId);
                 com.Parameters.AddWithValue("@KaizenType", model.KaizenType);
                 com.Parameters.AddWithValue("@Activity", model.Activity);
                 com.Parameters.AddWithValue("@ActivityDesc", model.ActivityDesc);

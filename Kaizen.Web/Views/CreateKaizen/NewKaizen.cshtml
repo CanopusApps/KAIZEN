@@ -40,7 +40,7 @@
     }
 </style>
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 
 
 <div class="content-body">
@@ -49,12 +49,11 @@
         <div class="row page-titles mx-0 mt-5">
             <div class="col-sm-12 p-md-0">
                 <div class="welcome-text">
-                    <h4>Post Idea<button class="btn btn-azure float-right" type="button">Sample Kaizen Form</button></h4>
+                    <h4>Create Kaizen<button class="btn btn-azure float-right" type="button">Sample Kaizen Form</button></h4>
                     <p class="responsemessage"></p>
                 </div>
             </div>
         </div>
-
         <!-- END Page Title -->
         <!-- Accordion Section -->
 
@@ -64,12 +63,12 @@
 
             <input class="ac-input" id="ac-1" name="accordion-1" type="checkbox" checked />
 
-            <label class="ac-label" for="ac-1"> Kaizen Idea Details <i></i></label>
+            <label class="ac-label" for="ac-1"> Create Kaizen Details <i></i></label>
 
             <div class="article ac-content">
 
                 <div class="card-body">
-                    <h3 class="card-title">Post My Idea</h3>
+                    @* <h3 class="card-title">Post My Idea</h3> *@
                     <hr><br>
                     <div class="basic-form">
                         <div class="col-lg-12">
@@ -114,58 +113,58 @@
 
                                                     <div class="card-body">
 
-                                                        <div class="activity-group ">
+                                                        <div class="activity-group" id="checkboxform">
                                                             <label>ACTIVITY<span class="mandatory">*</span></label>
                                                             <label data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/activity.png" height="40" />' title="ACTIVITY [Example]">
                                                                 <input type="checkbox" class="hideradio" id="idMura" value="MURA">MURA
                                                             </label>
 
                                                             <label data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/activity.png" height="40" />' title="ACTIVITY [Example]">
-                                                                <input type="checkbox" class="hideradio" value="MURI"> MURI
+                                                                <input type="checkbox" class="hideradio" id="idMuri" value="MURI"> MURI
                                                             </label>
 
                                                             <label data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/activity.png" height="40"; />' title="ACTIVITY [Example]">
-                                                                <input type="checkbox" class="hideradio" value="MUDA"> MUDA
+                                                                <input type="checkbox" class="hideradio" id="idMuda" value="MUDA"> MUDA
                                                             </label>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <textarea class="form-control mb10" name="activity_desc" id="activity_desc"></textarea>
+                                                            <textarea class="form-control mb10" name="activity_desc" id="activityDesc" value="@Model.ActivityDesc"></textarea>
                                                         </div>
 
 
 
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="checkboxform1">
                                                             <!-- <label> -->
                                                             <label class="d-block">Benefit Area <span class="mandatory">*</span></label>
 
                                                             <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
-                                                                <input type="checkbox" value="P" class="tab-input">
+                                                                <input type="checkbox" value="P" id="iP" class="tab-input">
                                                                 <div class="tab-box">P</div>
                                                             </label>
 
                                                             <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
-                                                                <input type="checkbox" value="Q" class="tab-input">
+                                                                <input type="checkbox" value="Q" id="iQ"class="tab-input">
                                                                 <div class="tab-box">Q</div>
                                                             </label>
 
                                                             <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
-                                                                <input type="checkbox" value="D" class="tab-input">
+                                                                <input type="checkbox" value="D" id="iD"class="tab-input">
                                                                 <div class="tab-box">D</div>
                                                             </label>
 
                                                             <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
-                                                                <input type="checkbox" value="S" class="tab-input">
+                                                                <input type="checkbox" value="S" id="iS" class="tab-input">
                                                                 <div class="tab-box">S</div>
                                                             </label>
 
                                                             <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
-                                                                <input type="checkbox" value="M" class="tab-input">
+                                                                <input type="checkbox" value="M" id="iM" class="tab-input">
                                                                 <div class="tab-box">M</div>
                                                             </label>
 
                                                             <label class="tab tabcheckbox " data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
-                                                                <input type="checkbox" value="E" class="tab-input">
+                                                                <input type="checkbox" value="E" id="iE"class="tab-input">
                                                                 <div class="tab-box">E</div>
                                                             </label>
                                                             <!-- </label> -->
@@ -267,7 +266,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>Kaizen Theme <span class="mandatory">*</span></label>
-                                                        <input type="text" name="ktheme" id="ktheme" required="" class="form-control" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">Poka yoke in Rail placing</p>' title=" Kaizen Theme [Example] ">
+                                                        <input type="text" name="ktheme" id="ktheme" required="" class="form-control" value="@Model.KaizenTheme" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">Poka yoke in Rail placing</p>' title=" Kaizen Theme [Example] ">
                                                         <span id="themeError" class="text-danger error-message"></span>
 
                                                     </div>
@@ -288,7 +287,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>Suggested Kaizen ( Logical Correlation with root cause) <span class="mandatory">*</span></label>
-                                                        <input type="text" required="" name="suggestedKaizen" id="suggestedKaizen" class="form-control" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">Provide stopper pin in Heating Fixture</p>' title="Suggested Kaizen [Example]">
+                                                        <input type="text" required="" name="suggestedKaizen" id="suggestedKaizen" class="form-control" value="@Model.SuggestedKaizen" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">Provide stopper pin in Heating Fixture</p>' title="Suggested Kaizen [Example]">
                                                         <span id="suggestedKaizenError" class="text-danger error-message"></span>
                                                     </div>
                                                 </div>
@@ -316,7 +315,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>Problem Statement<span class="mandatory">*</span></label> <br>
-                                                        <textarea class="textarea50" name="probstmt" id="probstmt" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center justify-content-center">There is no POKA YOKE for Rail placing in Heating Fixture, due to this rail can place wrong direction and it possible for Mold damage and it affect part qualitity.</p>' title="Problem Statement [Example]"></textarea>
+                                                        <textarea class="textarea50" name="probstmt" id="probstmt" value="@Model.ProblemStatement" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center justify-content-center">There is no POKA YOKE for Rail placing in Heating Fixture, due to this rail can place wrong direction and it possible for Mold damage and it affect part qualitity.</p>' title="Problem Statement [Example]"></textarea>
                                                         <span id="probstmtError" class="text-danger error-message"></span>
                                                     </div>
                                                 </div>
@@ -324,7 +323,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>Counter measure( Engineering solution)<span class="mandatory">*</span></label> <br>
-                                                        <textarea class="textarea50" name="countmeasur" id="countmeasur" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center justify-content-center">Locating guide pin placed in fixture 3 places to avoid rail placing wrong orientation</p>' title="Counter measure [Example]"></textarea>
+                                                        <textarea class="textarea50" name="countmeasur" id="countmeasur" value="@Model.CounterMeasure" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center justify-content-center">Locating guide pin placed in fixture 3 places to avoid rail placing wrong orientation</p>' title="Counter measure [Example]"></textarea>
                                                         <span id="countmeasurError" class="text-danger error-message"></span>
                                                     </div>
                                                 </div>
@@ -479,7 +478,7 @@
                                                         <div class="col-sm-4 mt-3">
                                                             <div class="form-group">
                                                                 <label>Yield <span class="mandatory">*</span></label>
-                                                                <input type="text" name="yield1" id="yield1" required class="form-control" value="" title="">
+                                                                <input type="text" name="yield1" id="yield1" value="@Model.Yield" required class="form-control" value="" title="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4 mt-3">
@@ -500,19 +499,19 @@
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label>Man power <span class="mandatory">*</span></label>
-                                                                <input type="text" name="Man power" id="Manpower" required class="form-control" value="" title="">
+                                                                <input type="text" name="Man power" id="Manpower" required class="form-control" value="@Model.ManPower" value="" title="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label>Consumables <span class="mandatory">*</span></label>
-                                                                <input type="text" name="Consumables" id="Consumables" required class="form-control" value="">
+                                                                <input type="text" name="Consumables" id="Consumables" value="@Model.Consumables" required class="form-control" value="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label>Others <span class="mandatory">*</span></label>
-                                                                <input type="text" name="Others" id="Others" required class="form-control" value="" title="">
+                                                                <input type="text" name="Others" id="Others" required class="form-control" value="@Model.Others" title="">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -522,7 +521,7 @@
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label>Total Savings <span class="mandatory">*</span></label>
-                                                                <input type="text" name="TotalSavings" id="TotalSavings" required class="form-control" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">5046418</p>' title="Total Savings [Example]">
+                                                                <input type="text" name="TotalSavings" id="TotalSavings" required class="form-control" value="@Model.TotalSavings" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">5046418</p>' title="Total Savings [Example]">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4">
@@ -534,7 +533,7 @@
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label>Approved by (Accounts)<span class="mandatory">*</span></label>
-                                                                <input type="text" name="Approvedby(IE)" id="Approvedby(IE)" required class="form-control" value="">
+                                                                <input type="text" name="approvedbyAccount" id="approvedbyAccount" required class="form-control" value="@Model.AccountEmail">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -637,7 +636,7 @@
                                                         <input type="type" name="name" value="" class="form-control" placeholder="select" /> *@
 
 
-                                                        <select class="form-select" id="multiple-select-field" data-placeholder="Select" multiple>
+                                                        <select class="form-select" id="multiple-select-field" @* value="@Model.RootCause" *@ data-placeholder="Select" multiple>
                                                             <option>5 Ways</option>
                                                             <option>Fishbone Diag</option>
                                                             <option>FMEA</option>
@@ -666,21 +665,21 @@
                                                     <div class="form-group">
                                                         <label>Root Cause Explanation</label>
                                                         <br>
-                                                        <textarea class="form-control" name="prob_stmt" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">There is no POKA YOKE for Rail placing in Heating Fixture, due to this rail can place wrong direction and it possible for Mold damage and it affect part qualitity.</p>' title="Root Cause Explanation [Example]"></textarea>
+                                                        <textarea class="form-control" name="prob_stmt" data-toggle="popover" id="rootcauseDetails" value="@Model.RootCauseDetails" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">There is no POKA YOKE for Rail placing in Heating Fixture, due to this rail can place wrong direction and it possible for Mold damage and it affect part qualitity.</p>' title="Root Cause Explanation [Example]"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Brief explanation of present conditions<span class="mandatory">*</span></label>
                                                         <br>
-                                                        <textarea class="textarea331" name="present_conditions" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">There is no poka-yoke/ provision available in  Preheating Fixture.So, even if the rail orientation is changed during the placement by operator, it cant be easily noticed and potentially the rails would be placed in a mold with wrong orientation whci shall cause mold damage as well as defect part.</p>' title="Brief explanation [Example]"></textarea>
+                                                        <textarea class="textarea331" name="present_conditions" id="presentCondition" value="@Model.PresentCondition" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">There is no poka-yoke/ provision available in  Preheating Fixture.So, even if the rail orientation is changed during the placement by operator, it cant be easily noticed and potentially the rails would be placed in a mold with wrong orientation whci shall cause mold damage as well as defect part.</p>' title="Brief explanation [Example]"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Brief explanation of Improvements done<span class="mandatory">*</span></label>
                                                         <br>
-                                                        <textarea class="textarea331" name="improvements_done" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">"This Poka Yoke improvement (stopper pin) is used to improve the rail locating guidance to avoid wrong direction placing.      Locator pin has been placed in fixture for bottom rail, left rail & right rail toavoid direction wrong loading and Mold damage as well as correction time saved.After implementing a poka yoke, operator cant able to place a rail in wrong orientation.
+                                                        <textarea class="textarea331" name="improvements_done" id="improvementsCompleted" value="@Model.ImprovementsCompleted" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">"This Poka Yoke improvement (stopper pin) is used to improve the rail locating guidance to avoid wrong direction placing.      Locator pin has been placed in fixture for bottom rail, left rail & right rail toavoid direction wrong loading and Mold damage as well as correction time saved.After implementing a poka yoke, operator cant able to place a rail in wrong orientation.
                                              This problem will be permanently eliminated.POKA YOKE Pin made in Inhouse with tool room mfg support."</p>' title="Brief explanation [Example]"></textarea>
                                                     </div>
                                                 </div>
@@ -714,11 +713,11 @@
                             <label class="font-weight-bold">Horizontal Deployment</label>
                             <div class="controls">
                                 <label class="radio inline">
-                                    <input type="radio" name="horizontalDeployment" value="0" id="yesRadio" />
+                                    <input type="radio" name="horizontalDeployment" value="1" id="yesRadio" />
                                     Yes
                                 </label>
                                 <label class="radio inline">
-                                    <input type="radio" name="horizontalDeployment" value="1" checked id="noRadio" />
+                                    <input type="radio" name="horizontalDeployment" value="0" checked id="noRadio" />
                                     No
                                 </label>
                             </div>
@@ -903,7 +902,7 @@
                                             <div class="read-content">
                                                 <div class="form-group ">
                                                     <label>Benefits (P,Q,C,S,D,M,E)<span class="mandatory">*</span></label>
-                                                    <textarea class="textarea331" name="present_conditions" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">"Q - This poka yoke will make sure the rail orientation is always right.S -
+                                                    <textarea class="textarea331" name="present_conditions" id="benefit" value="@Model.BenefitArea" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">"Q - This poka yoke will make sure the rail orientation is always right.S -
                                                                  This will ensure and prevent mold or part damage and improves mold safety.M- It will increase MTTR & MTBF (as of now no data).
                                                                Since IM1 is citical for further downstream process, this will have direct impact of unplanned downtime (reduction) in downstream process till final assembly."</p>' title="Benefits [Example]"></textarea>
                                                 </div>
@@ -949,9 +948,8 @@
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
                                                                     <select name="" id="" class="form-control col-9">
-                                                                        <option>Mem1</option>
-                                                                        <option>Mem2</option>
-                                                                        <option>Mem3</option>
+                                                                        <option>321256 - Pankaj Singh</option>
+ 
                                                                     </select>
                                                                 </td>
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
@@ -1036,7 +1034,7 @@
 
 <div class="col-sm-12 ">
     <div class="card-body float-right">
-        <button class="btn btn-warning" id="btnSaveKaizen">Save It</button>
+        <button class="btn btn-warning" id="btnSaveKaizen" >Save It</button>
         <button class="btn btn-azure" id="btnSubmitKaizen">Submit to DRI</button>
     </div>
 </div>
@@ -1243,7 +1241,7 @@
         }
     });
 
-      function ValidateForm() {
+    function ValidateForm() {
         var isValid = true;
         // Remove red borders and error messages
         $("#BlockName").css("border-color", "red");
@@ -1284,11 +1282,9 @@
         var versionNo = $("#versionNo").val();
         var codeCentre = $("#codeCentre").val();
         var refNo = $("#refNo").val();
-                var refNo = $("#refNo").val();
-                        var refNo = $("#refNo").val();
-        var refNo = $("#refNo").val();
-
-
+        var Yield = $("#yield1").val();
+        var CycleTime = $("#cycletime1").val();
+        var Cost = $("#cost1").val();
         if (blockNameValue === "--Select--") {
             debugger;
             $("#BlockName").css("border-color", "red");
@@ -1330,33 +1326,66 @@
         }
         return isValid;
     }
-
-
     $(document).ready(function () {
+  
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
         $("#approvedbyIE").attr("disabled", "disabled");
         $("#approvedbyAccount").attr("disabled", "disabled");
-
-
-
         $("#btnSaveKaizen").click(function () {
             debugger;
+
+           // var Mura= document.querySelector('#idMura').checked;
+           // var Muri = document.querySelector('#idMuri').checked;
+           // var Muda = document.querySelector('#idMuda').checked;
+
+           //  var benefitAreap = document.querySelector('#iP').checked;
+           //  var benefitAreaq = document.querySelector('#iQ').checked;
+           //  var benefitAread = document.querySelector('#iD').checked;
+           //  var benefitAreas = document.querySelector('#iS').checked;
+           //  var benefitAream = document.querySelector('#iM').checked;
+           //  var benefitAreae = document.querySelector('#iE').checked;
+
+           //  var activity = Mura + ',' + Muri + ',' + Muda;
+           //  var benefitArea = benefitAreap + ',' + benefitAreaq + ',' + benefitAread + ',' + benefitAreas + ',' + benefitAream + +',' + benefitAreae;
+
+           
+
             var kaizenModel = {
                 // var blockName = $('#BlockName').val();
                 Block: $('#BlockName').val(),
                 BlockDetails: $('#BlockName option:selected').text(),
-               // KaizenTheme: $('#ktheme').val(),
+                //Activity: activity,
+               // BenefitArea: benefitArea,
+                ActivityDesc: $('#activityDesc').val(),
+                KaizenTheme: $('#ktheme').val(),
                 plantName: $('#teplplant').val(),
-                suggestedKaizenName: $('#teplplant').val(),
-                problemName: $('#probstmt').val(),
+                SuggestedKaizen: $('#teplplant').val(),
+                ProblemStatement: $('#probstmt').val(),
+                CounterMeasure: $('#countmeasur').val(),
                 DocNo : $("#docNo").val(),
                 VersionNoDate: $("#versionNo").val(),
                 CostCentre: $("#codeCentre").val(),
-                KaizenRefNo : $("#refNo").val()
-
-
-
+                KaizenRefNo : $("#refNo").val(),
+                Yield: $("#yield1").val(),
+                CycleTime: $("#cycletime1").val(),
+                Cost: $("#cost1").val(),
+                ManPower: $("#Manpower").val(),
+                Consumables: $("#Consumables").val(),
+                Others: $("#Others").val(),
+                TotalSavings: $("#TotalSavings").val(),
+                ApprovedByIE: $("#approvedbyIE").val(),
+                FinanceApprovedBy: $("#approvedbyAccount").val(),
+                RootCause: $("#multiple-select-field").val(),
+                RootCauseDetails: $("#rootcauseDetails").val(),
+                PresentCondition: $("#presentCondition").val(),
+                ImprovementsCompleted: $("#improvementsCompleted").val(),
+                HorozantalDeployment: $('input[name="horizontalDeployment"]:checked').val(),
+                Benifits: $("#benefit").val(),
+                OriginatedBy: $("#name").val(),
+                Domain: $("#DomainId").val(),
+                Department: $("#DeptId").val(),
+                CreatedDate: $("#CDeta").val() 
             }
             if (!ValidateForm()) {
                 // If validation fails, return or perform any other necessary actions
@@ -1369,19 +1398,17 @@
                 data: { model: kaizenModel },
                 success: function (result) {
                     // Handle success (if needed)
-                    var res = $.isEmptyObject(result);
-                    if (res) {
-                        swal('Unable to Save the Kaizen Details - Please Check the logs');
-                    }
-                    else {
+                   
+                    if (result==true) {
                         swal({
                             text: "Kaizen Added successfully !!",
                             type: "success"
                         }).then(okay => {
-                            if (okay) {
-                                //   location.reload();
-                            }
+
                         });
+                    }
+                    else {
+                        swal('Unable to Save the Kaizen Details - Please Check the logs');
                     }
                 },
                 error: function (error) {
