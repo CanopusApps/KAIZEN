@@ -42,14 +42,12 @@ namespace Kaizen.Web.Controllers
 		[HttpPost]
 		public IActionResult NewKaizen(NewKaizenModel model)
 		{
-            bool insertStatus = false;
+            model.insertStatus = false;
             Guid id = Guid.NewGuid();
-            model.Id = id;
+            model.Id = id.ToString();
             model.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
-
-            insertStatus = _createNewKaizen.CreateNewKaizen(model);
-
-            return Ok();
+            model.insertStatus = _createNewKaizen.CreateNewKaizen(model);
+            return Ok(model.insertStatus);
 		}
 
 		[HttpPost]

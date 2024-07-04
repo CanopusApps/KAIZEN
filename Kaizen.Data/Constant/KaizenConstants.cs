@@ -59,4 +59,13 @@ namespace Kaizen.Data.Constant
         public static string SpGetKaizenOriginetedby = "Sp_Get_KaizenOriginetedby";
         public static string SpKaizen_Insert = "Sp_Kaizen_Insert_test";
     }
+
+    public class ConstantValue
+    {
+        public static string KaizenType = "k";
+        public static int ApprovalStatus = 0;
+
+    }
+
+
 }
