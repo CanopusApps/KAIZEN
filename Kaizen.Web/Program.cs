@@ -3,6 +3,7 @@ using Kaizen.Business.Worker;
 using Kaizen.Data.DataContent;
 using Kaizen.Data.DataServices;
 using Kaizen.Data.DataServices.Interfaces;
+using Kaizen.Models.NewKaizen;
 
 
 
@@ -10,6 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
+builder.Services.Configure<NewKaizenModel>(builder.Configuration.GetSection("Information"));
+
+
 // Add services to the container.
 
 builder.Services.AddRazorPages();

@@ -9,12 +9,14 @@ namespace Kaizen.Models.NewKaizen
 {
 	public class NewKaizenModel
 	{
-		public int Id { get; set; }
+		public Guid Id { get; set; }
         public string CreatedBy { get; set; }
+        public string CreatedDate { get; set; }
+        
         public string VersionDate { get; set; }
 		public string KaizenId { get; set; }
 		public string KaizenType { get; set; }
-		public string ACTIVITY { get; set; }
+		public string Activity { get; set; }
 		public string ActivityDesc { get; set; }
 		public string BenefitArea { get; set; }
 		public string DocNo { get; set; }
@@ -38,7 +40,9 @@ namespace Kaizen.Models.NewKaizen
 		public string Others { get; set; }
 		public string TotalSavings { get; set; }
 		public string ApprovedByIE { get; set; }
-		public int TeamMemberID { get; set; }
+
+        public string FinanceApprovedBy { get; set; }
+        public int TeamMemberID { get; set; }
 		public string RootCause { get; set; }
 		public string PresentCondition { get; set; }
 		public string ImprovementsCompleted { get; set; }
@@ -56,10 +60,26 @@ namespace Kaizen.Models.NewKaizen
 		public string Department { get; set; }	
 		public string EmpId { get; set; }
         public string OriginatedDate { get; set; }
-
+        public string  IEEmail { get; set; }
+        public string AccountEmail { get; set; }
+        public int Shortlisted { get; set; }
+        public string ApprovalStatus { get; set; }
+        public string IEApprovedDate { get; set; }
+        public string IEApprovedBy { get; set; }
+        
+        public string IEApprovedDept { get; set; }
+        public string DRIApprovedDate { get; set; }
+        public string DRIApprovedBy { get; set; }
+        public string FinanceApprovedDate { get; set; }
+        public string ImageApprovedDate { get; set; }
+        public string ImageApprovedBy { get; set; }
+        public string OriginatedBy { get; set; }
+        public string OrigionatedDept { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+        
 
         public List<BlockModel> BlockList { get; set; }
-
 	}
 
 	public class NewKaizenGetOriginated

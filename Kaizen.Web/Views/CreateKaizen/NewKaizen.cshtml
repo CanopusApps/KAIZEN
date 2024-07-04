@@ -80,7 +80,7 @@
                                                         <div class="activity-group ">
                                                             <label>ACTIVITY<span class="mandatory">*</span></label>
                                                             <label data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/activity.png" height="40" />' title="ACTIVITY [Example]">
-                                                                <input type="checkbox" class="hideradio " value="MURA">MURA
+                                                                <input type="checkbox" class="hideradio" id="idMura" value="MURA">MURA
                                                             </label>
 
                                                             <label data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/activity.png" height="40" />' title="ACTIVITY [Example]">
@@ -155,28 +155,28 @@
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label>Doc No <span class="mandatory">*</span></label>
-                                                                    <input type="text" name="doc_no" class="form-control mb10" value="">
+                                                                    <input type="text" name="docNo" id="docNo" class="form-control mb10" value="@Model.DocNo">
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label>Version No/Date<span class="mandatory">*</span></label>
-                                                                    <input type="text" name="version_no" class="form-control mb10" value= "01/ @Model.OriginatedDate">
+                                                                    <input type="text" name="versionNo" id="versionNo" class="form-control mb10" value= "01/ @Model.OriginatedDate">
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label>Cost Centre<span class="mandatory">*</span></label>
-                                                                    <input type="text" required="" name="proj_code" id="proj_code" class="form-control mb10 " value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">00C</p>' title="Cost Centre [Example]">
+                                                                    <input type="text" required="" name="codeCentre" id="codeCentre" class="form-control mb10 " value="@Model.CostCentre" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">00C</p>' title="Cost Centre [Example]">
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label>KAIZEN Ref.No<span class="mandatory">*</span></label>
-                                                                    <input type="text" required="" name="ref_no" id="ref_no" class="form-control " value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">IM/PP/05</p>' title="KAIZEN Ref.No [Example]">
+                                                                    <input type="text" required="" name="refNo" id="refNo" class="form-control " value="@Model.KaizenRefNo" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">IM/PP/05</p>' title="KAIZEN Ref.No [Example]">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -448,7 +448,7 @@
                                                         <div class="col-sm-4 mt-3">
                                                             <div class="form-group">
                                                                 <label>Cycle Time <span class="mandatory">*</span></label>
-                                                                <input type="text" name="cycle_time1" id="cycle_time1" required class="form-control" value="">
+                                                                <input type="text" name="cycletime1" id="cycletime1" required class="form-control" value="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4 mt-3">
@@ -491,7 +491,7 @@
                                                         <div class="col-sm-8">
                                                             <div class="form-group">
                                                                 <label>Approved by (IE) <span class="mandatory">*</span></label>
-                                                                <input type="text" name="Approvedby(IE)" id="Approvedby(IE)" required class="form-control" value="">
+                                                                <input type="text" name="approvedbyIE" id="approvedbyIE" required class="form-control" value="@Model.IEEmail">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -501,7 +501,7 @@
                                                         <div class="col-sm-8">
                                                             <div class="form-group">
                                                                 <label>Approved by (Accounts)<span class="mandatory">*</span></label>
-                                                                <input type="text" name="Approvedby(IE)" id="Approvedby(IE)" required class="form-control" value="">
+                                                                <input type="text" name="approvedbyAccount" id="approvedbyAccount"  required class="form-control" value="@Model.AccountEmail">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1049,6 +1049,24 @@
             }
         });
     });
+
+    $("#cycletime1").change(function () {
+        $("#approvedbyIE").removeAttr("disabled");
+    });
+
+    $("#cost1").change(function () {
+        debugger;
+        $("#approvedbyIE").removeAttr("disabled");
+        var varlength = $("#cost1").val();
+
+        if (varlength>=100)
+        {
+            $("#approvedbyAccount").removeAttr("disabled");
+        }
+
+    });
+
+
     
     $("#teamAddBtn").click(function () {
 
@@ -1187,6 +1205,13 @@
         var suggestedKaizenName = $("#suggestedKaizen").val();
         var problemName = $("#probstmt").val();
         var counterMeasuremName = $("#countmeasur").val();
+        var docNo = $("#docNo").val();
+        var versionNo = $("#versionNo").val();
+        var codeCentre = $("#codeCentre").val();
+        var refNo = $("#refNo").val();
+                var refNo = $("#refNo").val();
+                        var refNo = $("#refNo").val();
+        var refNo = $("#refNo").val();
 
 
         if (blockNameValue === "--Select--") {
@@ -1235,17 +1260,27 @@
     $(document).ready(function () {
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
+        $("#approvedbyIE").attr("disabled", "disabled");
+        $("#approvedbyAccount").attr("disabled", "disabled");
+
+
 
         $("#btnSaveKaizen").click(function () {
             debugger;
             var kaizenModel = {
                 // var blockName = $('#BlockName').val();
-                 blockId : $('#BlockName').val(),
-                 blockName : $('#BlockName option:selected').text(),
-                 themeName: $('#ktheme').val(),
-                 plantName: $('#teplplant').val(),
+                Block: $('#BlockName').val(),
+                BlockDetails: $('#BlockName option:selected').text(),
+               // KaizenTheme: $('#ktheme').val(),
+                plantName: $('#teplplant').val(),
                 suggestedKaizenName: $('#teplplant').val(),
-                problemName: $('#probstmt').val()
+                problemName: $('#probstmt').val(),
+                DocNo : $("#docNo").val(),
+                VersionNoDate: $("#versionNo").val(),
+                CostCentre: $("#codeCentre").val(),
+                KaizenRefNo : $("#refNo").val()
+
+
 
             }
             if (!ValidateForm()) {
