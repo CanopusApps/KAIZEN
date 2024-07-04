@@ -3,8 +3,45 @@
 @{
     Layout = "SidebarLayout";
 }
+<style>
+    .btn-danger {
+        color: #fff!important;
+        background-color: #dc3545!important;
+        border-color: #dc3545!important;
+    }
+    .btn-azure{
+        color: #fff !important;
+    }
 
+    .input-width {
+        width: 100%;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    .col-lg-4 {
+        width: 25%;
+    }
+
+    .input-width {
+        width: 100%;
+    }
+</style>
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
 <div class="content-body">
     <div class="container-fluid mt-5">
@@ -430,7 +467,7 @@
                     <div class="col-lg-12">
                         <div class="row">
                             @* <div class="col-sm-6"> *@
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-12">
                                 <div class="carddashed mt-2">
                                     <div class="card-body">
                                         <div class="right-box-padding">
@@ -488,23 +525,29 @@
                                                                 <input type="text" name="TotalSavings" id="TotalSavings" required class="form-control" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">5046418</p>' title="Total Savings [Example]">
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-8">
+                                                        <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label>Approved by (IE) <span class="mandatory">*</span></label>
                                                                 <input type="text" name="approvedbyIE" id="approvedbyIE" required class="form-control" value="@Model.IEEmail">
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <label>Approved by (Accounts)<span class="mandatory">*</span></label>
+                                                                <input type="text" name="Approvedby(IE)" id="Approvedby(IE)" required class="form-control" value="">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <!-- end 3rd row -->
                                                     <!-- 4th row -->
-                                                    <div class="row">
+                                                   @*  <div class="row">
                                                         <div class="col-sm-8">
                                                             <div class="form-group">
                                                                 <label>Approved by (Accounts)<span class="mandatory">*</span></label>
                                                                 <input type="text" name="approvedbyAccount" id="approvedbyAccount"  required class="form-control" value="@Model.AccountEmail">
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> *@
                                                     <!-- end 4th row -->
                                                 </div>
                                             </div>
@@ -514,7 +557,7 @@
                             </div>
                             @* 2ndsection *@
 
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-12">
 
                                 <div class="carddashed mt-2">
 
@@ -525,41 +568,39 @@
                                             <table class="table table-bordered mb10" id="idAddteammember">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="align-top">EMP ID</th>
-                                                        <th scope="col" class="align-top">Team Member Name</th>
-                                                        <th scope="col" class="align-top">Function</th>
-                                                        <th scope="col" class="align-top">Action</th>
+                                                        <th class="text-center">EMP ID</th>
+                                                        <th class="text-center">Team Member Name</th>
+                                                        <th class="text-center">Function</th>
+                                                        <th class="text-center">Action</th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="IdMemberAdd" style="width:80px;"></td>
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="IdTeamMemberName"> </td>
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="IdFunction"></td>
-                                                        <td class="border-0 px-0 align-middle">
-                                                            <input type="button" value="Add" id="teamAddBtn" class="btn btn-azure">
-                                                        </td>
-                                                        <td class="border-0 px-0 align-middle">
-                                                            <input type="button" value="Delete" id="teamDelBtn" class="btn btn-azure">
-                                                        </td>
+                                                        <td class="border-0 text-left"><input type="text" class="form-control mx-0 " id="IdMemberAdd"></td>
+                                                        <td class="border-0 text-left"><input type="text" class="form-control ml-1  " id="IdTeamMemberName"> </td>
+                                                        <td class="border-0 text-left"><input type="text" class="form-control ml-2 " id="IdFunction"></td>
+                                                        <td class=" border-0 px-0" style="width:150px">
+                                                            <input type="button" value="Add" id="teamAddBtn" class="btn btn-azure ml-3 mb-3 px-4">
+                                                            <input type="button" value="Delete" id="teamDelBtn" class="btn btn-danger ml-2 mb-3">
+                                                        </td> 
                                                     </tr>
 
                                                 </tbody>
 
                                             </table>
 
-
-                                            <table id="tblteammemberResult">
+                                            <div class="table-container">
+                                            <table id="tblteammemberResult" class="col-lg-10" >
                                                 <tbody>
-
-                                                    <tr>
-
+                                                    <tr>                                                        
 
                                                     </tr>
                                                 </tbody>
 
 
                                             </table>
+                                            </div>
 
                                         </div>
 
@@ -662,11 +703,27 @@
                     <i></i>
                 </label>
                 <div class="article ac-content">
-                    <div class="col-lg-12">
+                    <form class="mt-2 pl-2">
+                        <div class="control-group">
+                            <label class="font-weight-bold">Horizontal Deployment</label>
+                            <div class="controls">
+                                <label class="radio inline">
+                                    <input type="radio" name="horizontalDeployment" value="0" id="yesRadio" />
+                                    Yes
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" name="horizontalDeployment" value="1" checked id="noRadio" />
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="toggleContent" style="display: none;">
+                    <div class="col-lg-12 col-sm-12"  >
+                       
+                        <div  class="row ">
+                            <div class="col-lg-12"> 
 
-                        <div class="row ">
-
-                            <div class="col-lg-4">
 
                                 <div class="carddashed mt-2">
                                     <div class="card-body">
@@ -676,38 +733,10 @@
                                                 <div class="card-body">
 
                                                     <div class="row">
-
-                                                        <div class="col-sm-6">
-
-                                                            <label for="">Horizontal Deployment</label>
-
+                                                      
                                                         </div>
 
-                                                        <div class="col-sm-3 text-end">
-
-                                                            <div class="">
-
-                                                                <input class="form-check-input" type="radio" name="onnOff" id="Y" value="male">
-
-                                                                <label class="form-check-label" for="Y">Yes</label>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="col-sm-3 text-end">
-
-                                                            <div class="">
-
-                                                                <input class="form-check-input" type="radio" name="onnOff" id="N" value="female">
-
-                                                                <label class="form-check-label" for="N">No</label>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
+                                                    
 
                                                     <span class="targetGrayed">
 
@@ -758,10 +787,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                </div>
+                            
+
                             @* 2ndsection *@
 
-                            <div class="col-sm-12 col-lg-8">
+                            <div class="col-sm-12 col-lg-12">
 
                                 <div class="carddashed mt-2">
 
@@ -778,17 +809,16 @@
 
                                                     <tr>
 
-                                                        <th scope="col" class="align-top">SN</th>
+                                                     
+                                                        <th class="text-center">M/C</th>
 
-                                                        <th scope="col" class="align-top">M/C</th>
+                                                        <th class="text-center">Target Date</th>
 
-                                                        <th scope="col" class="align-top">Target Date</th>
+                                                        <th class="text-center">Responsibility</th>
 
-                                                        <th scope="col" class="align-top">Responsibility</th>
+                                                        <th class="text-center">Status</th>
 
-                                                        <th scope="col" class="align-top">Status</th>
-
-                                                        <th scope="col" class="align-top">Action</th>
+                                                        <th class="text-center">Action</th>
 
                                                     </tr>
 
@@ -798,33 +828,39 @@
 
                                                     <tr>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="txtNo" style="width:40px;" readonly></td>
+                                                      
+                                                        <td class="border-0 "><input type="text" class="form-control" id="txtMc"></td>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="txtMc"></td>
+                                                        <td class="border-0"><input type="text" class="form-control" id="txtTargetDate"></td>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="txtTargetDate"></td>
+                                                        <td class="border-0 "><input type="text" class="form-control" id="txtResponsibility"></td>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="txtResponsibility"></td>
+                                                        <td class="border-0 "><input type="text" class="form-control" id="txtStatus"></td>
 
-                                                        <td class="border-0 text-left px-0"><input type="text" class="form-control" id="txtStatus"></td>
+                                                     
+                                                        <td class=" border-0 px-0" style="width:150px">
+                                                            <input type="button" value="Add" id="btnAddDeployment" class="btn btn-azure ml-3 mb-3 px-4">
+                                                            <input type="button" value="Delete" id="btnDeleteDeployment" class="btn btn-danger ml-2 mb-3">
+                                                            @* <i class="fa-solid fa-trash ml-3 mb-3 px-4" id="btnAddDeployment"></i>  *@
+                                                          @*   <a class="btn btn-danger" href="#">
+                                                                <i class="fa fa-trash-o fa-lg"></i> Delete
+                                                            </a> *@
 
-                                                        <td class="border-0 px-0 align-middle">
-                                                            <input type="button" value="Add" id="btnAddDeployment" class="btn btn-azure">
-                                                            <input type="button" value="Delete" id="btnDeleteDeployment" class="btn btn-azure">
                                                         </td>
                                                     </tr>
 
                                                 </tbody>
 
                                             </table>
-
-                                            <table id="tblDeploymentrResult">
+                                                <div class="table-container">
+                                            <table id="tblDeploymentrResult" class="col-lg-12">
                                                 <tbody>
                                                     <tr>
 
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            </div>
 
                                         </div>
 
@@ -838,6 +874,7 @@
 
 
                         </div>
+                    </div>
                     </div>
 
                 </div>
@@ -1007,6 +1044,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" crossorigin="anonymous"></script>
 <script>
+    document.getElementById('yesRadio').addEventListener('change', function () {
+        document.getElementById('toggleContent').style.display = 'block';
+    });
+
+    document.getElementById('noRadio').addEventListener('change', function () {
+        document.getElementById('toggleContent').style.display = 'none';
+    });
     $('#multiple-select-field').select2({
         theme: "bootstrap-5",
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
@@ -1073,10 +1117,12 @@
         var mytable = document.getElementById("tblteammemberResult");
         var rows = mytable.rows.length;
         var r = mytable.insertRow(rows);
+        
         var c1 = r.insertCell(0);
         var c2 = r.insertCell(1);
         var c3 = r.insertCell(2);
         var c4 = r.insertCell(3);
+        
 
         var checkbox = document.createElement("input");
         var empId = document.createElement("input");
@@ -1086,15 +1132,26 @@
         checkbox.type = "checkbox";
         empId.type = "text"; 
         empId.value = $("#IdMemberAdd").val();
+        empId.className = "input-width";
         teamMemberName.type = "text";
         teamMemberName.value = $("#IdTeamMemberName").val();
+        teamMemberName.className = "input-width";
         teamMemberfunction.type = "text";
         teamMemberfunction.value = $("#IdFunction").val();
-        c1.appendChild(checkbox);
+        teamMemberfunction.className = "input-width";
+        c1.appendChild(checkbox);      
         c2.appendChild(empId);
         c3.appendChild(teamMemberName);
         c4.appendChild(teamMemberfunction);
 
+        // c1.className = 'col-lg-1';
+        // c2.className = 'col-lg-4';
+        // c3.className = 'col-lg-4';
+        // c4.className = 'col-lg-4';
+        c1.style.width = '5%';
+        c2.style.width = '31%';
+        c3.style.width = '32%';
+        c4.style.width = '32%';
         $("#IdMemberAdd").val("");
         $("#IdTeamMemberName").val("");
         $("#IdFunction").val("");
@@ -1111,9 +1168,9 @@
             }
         }
     });
-
+   
     $("#btnAddDeployment").click(function () {
-      
+        
         var mytable = document.getElementById("tblDeploymentrResult");
         var rows = mytable.rows.length;
         var r = mytable.insertRow(rows);
@@ -1122,7 +1179,8 @@
         var c3 = r.insertCell(2);
         var c4 = r.insertCell(3);
         var c5 = r.insertCell(4);
-        var c6 = r.insertCell(5);
+        
+
 
         var checkbox = document.createElement("input");
         var Sno = document.createElement("input");
@@ -1135,21 +1193,31 @@
         checkbox.type = "checkbox";
         Sno.type = "text";
         Sno.value = $("#txtNo").val();
+        Sno.className = "input-width";
         mc.type = "text";
         mc.value = $("#txtMc").val();
+        mc.className = "input-width";
         targetDate.type = "text";
         targetDate.value = $("#txtTargetDate").val();
+        targetDate.className = "input-width";
         responsibility.type = "text";
         responsibility.value = $("#txtResponsibility").val();
+        responsibility.className = "input-width";
         status.type = "text";
         status.value = $("#txtStatus").val();
+        status.className = "input-width";
 
         c1.appendChild(checkbox);
-        c2.appendChild(Sno);
-        c3.appendChild(mc);
-        c4.appendChild(targetDate);
-        c5.appendChild(responsibility);
-        c6.appendChild(status);
+       
+        c2.appendChild(mc);
+        c3.appendChild(targetDate);
+        c4.appendChild(responsibility);
+        c5.appendChild(status);
+
+        c2.className = 'col-cd-2';
+        c3.className = 'col-cd-4';
+         c4.className = 'col-cd-3';
+        c4.className = 'col-cd-3';
       
         $("#txtMc").val("");
         $("#txtTargetDate").val("");
