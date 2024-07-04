@@ -42,7 +42,15 @@ namespace Kaizen.Data.DataServices
 					com.CommandType = CommandType.StoredProcedure;
 					com.Parameters.AddWithValue("@EmployeeID", editUserModel.EmpID);
 					com.Parameters.AddWithValue("@FirstName", editUserModel.FirstName);
-                    com.Parameters.AddWithValue("@MiddleName", editUserModel.MiddleName);
+					if(editUserModel.MiddleName==null)
+					{
+                        com.Parameters.AddWithValue("@MiddleName", DBNull.Value);
+                    }
+					else
+					{
+                        com.Parameters.AddWithValue("@MiddleName", editUserModel.MiddleName);
+                    }
+                    
                     com.Parameters.AddWithValue("@LastName", editUserModel.LastName);
                     com.Parameters.AddWithValue("@Email", editUserModel.Email);
 					//com.Parameters.AddWithValue("@Password", editUserModel.Password);

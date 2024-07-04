@@ -366,7 +366,7 @@ namespace Kaizen.Web.Controllers
             departments = _departmentWorker.GetDepartments();
             
            
-                return departments.Where(m => m.DomainId == Convert.ToInt32(domainId)).ToList();
+                return departments.Where(m => m.DomainId == Convert.ToInt32(domainId) && m.Status == true).ToList();
             
         }
 
@@ -448,7 +448,7 @@ namespace Kaizen.Web.Controllers
 
         public IActionResult EditUser()
         {
-            editmodel.Domains = _domainWorker.GetDomain();
+            editmodel.Domains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
             editmodel.Cadre = _addUserWorker.GetCadre();
             editmodel.UserType = _addUserWorker.GetUserType();
             //editmodel.Departments = FetchDepartment("1002");
