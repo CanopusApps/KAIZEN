@@ -52,7 +52,7 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-        public DataSet GetKaizenList()
+        public DataSet GetKaizenList(KaizenListModel model)
         {
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
@@ -62,6 +62,16 @@ namespace Kaizen.Data.DataServices
 
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
+
+                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
+                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
+                com.Parameters.AddWithValue("@Domain", model.Domain == "All" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
+                com.Parameters.AddWithValue("@Department", model.Department == "All" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
+                com.Parameters.AddWithValue("@KaizenTheme", string.IsNullOrEmpty(model.KaizenTheme) ? " " : model.KaizenTheme);
+                com.Parameters.AddWithValue("@Status", model.Status == "All" ? "" : (string.IsNullOrEmpty(model.Status) ? " " : model.Status));
+                com.Parameters.AddWithValue("@Shortlisted", model.Shortlisted == "All" ? "" : (string.IsNullOrEmpty(model.Shortlisted) ? " " : model.Shortlisted));
+
+
                 com.CommandText = StoredProcedures.Sp_Get_Kaizen_Details;
 
                 SqlDataAdapter da = new SqlDataAdapter(com);

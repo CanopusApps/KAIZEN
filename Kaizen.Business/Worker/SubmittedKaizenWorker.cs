@@ -40,11 +40,11 @@ namespace Kaizen.Business.Worker
             }
             return ApprovalStatus;
         }
-        public List<KaizenListModel> GetKaizenList()
+        public List<KaizenListModel> GetKaizenList(KaizenListModel model)
         {
             DataSet userType = new DataSet();
             List<KaizenListModel> KaizenGridData = new List<KaizenListModel>();
-            userType = _repositorySubmittedKaizenData.GetKaizenList();
+            userType = _repositorySubmittedKaizenData.GetKaizenList(model);
 
             if (userType.Tables.Count > 0)
             {
@@ -54,10 +54,9 @@ namespace Kaizen.Business.Worker
                     {
                         KaizenTheme = dr["KaizenTheme"].ToString(),
                         TeamName = dr["TeamName"].ToString(),
-                        Block = dr["Block"].ToString(),
                         HorozantalDeployment = dr["HorozantalDeployment"].ToString(),
                         IEApprovedDept = dr["IEApprovedDept"].ToString(),
-                        FinanceApprovedBy = dr["FinanceApprovedBy"].ToString(),
+                        FinnanceDeptAppr = dr["FinnanceDeptAppr"].ToString(),
                         Shortlisted = dr["Shortlisted"].ToString(),
                         ApprovalStatus = dr["ApprovalStatus"].ToString(),
                         CreatedBy = dr["CreatedBy"].ToString(),

@@ -29,13 +29,23 @@ namespace Kaizen.Web.Controllers
             _submittedKaizenWorker = submittedKaizenWorker;
         }
 
-        public IActionResult ViewKaizen()
+        public IActionResult ViewKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status, string? Shortlisted)
         {
             SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
             try
             {
                 viewModel.DomainList = _domainWorker.GetDomain();
-                viewModel.SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList();
+                KaizenListModel model = new KaizenListModel()
+                {
+                    StartDate=StartDate,
+                    EndDate=EndDate,
+                    Domain=Domain,
+                    Department=Department,
+                    KaizenTheme=KaizenTheme,
+                    Status=Status,
+                    Shortlisted=Shortlisted
+                };
+                viewModel.SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
             }
             catch (Exception ex)
             {
