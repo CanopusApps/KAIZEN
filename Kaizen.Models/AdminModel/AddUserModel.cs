@@ -57,7 +57,8 @@ namespace Kaizen.Models.AdminModel
         // Domain List
         public List<DomainModel> Domains { get; set; }
 		public List<DepartmentModel> Departments { get; set; }
-      
+        public List<BlockModel> Blocks { get; set; }
+
         // static list for status
         public List<StatusModel> Status { get; set; } = new List<StatusModel>//
         {
@@ -73,5 +74,8 @@ namespace Kaizen.Models.AdminModel
         [Required(ErrorMessage = "Domain  is required")]
         public int Did { get; set; } = 0;// stores domain id 
         public int DeptId { get; set; } = 0;// stores deptid 
+
+        [Required(ErrorMessage = "Block  is required")]
+        public int BlockId { get; set; } = 0;//stores BLockID
     }
 }
