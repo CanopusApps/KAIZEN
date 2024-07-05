@@ -40,7 +40,7 @@
     }
 </style>
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
-<div class="content-body">
+<div class="content-body body">
     <div class="container-fluid mt-5">
         <!-- Page Title -->
         <div class="row page-titles mx-0 mt-5">
@@ -361,17 +361,17 @@
                                                     <div class="form-group">
                                                         <label>BEFORE<span class="mandatory">*</span></label> <br>
                                                         <div class="inpfilelabel" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/before-img.jpg" height="170" />' title="BEFORE [Example]">
-                                                            <input id="attach_file" type="file" name="files" style="display: none;">
-                                                            <label for="attach_file" id="file-drag" class="">
-                                                                <div class="row">
+                                                            <input id="attach_file_before" type="file" name="files" style="display: none;" onchange="previewImage(event, 'uploaded_before_image')">
+                                                            <label for="attach_file_before" class="file-drag">
+                                                                <div class="row upload-interface">
                                                                     <div class="col-sm-12">
-                                                                        <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
+                                                                        <img id="file-image-before" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
                                                                         <div class="attachtitle">Click here to attach files</div>
                                                                     </div>
                                                                 </div>
                                                             </label>
+                                                            <span class="uploaded_image" id="uploaded_before_image"></span>
                                                         </div>
-                                                        <span id="uploaded_image"></span> <br>
                                                         <span class="responsemessage_img_before"></span>
                                                     </div>
                                                 </div>
@@ -380,17 +380,17 @@
                                                     <div class="form-group">
                                                         <label>AFTER<span class="mandatory">*</span></label> <br>
                                                         <div class="inpfilelabel" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/after-img.jpg" height="170" />' title="AFTER [Example]">
-                                                            <input id="attach_file_after" type="file" name="files_a" style="display: none;">
-                                                            <label for="attach_file_after" id="file-drag" class="">
-                                                                <div class="row">
+                                                            <input id="attach_file_after" type="file" name="files_a" style="display: none;" onchange="previewImage(event, 'uploaded_after_image')">
+                                                            <label for="attach_file_after" class="file-drag">
+                                                                <div class="row upload-interface">
                                                                     <div class="col-sm-12">
-                                                                        <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
+                                                                        <img id="file-image-after" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
                                                                         <div class="attachtitle">Click here to attach files</div>
                                                                     </div>
                                                                 </div>
                                                             </label>
+                                                            <span class="uploaded_image" id="uploaded_after_image"></span>
                                                         </div>
-                                                        <span id="uploaded_image_after"></span> <br>
                                                         <span class="responsemessage_img_after"></span>
                                                     </div>
                                                 </div>
@@ -405,47 +405,26 @@
 
                     </div>
                     @* //2nd *@
-                    <div class="col-lg-12">
-                        <div class="carddashed mt-2">
-                            <div class="card-body">
-                                <div class="right-box-padding">
-                                    <div class="read-content">
-
-                                        <div class="card-body">
-
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>Add Additional Attachments</label> <br>
-                                                        <div class="inpfilelabel addattachfile">
-                                                            <input id="attach_file" type="file" name="files" style="display: none;">
-                                                            <label for="attach_file" id="file-drag" class="">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
-                                                                        <div class="attachtitle">Click here to attach more files</div>
-
-                                                                    </div>
-                                                                </div>
-                                                            </label>
-                                                        </div>
-                                                        <span id="uploaded_image"></span> <br>
-                                                        <span class="responsemessage_img_before"></span>
+                    <div class="card py-3 mt-4 mb-4 mx-3">
+                        <div class="row ">
+                                    <div class="col-lg-12 ">
+                                        <div class="uploaded_images" id="uploaded_images">
+                                        <div class="inpfilelabel-attm grayed-out" id="upload_area">
+                                        <label>Add Additional Attachments</label> <br>
+                                            <input  id="additional_attachments" type="file" name="files" style="display: none;" multiple onchange="previewAdditionalImages(event)">
+                                                <label for="additional_attachments" class="file-drag">
+                                                    <div  class="upload-interface mt-5">
+                                                        <img id="file-image-additional" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
+                                                        <div class="attachtitle">Click here to attach files</div>
                                                     </div>
-                                                </div>
-
-
-                                            </div><!-- row -->
-
+                                                </label>
+                                            </div>
                                         </div>
-
+                                        <span class="responsemessage_img_additional"></span>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
+                            
                     </div>
-
 
                     <!-- accordion item 2 -- end -->
 
@@ -645,20 +624,21 @@
                                                     <div class="form-group">
                                                         <label>Attachment</label>
                                                         <br>
-                                                        <div class="inpfilelabel addattachfile mb-3">
-                                                            <input id="attach_file" type="file" name="files" style="display: none;">
-                                                            <label for="attach_file" id="file-drag">
-                                                                <div class="col-sm-12">
-                                                                    <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden">
-                                                                    <div class="attachtitle">Click here to attach files</div>
+                                                        <div class="inpfilelabel addattachfile mb-3" title="Attachment [Example]">
+                                                            <input id="attach_file2" type="file" name="files" style="display: none;" onchange="previewImage(event, 'uploaded_attach2_image')">
+                                                            <label for="attach_file2" class="file-drag">
+                                                                <div class="row upload-interface">
+                                                                    <div class="col-sm-12">
+                                                                        <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
+                                                                        <div class="attachtitle">Click here to attach files</div>
+                                                                    </div>
                                                                 </div>
-
                                                             </label>
+                                                            <span class="uploaded_imagesmall" id="uploaded_attach2_image"></span>
                                                         </div>
-                                                        <span id="uploaded_image"></span>
-                                                        <br>
-                                                        <span class="responsemessage_img_before"></span>
+                                                        <span class="responsemessage_img_attach"></span>
                                                     </div>
+
                                                     <div class="form-group">
                                                         <label>Root Cause Explanation</label>
                                                         <br>
@@ -1431,4 +1411,151 @@
 
 
 
+</script>
+
+ <script>
+    function previewImage(event, targetId) {
+        var uploadedImageContainer = $('#' + targetId);
+        uploadedImageContainer.empty();
+
+        var file = event.target.files[0];
+        var fileName = file.name;
+        var isValid = validate_fileupload(fileName);
+        if (!isValid) {
+            console.log('Invalid file type');
+            return;
+        }
+
+        var imgElement = $('<img>', {
+            src: URL.createObjectURL(event.target.files[0]),
+            alt: 'Uploaded Image'
+        });
+
+        var deleteButton = $('<div>', {
+            class: 'delete-btn',
+            text: 'Delete',
+            click: function () {
+                swal({
+                    text: "Are you sure you want to Delete?",
+                    buttons: {
+                        confirm: "Yes",
+                        cancel: "No"
+                    }
+                }).then((userConfirmation) => {
+                    if (userConfirmation) {
+                        uploadedImageContainer.empty();
+                        $('#' + event.target.id).val(''); 
+                        $('#' + targetId).closest('.inpfilelabel').find('.upload-interface').show();
+                        $('#' + targetId).closest('.inpfilelabel').css('padding', '30px');
+                        $('#' + targetId).closest('.inpfilelabel').css('border', '1px dashed #797A89');
+                        $('#upload_area').addClass('grayed-out');
+                        img.parentElement.remove();
+
+                    }
+                });
+            }
+        });
+
+        deleteButton.css({
+            'margin-left': '10px',
+            'margin-top': '5px' 
+        });
+
+        uploadedImageContainer.append(imgElement, deleteButton);
+        if ($('#attach_file_before').get(0).files.length > 0 && $('#attach_file_after').get(0).files.length > 0) {
+            $('#upload_area').removeClass('grayed-out');
+        }
+        else {
+            $('#upload_area').addClass('grayed-out');
+        }
+        
+
+        if (event.target.files.length > 0) {
+            $('#' + targetId).closest('.inpfilelabel').find('.upload-interface').hide();
+            $('#' + targetId).closest('.inpfilelabel').css('padding', '4px');
+            $('#' + targetId).closest('.delete-btn').css('padding', '2px 5px');
+            $('#' + targetId).closest('.inpfilelabel').css('border', 'none');
+
+
+
+        }
+    }
+    function validate_fileupload(fileName) {
+        var allowed_extensions = new Array("jpg", "png", "gif");
+        var file_extension = fileName.split('.').pop().toLowerCase();
+
+        for (var i = 0; i < allowed_extensions.length; i++) {
+            if (allowed_extensions[i] == file_extension) {
+                return true; // valid file extension
+            }
+        }
+        swal("Invalid file type" + fileName);
+        return false;
+    }
+//mutli files
+
+    function previewAdditionalImages(event) {
+        var files = event.target.files;
+        var output = document.getElementById('uploaded_images');
+        var uploadArea = document.getElementById('upload_area');
+        var allowed_extensions = new Set(["jpg", "jpeg", "png", "gif"]);
+
+        for (var i = 0; i < files.length; i++) {
+            var fileName = files[i].name;
+            var file_extension = fileName.split('.').pop().toLowerCase();
+
+            if (!allowed_extensions.has(file_extension)) {
+                swal("Invalid file type: " + fileName);
+                continue; 
+            }
+
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var img = document.createElement("img");
+                img.src = event.target.result;
+                img.className = "uploadImageSmall";
+
+                var deleteBtn = document.createElement("span");
+                deleteBtn.className = "delete-btn delbutt";
+                deleteBtn.textContent = "Delete";
+                deleteBtn.onclick = function () {
+                    swal({
+                        text: "Are you sure you want to Delete?",
+                        buttons: {
+                            confirm: "Yes",
+                            cancel: "No"
+                        }
+                    }).then((userConfirmation) => {
+                        if (userConfirmation) {
+                            img.parentElement.remove();
+                        }
+                    });
+                };
+
+
+                var div = document.createElement("div");
+                div.className = "inpfilelabel-attm";
+                div.appendChild(img);
+                div.appendChild(deleteBtn);
+
+                output.insertBefore(div, uploadArea);
+            };
+
+            reader.readAsDataURL(files[i]);
+        }
+    }
+
+    function validate_fileupload(fileName) {
+        var allowed_extensions = new Set(["jpg", "jpeg", "png", "gif"]);
+        var file_extension = fileName.split('.').pop().toLowerCase();
+
+        if (allowed_extensions.has(file_extension)) {
+            return true; // valid file extension
+        } else {
+            swal("Invalid file type: " + fileName);
+            return false;
+        }
+    }
+
+    
 </script>
