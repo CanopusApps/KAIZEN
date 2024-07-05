@@ -40,9 +40,6 @@
     }
 </style>
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
-
-
 <div class="content-body">
     <div class="container-fluid mt-5">
         <!-- Page Title -->
@@ -1148,11 +1145,6 @@
         c2.appendChild(empId);
         c3.appendChild(teamMemberName);
         c4.appendChild(teamMemberfunction);
-
-        // c1.className = 'col-lg-1';
-        // c2.className = 'col-lg-4';
-        // c3.className = 'col-lg-4';
-        // c4.className = 'col-lg-4';
         c1.style.width = '5%';
         c2.style.width = '31%';
         c3.style.width = '32%';
@@ -1328,35 +1320,50 @@
     }
     $(document).ready(function () {
   
+
+
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
         $("#approvedbyIE").attr("disabled", "disabled");
         $("#approvedbyAccount").attr("disabled", "disabled");
         $("#btnSaveKaizen").click(function () {
             debugger;
+            var checkboxData = {};
+            var checkboxData1 = {};
+            var activityValue;
+            var benifitarea;
+            var Rootcausedata;
 
-           // var Mura= document.querySelector('#idMura').checked;
-           // var Muri = document.querySelector('#idMuri').checked;
-           // var Muda = document.querySelector('#idMuda').checked;
-
-           //  var benefitAreap = document.querySelector('#iP').checked;
-           //  var benefitAreaq = document.querySelector('#iQ').checked;
-           //  var benefitAread = document.querySelector('#iD').checked;
-           //  var benefitAreas = document.querySelector('#iS').checked;
-           //  var benefitAream = document.querySelector('#iM').checked;
-           //  var benefitAreae = document.querySelector('#iE').checked;
-
-           //  var activity = Mura + ',' + Muri + ',' + Muda;
-           //  var benefitArea = benefitAreap + ',' + benefitAreaq + ',' + benefitAread + ',' + benefitAreas + ',' + benefitAream + +',' + benefitAreae;
-
+            $('#checkboxform input[type=checkbox]:checked').each(function () {
+                if (!checkboxData[this.name]) {
+                    checkboxData[this.name] = [];
+                }
+                checkboxData[this.name].push(this.value);
+                activityValue=checkboxData[""].join(',');
+            });
+            $('#checkboxform1 input[type=checkbox]:checked').each(function () {
+                if (!checkboxData1[this.name]) {
+                    checkboxData1[this.name] = [];
+                }
+                checkboxData1[this.name].push(this.value);
+                benifitarea = checkboxData1[""].join(',');
+            });
            
+            
+                var selectData1 = { "selected": [] };
+                $('#multiple-select-field option:selected').each(function () {
+                    selectData1["selected"].push($(this).val());
+                Rootcausedata = selectData1["selected"].join(',');
+                });
+              
 
+          
             var kaizenModel = {
                 // var blockName = $('#BlockName').val();
                 Block: $('#BlockName').val(),
                 BlockDetails: $('#BlockName option:selected').text(),
-                //Activity: activity,
-               // BenefitArea: benefitArea,
+                Activity: activityValue,
+                BenefitArea: benifitarea,
                 ActivityDesc: $('#activityDesc').val(),
                 KaizenTheme: $('#ktheme').val(),
                 plantName: $('#teplplant').val(),
@@ -1376,7 +1383,8 @@
                 TotalSavings: $("#TotalSavings").val(),
                 ApprovedByIE: $("#approvedbyIE").val(),
                 FinanceApprovedBy: $("#approvedbyAccount").val(),
-                RootCause: $("#multiple-select-field").val(),
+                // RootCause: $("#multiple-select-field").val(),
+                Rootcause: Rootcausedata,
                 RootCauseDetails: $("#rootcauseDetails").val(),
                 PresentCondition: $("#presentCondition").val(),
                 ImprovementsCompleted: $("#improvementsCompleted").val(),
