@@ -1085,7 +1085,7 @@
         $("#approvedbyIE").removeAttr("disabled");
         var varlength = $("#cost1").val();
 
-        if (varlength>=100)
+        if (varlength>=100000)
         {
             $("#approvedbyAccount").removeAttr("disabled");
         }
@@ -1125,6 +1125,11 @@
         c2.appendChild(empId);
         c3.appendChild(teamMemberName);
         c4.appendChild(teamMemberfunction);
+        //value added for list start
+        c2.value = $("#IdMemberAdd").val();
+        c3.value = $("#IdTeamMemberName").val();
+        c4.value = $("#IdFunction").val();
+        //value added for list end
         c1.style.width = '5%';
         c2.style.width = '31%';
         c3.style.width = '32%';
@@ -1191,9 +1196,14 @@
         c4.appendChild(responsibility);
         c5.appendChild(status);
 
+        c2.value = $("#txtMc").val();
+        c3.value = $("#txtTargetDate").val();
+        c4.value = $("#txtResponsibility").val();
+        c5.value = $("#txtStatus").val();
+
         c2.className = 'col-cd-2';
         c3.className = 'col-cd-4';
-         c4.className = 'col-cd-3';
+        c4.className = 'col-cd-3';
         c4.className = 'col-cd-3';
       
         $("#txtMc").val("");
@@ -1335,7 +1345,29 @@
                     selectData1["selected"].push($(this).val());
                 Rootcausedata = selectData1["selected"].join(',');
                 });
-              
+
+            var addedTeamMembers = new Array();
+            var addedDeployment = new Array();
+            $('#tblteammemberResult tbody tr').each(function () {
+                var row = $(this);
+                var memberDetails = {};
+                memberDetails.EmpId = row.find("TD").eq(1).val();
+                memberDetails.TeamMemberName = row.find("TD").eq(2).val();
+                memberDetails.Function = row.find("TD").eq(3).val();
+                addedTeamMembers.push(memberDetails);
+            });
+
+            $('#tblDeploymentrResult tbody tr').each(function () {
+                var row = $(this);
+                var deploymentDetails = {};
+                deploymentDetails.mc = row.find("TD").eq(1).val();
+                deploymentDetails.targetDate = row.find("TD").eq(2).val();
+                deploymentDetails.responsibility = row.find("TD").eq(3).val();
+                deploymentDetails.status = row.find("TD").eq(4).val();
+                addedDeployment.push(deploymentDetails);
+            });
+
+
 
           
             var kaizenModel = {
@@ -1365,6 +1397,8 @@
                 FinanceApprovedBy: $("#approvedbyAccount").val(),
                 // RootCause: $("#multiple-select-field").val(),
                 Rootcause: Rootcausedata,
+                MemberList: addedTeamMembers,
+                DeploymentList: addedDeployment,
                 RootCauseDetails: $("#rootcauseDetails").val(),
                 PresentCondition: $("#presentCondition").val(),
                 ImprovementsCompleted: $("#improvementsCompleted").val(),
