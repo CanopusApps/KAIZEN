@@ -11,6 +11,6 @@ namespace Kaizen.Data.DataServices
     public interface ISubmittedKaizenRepository
     {
         public DataSet GetApprovalStatus();
-        public DataSet GetKaizenList();
+        public DataSet GetKaizenList(KaizenListModel model);
     }
 }
