@@ -78,18 +78,33 @@ namespace Kaizen.Models.NewKaizen
         public string ModifiedBy { get; set; }
         public string ModifiedDate { get; set; }
 		public bool insertStatus { get; set; }
-
-
-
         public List<BlockModel> BlockList { get; set; }
-	}
-
+		public List<TeamMemberDetails> MemberList { get; set; }
+		public List<DeploymentDetails> DeploymentList{ get; set; }
+    }
 	public class NewKaizenGetOriginated
 	{
         public string name { get; set; }
         public string Domain { get; set; }
         public string Department { get; set; }
 
+
+    }
+    
+    public class TeamMemberDetails
+	{
+		public string EmpId { get; set; } = "";
+		public string TeamMemberName { get; set; } = "";
+        public string Function { get; set; } = "";
+
+    }
+
+    public class DeploymentDetails
+    {
+        public string MC { get; set; } = "";
+        public string TargetDate { get; set; } = "";
+        public string Responsibility { get; set; } = "";
+        public string Status { get; set; } = "";
 
     }
 
