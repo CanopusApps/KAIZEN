@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kaizen.Web.Controllers
 {
@@ -42,7 +43,8 @@ namespace Kaizen.Web.Controllers
 		[HttpPost]
 		public IActionResult NewKaizen(NewKaizenModel model)
 		{
-            model.insertStatus = false;
+         
+        model.insertStatus = false;
             Guid id = Guid.NewGuid();
             model.Id = id.ToString();
             model.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
