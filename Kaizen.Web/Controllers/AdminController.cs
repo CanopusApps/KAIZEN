@@ -44,6 +44,7 @@ namespace Kaizen.Web.Controllers
             model.Cadre = _addUserWorker.GetCadre();
             model.UserType = _addUserWorker.GetUserType();
             model.Domains = _domainWorker.GetDomain();
+            model.Blocks = _blockWorker.GetBlock();
             //model.Departments = _departmentWorker.GetDepartments();
 
 
@@ -56,14 +57,13 @@ namespace Kaizen.Web.Controllers
             try
             { 
                 string msg;
+                ModelState.Remove(nameof(userModel.Blocks));
                 ModelState.Remove(nameof(userModel.UserType));
                 ModelState.Remove(nameof(userModel.Cadre));
                 ModelState.Remove(nameof(userModel.Domains));
                 ModelState.Remove(nameof(userModel.Departments));
                 ModelState.Remove(nameof(userModel.CreatedbyId));
-              
-                //userModel.CreatedbyId = conAccessor.HttpContext.Session.GetString("EmpId");
-                //userModel.CreatedbyId = Username;
+               
                 if (userModel.MiddleName==null)
                 {
                     ModelState.Remove(nameof(userModel.MiddleName));

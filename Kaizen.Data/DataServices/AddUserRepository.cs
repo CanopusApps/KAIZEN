@@ -50,6 +50,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@Createdby", ur.CreatedbyId);
                 com.Parameters.AddWithValue("@status", ur.statusname);
                 com.Parameters.AddWithValue("@Did", ur.Did);
+                com.Parameters.AddWithValue("@BlockId", ur.BlockId);
                 com.Parameters.AddWithValue("@Deptid", ur.DeptId);
 
                 SqlParameter obreg = new SqlParameter();
