@@ -51,8 +51,17 @@ namespace Kaizen.Business.Worker
                 foreach (DataRow dr in userType.Tables[0].Rows)
                 {
                     KaizenGridData.Add(new KaizenListModel
-                    { 
-                        //will map column details once will have column details .
+                    {
+                        KaizenTheme = dr["KaizenTheme"].ToString(),
+                        TeamName = dr["TeamName"].ToString(),
+                        Block = dr["Block"].ToString(),
+                        HorozantalDeployment = dr["HorozantalDeployment"].ToString(),
+                        IEApprovedDept = dr["IEApprovedDept"].ToString(),
+                        FinanceApprovedBy = dr["FinanceApprovedBy"].ToString(),
+                        Shortlisted = dr["Shortlisted"].ToString(),
+                        ApprovalStatus = dr["ApprovalStatus"].ToString(),
+                        CreatedBy = dr["CreatedBy"].ToString(),
+                        CreatedDate = dr["CreatedDate"].ToString()
                     });
                 }
             }

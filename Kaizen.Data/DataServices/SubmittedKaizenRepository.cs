@@ -62,7 +62,7 @@ namespace Kaizen.Data.DataServices
 
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
-                com.CommandText = StoredProcedures.sp_getUsers;
+                com.CommandText = StoredProcedures.Sp_Get_Kaizen_Details;
 
                 SqlDataAdapter da = new SqlDataAdapter(com);
                 da.Fill(ds);

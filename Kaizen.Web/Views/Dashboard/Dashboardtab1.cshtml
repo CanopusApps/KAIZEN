@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "SidebarLayout";
 }
-
+@using Kaizen.Models.DashboardModel
 <style>
     .card-container {
         margin-bottom: 20px;
@@ -16,42 +16,29 @@
     }
 
     .card-item {
-      /*   background-color: #ADD8E6; */
-    
-        background-color: rgb(135, 206, 235,0.5); 
+        background-color: rgb(135, 206, 235, 0.5);
         color: black;
-        
         border: 1px dashed #007bff;
         text-align: center;
         border-radius: 10px;
         margin-left: 5px;
-        margin-right:15px;
+        margin-right: 15px;
         margin-bottom: 10px;
         cursor: pointer;
-        font-weight:600;
+        font-weight: 600;
     }
 
     #dHeader {
-        text-align:center;
+        text-align: center;
         font-size: 16px !important;
         margin-top: -10px;
         margin-left: 7px;
     }
 </style>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
 <div class="card ml-2 mr-2 bg-light">
     <nav>
-       @*  <div class="row page-titles mx-0">
-            <div class="card rounded bg-white p-2  mt-2 mb-2">
-                <div class="col-lg-12 p-md-0 p-2">
-
-                    <div class="welcome-text ">
-                        <label class="text-Azure">DashBoard</label>
-                    </div>
-                </div>
-            </div>
-        </div> *@
-        <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+        <div class="container-fluid rounded bg-white p-2 mt-2 mb-2">
             <div class="col-lg-12 p-md-0 p-2">
                 <div class="welcome-text">
                     <label id="dHeader">Masters -->Dashboard</label>
@@ -74,193 +61,148 @@
                             <div class="card-header">Total Kaizens Submitted / Total Employees in Domain</div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Tool room</div>
-                                        <div>0 / 77</div>
-                                        <div>0.00%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Quality</div>
-                                        <div>85 / 1171</div>
-                                        <div>7.26%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Projects</div>
-                                        <div>0 / 39</div>
-                                        <div>0.00%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Production</div>
-                                        <div>5 / 2562</div>
-                                        <div>0.20%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Planning</div>
-                                        <div>0 / 107</div>
-                                        <div>0.00%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>IT</div>
-                                        <div>0 / 51</div>
-                                        <div>0.00%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>HR</div>
-                                        <div>5 / 74</div>
-                                        <div>6.76%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Finance and Legal</div>
-                                        <div>0 / 22</div>
-                                        <div>0.00%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Engineering</div>
-                                        <div>2 / 1</div>
-                                        <div>200.00%</div>
-                                    </div>
+                                    @foreach (var domain in Model.DomainList)
+                                    {
+                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-card-type="first">
+                                            <div>@domain.DomainName</div>
+                                            <div> @domain.AllKaizenSubmitted/ @domain.User_count</div>
+                                            <div>0.00%</div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
+                            
+
                         </div>
                     </div>
-                    <div class="container" id="new-container" style="display: none;">
-
-                        <!-- First Row of Cards (copy) -->
+                   
+                    <div class="container" id="container-middle" style="display: none;">
                         <div class="card-container">
                             <div class="card mt-2">
-                                <div class="card-header">Total Kaizens Submitted / Total Employees in Domain</div>
+                                <div class="card-header">Departments under Selected Domain/Total Kaizen Submitted</div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>Tool room</div>
-                                            <div>0 / 77</div>
-                                            <div>0.00%</div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>Quality</div>
-                                            <div>85 / 1171</div>
-                                            <div>7.26%</div>
-                                        </div>
+                                        <!-- Dynamic content will be appended here -->
                                     </div>
                                 </div>
+                                <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset" value="Reset">Hide</button>
                             </div>
-                        </div>
-                        <!-- Second Row of Cards -->
-                        <div class="card-container">
-                            <div class="card">
-                                <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Domain</div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>Tool room</div>
-                                            <div>0 / 77</div>
-                                            <div>0.00%</div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>Quality</div>
-                                            <div>6 / 1171</div>
-                                            <div>0.51%</div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>Projects</div>
-                                            <div>0 / 39</div>
-                                            <div>0.00%</div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>Production</div>
-                                            <div>3 / 2562</div>
-                                            <div>0.12%</div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>Planning</div>
-                                            <div>0 / 107</div>
-                                            <div>0.00%</div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>IT</div>
-                                            <div>0 / 51</div>
-                                            <div>0.00%</div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>HR</div>
-                                            <div>1 / 74</div>
-                                            <div>1.35%</div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>Finance and Legal</div>
-                                            <div>0 / 22</div>
-                                            <div>0.00%</div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                            <div>Engineering</div>
-                                            <div>2 / 1</div>
-                                            <div>200.00%</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </div>
                     </div>
-
-
-
-                    <!-- Second Row of Cards (copy) -->
+                    <!-- Second Row of Cards -->
                     <div class="card-container">
                         <div class="card">
-                            <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Domain</div>
+                            <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Domain </div>
                             <div class="card-body">
                                 <div class="row">
-
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Projects</div>
-                                        <div>0 / 39</div>
-                                        <div>0.00%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Production</div>
-                                        <div>3 / 2562</div>
-                                        <div>0.12%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Planning</div>
-                                        <div>0 / 107</div>
-                                        <div>0.00%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>IT</div>
-                                        <div>0 / 51</div>
-                                        <div>0.00%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>HR</div>
-                                        <div>1 / 74</div>
-                                        <div>1.35%</div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>Finance and Legal</div>
-                                        <div>0 / 22</div>
-                                        <div>0.00%</div>
-                                    </div>
-
+                                    @foreach (var domain in Model.DomainList)
+                                    {
+                                        <!-- Added data-domain-id attribute to store the domain ID -->
+                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-card-type="second">
+                                            <div>@domain.DomainName</div>
+                                            <div>@domain.KaizenSubmitted /@domain.User_count</div>
+                                            <div>0.00%</div>
+                                        </div>
+                                        
+                                    }
                                 </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- End Container -->
+                    <div class="container" id="container-end" style="display: none;">
+                      
+                        <!-- End container to display fetched data -->
+                        <div class="card-container">
+                            <div class="card mt-2">
+                                <div class="card-header">Departments under Selected Domain/Total Employee Submitted</div>
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <!-- Dynamic content will be appended here -->
+                                        
+                                    </div>
+                                </div>
+                                <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset1" value="Reset">Hide</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-   </nav>
-   </div>
+    </nav>
+</div>
+</div>
+
 <script>
-    document.querySelectorAll('.card-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const newContainer = document.getElementById('new-container');
-            if (newContainer.style.display === 'block') {
-                newContainer.style.display = 'none';
-            } else {
-                newContainer.style.display = 'block';
-            }
+   
+    $(document).ready(function () {
+        $('#configreset').click(function () {
+           
+            hideContainer('container-middle');
+        });
+        $('#configreset1').click(function () {
+
+            hideContainer('container-end');
+        });
+
+        $('.card-item').click(function () {
+            var domainId = $(this).data('domain-id'); // Fetch the domain ID
+            var cardType = $(this).data('card-type'); // Fetch the card type
+
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/FetchDepartment',
+                dataType: "json",
+                data: { DomainID: domainId }, 
+                success: function (result) {
+                    if (result) {
+                        if (cardType === 'first') {
+                            // Update middle container
+                            const middleContainer = $('#container-middle');
+                            const middleRow = middleContainer.find('.row');
+                            middleRow.empty();
+                            middleContainer.show(); // Show the middle container
+
+                            result.forEach(department => {
+                                const departmentHtml = `
+                                  <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                                    <div>
+                                      ${department.departmentName}
+                                          <div>${department.kaizen_count}/ ${department.user_count}</div>
+                                      <div>0.00 %</div>
+                                    </div>
+                                  </div>
+                                `;
+
+                                middleRow.append(departmentHtml);
+                            });
+                        } else if (cardType === 'second') {
+                            const endContainer = $('#container-end');
+                            const endRow = endContainer.find('.row');
+                            endRow.empty();
+                            endContainer.show(); 
+
+                            result.forEach(department => {
+                                const departmentHtml = `
+                                      <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                                        <div>
+                                          ${department.departmentName}
+                                          <div> ${department.kaizen_count }/ ${department.user_count}</div>
+                                          <div>0.00 %</div>
+                                        </div>
+                                      </div>
+                                    `;
+                                endRow.append(departmentHtml);
+                            });
+                        }
+                    } 
+                },
+               
+            });
         });
     });
-
+    function hideContainer(containerId) {
+        $('#' + containerId).hide();
+    }
 </script>

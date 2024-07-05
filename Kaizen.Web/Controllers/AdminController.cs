@@ -115,14 +115,15 @@ namespace Kaizen.Web.Controllers
             return View(blocks);
         }
         [HttpPost]
-        public IActionResult AddBlock(string blockName)
+        public IActionResult AddBlock(BlockModel blockmodel)
         {
             bool insertStatus = false;
             try
             {
-                if (!string.IsNullOrEmpty(blockName))
+                blockmodel.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+                if (ModelState.IsValid)
                 {
-                    insertStatus = _blockWorker.InsertBlockDetails(blockName);
+                    insertStatus = _blockWorker.InsertBlockDetails(blockmodel);
                     if (insertStatus)
                     {
                         blocks = _blockWorker.GetBlock();
@@ -138,14 +139,15 @@ namespace Kaizen.Web.Controllers
 
 
         [HttpPost]
-        public IActionResult UpdateBlock(string blockName,int blockId)
+        public IActionResult UpdateBlock(BlockModel blockmodel)
         {
             bool updateStatus = false;
             try
             {
-                if (!string.IsNullOrEmpty(blockName))
+                blockmodel. ModifiedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+                if (ModelState.IsValid)
                 {
-                    updateStatus = _blockWorker.UpdateBlockDetails(blockName, blockId);
+                    updateStatus = _blockWorker.UpdateBlockDetails( blockmodel);
                     if (updateStatus)
                     {
                         blocks = _blockWorker.GetBlock();
@@ -212,15 +214,39 @@ namespace Kaizen.Web.Controllers
             return View(domains);
         }
         [HttpPost]
-        public IActionResult AddDomain(string domainName)
+        public IActionResult AddDomain(DomainModel domainmodel)
         {
             bool insertStatus = false;
             try
             {
-                if (!string.IsNullOrEmpty(domainName))
+                
+                domainmodel. CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+                if (ModelState.IsValid)
                 {
-                    insertStatus = _domainWorker.CreateDomain(domainName);
+                    insertStatus = _domainWorker.CreateDomain(domainmodel);
                     if (insertStatus)
+                    {
+                        domains = _domainWorker.GetDomain();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+            return Ok(domains);
+        }
+        [HttpPost]
+        public IActionResult UpdateDomain(DomainModel domainmodel)
+        {
+            bool updateStatus = false;
+            try
+            {
+                domainmodel. ModifiedBy =conAccessor.HttpContext.Session.GetString("EmpId");
+                if (ModelState.IsValid)
+                {
+                    updateStatus = _domainWorker.UpdateDomainDetails(domainmodel);
+                    if (updateStatus)
                     {
                         domains = _domainWorker.GetDomain();
                     }
@@ -308,20 +334,25 @@ namespace Kaizen.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddDepartment(int domainId, string DomainName, string DepartmentName)
+        public IActionResult AddDepartment(DepartmentModel departmentModel)
         {
             bool insertStatus = false;
             List<DepartmentModel> departments = new List<DepartmentModel>();
             try
             {
-                if (domainId > 0 && !string.IsNullOrEmpty(DomainName) && !string.IsNullOrEmpty(DepartmentName))
-                {
-                    insertStatus = _departmentWorker.CreateDepartment(domainId, DomainName, DepartmentName);
+                string msg;
+                //ModelState.Remove(nameof(departmentModel.DepartmentList));
+                //ModelState.Remove(nameof(departmentModel.DomainList ));
+                departmentModel.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+                
+                //if (/*ModelState.IsValid*/)
+                //{
+                    insertStatus = _departmentWorker.CreateDepartment( departmentModel);
                     if(insertStatus)
                     {
                         departments = _departmentWorker.GetDepartments();
                     }
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -331,8 +362,12 @@ namespace Kaizen.Web.Controllers
         }		
         public List<DepartmentModel> FetchDepartment(string domainId)
         {
+            
             departments = _departmentWorker.GetDepartments();
-            return departments.Where(m => m.DomainId == Convert.ToInt32(domainId)).ToList();
+            
+           
+                return departments.Where(m => m.DomainId == Convert.ToInt32(domainId) && m.Status == true).ToList();
+            
         }
 
         public List<DomainModel> DomainList()
@@ -340,6 +375,32 @@ namespace Kaizen.Web.Controllers
             list = _departmentWorker.GetDomain(model);
             return list;
         }
+        [HttpPost]
+        public IActionResult UpdateDepartment(DepartmentModel departmentmodel)
+        {
+            bool updateStatus = false;
+            try
+            {
+                ModelState.Remove(nameof(departmentmodel.DepartmentList));
+                ModelState.Remove(nameof(departmentmodel.DomainList ));
+                departmentmodel.ModifiedBY = conAccessor.HttpContext.Session.GetString("EmpId");
+                if (ModelState.IsValid)
+                {
+                    updateStatus = _departmentWorker.UpdateDepartmentDetails(departmentmodel);
+                    if (updateStatus)
+                    {
+                        //domains = _domainWorker.GetDomain();
+                        departments = _departmentWorker.GetDepartments();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+            return Ok(departments);
+        }
+
 
         [HttpPost]
         public IActionResult DeleteDepartment(int id)
@@ -387,7 +448,7 @@ namespace Kaizen.Web.Controllers
 
         public IActionResult EditUser()
         {
-            editmodel.Domains = _domainWorker.GetDomain();
+            editmodel.Domains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
             editmodel.Cadre = _addUserWorker.GetCadre();
             editmodel.UserType = _addUserWorker.GetUserType();
             //editmodel.Departments = FetchDepartment("1002");
@@ -398,11 +459,15 @@ namespace Kaizen.Web.Controllers
 		public IActionResult EditUser(EditUserModel editUserModel)
 		{
 			string msg="";
-			ModelState.Remove(nameof(editUserModel.UserType));
+            editUserModel.ModifiedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+            ModelState.Remove(nameof(editUserModel.UserType));
 			ModelState.Remove(nameof(editUserModel.Cadre));
 			ModelState.Remove(nameof(editUserModel.Domains));
 			ModelState.Remove(nameof(editUserModel.Departments));
-			if (ModelState.IsValid)
+            ModelState.Remove(nameof(editUserModel.ModifiedBy));
+            ModelState.Remove(nameof(editUserModel.MiddleName));
+
+            if (ModelState.IsValid)
 			{
                 msg = _editUserWorker.EditUser(editUserModel);
                 if (msg == "ok")

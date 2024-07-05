@@ -11,10 +11,12 @@ namespace Kaizen.Data.DataServices
 {
     public interface IDepartmentRepository
 	{
-        public bool CreateDepartmentData(int domainId, string DomainName, string DepartmentName);
+        public bool CreateDepartmentData(DepartmentModel departmentModel);
         public DataSet GetDepartments();
         public bool DeleteDepartment(int id);
         public DataSet GetDomainData(DomainModel model);
         public bool UpdateDepartmentStatus(int id, bool status);
+
+        public bool UpdateDepartmentDetails(DepartmentModel departmentmodel);
     }
 }

@@ -44,14 +44,28 @@ namespace Kaizen.Data.Constant
 		public static string sp_getUsers = "Sp_Get_Users";
 		public static string Sp_GetDepartments = "Sp_Get_Departments";
 		public static string sp_UpdateDepartmentStatus = "Sp_UpdateDepartmentStatus";
-		public static string sp_DeleteDepartment = "Sp_Delete_Department";
+        public static string Sp_UpdateDepartment = "Sp_UpdateDepartment";
+        public static string sp_DeleteDepartment = "Sp_Delete_Department";
 		public static string sp_InsertDepartment = "Sp_InsertDepartment";
         public static string sp_Delete_User = "Sp_Delete_User";
         public static string sp_InsertDomain = "Sp_InsertDomain"; 
         public static string Sp_Get_Status = "Sp_Get_Status"; 
         public static string Sp_Upload_Users = "Sp_Upload_Users";
-		public static string Sp_Update_Users = "Sp_UpdateUser";
+		public static string Sp_Update_Users = "Sp_EditUser";
         public static string sp_UpdateBlock = "Sp_UpdateBlock";
-        public static string Sp_Get_Approval_Status = "Sp_Get_Approval_Status";
+        public static string Sp_UpdateDomain = "Sp_UpdateDomain";
+        public static string Sp_Get_Approval_Status = "Sp_Get_Approval_Status"; 
+        public static string Sp_Get_Kaizen_Details = "Sp_Get_Kaizen_Details";
+        public static string SpGetKaizenOriginetedby = "Sp_Get_KaizenOriginetedby";
+        public static string SpKaizen_Insert = "Sp_Kaizen_Insert_test";
     }
+
+    public class ConstantValue
+    {
+        public static string KaizenType = "k";
+        public static int ApprovalStatus = 0;
+
+    }
+
+
 }

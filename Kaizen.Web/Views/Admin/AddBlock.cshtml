@@ -123,7 +123,9 @@
     $(document).ready(function () {
         $("#btnAdd").click(function () {
 
-            var BlockName = $('#BlockName').val();
+            var blockModel = { 
+                BlockName: $('#BlockName').val()
+            }
 
             if (!ValidateForm()) {
                 // If validation fails, return or perform any other necessary actions
@@ -133,7 +135,7 @@
                 type: 'POST',
                 url: '/Admin/AddBlock',
                 dataType: "json",
-                data: { blockName: BlockName },
+                data: { BlockModel : blockModel },
                 success: function (result) {
                     // Handle success (if needed)
                     var res = $.isEmptyObject(result);
@@ -162,6 +164,7 @@
             e.preventDefault();
             $('#btnAdd').hide();
             $('#btnupdate').show();
+            debugger;
             var $row = $(this).closest('tr');
             var blockid = $row.data('id');
             var blockname = $row.data('name');
@@ -171,8 +174,10 @@
     })
        $("#btnupdate").click(function () {
             debugger;
-            var BName = $('#BlockName').val();
-        var BId = $('#BlockId').val();
+          var domainmodel = {
+            BlockName: $('#BlockName').val(),
+            Id: $('#BlockId').val()
+        }; 
             if (!ValidateForm()) {
                 return;
             }
@@ -180,7 +185,7 @@
                 type: 'POST',
                 url: '/Admin/UpdateBlock',
                 dataType: "json",
-            data: { blockName: BName, blockId: BId },
+            data:  domainmodel ,
                 success: function (result) {
                     // Handle success (if needed)
                     var res = $.isEmptyObject(result);

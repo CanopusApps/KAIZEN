@@ -44,7 +44,7 @@ namespace Kaizen.Data.DataServices
 		private static SqlCommand com = null;
 
 
-        public bool CreateDepartmentData(int domainId, string DomainName, string DepartmentName)
+        public bool CreateDepartmentData(DepartmentModel departmentModel)
         {
             bool status = false;
             try
@@ -53,9 +53,10 @@ namespace Kaizen.Data.DataServices
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@DomainId", domainId);
-                com.Parameters.AddWithValue("@DomainName", DomainName);
-                com.Parameters.AddWithValue("@department", DepartmentName);
+                com.Parameters.AddWithValue("@DomainId", departmentModel.DomainId);
+                com.Parameters.AddWithValue("@DomainName", departmentModel.DomainName);
+                com.Parameters.AddWithValue("@department", departmentModel.DepartmentName);
+                com.Parameters.AddWithValue("@Createdby", departmentModel.CreatedBy);
                 com.CommandText = StoredProcedures.sp_InsertDepartment;
                 con.Open();
                 com.ExecuteNonQuery();
@@ -141,6 +142,33 @@ namespace Kaizen.Data.DataServices
             SqlDataAdapter da = new SqlDataAdapter(com);
             da.Fill(ds);
             return ds;
+        }
+        public bool UpdateDepartmentDetails(DepartmentModel departmentmodel)
+        {
+            bool status = false;
+            try
+            {
+                com = new SqlCommand();
+                DataTable dt = new DataTable();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@deptId", departmentmodel.DeptId);
+                com.Parameters.AddWithValue("@DomainId", departmentmodel.DomainId);
+                com.Parameters.AddWithValue("@DomainName", departmentmodel.DomainName);
+                com.Parameters.AddWithValue("@department", departmentmodel.DepartmentName);
+                com.Parameters.AddWithValue("@ModifiedBy", departmentmodel.ModifiedBY);
+                com.CommandText = StoredProcedures.Sp_UpdateDepartment;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return status;
         }
     }	
 

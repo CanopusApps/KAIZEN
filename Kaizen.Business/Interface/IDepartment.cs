@@ -10,10 +10,11 @@ namespace Kaizen.Business.Interface
 {
     public interface IDepartment
     {
-        public bool CreateDepartment(int domainId, string DomainName, string DepartmentName);
+        public bool CreateDepartment(DepartmentModel departmentModel);
         public List<DepartmentModel> GetDepartments();
         public bool DeleteDepartment(int id);
         public bool UpdateDepartmentStatus(bool status, int id);
         public List<DomainModel> GetDomain(DomainModel model);
+        public bool UpdateDepartmentDetails(DepartmentModel departmentmodel);
     }
 }

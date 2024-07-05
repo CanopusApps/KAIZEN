@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,9 +19,9 @@ namespace Kaizen.Business.Worker
         {
             this._repositoryDepartmentdata = repositoryDepartmentdata;
         }
-        public bool CreateDepartment(int domainId, string DomainName, string DepartmentName)
+        public bool CreateDepartment(DepartmentModel departmentModel)
         {
-            return _repositoryDepartmentdata.CreateDepartmentData(domainId, DomainName, DepartmentName);
+            return _repositoryDepartmentdata.CreateDepartmentData(departmentModel);
         }
         public List<DepartmentModel> GetDepartments()
         {
@@ -37,7 +38,10 @@ namespace Kaizen.Business.Worker
                         DepartmentName = dr["DepartmentName"].ToString(),
                         DomainId = Convert.ToInt32(dr["DomainId"].ToString()),
                         DomainName = dr["DomainName"].ToString(),
-                        Status = Convert.ToBoolean(dr["Status"])
+                        Status = Convert.ToBoolean(dr["Status"]),
+                        User_count = Convert.ToInt32(dr["user_count"]),
+                        kaizen_count= Convert.ToInt32(dr["kaizen_count"])
+
                     });
                 }
             }
@@ -68,6 +72,10 @@ namespace Kaizen.Business.Worker
                 }
             }
             return list;
+        }
+        public bool UpdateDepartmentDetails(DepartmentModel departmentmodel)
+        {
+            return _repositoryDepartmentdata.UpdateDepartmentDetails(departmentmodel);
         }
     }
 }
