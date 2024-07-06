@@ -38,6 +38,7 @@
     .input-width {
         width: 100%;
     }
+
 </style>
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
 <div class="content-body body">
@@ -405,25 +406,23 @@
 
                     </div>
                     @* //2nd *@
-                    <div class="card py-3 mt-4 mb-4 mx-3">
-                        <div class="row ">
-                                    <div class="col-lg-12 ">
-                                        <div class="uploaded_images" id="uploaded_images">
-                                        <div class="inpfilelabel-attm grayed-out" id="upload_area">
-                                        <label>Add Additional Attachments</label> <br>
-                                            <input  id="additional_attachments" type="file" name="files" style="display: none;" multiple onchange="previewAdditionalImages(event)">
-                                                <label for="additional_attachments" class="file-drag">
-                                                    <div  class="upload-interface mt-5">
-                                                        <img id="file-image-additional" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
-                                                        <div class="attachtitle">Click here to attach files</div>
-                                                    </div>
-                                                </label>
+                    <div class="col-lg-12">
+                        <div class="carddashed" id="carddash">
+                            <div class="row mt-4" id="preview_area">
+                                <div class="col-md-3 col-sm-4 ">
+                                    <label class="mt-2">Add Additional Attachments</label> <br>
+                                    <div class="inpfilelabel-attm mb-2 grayed-out" id="upload_area">
+                                        <input id="additional_attachments" type="file" name="files" style="display: none;" multiple onchange="previewAdditionalImages(event)">
+                                        <label for="additional_attachments" class="file-drag">
+                                            <div class="upload-interface ">
+                                                <img id="file-image-additional" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
+                                                <div class="attachtitle mt-2">Click here to attach files</div>
                                             </div>
-                                        </div>
-                                        <span class="responsemessage_img_additional"></span>
+                                        </label>
                                     </div>
                                 </div>
-                            
+                            </div>
+                        </div>
                     </div>
 
                     <!-- accordion item 2 -- end -->
@@ -1528,9 +1527,9 @@
     }
 //mutli files
 
-    function previewAdditionalImages(event) {
+     function previewAdditionalImages(event) {
         var files = event.target.files;
-        var output = document.getElementById('uploaded_images');
+        var output = document.getElementById('preview_area');
         var uploadArea = document.getElementById('upload_area');
         var allowed_extensions = new Set(["jpg", "jpeg", "png", "gif"]);
 
@@ -1540,7 +1539,7 @@
 
             if (!allowed_extensions.has(file_extension)) {
                 swal("Invalid file type: " + fileName);
-                continue; 
+                continue;
             }
 
             var reader = new FileReader();
@@ -1550,46 +1549,31 @@
                 img.className = "uploadImageSmall";
 
                 var deleteBtn = document.createElement("span");
-                deleteBtn.className = "delete-btn delbutt";
-                deleteBtn.textContent = "Delete";
-                deleteBtn.onclick = function () {
-                    swal({
-                        text: "Are you sure you want to Delete?",
-                        buttons: {
-                            confirm: "Yes",
-                            cancel: "No"
-                        }
-                    }).then((userConfirmation) => {
-                        if (userConfirmation) {
-                            img.parentElement.remove();
-                        }
-                    });
-                };
-
+                    deleteBtn.className = "delete-btn delbutt";
+                    deleteBtn.textContent = "Delete";
+                    deleteBtn.onclick = function () {
+                     swal({
+                          text: "Are you sure you want to Delete?",
+                           buttons: {
+                               confirm: "Yes",
+                               cancel: "No"
+                                    }
+                      }).then((userConfirmation) => {
+                              if (userConfirmation) {
+                            deleteBtn.parentElement.parentElement.remove();
+                              }
+                              });
+                    };
 
                 var div = document.createElement("div");
-                div.className = "inpfilelabel-attm";
-                div.appendChild(img);
-                div.appendChild(deleteBtn);
-
-                output.insertBefore(div, uploadArea);
+                div.className = "col-md-3 col-sm-4 ";
+                div.innerHTML = `<div class="inpfilelabel-attm mt-2 mb-2 p-2">${img.outerHTML}</div>`;
+                div.querySelector('.inpfilelabel-attm').appendChild(deleteBtn);
+               
+                output.insertBefore(div, uploadArea.parentElement);
             };
 
             reader.readAsDataURL(files[i]);
         }
-    }
-
-    function validate_fileupload(fileName) {
-        var allowed_extensions = new Set(["jpg", "jpeg", "png", "gif"]);
-        var file_extension = fileName.split('.').pop().toLowerCase();
-
-        if (allowed_extensions.has(file_extension)) {
-            return true; // valid file extension
-        } else {
-            swal("Invalid file type: " + fileName);
-            return false;
-        }
-    }
-
-    
+    }    
 </script>

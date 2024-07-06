@@ -49,6 +49,9 @@ textarea, input {
     border-radius: 0.375rem;
     border: 1px dashed #ccc;
 }
+#carddash {
+    padding: 10px!important;
+}
 
 .kaizenlogo {
     height: 73px !important;
@@ -229,6 +232,7 @@ table {
 .uploaded_imagesmall img {
     height: 158px;
     width: 262px;
+    max-width:100%;
 }
 
 .uploaded_image img {
@@ -250,6 +254,7 @@ table {
 .delbutt {
     font-size: 10px !important;
     margin-left: 5px;
+    text-align:center;
 }
 
 
@@ -261,28 +266,33 @@ table {
 .uploaded_images {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    /*gap: 10px;*/
 }
 
+
 .inpfilelabel-attm {
-    padding: 10px;
+    float: left;
+    clear: both;
+    width: 100%;
     text-align: center;
+    padding: 15px;
     background: #fff;
     border-radius: 7px;
     border: 1px dashed #797A89;
     transition: all .2s ease;
     user-select: none;
-    display: inline-block;
     position: relative;
-    min-width: 230px;
-   /* max-width: 230px;*/
-    margin-left:10px;
 }
-
+#upload_area {
+    text-align: center;
+}
 
 .uploadImageSmall {
     height: 113px;
-    width: 150px;
+    width: 200px;
+    max-width:100%;
+   /* margin-left:10px;
+    margin-right:10px;*/
 }
 
 .upload-container {
@@ -294,7 +304,17 @@ table {
 .card {
     border: 1px dashed #797A89;
 }
+@media (min-width: 400px) and (max-width: 600px) {
+    .uploadImageSmall {
+        width: 80%;
+        max-width: 100%;
+        margin:10px;
+    }
 
+    .inpfilelabel-attm {
+        padding: 15px;  Adjust padding as needed 
+    }
+}
 
 
 
@@ -413,24 +433,3 @@ table.ac-table {
 }
 
 
-
-@media (max-width: 767.98px) {
-    .inpfilelabel-attm {
-        width: 100%; /* Full width on mobile */
-        /* Additional styles if needed */
-    }
-}
-
-@media (min-width: 768px) and (max-width: 991.98px) {
-    .inpfilelabel-attm {
-        width: 80%; /* Adjusted width for tablets */
-        /* Additional styles if needed */
-    }
-}
-
-@media (min-width: 768px) and (max-width: 991.98px) {
-    .inpfilelabel-attm {
-        width: 80%; /* Adjusted width for tablets */
-        /* Additional styles if needed */
-    }
-}
