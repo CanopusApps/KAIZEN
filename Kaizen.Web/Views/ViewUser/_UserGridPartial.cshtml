@@ -26,6 +26,7 @@
             var FirstName = $row.data('firstname');
             var MiddleName = $row.data('middlename');
             var LastName = $row.data('lastname');
+            var blockdesc = $row.data('blockdesc');
 
             sessionStorage.setItem('editUser', JSON.stringify({
                 empid: empid,
@@ -42,7 +43,9 @@
                 ImageApprove: ImageApprove,
                 FirstName: FirstName,
                 MiddleName: MiddleName,
-                LastName: LastName
+                LastName: LastName,
+                blockdesc: blockdesc
+
             }));
             window.location.href = '/Admin/EditUser';
         });
@@ -70,7 +73,7 @@
         {
             foreach (var User in Model)
             {
-                <tr data-empid="@User.EmpID" data-name="@User.Name" data-email="@User.Email" data-gender="@User.Gender" data-domain="@User.Domain" data-department="@User.Department" data-usertype="@User.UserType" data-status="@User.Status" data-phoneno="@User.PhoneNo" data-password="@User.Password" data-cadre="@User.Cadre" data-imageapprover="@User.ImageApprover" data-firstname="@User.FirstName" data-middlename="@User.MiddleName" data-lastname="@User.LastName">
+                <tr data-empid="@User.EmpID" data-name="@User.Name" data-email="@User.Email" data-gender="@User.Gender" data-domain="@User.Domain" data-department="@User.Department" data-usertype="@User.UserType" data-status="@User.Status" data-phoneno="@User.PhoneNo" data-password="@User.Password" data-cadre="@User.Cadre" data-imageapprover="@User.ImageApprover" data-firstname="@User.FirstName" data-middlename="@User.MiddleName" data-lastname="@User.LastName" data-Blockdesc="@User.BlockDesc">
                     <td>@User.EmpID</td>
                     <td>@User.Name</td>
                     <td>@User.Email</td>
@@ -95,6 +98,7 @@
                             <i class="edit fas fa-solid fa-pencil"></i>
                         </a>
                     </td>
+                   @*  <td>@User.BlockDesc</td> *@
                 </tr>
             }
         }

@@ -127,7 +127,7 @@
                 <div class="editor-container">
                     @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Enter your password" })
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger validation-message" })
-                </div>
+                </div> 
             </div>
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
@@ -162,10 +162,10 @@
     }
 </div>
 </div>
-@if (TempData["msg"] != null)
+@if (TempData["addmsg"] != null)
 {
     <script>
-        swal('@TempData["msg"]')
+        swal('@TempData["addmsg"]')
     </script>
 }
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -176,105 +176,10 @@
         $('#configform')[0].reset();
     });
     $(document).ready(function () {
-        // Validate form using jQuery Validation Plugin
         $("#userForm").validate({
             errorClass: "text-danger",
-            rules: {
-                EmpId: {
-                    required: true
-                },
-                FirstName: {
-                    required: true,
-                    pattern: "[A-Za-z]+"
-                },
-                LastName: {
-                    required: true,
-                    pattern: "[A-Za-z]+"
-                },
-                Email: {
-                    required: true,
-                    email: true
-                },
-                Phoneno: {
-                    required: true,
-                    pattern: "[0-9]{10}"
-                },
-                Did: {
-                    required: true
-                },
-                DeptId: {
-                    required: true
-                },
-                Rid: {
-                    required: true
-                },
-                statusname: {
-                    required: true
-                },
-                Cid: {
-                    required: true
-                },
-                Gender: {
-                    required: true
-                },
-                Password: {
-                    required: true,
-                    minlength: 6
-                },
-                ConfirmPassword: {
-                    required: true,
-                    equalTo: "#Password"
-                }
-            },
-            messages: {
-                EmpId: {
-                    required: "Employee ID is required"
-                },
-                FirstName: {
-                    required: "Name is required",
-                    pattern: "Please enter a valid name"
-                },
-                 
-                LastName: {
-                    required: "Name is required",
-                    pattern: "Please enter a valid name"
-                },
-                Email: {
-                    required: "Email is required",
-                    email: "Please enter a valid email address"
-                },
-                Phoneno: {
-                    required: "Phone number is required",
-                    pattern: "Please enter a 10-digit phone number"
-                },
-                Did: {
-                    required: "Domain is required"
-                },
-                DeptId: {
-                    required: "Department is required"
-                },
-                Rid: {
-                    required: "User type is required"
-                },
-                statusname: {
-                    required: "Status is required"
-                },
-                Cid: {
-                    required: "Cadre is required"
-                },
-                Gender: {
-                    required: "Gender is required"
-                },
-                Password: {
-                    required: "Password is required",
-                    minlength: "Password must be at least 6 characters long"
-                },
-                ConfirmPassword: {
-                    required: "Confirm password is required",
-                    equalTo: "Passwords do not match"
-                }
-            },     
-        });
+        })
+    
         // middle name  validation 
         $('#MiddleName').on('input', function () {
             let value = $(this).val();

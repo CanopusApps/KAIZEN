@@ -250,6 +250,7 @@
 </script> *@
 <script>
     $('#btn_filter').click(function () {
+        debugger
         var Name = $('#inputName').val();
         var EmpId = $('#inputEmpID').val();
         var Email = $('#inputEmail').val();
@@ -271,6 +272,7 @@
                 $('#loader-wrapper').show();
             },
             success: function (result) {
+               
                 var rows = [];
                 $(result).find('tbody tr').each(function () {
                     var $row = $(this);
@@ -287,6 +289,7 @@
                         password: $row.data('password'),
                         cadre: $row.data('cadre'),
                         ImageApprove: $row.data('imageapprover')
+
                     };
                     rows.push(rowData);
                 });

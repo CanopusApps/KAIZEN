@@ -56,11 +56,11 @@ namespace Kaizen.Web.Controllers
                         }
                         else
                         {
-                            TempData["msg"] = "Entered password Wrong";
+                            TempData["loginmsg"] = "Entered password Wrong";
                         }
 
                     }
-                    else { TempData["msg"] = "User Not present with Id: " + loginmodel.EmpId; }
+                    else { TempData["loginmsg"] = "User Not present with Id: " + loginmodel.EmpId; }
                 }
 
             }
