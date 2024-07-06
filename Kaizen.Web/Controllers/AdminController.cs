@@ -76,22 +76,22 @@ namespace Kaizen.Web.Controllers
                    
                     if (msg == "ok")
                    {
-                       TempData["msg"] = "Data saved Sucessfully ";
+                       TempData["addmsg"] = "Data saved Sucessfully ";
                    }
                    else if (msg == "Duplicate Emp Id")
                    {
-                       TempData["msg"] = msg;
+                       TempData["addmsg"] = msg;
                    }
                     else
                    {
-                        TempData["msg"] = "some error occured";
+                        TempData["addmsg"] = "some error occured";
                   }
 
                 }
                 else
                 {
 
-                   TempData["msg"] = "some data Feids missing";
+                   TempData["addmsg"] = "some data Feids missing";
                 }
                 return RedirectToAction("Adduser");
             }
@@ -451,9 +451,10 @@ namespace Kaizen.Web.Controllers
             editmodel.Domains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
             editmodel.Cadre = _addUserWorker.GetCadre();
             editmodel.UserType = _addUserWorker.GetUserType();
+            editmodel.Blocks= _blockWorker.GetBlock();
             //editmodel.Departments = FetchDepartment("1002");
-			//editmodel.Departments = _departmentWorker.GetDepartments();
-			return View(editmodel);
+            //editmodel.Departments = _departmentWorker.GetDepartments();
+            return View(editmodel);
         }
 		[HttpPost]
 		public IActionResult EditUser(EditUserModel editUserModel)
@@ -466,21 +467,22 @@ namespace Kaizen.Web.Controllers
 			ModelState.Remove(nameof(editUserModel.Departments));
             ModelState.Remove(nameof(editUserModel.ModifiedBy));
             ModelState.Remove(nameof(editUserModel.MiddleName));
+            ModelState.Remove(nameof(editUserModel.Blocks));
 
             if (ModelState.IsValid)
 			{
                 msg = _editUserWorker.EditUser(editUserModel);
                 if (msg == "ok")
 				{
-					TempData["msg"] = "Data saved Sucessfully ";
+					TempData["Editmsg"] = "Data saved Sucessfully ";
 				}
 				else if (msg == "Employee doesnot exist.")
 				{
-					TempData["msg"] = msg;
+					TempData["Editmsg"] = msg;
 				}
 				else
 				{
-					TempData["msg"] = "some error occured";
+					TempData["Editmsg"] = "some error occured";
 				}
 
 			}

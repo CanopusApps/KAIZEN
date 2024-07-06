@@ -12,10 +12,11 @@ namespace Kaizen.Models.AdminModel
     {
         [Required(ErrorMessage = "Employee ID is required")]
         [RegularExpression(@"^\d{1,6}$", ErrorMessage = "Employee ID must be a number with 6 digits only")]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "Employee ID must be exactly 6 digits long")]
         public string EmpId { get; set; }
 
         [Required(ErrorMessage = "First-name is required")]
-        [StringLength(10, ErrorMessage = "Name cannot be longer than 50 characters")]
+        [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
         public string FirstName { get; set; }
 
@@ -23,7 +24,7 @@ namespace Kaizen.Models.AdminModel
         public string MiddleName { get; set; } = "";
 
         [Required(ErrorMessage = "Last-name is required")]
-        [StringLength(10, ErrorMessage = "Name cannot be longer than 50 characters")]
+        [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
         public string LastName { get; set; }
 		[Required(ErrorMessage = "Phone number is required")]
@@ -34,6 +35,9 @@ namespace Kaizen.Models.AdminModel
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
 
         public string CreatedbyId { get; set; } = "";
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
        
         [Required(ErrorMessage = "Password is required")]

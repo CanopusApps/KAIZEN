@@ -54,10 +54,10 @@
         <div class="col-sm-4"></div>
     </div>
 
-    @if (TempData["msg"] != null)
+    @if (TempData["loginmsg"] != null)
     {
         <script>
-            swal('@TempData["msg"]')
+            swal('@TempData["loginmsg"]')
         </script>
     }
 }

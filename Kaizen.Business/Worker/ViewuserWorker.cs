@@ -48,7 +48,8 @@ namespace Kaizen.Business.Worker
                         Cadre = dr["CadreDesc"].ToString(),
                         FirstName= dr["FirstName"].ToString(),
                         MiddleName = dr["MiddleName"].ToString(),
-                        LastName = dr["LastName"].ToString()
+                        LastName = dr["LastName"].ToString(),
+                        BlockDesc = dr["Blockdesc"].ToString()
                     });
 				}
 			}

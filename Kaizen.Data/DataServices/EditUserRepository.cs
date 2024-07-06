@@ -62,7 +62,8 @@ namespace Kaizen.Data.DataServices
 					com.Parameters.AddWithValue("@Did", editUserModel.Did);
 					com.Parameters.AddWithValue("@Deptid", editUserModel.DeptId);
 					com.Parameters.AddWithValue("@ImageApprover", editUserModel.ImageApprover);
-					com.Parameters.AddWithValue("@ModifiedEmpId", editUserModel.ModifiedBy);
+                    com.Parameters.AddWithValue("@BlockId", editUserModel.BlockId);
+                    com.Parameters.AddWithValue("@ModifiedEmpId", editUserModel.ModifiedBy);
                     SqlParameter obreg = new SqlParameter();
 					obreg.ParameterName = "@result";
 					obreg.SqlDbType = SqlDbType.Bit;

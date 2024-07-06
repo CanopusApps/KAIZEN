@@ -21,7 +21,7 @@ namespace Kaizen.Models.AdminModel
         public string MiddleName { get; set; } = "";
 
         [Required(ErrorMessage = "Last-name is required")]
-        [StringLength(10, ErrorMessage = "Name cannot be longer than 50 characters")]
+        [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
         public string LastName { get; set; }
 
@@ -59,14 +59,15 @@ namespace Kaizen.Models.AdminModel
 
         public List<DepartmentModel> Departments { get; set; }
 
-
+        public List<BlockModel> Blocks { get; set; }
         //static list for status
         public List<StatusModel> Status { get; set; } = new List<StatusModel>
         {
             new StatusModel { StatusID = 1, StatusName = "Active" },
            new StatusModel { StatusID = 0, StatusName = "Inactive" }
         };
-
+        [Required(ErrorMessage = "Block  is required")]
+        public int BlockId { get; set; } = 0;//stores BLockID
         public int StatusName { get; set; }// Stores status (1 or 0)
         
         [Required(ErrorMessage = "Cadre is required")]

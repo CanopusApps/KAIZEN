@@ -93,6 +93,11 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.BlockId, "Block", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                    @Html.DropDownListFor(m => m.BlockId, new SelectList(Model.Blocks, "Id", "BlockName"), "Select Block", new { @id = "blockId", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BlockId, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
                     @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "Select Domain", new { @id = "Did", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger" })
@@ -104,14 +109,11 @@
                         <option selected>Select Department</option>
                     </select>
                 </div>
-                <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.Rid, "UserType", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                    @Html.DropDownListFor(m => m.Rid, new SelectList(Model.UserType, "UserTypeId", "UserDesc"), "--UserType--", new { @id = "Rid", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Rid, "", new { @class = "text-danger" })
-                </div>               
+                          
             </div>
 
             <div class="form-row">
+              
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.StatusName, "Status", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
                     @Html.DropDownListFor(model => model.StatusName, new SelectList(Model.Status, "StatusID", "StatusName"), new { @class = "form-control", @id = "statusname" })
@@ -121,6 +123,22 @@
                     @Html.LabelFor(model => model.Cid, "Cadre", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
                     @Html.DropDownListFor(m => m.Cid, new SelectList(Model.Cadre, "Id", "CadreName"), "--Select Cadre--", new { @id = "cid", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Cid, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Rid, "UserType", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                    @Html.DropDownListFor(m => m.Rid, new SelectList(Model.UserType, "UserTypeId", "UserDesc"), "--UserType--", new { @id = "Rid", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Rid, "", new { @class = "text-danger" })
+                </div>
+               
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4" style="border:1px solid #dee2e6!important;padding:6px">
+                    @Html.LabelFor(model => model.ImageApprover, htmlAttributes: new { @class = "control-label" })
+                    <span class="text-danger">*</span>
+                    <label class="checkbox-inline">
+                        @Html.CheckBoxFor(model => model.ImageApprover)
+                    </label>
+                    @Html.ValidationMessageFor(model => model.ImageApprover, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
@@ -138,16 +156,6 @@
                         @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                     </div>
 
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4" style="border:1px solid #dee2e6!important;padding:6px">
-                    @Html.LabelFor(model => model.ImageApprover, htmlAttributes: new { @class = "control-label" })
-                    <span class="text-danger">*</span>
-                    <label class="checkbox-inline">
-                        @Html.CheckBoxFor(model => model.ImageApprover)
-                    </label>
-                    @Html.ValidationMessageFor(model => model.ImageApprover, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-row">
@@ -281,11 +289,15 @@
                 $("#LastName").val(editUser['LastName']);
                 $("#Email").val(editUser['email']);
                 $("#PhoneNo").val(editUser['phoneno']);
+                // $("#blockId").val(editUser['blockdesc']);
                 // $("#Password").val(editUser['password']);
                 // $("#ConfirmPassword").val(editUser['password']);
                 // var domainName = editUser['domain'];
                 $('#Did option').map(function () {
                     if ($(this).text() == editUser['domain']) return this;
+                }).attr('selected', 'selected').change();
+                $('#blockId option').map(function () {
+                    if ($(this).text() == editUser['blockdesc']) return this;
                 }).attr('selected', 'selected').change();
 
                 
