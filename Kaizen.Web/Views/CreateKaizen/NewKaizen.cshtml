@@ -573,7 +573,8 @@
                                             <div class="table-container">
                                             <table id="tblteammemberResult" class="col-lg-10" >
                                                 <tbody>
-                                                    
+                                                        <tr>
+                                                        </tr>
                                                 </tbody>
 
 
@@ -835,7 +836,8 @@
                                                 <div class="table-container">
                                             <table id="tblDeploymentrResult" class="col-lg-12">
                                                 <tbody>
-                                                    
+                                                            <tr>
+                                                            </tr>
                                                 </tbody>
                                             </table>
                                             </div>
@@ -1113,8 +1115,10 @@
         empId.className = "input-width";
         teamMemberName.type = "text";
         teamMemberName.value = $("#IdTeamMemberName").val();
+        teamMemberName.className = "input-width";
         FunctionName.className = "input-width";
         FunctionName.type = "text";
+
         FunctionName.value = $("#IdFunction").val();
         FunctionName.className = "input-width";
         c1.appendChild(checkbox);      
