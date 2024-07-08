@@ -12,7 +12,6 @@ namespace Kaizen.Models.NewKaizen
 		public string Id { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedDate { get; set; }
-        
         public string VersionDate { get; set; }
 		public string KaizenId { get; set; }
 		public string KaizenType { get; set; }
@@ -40,7 +39,6 @@ namespace Kaizen.Models.NewKaizen
 		public string Others { get; set; }
 		public string TotalSavings { get; set; }
 		public string ApprovedByIE { get; set; }
-
         public string FinanceApprovedBy { get; set; }
         public int TeamMemberID { get; set; }
 		public string RootCause { get; set; }
@@ -84,27 +82,31 @@ namespace Kaizen.Models.NewKaizen
     }
 	public class NewKaizenGetOriginated
 	{
+		public string KcId { get; set; }
         public string name { get; set; }
         public string Domain { get; set; }
         public string Department { get; set; }
-
-
     }
     
     public class TeamMemberDetails
 	{
-		public string EmpId { get; set; } = "";
+		public string MemberID { get; set; } = "";
+        public string CreatedBy { get; set; } = "";
+        public string CreatedDate { get; set; } = "";
+        public string EmpId { get; set; } = "";
 		public string TeamMemberName { get; set; } = "";
-        public string Function { get; set; } = "";
-
+        public string FunctionName { get; set; } = "";
     }
 
     public class DeploymentDetails
     {
+        public string KcId { get; set; } = "";
+        public string CreatedBy { get; set; } = "";
+		public string CreatedDate { get; set; } = "";
         public string MC { get; set; } = "";
         public string TargetDate { get; set; } = "";
         public string Responsibility { get; set; } = "";
-        public string Status { get; set; } = "";
+        public string ScopeStatus { get; set; } = "";
 
     }
 

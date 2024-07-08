@@ -55,9 +55,7 @@ namespace Kaizen.Web.Controllers
 		[HttpPost]
 		public IActionResult GetTeamMemberDetails(NewKaizenModel model)
 		{
-
             model = _createNewKaizen.GetKaizenOriginatedby(model);
-
             return Ok(model); 
 		}
 

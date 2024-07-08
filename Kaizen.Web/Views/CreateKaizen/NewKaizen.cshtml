@@ -573,9 +573,7 @@
                                             <div class="table-container">
                                             <table id="tblteammemberResult" class="col-lg-10" >
                                                 <tbody>
-                                                    <tr>                                                        
-
-                                                    </tr>
+                                                    
                                                 </tbody>
 
 
@@ -837,9 +835,7 @@
                                                 <div class="table-container">
                                             <table id="tblDeploymentrResult" class="col-lg-12">
                                                 <tbody>
-                                                    <tr>
-
-                                                    </tr>
+                                                    
                                                 </tbody>
                                             </table>
                                             </div>
@@ -921,6 +917,7 @@
 
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-9" id="name" name="name" value="@Model.name">
+                                                                    <input type="text" class="mx-auto form-control col-9" id="createdBy" name="createdBy" value="@Model.EmpId" hidden>
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
                                                                     <select name="" id="" class="form-control col-9">
@@ -1108,7 +1105,7 @@
         var checkbox = document.createElement("input");
         var empId = document.createElement("input");
         var teamMemberName = document.createElement("input");
-        var teamMemberfunction = document.createElement("input");
+        var FunctionName = document.createElement("input");
 
         checkbox.type = "checkbox";
         empId.type = "text"; 
@@ -1116,14 +1113,14 @@
         empId.className = "input-width";
         teamMemberName.type = "text";
         teamMemberName.value = $("#IdTeamMemberName").val();
-        teamMemberName.className = "input-width";
-        teamMemberfunction.type = "text";
-        teamMemberfunction.value = $("#IdFunction").val();
-        teamMemberfunction.className = "input-width";
+        FunctionName.className = "input-width";
+        FunctionName.type = "text";
+        FunctionName.value = $("#IdFunction").val();
+        FunctionName.className = "input-width";
         c1.appendChild(checkbox);      
         c2.appendChild(empId);
         c3.appendChild(teamMemberName);
-        c4.appendChild(teamMemberfunction);
+        c4.appendChild(FunctionName);
         //value added for list start
         c2.value = $("#IdMemberAdd").val();
         c3.value = $("#IdTeamMemberName").val();
@@ -1155,11 +1152,11 @@
         var mytable = document.getElementById("tblDeploymentrResult");
         var rows = mytable.rows.length;
         var r = mytable.insertRow(rows);
-        var c1 = r.insertCell(0);
-        var c2 = r.insertCell(1);
-        var c3 = r.insertCell(2);
-        var c4 = r.insertCell(3);
-        var c5 = r.insertCell(4);
+        var Ad1= r.insertCell(0);
+        var Ad2 = r.insertCell(1);
+        var Ad3 = r.insertCell(2);
+        var Ad4 = r.insertCell(3);
+        var Ad5 = r.insertCell(4);
         
 
 
@@ -1188,22 +1185,22 @@
         status.value = $("#txtStatus").val();
         status.className = "input-width";
 
-        c1.appendChild(checkbox);
+        Ad1.appendChild(checkbox);
        
-        c2.appendChild(mc);
-        c3.appendChild(targetDate);
-        c4.appendChild(responsibility);
-        c5.appendChild(status);
+        Ad2.appendChild(mc);
+        Ad3.appendChild(targetDate);
+        Ad4.appendChild(responsibility);
+        Ad5.appendChild(status);
 
-        c2.value = $("#txtMc").val();
-        c3.value = $("#txtTargetDate").val();
-        c4.value = $("#txtResponsibility").val();
-        c5.value = $("#txtStatus").val();
+        Ad2.value = $("#txtMc").val();
+        Ad3.value = $("#txtTargetDate").val();
+        Ad4.value = $("#txtResponsibility").val();
+        Ad5.value = $("#txtStatus").val();
 
-        c2.className = 'col-cd-2';
-        c3.className = 'col-cd-4';
-        c4.className = 'col-cd-3';
-        c4.className = 'col-cd-3';
+        Ad2.className = 'col-cd-2';
+        Ad3.className = 'col-cd-4';
+        Ad4.className = 'col-cd-3';
+        Ad5.className = 'col-cd-3';
       
         $("#txtMc").val("");
         $("#txtTargetDate").val("");
@@ -1352,17 +1349,22 @@
                 var memberDetails = {};
                 memberDetails.EmpId = row.find("TD").eq(1).val();
                 memberDetails.TeamMemberName = row.find("TD").eq(2).val();
-                memberDetails.Function = row.find("TD").eq(3).val();
+                memberDetails.FunctionName = row.find("TD").eq(3).val();
+                memberDetails.createdBy = $("#createdBy").val();
+                memberDetails.CreatedDate = $("#CDeta").val();
+               
                 addedTeamMembers.push(memberDetails);
             });
 
             $('#tblDeploymentrResult tbody tr').each(function () {
                 var row = $(this);
                 var deploymentDetails = {};
-                deploymentDetails.mc = row.find("TD").eq(1).val();
-                deploymentDetails.targetDate = row.find("TD").eq(2).val();
-                deploymentDetails.responsibility = row.find("TD").eq(3).val();
-                deploymentDetails.status = row.find("TD").eq(4).val();
+                deploymentDetails.MC = row.find("TD").eq(1).val();
+                deploymentDetails.TargetDate = row.find("TD").eq(2).val();
+                deploymentDetails.Responsibility = row.find("TD").eq(3).val();
+                deploymentDetails.ScopeStatus = row.find("TD").eq(4).val();
+                deploymentDetails.createdBy = $("#createdBy").val();
+                deploymentDetails.CreatedDate = $("#CDeta").val();
                 addedDeployment.push(deploymentDetails);
             });
 
