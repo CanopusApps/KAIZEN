@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Kaizen.Models.NewKaizen;
 using Kaizen.Models.AdminModel;
+using Newtonsoft.Json;
 
 namespace Kaizen.Data.DataServices
 {
@@ -56,12 +57,18 @@ namespace Kaizen.Data.DataServices
             {
                 model.KaizenType = ConstantValue.KaizenType;
                 model.ApprovalStatus = ConstantValue.ApprovalStatus;
+                string memberjson = Newtonsoft.Json.JsonConvert.SerializeObject(model.MemberList);
+                DataTable memberDataTable = JsonConvert.DeserializeObject<DataTable>(memberjson);
+
+                string deploymentjson = Newtonsoft.Json.JsonConvert.SerializeObject(model.DeploymentList);
+                DataTable deploymentDataTable = JsonConvert.DeserializeObject<DataTable>(deploymentjson);
                 com = new SqlCommand();
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@KaizenTeamMembers", memberDataTable);
+                com.Parameters.AddWithValue("@KaizenScopeDetails", deploymentDataTable);
                 com.Parameters.AddWithValue("@ID", model.Id);
-                //com.Parameters.AddWithValue("@KaizenId", model.KaizenId);
                 com.Parameters.AddWithValue("@KaizenType", model.KaizenType);
                 com.Parameters.AddWithValue("@Activity", model.Activity);
                 com.Parameters.AddWithValue("@ActivityDesc", model.ActivityDesc);
@@ -120,9 +127,6 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@CreatedDate", model.CreatedDate);
                 com.Parameters.AddWithValue("@Department", model.Department);
                 com.Parameters.AddWithValue("@Domain", model.Domain);
-
-
-
                 com.CommandText = StoredProcedures.SpKaizen_Insert;
                 con.Open();
                 com.ExecuteNonQuery();
@@ -135,6 +139,7 @@ namespace Kaizen.Data.DataServices
             }
             return status;
         }
+
 
 
     }
