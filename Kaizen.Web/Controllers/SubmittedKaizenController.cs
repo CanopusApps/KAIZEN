@@ -53,6 +53,21 @@ namespace Kaizen.Web.Controllers
             }
             return View(viewModel);
         }
+        public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status, string? Shortlisted)
+        {
+            KaizenListModel model = new KaizenListModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+                Domain = Domain,
+                Department = Department,
+                KaizenTheme = KaizenTheme,
+                Status = Status,
+                Shortlisted = Shortlisted
+            };
+            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+            return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
+        }
         public List<DepartmentModel> FetchDepartment(string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();

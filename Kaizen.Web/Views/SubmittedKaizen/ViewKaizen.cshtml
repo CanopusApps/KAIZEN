@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive" id="SubmittedKaizengrid">
                 @Html.Partial("_SubmittedKaizenGridPartial", Model.SubmittedKaizenList)
             </div>
         </div>
@@ -171,7 +171,62 @@
 
         $('#btnreset').click(function () {
             Resetform();
+            location.reload();
         });
     });
 </script>
+<script>
+    $('#btn_filter').click(function () {
+        var StartDate = $('#dtstartdate').val();
+        var EndDate = $('#dtenddate').val();
+        var Domain = $('#inputDomain option:selected').text();
+        var Department = $('#inputDepartment option:selected').text();
+        var KaizenTheme = $('#inputTheme').val();
+        var Status = $('#inputStatus option:selected').text();
+        var Shortlisted = $('#inputShortlist option:selected').text();
 
+        $.ajax({
+            url: '@Url.Action("ViewFilterKaizen", "SubmittedKaizen")',
+            type: 'GET',
+            data: {
+                StartDate: StartDate,
+                EndDate: EndDate,
+                Domain: Domain,
+                Department: Department,
+                KaizenTheme:KaizenTheme,
+                Status:Status,
+                Shortlisted:Shortlisted
+            },
+            beforeSend: function () {
+                $('#loader-wrapper').show();
+            },
+            success: function (result) {
+                var rows = [];
+                $(result).find('tbody tr').each(function () {
+                    var $row = $(this);
+                    var rowData = {
+                        kaizentheme: $row.data('kaizentheme'),
+                        teamname: $row.data('teamname'),
+                        horozantaldeployment: $row.data('horozantaldeployment'),
+                        ieapproveddept: $row.data('ieapproveddept'),
+                        domain: $row.data('domain'),
+                        finnancedeptappr: $row.data('finnancedeptappr'),
+                        shortlisted: $row.data('shortlisted'),
+                        approvalstatus: $row.data('approvalstatus'),
+                        createdby: $row.data('createdby'),
+                        createddate: $row.data('createddate')
+
+                    };
+                    rows.push(rowData);
+                });
+                $('#SubmittedKaizengrid').html(result);
+
+            },
+            complete: function () {
+                setTimeout(function () {
+                    $('#loader-wrapper').hide();
+                }, 3000);
+            }
+        });
+    });
+</script>
