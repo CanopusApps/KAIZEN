@@ -114,15 +114,15 @@
                                                         <div class="activity-group" id="checkboxform">
                                                             <label>ACTIVITY<span class="mandatory">*</span></label>
                                                             <label data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/activity.png" height="40" />' title="ACTIVITY [Example]">
-                                                                <input type="checkbox" class="hideradio" id="idMura" value="MURA">MURA
+                                                                <input type="checkbox" class="hideradio" id="idMURA" value="MURA">MURA
                                                             </label>
 
                                                             <label data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/activity.png" height="40" />' title="ACTIVITY [Example]">
-                                                                <input type="checkbox" class="hideradio" id="idMuri" value="MURI"> MURI
+                                                                <input type="checkbox" class="hideradio" id="idMURI" value="MURI"> MURI
                                                             </label>
 
                                                             <label data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/activity.png" height="40"; />' title="ACTIVITY [Example]">
-                                                                <input type="checkbox" class="hideradio" id="idMuda" value="MUDA"> MUDA
+                                                                <input type="checkbox" class="hideradio" id="idMUDA" value="MUDA"> MUDA
                                                             </label>
                                                         </div>
 
@@ -1582,4 +1582,65 @@
             reader.readAsDataURL(files[i]);
         }
     }    
+</script>
+<script>
+    $(function getSession() {
+        debugger;
+        if (sessionStorage.getItem("editKaizen")) {
+            var editKaizen = JSON.parse(sessionStorage.getItem("editKaizen"));
+            $("#docNo").val(editKaizen['docno']);
+            $("#versionNo").val(editKaizen['versionnodate']);
+            $("#refNo").val(editKaizen['kaizenrefno']);
+            $("#codeCentre").val(editKaizen['costcentre']);
+            $("#activityDesc").val(editKaizen['activitydesc']);
+            $("#teplplant").val(editKaizen['blockdetails']);
+            $("#suggestedKaizen").val(editKaizen['suggestedkaizen']);
+            $("#probstmt").val(editKaizen['problemstatement']);
+            $("#countmeasur").val(editKaizen['countermeasure']);
+            var benifitvalue = editKaizen['benefitarea'];
+            var checkboxname = benifitvalue.split(',');
+            checkboxname.forEach(function (checkboxname) {
+                $("#i" + checkboxname.trim()).prop("checked", true);
+            });
+            var ActivityValue = editKaizen['activity'];
+            var activityname = ActivityValue.split(',');
+            activityname.forEach(function (activityname) {
+                $("#id" + activityname.trim()).prop("checked", true);
+            });
+            $('#BlockName option').map(function () {
+                if ($(this).text() == editKaizen['block']) return this;
+            }).attr('selected', 'selected').change();
+
+            $("#yield1").val(editKaizen['yield']);
+            $("#cycletime1").val(editKaizen['cycletime']);
+            $("#cost1").val(editKaizen['cost']);
+            $("#Manpower").val(editKaizen['manpower']);
+            $("#Consumables").val(editKaizen['consumables']);
+            $("#Others").val(editKaizen['others']);
+            $("#TotalSavings").val(editKaizen['totalsavings']);
+            $('#multiple-select-field option').map(function () {
+                if ($(this).text() == editKaizen['rootcause']) return this;
+            }).attr('selected', 'selected').change();
+            $("#presentCondition").val(editKaizen['presentcondition']);
+            $("#improvementsCompleted").val(editKaizen['improvementscompleted']);
+            $("#rootcauseDetails").val(editKaizen['rootcausedetails']);
+            $("#ktheme").val(editKaizen['kaizentheme']);
+            $("#DomainId").val(editKaizen['origionateddept']);
+            $("#name").val(editKaizen['createdby']);
+            $("#CDeta").val(editKaizen['originateddate']); 
+            $("#benefit").val(editKaizen['benifits']);
+            var horizontalDeployment = editKaizen['horozantaldeployment'];
+            if (horizontalDeployment === 'YES') {
+                $("#yesRadio").prop("checked", true);
+            } else if (horizontalDeployment === 'NO') {
+                $("#noRadio").prop("checked", true);
+            }
+            sessionStorage.removeItem("editKaizen");
+        } 
+        else 
+        {
+            sessionStorage.removeItem("editKaizen");
+            
+        }
+    });
 </script>
