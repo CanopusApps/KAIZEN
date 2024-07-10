@@ -49,5 +49,29 @@ namespace Kaizen.Data.DataServices
             }
             return dataTable;
         }
+
+        public DataSet usermanager(string EmpId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                SqlCommand com = new SqlCommand("Sp_GetUserManager", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@EmpId", EmpId);
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                con.Close();
+            }
+            return ds;
+        }
     }
 }

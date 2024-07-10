@@ -31,12 +31,19 @@ namespace Kaizen.Web.Controllers
 		{
 			try
 			{
-                model.IEEmail = _infoSettings.IEEmail;
-				model.AccountEmail= _infoSettings.AccountEmail;
+                 // model.IEEmail = _infoSettings.IEEmail;
+				//model.AccountEmail= _infoSettings.AccountEmail;
+                model.IEEmail= conAccessor.HttpContext.Session.GetString("IEemail");
+                model.AccountEmail = conAccessor.HttpContext.Session.GetString("FinanceEmail");
+                model.name = conAccessor.HttpContext.Session.GetString("Message");
                 model.EmpId = conAccessor.HttpContext.Session.GetString("EmpId");
+                model.Domain = conAccessor.HttpContext.Session.GetString("Domain");
+                model.Department = conAccessor.HttpContext.Session.GetString("Department");
                 model.BlockList = _blockWorker.GetBlock();
-				model = _createNewKaizen.GetKaizenOriginatedby(model);
-			}
+                //model = _createNewKaizen.GetKaizenOriginatedby(model);
+                DateTime currentDate  = DateTime.Today;
+                model.OriginatedDate = currentDate.ToString("yyyy-MM-dd");
+            }
 			catch (Exception ex) { LogEvents.LogToFile(DbFiles.Title, ex.ToString()); }
             return View(model);
         }
@@ -45,7 +52,7 @@ namespace Kaizen.Web.Controllers
 		{
          
         model.insertStatus = false;
-            Guid id = Guid.NewGuid();
+            Guid id = Guid.NewGuid();// Sir Added Guid here for  Id
             model.Id = id.ToString();
             model.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
             model.insertStatus = _createNewKaizen.CreateNewKaizen(model);

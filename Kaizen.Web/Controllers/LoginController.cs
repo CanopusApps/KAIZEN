@@ -5,6 +5,7 @@ using Kaizen.Models.AdminModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 namespace Kaizen.Web.Controllers
 {
     public class LoginController : Controller
@@ -12,6 +13,7 @@ namespace Kaizen.Web.Controllers
         public IHttpContextAccessor conAccessor;
         private readonly ILogin _loginworker;
         private readonly IWebHostEnvironment _environment;
+        List<ManagerModel> ManagerList = new List<ManagerModel>();
 
         public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor)
         {
@@ -29,6 +31,7 @@ namespace Kaizen.Web.Controllers
             string EmpId, password,Username;
             string Domainname, departmentname;
             DataTable dataTable = new DataTable();
+            DataTable dataTable1 = new DataTable();
             try
             {
                 if (ModelState.IsValid)
@@ -42,17 +45,25 @@ namespace Kaizen.Web.Controllers
                         Username= row["FirstName"].ToString();
                         HttpContext.Session.SetString("Department", row["DepartmentName"].ToString());
                         HttpContext.Session.SetString("Domain", row["DomainName"].ToString());
+                        //HttpContext.Session.SetString("Manager", row["ManagerName"].ToString());
+                        HttpContext.Session.SetString("IEemail", row["IEEMAIL"].ToString());
+                        HttpContext.Session.SetString("FinanceEmail", row["FinanceEmail"].ToString());
                         if (EmpId == loginmodel.EmpId && password == loginmodel.Password)
                         {
-                           String Id= conAccessor.HttpContext.Session.Id;
+                            //dataTable1 = _loginworker.Usermanager(EmpId);
+                            String Id= conAccessor.HttpContext.Session.Id;
                            if(HttpContext != null && HttpContext.Session != null)
                             {
                                 Response.Redirect("Admin/Adduser");
                                 HttpContext.Session.SetString("Message",Username);
                                 HttpContext.Session.SetString("EmpId", EmpId);
+                               
+                              
                             }
-                         
-                                
+                            //string manager = conAccessor.HttpContext.Session.GetString("Manager");
+                            ManagerList= _loginworker.Usermanager(EmpId);
+                            var ManagerListJson = JsonConvert.SerializeObject(ManagerList);
+                            HttpContext.Session.SetString("ManagerList", ManagerListJson);
                         }
                         else
                         {
@@ -62,7 +73,7 @@ namespace Kaizen.Web.Controllers
                     }
                     else { TempData["loginmsg"] = "User Not present with Id: " + loginmodel.EmpId; }
                 }
-
+               
             }
             catch (Exception ex)
             {

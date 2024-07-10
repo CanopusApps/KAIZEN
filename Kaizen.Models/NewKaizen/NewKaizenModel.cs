@@ -79,6 +79,7 @@ namespace Kaizen.Models.NewKaizen
         public List<BlockModel> BlockList { get; set; }
 		public List<TeamMemberDetails> MemberList { get; set; }
 		public List<DeploymentDetails> DeploymentList{ get; set; }
+        
     }
 	public class NewKaizenGetOriginated
 	{
@@ -90,9 +91,9 @@ namespace Kaizen.Models.NewKaizen
     
     public class TeamMemberDetails
 	{
-		public string MemberID { get; set; } = "";
-        public string CreatedBy { get; set; } = "";
-        public string CreatedDate { get; set; } = "";
+		//public string MemberID { get; set; } = "";
+       //public string CreatedBy { get; set; } = "";
+       public string CreatedDate { get; set; } = "";
         public string EmpId { get; set; } = "";
 		public string TeamMemberName { get; set; } = "";
         public string FunctionName { get; set; } = "";

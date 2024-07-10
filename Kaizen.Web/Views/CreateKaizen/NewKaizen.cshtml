@@ -1,4 +1,17 @@
-﻿@using Kaizen.Models.NewKaizen;
+﻿@using Kaizen.Models.AdminModel
+@using Kaizen.Models.NewKaizen;
+@inject IHttpContextAccessor Accessor
+@using Newtonsoft.Json
+
+@{
+    var managerListJson = Accessor.HttpContext.Session.GetString("ManagerList");
+    List<ManagerModel> managerList = new List<ManagerModel>();
+
+    if (!string.IsNullOrEmpty(managerListJson))
+    {
+        managerList = JsonConvert.DeserializeObject<List<ManagerModel>>(managerListJson);
+    }
+}
 @model NewKaizenModel;
 @{
     Layout = "SidebarLayout";
@@ -611,9 +624,8 @@
 
 
                                                         <select class="form-select" id="multiple-select-field" @* value="@Model.RootCause" *@ data-placeholder="Select" multiple>
-                                                            <option>5 Ways</option>
+                                                            <option>4W1H</option>
                                                             <option>Fishbone Diag</option>
-                                                            <option>FMEA</option>
                                                             <option>Others</option>
                                                             <option>Pareto chart</option>
                                                             <option>Scatter Plot Diag</option>
@@ -811,7 +823,7 @@
                                                       
                                                         <td class="border-0 "><input type="text" class="form-control" id="txtMc"></td>
 
-                                                        <td class="border-0"><input type="text" class="form-control" id="txtTargetDate"></td>
+                                                        <td class="border-0"><input type="date" class="form-control" id="txtTargetDate"></td>
 
                                                         <td class="border-0 "><input type="text" class="form-control" id="txtResponsibility"></td>
 
@@ -923,8 +935,12 @@
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
                                                                     <select name="" id="" class="form-control col-9">
-                                                                        <option>321256 - Pankaj Singh</option>
- 
+                                                                        @* <option>321256 - Pankaj Singh</option>  *@
+                                                                         @foreach (var manager in managerList)
+                                                                        {
+                                                                            <option value="@manager.MgrId">@manager.MgrId-@manager.ManagerName</option>
+                                                                        }
+
                                                                     </select>
                                                                 </td>
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
@@ -1096,6 +1112,7 @@
 
         var mytable = document.getElementById("tblteammemberResult");
         var rows = mytable.rows.length;
+        if (rows < 7) {
         var r = mytable.insertRow(rows);
         
         var c1 = r.insertCell(0);
@@ -1137,6 +1154,11 @@
         $("#IdMemberAdd").val("");
         $("#IdTeamMemberName").val("");
         $("#IdFunction").val("");
+      }
+      else
+      {
+            swal("Maximum Of Six Rows Only");
+      }
 
     });
 
@@ -1155,6 +1177,8 @@
         
         var mytable = document.getElementById("tblDeploymentrResult");
         var rows = mytable.rows.length;
+
+        if (rows < 7) {
         var r = mytable.insertRow(rows);
         var Ad1= r.insertCell(0);
         var Ad2 = r.insertCell(1);
@@ -1176,20 +1200,25 @@
         Sno.type = "text";
         Sno.value = $("#txtNo").val();
         Sno.className = "input-width";
-        mc.type = "text";
+            Sno.readOnly = true;
+            mc.type = "text";
         mc.value = $("#txtMc").val();
         mc.className = "input-width";
-        targetDate.type = "text";
+            mc.readOnly = true;
+            targetDate.type = "date";
         targetDate.value = $("#txtTargetDate").val();
         targetDate.className = "input-width";
-        responsibility.type = "text";
+            targetDate.readOnly = true;
+            responsibility.type = "text";
         responsibility.value = $("#txtResponsibility").val();
         responsibility.className = "input-width";
+            responsibility.readOnly = true;
         status.type = "text";
         status.value = $("#txtStatus").val();
         status.className = "input-width";
+            status.readOnly = true;
 
-        Ad1.appendChild(checkbox);
+            Ad1.appendChild(checkbox);
        
         Ad2.appendChild(mc);
         Ad3.appendChild(targetDate);
@@ -1210,6 +1239,10 @@
         $("#txtTargetDate").val("");
         $("#txtResponsibility").val("");
         $("#txtStatus").val("");
+        }
+        else{
+            swal("Maximum Of Six Rows Only");
+        }
     });
 
     $("#btnDeleteDeployment").click(function () {
@@ -1354,8 +1387,8 @@
                 memberDetails.EmpId = row.find("TD").eq(1).val();
                 memberDetails.TeamMemberName = row.find("TD").eq(2).val();
                 memberDetails.FunctionName = row.find("TD").eq(3).val();
-                memberDetails.createdBy = $("#createdBy").val();
-                memberDetails.CreatedDate = $("#CDeta").val();
+                // memberDetails.createdBy = $("#createdBy").val();
+                 memberDetails.CreatedDate = $("#CDeta").val();
                
                 addedTeamMembers.push(memberDetails);
             });

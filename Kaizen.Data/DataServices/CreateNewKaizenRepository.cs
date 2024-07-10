@@ -66,7 +66,7 @@ namespace Kaizen.Data.DataServices
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@KaizenTeamMembers", memberDataTable);
+                com.Parameters.AddWithValue("@KaizenTeam", memberDataTable);
                 com.Parameters.AddWithValue("@KaizenScopeDetails", deploymentDataTable);
                 com.Parameters.AddWithValue("@ID", model.Id);
                 com.Parameters.AddWithValue("@KaizenType", model.KaizenType);
