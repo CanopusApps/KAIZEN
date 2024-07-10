@@ -25,7 +25,7 @@
         {
             foreach (var User in Model)
             {
-                <tr>
+                <tr data-kaizenid="@User.KaizenId" data-kaizentype="@User.KaizenType" data-activity="@User.Activity" data-activitydesc="@User.ActivityDesc" data-benefitarea="@User.BenefitArea" data-docno="@User.DocNo" data-versionnodate="@User.VersionNoDate" data-costcentre="@User.CostCentre" data-kaizenrefno="@User.KaizenRefNo" data-block="@User.Block" data-blockdetails="@User.BlockDetails" data-kaizentheme="@User.KaizenTheme" data-suggestedkaizen="@User.SuggestedKaizen" data-problemstatement="@User.ProblemStatement" data-countermeasure="@User.CounterMeasure" data-attachmentbefore="@User.AttachmentBefore" data-attachmentafter="@User.AttachmentAfter" data-yield="@User.Yield" data-cycleTime="@User.CycleTime" data-cost="@User.Cost" data-manpower="@User.ManPower" data-consumables="@User.Consumables" data-others="@User.Others" data-totalsavings="@User.TotalSavings" data-teammemberid="@User.TeamMemberID" data-rootcause="@User.RootCause" data-presentcondition="@User.PresentCondition" data-improvementscompleted="@User.ImprovementsCompleted" data-rootproblemattachment="@User.RootProblemAttachment" data-rootcausedetails="@User.RootCauseDetails" data-scopeofdeploymentid="@User.ScopeOfDeploymentID" data-inothermc="@User.InOtherMc" data-withinthedept="@User.WithIntheDept" data-inotherdept="@User.InOtherDept" data-otherpoints="@User.OtherPoints" data-benifits="@User.Benifits" data-horozantaldeployment="@User.HorozantalDeployment" data-shortlisted="@User.Shortlisted" data-approvalstatus="@User.ApprovalStatus" data-createdby="@User.CreatedBy" data-createddate="@User.CreatedDate" data-origionateddept="@User.OrigionatedDept" data-originateddate="@User.OriginatedDate">
                     <td>@User.KaizenTheme</td>
                     <td>@User.TeamName</td>
                     <td>@User.HorozantalDeployment</td>
@@ -52,4 +52,105 @@
     $(document).ready(function () {
         $('#KaizenTable').DataTable();
     });
+</script>
+<script>
+    $(document).ready(function () {
+        $('tbody').on('click', '.edituser', function (e) {
+            e.preventDefault();
+            var $row = $(this).closest('tr');
+            var kaizenid = $row.data('kaizenid');
+            var kaizentype = $row.data('kaizentype');
+            var activity = $row.data('activity');
+            var activitydesc = $row.data('activitydesc');
+            var benefitarea = $row.data('benefitarea');
+            var docno = $row.data('docno');
+            var versionnodate = $row.data('versionnodate');
+            var costcentre = $row.data('costcentre');
+            var kaizenrefno = $row.data('kaizenrefno');
+            var block = $row.data('block');
+            var blockdetails = $row.data('blockdetails');
+            var kaizentheme = $row.data('kaizentheme');
+            var suggestedkaizen = $row.data('suggestedkaizen');
+            var problemstatement = $row.data('problemstatement');
+            var countermeasure = $row.data('countermeasure');
+            var attachmentbefore = $row.data('attachmentbefore');
+            var attachmentafter = $row.data('attachmentafter');
+            var attachmentothers = $row.data('attachmentothers');
+            var yield = $row.data('yield');
+            var cycletime = $row.data('cycletime');
+            var cost = $row.data('cost');
+            var manpower = $row.data('manpower');
+            var consumables = $row.data('consumables');
+            var others = $row.data('others');
+            var totalsavings = $row.data('totalsavings');
+            var teammemberid = $row.data('teammemberid');
+            var rootcause = $row.data('rootcause');
+            var presentcondition = $row.data('presentcondition');
+            var improvementscompleted = $row.data('improvementscompleted');
+            var rootproblemattachment = $row.data('rootproblemattachment');
+            var rootcausedetails = $row.data('rootcausedetails');
+            var scopeofdeploymentid = $row.data('scopeofdeploymentid');
+            var inothermc = $row.data('inothermc');
+            var withinthedept = $row.data('withinthedept');
+            var inotherdept = $row.data('inotherdept');
+            var otherpoints = $row.data('otherpoints');
+            var benifits = $row.data('benifits');
+            var horozantaldeployment = $row.data('horozantaldeployment');
+            var shortlisted = $row.data('shortlisted');
+            var approvalstatus = $row.data('approvalstatus');
+            var createdby = $row.data('createdby');
+            var createddate = $row.data('createddate');
+            var origionateddept = $row.data('origionateddept');
+            var originateddate = $row.data('originateddate');
+
+            sessionStorage.setItem('editKaizen', JSON.stringify({
+                kaizenid: kaizenid,
+                kaizentype: kaizentype,
+                activity: activity,
+                activitydesc: activitydesc,
+                benefitarea: benefitarea,
+                docno: docno,
+                versionnodate: versionnodate,
+                costcentre: costcentre,
+                kaizenrefno: kaizenrefno,
+                block: block,
+                blockdetails: blockdetails,
+                kaizentheme: kaizentheme,
+                suggestedkaizen: suggestedkaizen,
+                problemstatement: problemstatement,
+                countermeasure: countermeasure,
+                attachmentbefore: attachmentbefore,
+                attachmentafter: attachmentafter,
+                attachmentothers: attachmentothers,
+                yield :yield,
+                cycletime: cycletime,
+                cost: cost,
+                manpower: manpower,
+                consumables: consumables,
+                others: others,
+                totalsavings: totalsavings,
+                teammemberid: teammemberid,
+                rootcause: rootcause,
+                presentcondition: presentcondition,
+                improvementscompleted: improvementscompleted,
+                rootproblemattachment: rootproblemattachment,
+                rootcausedetails: rootcausedetails,
+                scopeofdeploymentid: scopeofdeploymentid,
+                inothermc: inothermc,
+                withinthedept: withinthedept,
+                inotherdept: inotherdept,
+                otherpoints: otherpoints,
+                benifits: benifits,
+                horozantaldeployment: horozantaldeployment,
+                shortlisted: shortlisted,
+                approvalstatus: approvalstatus,
+                createdby: createdby,
+                createddate: createddate,
+                origionateddept: origionateddept,
+                originateddate: originateddate
+            }));
+            window.location.href = '/CreateKaizen/NewKaizen';
+        });
+    });
+
 </script>
