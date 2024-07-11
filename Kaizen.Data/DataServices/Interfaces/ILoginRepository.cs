@@ -11,5 +11,7 @@ namespace Kaizen.Data.DataServices
     public interface ILoginRepository
     {
         public DataTable loginuser(LoginModel loginmodel);
+
+        public DataSet usermanager(string EmpId);
     }
 }

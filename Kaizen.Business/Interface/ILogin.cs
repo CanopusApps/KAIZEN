@@ -11,5 +11,7 @@ namespace Kaizen.Business.Interface
     public interface ILogin
     {
         public DataTable Loginuser(LoginModel loginmodel);
+
+        public List<ManagerModel> Usermanager(string Empid);
     }
 }

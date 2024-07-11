@@ -30,5 +30,25 @@ namespace Kaizen.Business.Worker
           
         }
 
+        public List<ManagerModel> Usermanager(string empid)
+        {
+            DataSet ds;
+            ds= _logindata.usermanager(empid);
+            List<ManagerModel> ManagerList = new List<ManagerModel>();
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    ManagerList.Add(new ManagerModel
+                    {
+                        MgrId = Convert.ToInt32(dr["Mgrid"]),
+                        ManagerName = dr["ManagerName"].ToString(),
+                        ManagerEmail = dr["ManagerEmail"].ToString()
+                    });
+                }
+            }
+            
+            return ManagerList;
+        }
     }
 }
