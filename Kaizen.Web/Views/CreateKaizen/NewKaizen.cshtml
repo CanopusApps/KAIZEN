@@ -515,13 +515,13 @@
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label>Approved by (IE) <span class="mandatory">*</span></label>
-                                                                <input type="text" name="approvedbyIE" id="approvedbyIE" required class="form-control" value="@Model.IEEmail">
+                                                                <input type="text" name="approvedbyIE" id="approvedbyIE" required class="form-control" value="@Model.IEEmail" readonly>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label>Approved by (Accounts)<span class="mandatory">*</span></label>
-                                                                <input type="text" name="approvedbyAccount" id="approvedbyAccount" required class="form-control" value="@Model.AccountEmail">
+                                                                <input type="text" name="approvedbyAccount" id="approvedbyAccount" required class="form-control" value="@Model.AccountEmail" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1129,12 +1129,15 @@
         checkbox.type = "checkbox";
         empId.type = "text"; 
         empId.value = $("#IdMemberAdd").val();
+            empId.readOnly = true;
         empId.className = "input-width";
         teamMemberName.type = "text";
         teamMemberName.value = $("#IdTeamMemberName").val();
         teamMemberName.className = "input-width";
-        FunctionName.className = "input-width";
+            teamMemberName.readOnly = true;
+                FunctionName.className = "input-width";
         FunctionName.type = "text";
+            FunctionName.readOnly = true;
 
         FunctionName.value = $("#IdFunction").val();
         FunctionName.className = "input-width";
