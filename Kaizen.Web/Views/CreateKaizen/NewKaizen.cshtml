@@ -210,8 +210,8 @@
                                                                 <div class="form-group">
                                                                     <label>Version No/Date<span class="mandatory">*</span></label>
                                                                     <input type="text" name="versionNo" id="versionNo" class="form-control mb10" value= "01/ @Model.OriginatedDate">
-                                                                    <input type="text" name="Id" id="kaizenid" class="form-control mb10" hidden>
-                                                                    <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("UserID")">
+                                                                  @*   <input type="text" name="Id" id="kaizenid" class="form-control mb10" hidden>
+                                                                    <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("UserID")"> *@
 
                                                                 </div>
                                                             </div>
@@ -1044,20 +1044,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" crossorigin="anonymous"></script>
 <script>
-    function generateGUID() {
-        debugger;
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    }
-    function updateGUID() {
-        let guid = generateGUID();
-        document.getElementById('kaizenid').value = guid;
-    }
-    window.onload = function () {
-        updateGUID();
-    }
+    // function generateGUID() {
+    //     debugger;
+    //     function s4() {
+    //         return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    //     }
+    //     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    // }
+    // function updateGUID() {
+    //     let guid = generateGUID();
+    //     document.getElementById('kaizenid').value = guid;
+    // }
+    // window.onload = function () {
+    //     updateGUID();
+    // }
     document.getElementById('yesRadio').addEventListener('change', function () {
         document.getElementById('toggleContent').style.display = 'block';
     });
@@ -1420,10 +1420,10 @@
                 memberDetails.FunctionName = row.find("TD").eq(3).val();
                     // memberDetails.createdby = Accessor.HttpContext.Session.GetString("UserID");
                     // memberDetails.createdBy = row.find("TD").eq(4).val();
-                    memberDetails.createdBy = $("#loginIDuser").val();
+                    // memberDetails.createdBy = $("#loginIDuser").val();
                     memberDetails.CreatedDate = $("#CDeta").val();
                    
-                    memberDetails.KaizenID = $("#kaizenid").val();
+                    // memberDetails.KaizenID = $("#kaizenid").val();
                     addedTeamMembers.push(memberDetails);
                }
                
@@ -1438,9 +1438,9 @@
                     deploymentDetails.TargetDate = row.find("TD").eq(2).val();
                     deploymentDetails.Responsibility = row.find("TD").eq(3).val();
                     deploymentDetails.ScopeStatus = row.find("TD").eq(4).val();
-                    deploymentDetails.createdBy = $("#loginIDuser").val();
+                    // deploymentDetails.createdBy = $("#loginIDuser").val();
                     deploymentDetails.CreatedDate = $("#CDeta").val();
-                    deploymentDetails.KaizenID = $("#kaizenid").val();
+                    // deploymentDetails.KaizenID = $("#kaizenid").val();
                     addedDeployment.push(deploymentDetails);
                 }
             });
@@ -1450,7 +1450,7 @@
           
             var kaizenModel = {
                 // var blockName = $('#BlockName').val();
-                ID: $('#kaizenid').val(),
+                // ID: $('#kaizenid').val(),
                 Block: $('#BlockName').val(),
                 BlockDetails: $('#BlockName option:selected').text(),
                 Activity: activityValue,
@@ -1520,7 +1520,7 @@
                     // console.error('Error:', error);
                 }
             });
-            updateGUID();
+            // updateGUID();
         });
 
     });
