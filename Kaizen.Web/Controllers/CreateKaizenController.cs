@@ -66,9 +66,12 @@ namespace Kaizen.Web.Controllers
             model = _createNewKaizen.GetKaizenOriginatedby(model);
             return Ok(model); 
 		}
+        public List<TeamMemberDetails> GetTeamMember(TeamMemberDetails model)
+        {
+            List<TeamMemberDetails> teamlist = new List<TeamMemberDetails>();
+            teamlist = _createNewKaizen.getTeamdetails(model);
+            return teamlist;
+        }
 
-
-
-		
     }
 }

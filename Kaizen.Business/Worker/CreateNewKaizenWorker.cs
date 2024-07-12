@@ -43,6 +43,24 @@ namespace Kaizen.Business.Worker
         {
             return _createNewKaizenRepository.CreateNewKaizenData(model);
         }
-
+        public List<TeamMemberDetails> getTeamdetails(TeamMemberDetails model)
+        {
+            DataSet ds;
+            List<TeamMemberDetails> TeamDetails = new List<TeamMemberDetails>();
+            ds = _createNewKaizenRepository.GetTeamDetails(model);
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    TeamDetails.Add(new TeamMemberDetails
+                    {
+                        EmpId = dr["EmpID"].ToString(),
+                        TeamMemberName = dr["TeamName"].ToString(),
+                        FunctionName= dr["FunctionName"].ToString()
+                    });
+                }
+            }
+            return TeamDetails;
+        }
     }
 }

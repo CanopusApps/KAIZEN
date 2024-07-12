@@ -94,17 +94,18 @@ namespace Kaizen.Models.NewKaizen
     public class TeamMemberDetails
 	{
 		//public string MemberID { get; set; } = "";
-		public string KaizenID { get; set; } = "";
        public string CreatedBy { get; set; } = "";
        public string CreatedDate { get; set; } = "";
         public string EmpId { get; set; } = "";
 		public string TeamMemberName { get; set; } = "";
         public string FunctionName { get; set; } = "";
+
+        public string KaizenId { get; set; } = "";
+
     }
 
     public class DeploymentDetails
     {
-        public string KaizenID { get; set; } = "";
         public string KcId { get; set; } = "";
         public string CreatedBy { get; set; } = "";
 		public string CreatedDate { get; set; } = "";
@@ -112,6 +113,7 @@ namespace Kaizen.Models.NewKaizen
         public string TargetDate { get; set; } = "";
         public string Responsibility { get; set; } = "";
         public string ScopeStatus { get; set; } = "";
+        public string KaizenId { get; set; } = "";
 
     }
 

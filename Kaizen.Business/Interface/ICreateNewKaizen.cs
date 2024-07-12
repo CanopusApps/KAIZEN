@@ -12,6 +12,8 @@ namespace Kaizen.Business.Interface
     public interface ICreateNewKaizen
     {
         public NewKaizenModel GetKaizenOriginatedby(NewKaizenModel model);
+
+        public List<TeamMemberDetails> getTeamdetails(TeamMemberDetails model);
         public bool CreateNewKaizen(NewKaizenModel model);
 
     }
