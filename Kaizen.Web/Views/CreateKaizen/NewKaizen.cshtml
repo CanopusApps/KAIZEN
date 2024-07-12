@@ -1663,8 +1663,10 @@
 <script>
     $(function getSession() {
         debugger;
+
         if (sessionStorage.getItem("editKaizen")) {
             var editKaizen = JSON.parse(sessionStorage.getItem("editKaizen"));
+            var KaizenId = editKaizen['kaizenid']
             $("#docNo").val(editKaizen['docno']);
             $("#versionNo").val(editKaizen['versionnodate']);
             $("#refNo").val(editKaizen['kaizenrefno']);
@@ -1709,9 +1711,65 @@
             var horizontalDeployment = editKaizen['horozantaldeployment'];
             if (horizontalDeployment === 'YES') {
                 $("#yesRadio").prop("checked", true);
+                   document.getElementById('toggleContent').style.display = 'block';
             } else if (horizontalDeployment === 'NO') {
                 $("#noRadio").prop("checked", true);
+                document.getElementById('toggleContent').style.display = 'none';
             }
+            
+            $.ajax({
+                type: 'POST',
+                url: '/CreateKaizen/GetTeamMember',
+                dataType: "json",
+                data: {
+                    KaizenId: KaizenId
+                },
+                success: function (result) {
+                    if (result && result.length > 0) {
+                        var mytable = document.getElementById("tblteammemberResult");
+
+                        result.forEach(item => {
+                            var rows = mytable.rows.length;
+                            var r = mytable.insertRow(rows);
+
+                            var c1 = r.insertCell(0);
+                            var c2 = r.insertCell(1);
+                            var c3 = r.insertCell(2);
+                            var c4 = r.insertCell(3);
+
+                            var checkbox = document.createElement("input");
+                            var empId = document.createElement("input");
+                            var teamMemberName = document.createElement("input");
+                            var functionName = document.createElement("input");
+
+                            checkbox.type = "checkbox";
+                            empId.type = "text";
+                            empId.value = item.empId;
+                            empId.className = "input-width";
+                            teamMemberName.type = "text";
+                            teamMemberName.value = item.teamMemberName;
+                            teamMemberName.className = "input-width";
+                            functionName.type = "text";
+                            functionName.value = item.functionName;
+                            functionName.className = "input-width";
+
+                            c1.appendChild(checkbox);
+                            c2.appendChild(empId);
+                            c3.appendChild(teamMemberName);
+                            c4.appendChild(functionName);
+
+                            c1.style.width = '5%';
+                            c2.style.width = '31%';
+                            c3.style.width = '32%';
+                            c4.style.width = '32%';
+                        });                       
+                    }
+                },
+                error: function (error) 
+                {
+
+                }
+            });
             sessionStorage.removeItem("editKaizen");
         } 
         else 

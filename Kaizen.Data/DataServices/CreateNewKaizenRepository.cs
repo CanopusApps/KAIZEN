@@ -140,7 +140,25 @@ namespace Kaizen.Data.DataServices
             return status;
         }
 
-
-
+        public DataSet GetTeamDetails(TeamMemberDetails model)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@KaizenId", model.KaizenId);
+                    com.CommandText = StoredProcedures.Sp_Fetch_TeamMember;
+                    SqlDataAdapter da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
     }
 }
