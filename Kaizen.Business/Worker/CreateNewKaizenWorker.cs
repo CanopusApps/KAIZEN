@@ -29,6 +29,7 @@ namespace Kaizen.Business.Worker
           DataTable  dt = _createNewKaizenRepository.GetKaizenOriginatedbyData(model);
             foreach (DataRow row in dt.Rows)
             {
+                model.Empguid = string.IsNullOrEmpty($"{row["ID"]}") ? string.Empty : Convert.ToString($"{row["ID"]}");
                 model.EmpId = string.IsNullOrEmpty($"{row["EmpID"]}") ? string.Empty : Convert.ToString($"{row["EmpID"]}");
                 model.name = string.IsNullOrEmpty($"{row["UserName"]}") ? string.Empty : Convert.ToString($"{row["UserName"]}");
                 model.Domain = string.IsNullOrEmpty($"{row["DomainName"]}") ? string.Empty : Convert.ToString($"{row["DomainName"]}");

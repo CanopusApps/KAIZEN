@@ -31,8 +31,10 @@ namespace Kaizen.Web.Controllers
 		{
 			try
 			{
-                 // model.IEEmail = _infoSettings.IEEmail;
-				//model.AccountEmail= _infoSettings.AccountEmail;
+                //Guid id = Guid.NewGuid();// Sir Added Guid here for  Id
+                //model.Id = id.ToString();
+                // model.IEEmail = _infoSettings.IEEmail;
+                //model.AccountEmail= _infoSettings.AccountEmail;
                 model.IEEmail= conAccessor.HttpContext.Session.GetString("IEemail");
                 model.AccountEmail = conAccessor.HttpContext.Session.GetString("FinanceEmail");
                 model.name = conAccessor.HttpContext.Session.GetString("Message");
@@ -52,8 +54,7 @@ namespace Kaizen.Web.Controllers
 		{
          
         model.insertStatus = false;
-            Guid id = Guid.NewGuid();// Sir Added Guid here for  Id
-            model.Id = id.ToString();
+            
             model.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
             model.insertStatus = _createNewKaizen.CreateNewKaizen(model);
             return Ok(model.insertStatus);

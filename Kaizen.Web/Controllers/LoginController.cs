@@ -45,6 +45,7 @@ namespace Kaizen.Web.Controllers
                         Username= row["FirstName"].ToString();
                         HttpContext.Session.SetString("Department", row["DepartmentName"].ToString());
                         HttpContext.Session.SetString("Domain", row["DomainName"].ToString());
+                        HttpContext.Session.SetString("UserID", row["ID"].ToString());
                         //HttpContext.Session.SetString("Manager", row["ManagerName"].ToString());
                         HttpContext.Session.SetString("IEemail", row["IEEMAIL"].ToString());
                         HttpContext.Session.SetString("FinanceEmail", row["FinanceEmail"].ToString());
