@@ -210,6 +210,9 @@
                                                                 <div class="form-group">
                                                                     <label>Version No/Date<span class="mandatory">*</span></label>
                                                                     <input type="text" name="versionNo" id="versionNo" class="form-control mb10" value= "01/ @Model.OriginatedDate">
+                                                                    <input type="text" name="Id" id="kaizenid" class="form-control mb10" hidden>
+                                                                    <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("UserID")">
+
                                                                 </div>
                                                             </div>
 
@@ -567,6 +570,7 @@
                                                         <td class="border-0 text-left"><input type="text" class="form-control mx-0 " id="IdMemberAdd"></td>
                                                         <td class="border-0 text-left"><input type="text" class="form-control ml-1  " id="IdTeamMemberName"> </td>
                                                         <td class="border-0 text-left"><input type="text" class="form-control ml-2 " id="IdFunction"></td>
+                                                        <td class="hidden-cell" style="display: none;"id="empGuid"></td>
                                                         <td class=" border-0 px-0" style="width:150px">
                                                          
                                                             <button id="teamAddBtn" class="btn btn-azure ml-3 mb-3 px-4">
@@ -934,7 +938,7 @@
                                                                     <input type="text" class="mx-auto form-control col-9" id="createdBy" name="createdBy" value="@Model.EmpId" hidden>
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
-                                                                    <select name="" id="" class="form-control col-9">
+                                                                    <select name="DRIApprovedBy" id="driapprovedby" class="form-control col-9">
                                                                         @* <option>321256 - Pankaj Singh</option>  *@
                                                                          @foreach (var manager in managerList)
                                                                         {
@@ -976,7 +980,7 @@
                                                                     <input class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@Model.OriginatedDate" readonly>
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
-                                                                    <input name="" type="date" id="" class="form-control col-9">
+                                                                    <input name="" type="date" id="driapproveddate" class="form-control col-9">
                                                                 </td>
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-4">
@@ -1040,6 +1044,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" crossorigin="anonymous"></script>
 <script>
+    function generateGUID() {
+        debugger;
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+    function updateGUID() {
+        let guid = generateGUID();
+        document.getElementById('kaizenid').value = guid;
+    }
+    window.onload = function () {
+        updateGUID();
+    }
     document.getElementById('yesRadio').addEventListener('change', function () {
         document.getElementById('toggleContent').style.display = 'block';
     });
@@ -1080,6 +1098,7 @@
                 debugger;
                 $("#IdTeamMemberName").val(result.name);
                 $("#IdFunction").val(result.domain);
+                $("#empGuid").val(result.empguid);
                
             },
             error: function (error) {
@@ -1109,7 +1128,7 @@
 
     
     $("#teamAddBtn").click(function () {
-
+        debugger;
         var mytable = document.getElementById("tblteammemberResult");
         var rows = mytable.rows.length;
         if (rows < 7) {
@@ -1119,12 +1138,14 @@
         var c2 = r.insertCell(1);
         var c3 = r.insertCell(2);
         var c4 = r.insertCell(3);
+        var c5 = r.insertCell(4);
         
 
         var checkbox = document.createElement("input");
         var empId = document.createElement("input");
         var teamMemberName = document.createElement("input");
         var FunctionName = document.createElement("input");
+            var Empguid = document.createElement("input");
 
         checkbox.type = "checkbox";
         empId.type = "text"; 
@@ -1134,21 +1155,25 @@
         teamMemberName.type = "text";
         teamMemberName.value = $("#IdTeamMemberName").val();
         teamMemberName.className = "input-width";
-            teamMemberName.readOnly = true;
-                FunctionName.className = "input-width";
+        teamMemberName.readOnly = true;
+        FunctionName.className = "input-width";
         FunctionName.type = "text";
-            FunctionName.readOnly = true;
-
+        FunctionName.readOnly = true;
+        
         FunctionName.value = $("#IdFunction").val();
         FunctionName.className = "input-width";
+         Empguid.type = "hidden";
+        Empguid.value = $("#empGuid").val();
         c1.appendChild(checkbox);      
         c2.appendChild(empId);
         c3.appendChild(teamMemberName);
         c4.appendChild(FunctionName);
+        c5.appendChild(Empguid);
         //value added for list start
         c2.value = $("#IdMemberAdd").val();
         c3.value = $("#IdTeamMemberName").val();
         c4.value = $("#IdFunction").val();
+        c5.value = $("#empGuid").val();
         //value added for list end
         c1.style.width = '5%';
         c2.style.width = '31%';
@@ -1157,6 +1182,7 @@
         $("#IdMemberAdd").val("");
         $("#IdTeamMemberName").val("");
         $("#IdFunction").val("");
+            $("#empGuid").val("");
       }
       else
       {
@@ -1344,8 +1370,8 @@
         }
         return isValid;
     }
-    $(document).ready(function () {
-  
+       $(document).ready(function () {
+       
 
 
         // Initialize all popovers
@@ -1385,27 +1411,38 @@
             var addedTeamMembers = new Array();
             var addedDeployment = new Array();
             $('#tblteammemberResult tbody tr').each(function () {
+                debugger;
                 var row = $(this);
                 var memberDetails = {};
-                memberDetails.EmpId = row.find("TD").eq(1).val();
+                 if (row.find("TD").eq(2).val() != undefined) {
+                memberDetails.EmpId = row.find("TD").eq(4).val();
                 memberDetails.TeamMemberName = row.find("TD").eq(2).val();
                 memberDetails.FunctionName = row.find("TD").eq(3).val();
-                // memberDetails.createdBy = $("#createdBy").val();
-                 memberDetails.CreatedDate = $("#CDeta").val();
+                    // memberDetails.createdby = Accessor.HttpContext.Session.GetString("UserID");
+                    // memberDetails.createdBy = row.find("TD").eq(4).val();
+                    memberDetails.createdBy = $("#loginIDuser").val();
+                    memberDetails.CreatedDate = $("#CDeta").val();
+                   
+                    memberDetails.KaizenID = $("#kaizenid").val();
+                    addedTeamMembers.push(memberDetails);
+               }
                
-                addedTeamMembers.push(memberDetails);
+               
             });
 
             $('#tblDeploymentrResult tbody tr').each(function () {
                 var row = $(this);
                 var deploymentDetails = {};
-                deploymentDetails.MC = row.find("TD").eq(1).val();
-                deploymentDetails.TargetDate = row.find("TD").eq(2).val();
-                deploymentDetails.Responsibility = row.find("TD").eq(3).val();
-                deploymentDetails.ScopeStatus = row.find("TD").eq(4).val();
-                deploymentDetails.createdBy = $("#createdBy").val();
-                deploymentDetails.CreatedDate = $("#CDeta").val();
-                addedDeployment.push(deploymentDetails);
+                if (row.find("TD").eq(1).val() != undefined) {
+                    deploymentDetails.MC = row.find("TD").eq(1).val();
+                    deploymentDetails.TargetDate = row.find("TD").eq(2).val();
+                    deploymentDetails.Responsibility = row.find("TD").eq(3).val();
+                    deploymentDetails.ScopeStatus = row.find("TD").eq(4).val();
+                    deploymentDetails.createdBy = $("#loginIDuser").val();
+                    deploymentDetails.CreatedDate = $("#CDeta").val();
+                    deploymentDetails.KaizenID = $("#kaizenid").val();
+                    addedDeployment.push(deploymentDetails);
+                }
             });
 
 
@@ -1413,6 +1450,7 @@
           
             var kaizenModel = {
                 // var blockName = $('#BlockName').val();
+                ID: $('#kaizenid').val(),
                 Block: $('#BlockName').val(),
                 BlockDetails: $('#BlockName option:selected').text(),
                 Activity: activityValue,
@@ -1448,7 +1486,9 @@
                 OriginatedBy: $("#name").val(),
                 Domain: $("#DomainId").val(),
                 Department: $("#DeptId").val(),
-                CreatedDate: $("#CDeta").val() 
+                CreatedDate: $("#CDeta").val(),
+                DRIApprovedBy: $("#driapprovedby").val(),
+                DRIApprovedDate: $("#driapproveddate").val()
             }
             if (!ValidateForm()) {
                 // If validation fails, return or perform any other necessary actions
@@ -1480,6 +1520,7 @@
                     // console.error('Error:', error);
                 }
             });
+            updateGUID();
         });
 
     });

@@ -9,6 +9,7 @@ namespace Kaizen.Models.NewKaizen
 {
 	public class NewKaizenModel
 	{
+		
 		public string Id { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedDate { get; set; }
@@ -76,6 +77,7 @@ namespace Kaizen.Models.NewKaizen
         public string ModifiedBy { get; set; }
         public string ModifiedDate { get; set; }
 		public bool insertStatus { get; set; }
+        public string Empguid { get; set; }
         public List<BlockModel> BlockList { get; set; }
 		public List<TeamMemberDetails> MemberList { get; set; }
 		public List<DeploymentDetails> DeploymentList{ get; set; }
@@ -92,7 +94,8 @@ namespace Kaizen.Models.NewKaizen
     public class TeamMemberDetails
 	{
 		//public string MemberID { get; set; } = "";
-       //public string CreatedBy { get; set; } = "";
+		public string KaizenID { get; set; } = "";
+       public string CreatedBy { get; set; } = "";
        public string CreatedDate { get; set; } = "";
         public string EmpId { get; set; } = "";
 		public string TeamMemberName { get; set; } = "";
@@ -101,6 +104,7 @@ namespace Kaizen.Models.NewKaizen
 
     public class DeploymentDetails
     {
+        public string KaizenID { get; set; } = "";
         public string KcId { get; set; } = "";
         public string CreatedBy { get; set; } = "";
 		public string CreatedDate { get; set; } = "";
