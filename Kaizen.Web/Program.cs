@@ -38,6 +38,8 @@ builder.Services.AddScoped<ISubmittedKaizen, SubmittedKaizenWorker>();
 builder.Services.AddScoped<ISubmittedKaizenRepository, SubmittedKaizenRepository>();
 builder.Services.AddScoped<ICreateNewKaizen, CreateNewKaizenWorker>();
 builder.Services.AddScoped<ICreateNewKaizenRepository,CreateNewKaizenRepository>();
+builder.Services.AddScoped<IProfile, ProfileWorker>();
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,7 +60,11 @@ app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
+    //pattern: "{controller=Login}/{action=Profile}/{id?}");
     pattern: "{controller=Login}/{action=Index}/{id?}");
+//pattern: "{controller=CreateKaizen}/{action=NewKaizen}/{id?}");
+
+
 app.UseSession();
 
 app.Run();

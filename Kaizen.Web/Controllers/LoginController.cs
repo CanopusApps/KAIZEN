@@ -5,6 +5,8 @@ using Kaizen.Models.AdminModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Http;
+using Kaizen.Data.DataServices.Interfaces;
+
 using Newtonsoft.Json;
 namespace Kaizen.Web.Controllers
 {
@@ -15,10 +17,14 @@ namespace Kaizen.Web.Controllers
         private readonly IWebHostEnvironment _environment;
         List<ManagerModel> ManagerList = new List<ManagerModel>();
 
-        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor)
+        private readonly IProfile _profileworker;
+        ProfileModel model = new ProfileModel();
+
+        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor, IProfile profile)
         {
             this._loginworker = _loginworker;
             this.conAccessor = conAccessor;
+            _profileworker = profile; 
         }
         public IActionResult Index()
         {
@@ -54,7 +60,7 @@ namespace Kaizen.Web.Controllers
                             //dataTable1 = _loginworker.Usermanager(EmpId);
                             String Id= conAccessor.HttpContext.Session.Id;
                            if(HttpContext != null && HttpContext.Session != null)
-                            {
+                           {
                                 Response.Redirect("Admin/Adduser");
                                 HttpContext.Session.SetString("Message",Username);
                                 HttpContext.Session.SetString("EmpId", EmpId);
@@ -92,6 +98,41 @@ namespace Kaizen.Web.Controllers
                 HttpContext.Session.Clear();
             }
             return RedirectToAction("Index", "Login", new { area = "" });
+        }
+
+
+        public IActionResult Profile()
+        {
+            try
+            {
+                //model.EmpID = conAccessor.HttpContext.Session.Id;
+                //model.EmpID =;
+
+                //model = _profile.UserProfile(model);
+
+                //the following code assigns null string to EmpID
+                //model.EmpID = loginModel.EmpId;
+                //model.EmpID = conAccessor.HttpContext.Session.GetString("EmpId");
+                string empid = conAccessor.HttpContext.Session.GetString("EmpId");
+
+                //object not set to an instance of an object
+                //model = _profile.UserProfile(model.EmpID);
+
+                //model = _profile.UserProfile(empid); 
+                model = _profileworker.UserProfile(empid);
+                
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateProfile()
+        {
+            return View(model);
         }
     }
 }

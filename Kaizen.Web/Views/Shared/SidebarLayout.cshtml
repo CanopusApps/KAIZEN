@@ -105,7 +105,7 @@
                            
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#"><i class="fa-regular fa-user text-primary"></i> Profile</a>
+                            <a class="dropdown-item" onclick = "ProfilePage();" href="#"><i class="fa-regular fa-user text-primary"></i> Profile</a>
                             <a class="dropdown-item" onclick="LogoutOption();" href="#"><i class="fa-solid fa-right-from-bracket text-danger"></i> Logout</a>
                         </div>
                     </li>
@@ -207,6 +207,12 @@
                     $(this).remove();
                 });
             });
+    </script>
+    <script>
+        function ProfilePage() 
+        { 
+            window.location.href = '/Login/Profile';
+        }
     </script>
 </body>
 </html>
