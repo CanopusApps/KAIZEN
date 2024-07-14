@@ -95,7 +95,7 @@ namespace Kaizen.Models.NewKaizen
 	{
 		//public string MemberID { get; set; } = "";
        public string CreatedBy { get; set; } = "";
-       public string CreatedDate { get; set; } = "";
+       //public string CreatedDate { get; set; } = "";
         public string EmpId { get; set; } = "";
 		public string TeamMemberName { get; set; } = "";
         public string FunctionName { get; set; } = "";
@@ -108,9 +108,9 @@ namespace Kaizen.Models.NewKaizen
     {
         public string KcId { get; set; } = "";
         public string CreatedBy { get; set; } = "";
-		public string CreatedDate { get; set; } = "";
+		//public string CreatedDate { get; set; } = "";
         public string MC { get; set; } = "";
-        public string TargetDate { get; set; } = "";
+        public DateTime TargetDate { get; set; }
         public string Responsibility { get; set; } = "";
         public string ScopeStatus { get; set; } = "";
         public string KaizenId { get; set; } = "";

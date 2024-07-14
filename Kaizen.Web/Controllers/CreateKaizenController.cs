@@ -57,11 +57,11 @@ namespace Kaizen.Web.Controllers
             Guid id = Guid.NewGuid();
             model.Id = id.ToString();
             string loginuserid= conAccessor.HttpContext.Session.GetString("UserID"); 
-            model.MemberList.ForEach(m => m.KaizenID = id.ToString());
+            model.MemberList.ForEach(m => m.KaizenId = id.ToString());
             model.MemberList.ForEach(m => m.CreatedBy = loginuserid.ToString());
             if (model.DeploymentList!=null)
             { 
-            model.DeploymentList.ForEach(m => m.KaizenID = id.ToString());
+            model.DeploymentList.ForEach(m => m.KaizenId = id.ToString());
                 model.DeploymentList.ForEach(m => m.CreatedBy = loginuserid.ToString());
             }
             model.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
