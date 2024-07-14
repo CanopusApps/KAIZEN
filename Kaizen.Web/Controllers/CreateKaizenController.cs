@@ -56,9 +56,12 @@ namespace Kaizen.Web.Controllers
             model.insertStatus = false;
             Guid id = Guid.NewGuid();
             model.Id = id.ToString();
-            string loginuserid= conAccessor.HttpContext.Session.GetString("UserID"); 
-            model.MemberList.ForEach(m => m.KaizenId = id.ToString());
-            model.MemberList.ForEach(m => m.CreatedBy = loginuserid.ToString());
+            string loginuserid= conAccessor.HttpContext.Session.GetString("UserID");
+            if (model.MemberList != null)
+            {
+                model.MemberList.ForEach(m => m.KaizenId = id.ToString());
+                model.MemberList.ForEach(m => m.CreatedBy = loginuserid.ToString());
+            }
             if (model.DeploymentList!=null)
             { 
             model.DeploymentList.ForEach(m => m.KaizenId = id.ToString());

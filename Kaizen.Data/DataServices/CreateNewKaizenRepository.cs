@@ -57,35 +57,37 @@ namespace Kaizen.Data.DataServices
             {
                 model.KaizenType = ConstantValue.KaizenType;
                 model.ApprovalStatus = ConstantValue.ApprovalStatus;
-				DataTable memberDataTable = new DataTable();
+                DataTable memberDataTable = new DataTable();
                 memberDataTable.Columns.Add("KaizenId", typeof(Guid));
-				memberDataTable.Columns.Add("Createdby", typeof(Guid));
-				memberDataTable.Columns.Add("EmpId", typeof(Guid));
-				memberDataTable.Columns.Add("TeamMemberName", typeof(string));
-				memberDataTable.Columns.Add("FunctionName", typeof(string));
+                memberDataTable.Columns.Add("Createdby", typeof(Guid));
+                memberDataTable.Columns.Add("EmpId", typeof(Guid));
+                memberDataTable.Columns.Add("TeamMemberName", typeof(string));
+                memberDataTable.Columns.Add("FunctionName", typeof(string));
+                if (model.MemberList != null) { 
+                    foreach (TeamMemberDetails memberList in model.MemberList)
+                    {
+                        memberDataTable.Rows.Add(memberList.KaizenId, memberList.CreatedBy, memberList.EmpId, memberList.TeamMemberName, memberList.FunctionName);
 
-                foreach (TeamMemberDetails memberList in model.MemberList)
-                {
-                    memberDataTable.Rows.Add(memberList.KaizenId, memberList.CreatedBy, memberList.EmpId, memberList.TeamMemberName, memberList.FunctionName);
-
-				}
+                    }
+                }
                 //string memberjson = Newtonsoft.Json.JsonConvert.SerializeObject(model.MemberList);
                 //            DataTable memberDataTable = JsonConvert.DeserializeObject<DataTable>(memberjson);
 
                 DataTable deploymentDataTable = new DataTable();
-				memberDataTable.Columns.Add("KaizenId", typeof(Guid));
-				memberDataTable.Columns.Add("Createdby", typeof(Guid));
-				memberDataTable.Columns.Add("MC", typeof(string));
-				memberDataTable.Columns.Add("TargetDate", typeof(DateTime));
-				memberDataTable.Columns.Add("Responsibility", typeof(string));
-				memberDataTable.Columns.Add("ScopeStatus", typeof(string));
-
-                foreach (DeploymentDetails deploymentDetails in model.DeploymentList)
+                deploymentDataTable.Columns.Add("KaizenId", typeof(Guid));
+                deploymentDataTable.Columns.Add("Createdby", typeof(Guid));
+                deploymentDataTable.Columns.Add("MC", typeof(string));
+                deploymentDataTable.Columns.Add("TargetDate", typeof(DateTime));
+                deploymentDataTable.Columns.Add("Responsibility", typeof(string));
+                deploymentDataTable.Columns.Add("ScopeStatus", typeof(string));
+                if (model.DeploymentList != null)
                 {
-                    deploymentDataTable.Rows.Add(deploymentDetails.KaizenId, deploymentDetails.CreatedBy, deploymentDetails.MC, deploymentDetails.TargetDate,
-                        deploymentDetails.Responsibility, deploymentDetails.ScopeStatus);
+                    foreach (DeploymentDetails deploymentDetails in model.DeploymentList)
+                    {
+                        deploymentDataTable.Rows.Add(deploymentDetails.KaizenId, deploymentDetails.CreatedBy, deploymentDetails.MC, deploymentDetails.TargetDate,
+                            deploymentDetails.Responsibility, deploymentDetails.ScopeStatus);
+                    }
                 }
-
 				//string deploymentjson = Newtonsoft.Json.JsonConvert.SerializeObject(model.DeploymentList);
 				//            DataTable deploymentDataTable = JsonConvert.DeserializeObject<DataTable>(deploymentjson);
 				com = new SqlCommand();
