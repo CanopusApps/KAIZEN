@@ -44,7 +44,7 @@ namespace Kaizen.Web.Controllers
                 model.BlockList = _blockWorker.GetBlock();
                 //model = _createNewKaizen.GetKaizenOriginatedby(model);
                 DateTime currentDate  = DateTime.Today;
-                model.OriginatedDate = currentDate.ToString("yyyy-MM-dd");
+                model.OriginatedDate = currentDate.ToString("dd-MM-yyyy");
             }
 			catch (Exception ex) { LogEvents.LogToFile(DbFiles.Title, ex.ToString()); }
             return View(model);
