@@ -1021,7 +1021,93 @@
                 </div>
             </div>
             <!--EndAccordin-5-->
+            @* acordion6 *@
+             <div>
 
+                <input class="ac-input" id="ac-6" name="accordion-1" type="checkbox" checked />
+                <label class="ac-label" for="ac-6">Approvers <i></i></label>
+                <div class="article ac-content">
+                    <div class="col-lg-12 py-2">
+                    <div class="row">
+                        <!-- IE Dept Card -->
+                        <div class="col-md-4">
+                                <div class="card  carddashed">
+                                <div class="card-header">IE Dept</div>
+                                <div class="card-body">
+                                    <div><strong>Name :</strong> Esakkimuthu S</div>
+                                    <div><strong>Email :</strong> esakkimuthu@tataelectronics.co.in</div>
+                                    <div><strong>Department :</strong> Production - Anodizing</div>
+                                        <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
+                                    <div><strong>Rejected Reason :</strong> -</div>
+                                    <div><strong>Date & Time :</strong> July 14</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Finance Dept Card -->
+                        <div class="col-md-4">
+                                <div class="card carddashed">
+                                <div class="card-header">Finance Dept</div>
+                                <div class="card-body">
+                                    <div><strong>Name :</strong> Tajender Khurana</div>
+                                    <div><strong>Email :</strong>gv@gmail.com</div>
+                                    <div><strong>Department :</strong> Finance and Legal - Finance</div>
+                                        <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
+                                        <div><strong>Rejected Reason :</strong> -</div>
+                                    <div><strong>Date & Time :</strong> July 14</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- DRI Card -->
+                        <div class="col-md-4">
+                                <div class="card carddashed">
+                                <div class="card-header">DRI</div>
+                                <div class="card-body">
+                                    <div><strong>Name :</strong> Arunabha Nath</div>
+                                    <div><strong>Email :</strong> arunabha.nath@tataelectronics.co.in</div>
+                                    <div><strong>Department :</strong> Production - Anodizing</div>
+                                        <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
+                                    <div><strong>Rejected Reason :</strong> -</div>
+                                    <div><strong>Date & Time :</strong> July 14</div>
+                                </div>
+                            </div>
+                        </div>                        
+                   
+                    
+                            <!-- Image Sanitization Card -->
+                            <div class="col-md-4">
+                                <div class="card carddashed">
+                                    <div class="card-header">Image Sanitization</div>
+                                    <div class="card-body">
+                                        <div><strong>Name :</strong> HARISH M</div>
+                                        <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                          @*   <div class="col-md-4">
+                                <div class="card carddashed">
+                                    <div class="card-header">Approve Kaizen</div>
+                                    <div class="card-body">
+                                        <button class="btn btn-success">Approve Kaizen</button>
+                                        <button class="btn btn-warning">Hold </button>
+                                        <button class="btn btn-danger">Reject Kaizen</button>
+                                    </div>
+                                </div>
+                            </div> *@
+                        </div>
+                        <div class="col-sm-12 ">
+                            <div class="card-body float-left">
+                                <button class="btn btn-success">Approve Kaizen</button>
+                                <button class="btn btn-warning">Hold </button>
+                                <button class="btn btn-danger">Reject Kaizen</button>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+           </div>
         </div>
         @* containerdivs *@
     </div>
@@ -1488,7 +1574,7 @@
                 Department: $("#DeptId").val(),
                 CreatedDate: $("#CDeta").val(),
                 DRIApprovedBy: $("#driapprovedby").val(),
-                DRIApprovedDate: $("#driapproveddate").val()
+                DRIApprovedDate: $("#driapproveddate").val()           
             }
             if (!ValidateForm()) {
                 // If validation fails, return or perform any other necessary actions
