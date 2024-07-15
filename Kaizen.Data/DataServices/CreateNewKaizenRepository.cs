@@ -148,11 +148,11 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@ImageApprovedBy", model.ImageApprovedBy);
                 com.Parameters.AddWithValue("@OriginatedBy", model.OriginatedBy);
                 com.Parameters.AddWithValue("@OrigionatedDept", model.OrigionatedDept);
-                com.Parameters.AddWithValue("@OrigonatedDate", model.OriginatedDate);
+                //com.Parameters.AddWithValue("@OrigonatedDate", model.OriginatedDate);
                 com.Parameters.AddWithValue("@ModifiedBy", model.ModifiedBy);
                 com.Parameters.AddWithValue("@ModifiedDate", model.ModifiedDate);
                 com.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
-                com.Parameters.AddWithValue("@CreatedDate", model.CreatedDate);
+                //com.Parameters.AddWithValue("@CreatedDate", model.CreatedDate);
                 com.Parameters.AddWithValue("@Department", model.Department);
                 com.Parameters.AddWithValue("@Domain", model.Domain);
                 com.CommandText = StoredProcedures.SpKaizen_Insert;

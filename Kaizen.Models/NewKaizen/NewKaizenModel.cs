@@ -12,7 +12,7 @@ namespace Kaizen.Models.NewKaizen
 		
 		public string Id { get; set; }
         public string CreatedBy { get; set; }
-        public string CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string VersionDate { get; set; }
 		public string KaizenId { get; set; }
 		public string KaizenType { get; set; }
@@ -75,7 +75,7 @@ namespace Kaizen.Models.NewKaizen
         public string OriginatedBy { get; set; }
         public string OrigionatedDept { get; set; }
         public string ModifiedBy { get; set; }
-        public string ModifiedDate { get; set; }
+		public string ModifiedDate { get; set; } 
 		public bool insertStatus { get; set; }
         public string Empguid { get; set; }
         public List<BlockModel> BlockList { get; set; }
