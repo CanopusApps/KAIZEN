@@ -16,5 +16,7 @@ namespace Kaizen.Business.Interface
         public List<TeamMemberDetails> getTeamdetails(TeamMemberDetails model);
         public bool CreateNewKaizen(NewKaizenModel model);
 
+        public List<DeploymentDetails> getScopeDetails(DeploymentDetails model);
+
     }
 }

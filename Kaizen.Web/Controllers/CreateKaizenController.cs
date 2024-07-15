@@ -85,6 +85,12 @@ namespace Kaizen.Web.Controllers
             teamlist = _createNewKaizen.getTeamdetails(model);
             return teamlist;
         }
+        public List<DeploymentDetails> GetScope(DeploymentDetails model)
+        {
+            List<DeploymentDetails> list = new List<DeploymentDetails>();
+            list = _createNewKaizen.getScopeDetails(model);
+            return list;
+        }
 
     }
 }

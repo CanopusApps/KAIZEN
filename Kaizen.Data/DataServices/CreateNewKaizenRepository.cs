@@ -188,5 +188,30 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+        public DataSet getscopedetailsdata(DeploymentDetails model)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                using (SqlCommand com = new SqlCommand())
+                {
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandText = StoredProcedures.Sp_Fetch_Scope_details;
+                    com.Parameters.AddWithValue("@KaizenId", model.KaizenId);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(com))
+                    {
+                        da.Fill(ds);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Consider logging the exception instead of re-throwing
+                throw new ApplicationException("An error occurred while fetching scope details.", ex);
+            }
+            return ds;
+        }
     }
 }

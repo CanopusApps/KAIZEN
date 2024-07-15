@@ -60,6 +60,7 @@ namespace Kaizen.Data.Constant
         public static string SpKaizen_Insert = "Sp_Kaizen_Insert_test";
         public static string Sp_Fetch_TeamMember = "Sp_Fetch_TeamMember"; 
         public static string SpGetUserManager = "Sp_GetUserManager";
+        public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
     }
 
     public class ConstantValue
