@@ -142,7 +142,9 @@
                 </div>
             </div>
             <div id="userGridContainer" style="padding:2px">
-                @Html.Partial("_UserGridPartial", Model.UsergridList)
+
+                @await Html.PartialAsync("_UserGridPartial", Model.UsergridList)
+
             </div>
             <div class="modal fade" id="importExcelModel" tabindex="-1" role="dialog" aria-labelledby="importExcelModelLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">

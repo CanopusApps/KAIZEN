@@ -87,7 +87,9 @@
                 </div>
             </div>
             <div class="table-responsive" id="SubmittedKaizengrid">
-                @Html.Partial("_SubmittedKaizenGridPartial", Model.SubmittedKaizenList)
+
+                @await Html.PartialAsync("_SubmittedKaizenGridPartial", Model.SubmittedKaizenList)
+
             </div>
         </div>
     </form>
