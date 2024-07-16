@@ -1,4 +1,4 @@
-﻿@using Kaizen.Models.AdminModel;
+﻿@using Kaizen.Models.AdminModel
 @using Kaizen.Models.NewKaizen;
 @inject IHttpContextAccessor Accessor
 @using Newtonsoft.Json
@@ -1465,9 +1465,9 @@
         }
         return isValid;
     }
-       $(document).ready(function () {
-       
+    
 
+    $(document).ready(function () {
 
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
@@ -1477,26 +1477,17 @@
             debugger;
             var checkboxData = {};
             var checkboxData1 = {};
-            var activityValue;
-            var benifitarea;
             var Rootcausedata;
+            var activityValue = [];
+                    $('#checkboxform input[type=checkbox]:checked').each(function () {
+                        activityValue.push($(this).val());
+                    });
 
-            $('#checkboxform input[type=checkbox]:checked').each(function () {
-                if (!checkboxData[this.name]) {
-                    checkboxData[this.name] = [];
-                }
-                checkboxData[this.name].push(this.value);
-                activityValue=checkboxData[""].join(',');
-            });
-            $('#checkboxform1 input[type=checkbox]:checked').each(function () {
-                if (!checkboxData1[this.name]) {
-                    checkboxData1[this.name] = [];
-                }
-                checkboxData1[this.name].push(this.value);
-                benifitarea = checkboxData1[""].join(',');
-            });
-           
-            
+            var benifitarea = [];
+                    $('#checkboxform1 input[type=checkbox]:checked').each(function () {
+                        benifitarea.push($(this).val());
+                    });
+
                 var selectData1 = { "selected": [] };
                 $('#multiple-select-field option:selected').each(function () {
                     selectData1["selected"].push($(this).val());
@@ -1506,7 +1497,7 @@
             var addedTeamMembers = new Array();
             var addedDeployment = new Array();
             $('#tblteammemberResult tbody tr').each(function () {
-                debugger;
+                // debugger;
                 var row = $(this);
                 var memberDetails = {};
                  if (row.find("TD").eq(2).val() != undefined) {
@@ -1540,93 +1531,100 @@
                 }
             });
 
+            // var memberListJson = JSON.stringify(addedTeamMembers);
+            // var deploymentListJson = JSON.stringify(addedDeployment);
 
 
-          
-            var kaizenModel = {
-                // var blockName = $('#BlockName').val();
-                // ID: $('#kaizenid').val(),
-                InOtherMC: $('#InOtherMC').val(),
-                WithIntheDept: $('#withinDept').val(),
-                InotherDept: $('#InotherDept').val(),
-                Otherpoints: $('#Otherpoints').val(),
-                Block: $('#BlockName').val(),
-                BlockDetails: $('#BlockName option:selected').text(),
-                Activity: activityValue,
-                BenefitArea: benifitarea,
-                ActivityDesc: $('#activityDesc').val(),
-                KaizenTheme: $('#ktheme').val(),
-                plantName: $('#teplplant').val(),
-                SuggestedKaizen: $('#teplplant').val(),
-                ProblemStatement: $('#probstmt').val(),
-                CounterMeasure: $('#countmeasur').val(),
-                DocNo : $("#docNo").val(),
-                VersionNoDate: $("#versionNo").val(),
-                CostCentre: $("#codeCentre").val(),
-                KaizenRefNo : $("#refNo").val(),
-                Yield: $("#yield1").val(),
-                CycleTime: $("#cycletime1").val(),
-                Cost: $("#cost1").val(),
-                ManPower: $("#Manpower").val(),
-                Consumables: $("#Consumables").val(),
-                Others: $("#Others").val(),
-                TotalSavings: $("#TotalSavings").val(),
-                ApprovedByIE: $("#approvedbyIE").val(),
-                FinanceApprovedBy: $("#approvedbyAccount").val(),
-                // RootCause: $("#multiple-select-field").val(),
-                Rootcause: Rootcausedata,
-                MemberList: addedTeamMembers,
-                DeploymentList: addedDeployment,
-                RootCauseDetails: $("#rootcauseDetails").val(),
-                PresentCondition: $("#presentCondition").val(),
-                ImprovementsCompleted: $("#improvementsCompleted").val(),
-                HorozantalDeployment: $('input[name="horizontalDeployment"]:checked').val(),
-                Benifits: $("#benefit").val(),
-                OriginatedBy: $("#name").val(),
-                Domain: $("#DomainId").val(),
-                Department: $("#DeptId").val(),
-                CreatedDate: $("#CDeta").val(),
-                OriginatedDate: $("#CDeta").val(),
-                OrigionatedDept: $("#DeptId").val(),
-               DRIApprovedBy: $("#driapprovedby").val(),
-                DRIApprovedDate: $("#driapproveddate").val()           
+            // Create FormData object
+            var formData = new FormData();
+
+           
+            
+            // Append text and file fields to formData
+            formData.append('Block', $('#BlockName').val());
+            formData.append('BlockDetails', $('#BlockName option:selected').text());
+            formData.append('Activity', activityValue);
+            formData.append('BenefitArea', benifitarea);
+            formData.append('ActivityDesc', $('#activityDesc').val());
+            formData.append('KaizenTheme', $('#ktheme').val());
+            formData.append('plantName', $('#teplplant').val());
+            formData.append('SuggestedKaizen', $('#suggestedKaizen').val());
+            formData.append('ProblemStatement', $('#probstmt').val());
+            formData.append('CounterMeasure', $('#countmeasur').val());
+            formData.append('DocNo', $("#docNo").val());
+            formData.append('VersionNoDate', $("#versionNo").val());
+            formData.append('CostCentre', $("#codeCentre").val());
+            formData.append('KaizenRefNo', $("#refNo").val());
+            formData.append('Yield', $("#yield1").val());
+            formData.append('CycleTime', $("#cycletime1").val());
+            formData.append('Cost', $("#cost1").val());
+            formData.append('ManPower', $("#Manpower").val());
+            formData.append('Consumables', $("#Consumables").val());
+            formData.append('Others', $("#Others").val());
+            formData.append('TotalSavings', $("#TotalSavings").val());
+            formData.append('ApprovedByIE', $("#approvedbyIE").val());
+            formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+            formData.append('Rootcause', Rootcausedata);
+            formData.append('MemberList', JSON.stringify(addedTeamMembers));
+            formData.append('DeploymentList', JSON.stringify(addedDeployment));
+            formData.append('RootCauseDetails', $("#rootcauseDetails").val());
+            formData.append('PresentCondition', $("#presentCondition").val());
+            formData.append('ImprovementsCompleted', $("#improvementsCompleted").val());
+            formData.append('HorozantalDeployment', $('input[name="horizontalDeployment"]:checked').val());
+            formData.append('InOtherMC', $('#InOtherMC').val());
+            formData.append('WithIntheDept', $('#withinDept').val());
+            formData.append('InotherDept', $('#InotherDept').val());
+            formData.append('Otherpoints', $('#Otherpoints').val());
+            formData.append('DRIApprovedBy', $('#driapprovedby').val());
+            formData.append('DRIApprovedDate', $('#driapproveddate').val());
+            formData.append('Benifits', $("#benefit").val());
+            formData.append('OriginatedBy', $("#name").val());
+            formData.append('Domain', $("#DomainId").val());
+            formData.append('Department', $("#DeptId").val());
+            formData.append('CreatedDate', $("#CDeta").val());
+            formData.append('AttachmentBefore', $('#attach_file_before')[0].files[0]);
+            formData.append('AttachmentAfter', $('#attach_file_after')[0].files[0]);
+            formData.append('RootProblemAttachment', $('#attach_file2')[0].files[0]);
+
+            //  additional attachments
+            var additionalFiles = document.getElementById('additional_attachments').files;
+            for (var i = 0; i < additionalFiles.length; i++) {
+                formData.append('AdditionalAttachments', additionalFiles[i]);
             }
-            if (!ValidateForm()) {
-                // If validation fails, return or perform any other necessary actions
+
+            if (!ValidateForm())
+            {
                 return;
             }
+            //  AJAX 
             $.ajax({
                 type: 'POST',
                 url: '/CreateKaizen/NewKaizen',
-                dataType: "json",
-                data: { model: kaizenModel },
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                data: formData,
                 success: function (result) {
-                    // Handle success (if needed)
-                   
-                    if (result==true) {
+                    if (result.success) {
                         swal({
-                            text: "Kaizen Added successfully !!",
-                            type: "success"
-                        }).then(okay => {
-
+                            text: 'Kaizen Saved Successfully!!',
+                            type: 'success'
+                        }).then(function () {
+                            window.location.reload(); 
                         });
-                    }
-                    else {
+                    } else {
                         swal('Unable to Save the Kaizen Details - Please Check the logs');
                     }
                 },
                 error: function (error) {
                     swal('Unable to Save the Kaizen Details - Please Check the logs');
-                    // Handle errors (if needed)
-                    // console.error('Error:', error);
+                    console.error('Error:', error);
                 }
             });
             // updateGUID();
         });
 
     });
-
-
 
 </script>
 
@@ -1710,6 +1708,7 @@
         return false;
     }
 //mutli files
+     var imgNo = 0;
 
      function previewAdditionalImages(event) {
         var files = event.target.files;
@@ -1731,7 +1730,8 @@
                 var img = document.createElement("img");
                 img.src = event.target.result;
                 img.className = "uploadImageSmall";
-
+                img.id = "imageID" + imgNo;
+                imgNo = imgNo + 1;
                 var deleteBtn = document.createElement("span");
                     deleteBtn.className = "delete-btn delbutt";
                     deleteBtn.textContent = "Delete";
@@ -1763,7 +1763,7 @@
 </script>
 <script>
     $(function getSession() {
-        debugger;
+        /* debugger; */
 
         if (sessionStorage.getItem("editKaizen")) {
             var editKaizen = JSON.parse(sessionStorage.getItem("editKaizen"));

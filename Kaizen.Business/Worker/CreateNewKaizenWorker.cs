@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace Kaizen.Business.Worker
         }
         public NewKaizenModel GetKaizenOriginatedby(NewKaizenModel model)
         {
-          DataTable  dt = _createNewKaizenRepository.GetKaizenOriginatedbyData(model);
+            DataTable dt = _createNewKaizenRepository.GetKaizenOriginatedbyData(model);
             foreach (DataRow row in dt.Rows)
             {
                 model.Empguid = string.IsNullOrEmpty($"{row["ID"]}") ? string.Empty : Convert.ToString($"{row["ID"]}");
@@ -83,4 +84,5 @@ namespace Kaizen.Business.Worker
             return ScopeDetails;
         }
     }
+
 }

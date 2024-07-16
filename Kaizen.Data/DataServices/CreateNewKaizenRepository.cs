@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Kaizen.Models.NewKaizen;
 using Kaizen.Models.AdminModel;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace Kaizen.Data.DataServices
 {
@@ -50,6 +51,8 @@ namespace Kaizen.Data.DataServices
             return dt;
         }
 
+       
+
         public bool CreateNewKaizenData(NewKaizenModel model)
         {
             bool status = false;
@@ -70,8 +73,6 @@ namespace Kaizen.Data.DataServices
 
                     }
                 }
-                //string memberjson = Newtonsoft.Json.JsonConvert.SerializeObject(model.MemberList);
-                //            DataTable memberDataTable = JsonConvert.DeserializeObject<DataTable>(memberjson);
 
                 DataTable deploymentDataTable = new DataTable();
                 deploymentDataTable.Columns.Add("KaizenId", typeof(Guid));
@@ -88,14 +89,27 @@ namespace Kaizen.Data.DataServices
                             deploymentDetails.Responsibility, deploymentDetails.ScopeStatus);
                     }
                 }
-				//string deploymentjson = Newtonsoft.Json.JsonConvert.SerializeObject(model.DeploymentList);
-				//            DataTable deploymentDataTable = JsonConvert.DeserializeObject<DataTable>(deploymentjson);
-				com = new SqlCommand();
+
+                DataTable attachmentDataTable = new DataTable();
+                attachmentDataTable.Columns.Add("KaizenId", typeof(Guid));
+                attachmentDataTable.Columns.Add("FileName", typeof(string));
+                attachmentDataTable.Columns.Add("Createdby", typeof(Guid));
+                
+                
+                if (model.AttachmentsList != null)
+                {
+                    foreach (Attachmentsimg attachmentsimg in model.AttachmentsList)
+                    {
+                        attachmentDataTable.Rows.Add(attachmentsimg.kaizenId, attachmentsimg.FileName, attachmentsimg.CreatedBy);
+                    }
+                }
+                com = new SqlCommand();
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@KaizenTeam", memberDataTable);
                 com.Parameters.AddWithValue("@KaizenScopeDetails", deploymentDataTable);
+                com.Parameters.AddWithValue("@AttachmentDetails", attachmentDataTable);
                 com.Parameters.AddWithValue("@ID", model.Id);
                 com.Parameters.AddWithValue("@KaizenType", model.KaizenType);
                 com.Parameters.AddWithValue("@Activity", model.Activity);
@@ -111,9 +125,6 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@SuggestedKaizen", model.SuggestedKaizen);
                 com.Parameters.AddWithValue("@ProblemStatement", model.ProblemStatement);
                 com.Parameters.AddWithValue("@CounterMeasure", model.CounterMeasure);
-                com.Parameters.AddWithValue("@AttachmentBefore", model.AttachmentBefore);
-                com.Parameters.AddWithValue("@AttachmentAfter", model.AttachmentAfter);
-                com.Parameters.AddWithValue("@AttachmentOthers", model.AttachmentOthers);
                 com.Parameters.AddWithValue("@Yield", model.Yield);
                 com.Parameters.AddWithValue("@CycleTime", model.CycleTime);
                 com.Parameters.AddWithValue("@Cost", model.Cost);
@@ -127,7 +138,6 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@RootCause", model.RootCause);
                 com.Parameters.AddWithValue("@PresentCondition", model.PresentCondition);
                 com.Parameters.AddWithValue("@ImprovementsCompleted", model.ImprovementsCompleted);
-                com.Parameters.AddWithValue("@RootProblemAttachment", model.RootProblemAttachment);
                 com.Parameters.AddWithValue("@RootCauseDetails", model.RootCauseDetails);
                 com.Parameters.AddWithValue("@HorozantalDeployment", model.HorozantalDeployment);
                 com.Parameters.AddWithValue("@ScopeOfDeploymentID", model.ScopeOfDeploymentID);
@@ -148,11 +158,9 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@ImageApprovedBy", model.ImageApprovedBy);
                 com.Parameters.AddWithValue("@OriginatedBy", model.OriginatedBy);
                 com.Parameters.AddWithValue("@OrigionatedDept", model.OrigionatedDept);
-                //com.Parameters.AddWithValue("@OrigonatedDate", model.OriginatedDate);
                 com.Parameters.AddWithValue("@ModifiedBy", model.ModifiedBy);
                 com.Parameters.AddWithValue("@ModifiedDate", model.ModifiedDate);
                 com.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
-                //com.Parameters.AddWithValue("@CreatedDate", model.CreatedDate);
                 com.Parameters.AddWithValue("@Department", model.Department);
                 com.Parameters.AddWithValue("@Domain", model.Domain);
                 com.CommandText = StoredProcedures.SpKaizen_Insert;
