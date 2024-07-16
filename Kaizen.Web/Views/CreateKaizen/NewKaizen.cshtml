@@ -1,4 +1,4 @@
-﻿@using Kaizen.Models.AdminModel
+﻿@using Kaizen.Models.AdminModel;
 @using Kaizen.Models.NewKaizen;
 @inject IHttpContextAccessor Accessor
 @using Newtonsoft.Json
@@ -24,6 +24,10 @@
     }
     .btn-azure{
         color: #fff !important;
+    }
+
+    #approvers {
+        display: none;
     }
 
     .input-width {
@@ -54,7 +58,7 @@
 
 </style>
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
-<div class="content-body body">
+<div class="content-body body mb-2">
     <div class="container-fluid mt-5">
         <!-- Page Title -->
         <div class="row page-titles mx-0 mt-5">
@@ -742,7 +746,7 @@
 
                                                             <label for="">In Other Machines within the cell</label>
 
-                                                            <input class="form-control" type="text">
+                                                                <input class="form-control" type="text" id="InOtherMC">
 
                                                         </div>
 
@@ -752,7 +756,7 @@
 
                                                             <label for="">Within the Department in all the machine groups</label>
 
-                                                            <input class="form-control" type="text">
+                                                                <input class="form-control" type="text" id="withinDept">
 
                                                         </div>
 
@@ -762,7 +766,7 @@
 
                                                             <label for="">In Other Dept/ Other Location</label>
 
-                                                            <input class="form-control" type="text">
+                                                                <input class="form-control" type="text" id="InotherDept">
 
                                                         </div>
 
@@ -772,7 +776,7 @@
 
                                                             <label for="">Any other Relevant Points</label>
 
-                                                            <input class="form-control" type="text">
+                                                                <input class="form-control" type="text" id="Otherpoints">
 
                                                         </div>
 
@@ -960,7 +964,7 @@
                                                                 </td>
 
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
-                                                                    <input type="text" class="mx-auto form-control col-9" id="DomainId" name="DomainId" value="@Model.Domain - @Model.Department">
+                                                                    <input type="text" class="mx-auto form-control col-9" id="DomainId" name="DomainId" value="@Model.Domain - @Model.Department" >
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
                                                                     <input name="DeptId" id="DeptId" class="form-control col-9" value="@Model.Domain - @Model.Department">
@@ -1022,7 +1026,7 @@
             </div>
             <!--EndAccordin-5-->
             @* acordion6 *@
-             <div>
+            <div id="approvers">
 
                 <input class="ac-input" id="ac-6" name="accordion-1" type="checkbox" checked />
                 <label class="ac-label" for="ac-6">Approvers <i></i></label>
@@ -1030,7 +1034,7 @@
                     <div class="col-lg-12 py-2">
                     <div class="row">
                         <!-- IE Dept Card -->
-                        <div class="col-md-4">
+                            <div class="col-md-4" >
                                 <div class="card  carddashed">
                                 <div class="card-header">IE Dept</div>
                                 <div class="card-body">
@@ -1044,7 +1048,7 @@
                             </div>
                         </div>
                         <!-- Finance Dept Card -->
-                        <div class="col-md-4">
+                            <div class="col-md-4" ">
                                 <div class="card carddashed">
                                 <div class="card-header">Finance Dept</div>
                                 <div class="card-body">
@@ -1060,7 +1064,7 @@
 
 
                         <!-- DRI Card -->
-                        <div class="col-md-4">
+                        <div class="col-md-4" >
                                 <div class="card carddashed">
                                 <div class="card-header">DRI</div>
                                 <div class="card-body">
@@ -1085,18 +1089,8 @@
                                     </div>
                                 </div>
                             </div>
-
-                          @*   <div class="col-md-4">
-                                <div class="card carddashed">
-                                    <div class="card-header">Approve Kaizen</div>
-                                    <div class="card-body">
-                                        <button class="btn btn-success">Approve Kaizen</button>
-                                        <button class="btn btn-warning">Hold </button>
-                                        <button class="btn btn-danger">Reject Kaizen</button>
-                                    </div>
-                                </div>
-                            </div> *@
                         </div>
+                        
                         <div class="col-sm-12 ">
                             <div class="card-body float-left">
                                 <button class="btn btn-success">Approve Kaizen</button>
@@ -1104,6 +1098,7 @@
                                 <button class="btn btn-danger">Reject Kaizen</button>
                             </div>
                         </div>
+
 
                 </div>
             </div>
@@ -1114,7 +1109,7 @@
 </div>
 
 <div class="col-sm-12 ">
-    <div class="card-body float-right">
+    <div class="card-body float-right" id="saveItButton">
         <button class="btn btn-warning" id="btnSaveKaizen" >Save It</button>
         <button class="btn btn-azure" id="btnSubmitKaizen">Submit to DRI</button>
     </div>
@@ -1144,12 +1139,26 @@
     // window.onload = function () {
     //     updateGUID();
     // }
-    document.getElementById('yesRadio').addEventListener('change', function () {
+    document.addEventListener('DOMContentLoaded', function () {
+        var approversDiv = document.getElementById('approvers');
+        var savebutton = document.getElementById('saveItButton');
+        if (approversDiv) {
+            var editKaizenData = sessionStorage.getItem('editKaizen');
+            if (editKaizenData) {
+                approversDiv.style.display = 'block';
+                savebutton.style.display = 'none';
+            } else {
+                approversDiv.style.display = 'none'; 
+            }
+        }
+    });
+    document.getElementById('yesRadio').addEventListener('change', function () {       
         document.getElementById('toggleContent').style.display = 'block';
     });
 
     document.getElementById('noRadio').addEventListener('change', function () {
         document.getElementById('toggleContent').style.display = 'none';
+       
     });
     $('#multiple-select-field').select2({
         theme: "bootstrap-5",
@@ -1537,6 +1546,10 @@
             var kaizenModel = {
                 // var blockName = $('#BlockName').val();
                 // ID: $('#kaizenid').val(),
+                InOtherMC: $('#InOtherMC').val(),
+                WithIntheDept: $('#withinDept').val(),
+                InotherDept: $('#InotherDept').val(),
+                Otherpoints: $('#Otherpoints').val(),
                 Block: $('#BlockName').val(),
                 BlockDetails: $('#BlockName option:selected').text(),
                 Activity: activityValue,
@@ -1573,7 +1586,9 @@
                 Domain: $("#DomainId").val(),
                 Department: $("#DeptId").val(),
                 CreatedDate: $("#CDeta").val(),
-                DRIApprovedBy: $("#driapprovedby").val(),
+                OriginatedDate: $("#CDeta").val(),
+                OrigionatedDept: $("#DeptId").val(),
+               DRIApprovedBy: $("#driapprovedby").val(),
                 DRIApprovedDate: $("#driapproveddate").val()           
             }
             if (!ValidateForm()) {
