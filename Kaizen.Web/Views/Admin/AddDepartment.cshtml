@@ -155,19 +155,19 @@
                 DomainId: domainId
             },
             success: function (result) {
-                var res = $.isEmptyObject(result);
-                if (res) {
-                    swal('Unable to Save the Department Details - Please Check the logs');
-                } else {
+                if (result == true) {
                     swal({
-                        text: "Department Added successfully !!",
+                        text: "Department Saved successfully !!",
                         type: "success"
                     }).then(okay => {
-                        if (okay) {
-                            location.reload();
-                        }
+                        location.reload();
                     });
                 }
+                else {
+                    swal('Unable to Save the Department Details - Please Check the logs');
+                }
+
+
             },
             error: function (error) {
                 swal('Unable to Save the Department Details - Please Check the logs');
@@ -193,20 +193,17 @@
             dataType: "json",
             data: departmentmodel,
             success: function (result) {
-                console.log(result); // Log the result to the console for debugging
 
-            if($.isEmptyObject(result)) {
-            swal('Unable2 to Update the Department Details - Please Check the logs');
-        } else {
-            swal({
-                text: "Department Updated successfully !!",
-                type: "success"
-            }).then(okay => {
-                if (okay) {
-                    location.reload();
+                if (result == true) {
+                    swal({
+                        text: "Department Updated successfully !!",
+                        type: "success"
+                    }).then(okay => {
+                        location.reload();
+                    });
                 }
-            });
-
+                else {
+                    swal('Unable to Update the Department Details - Please Check the logs');
                 }
             },
             error: function (error) {
@@ -264,18 +261,16 @@
                     dataType: "json",
                     data: { id: id },
                     success: function (result) {
-                        var res = $.isEmptyObject(result);
-                        if (res) {
-                            swal('Unable to Delete the Department Details - Please Check the logs');
-                        } else {
+                        if (result == true) {
                             swal({
                                 text: "Department Deleted successfully !!",
                                 type: "success"
                             }).then(okay => {
-                                if (okay) {
-                                    location.reload();
-                                }
+                                location.reload();
                             });
+                        }
+                        else {
+                            swal('Unable to Delete the Department Details - Please Check the logs');
                         }
                     },
                     error: function (error) {

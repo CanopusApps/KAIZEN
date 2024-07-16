@@ -121,20 +121,15 @@ namespace Kaizen.Web.Controllers
             try
             {
                 blockmodel.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
-                if (ModelState.IsValid)
-                {
+                
                     insertStatus = _blockWorker.InsertBlockDetails(blockmodel);
-                    if (insertStatus)
-                    {
-                        blocks = _blockWorker.GetBlock();
-                    }
-                }
+                
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            return Ok(blocks);
+            return Ok(insertStatus);
         }
 
 
@@ -145,20 +140,13 @@ namespace Kaizen.Web.Controllers
             try
             {
                 blockmodel. ModifiedBy = conAccessor.HttpContext.Session.GetString("EmpId");
-                if (ModelState.IsValid)
-                {
-                    updateStatus = _blockWorker.UpdateBlockDetails( blockmodel);
-                    if (updateStatus)
-                    {
-                        blocks = _blockWorker.GetBlock();
-                    }
-                }
+                updateStatus = _blockWorker.UpdateBlockDetails( blockmodel);                   
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            return Ok(blocks);
+            return Ok(updateStatus);
         }
 
 
@@ -170,17 +158,17 @@ namespace Kaizen.Web.Controllers
 
             {
                 deleteStatus = _blockWorker.DeleteBlock(id);
-                if (deleteStatus)
-                {
-                    blocks = _blockWorker.GetBlock();
-                }
+                //if (deleteStatus)
+                //{
+                //    blocks = _blockWorker.GetBlock();
+                //}
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
 
             }
-            return Ok(blocks);
+            return Ok(deleteStatus);
         }
         public IActionResult UpdateBlockStatus(int id, bool status)
         {
@@ -219,22 +207,17 @@ namespace Kaizen.Web.Controllers
             bool insertStatus = false;
             try
             {
-                
                 domainmodel. CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
                 if (ModelState.IsValid)
                 {
-                    insertStatus = _domainWorker.CreateDomain(domainmodel);
-                    if (insertStatus)
-                    {
-                        domains = _domainWorker.GetDomain();
-                    }
+                    insertStatus = _domainWorker.CreateDomain(domainmodel);       
                 }
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            return Ok(domains);
+            return Ok(insertStatus);
         }
         [HttpPost]
         public IActionResult UpdateDomain(DomainModel domainmodel)
@@ -246,17 +229,13 @@ namespace Kaizen.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     updateStatus = _domainWorker.UpdateDomainDetails(domainmodel);
-                    if (updateStatus)
-                    {
-                        domains = _domainWorker.GetDomain();
-                    }
                 }
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            return Ok(domains);
+            return Ok(updateStatus);
         }
         [HttpPost]
         public IActionResult DeleteDomain(int id)
@@ -265,17 +244,13 @@ namespace Kaizen.Web.Controllers
             try
             {
                 deleteStatus = _domainWorker.DeleteDomain(id);
-                if (deleteStatus)
-                {
-                    domains = _domainWorker.GetDomain();
-                }
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
 
-            return Ok(domains);
+            return Ok(deleteStatus);
         }
 
         public IActionResult UpdateDomainStatus(int id, bool status)
@@ -341,24 +316,20 @@ namespace Kaizen.Web.Controllers
             try
             {
                 string msg;
-                //ModelState.Remove(nameof(departmentModel.DepartmentList));
-                //ModelState.Remove(nameof(departmentModel.DomainList ));
                 departmentModel.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
                 
-                //if (/*ModelState.IsValid*/)
-                //{
+                
                     insertStatus = _departmentWorker.CreateDepartment( departmentModel);
-                    if(insertStatus)
-                    {
-                        departments = _departmentWorker.GetDepartments();
-                    }
-                //}
+                    //if(insertStatus)
+                    //{
+                    //    departments = _departmentWorker.GetDepartments();
+                    //}
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            return Ok(departments);
+            return Ok(insertStatus);
         }		
         public List<DepartmentModel> FetchDepartment(string domainId)
         {
@@ -387,18 +358,18 @@ namespace Kaizen.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     updateStatus = _departmentWorker.UpdateDepartmentDetails(departmentmodel);
-                    if (updateStatus)
-                    {
-                        //domains = _domainWorker.GetDomain();
-                        departments = _departmentWorker.GetDepartments();
-                    }
+                    //if (updateStatus)
+                    //{
+                    //    //domains = _domainWorker.GetDomain();
+                    //    departments = _departmentWorker.GetDepartments();
+                    //}
                 }
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            return Ok(departments);
+            return Ok(updateStatus);
         }
 
 
@@ -409,16 +380,13 @@ namespace Kaizen.Web.Controllers
             try
             {
                 deleteStatus = _departmentWorker.DeleteDepartment(id);
-                if (deleteStatus)
-                {
-                    departments = _departmentWorker.GetDepartments();
-                }
+                
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            return Ok(departments);
+            return Ok(deleteStatus);
         }
         public IActionResult UpdateDepartmentStatus(int id, bool status)
         {
