@@ -62,5 +62,25 @@ namespace Kaizen.Business.Worker
             }
             return TeamDetails;
         }
+        public List<DeploymentDetails> getScopeDetails(DeploymentDetails model)
+        {
+            DataSet ds;
+            List<DeploymentDetails> ScopeDetails = new List<DeploymentDetails>();
+            ds = _createNewKaizenRepository.getscopedetailsdata(model);
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    ScopeDetails.Add(new DeploymentDetails
+                    {
+                        MC = dr["MC"].ToString(),
+                        TargetDate = Convert.ToDateTime(dr["TargetDate"].ToString()),
+                        Responsibility = dr["Responsibility"].ToString(),
+                        ScopeStatus = dr["ScopeStatus"].ToString(),
+                    });
+                }
+            }
+            return ScopeDetails;
+        }
     }
 }
