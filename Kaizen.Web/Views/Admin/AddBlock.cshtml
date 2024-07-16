@@ -138,25 +138,20 @@
                 data: { BlockModel : blockModel },
                 success: function (result) {
                     // Handle success (if needed)
-                    var res = $.isEmptyObject(result);
-                    if (res) {
-                        swal('Unable to Save the Block Details - Please Check the logs');
-                    }
-                    else {
+                    if (result == true) {
                         swal({
-                            text: "Block Added successfully !!",
+                            text: "Block Saved successfully !!",
                             type: "success"
                         }).then(okay => {
-                            if (okay) {
-                                location.reload();
-                            }
+                            location.reload();
                         });
+                    }
+                    else {
+                        swal('Unable to Save the Block Details - Please Check the logs');
                     }
                 },
                 error: function (error) {
                     swal('Unable to Save the Block Details - Please Check the logs');
-                    // Handle errors (if needed)
-                    // console.error('Error:', error);
                 }
             });
         });
@@ -188,20 +183,17 @@
             data:  domainmodel ,
                 success: function (result) {
                     // Handle success (if needed)
-                    var res = $.isEmptyObject(result);
-                    if (res) {
-                        swal('Unable to Update the Block Details - Please Check the logs');
-                    }
-                    else {
-                        swal({
-                            text: "Block Updated successfully !!",
-                            type: "success"
-                        }).then(okay => {
-                            if (okay) {
-                                location.reload();
-                            }
-                        });
-                    }
+                if (result == true) {
+                    swal({
+                        text: "Block Updated successfully !!",
+                        type: "success"
+                    }).then(okay => {
+                        location.reload();
+                    });
+                }
+                else {
+                    swal('Unable to Update the Block Details - Please Check the logs');
+                }
                 },
                 error: function (error) {
                     swal('Unable to Update the Block Details - Please Check the logs');
@@ -227,19 +219,16 @@
                     dataType: "json",
                     data: { id: id },
                     success: function (result) {
-                        var res = $.isEmptyObject(result);
-                        if (res) {
-                            swal('Unable to Dalete the Block Details - Please Check the logs');
-                        }
-                        else {
+                        if (result == true) {
                             swal({
                                 text: "Block Deleted successfully !!",
                                 type: "success"
                             }).then(okay => {
-                                if (okay) {
-                                    location.reload();
-                                }
+                                location.reload();
                             });
+                        }
+                        else {
+                            swal('Unable to Delete the Block Details - Please Check the logs');
                         }
                     },
                     error: function (error) {

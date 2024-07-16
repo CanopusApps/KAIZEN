@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO.Enumeration;
 
 namespace Kaizen.Data.Constant
 {
@@ -68,6 +69,22 @@ namespace Kaizen.Data.Constant
         public static string KaizenType = "k";
         public static int ApprovalStatus = 0;
 
+    }
+
+
+    public enum ApprovalStatusEnum
+    {
+        Saved,            // 0
+        Submitted,        // 1
+        ImageApproved,    // 2
+        ImageRejected,    // 3
+        DRIApproved,      // 4
+        DRIRejected,      // 5
+        IEApproved,       // 6
+        IERejected,       // 7
+        FinanceApproved,  // 8
+        FinanceRejected,  // 9
+        Pending           // 10
     }
 
 
