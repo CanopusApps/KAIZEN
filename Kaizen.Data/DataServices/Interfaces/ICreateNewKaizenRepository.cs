@@ -12,8 +12,7 @@ namespace Kaizen.Data.DataServices.Interfaces
     public interface ICreateNewKaizenRepository
     {
       public DataTable GetKaizenOriginatedbyData(NewKaizenModel model);
-        public DataSet GetTeamDetails(TeamMemberDetails model);
-        public bool CreateNewKaizenData(NewKaizenModel model);
-        public DataSet getscopedetailsdata(DeploymentDetails model);
+      public bool CreateNewKaizenData(NewKaizenModel model);
+      public DataSet GetKaizenDetailsById(string KaizenId);
     }
 }

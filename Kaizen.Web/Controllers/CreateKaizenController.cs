@@ -4,6 +4,8 @@ using Kaizen.Data.Constant;
 using Microsoft.AspNetCore.Http;
 using Kaizen.Models.AdminModel;
 using Kaizen.Models.NewKaizen;
+using Kaizen.Models.SubmmitedKaizen;
+using Kaizen.Models.ViewUserModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -129,17 +131,13 @@ namespace Kaizen.Web.Controllers
             model = _createNewKaizen.GetKaizenOriginatedby(model);
             return Ok(model); 
 		}
-        public List<TeamMemberDetails> GetTeamMember(TeamMemberDetails model)
+        public NewKaizenModel GetKaizendetailsById(string KaizenId)
         {
-            List<TeamMemberDetails> teamlist = new List<TeamMemberDetails>();
-            teamlist = _createNewKaizen.getTeamdetails(model);
-            return teamlist;
-        }
-        public List<DeploymentDetails> GetScope(DeploymentDetails model)
-        {
-            List<DeploymentDetails> list = new List<DeploymentDetails>();
-            list = _createNewKaizen.getScopeDetails(model);
-            return list;
+            NewKaizenModel viewModel = new NewKaizenModel();
+            viewModel.KaizenList= _createNewKaizen.GetKaizenDetailsById(KaizenId);
+            viewModel.TeamList = _createNewKaizen.GetTeamDetailsById(KaizenId);
+            viewModel.ScopeList = _createNewKaizen.GetScopeDetailsById(KaizenId);
+            return viewModel;
         }
 
         private string SaveUploadedFile(IFormFile file, string propertyName)
