@@ -85,9 +85,9 @@ namespace Kaizen.Business.Worker
                         WithIntheDept = dr["WithIntheDept"].ToString(),
                         InOtherDept = dr["InOtherDept"].ToString(),
                         OtherPoints = dr["OtherPoints"].ToString(),
-                        DRIApprovedDate= ((DateTime)dr["DRIApprovedDate"]).ToString("dd-MM-yyyy"),
+                        DRIApprovedDate = dr["DRIApprovedDate"] != DBNull.Value ? ((DateTime)dr["DRIApprovedDate"]).ToString("dd-MM-yyyy") : string.Empty,
                         HorozantalDeployment = Convert.ToBoolean(dr["HorozantalDeployment"].ToString()),
-                        OriginatedDate = ((DateTime)dr["OrigonatedDate"]).ToString("dd-MM-yyyy"),
+                        OriginatedDate = dr["OrigonatedDate"] != DBNull.Value ? ((DateTime)dr["OrigonatedDate"]).ToString("dd-MM-yyyy") : string.Empty,
                         OrigionatedDept = dr["OrigionatedDept"].ToString(),
                         OriginatedBy= dr["OriginatedBy"].ToString(),
                     });
