@@ -160,6 +160,8 @@ namespace Kaizen.Models.NewKaizen
 		public string FileName { get; set; } = "";
         public string CreatedBy { get; set; } = "";
         public string CreatedDate { get; set; } = "";
+
+        public string AttachmentType { get; set; } = "";
     }
 
 

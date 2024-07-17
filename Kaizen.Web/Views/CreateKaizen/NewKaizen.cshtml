@@ -387,6 +387,7 @@
                                                                 <div class="row upload-interface">
                                                                     <div class="col-sm-12">
                                                                         <img id="file-image-before" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
+                                                                        
                                                                         <div class="attachtitle">Click here to attach files</div>
                                                                     </div>
                                                                 </div>
@@ -396,7 +397,6 @@
                                                         <span class="responsemessage_img_before"></span>
                                                     </div>
                                                 </div>
-
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>AFTER<span class="mandatory">*</span></label> <br>
@@ -1923,6 +1923,21 @@
                             Ad4.className = 'col-cd-3';
                             Ad5.className = 'col-cd-3';
                         });
+                        // result.attachmentsList.forEach(item => {
+                        //     var fileName = item.fileName;
+                        //     var attachmentType = item.attachmentType;
+                        //     console.log('Original fileName:', fileName);
+                        //     // if (fileName.startsWith('/')) {
+                        //     //     fileName = fileName.substring(1);
+                        //     // }
+                        //     var imgElement = $('<img>', {
+                        //         src: fileName,
+                        //         alt: 'Image'
+                        //     });
+                        //     if (attachmentType === "AttachmentBefore") {
+                        //         $('#uploaded_before_image').append(imgElement);
+                        //     }
+                        // });
 
                     }
                     else 
