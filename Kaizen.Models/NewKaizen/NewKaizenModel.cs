@@ -81,7 +81,12 @@ namespace Kaizen.Models.NewKaizen
         public string Empguid { get; set; }
         public List<BlockModel> BlockList { get; set; }
 		public List<TeamMemberDetails> MemberList { get; set; }
-		public List<DeploymentDetails> DeploymentList { get; set; }
+		public List<DeploymentDetails> DeploymentList{ get; set; }
+
+        public List<NewKaizenModel> KaizenList { get; set; }
+        public List<TeamMemberDetails> TeamList { get; set; }
+        public List<DeploymentDetails> ScopeList { get; set; }
+
         public List<IFormFile> AdditionalAttachments { get; set; }
 		public AttachmentPaths AttachmentPaths { get; set; }
         public List<Attachmentsimg> AttachmentsList { get; set; }
@@ -123,8 +128,10 @@ namespace Kaizen.Models.NewKaizen
         public string ScopeStatus { get; set; } = "";
         public string KaizenId { get; set; } = "";
 
+        public string TargetFormatDate { get; set; }
 
-	}
+    }
+
     public class AttachmentPaths
     {
         public string AttachmentBeforePath { get; set; }

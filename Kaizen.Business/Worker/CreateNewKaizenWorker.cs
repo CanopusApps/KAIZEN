@@ -44,44 +44,97 @@ namespace Kaizen.Business.Worker
         {
             return _createNewKaizenRepository.CreateNewKaizenData(model);
         }
-        public List<TeamMemberDetails> getTeamdetails(TeamMemberDetails model)
+        public List<NewKaizenModel> GetKaizenDetailsById(string KaizenId)
         {
-            DataSet ds;
-            List<TeamMemberDetails> TeamDetails = new List<TeamMemberDetails>();
-            ds = _createNewKaizenRepository.GetTeamDetails(model);
-            if (ds.Tables.Count > 0)
+            DataSet KalizenList = new DataSet();
+            List<NewKaizenModel> KaizenData = new List<NewKaizenModel>();
+            KalizenList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+
+            if (KalizenList.Tables.Count > 0)
             {
-                foreach (DataRow dr in ds.Tables[0].Rows)
+                foreach (DataRow dr in KalizenList.Tables[0].Rows)
                 {
-                    TeamDetails.Add(new TeamMemberDetails
+                    KaizenData.Add(new NewKaizenModel
                     {
-                        EmpId = dr["EmpID"].ToString(),
-                        TeamMemberName = dr["TeamName"].ToString(),
-                        FunctionName= dr["FunctionName"].ToString()
+                        Activity = dr["Activity"].ToString(),
+                        ActivityDesc = dr["ActivityDesc"].ToString(),
+                        BenefitArea = dr["BenefitArea"].ToString(),
+                        DocNo = dr["DocNo"].ToString(),
+                        VersionNoDate = dr["VersionNoDate"].ToString(),
+                        CostCentre = dr["CostCentre"].ToString(),
+                        KaizenRefNo = dr["KaizenRefNo"].ToString(),
+                        KaizenTheme = dr["KaizenTheme"].ToString(),
+                        Block = dr["Block"].ToString(),
+                        BlockDetails = dr["BlockDetails"].ToString(),
+                        SuggestedKaizen = dr["SuggestedKaizen"].ToString(),
+                        ProblemStatement = dr["ProblemStatement"].ToString(),
+                        CounterMeasure = dr["CounterMeasure"].ToString(),
+                        Yield = dr["Yield"].ToString(),
+                        CycleTime = dr["CycleTime"].ToString(),
+                        Cost = Convert.ToInt32(dr["Cost"].ToString()),
+                        ManPower = dr["ManPower"].ToString(),
+                        Consumables = dr["Consumables"].ToString(),
+                        Others = dr["Others"].ToString(),
+                        TotalSavings = dr["TotalSavings"].ToString(),
+                        RootCause = dr["RootCause"].ToString(),
+                        PresentCondition = dr["PresentCondition"].ToString(),
+                        ImprovementsCompleted = dr["ImprovementsCompleted"].ToString(),
+                        RootCauseDetails = dr["RootCauseDetails"].ToString(),
+                        Benifits = dr["Benifits"].ToString(),
+                        InOtherMc = dr["InOtherMC"].ToString(),
+                        WithIntheDept = dr["WithIntheDept"].ToString(),
+                        InOtherDept = dr["InOtherDept"].ToString(),
+                        OtherPoints = dr["OtherPoints"].ToString(),
+                        DRIApprovedDate = dr["DRIApprovedDate"] != DBNull.Value ? ((DateTime)dr["DRIApprovedDate"]).ToString("dd-MM-yyyy") : string.Empty,
+                        HorozantalDeployment = Convert.ToBoolean(dr["HorozantalDeployment"].ToString()),
+                        OriginatedDate = dr["OrigonatedDate"] != DBNull.Value ? ((DateTime)dr["OrigonatedDate"]).ToString("dd-MM-yyyy") : string.Empty,
+                        OrigionatedDept = dr["OrigionatedDept"].ToString(),
+                        OriginatedBy= dr["OriginatedBy"].ToString(),
                     });
                 }
             }
-            return TeamDetails;
+            return KaizenData;
         }
-        public List<DeploymentDetails> getScopeDetails(DeploymentDetails model)
+        public List<TeamMemberDetails> GetTeamDetailsById(string KaizenId)
         {
-            DataSet ds;
-            List<DeploymentDetails> ScopeDetails = new List<DeploymentDetails>();
-            ds = _createNewKaizenRepository.getscopedetailsdata(model);
-            if (ds.Tables.Count > 0)
+            DataSet TeamList = new DataSet();
+            List<TeamMemberDetails> TeamData = new List<TeamMemberDetails>();
+            TeamList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+
+            if (TeamList.Tables.Count > 0)
             {
-                foreach (DataRow dr in ds.Tables[0].Rows)
+                foreach (DataRow dr in TeamList.Tables[1].Rows)
                 {
-                    ScopeDetails.Add(new DeploymentDetails
+                    TeamData.Add(new TeamMemberDetails
+                    {
+                        EmpId = dr["EmpID"].ToString(),
+                        TeamMemberName = dr["TeamName"].ToString(),
+                        FunctionName = dr["FunctionName"].ToString()
+                    });
+                }
+            }
+            return TeamData;
+        }
+        public List<DeploymentDetails> GetScopeDetailsById(string KaizenId)
+        {
+            DataSet ScopeList = new DataSet();
+            List<DeploymentDetails> ScopeData = new List<DeploymentDetails>();
+            ScopeList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+
+            if (ScopeList.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ScopeList.Tables[2].Rows)
+                {
+                    ScopeData.Add(new DeploymentDetails
                     {
                         MC = dr["MC"].ToString(),
-                        TargetDate = Convert.ToDateTime(dr["TargetDate"].ToString()),
+                        TargetFormatDate = ((DateTime)dr["TargetDate"]).ToString("dd-MM-yyyy"),
                         Responsibility = dr["Responsibility"].ToString(),
                         ScopeStatus = dr["ScopeStatus"].ToString(),
                     });
                 }
             }
-            return ScopeDetails;
+            return ScopeData;
         }
     }
 

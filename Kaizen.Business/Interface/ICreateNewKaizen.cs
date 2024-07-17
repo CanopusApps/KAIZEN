@@ -13,11 +13,11 @@ namespace Kaizen.Business.Interface
     public interface ICreateNewKaizen
     {
         public NewKaizenModel GetKaizenOriginatedby(NewKaizenModel model);
-
-        public List<TeamMemberDetails> getTeamdetails(TeamMemberDetails model);
         public bool CreateNewKaizen(NewKaizenModel model);
+        public List<NewKaizenModel> GetKaizenDetailsById(string KaizenId);
+        public List<TeamMemberDetails> GetTeamDetailsById(string KaizenId);
+        public List<DeploymentDetails> GetScopeDetailsById(string KaizenId);
 
-        public List<DeploymentDetails> getScopeDetails(DeploymentDetails model);
 
     }
 }

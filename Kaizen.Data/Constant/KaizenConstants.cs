@@ -59,9 +59,8 @@ namespace Kaizen.Data.Constant
         public static string Sp_Get_Kaizen_Details = "Sp_Get_Kaizen_Details";
         public static string SpGetKaizenOriginetedby = "Sp_Get_KaizenOriginetedby";
         public static string SpKaizen_Insert = "Sp_Kaizen_Insert_test";
-        public static string Sp_Fetch_TeamMember = "Sp_Fetch_TeamMember"; 
         public static string SpGetUserManager = "Sp_GetUserManager";
-        public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
+        public static string Sp_Fetch_KaizenDetails_ById = "Sp_Fetch_KaizenDetails_ById";
     }
 
     public class ConstantValue
