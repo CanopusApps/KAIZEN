@@ -136,6 +136,25 @@ namespace Kaizen.Business.Worker
             }
             return ScopeData;
         }
+        public List<Attachmentsimg> GetImageListById(string KaizenId)
+        {
+            DataSet ImageList = new DataSet();
+            List<Attachmentsimg> Image = new List<Attachmentsimg>();
+            ImageList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+
+            if (ImageList.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ImageList.Tables[4].Rows)
+                {
+                    Image.Add(new Attachmentsimg
+                    {
+                        FileName = dr["FileName"].ToString(),
+                        AttachmentType = dr["AttachmentType"].ToString(),
+                    });
+                }
+            }
+            return Image;
+        }
     }
 
 }

@@ -137,6 +137,7 @@ namespace Kaizen.Web.Controllers
             viewModel.KaizenList= _createNewKaizen.GetKaizenDetailsById(KaizenId);
             viewModel.TeamList = _createNewKaizen.GetTeamDetailsById(KaizenId);
             viewModel.ScopeList = _createNewKaizen.GetScopeDetailsById(KaizenId);
+            viewModel.AttachmentsList= _createNewKaizen.GetImageListById(KaizenId);
             return viewModel;
         }
 
