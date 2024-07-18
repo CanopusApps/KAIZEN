@@ -44,6 +44,12 @@ namespace Kaizen.Business.Worker
         {
             return _createNewKaizenRepository.CreateNewKaizenData(model);
         }
+
+        
+        public bool SubmitKaizenDri(NewKaizenModel model)
+        {
+          return _createNewKaizenRepository.SubmitKaizenDriData(model);
+        }
         public bool updateKaizensatus(ApprovalRequest approvalRequest)
         {
             return _createNewKaizenRepository.updateKaizensatusData(approvalRequest);

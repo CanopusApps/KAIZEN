@@ -18,7 +18,7 @@ namespace Kaizen.Business.Interface
         public List<TeamMemberDetails> GetTeamDetailsById(string KaizenId);
         public List<DeploymentDetails> GetScopeDetailsById(string KaizenId);
         public List<Attachmentsimg> GetImageListById(string KaizenId);
-
+        public bool SubmitKaizenDri(NewKaizenModel model);
 
         public List<Approvers> GetApproversByID(string KaizenId);
 
