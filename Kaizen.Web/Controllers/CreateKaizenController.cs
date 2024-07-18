@@ -137,8 +137,20 @@ namespace Kaizen.Web.Controllers
             viewModel.KaizenList= _createNewKaizen.GetKaizenDetailsById(KaizenId);
             viewModel.TeamList = _createNewKaizen.GetTeamDetailsById(KaizenId);
             viewModel.ScopeList = _createNewKaizen.GetScopeDetailsById(KaizenId);
+            viewModel.Approverslist= _createNewKaizen.GetApproversByID(KaizenId);
+            HttpContext.Session.Remove("Kaizenid");
+            HttpContext.Session.SetString("Kaizenid", KaizenId);
+
+
             viewModel.AttachmentsList= _createNewKaizen.GetImageListById(KaizenId);
             return viewModel;
+        }
+
+        [HttpPost]
+        public IActionResult getstatus([FromBody] ApprovalRequest request) {
+            request.kaizenID= conAccessor.HttpContext.Session.GetString("Kaizenid");          
+            bool result = _createNewKaizen.updateKaizensatus(request);
+            return Ok(result);
         }
 
         private string SaveUploadedFile(IFormFile file, string propertyName)

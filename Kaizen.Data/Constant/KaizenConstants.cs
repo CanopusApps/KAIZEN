@@ -61,6 +61,7 @@ namespace Kaizen.Data.Constant
         public static string SpKaizen_Insert = "Sp_Kaizen_Insert_test";
         public static string SpGetUserManager = "Sp_GetUserManager";
         public static string Sp_Fetch_KaizenDetails_ById = "Sp_Fetch_KaizenDetails_ById";
+        public static string Sp_UpdateApprovalStatus = "UpdateApprovalStatus";
     }
 
     public class ConstantValue
