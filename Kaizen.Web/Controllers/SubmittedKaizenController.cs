@@ -65,7 +65,7 @@ namespace Kaizen.Web.Controllers
                 Status = Status,
                 Shortlisted = Shortlisted
             };
-            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);///
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
         public List<DepartmentModel> FetchDepartment(string domainid)

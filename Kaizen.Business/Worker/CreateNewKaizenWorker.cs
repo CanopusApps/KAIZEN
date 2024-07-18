@@ -1,4 +1,5 @@
 ﻿using Kaizen.Business.Interface;
+using Kaizen.Data.Constant;
 using Kaizen.Data.DataServices;
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.AdminModel;
@@ -59,6 +60,8 @@ namespace Kaizen.Business.Worker
             DataSet KalizenList = new DataSet();
             List<NewKaizenModel> KaizenData = new List<NewKaizenModel>();
             KalizenList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+            //string Approvalstatus = ApprovalStatusEnum.IEApproved.ToString();
+
 
             if (KalizenList.Tables.Count > 0)
             {
@@ -66,6 +69,9 @@ namespace Kaizen.Business.Worker
                 {
                     KaizenData.Add(new NewKaizenModel
                     {
+                        Rejectionreason= dr["Rejectionreason"].ToString(),
+                        ApprovalStatus = Convert.ToInt32(dr["ApprovalStatus"]),
+                        Approvalstatusdesc = dr["StatusDescription"].ToString(),
                         Activity = dr["Activity"].ToString(),
                         ActivityDesc = dr["ActivityDesc"].ToString(),
                         BenefitArea = dr["BenefitArea"].ToString(),

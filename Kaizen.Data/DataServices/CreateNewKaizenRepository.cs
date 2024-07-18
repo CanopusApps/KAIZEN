@@ -330,6 +330,7 @@ namespace Kaizen.Data.DataServices
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@KaizenId", approvalRequest.kaizenID);
                 com.Parameters.AddWithValue("@ApprovalStatus", approvalRequest.approvalStatus);
+                com.Parameters.AddWithValue("@Rejectionreason", approvalRequest.RejectionReason);
                 com.CommandText = StoredProcedures.Sp_UpdateApprovalStatus;
                 con.Open();
                 com.ExecuteNonQuery();
