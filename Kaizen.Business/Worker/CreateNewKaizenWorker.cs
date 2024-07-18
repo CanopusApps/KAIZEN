@@ -44,6 +44,10 @@ namespace Kaizen.Business.Worker
         {
             return _createNewKaizenRepository.CreateNewKaizenData(model);
         }
+        public bool updateKaizensatus(ApprovalRequest approvalRequest)
+        {
+            return _createNewKaizenRepository.updateKaizensatusData(approvalRequest);
+        }
         public List<NewKaizenModel> GetKaizenDetailsById(string KaizenId)
         {
             DataSet KalizenList = new DataSet();
@@ -154,6 +158,37 @@ namespace Kaizen.Business.Worker
                 }
             }
             return Image;
+        }
+        public List<Approvers> GetApproversByID(string KaizenId)
+        {
+            DataSet ApproversList = new DataSet();
+            List<Approvers> ApproversData = new List<Approvers>();
+            ApproversList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+
+            if (ApproversList.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ApproversList.Tables[3].Rows)
+                {
+                    ApproversData.Add(new Approvers
+                    {
+                        KaizenId = dr["kaizenId"].ToString(),
+                      ImageAproveName= dr["ImageAproveName"].ToString(),
+                        DriName = dr["DriName"].ToString(),
+                        FinnaceName = dr["FinnaceName"].ToString(),
+                        IEname = dr["IEname"].ToString(),
+                        DriEmail = dr["DriEmail"].ToString(),
+                        FinanceEmail = dr["FinanceEmail"].ToString(),
+                        IeEmail = dr["IeEmail"].ToString(),
+                        DriDomain = dr["DriDomain"].ToString(),
+                        IEDomain = dr["IEDomain"].ToString(),
+                        FinDomain = dr["FinDomain"].ToString(),
+                        DriDept = dr["DriDept"].ToString(),
+                        FinDept= dr["FinDept"].ToString(),
+                        IEDept = dr["IEDept"].ToString()
+                    });
+                }
+            }
+            return ApproversData;
         }
     }
 

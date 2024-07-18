@@ -56,6 +56,10 @@
         width: 100%;
     }
 
+    .btn-success {
+        pointer-events: none;
+        cursor: not-allowed!important;
+    }
 </style>
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
 <div class="content-body body mb-2">
@@ -214,8 +218,9 @@
                                                                 <div class="form-group">
                                                                     <label>Version No/Date<span class="mandatory">*</span></label>
                                                                     <input type="text" name="versionNo" id="versionNo" class="form-control mb10" value= "01/ @Model.OriginatedDate">
-                                                                  @*   <input type="text" name="Id" id="kaizenid" class="form-control mb10" hidden>
-                                                                    <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("UserID")"> *@
+                                                                   <input type="text" name="Id" id="kaizenIDD" class="form-control mb10" hidden >
+                                                                   @*  <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("UserID")">  *@
+                                                                    <input type="hidden" id="Userrole" data-role="@Accessor.HttpContext.Session.GetString("Userrole")">
 
                                                                 </div>
                                                             </div>
@@ -708,11 +713,11 @@
                             <label class="font-weight-bold">Horizontal Deployment</label>
                             <div class="controls">
                                 <label class="radio inline">
-                                    <input type="radio" name="horizontalDeployment" value="1" id="yesRadio" />
+                                    <input type="radio" name="horizontalDeployment" value="1" id="yesRadio"  />
                                     Yes
                                 </label>
                                 <label class="radio inline">
-                                    <input type="radio" name="horizontalDeployment" value="0" checked id="noRadio" />
+                                    <input type="radio" name="horizontalDeployment" value="0" checked id="noRadio"   />
                                     No
                                 </label>
                             </div>
@@ -1017,6 +1022,7 @@
                                                 Tata Electronics Private Limited
                                             </p>
                                         </div>
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -1031,71 +1037,78 @@
                 <input class="ac-input" id="ac-6" name="accordion-1" type="checkbox" checked />
                 <label class="ac-label" for="ac-6">Approvers <i></i></label>
                 <div class="article ac-content">
-                    <div class="col-lg-12 py-2">
+                    <div class="col-lg-12 py-2" >
                     <div class="row">
-                        <!-- IE Dept Card -->
-                            <div class="col-md-4" >
+                            <!-- DRI Card -->
+                            <div id="DRIDept" class="col-md-4" style="display: none;">
+                                <div class="card carddashed">
+                                    <div class="card-header">DRI</div>
+                                    <div class="card-body">
+                                        <div><strong>Name :</strong> <span id="driName"></span></div>
+                                        <div><strong>Email :</strong> <span id="driEmail"></span></div>
+                                        <div><strong>Department :</strong><span id="dDom"></span>- <span id="dDept"></span></div>
+                                        <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
+                                        <div><strong>Rejected Reason :</strong> <span id="driRejectedReason"></span></div>
+                                        <div><strong>Date & Time :</strong> <span id="driDateTime"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- IE Dept Card -->
+                            <div class="col-md-4" id="IEDept" style="display: none;">
                                 <div class="card  carddashed">
                                 <div class="card-header">IE Dept</div>
                                 <div class="card-body">
-                                    <div><strong>Name :</strong> Esakkimuthu S</div>
-                                    <div><strong>Email :</strong> esakkimuthu@tataelectronics.co.in</div>
-                                    <div><strong>Department :</strong> Production - Anodizing</div>
+                                        <div><strong>Name :</strong> <span id="ieName"></span></div>
+                                        <div><strong>Email :</strong> <span id="ieEmail"></span></div>
+                                        <div><strong>Department :</strong><span id="ieeDom"></span>-<span id="ieeDept"></span></div>
                                         <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
-                                    <div><strong>Rejected Reason :</strong> -</div>
-                                    <div><strong>Date & Time :</strong> July 14</div>
+                                        <div><strong>Rejected Reason :</strong> <span id="ieRejectedReason"></span></div>
+                                        <div><strong>Date & Time :</strong> <span id="ieDateTime"></span></div>
                                 </div>
                             </div>
                         </div>
                         <!-- Finance Dept Card -->
-                            <div class="col-md-4" ">
+                            <div id="FinanceDept" class="col-md-4" style="display: none;">
                                 <div class="card carddashed">
                                 <div class="card-header">Finance Dept</div>
                                 <div class="card-body">
-                                    <div><strong>Name :</strong> Tajender Khurana</div>
-                                    <div><strong>Email :</strong>gv@gmail.com</div>
-                                    <div><strong>Department :</strong> Finance and Legal - Finance</div>
+                                        <div><strong>Name :</strong> <span id="finName"></span></div>
+                                        <div><strong>Email :</strong> <span id="finEmail"></span></div>
+                                        <div><strong>Department :</strong> <span id="finDom"></span>-<span id="finDept"></span></div>
                                         <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
-                                        <div><strong>Rejected Reason :</strong> -</div>
-                                    <div><strong>Date & Time :</strong> July 14</div>
+                                        <div><strong>Rejected Reason :</strong> <span id="finRejectedReason"></span></div>
+                                        <div><strong>Date & Time :</strong> <span id="finDateTime"></span></div>
                                 </div>
                             </div>
                         </div>
-
-
-                        <!-- DRI Card -->
-                        <div class="col-md-4" >
-                                <div class="card carddashed">
-                                <div class="card-header">DRI</div>
-                                <div class="card-body">
-                                    <div><strong>Name :</strong> Arunabha Nath</div>
-                                    <div><strong>Email :</strong> arunabha.nath@tataelectronics.co.in</div>
-                                    <div><strong>Department :</strong> Production - Anodizing</div>
-                                        <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
-                                    <div><strong>Rejected Reason :</strong> -</div>
-                                    <div><strong>Date & Time :</strong> July 14</div>
-                                </div>
-                            </div>
-                        </div>                        
                    
-                    
                             <!-- Image Sanitization Card -->
-                            <div class="col-md-4">
+                            <div id="ImageApprover" class="col-md-4" style="display: none;">
                                 <div class="card carddashed">
                                     <div class="card-header">Image Sanitization</div>
                                     <div class="card-body">
-                                        <div><strong>Name :</strong> HARISH M</div>
+                                        <div><strong>Name :</strong> <span id="imageaprName"></span></div>
                                         <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="col-sm-12 ">
+                        <div class="col-sm-12" id="Editbtn">
+                            <label>Would You Like To Edit Kaizen :</label>
+                         
+                            <button class="btn btn-warning">Edit </button>
+                            
+                            </div>
+                        <div class="col-sm-12 " id="Aprrovalbtn">
+                           
                             <div class="card-body float-left">
-                                <button class="btn btn-success">Approve Kaizen</button>
-                                <button class="btn btn-warning">Hold </button>
-                                <button class="btn btn-danger">Reject Kaizen</button>
+                                <div>
+                                     <label class="btn btn-success" id="waitingapproval" >Waiting for Your Approval</label>
+                                    <label class="btn btn-success" id="waitingimage">Waiting for Image Sanitation</label>
+                                </div>
+                                <button class="btn btn-primary" id="ApprovButton">Approve</button>
+                                <button class="btn btn-danger"  id="rejectButton" >Reject</button>
+                                <button class="btn btn-warning" id="Aprrovalbtnhold">Hold </button>
                             </div>
                         </div>
 
@@ -1125,6 +1138,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" crossorigin="anonymous"></script>
 <script>
+
     // function generateGUID() {
     //     debugger;
     //     function s4() {
@@ -1139,6 +1153,147 @@
     // window.onload = function () {
     //     updateGUID();
     // }
+    $(document).ready(function () {
+        var userRole = $('#Userrole').data('role');
+        debugger;
+        
+        function handleButtonClick(enumValue) {
+            $.ajax({
+                url: '/CreateKaizen/getstatus',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    approvalStatus: enumValue,
+                    
+                }),
+                success: function (response) {
+                    swal("status Updated");
+                },
+                error: function (error) {
+                    swal("some error");
+                }
+            });
+        }
+        $('#rejectButton').click(function () {
+            let enumValue;
+            switch (userRole) {
+                case 'IE DEPT':
+                    enumValue = 7; // IERejected
+                    break;
+                case 'FINNACE':
+                    enumValue = 9; // FinanceRejected
+                    break;
+                case 'MANAGER':
+                    enumValue = 5; //DriRejected
+                    break;
+                case 'IMAGE APPROVER':
+                    enumValue = 3; // ImageRejected
+                    break;
+                default:
+                    enumValue = 10; // Pending or some default value
+                    break;
+            }
+            handleButtonClick(enumValue);
+        });
+
+        $('#ApprovButton').click(function () {
+            debugger;
+            let enumValue;
+            switch (userRole) {
+                case 'IE DEPT':
+                    enumValue = 6; // IEApproved
+                    break;
+                case 'FINNACE':
+                    enumValue = 8; // FinanceApproved
+                    break;
+                case 'MANAGER':
+                    enumValue = 4; // ImageApproved
+                    break;
+                case 'IMAGE APPROVER':
+                    enumValue = 2; // ImageApproved
+                    break;
+                default:
+                    enumValue = 0; // Saved or some default value
+                    break;
+            }
+            handleButtonClick(enumValue);
+        });
+
+        $('#Aprrovalbtnhold').click(function () {
+            let enumValue;
+            switch (userRole) {
+                case 'IE DEPT':
+                    enumValue = 10; // Pending or some specific hold value
+                    break;
+                case 'FINNACE':
+                    enumValue = 10; // Pending or some specific hold value
+                    break;
+                case 'MANAGER':
+                    enumValue = 10; // Pending or some specific hold value
+                    break;
+                case 'IMAGE APPROVER':
+                    enumValue = 10; // Pending or some specific hold value
+                    break;
+                default:
+                    enumValue = 10; // Pending or some default value
+                    break;
+            }
+            handleButtonClick(enumValue);
+        });
+    });
+
+    window.onload = function () {
+        debugger;
+        var userRole = $('#Userrole').data('role');
+
+    function showHideDivsByRole(userRole) {
+        $('#IEDept').hide();
+        $('#FinanceDept').hide();
+        $('#DRIDept').hide();
+        $('#ImageApprover').hide();
+        $('#Aprrovalbtn').hide();
+        $('#Editbtn').hide();
+            $('#waitingapproval').hide();
+            $('#waitingimage').hide();
+          
+        switch (userRole) {
+                case 'IE DEPT':
+                    $('#DRIDept').show();
+                $('#IEDept').show();
+                $('#Aprrovalbtn').show();
+                $('#waitingapproval').show();
+                break;
+                case 'FINNACE':
+                    $('#DRIDept').show();
+                $('#IEDept').show();
+                $('#FinanceDept').show();
+                $('#Aprrovalbtn').show();
+                $('#waitingapproval').show();
+                break;
+                case 'MANAGER':
+               
+                $('#DRIDept').show();
+                    $('#Editbtn').show();
+                    $('#Aprrovalbtn').show();
+                    $('#waitingapproval').show();
+                break;
+                case 'ADMIN':
+                    $('#IEDept').show();
+                    $('#FinanceDept').show();
+                    $('#DRIDept').show();
+                    $('#ImageApprover').show();
+                    break;
+                case 'IMAGE APPROVER':
+                    $('#waitingimage').show();
+                    $('#ImageApprover').show(); 
+                    $('#Aprrovalbtn').show();
+                $('#Aprrovalbtnhold').hide();
+                 break;                        
+        }
+    }
+   
+        showHideDivsByRole(userRole);
+    }
     document.addEventListener('DOMContentLoaded', function () {
         var approversDiv = document.getElementById('approvers');
         var savebutton = document.getElementById('saveItButton');
@@ -1152,12 +1307,15 @@
             }
         }
     });
-    document.getElementById('yesRadio').addEventListener('change', function () {       
+   
+    document.getElementById('yesRadio').addEventListener('change', function () { 
+        
         document.getElementById('toggleContent').style.display = 'block';
     });
 
     document.getElementById('noRadio').addEventListener('change', function () {
         document.getElementById('toggleContent').style.display = 'none';
+       
        
     });
     $('#multiple-select-field').select2({
@@ -1541,6 +1699,8 @@
            
             
             // Append text and file fields to formData
+
+           
             formData.append('Block', $('#BlockName').val());
             formData.append('BlockDetails', $('#BlockName option:selected').text());
             formData.append('Activity', activityValue);
@@ -1777,8 +1937,29 @@
                     KaizenId: KaizenId
                 },
                 success: function (result) {
+                    debugger;
                     if (result) {
+
+                        $('#dDept').text(result.approverslist[0].driDept);
+                        $('#driName').text(result.approverslist[0].driName);
+                        $('#driEmail').text(result.approverslist[0].driEmail);
+                        $('#dDom').text(result.approverslist[0].driDomain);
+
+                        $('#ieeDept').text(result.approverslist[0].ieDept);
+                        $('#ieName').text(result.approverslist[0].iEname);
+                        $('#ieEmail').text(result.approverslist[0].ieEmail);
+                        $('#ieeDom').text(result.approverslist[0].ieDomain);
+
+                        $('#finDept').text(result.approverslist[0].finDept);
+                        $('#finName').text(result.approverslist[0].finnaceName );
+                        $('#finEmail').text(result.approverslist[0].financeEmail);
+                        $('#finDom').text(result.approverslist[0].finDomain);
+                      
+                        $('#imageaprName').text(result.approverslist[0].imageAproveName);
+                        
                         $("#docNo").val(result.kaizenList[0].docNo);
+                       
+
                         $("#versionNo").val(result.kaizenList[0].versionNoDate);
                         $("#refNo").val(result.kaizenList[0].kaizenRefNo);
                         $("#codeCentre").val(result.kaizenList[0].costCentre);
@@ -1822,6 +2003,8 @@
                         $("#withinDept").val(result.kaizenList[0].withIntheDept);
                         $("#InotherDept").val(result.kaizenList[0].inOtherDept);
                         $("#Otherpoints").val(result.kaizenList[0].otherPoints);
+                      
+
                         var dateStr = result.kaizenList[0].driApprovedDate;
                         var parts = dateStr.split('-');
                         var day = parts[0];

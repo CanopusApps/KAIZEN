@@ -195,5 +195,31 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+
+        public bool updateKaizensatusData(ApprovalRequest approvalRequest)
+        {
+            bool status = false;
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@KaizenId", approvalRequest.kaizenID);
+                com.Parameters.AddWithValue("@ApprovalStatus", approvalRequest.approvalStatus);
+                com.CommandText = StoredProcedures.Sp_UpdateApprovalStatus;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                return status=true;
+            }
+            catch (Exception ex)
+            {
+
+
+                throw ex;
+            }
+            return status;
+            
+        }
     }
 }

@@ -86,10 +86,12 @@ namespace Kaizen.Models.NewKaizen
         public List<NewKaizenModel> KaizenList { get; set; }
         public List<TeamMemberDetails> TeamList { get; set; }
         public List<DeploymentDetails> ScopeList { get; set; }
-
+        public List<Approvers> Approverslist { get; set; }
         public List<IFormFile> AdditionalAttachments { get; set; }
 		public AttachmentPaths AttachmentPaths { get; set; }
         public List<Attachmentsimg> AttachmentsList { get; set; }
+
+
         public string LogFilePath { get; set; }
         public NewKaizenModel()
         {
@@ -164,5 +166,32 @@ namespace Kaizen.Models.NewKaizen
         public string AttachmentType { get; set; } = "";
     }
 
+
+    public class Approvers
+    {
+        public string ImageAproveName { get; set; }
+        public string DriName { get; set; }
+        public string FinnaceName { get; set; }
+        public string IEname { get; set; }
+        public string DriEmail { get; set; }
+        public string FinanceEmail { get; set; }
+        public string IeEmail { get; set; }
+        public string KaizenId { get; set; }
+        public string DriDomain { get; set; }
+        public string FinDomain { get; set; }
+        public string IEDomain { get; set; }
+        public string DriDept { get; set; }
+
+        public string FinDept { get; set; }
+        public string IEDept { get; set; }
+    }
+    public class ApprovalRequest
+    {
+        public int approvalStatus { get; set; }
+
+        public string kaizenID { get; set; }
+
+
+    }
 
 }

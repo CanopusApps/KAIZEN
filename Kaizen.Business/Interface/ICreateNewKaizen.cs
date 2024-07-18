@@ -20,6 +20,10 @@ namespace Kaizen.Business.Interface
         public List<Attachmentsimg> GetImageListById(string KaizenId);
 
 
+        public List<Approvers> GetApproversByID(string KaizenId);
+
+        public bool updateKaizensatus(ApprovalRequest approvalRequest);
+
 
     }
 }
