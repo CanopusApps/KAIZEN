@@ -1,0 +1,137 @@
+﻿@model Kaizen.Models.ReportModel.KaizenReportModel
+@{
+    Layout = "SidebarLayout";
+}
+<style>
+    .table thead th {
+        border-bottom-width: 1px;
+        text-transform: uppercase;
+        font-size: 11px;
+        font-family: sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        line-height: 3;
+        background-color: #EEEEEE !important;
+    }
+
+    table {
+        display: table;
+        border-collapse: separate;
+        box-sizing: border-box;
+        text-indent: initial;
+        unicode-bidi: isolate;
+        border-spacing: 3px;
+        border-color: gray;
+    }
+
+    .dow {
+        color: black !important;
+    }
+</style>
+<div class="container-fluid">
+    <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+        <div class="col-lg-12 p-md-0 p-2">
+            <div class="welcome-text">
+                <h4 class="text-primary">Report</h4>
+                <p>Kaizen Form --> Report Downloads</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-3 mt-5 ">
+        <div class="col-lg-12 mb-3">
+            <div class="row">
+                <div class="col-lg-4 mb-2">
+                    <h5 class="text-primary">Report List :</h5>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="StartDate">Start Date</label>
+                            <input id="startDate" class="form-control text-primary bg-light" type="date" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="EndDate">End Date</label>
+                            <input id="endDate" class="form-control text-primary bg-light" type="date" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                    <table class="table table-bordered  tablerefresh" broder="">
+                        <thead>
+                            <tr class="tablesort">
+                                <th class="text-center">#</th>
+                                <th class="text-center">UTILITIES</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td><p><b>Kaizen Form</b><span class="float-right">Total Rows :11</span></p></td>
+                                <td class="text-center"><button class="btn btn-warning dow" id="Kaizenformdownload">Download</button></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td><p><b>Idea Generation</b><span class="float-right">Total Rows :12</span></p></td>
+                                <td class="text-center"><a><span class="btn btn-warning dow">Download</span></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#Kaizenformdownload').on('click', function () {
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            var startparts = startDate.split('-');
+            var Startdate = `${parseInt(startparts[2])}-${parseInt(startparts[1])}-${startparts[0]}`;
+
+            var endparts = endDate.split('-');
+            var Enddate = `${parseInt(endparts[2])}-${parseInt(endparts[1])}-${endparts[0]}`;
+
+            var report = {
+                StartDate: Startdate,
+                EndDate: Enddate
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/Reports/KaizenForm',
+                dataType: "json",
+                data: report,
+                success: function (response) {
+                    if (response.success) {
+                        var downloadLink = document.createElement('a');
+                        downloadLink.href = '/Reports/DownloadExcel?file=' + response.fileName;
+                        downloadLink.download = 'KaizenReport.xlsx';
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+                        document.body.removeChild(downloadLink);
+                    } else {
+                        console.log('Error generating report.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
