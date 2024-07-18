@@ -4,6 +4,7 @@ using Kaizen.Data.DataContent;
 using Kaizen.Data.DataServices;
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.NewKaizen;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 
 
@@ -12,6 +13,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<NewKaizenModel>(builder.Configuration.GetSection("Information"));
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
+    AddCookie(options =>
+    {
+        options.LoginPath = "/Login/Index";
+    });
 
 
 // Add services to the container.
@@ -51,7 +57,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
