@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace Kaizen.Business.Worker
         }
         public NewKaizenModel GetKaizenOriginatedby(NewKaizenModel model)
         {
-          DataTable  dt = _createNewKaizenRepository.GetKaizenOriginatedbyData(model);
+            DataTable dt = _createNewKaizenRepository.GetKaizenOriginatedbyData(model);
             foreach (DataRow row in dt.Rows)
             {
                 model.Empguid = string.IsNullOrEmpty($"{row["ID"]}") ? string.Empty : Convert.ToString($"{row["ID"]}");
@@ -44,5 +45,157 @@ namespace Kaizen.Business.Worker
             return _createNewKaizenRepository.CreateNewKaizenData(model);
         }
 
+        
+        public bool SubmitKaizenDri(NewKaizenModel model)
+        {
+          return _createNewKaizenRepository.SubmitKaizenDriData(model);
+        }
+        public bool updateKaizensatus(ApprovalRequest approvalRequest)
+        {
+            return _createNewKaizenRepository.updateKaizensatusData(approvalRequest);
+        }
+        public List<NewKaizenModel> GetKaizenDetailsById(string KaizenId)
+        {
+            DataSet KalizenList = new DataSet();
+            List<NewKaizenModel> KaizenData = new List<NewKaizenModel>();
+            KalizenList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+
+            if (KalizenList.Tables.Count > 0)
+            {
+                foreach (DataRow dr in KalizenList.Tables[0].Rows)
+                {
+                    KaizenData.Add(new NewKaizenModel
+                    {
+                        Activity = dr["Activity"].ToString(),
+                        ActivityDesc = dr["ActivityDesc"].ToString(),
+                        BenefitArea = dr["BenefitArea"].ToString(),
+                        DocNo = dr["DocNo"].ToString(),
+                        VersionNoDate = dr["VersionNoDate"].ToString(),
+                        CostCentre = dr["CostCentre"].ToString(),
+                        KaizenRefNo = dr["KaizenRefNo"].ToString(),
+                        KaizenTheme = dr["KaizenTheme"].ToString(),
+                        Block = dr["Block"].ToString(),
+                        BlockDetails = dr["BlockDetails"].ToString(),
+                        SuggestedKaizen = dr["SuggestedKaizen"].ToString(),
+                        ProblemStatement = dr["ProblemStatement"].ToString(),
+                        CounterMeasure = dr["CounterMeasure"].ToString(),
+                        Yield = dr["Yield"].ToString(),
+                        CycleTime = dr["CycleTime"].ToString(),
+                        Cost = Convert.ToInt32(dr["Cost"].ToString()),
+                        ManPower = dr["ManPower"].ToString(),
+                        Consumables = dr["Consumables"].ToString(),
+                        Others = dr["Others"].ToString(),
+                        TotalSavings = dr["TotalSavings"].ToString(),
+                        RootCause = dr["RootCause"].ToString(),
+                        PresentCondition = dr["PresentCondition"].ToString(),
+                        ImprovementsCompleted = dr["ImprovementsCompleted"].ToString(),
+                        RootCauseDetails = dr["RootCauseDetails"].ToString(),
+                        Benifits = dr["Benifits"].ToString(),
+                        InOtherMc = dr["InOtherMC"].ToString(),
+                        WithIntheDept = dr["WithIntheDept"].ToString(),
+                        InOtherDept = dr["InOtherDept"].ToString(),
+                        OtherPoints = dr["OtherPoints"].ToString(),
+                        DRIApprovedDate = dr["DRIApprovedDate"] != DBNull.Value ? ((DateTime)dr["DRIApprovedDate"]).ToString("dd-MM-yyyy") : string.Empty,
+                        HorozantalDeployment = Convert.ToBoolean(dr["HorozantalDeployment"].ToString()),
+                        OriginatedDate = dr["OrigonatedDate"] != DBNull.Value ? ((DateTime)dr["OrigonatedDate"]).ToString("dd-MM-yyyy") : string.Empty,
+                        OrigionatedDept = dr["OrigionatedDept"].ToString(),
+                        OriginatedBy= dr["OriginatedBy"].ToString(),
+                    });
+                }
+            }
+            return KaizenData;
+        }
+        public List<TeamMemberDetails> GetTeamDetailsById(string KaizenId)
+        {
+            DataSet TeamList = new DataSet();
+            List<TeamMemberDetails> TeamData = new List<TeamMemberDetails>();
+            TeamList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+
+            if (TeamList.Tables.Count > 0)
+            {
+                foreach (DataRow dr in TeamList.Tables[1].Rows)
+                {
+                    TeamData.Add(new TeamMemberDetails
+                    {
+                        EmpId = dr["EmpID"].ToString(),
+                        TeamMemberName = dr["TeamName"].ToString(),
+                        FunctionName = dr["FunctionName"].ToString()
+                    });
+                }
+            }
+            return TeamData;
+        }
+        public List<DeploymentDetails> GetScopeDetailsById(string KaizenId)
+        {
+            DataSet ScopeList = new DataSet();
+            List<DeploymentDetails> ScopeData = new List<DeploymentDetails>();
+            ScopeList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+
+            if (ScopeList.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ScopeList.Tables[2].Rows)
+                {
+                    ScopeData.Add(new DeploymentDetails
+                    {
+                        MC = dr["MC"].ToString(),
+                        TargetFormatDate = ((DateTime)dr["TargetDate"]).ToString("dd-MM-yyyy"),
+                        Responsibility = dr["Responsibility"].ToString(),
+                        ScopeStatus = dr["ScopeStatus"].ToString(),
+                    });
+                }
+            }
+            return ScopeData;
+        }
+        public List<Attachmentsimg> GetImageListById(string KaizenId)
+        {
+            DataSet ImageList = new DataSet();
+            List<Attachmentsimg> Image = new List<Attachmentsimg>();
+            ImageList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+
+            if (ImageList.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ImageList.Tables[4].Rows)
+                {
+                    Image.Add(new Attachmentsimg
+                    {
+                        FileName = dr["FileName"].ToString(),
+                        AttachmentType = dr["AttachmentType"].ToString(),
+                    });
+                }
+            }
+            return Image;
+        }
+        public List<Approvers> GetApproversByID(string KaizenId)
+        {
+            DataSet ApproversList = new DataSet();
+            List<Approvers> ApproversData = new List<Approvers>();
+            ApproversList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
+
+            if (ApproversList.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ApproversList.Tables[3].Rows)
+                {
+                    ApproversData.Add(new Approvers
+                    {
+                        KaizenId = dr["kaizenId"].ToString(),
+                      ImageAproveName= dr["ImageAproveName"].ToString(),
+                        DriName = dr["DriName"].ToString(),
+                        FinnaceName = dr["FinnaceName"].ToString(),
+                        IEname = dr["IEname"].ToString(),
+                        DriEmail = dr["DriEmail"].ToString(),
+                        FinanceEmail = dr["FinanceEmail"].ToString(),
+                        IeEmail = dr["IeEmail"].ToString(),
+                        DriDomain = dr["DriDomain"].ToString(),
+                        IEDomain = dr["IEDomain"].ToString(),
+                        FinDomain = dr["FinDomain"].ToString(),
+                        DriDept = dr["DriDept"].ToString(),
+                        FinDept= dr["FinDept"].ToString(),
+                        IEDept = dr["IEDept"].ToString()
+                    });
+                }
+            }
+            return ApproversData;
+        }
     }
+
 }

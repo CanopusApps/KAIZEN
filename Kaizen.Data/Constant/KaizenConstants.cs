@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO.Enumeration;
 
 namespace Kaizen.Data.Constant
 {
@@ -61,6 +62,8 @@ namespace Kaizen.Data.Constant
         public static string Sp_Fetch_TeamMember = "Sp_Fetch_TeamMember"; 
         public static string Sp_UserProfile = "Sp_UserProfile";
         public static string SpGetUserManager = "Sp_GetUserManager";
+        public static string Sp_Fetch_KaizenDetails_ById = "Sp_Fetch_KaizenDetails_ById";
+        public static string Sp_UpdateApprovalStatus = "UpdateApprovalStatus";
     }
 
     public class ConstantValue
@@ -68,6 +71,22 @@ namespace Kaizen.Data.Constant
         public static string KaizenType = "k";
         public static int ApprovalStatus = 0;
 
+    }
+
+
+    public enum ApprovalStatusEnum
+    {
+        Saved,            // 0
+        Submitted,        // 1
+        ImageApproved,    // 2
+        ImageRejected,    // 3
+        DRIApproved,      // 4
+        DRIRejected,      // 5
+        IEApproved,       // 6
+        IERejected,       // 7
+        FinanceApproved,  // 8
+        FinanceRejected,  // 9
+        Pending           // 10
     }
 
 

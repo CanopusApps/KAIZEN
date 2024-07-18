@@ -135,20 +135,16 @@
                 data: { DomainModel: domainmodel },
                 success: function (result) {
                     // Handle success (if needed)
-                    var res = $.isEmptyObject(result);
-
-                    if (res) {
-                        swal('Unable to Save the Domain Details - Please Check the logs');
-                    }
-                    else {
+                    if (result == true) {
                         swal({
-                            text: "Domain Added successfully !!",
+                            text: "Domain Saved successfully !!",
                             type: "success"
                         }).then(okay => {
-                            if (okay) {
-                                location.reload();
-                            }
+                            location.reload();
                         });
+                    }
+                    else {
+                        swal('Unable to Save the Domain Details - Please Check the logs');
                     }
                 },
                 error: function (error) {
@@ -191,17 +187,16 @@
             data: domainmodel,
             success: function (result) {
                 // Handle success
-                if ($.isEmptyObject(result)) {
-                    swal('Unable to Update the Domain Details - Please Check the logs');
-                } else {
+                if (result == true) {
                     swal({
-                        text: 'Domain Updated successfully !!',
-                        type: 'success'
+                        text: "Domain Updated successfully !!",
+                        type: "success"
                     }).then(okay => {
-                        if (okay) {
-                            location.reload();
-                        }
+                        location.reload();
                     });
+                }
+                else {
+                    swal('Unable to Update the Domain Details - Please Check the logs');
                 }
             },
             error: function (error) {
@@ -229,19 +224,16 @@
                     dataType: "json",
                     data: { id: id },
                     success: function (result) {
-                        var res = $.isEmptyObject(result);
-                        if (res) {
-                            swal('Unable to Dalete the Domain Details - Please Check the logs');
-                        }
-                        else {
+                        if (result == true) {
                             swal({
                                 text: "Domain Deleted successfully !!",
                                 type: "success"
                             }).then(okay => {
-                                if (okay) {
-                                    location.reload();
-                                }
+                                location.reload();
                             });
+                        }
+                        else {
+                            swal('Unable to Delete the Domain Details - Please Check the logs');
                         }
                     },
                     error: function (error) {

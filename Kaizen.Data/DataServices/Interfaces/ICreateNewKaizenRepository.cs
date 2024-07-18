@@ -12,6 +12,9 @@ namespace Kaizen.Data.DataServices.Interfaces
     public interface ICreateNewKaizenRepository
     {
       public DataTable GetKaizenOriginatedbyData(NewKaizenModel model);
-        public bool CreateNewKaizenData(NewKaizenModel model);
+      public bool CreateNewKaizenData(NewKaizenModel model);
+      public bool SubmitKaizenDriData(NewKaizenModel model);
+      public bool updateKaizensatusData(ApprovalRequest approvalRequest);
+      public DataSet GetKaizenDetailsById(string KaizenId);
     }
 }
