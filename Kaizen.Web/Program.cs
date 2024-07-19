@@ -1,3 +1,4 @@
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Kaizen.Business.Interface;
 using Kaizen.Business.Worker;
 using Kaizen.Data.DataContent;
@@ -38,6 +39,8 @@ builder.Services.AddScoped<ISubmittedKaizen, SubmittedKaizenWorker>();
 builder.Services.AddScoped<ISubmittedKaizenRepository, SubmittedKaizenRepository>();
 builder.Services.AddScoped<ICreateNewKaizen, CreateNewKaizenWorker>();
 builder.Services.AddScoped<ICreateNewKaizenRepository,CreateNewKaizenRepository>();
+builder.Services.AddScoped<IReport, ReportWorker>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
