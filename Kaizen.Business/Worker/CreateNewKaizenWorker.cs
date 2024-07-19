@@ -69,7 +69,10 @@ namespace Kaizen.Business.Worker
                 {
                     KaizenData.Add(new NewKaizenModel
                     {
-                        Rejectionreason= dr["Rejectionreason"].ToString(),
+                        DRIApprovedDate = dr["DRIApprovedDate"] != DBNull.Value ? ((DateTime)dr["DRIApprovedDate"]).ToString("dd-MM-yyyy") : string.Empty,
+                        FinanceApprovedDate = dr["FinanceApprovedDate"] != DBNull.Value ? ((DateTime)dr["FinanceApprovedDate"]).ToString("dd-MM-yyyy") : string.Empty,
+                        IEApprovedDate = dr["IEApprovedDate"] != DBNull.Value ? ((DateTime)dr["IEApprovedDate"]).ToString("dd-MM-yyyy") : string.Empty,
+                        Rejectionreason = dr["Rejectionreason"].ToString(),
                         ApprovalStatus = Convert.ToInt32(dr["ApprovalStatus"]),
                         Approvalstatusdesc = dr["StatusDescription"].ToString(),
                         Activity = dr["Activity"].ToString(),
@@ -101,7 +104,7 @@ namespace Kaizen.Business.Worker
                         WithIntheDept = dr["WithIntheDept"].ToString(),
                         InOtherDept = dr["InOtherDept"].ToString(),
                         OtherPoints = dr["OtherPoints"].ToString(),
-                        DRIApprovedDate = dr["DRIApprovedDate"] != DBNull.Value ? ((DateTime)dr["DRIApprovedDate"]).ToString("dd-MM-yyyy") : string.Empty,
+                       
                         HorozantalDeployment = Convert.ToBoolean(dr["HorozantalDeployment"].ToString()),
                         OriginatedDate = dr["OrigonatedDate"] != DBNull.Value ? ((DateTime)dr["OrigonatedDate"]).ToString("dd-MM-yyyy") : string.Empty,
                         OrigionatedDept = dr["OrigionatedDept"].ToString(),

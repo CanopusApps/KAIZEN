@@ -10,7 +10,10 @@ namespace Kaizen.Models.NewKaizen
 {
 	public class NewKaizenModel
 	{
-		public string Rejectionreason {  get; set; }
+
+
+
+        public string Rejectionreason {  get; set; }
 		public string Id { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }

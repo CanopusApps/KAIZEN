@@ -1061,7 +1061,7 @@
                                         <div><strong>Department :</strong><span id="dDom"></span>- <span id="dDept"></span></div>
                                         <div><strong>Status :</strong> <span  id="dristatusid"></span></div>
                                         <div><strong>Rejected Reason :</strong> <span id="driRejectedReason"></span></div>
-                                        <div><strong>Date & Time :</strong> <span id="driDateTime"></span></div>
+                                        <div><strong>Approved Date :</strong> <span id="driDateTime"></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -1075,7 +1075,7 @@
                                         <div><strong>Department :</strong><span id="ieeDom"></span>-<span id="ieeDept"></span></div>
                                         <div><strong>Status :</strong> <span id="iestatusid"></span></div>
                                         <div><strong>Rejected Reason :</strong> <span id="ieRejectedReason"></span></div>
-                                        <div><strong>Date & Time :</strong> <span id="ieDateTime"></span></div>
+                                        <div><strong>Approved Date :</strong> <span id="ieDateTime"></span></div>
                                 </div>
                             </div>
                         </div>
@@ -1089,7 +1089,7 @@
                                         <div><strong>Department :</strong> <span id="finDom"></span>-<span id="finDept"></span></div>
                                         <div><strong>Status :</strong> <span  id="financestatusid"></span></div>
                                         <div><strong>Rejected Reason :</strong> <span id="finRejectedReason"></span></div>
-                                        <div><strong>Date & Time :</strong> <span id="finDateTime"></span></div>
+                                        <div><strong>Approved Date :</strong> <span id="finDateTime"></span></div>
                                 </div>
                             </div>
                         </div>
@@ -2146,9 +2146,9 @@
                         } else if (statusDesc === statusdetails.Pending || statusDesc === statusdetails.DRIPending || statusDesc === statusdetails.IEPending || statusDesc === statusdetails.FinancePending) {
                             $('#pendingstatusid').text(reverseStatusDetails[statusDesc]).addClass('pending');
                         }
-
-     
-                        
+                        $('#ieDateTime').text(result.kaizenList[0].ieApprovedDate);
+                        $('#driDateTime').text(result.kaizenList[0].driApprovedDate);
+                        $('#finDateTime').text(result.kaizenList[0].financeApprovedDate);
                         $('#statusid').text(result.kaizenList[0].approvalstatusdesc);
                         $('#dDept').text(result.approverslist[0].driDept);
                         $('#driName').text(result.approverslist[0].driName);
