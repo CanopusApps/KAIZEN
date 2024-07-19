@@ -14,7 +14,7 @@ namespace Kaizen.Web.Controllers
     {
         private readonly IReport _downloadexcel;
 
-        public ReportsController(IReport reportworker, ILogger<ReportsController> logger)
+        public ReportsController(IReport reportworker)
         {
             _downloadexcel = reportworker;
         }
@@ -24,69 +24,17 @@ namespace Kaizen.Web.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> KaizenForm(KaizenReportModel model)
-        {
-            try
-            {
-                DataTable dt = _downloadexcel.GetKaizenform(model);
-
-                byte[] fileContents = ExportDataTableToExcel(dt, "KaizenReport.xlsx");
-                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ExcelReports");
-                if (!Directory.Exists(folderPath))
-                {
-                    Directory.CreateDirectory(folderPath);
-                }
-                var filePath = Path.Combine(folderPath, "KaizenReport.xlsx");
-                await System.IO.File.WriteAllBytesAsync(filePath, fileContents);
-                return Json(new { success = true, fileName = "ExcelReports/KaizenReport.xlsx" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Error generating report.");
-            }
-        }
-        private byte[] ExportDataTableToExcel(DataTable dataTable, string fileName)
-        {
-            using (var workbook = new XLWorkbook())
-            {
-                var worksheet = workbook.Worksheets.Add("Sheet1");
-                for (int i = 0; i < dataTable.Columns.Count; i++)
-                {
-                    worksheet.Cell(1, i + 1).Value = dataTable.Columns[i].ColumnName;
-                }
-                for (int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    for (int j = 0; j < dataTable.Columns.Count; j++)
-                    {
-                        worksheet.Cell(i + 2, j + 1).Value = dataTable.Rows[i][j].ToString();
-                    }
-                }
-                using (var stream = new MemoryStream())
-                {
-                    workbook.SaveAs(stream);
-                    return stream.ToArray();
-                }
-            }
-        }
-
         [HttpGet]
-        public async Task<IActionResult> DownloadExcel(string file)
+        public IActionResult KaizenForm(KaizenReportModel model)
         {
             try
             {
-                var fileName = file;
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
-                if (!System.IO.File.Exists(filePath))
-                {
-                    return NotFound();
-                }
-                byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
-                return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", Path.GetFileName(filePath));
+                 var list = _downloadexcel.GetKaizenform(model);
+                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "KaizenReport.xlsx");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Error downloading file.");
+                return StatusCode(500);
             }
         }
     }

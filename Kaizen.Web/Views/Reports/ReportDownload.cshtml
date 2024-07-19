@@ -75,11 +75,13 @@
                             <tr>
                                 <td class="text-center">1</td>
                                 <td><p><b>Kaizen Form</b><span class="float-right">Total Rows :11</span></p></td>
-                                <td class="text-center"><button class="btn btn-warning dow" id="Kaizenformdownload">Download</button></td>
+                                <td class="text-center">
+                                    <input type="button" value="Download" class="btn btn-warning dow" onclick="changeOrderExportHref()" />
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text-center">2</td>
-                                <td><p><b>Idea Generation</b><span class="float-right">Total Rows :12</span></p></td>
+                                <td><p><b>#</b><span class="float-right">Total Rows :12</span></p></td>
                                 <td class="text-center"><a><span class="btn btn-warning dow">Download</span></a></td>
                             </tr>
                         </tbody>
@@ -92,44 +94,14 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('#Kaizenformdownload').on('click', function () {
-            var startDate = $('#startDate').val();
-            var endDate = $('#endDate').val();
-            var startparts = startDate.split('-');
-            var Startdate = `${parseInt(startparts[2])}-${parseInt(startparts[1])}-${startparts[0]}`;
+    function changeOrderExportHref() {
+        debugger;
+        var url = '@Url.Action("KaizenForm", "Reports")';
+        var StartDate = document.getElementById("startDate").value;
+        var EndDate = document.getElementById("endDate").value;
+        window.location.href = url + "/?StartDate=" + StartDate + "&EndDate= " + EndDate;
 
-            var endparts = endDate.split('-');
-            var Enddate = `${parseInt(endparts[2])}-${parseInt(endparts[1])}-${endparts[0]}`;
-
-            var report = {
-                StartDate: Startdate,
-                EndDate: Enddate
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: '/Reports/KaizenForm',
-                dataType: "json",
-                data: report,
-                success: function (response) {
-                    if (response.success) {
-                        var downloadLink = document.createElement('a');
-                        downloadLink.href = '/Reports/DownloadExcel?file=' + response.fileName;
-                        downloadLink.download = 'KaizenReport.xlsx';
-                        document.body.appendChild(downloadLink);
-                        downloadLink.click();
-                        document.body.removeChild(downloadLink);
-                    } else {
-                        console.log('Error generating report.');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log(error);
-                }
-            });
-        });
-    });
+    }
 </script>
 
 
