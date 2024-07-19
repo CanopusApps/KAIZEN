@@ -1,12 +1,7 @@
 ﻿@using Kaizen.Models.SubmmitedKaizen
-@inject IHttpContextAccessor Accessor
 @model SubmittedKaizenallModel
 @{
     Layout = "SidebarLayout";
-}
-@inject IHttpContextAccessor Accessor
-@{
-    var userRole = Accessor.HttpContext.Session.GetString("Userrole");
 }
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="~/assets/css/custom/submittedkaizen.css" rel="stylesheet" />
