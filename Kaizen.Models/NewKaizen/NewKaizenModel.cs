@@ -60,7 +60,8 @@ namespace Kaizen.Models.NewKaizen
 		public string Benifits { get; set; }
 		public string name { get; set; }
 		public string Domain { get; set; }
-		public string Department { get; set; }
+        public string Dept { get; set; }
+        public string Department { get; set; }
 		public string EmpId { get; set; }
         public string OriginatedDate { get; set; }
         public string  IEEmail { get; set; }

@@ -70,7 +70,8 @@ namespace Kaizen.Models.AdminModel
         public string OriginatedDate { get; set; } = "";
         public string OrigionatedDept { get; set; } = "";
 
-
+        public string role { get; set; } = "";
+        public string UserId { get; set; } = "";
 
 
     }

@@ -18,15 +18,17 @@ namespace Kaizen.Web.Controllers
 {
     public class SubmittedKaizenController : Controller
     {
+        public IHttpContextAccessor conAccessor;
         private readonly IDomain _domainWorker;
         private readonly IDepartment   _departmentWorker;
         private readonly ISubmittedKaizen _submittedKaizenWorker;
         private readonly IWebHostEnvironment _environment;
-        public SubmittedKaizenController(IDomain domainWorker,IDepartment departmentWorker, ISubmittedKaizen submittedKaizenWorker)
+        public SubmittedKaizenController(IDomain domainWorker,IDepartment departmentWorker, ISubmittedKaizen submittedKaizenWorker, IHttpContextAccessor conAccessor)
         {
             _domainWorker = domainWorker;
             _departmentWorker = departmentWorker;
             _submittedKaizenWorker = submittedKaizenWorker;
+            this.conAccessor = conAccessor;
         }
 
         public IActionResult ViewKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status, string? Shortlisted)
@@ -43,7 +45,9 @@ namespace Kaizen.Web.Controllers
                     Department=Department,
                     KaizenTheme=KaizenTheme,
                     Status=Status,
-                    Shortlisted=Shortlisted
+                    Shortlisted=Shortlisted,
+                    role= conAccessor.HttpContext.Session.GetString("Userrole"),
+                    UserId = conAccessor.HttpContext.Session.GetString("UserID")
                 };
                 viewModel.SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
             }
@@ -63,7 +67,9 @@ namespace Kaizen.Web.Controllers
                 Department = Department,
                 KaizenTheme = KaizenTheme,
                 Status = Status,
-                Shortlisted = Shortlisted
+                Shortlisted = Shortlisted,
+                role = conAccessor.HttpContext.Session.GetString("Userrole"),
+                UserId = conAccessor.HttpContext.Session.GetString("UserID")
             };
             var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);///
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);

@@ -109,6 +109,7 @@ namespace Kaizen.Business.Worker
                         OriginatedDate = dr["OrigonatedDate"] != DBNull.Value ? ((DateTime)dr["OrigonatedDate"]).ToString("dd-MM-yyyy") : string.Empty,
                         OrigionatedDept = dr["OrigionatedDept"].ToString(),
                         OriginatedBy= dr["OriginatedBy"].ToString(),
+                        Dept = dr["Dept"].ToString()
                     });
                 }
             }

@@ -2081,8 +2081,6 @@
 </script>
 <script>
     $(function getSession() {
-        /* debugger; */
-
         if (sessionStorage.getItem("editKaizen")) {
             var editKaizen = JSON.parse(sessionStorage.getItem("editKaizen"));
             var KaizenId = editKaizen['kaizenid'];
@@ -2232,9 +2230,9 @@
                             document.getElementById('toggleContent').style.display = 'none';
                         } 
                         $("#CDeta").val(result.kaizenList[0].originatedDate);
-                        $("#DeptId").val(result.kaizenList[0].origionatedDept);
-                        $("#name").val(result.kaizenList[0].originatedBy);
-
+                        $("#DomainId").val(result.kaizenList[0].origionatedDept);
+                        $("#name").val(result.kaizenList[0].originatedBy); 
+                        $("#DeptId").val(result.kaizenList[0].dept);
                         var mytable = document.getElementById("tblteammemberResult");
                         result.teamList.forEach(item => {
                             var rows = mytable.rows.length;
