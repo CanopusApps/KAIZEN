@@ -10,7 +10,7 @@ namespace Kaizen.Models.NewKaizen
 {
 	public class NewKaizenModel
 	{
-		
+		public string Rejectionreason {  get; set; }
 		public string Id { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -79,6 +79,8 @@ namespace Kaizen.Models.NewKaizen
 		public string ModifiedDate { get; set; } 
 		public bool insertStatus { get; set; }
         public string Empguid { get; set; }
+
+        public string Approvalstatusdesc { get; set; }
         public List<BlockModel> BlockList { get; set; }
 		public List<TeamMemberDetails> MemberList { get; set; }
 		public List<DeploymentDetails> DeploymentList{ get; set; }
@@ -188,6 +190,8 @@ namespace Kaizen.Models.NewKaizen
     public class ApprovalRequest
     {
         public int approvalStatus { get; set; }
+
+        public string RejectionReason {  get; set; }
 
         public string kaizenID { get; set; }
 
