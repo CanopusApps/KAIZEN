@@ -69,21 +69,21 @@
                                     </select>
                                    </div>
 								 <div class="form-group col-lg-2">
-                                    <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
+                            <label for="inputUserType" >Start-Date<span class="text-danger">*</span></label>
                             <div>
-                                <input class="form-control txt-width" type="date" name="name" value="" />
+                                <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="">
                             </div>
 
                         </div>
 								 <div class="form-group col-lg-2">
-                                    <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
+                            <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
                             <div>
-                                <input class="form-control txt-width" type="date" name="name" value="" />
+                                <input class="form-control txt-width" id="dtenddate"  type="date" name="name" value="" />
                             </div>
 
                         </div>
                                 <span class="form-row p-4 container">
-                                   <button type="submit" class="btn  col-lg-2 m-1 btn-azure ">Filter</button>
+                            <button type="button" class="btn  col-lg-2 m-1 btn-azure " id="btn_filter" value="Filter">Filter</button>
                                   <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset" value="Reset">Reset</button>
      
                               </span>
@@ -101,7 +101,7 @@
                         <div class="card-body">
                             <div class="text-center">
                                 <label class="card-title">DRI</label>
-                                <h3>0</h3>
+                                <h3 class="driTotal">0</h3>
                                 <div class="progress mb-2">
                                     <div class="progress-bar progress-animated bg-default" style="width: 80%"></div>
                                 </div>
@@ -110,13 +110,13 @@
                         <div class="card-footer pt-0 pb-0 text-center">
                             <div class="row">
                                 <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">0</h3><span>Pending</span>
+                                    <h3 class="mb-1 driPending">0</h3><span>Pending</span>
                                 </div>
                                 <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">0</h3><span>Approved</span>
+                                    <h3 class="mb-1 driApproved">0</h3><span>Approved</span>
                                 </div>
                                 <div class="col-4 pt-3 pb-3">
-                                    <h3 class="mb-1">0</h3><span>Rejected</span>
+                                    <h3 class="mb-1 driRejected">0</h3><span>Rejected</span>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                         <div class="card-body">
                             <div class="text-center">
                                 <label class="card-title">IE DEPT</label>
-                                <h3>0</h3>
+                                <h3 class="ieTotal">0</h3>
                                 <div class="progress mb-2">
                                     <div class="progress-bar progress-animated bg-default" style="width: 80%"></div>
                                 </div>
@@ -136,13 +136,13 @@
                         <div class="card-footer pt-0 pb-0 text-center">
                             <div class="row">
                                 <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">0</h3><span>Pending</span>
+                                    <h3 class="mb-1 iePending">0</h3><span>Pending</span>
                                 </div>
                                 <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">0</h3><span>Approved</span>
+                                    <h3 class="mb-1 ieApproved">0</h3><span>Approved</span>
                                 </div>
                                 <div class="col-4 pt-3 pb-3">
-                                    <h3 class="mb-1">0</h3><span>Rejected</span>
+                                    <h3 class="mb-1 ieRejected">0</h3><span>Rejected</span>
                                 </div>
                             </div>
                         </div>
@@ -153,7 +153,7 @@
                         <div class="card-body">
                             <div class="text-center">
                                 <label class="card-title">Finance</label>
-                                <h3>0</h3>
+                                <h3 class="financeTotal">0</h3>
                                 <div class="progress mb-2">
                                     <div class="progress-bar progress-animated bg-default" style="width: 80%"></div>
                                 </div>
@@ -162,13 +162,13 @@
                         <div class="card-footer pt-0 pb-0 text-center">
                             <div class="row">
                                 <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">0</h3><span>Pending</span>
+                                    <h3 class="mb-1 financePending">0</h3><span>Pending</span>
                                 </div>
                                 <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">0</h3><span>Approved</span>
+                                    <h3 class="mb-1 financeApproved ">0</h3><span>Approved</span>
                                 </div>
                                 <div class="col-4 pt-3 pb-3">
-                                    <h3 class="mb-1">0</h3><span>Rejected</span>
+                                    <h3 class="mb-1 financeRejected">0</h3><span>Rejected</span>
                                 </div>
                             </div>
                         </div>
@@ -183,24 +183,24 @@
                     <div class="card-body">
                         <div class="text-center">
                             <label class="card-title">Total Kaizen Submitted</label>
-                            <h3>0</h3>
+                                <h3 class="totalKaizens">0</h3>
                             <div class="progress mb-2">
                                 <div class="progress-bar progress-animated bg-default" style="width: 80%"></div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer pt-0 pb-0 text-center">
-                        <div class="row">
-                            <div class="col-4 pt-3 pb-3 border-right">
-                                <h3 class="mb-1">0</h3><span>Pending</span>
+                            <div class="row">
+                                <div class="col-4 pt-3 pb-3 border-right">
+                                    <h3 class="mb-1 driTotal">0</h3><span>DRI</span>
+                                </div>
+                                <div class="col-4 pt-3 pb-3 border-right">
+                                    <h3 class="mb-1 ieTotal">0</h3><span>IE</span>
+                                </div>
+                                <div class="col-4 pt-3 pb-3">
+                                    <h3 class="mb-1 financeTotal">0</h3><span>FINANCE</span>
+                                </div>
                             </div>
-                            <div class="col-4 pt-3 pb-3 border-right">
-                                <h3 class="mb-1">0</h3><span>Approved</span>
-                            </div>
-                            <div class="col-4 pt-3 pb-3">
-                                <h3 class="mb-1">0</h3><span>Rejected</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -209,24 +209,24 @@
                     <div class="card-body">
                         <div class="text-center">
                             <label class="card-title">Approved Kaizen</label>
-                            <h3>0</h3>
+                                <h3 class="totalApproved">0</h3>
                             <div class="progress mb-2">
                                 <div class="progress-bar progress-animated bg-success" style="width: 80%"></div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer pt-0 pb-0 text-center">
-                        <div class="row">
-                            <div class="col-4 pt-3 pb-3 border-right">
-                                <h3 class="mb-1">0</h3><span>Pending</span>
+                            <div class="row">
+                                <div class="col-4 pt-3 pb-3 border-right">
+                                    <h3 class="mb-1 driApproved">0</h3><span>DRI</span>
+                                </div>
+                                <div class="col-4 pt-3 pb-3 border-right">
+                                    <h3 class="mb-1 ieApproved">0</h3><span>IE</span>
+                                </div>
+                                <div class="col-4 pt-3 pb-3">
+                                    <h3 class="mb-1 financeApproved">0</h3><span>FINANCE</span>
+                                </div>
                             </div>
-                            <div class="col-4 pt-3 pb-3 border-right">
-                                <h3 class="mb-1">0</h3><span>Approved</span>
-                            </div>
-                            <div class="col-4 pt-3 pb-3">
-                                <h3 class="mb-1">0</h3><span>Rejected</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -235,24 +235,24 @@
                     <div class="card-body">
                         <div class="text-center">
                             <label class="card-title">Rejected Kaizen</label>
-                            <h3>0</h3>
+                                <h3 class="totalRejected">0</h3>
                             <div class="progress mb-2">
                                 <div class="progress-bar progress-animated bg-danger" style="width: 80%"></div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer pt-0 pb-0 text-center">
-                        <div class="row">
-                            <div class="col-4 pt-3 pb-3 border-right">
-                                <h3 class="mb-1">0</h3><span>Pending</span>
+                            <div class="row">
+                                <div class="col-4 pt-3 pb-3 border-right">
+                                    <h3 class="mb-1 driRejected">0</h3><span>DRI</span>
+                                </div>
+                                <div class="col-4 pt-3 pb-3 border-right">
+                                    <h3 class="mb-1 ieRejected">0</h3><span>IE</span>
+                                </div>
+                                <div class="col-4 pt-3 pb-3">
+                                    <h3 class="mb-1 financeRejected">0</h3><span>FINANCE</span>
+                                </div>
                             </div>
-                            <div class="col-4 pt-3 pb-3 border-right">
-                                <h3 class="mb-1">0</h3><span>Approved</span>
-                            </div>
-                            <div class="col-4 pt-3 pb-3">
-                                <h3 class="mb-1">0</h3><span>Rejected</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -264,7 +264,7 @@
                     <div class="card-body">
                         <div class="text-center">
                             <label class="card-title">Pending Kaizen</label>
-                            <h3>0</h3>
+                                <h3 class="totalPending">0</h3>
                             <div class="progress mb-2">
                                 <div class="progress-bar progress-animated bg-warning" style="width: 80%"></div>
                             </div>
@@ -273,13 +273,13 @@
                     <div class="card-footer pt-0 pb-0 text-center">
                         <div class="row">
                             <div class="col-4 pt-3 pb-3 border-right">
-                                <h3 class="mb-1">0</h3><span>Pending</span>
+                                    <h3 class="mb-1 driPending">0</h3><span>DRI</span>
                             </div>
                             <div class="col-4 pt-3 pb-3 border-right">
-                                <h3 class="mb-1">0</h3><span>Approved</span>
+                                    <h3 class="mb-1 iePending">0</h3><span>IE</span>
                             </div>
                             <div class="col-4 pt-3 pb-3">
-                                <h3 class="mb-1">0</h3><span>Rejected</span>
+                                    <h3 class="mb-1 financePending">0</h3><span>FINANCE</span>
                             </div>
                         </div>
                     </div>
@@ -290,7 +290,7 @@
                     <div class="card-body">
                         <div class="text-center">
                             <label class="card-title">Image Sanitation</label>
-                            <h3>0</h3>
+                                <h3 class="imageTotal">0</h3>
                             <div class="progress mb-2">
                                 <div class="progress-bar progress-animated bg-default" style="width: 80%"></div>
                             </div>
@@ -299,10 +299,10 @@
                     <div class="card-footer pt-0 pb-0 text-center">
                         <div class="row">
                             <div class="col-6 pt-3 pb-3 border-right">
-                                <h3 class="mb-1">0</h3><span>Approved</span>
+                                    <h3 class="mb-1 imageApproved">0</h3><span>Approved</span>
                             </div>
                             <div class="col-6 pt-3 pb-3">
-                                <h3 class="mb-1">0</h3><span>Rejected</span>
+                                    <h3 class="mb-1 imageRejected">0</h3><span>Rejected</span>
                             </div>
                         </div>
                     </div>
@@ -405,5 +405,121 @@
             }
         });
     });
+        $('#btn_filter').click(function () {
+            debugger;
+            var StartDate = $('#dtstartdate').val();
+            var EndDate = $('#dtenddate').val();
+            var Domain = $('#inputDomain option:selected').text();
+            var Department = $('#inputDepartment option:selected').text();
+            $.ajax({
+                url: '@Url.Action("ViewFilterKaizen", "Dashboard")',
+                type: 'GET',
+                data: {
+                    StartDate: StartDate,
+                    EndDate: EndDate,
+                    Domain: Domain,
+                    Department: Department
+                },
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+                success: function (result) {
+                    debugger;
+                    if (result) {
+                        const statusDetails = {
+                            ImageApproved: 2,
+                            ImageRejected: 3,
+                            DRIApproved: 4,
+                            DRIRejected: 5,
+                            IEApproved: 6,
+                            IERejected: 7,
+                            FinanceApproved: 8,
+                            FinanceRejected: 9,
+                            Pending: 10,
+                            DRIPending: 11,
+                            IEPending: 12,
+                            FinancePending: 13
+                        };
+                        if (result.countKaizenList.length > 0) {
+                            for (let i = 0; i < result.countKaizenList.length; i++) {
+                                let item = result.countKaizenList[i];
+
+                                switch (item.approvalStatus) {
+                                    case statusDetails.DRIApproved:
+                                        $('.driApproved').text(item.approvalCount || 0);
+                                        break;
+                                    case statusDetails.DRIRejected:
+                                        $('.driRejected').text(item.approvalCount || 0);
+                                        break;
+                                    case statusDetails.IEApproved:
+                                        $('.ieApproved').text(item.approvalCount || 0);
+                                        break;
+                                    case statusDetails.IERejected:
+                                        $('.ieRejected').text(item.approvalCount || 0);
+                                        break;
+                                    case statusDetails.FinanceApproved:
+                                        $('.financeApproved').text(item.approvalCount || 0);
+                                        break;
+                                    case statusDetails.FinanceRejected:
+                                        $('.financeRejected').text(item.approvalCount || 0);
+                                        break;
+                                    case statusDetails.DRIPending:
+                                        $('.driPending').text(item.approvalCount || 0);
+                                        break;
+                                    case statusDetails.IEPending:
+                                        $('.iePending').text(item.approvalCount || 0);
+                                        break;
+                                    case statusDetails.FinancePending:
+                                        $('.financePending').text(item.approvalCount || 0);
+                                        break;
+                                    case statusDetails.ImageApproved:
+                                        $('.imageApproved').text(item.approvalCount || 0);
+                                        break;
+                                    case statusDetails.ImageRejected:
+                                        $('.imageRejected').text(item.approvalCount || 0);
+                                        break;
+
+                                }
+                            }
+                        }
+                        else {
+                            $('.driApproved').text('0');
+                            $('.driRejected').text('0');
+                            $('.ieApproved').text('0');
+                            $('.ieRejected').text('0');
+                            $('.financeApproved').text('0');
+                            $('.financeRejected').text('0');
+                            $('.driPending').text('0');
+                            $('.iePending').text('0');
+                            $('.financePending').text('0');
+                            $('.imageApproved').text('0');
+                            $('.imageRejected').text('0');
+                        }
+                        $('.totalKaizens').text(result.totalKaizenList[0].totalKaizens || 0);
+                        $('.driTotal').text(result.totalKaizenList[0].driTotal || 0);
+                        $('.financeTotal').text(result.totalKaizenList[0].financeTotal || 0);
+                        $('.ieTotal').text(result.totalKaizenList[0].ieTotal || 0);
+                        $('.imageTotal').text(result.totalKaizenList[0].imagetotal || 0);
+                        $('.totalApproved').text(result.totalKaizenList[0].totalApproved || 0);
+                        $('.totalPending').text(result.totalKaizenList[0].totalPending || 0);
+                        $('.totalRejected').text(result.totalKaizenList[0].totalRejected || 0);
+                      
+                    }
+                     else
+                      {
+
+                       }
+
+                
+                  },
+                error: function (error) {
+                }
+               
+            });
+        });
+
    });
 </script>
+
+   
+  
