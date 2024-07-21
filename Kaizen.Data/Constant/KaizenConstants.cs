@@ -64,6 +64,11 @@ namespace Kaizen.Data.Constant
         public static string Sp_UpdateApprovalStatus = "UpdateApprovalStatus";
         public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details"; 
         public static string Sp_Get_KaizenformReport = "Sp_Get_KaizenformReport";
+        public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
+        public static string SpAddWinner = "Sp_AddWinner";
+        public static string SpGetWinnersList = "Sp_GetWinnersList";
+        public static string SpDeleteWinner = "Sp_DeleteWinner";
+        public static string SpUpdateWinner = "Sp_UpdateWinner";
     }
 
     public class ConstantValue
