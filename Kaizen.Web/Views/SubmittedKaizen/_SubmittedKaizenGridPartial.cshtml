@@ -27,7 +27,9 @@
             {
                 <tr data-kaizenid="@User.KaizenId">
                     <td>@User.KaizenTheme</td>
-                    <td>@User.TeamName</td>
+                    <td>
+                        @Html.Raw(User.TeamName.Replace(",", "<br />"))
+                    </td>
                     <td>@User.HorozantalDeployment</td>
                     <td>@User.IEApprovedDept</td>
                     <td>@User.FinnanceDeptAppr</td>
@@ -36,12 +38,21 @@
                     <td>@User.CreatedBy</td>
                     <td>@User.CreatedDate</td>
                     <td class="text-center">
-                        <a class="btn btn-primary btn-sm edituser">
-                            <i class="edit fas fa-solid fa-pencil"></i>
-                        </a>
-                        <a href="#" class="btn btn-danger icon deleteuser">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </a>
+                        @if (User.AStatus < 4)
+                        {
+                            <a class="btn btn-primary btn-sm edituser" id="edit">
+                                <i class="edit fas fa-solid fa-pencil"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger icon deleteuser" id="delete">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-primary btn-sm viewuser" id="view">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        }
                     </td>
                 </tr>
             }
