@@ -62,8 +62,13 @@ namespace Kaizen.Data.Constant
         public static string SpGetUserManager = "Sp_GetUserManager";
         public static string Sp_Fetch_KaizenDetails_ById = "Sp_Fetch_KaizenDetails_ById";
         public static string Sp_UpdateApprovalStatus = "UpdateApprovalStatus";
-        public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details"; 
-        public static string Sp_Get_KaizenformReport = "Sp_Get_KaizenformReport"; 
+        
+
+        public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
+        public static string SpAddWinner = "Sp_AddWinner";
+        public static string SpGetWinnersList = "Sp_GetWinnersList";
+        public static string SpDeleteWinner = "Sp_DeleteWinner";
+        public static string SpUpdateWinner = "Sp_UpdateWinner";
              public static string Sp_DashboardFilter = "Sp_DashboardFilter";
     }
 

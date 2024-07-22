@@ -41,6 +41,8 @@ builder.Services.AddScoped<ICreateNewKaizen, CreateNewKaizenWorker>();
 builder.Services.AddScoped<ICreateNewKaizenRepository,CreateNewKaizenRepository>();
 builder.Services.AddScoped<IReport, ReportWorker>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<IWinnersList, WinnersListWorker>();
+builder.Services.AddScoped<IWinnersListRepository, WinnersListRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
