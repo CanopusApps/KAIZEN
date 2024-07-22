@@ -1,0 +1,721 @@
+﻿@model IEnumerable<Kaizen.Models.WinnersList.WinnersListModel>
+@{
+    Layout = "SidebarLayout";
+}
+<link rel="stylesheet" href="~/assets/css/WinnersList.css" />
+
+<div id="winnersComp" class="py-5">
+    <div class="cardSpace border-0 card container-fluid shadow-sm rounded-lg col-11 py-3">
+        <h1 class="text-primary">View Winners List-</h1>
+        <div class="row">
+            <div class="col">
+                <p id="pathId">Kaizen Idea > Kaizen Mang > View Winners List</p>
+            </div>
+            <div class="col text-right">
+                <button id="toggleWinnersBtn" type="button" class="btn btn-azure">Add Winner</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div id="winnersCardContainer">
+        <div class="border-0 card container-fluid shadow rounded-lg col-11 py-3" id="winnersCard">
+            <div class="col-sm-12 p-md-0">
+                <h1 class="text-primary"> Winners List-</h1>
+            </div>
+            <br>
+            <hr class="bold text-dark">
+            <br />
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="border-0">#</th>
+                                <th class="border-0">GOLD</th>
+                                <th class="border-0">SILVER</th>
+                                <th class="border-0">BRONZE</th>
+                                <th class="border-0">DATE</th>
+                                <th class="border-0">STATUS</th>
+                                <th class="border-0">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var counter = 1;
+                            }
+                            <input id="colNos" hidden value="@Model.Count()" />
+                            @foreach (var winner in Model)
+                            {
+                                <tr>
+
+                                    <td class="text-center align-middle">
+                                        <p>@counter</p>
+                                        @{
+                                            counter++;
+                                        }
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="row justify-content-center">
+                                            <div class="col-10 py-3 border shadow-sm col-lg-4">
+                                                @if (winner.Category == "Gold")
+                                                {
+                                                    @winner.EmpID
+                                                }
+
+                                            </div>
+                                            <div class="col-10 py-3 border shadow-sm col-lg-6">
+                                                @if (winner.Category == "Gold")
+                                                {
+                                                    @winner.EmpName
+                                                }
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="row justify-content-center">
+                                            <div class="col-10 py-3 border shadow-sm col-md-4">
+                                                @if (winner.Category == "Silver")
+                                                {
+                                                    @winner.EmpID
+                                                }
+
+                                            </div>
+                                            <div class="col-10 py-3 border shadow-sm col-md-6">
+                                                @if (winner.Category == "Silver")
+                                                {
+                                                    @winner.EmpName
+                                                }
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="align-middle">
+                                        <div class="row justify-content-center">
+                                            <div class="col-10 py-3 text-center border shadow-sm col-md-4">
+                                                @if (winner.Category == "Bronze")
+                                                {
+                                                    @winner.EmpID
+                                                }
+
+                                            </div>
+                                            <div class="col-10 py-3 border shadow-sm col-md-6">
+                                                @if (winner.Category == "Bronze")
+                                                {
+                                                    @winner.EmpName
+                                                }
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    
+                                                    <td>
+                                                        <p class="text-center"><b>Start Date</b></p>
+                                                        <p class="text-center">@winner.StartDate</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    
+                                                    <td>
+                                                        <p class="text-center"><b>End Date</b></p>
+                                                        <p class="text-center">@winner.EndDate</p>
+                                                    </td>
+                                                </tr>
+
+
+                                            </table>
+                                        </div>
+                                    </td>
+
+                                    <td hidden>@winner.DomainName</td>
+                                    <td hidden>@winner.DepartmentName</td>
+                                    <td hidden>@winner.Category</td>
+                                    <td hidden>@winner.Id</td>
+
+
+                                    <td class="align-middle text-center">
+                                        @if (winner.Status == "Active" && DateTime.Now <= winner.EndDate)
+                                        {
+                                            <span id="statusBadgeA" class="badge bg-success text-white" data-status="Active">Active</span>
+                                        }
+                                        @if (winner.Status == "Inactive")
+                                        {
+                                            <span id="statusBadgeI" class="badge bg-warning text-white" data-status="Inactive">Inactive</span>
+                                        }
+                                        @if (DateTime.Now >= winner.EndDate)
+                                        {
+                                            <span id="statusBadge" class="badge bg-danger text-white" data-status="Expired">Expired</span>
+                                        }
+                                        
+                                    </td>
+
+                                    <td class="align-middle">
+                                        <div class="row justify-content-center">
+                                            <a id="EditFunction" class="btn btn-primary btn-sm editdepartment mx-1">
+                                                <i class="edit fas fa-pencil editWinner"></i>
+                                            </a>
+                                            <a id="DeleteFunction" class="btn btn-danger btn-sm DeleteDepartment mx-1">
+                                                <i class="edit fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="addWinnerForm" class="add-winner-form border-0 card container-fluid shadow rounded-lg col-11 py-3" style="display: none; margin-top: -34px;">
+    <h1 class="text-primary">Add Winner</h1>
+    <form id="winnerForm">
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label>Category</label>
+                    <select id="Category" class="form-control">
+                        <option value="Gold">Gold</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Bronze">Bronze</option>
+                    </select>
+                    <span class="text-danger"></span>
+                </div>
+                <input type="text" hidden value="null" id="empGuid" />
+
+                <div class="col">
+                    <label>Emp ID</label>
+                    <input id="empId" type="number" class="text-primary form-control bg-light" />
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Emp Name</label>
+                    <input id="empName" onclick="getKai()" class="form-control text-primary bg-light" />
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Domain</label>
+                    <input id="empDom" class="form-control text-primary bg-light" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label>Department</label>
+                    <input id="empDep" class="form-control text-primary bg-light" />
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Start Date</label>
+                    <input id="startDate" class="form-control text-primary bg-light" type="date" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label>End Date</label>
+                    <input id="endDate" class="form-control text-primary bg-light" type="date" />
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col text-center">
+                <input type="button" id="addWinnerBtn" value="Add" class="btn btn-azure"></input>
+            </div>
+        </div>
+    </form>
+    <br />
+    <h1 id="listWinnersH" class="text-primary">List Winners-</h1>
+    <hr />
+    <br />
+    <div class="row">
+        <div class="col d-flex justify-content-center align-items-center h-100">
+            <div class="card goldCard">
+                <img src="~/assets/img/WinnersPage/gold.jpg" class="w-100 img-fluid card-img-top" alt="" />
+                <div class="row no-gutters">
+                    <div class="col">
+                        <input class="form-control font-weight-bold text-warning" value="Emp ID" />
+                    </div>
+                    <div class="col">
+                        <input class="form-control font-weight-bold text-warning" value="Name" />
+                    </div>
+                    <div class="col">
+                        <input class="form-control font-weight-bold text-warning" value="Domain and Department" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center h-100">
+            <div class="card silverCard">
+                <img src="~/assets/img/WinnersPage/silver.jpg" class="w-100 img-fluid card-img-top" alt="" />
+                <div class="row no-gutters">
+
+                    <div class="col">
+                        <input class="form-control text-primary font-weight-bold text-secondary" value="EmpID" />
+                    </div>
+                    <div class="col">
+                        <input class="form-control text-primary font-weight-bold text-secondary" value="Name" />
+                    </div>
+                    <div class="col">
+                        <input class="form-control text-primary font-weight-bold text-secondary" value="Domain and Department" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center h-100">
+            <div class="card bronzeCard">
+                <img src="~/assets/img/WinnersPage/bronze.jpg" class="w-100 img-fluid card-img-top" alt="" />
+                <div class="row no-gutters">
+                    <div class="col">
+                        <input class="form-control font-weight-bold" style="color:#652D12;" value="EmpID" />
+                    </div>                          
+                    <div class="col">               
+                        <input class="form-control font-weight-bold" style="color:#652D12;" value="Name" />
+                    </div>
+                    <input hidden class="newRow"/>
+                    <div class="col">
+                        <input class="form-control font-weight-bold" style="color:#652D12;" value="Domain and Department" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function getKai() {
+        var empId = $('#empId').val().trim();
+
+        if (empId !== '') {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("WinnersList", "WinnersList")',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    NewKaizen: { EmpId: empId },
+                    WinnersList: {}
+                }),
+                success: function (response) {
+                    $('#empName').val(response.name);
+                    $('#empDom').val(response.domain);
+                    $('#empDep').val(response.department);
+                    $('#empGuid').val(response.empguid);
+                    console.log(response);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error:', error);
+                }
+            });
+        }
+    }
+    $(document).ready(function () {
+        $(document).on('click', '#statusBadgeI, #statusBadgeA, #statusBadgeE', function () {
+            var status = null;
+            var $row = $(this).closest('tr');
+            var dat = $row.find('td:eq(7)').text().trim();
+            var UId = $row.find('td:eq(10)').text().trim();
+            var badgeName = dat + $(this).text().trim();
+
+            if (badgeName == 'TestingActive') {
+                console.log("Active");
+                var status = "Inactive";
+            }
+            else if (badgeName == 'TestingInactive') {
+                console.log("Inactive");
+                var status = "Active";
+            }
+            else {
+                var status = -1;
+            }
+
+
+
+            debugger;
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateWinnerStatus", "WinnersList")',
+                    data: {
+                        Id: UId,
+                        Status: status,
+                    },
+                    success: function (response) {
+                        switch (status) {
+                            case 1:
+                                $('#statusBadgeA').text('Active');
+                                $('#statusBadgeA').removeClass('bg-warning').addClass('bg-success');
+                                break;
+                            case 0:
+                                $('#statusBadgeA').text('Inactive');
+                                $('#statusBadgeA').removeClass('bg-success').addClass('bg-warning');
+                                break;
+                        }
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Error:', error);
+                        console.log(this.response);
+                    }
+                });
+            
+
+
+            
+
+        });
+      
+
+        var winnersList = @Html.Raw(Json.Serialize(Model));
+        console.log(winnersList);
+
+        $('#statusBadge').click(function () {
+            var status = $(this).data('status');
+            if (status === 'inactive') {
+                $(this).removeClass('bg-warning').addClass('bg-success').text('Active');
+                $(this).data('status', 'active');
+            } else if (status === 'active') {
+                $(this).removeClass('bg-success').addClass('bg-warning').text('Inactive');
+                $(this).data('status', 'inactive');
+            }
+        });
+
+        $('tbody').on('click', '#DeleteFunction', function (e) {
+            e.preventDefault();
+
+            var $row = $(this).closest('tr');
+            var delId = $row.find('td:eq(1)').text().trim();
+            WinId = delId.split(/\s+/)[0];
+
+
+            var dat = $row.find('td:eq(4)').text().trim();
+            dat = dat.trim();
+            var DateValues = dat.split(/\s+/);
+
+            function convertDateFormat(DateValues) {
+                var parts = DateValues.split('-');
+                return parts[2] + '-' + parts[1] + '-' + parts[0];
+            }
+            var sd = (convertDateFormat(DateValues[2]));
+            var ed = convertDateFormat(DateValues[6]);
+            console.log(sd + ed);
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteWinner", "WinnersList")',
+                data: {
+                    id: parseInt(WinId),
+                    sd: sd,
+                    ed: ed
+                },
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+
+        $('#toggleWinnersBtn').click(function () {
+            $('#empName').val('');
+            $('#empDom').val('');
+            $('#empDep').val('');
+            $('#startDate').val('');
+            $('#endDate').val('');
+
+
+            var btnText = $(this).text();
+            var addButton = $('<input>', {
+                type: 'button',
+                id: 'addWinnerBtn',
+                class: 'btn btn-azure',
+                value: 'Add'
+            });
+            if (btnText === 'Add Winner') {
+                $(this).text('View Winners List');
+                $('#winnersCardContainer').hide();
+                $('#addWinnerForm').show();
+                $('#pathId').text('Kaizen Idea > Kaizen Mang > Add Winners');
+
+            } else {
+                $(this).text('Add Winner');
+                $('#updateWinnerBtn').replaceWith(addButton);
+                $('#addWinnerForm').hide();
+                $('#winnersCardContainer').show();
+                $('#pathId').text('Kaizen Idea > Kaizen Mang > View Winners');
+            }
+            if ($('#pathId').text() === 'Kaizen Idea > Kaizen Mang > View Winners') {
+                $('.newCell').remove();
+            }
+
+        });
+        $('tbody').on('click', '#EditFunction', function (e) {
+            $('.newCell').remove();
+            $('.newCell').remove();
+            $('.newCell').remove();
+            
+            var updateButton = $('<input>', {
+                type: 'button',
+                id: 'updateWinnerBtn',
+                class: 'btn btn-azure',
+                value: 'Update'
+            });
+
+
+
+
+            e.preventDefault();
+
+            var $row = $(this).closest('tr');
+            var dat = $row.find('td:eq(4)').text().trim();
+            var CategoryCard = [];
+            var empIdStr = $row.find('td:eq(1)').text().trim();
+            var empIdStr2 = $row.find('td:eq(2)').text().trim();
+            var empIdStr3 = $row.find('td:eq(3)').text().trim();
+
+            empIdStr = empIdStr.trim();
+            var values1 = empIdStr.split(/\s+/);
+
+
+            empIdStr2 = empIdStr2.trim();
+            var values2 = empIdStr2.split(/\s+/);
+
+            empIdStr3 = empIdStr3.trim();
+            var values3 = empIdStr3.split(/\s+/);
+
+            if (parseInt(values1[0]) > 0) {
+                var empIdStr = $row.find('td:eq(1)').text().trim();
+
+                var WinId = empIdStr.split(/\s+/)[0];
+                var WinName = values1[1] + " " + values1[2];
+                var dom = $row.find('td:eq(7)').text().trim();
+                var dep = $row.find('td:eq(8)').text().trim();
+                var Wcategory = $row.find('td:eq(9)').text().trim();
+                var WiD = $row.find('td:eq(10)').text().trim();
+            }
+            else if (parseInt(values2[0]) > 0) {
+                var WinId = empIdStr2.split(/\s+/)[0];
+                var WinName = values2[1] + " " + values2[2];
+                var empIdStr = $row.find('td:eq(2)').text().trim();
+                var dom = $row.find('td:eq(7)').text().trim();
+                var dep = $row.find('td:eq(8)').text().trim();
+                var Wcategory = $row.find('td:eq(9)').text().trim();
+                var WiD = $row.find('td:eq(10)').text().trim();
+            }
+            else if (parseInt(values3[0]) > 0) {
+                var WinId = empIdStr3.split(/\s+/)[0];
+                var WinName = values3[1] + " " + values3[2];
+                var empIdStr = $row.find('td:eq(3)').text().trim();
+                var dom = $row.find('td:eq(7)').text().trim();
+                var dep = $row.find('td:eq(8)').text().trim();
+                var Wcategory = $row.find('td:eq(9)').text().trim();
+                var WiD = $row.find('td:eq(10)').text().trim();
+            }
+
+            var empIds = [];
+            var empNames = [];
+            var Domains = [];
+            var Depts = [];
+            var currentId = $('#empId').val();
+            winnersList.forEach(function (item) {
+                {
+
+                    switch (Wcategory) {
+                        case "Gold":
+                            if ((WinId == item.empID) && (item.category == "Gold")) {
+                                $('.newCell').remove();
+                                var goldRow = '<div class="row newGoldRow no-gutters">';
+                                goldRow += '<div class="col"><input class="newCell form-control text-warning" value="' + item.empID + '" /></div>';
+                                goldRow += '<div class="col"><input class="newCell form-control text-warning" value="' + item.empName + '" /></div>';
+                                goldRow += '<div class="col"><input class="newCell form-control text-warning" value="' + item.domainName + ' & ' + item.departmentName + '" /></div>';
+                                goldRow += '</div>';
+
+                                $('.goldCard').append(goldRow); 
+                            }
+                            break;
+
+                        case "Silver":
+                            
+                            if ((WinId == item.empID) && (item.category == "Silver")) {
+                                var silverRow = '<div class="row newSilverRow no-gutters">';
+                                silverRow += '<div class="col"><input class="newCell form-control text-secondary" value="' + item.empID + '" /></div>';
+                                silverRow += '<div class="col"><input class="newCell form-control text-secondary" value="' + item.empName + '" /></div>';
+                                silverRow += '<div class="col"><input class="newCell form-control text-secondary" value="' + item.domainName + ' & ' + item.departmentName + '" /></div>';
+                                silverRow += '</div>';
+                                $('.silverCard').append(silverRow);
+                            }
+                            break;
+
+                        case "Bronze":
+                            
+                            if ((WinId == item.empID) && (item.category == "Bronze")) {
+                                var bronzeRow = '<div class="row newBronzeRow no-gutters">';
+                                bronzeRow += '<div class="col"><input style="color:#652D12;" class="newCell form-control" value="' + item.empID + '" /></div>';
+                                bronzeRow += '<div class="col"><input style="color:#652D12;" class="newCell form-control" value="' + item.empName + '" /></div>';
+                                bronzeRow += '<div class="col"><input style="color:#652D12;" class="newCell form-control" value="' + item.domainName + ' & ' + item.departmentName + '" /></div>';
+                                bronzeRow += '</div>';
+                                $('.bronzeCard').append(bronzeRow);
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            });
+            // $('#toggleWinnersBtn').click(
+            
+            // )
+
+            var len = $('#colNos').val()
+            $('#empId').val(WinId).prop('readonly', true).css('opacity', '0.5');;
+            $('#Category').val(Wcategory);
+            $('#toggleWinnersBtn').trigger('click');
+            $('#empName').val(WinName).prop('readonly', true).prop('disabled', true).css('opacity', '0.5');
+            $('#empDom').val(dom).prop('readonly', true).prop('disabled', true).css('opacity', '0.5');
+            $('#empDep').val(dep).prop('readonly', true).prop('disabled', true).css('opacity', '0.5');
+
+            dat = dat.trim();
+            var DateValues = dat.split(/\s+/);
+
+            function convertDateFormat(DateValues) {
+                var parts = DateValues.split('-');
+                return parts[2] + '-' + parts[1] + '-' + parts[0];
+            }
+            console.log("THis is the Date Array " + DateValues);
+            console.log("THis is the START Date "+st);
+            var st = convertDateFormat(DateValues[2]);
+            var edt = convertDateFormat(DateValues[6]);
+
+            $('body').on('click', '#updateWinnerBtn', function () {
+                var empId = WinId;  
+                var category = Wcategory;  
+                var startDate = $('#startDate').val();  
+                var endDate = $('#endDate').val();  
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateWinnersList", "WinnersList")',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        Id: WiD,
+                        EmpID: empId,
+                        Category: category,
+                        StartDate: startDate,
+                        EndDate: endDate
+                    }),
+                    success: function (response) {
+                        location.reload();
+                        swal('Updated Winner Successfully!');
+
+                    },
+                    error: function (xhr, status, error) {
+                        swal('Unable to Update the Winner Details - Please Check the logs');
+                        console.log('Error:', error);
+                    }
+                });
+            });
+
+
+            if (WinId > 0) {
+                $('#addWinnerBtn').replaceWith(updateButton);
+            }
+            //DATE SEPARATION
+
+
+            dat = dat.trim();
+            var DateValues = dat.split(/\s+/);
+
+            function convertDateFormat(DateValues) {
+                var parts = DateValues.split('-');
+                return parts[2] + '-' + parts[1] + '-' + parts[0];
+            }
+            var startDate = convertDateFormat(DateValues[2]);
+            var endDate = convertDateFormat(DateValues[6]);
+
+            $('#startDate').val(startDate);
+            $('#endDate').val(endDate);
+
+
+
+
+
+        });
+
+        
+
+        // Handle Add Winner button click
+        $('#addWinnerBtn').click(function () {
+            var isValid = true;
+
+            $('#winnerForm input').each(function () {
+                var $this = $(this);
+                var $errorSpan = $this.next('span.text-danger');
+                var labelText = $this.closest('div').find('label').text();
+
+                if ($this.val().trim() === '') {
+                    $errorSpan.text(labelText + ' is required.');
+                    isValid = false;
+                } else {
+                    $errorSpan.text('');
+                }
+            });
+           
+            if (isValid) {
+                var empId = $('#empId').val();
+                var empGuid = $('#empGuid').val().trim();
+                var Category = $('#Category').val();
+                var StartDate = $('#startDate').val();
+                var EndDate = $('#endDate').val();
+
+                // Perform AJAX call with the data
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("WinnersList", "WinnersList")',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        NewKaizen: {},
+                        WinnersList: {
+                            Id: '00000000-0000-0000-0000-000000000000',
+                            EmpGUID: empGuid,
+                            Category: Category,
+                            StartDate: StartDate,
+                            EndDate: EndDate,
+                            CreatedBy: '00000000-0000-0000-0000-000000000000',
+                            CreatedDate: '0001-01-15T00:00:00',
+                            ModifiedBy: '00000000-0000-0000-0000-000000000000',
+                            ModifiedDate: '0001-01-15T00:00:00'
+                        }
+                    }),
+                    success: function (response) {
+                        // Handle success
+                        swal('Added Winner Successfully!');
+
+                        location.reload();
+
+                        console.log('WinnersList:', { Id: empId });
+                    },
+                    error: function (xhr, status, error) {
+                        swal('Unable to Add Winner - Please Check the logs');
+                        console.log('Error:', error);
+                    }
+                });
+
+                // Update header with selected dates
+                var startDateFormatted = $('#startDate').val();
+                var endDateFormatted = $('#endDate').val();
+                $('#listWinnersH').text('List Winners- ' + startDateFormatted + ' to ' + endDateFormatted);
+                $('#listWinnersH').show();
+            }
+        });
+    });
+</script>
