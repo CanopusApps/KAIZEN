@@ -13,7 +13,13 @@ namespace Kaizen.Business.Interface
     {
         public DataTable GetKaizenform(KaizenReportModel model);
 
+        public DataTable GetBlockReport(KaizenReportModel model);
+
+        public DataTable GetDomainReport(KaizenReportModel model);
+
+        public DataTable GetDepartmentReport(KaizenReportModel model);
+
         public byte[] ExportDataTableToExcel(DataTable dataTable);
-        
+        public int GetCount(object data);
     }
 }

@@ -27,6 +27,21 @@ namespace Kaizen.Business.Worker
             return _reportRepository.GetKaizenformData(model);
         }
 
+        public DataTable GetBlockReport(KaizenReportModel model)
+        {
+            return _reportRepository.GetBlockReportData(model);
+        }
+
+        public DataTable GetDomainReport(KaizenReportModel model)
+        {
+            return _reportRepository.GetDomainReportData(model);
+        }
+
+        public DataTable GetDepartmentReport(KaizenReportModel model)
+        {
+            return _reportRepository.GetDepartmentReportData(model);
+        }
+
         public byte[] ExportDataTableToExcel(DataTable dataTable)
         {
             using (var workbook = new XLWorkbook())
@@ -50,6 +65,16 @@ namespace Kaizen.Business.Worker
                     return stream.ToArray();
                 }
             }
+        }
+
+        public int GetCount(object data)
+        {
+            return data switch
+            {
+                IEnumerable<KaizenReportModel> list => list.Count(),
+                DataTable table => table.Rows.Count,
+                _ => 0
+            };
         }
     }
 }
