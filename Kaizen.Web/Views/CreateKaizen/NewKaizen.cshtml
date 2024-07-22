@@ -1111,6 +1111,10 @@
                             <button class="btn btn-warning">Edit </button>
                             
                             </div>
+                            <div class="col-sm-12" id="imagelabel">
+                            <label>Would You Like To Approve Kaizen Image and move it to Dri Approval </label>
+                                                   
+                            </div>
                         <div class="col-sm-12 " id="Aprrovalbtn">
                            
                             <div class="card-body float-left">
@@ -1288,6 +1292,8 @@
         $('#Editbtn').hide();
             $('#waitingapproval').hide();
             $('#waitingimage').hide();
+            $('#imagelabel').hide();
+          
           
         switch (userRole) {
                 case 'IE DEPT':
@@ -1320,6 +1326,8 @@
                 case 'IMAGE APPROVER':
                     $('#waitingimage').show();
                     // $('#ImageApprover').show(); 
+                    $('#imagelabel').show();
+
                     $('#Aprrovalbtn').show();
                 $('#Aprrovalbtnhold').hide();
                  break;                        
