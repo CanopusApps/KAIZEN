@@ -95,7 +95,8 @@ namespace Kaizen.Business.Worker
                         OtherPoints = dr["OtherPoints"].ToString(),
                         Benifits = dr["Benifits"].ToString(),
                         OriginatedDate = dr["OrigonatedDate"].ToString(),
-                        OrigionatedDept = dr["OrigionatedDept"].ToString()
+                        OrigionatedDept = dr["OrigionatedDept"].ToString(),
+                        AStatus= int.Parse(dr["Status"].ToString())
                     });
                 }
             }
