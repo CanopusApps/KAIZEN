@@ -31,4 +31,11 @@
     <Folder Include="wwwroot\LogFolder\Template\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\WinnersList\WinnersList.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
