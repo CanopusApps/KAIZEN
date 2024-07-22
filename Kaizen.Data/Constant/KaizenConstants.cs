@@ -72,11 +72,12 @@ namespace Kaizen.Data.Constant
         
 
         public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
+        //public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
         public static string SpAddWinner = "Sp_AddWinner";
         public static string SpGetWinnersList = "Sp_GetWinnersList";
         public static string SpDeleteWinner = "Sp_DeleteWinner";
         public static string SpUpdateWinner = "Sp_UpdateWinner";
-
+        public static string SpUpdateWinnerStatus = "Sp_UpdateWinnerStatus";
     }
 
     public class ConstantValue
