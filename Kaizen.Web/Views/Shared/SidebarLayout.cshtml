@@ -82,7 +82,7 @@
 
 </style>
 @* <body class="bg-light" style="background-color:#e9ecef"> *@
-<body style="background-color:#e9ecef"> 
+<body style="background-color:#e9ecef;overflow-y:hidden;"> 
     <div id="wrapper" class="d-flex flex-column">
      
         <nav class="navbar navbar-expand-lg navbar-light" id="container-header" style="background-color: #2dc3e8!important;">
@@ -170,7 +170,7 @@
             <div id="loader-wrapper">
                 <div id="loader"></div>
             </div>
-            <div id="page-content-wrapper" class="flex-grow-1">
+            <div id="page-content-wrapper" class="flex-grow-1" style="height:500px; overflow-y: scroll;">
                 @RenderBody()
                 <!-- Footer-->
                @*  <div class="footer">
