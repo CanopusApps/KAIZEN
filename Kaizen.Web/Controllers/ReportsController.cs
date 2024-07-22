@@ -29,12 +29,16 @@ namespace Kaizen.Web.Controllers
                 var blockList = _downloadexcel.GetBlockReport(model);
                 var domainList = _downloadexcel.GetDomainReport(model);
                 var departmentList = _downloadexcel.GetDepartmentReport(model);
+                var userList = _downloadexcel.GetUsersReport(model);
+                var winnerList = _downloadexcel.GetWinnerReport(model);
 
                 // ViewBag counts
                 ViewBag.KaizenCount = _downloadexcel.GetCount(kaizenList);
                 ViewBag.BlockCount = _downloadexcel.GetCount(blockList);
                 ViewBag.DomainCount = _downloadexcel.GetCount(domainList);
                 ViewBag.DepartmentCount = _downloadexcel.GetCount(departmentList);
+                ViewBag.UserCount = _downloadexcel.GetCount(userList);
+                ViewBag.WinnerCount = _downloadexcel.GetCount(winnerList);
 
                 return View();
             }
@@ -44,16 +48,7 @@ namespace Kaizen.Web.Controllers
                 return View();
             }
         }
-        //private int GetCount(object data)
-        //{
-        //    return data switch
-        //    {
-        //        IEnumerable<KaizenReportModel> list => list.Count(),
-        //        DataTable table => table.Rows.Count,
-        //        _ => 0
-        //    };
-        //}
-
+        
         [HttpGet]
         public IActionResult KaizenForm(KaizenReportModel model)
         {
@@ -103,6 +98,34 @@ namespace Kaizen.Web.Controllers
             {
                 var list = _downloadexcel.GetDepartmentReport(model);
                 return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DepartmentReport.xlsx");
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View();
+            }
+        }
+        [HttpGet]
+        public IActionResult UserForm(KaizenReportModel model)
+        {
+            try
+            {
+                var list = _downloadexcel.GetUsersReport(model);
+                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "UserReport.xlsx");
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View();
+            }
+        }
+        [HttpGet]
+        public IActionResult WinnerForm(KaizenReportModel model)
+        {
+            try
+            {
+                var list = _downloadexcel.GetWinnerReport(model);
+                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "WinnersReport.xlsx");
             }
             catch (Exception ex)
             {
