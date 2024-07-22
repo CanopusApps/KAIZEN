@@ -14,7 +14,9 @@ namespace Kaizen.Data.DataServices.Interfaces
 
         public DataTable GetBlockReportData(KaizenReportModel model);
 
-        public DataTable GetDomainReportData(KaizenReportModel model); 
+        public DataTable GetDomainReportData(KaizenReportModel model);
         public DataTable GetDepartmentReportData(KaizenReportModel model);
+        public DataTable GetUsersReportData(KaizenReportModel model);
+        public DataTable GetWinnerReportData(KaizenReportModel model);
     }
 }
