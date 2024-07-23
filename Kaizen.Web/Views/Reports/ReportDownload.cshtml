@@ -50,35 +50,54 @@
     color: #1d7dbe;
     font-size: 1.25rem !important;
     }
+
+    #dHeader {
+        font-size: 16px !important;
+        margin-top: -10px;
+        margin-left: 7px;
+    }
+
+    #blkh {
+        color: black;
+        font-weight: 500;
+        font-size: 13px;
+       /*  margin-left: -17px; */
+    }
+
+    .full-width-hr {
+        width: 100%;
+        border: none;
+        height: 1px; 
+        background-color: #ccc; 
+        margin: 10px 0; 
+    }
 </style>
 <div class="container-fluid">
     <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
-        <div class="col-lg-12 p-md-0 p-2">
+        <div class="col-lg-12 mt-2">
             <div class="welcome-text">
-                <h4 class="text-primary reporthed">Report</h4>
-                <p>Kaizen Form > Report Downloads</p>
+               @*  <h4 class="text-primary reporthed">Report</h4> *@
+                @* <p>Kaizen Form > Report Downloads</p> *@
+                <label id="dHeader">Kaizen Form--></label>
+                <label id="dHeader">Report Downloads</label>
             </div>
         </div>
     </div>
 
-    @* <div class="card p-3 mt-5 ">
-        <div class="col-lg-12">
-                <div class="col-lg-4">
-                    <h5 class="text-primary">Report List :</h5>
-                </div>
-      </div>
-           </div>  *@
-
-
+    
         <div class="card">
             <div class="card-body">
             <div class="col-lg-12 mb-2">
+            <div><label class="reporthed" id="blkh">Report List :</label></div>
+                <hr class="full-width-hr" />
+            </div>
+            
+            <div class="col-lg-12 mb-2 mt-2">
                 <div class="row">
-                    <div class="col-lg-6 col-md-12 col-sm-12"> <h5 class="text-primary">Report List :</h5> </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="col-lg-3 col-md-4 col-sm-6 mt-2">
                         <label for="startDate">Start Date</label>
                         <div class="input-group">
-                            <input id="startDate" class="form-control text-primary bg-light datesbro" type="text" autocomplete="off">
+                            <input id="startDate" class="form-control text-primary bg-light datesbro" type="text" placeholder="dd-mm-yy" autocomplete="off">
                             <div class="input-group-append">
                                 <span class="input-group-text" onclick="$('#startDate').datepicker('show');">
                                     <i class="fas fa-calendar-alt"></i>
@@ -86,10 +105,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="col-lg-3 col-md-4 col-sm-6 mt-2">
                         <label for="endDate">End Date</label>
                         <div class="input-group">
-                            <input id="endDate" class="form-control text-primary bg-light datesbro" type="text" autocomplete="off">
+                            <input id="endDate" class="form-control text-primary bg-light datesbro" type="text" placeholder="dd-mm-yy" autocomplete="off">
                             <div class="input-group-append">
                                 <span class="input-group-text" onclick="$('#endDate').datepicker('show');">
                                     <i class="fas fa-calendar-alt"></i>
@@ -100,55 +119,56 @@
 
                 </div>
             </div>
+            <div class="col-lg-8">
                 <div class="table-responsive-sm mt-2">
                     <table class="table table-bordered  tablerefresh" broder="">
                         <thead>
                             <tr class="tablesort">
-                                <th class="text-center">#</th>
+                                <th class="text-center">Sr.No</th>
                                 <th class="text-center">UTILITIES</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="text-center">#</td>
-                            <td><p><b>Kaizen Form</b><span class="float-right">Total Rows : <span class="countback">@ViewBag.KaizenCount</span></span></p></td>
+                                <td>1</td>
+                            <td><p>Kaizen Form</p></td>
                             
                                 <td class="text-center">
                                     <input type="button" value="Download" class="btn btn-warning dow" onclick="changeOrderExportHref()" />
                                 </td>
                             </tr>
                             <tr>
-                             <td class="text-center">#</td>
-                            <td><p><b>Block</b><span class="float-right">Total Rows : <span class="countback">@ViewBag.BlockCount</span></span></p></td>
-                            <td class="text-center">
+                             <td>2</td>
+                            <td><p>Block</p></td>
+                                <td class="text-center">
                                 <input type="button" value="Download" class="btn btn-warning dow" onclick="changeBlockExportHref()" />
                             </td>
                             </tr>
                         <tr>
-                            <td class="text-center">#</td>
-                            <td><p><b>Domain</b><span class="float-right">Total Rows : <span class="countback">@ViewBag.DomainCount</span></span></p></td>
-                            <td class="text-center">
+                            <td>3</td>
+                            <td><p>Domain</p></td>
+                                <td class="text-center">
                                 <input type="button" value="Download" class="btn btn-warning dow" onclick="changeDomainExportHref()" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center">#</td>
-                            <td><p><b>Department</b><span class="float-right">Total Rows : <span class="countback">@ViewBag.DepartmentCount</span></span></p></td>
-                            <td class="text-center">
+                            <td>4</td>
+                            <td><p>Department</p></td>
+                                <td class="text-center">
                                 <input type="button" value="Download" class="btn btn-warning dow" onclick="changeDepartmentExportHref()" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center">#</td>
-                            <td><p><b>Users</b><span class="float-right">Total Rows : <span class="countback">@ViewBag.UserCount</span></span></p></td>
-                            <td class="text-center">
+                            <td>5</td>
+                            <td><p>Users</p></td>
+                                <td class="text-center">
                                 <input type="button" value="Download" class="btn btn-warning dow" onclick="changeUserExportHref()" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center">#</td>
-                            <td><p><b>WinnerList</b><span class="float-right">Total Rows : <span class="countback">@ViewBag.WinnerCount</span></span></p></td>
+                            <td>6</td>
+                            <td><p>WinnerList</p></td>
                             <td class="text-center">
                                 <input type="button" value="Download" class="btn btn-warning dow" onclick="changeWinnerExportHref()" />
                             </td>
@@ -159,28 +179,31 @@
             </div>
         </div>
     </div>
-
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script>
     $(function () {
         var today = new Date();
+        var formattedToday = $.datepicker.formatDate('dd-mm-yy', today);
 
         $("#startDate").datepicker({
-            dateFormat: "yy-mm-dd",
-            maxDate: today,
+            dateFormat: "dd-mm-yy",
+            maxDate: formattedToday,
             beforeShowDay: function (date) {
                 return [date <= today, ''];
             },
-            // onSelect: function (selectedDate) {
-            //     $("#endDate").datepicker("option", "minDate", selectedDate);
-            // }
+            onSelect: function (selectedDate) {
+                // var minDate = $(this).datepicker('getDate');
+                var minDate = $.datepicker.parseDate('dd-mm-yy', selectedDate);
+                $("#endDate").datepicker("option", "minDate", minDate);
+            }
         });
 
         $("#endDate").datepicker({
-            dateFormat: "yy-mm-dd",
-            maxDate: today,
+            dateFormat: "dd-mm-yy",
+            maxDate: formattedToday,
             beforeShowDay: function (date) {
                 return [date <= today, ''];
             }

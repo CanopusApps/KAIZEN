@@ -21,32 +21,9 @@ namespace Kaizen.Web.Controllers
             _downloadexcel = reportworker;
         }
 
-        public IActionResult ReportDownload(KaizenReportModel model)
+        public IActionResult ReportDownload()
         {
-            try
-            {
-                var kaizenList = _downloadexcel.GetKaizenform(model);
-                var blockList = _downloadexcel.GetBlockReport(model);
-                var domainList = _downloadexcel.GetDomainReport(model);
-                var departmentList = _downloadexcel.GetDepartmentReport(model);
-                var userList = _downloadexcel.GetUsersReport(model);
-                var winnerList = _downloadexcel.GetWinnerReport(model);
-
-                // ViewBag counts
-                ViewBag.KaizenCount = _downloadexcel.GetCount(kaizenList);
-                ViewBag.BlockCount = _downloadexcel.GetCount(blockList);
-                ViewBag.DomainCount = _downloadexcel.GetCount(domainList);
-                ViewBag.DepartmentCount = _downloadexcel.GetCount(departmentList);
-                ViewBag.UserCount = _downloadexcel.GetCount(userList);
-                ViewBag.WinnerCount = _downloadexcel.GetCount(winnerList);
-
-                return View();
-            }
-            catch (Exception ex)
-            {
-                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
-                return View();
-            }
+            return View();
         }
         
         [HttpGet]
