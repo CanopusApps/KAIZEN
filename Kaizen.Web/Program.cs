@@ -39,6 +39,8 @@ builder.Services.AddScoped<ISubmittedKaizen, SubmittedKaizenWorker>();
 builder.Services.AddScoped<ISubmittedKaizenRepository, SubmittedKaizenRepository>();
 builder.Services.AddScoped<ICreateNewKaizen, CreateNewKaizenWorker>();
 builder.Services.AddScoped<ICreateNewKaizenRepository,CreateNewKaizenRepository>();
+builder.Services.AddScoped<IProfile, ProfileWorker>();
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IReport, ReportWorker>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IWinnersList, WinnersListWorker>();
