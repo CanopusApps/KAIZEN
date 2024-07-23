@@ -1,3 +1,4 @@
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Kaizen.Business.Interface;
 using Kaizen.Business.Worker;
 using Kaizen.Data.DataContent;
@@ -40,6 +41,10 @@ builder.Services.AddScoped<ICreateNewKaizen, CreateNewKaizenWorker>();
 builder.Services.AddScoped<ICreateNewKaizenRepository,CreateNewKaizenRepository>();
 builder.Services.AddScoped<IProfile, ProfileWorker>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IReport, ReportWorker>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<IWinnersList, WinnersListWorker>();
+builder.Services.AddScoped<IWinnersListRepository, WinnersListRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -60,11 +65,7 @@ app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
-    //pattern: "{controller=Login}/{action=Profile}/{id?}");
     pattern: "{controller=Login}/{action=Index}/{id?}");
-//pattern: "{controller=CreateKaizen}/{action=NewKaizen}/{id?}");
-
-
 app.UseSession();
 
 app.Run();

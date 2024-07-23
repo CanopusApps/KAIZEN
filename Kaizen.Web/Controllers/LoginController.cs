@@ -95,6 +95,9 @@ namespace Kaizen.Web.Controllers
         public IActionResult Logout()
         {
             conAccessor.HttpContext.Session.GetString("Message");
+           
+
+            
             if (HttpContext.Session.IsAvailable)
             {
                 HttpContext.Session.Clear();

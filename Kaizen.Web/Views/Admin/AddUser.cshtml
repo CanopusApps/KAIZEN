@@ -2,7 +2,6 @@
 @{
     Layout = "SidebarLayout";
 }
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
     #dHeader {
     font-size: 16px !important;
@@ -168,9 +167,9 @@
         swal('@TempData["addmsg"]')
     </script>
 }
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js" crossorigin="anonymous"></script>
 <script>
     $('#configreset').click(function () {
         $('#configform')[0].reset();

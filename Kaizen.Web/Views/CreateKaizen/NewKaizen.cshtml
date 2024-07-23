@@ -17,6 +17,18 @@
     Layout = "SidebarLayout";
 }
 <style>
+    .approved {
+        color: green;
+    }
+
+    .rejected {
+        color: red;
+    }
+
+    .pending {
+        color: orange; 
+    }
+
     .btn-danger {
         color: #fff!important;
         background-color: #dc3545!important;
@@ -1047,9 +1059,9 @@
                                         <div><strong>Name :</strong> <span id="driName"></span></div>
                                         <div><strong>Email :</strong> <span id="driEmail"></span></div>
                                         <div><strong>Department :</strong><span id="dDom"></span>- <span id="dDept"></span></div>
-                                        <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
+                                        <div><strong>Status :</strong> <span  id="dristatusid"></span></div>
                                         <div><strong>Rejected Reason :</strong> <span id="driRejectedReason"></span></div>
-                                        <div><strong>Date & Time :</strong> <span id="driDateTime"></span></div>
+                                        <div><strong>Approved Date :</strong> <span id="driDateTime"></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -1061,9 +1073,9 @@
                                         <div><strong>Name :</strong> <span id="ieName"></span></div>
                                         <div><strong>Email :</strong> <span id="ieEmail"></span></div>
                                         <div><strong>Department :</strong><span id="ieeDom"></span>-<span id="ieeDept"></span></div>
-                                        <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
+                                        <div><strong>Status :</strong> <span id="iestatusid"></span></div>
                                         <div><strong>Rejected Reason :</strong> <span id="ieRejectedReason"></span></div>
-                                        <div><strong>Date & Time :</strong> <span id="ieDateTime"></span></div>
+                                        <div><strong>Approved Date :</strong> <span id="ieDateTime"></span></div>
                                 </div>
                             </div>
                         </div>
@@ -1075,9 +1087,9 @@
                                         <div><strong>Name :</strong> <span id="finName"></span></div>
                                         <div><strong>Email :</strong> <span id="finEmail"></span></div>
                                         <div><strong>Department :</strong> <span id="finDom"></span>-<span id="finDept"></span></div>
-                                        <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
+                                        <div><strong>Status :</strong> <span  id="financestatusid"></span></div>
                                         <div><strong>Rejected Reason :</strong> <span id="finRejectedReason"></span></div>
-                                        <div><strong>Date & Time :</strong> <span id="finDateTime"></span></div>
+                                        <div><strong>Approved Date :</strong> <span id="finDateTime"></span></div>
                                 </div>
                             </div>
                         </div>
@@ -1088,7 +1100,7 @@
                                     <div class="card-header">Image Sanitization</div>
                                     <div class="card-body">
                                         <div><strong>Name :</strong> <span id="imageaprName"></span></div>
-                                        <div><strong>Status :</strong> <span class="text-success">Approved</span></div>
+                                        <div><strong>Status :</strong> <span  id="imagestatusid"></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -1099,6 +1111,10 @@
                             <button class="btn btn-warning">Edit </button>
                             
                             </div>
+                            <div class="col-sm-12" id="imagelabel">
+                            <label>Would You Like To Approve Kaizen Image and move it to Dri Approval </label>
+                                                   
+                            </div>
                         <div class="col-sm-12 " id="Aprrovalbtn">
                            
                             <div class="card-body float-left">
@@ -1107,12 +1123,28 @@
                                     <label class="btn btn-success" id="waitingimage">Waiting for Image Sanitation</label>
                                 </div>
                                 <button class="btn btn-primary" id="ApprovButton">Approve</button>
-                                <button class="btn btn-danger"  id="rejectButton" >Reject</button>
+                                <button class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg">Reject</button>                             
                                 <button class="btn btn-warning" id="Aprrovalbtnhold">Hold </button>
                             </div>
                         </div>
 
+                        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="modal-title">Please Enter the Reason for Rejection</div>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
 
+                                    <div class="modal-body">
+                                        <textarea class="col-lg-12"id="RejectionReason"></textarea>
+                                    </div>
+                                    <button class="btn btn-danger" id="rejectButton">Reject</button>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
            </div>
@@ -1157,17 +1189,22 @@
         var userRole = $('#Userrole').data('role');
         debugger;
         
-        function handleButtonClick(enumValue) {
+        function handleButtonClick(enumValue, RejectionReason='') {
             $.ajax({
                 url: '/CreateKaizen/getstatus',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     approvalStatus: enumValue,
+                    RejectionReason: RejectionReason,
                     
                 }),
+
                 success: function (response) {
-                    swal("status Updated");
+                    swal("Status Updated").then(function () {
+                        window.location.reload();
+                    });
+
                 },
                 error: function (error) {
                     swal("some error");
@@ -1175,7 +1212,10 @@
             });
         }
         $('#rejectButton').click(function () {
+            debugger;
             let enumValue;
+            var RejectionReason = $('#RejectionReason').val();
+            
             switch (userRole) {
                 case 'IE DEPT':
                     enumValue = 7; // IERejected
@@ -1193,7 +1233,7 @@
                     enumValue = 10; // Pending or some default value
                     break;
             }
-            handleButtonClick(enumValue);
+            handleButtonClick(enumValue, RejectionReason);
         });
 
         $('#ApprovButton').click(function () {
@@ -1223,17 +1263,14 @@
             let enumValue;
             switch (userRole) {
                 case 'IE DEPT':
-                    enumValue = 10; // Pending or some specific hold value
+                    enumValue = 12; // Pending or some specific hold value
                     break;
                 case 'FINNACE':
-                    enumValue = 10; // Pending or some specific hold value
+                    enumValue = 13; // Pending or some specific hold value
                     break;
                 case 'MANAGER':
-                    enumValue = 10; // Pending or some specific hold value
-                    break;
-                case 'IMAGE APPROVER':
-                    enumValue = 10; // Pending or some specific hold value
-                    break;
+                    enumValue = 11; // Pending or some specific hold value
+                    break;               
                 default:
                     enumValue = 10; // Pending or some default value
                     break;
@@ -1255,24 +1292,27 @@
         $('#Editbtn').hide();
             $('#waitingapproval').hide();
             $('#waitingimage').hide();
+            $('#imagelabel').hide();
+          
           
         switch (userRole) {
                 case 'IE DEPT':
                     $('#DRIDept').show();
-                $('#IEDept').show();
+                // $('#IEDept').show();
                 $('#Aprrovalbtn').show();
                 $('#waitingapproval').show();
                 break;
                 case 'FINNACE':
                     $('#DRIDept').show();
                 $('#IEDept').show();
-                $('#FinanceDept').show();
+                // $('#FinanceDept').show();
                 $('#Aprrovalbtn').show();
                 $('#waitingapproval').show();
                 break;
                 case 'MANAGER':
                
-                $('#DRIDept').show();
+                // $('#DRIDept').show();
+                    $('#ImageApprover').show();
                     $('#Editbtn').show();
                     $('#Aprrovalbtn').show();
                     $('#waitingapproval').show();
@@ -1285,7 +1325,9 @@
                     break;
                 case 'IMAGE APPROVER':
                     $('#waitingimage').show();
-                    $('#ImageApprover').show(); 
+                    // $('#ImageApprover').show(); 
+                    $('#imagelabel').show();
+
                     $('#Aprrovalbtn').show();
                 $('#Aprrovalbtnhold').hide();
                  break;                        
@@ -2047,8 +2089,6 @@
 </script>
 <script>
     $(function getSession() {
-        /* debugger; */
-
         if (sessionStorage.getItem("editKaizen")) {
             var editKaizen = JSON.parse(sessionStorage.getItem("editKaizen"));
             var KaizenId = editKaizen['kaizenid'];
@@ -2063,7 +2103,59 @@
                 success: function (result) {
                     debugger;
                     if (result) {
+                        const statusdetails = {
+                            ImageApproved: 2,
+                            ImageRejected: 3,
+                            DRIApproved: 4,
+                            DRIRejected: 5,
+                            IEApproved: 6,
+                            IERejected: 7,
+                            FinanceApproved: 8,
+                            FinanceRejected: 9,
+                            Pending: 10,
+                            DRIPending: 11,
+                            IEPending: 12,
+                            FinancePending: 13
+                        };
 
+                        // Reverse lookup to get the status name by its number
+                        const reverseStatusDetails = {};
+                        for (const [key, value] of Object.entries(statusdetails)) {
+                            reverseStatusDetails[value] = key;
+                        }
+
+                        var statusDesc = result.kaizenList[0].approvalStatus;
+
+                        if (statusDesc === statusdetails.FinanceApproved || statusDesc === statusdetails.FinanceRejected || statusDesc === statusdetails.FinancePending) {
+                            $('#financestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.FinanceRejected ? 'rejected' : (statusDesc === statusdetails.FinancePending ? 'pending' : 'approved'));
+                            if (statusDesc === statusdetails.FinanceRejected) {
+                                $("#finRejectedReason").text(result.kaizenList[0].rejectionreason);
+                            }
+                            $('#iestatusid').text(reverseStatusDetails[statusdetails.IEApproved]).addClass('approved');
+                            $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
+                            $('#dristatusid').text(reverseStatusDetails[statusdetails.DRIApproved]).addClass('approved');
+                        } else if (statusDesc === statusdetails.IEApproved || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.IEPending) {
+                            $('#iestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
+                            if (statusDesc === statusdetails.IERejected) {
+                                $("#ieRejectedReason").text(result.kaizenList[0].rejectionreason);
+                            }
+                            $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
+                            $('#dristatusid').text(reverseStatusDetails[statusdetails.DRIApproved]).addClass('approved');
+                        } else if (statusDesc === statusdetails.DRIApproved || statusDesc === statusdetails.DRIRejected || statusDesc === statusdetails.DRIPending) {
+                            $('#dristatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.DRIRejected ? 'rejected' : (statusDesc === statusdetails.DRIPending ? 'pending' : 'approved'));
+                            if (statusDesc === statusdetails.DRIRejected) {
+                                $("#driRejectedReason").text(result.kaizenList[0].rejectionreason);
+                            }
+                            $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
+                        } else if (statusDesc === statusdetails.ImageApproved || statusDesc === statusdetails.ImageRejected) {
+                            $('#imagestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.ImageRejected ? 'rejected' : 'approved');
+                        } else if (statusDesc === statusdetails.Pending || statusDesc === statusdetails.DRIPending || statusDesc === statusdetails.IEPending || statusDesc === statusdetails.FinancePending) {
+                            $('#pendingstatusid').text(reverseStatusDetails[statusDesc]).addClass('pending');
+                        }
+                        $('#ieDateTime').text(result.kaizenList[0].ieApprovedDate);
+                        $('#driDateTime').text(result.kaizenList[0].driApprovedDate);
+                        $('#finDateTime').text(result.kaizenList[0].financeApprovedDate);
+                        $('#statusid').text(result.kaizenList[0].approvalstatusdesc);
                         $('#dDept').text(result.approverslist[0].driDept);
                         $('#driName').text(result.approverslist[0].driName);
                         $('#driEmail').text(result.approverslist[0].driEmail);
@@ -2146,9 +2238,9 @@
                             document.getElementById('toggleContent').style.display = 'none';
                         } 
                         $("#CDeta").val(result.kaizenList[0].originatedDate);
-                        $("#DeptId").val(result.kaizenList[0].origionatedDept);
-                        $("#name").val(result.kaizenList[0].originatedBy);
-
+                        $("#DomainId").val(result.kaizenList[0].dept);
+                        $("#name").val(result.kaizenList[0].originatedBy); 
+                        $("#DeptId").val(result.kaizenList[0].dept);
                         var mytable = document.getElementById("tblteammemberResult");
                         result.teamList.forEach(item => {
                             var rows = mytable.rows.length;

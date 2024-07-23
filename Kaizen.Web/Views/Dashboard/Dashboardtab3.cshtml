@@ -51,18 +51,18 @@
                             <div class="form-group col-md-4">
                                 <label for="Year">Start-Date<span class="text-danger">*</span></label>
                                 <div>
-                                    <input class="form-control txt-width" type="date" name="name" value="" />
+                                <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="" />
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="Year">End-Date<span class="text-danger">*</span></label>
                                 <div>
-                                    <input class="form-control txt-width" type="date" name="name" value="" />
+                                <input class="form-control txt-width" id="dtenddate" type="date" name="name" value="" />
                                 </div>
                             </div>
 
                             <span class="form-row p-4 container">
-                                <button type="submit" class="btn  col-lg-2 m-1 btn-azure ">Filter</button>
+                            <button type="button" class="btn  col-lg-2 m-1 btn-azure " id="btn_filter" value="Filter">Filter</button>
                                 <button type="reset" class="btn col-lg-2 m-1 btn-warning value="Reset">Reset</button>
 
                             </span>
@@ -249,3 +249,57 @@
     </nav>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#btn_filter').click(function () {
+            debugger;
+            var StartDate = $('#dtstartdate').val();
+            var EndDate = $('#dtenddate').val();
+            var Domain = $('#inputDomain option:selected').text();
+            var Department = $('#inputDepartment option:selected').text();
+            $.ajax({
+                url: '@Url.Action("ViewFilterKaizen", "Dashboard")',
+                type: 'GET',
+                data: {
+                    StartDate: StartDate,
+                    EndDate: EndDate,
+                    Domain: Domain,
+                    Department: Department
+                },
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+                success: function (result) {
+                    var rows = [];
+                    $(result).find('tbody tr').each(function () {
+                        var $row = $(this);
+                        var rowData = {
+                            kaizentheme: $row.data('kaizentheme'),
+                            teamname: $row.data('teamname'),
+                            horozantaldeployment: $row.data('horozantaldeployment'),
+                            ieapproveddept: $row.data('ieapproveddept'),
+                            domain: $row.data('domain'),
+                            finnancedeptappr: $row.data('finnancedeptappr'),
+                            shortlisted: $row.data('shortlisted'),
+                            approvalstatus: $row.data('approvalstatus'),
+                            createdby: $row.data('createdby'),
+                            createddate: $row.data('createddate')
+
+                        };
+                        rows.push(rowData);
+                    });
+                    $('#SubmittedKaizengrid').html(result);
+
+                },
+                complete: function () {
+                    setTimeout(function () {
+                        $('#loader-wrapper').hide();
+                    }, 3000);
+                }
+            });
+        });
+    });
+
+
+
+</script>
