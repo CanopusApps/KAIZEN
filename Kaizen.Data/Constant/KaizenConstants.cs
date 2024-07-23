@@ -59,6 +59,8 @@ namespace Kaizen.Data.Constant
         public static string Sp_Get_Kaizen_Details = "Sp_Get_Kaizen_Details";
         public static string SpGetKaizenOriginetedby = "Sp_Get_KaizenOriginetedby";
         public static string SpKaizen_Insert = "Sp_Kaizen_Insert_test";
+        public static string Sp_Fetch_TeamMember = "Sp_Fetch_TeamMember"; 
+        public static string Sp_UserProfile = "Sp_UserProfile";
         public static string SpGetUserManager = "Sp_GetUserManager";
         public static string Sp_Fetch_KaizenDetails_ById = "Sp_Fetch_KaizenDetails_ById";
         public static string Sp_UpdateApprovalStatus = "UpdateApprovalStatus";
@@ -80,6 +82,7 @@ namespace Kaizen.Data.Constant
         public static string SpDeleteWinner = "Sp_DeleteWinner";
         public static string SpUpdateWinner = "Sp_UpdateWinner";
         public static string SpUpdateWinnerStatus = "Sp_UpdateWinnerStatus";
+        public static string Sp_Get_KaizenProfileDetails = "Sp_Get_KaizenProfileDetails";
     }
 
     public class ConstantValue

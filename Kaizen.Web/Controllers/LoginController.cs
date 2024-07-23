@@ -5,6 +5,8 @@ using Kaizen.Models.AdminModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Http;
+using Kaizen.Data.DataServices.Interfaces;
+
 using Newtonsoft.Json;
 namespace Kaizen.Web.Controllers
 {
@@ -15,10 +17,12 @@ namespace Kaizen.Web.Controllers
         private readonly IWebHostEnvironment _environment;
         List<ManagerModel> ManagerList = new List<ManagerModel>();
 
+       
+
         public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor)
         {
             this._loginworker = _loginworker;
-            this.conAccessor = conAccessor;
+            this.conAccessor = conAccessor; 
         }
         public IActionResult Index()
         {
@@ -56,7 +60,7 @@ namespace Kaizen.Web.Controllers
                             //dataTable1 = _loginworker.Usermanager(EmpId);
                             String Id= conAccessor.HttpContext.Session.Id;
                            if(HttpContext != null && HttpContext.Session != null)
-                            {
+                           {
                                 Response.Redirect("Admin/Adduser");
                                 HttpContext.Session.SetString("Message",Username);
                                 HttpContext.Session.SetString("EmpId", EmpId);
@@ -98,5 +102,8 @@ namespace Kaizen.Web.Controllers
             }
             return RedirectToAction("Index", "Login", new { area = "" });
         }
+
+
+        
     }
 }
