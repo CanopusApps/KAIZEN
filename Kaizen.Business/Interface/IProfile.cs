@@ -10,10 +10,7 @@ namespace Kaizen.Business.Interface
 {   
     public interface IProfile
     { 
-        //public ProfileModel UserProfile(ProfileModel profileModel);
         public ProfileModel UserProfile(string empID);
-
-        //public ProfileModel UpdateUserProfile(ProfileModel profileModel);
         public bool UpdateUserProfile(ProfileModel profileModel);
     }
 }

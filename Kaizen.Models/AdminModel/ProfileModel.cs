@@ -12,7 +12,7 @@ namespace Kaizen.Models.AdminModel
         [Required(ErrorMessage = "FirstName is required")]
         [StringLength(50, MinimumLength = 1, ErrorMessage = "FirstName can not contain more than 50 characters")]
         [RegularExpression("@^[a-zA-Z]+$", ErrorMessage = "FirstName can only contain letters")]
-        public string FirstName { get; set; } = "";
+        public string FirstName { get; set; }
 
 
         [StringLength(50, MinimumLength = 0, ErrorMessage = "MiddleName can not contain more than 50 characters")]
@@ -22,22 +22,21 @@ namespace Kaizen.Models.AdminModel
         [Required(ErrorMessage = "LastName is required")]
         [StringLength(50, MinimumLength = 1, ErrorMessage = "LastName can not contain more than 50 characters")]
         [RegularExpression("@^[a-zA-Z]+$", ErrorMessage = "LastName can only contain letters")]
-        public string LastName { get; set; } = "";
+        public string LastName { get; set; }
 
-        public string EmpID { get; set; } = "";
+        public string EmpID { get; set; }
 
         [Required(ErrorMessage = "Gender is required")]
         [RegularExpression("@^(Male|Female|Other)$", ErrorMessage = "Gender must be Male, Female, or Other")]
-        public string Gender { get; set; } = string.Empty;
+        public string Gender { get; set; }
 
-        public string Domain { get; set; } = "";
+        public string Domain { get; set; }
 
-        public string Department { get; set; } = "";
+        public string Department { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "EmailAdrees is not valid.")]
-        public string Email { get; set; } = "";
+        public string Email { get; set; }
 
-        public bool updateStatus { get; set; } = false;
     }
 }

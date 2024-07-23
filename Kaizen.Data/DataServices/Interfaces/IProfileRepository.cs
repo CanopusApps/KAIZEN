@@ -11,5 +11,6 @@ namespace Kaizen.Data.DataServices.Interfaces
     public interface IProfileRepository
     {
         public DataTable UserProfileData(ProfileModel profileModel);
+        public bool UpdateUserProfileData(ProfileModel profileModel);
     }
 }

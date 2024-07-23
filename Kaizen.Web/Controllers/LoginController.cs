@@ -17,14 +17,12 @@ namespace Kaizen.Web.Controllers
         private readonly IWebHostEnvironment _environment;
         List<ManagerModel> ManagerList = new List<ManagerModel>();
 
-        private readonly IProfile _profileworker;
-        ProfileModel model = new ProfileModel();
+       
 
-        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor, IProfile profile)
+        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor)
         {
             this._loginworker = _loginworker;
-            this.conAccessor = conAccessor;
-            _profileworker = profile; 
+            this.conAccessor = conAccessor; 
         }
         public IActionResult Index()
         {
@@ -106,38 +104,6 @@ namespace Kaizen.Web.Controllers
         }
 
 
-        public IActionResult Profile()
-        {
-            try
-            {
-                //model.EmpID = conAccessor.HttpContext.Session.Id;
-                //model.EmpID =;
-
-                //model = _profile.UserProfile(model);
-
-                //the following code assigns null string to EmpID
-                //model.EmpID = loginModel.EmpId;
-                //model.EmpID = conAccessor.HttpContext.Session.GetString("EmpId");
-                string empid = conAccessor.HttpContext.Session.GetString("EmpId");
-
-                //object not set to an instance of an object
-                //model = _profile.UserProfile(model.EmpID);
-
-                //model = _profile.UserProfile(empid); 
-                model = _profileworker.UserProfile(empid);
-                
-            }
-            catch (Exception ex)
-            {
-                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
-            }
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult UpdateProfile()
-        {
-            return View(model);
-        }
+        
     }
 }
