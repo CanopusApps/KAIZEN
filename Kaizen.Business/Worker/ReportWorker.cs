@@ -46,10 +46,6 @@ namespace Kaizen.Business.Worker
         {
             return _reportRepository.GetUsersReportData(model);
         }
-        public DataTable GetWinnerReport(KaizenReportModel model)
-        {
-            return _reportRepository.GetWinnerReportData(model);
-        }
         public byte[] ExportDataTableToExcel(DataTable dataTable)
         {
             using (var workbook = new XLWorkbook())
