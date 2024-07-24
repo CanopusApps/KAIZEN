@@ -166,14 +166,27 @@ namespace Kaizen.Business.Worker
             {
                 foreach (DataRow dr in ImageList.Tables[4].Rows)
                 {
+                    string filePath = dr["FileName"].ToString();
+                    string base64String = ConvertFileToBase64(filePath);
+
                     Image.Add(new Attachmentsimg
                     {
-                        FileName = dr["FileName"].ToString(),
+                        FileName = base64String,
                         AttachmentType = dr["AttachmentType"].ToString(),
+                        filePath= dr["FileName"].ToString()
                     });
                 }
             }
             return Image;
+        }
+        private string ConvertFileToBase64(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                byte[] fileBytes = File.ReadAllBytes(filePath);
+                return Convert.ToBase64String(fileBytes);
+            }
+            return null;
         }
         public List<Approvers> GetApproversByID(string KaizenId)
         {

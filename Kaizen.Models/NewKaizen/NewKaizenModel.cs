@@ -170,6 +170,8 @@ namespace Kaizen.Models.NewKaizen
         public string CreatedDate { get; set; } = "";
 
         public string AttachmentType { get; set; } = "";
+
+        public string filePath { get; set; } = "";
     }
 
 
