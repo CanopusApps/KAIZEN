@@ -452,7 +452,7 @@
                                     <div class="inpfilelabel-attm mb-2 grayed-out" id="upload_area">
                                         <input id="additional_attachments" type="file" name="files" style="display: none;" multiple onchange="previewAdditionalImages(event)">
                                         <label for="additional_attachments" class="file-drag">
-                                            <div class="upload-interface ">
+                                            <div class="upload-interface">
                                                 <img id="file-image-additional" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
                                                 <div class="attachtitle mt-2" id="file-image-additional-text">Click here to attach files</div>
                                             </div>
@@ -2346,28 +2346,88 @@
                             var FilePath = item.filePath;
                             var fileExtension = FilePath.split('.').pop().toLowerCase();
 
-                            var mimeType = "";
+                            var ImageType = "";
                             if (fileExtension === "jpg" || fileExtension === "jpeg") 
                             {
-                                mimeType = "image/jpeg";
-                            } 
+                                ImageType = "image/jpeg";
+                            }
                             else if (fileExtension === "png") 
                             {
-                                mimeType = "image/png";
-                            } 
+                                ImageType = "image/png";
+                            }
                             else 
                             {
-                                mimeType = "image/jpeg";
+                                ImageType = "image/jpeg";
                             }
 
+                            var imgContainer = $('<div>', { class: 'img-container' });
+
                             var imgElement = $('<img>', {
-                                src: `data:${mimeType};base64,${base64String}`,
+                                src: `data:${ImageType};base64,${base64String}`,
                                 alt: 'Image'
                             });
 
+                            var deleteButton = $('<button>', {
+                                text: 'Delete',
+                                class: 'delete-btn',
+                                style: 'margin: 20px;'
+                            });
+
+                            imgContainer.append(imgElement, deleteButton);
                             if (attachmentType === "AttachmentBefore") {
-                                $('#uploaded_before_image').append(imgElement);
+                                $('#file-image-before-text').hide();
+                                $('#file-image-before').hide();
+                                $('#uploaded_before_image').append(imgContainer);
                             }
+                            if (attachmentType === "AttachmentAfter") {
+                                $('#file-image-after-text').hide();
+                                $('#file-image-after').hide();
+                                $('#uploaded_after_image').append(imgContainer);
+                            }
+                            if (attachmentType === "RootProblemAttachment") {
+                                $('#file-image-text').hide();
+                                $('#file-image').hide();
+                                $('#uploaded_attach2_image').append(imgContainer);
+                            }
+                            if (attachmentType === "AdditionalAttachment") {
+                                $('#file-image-additional-text').hide();
+                                $('#file-image-additional').hide();
+                                $('#preview_area').append(imgContainer);
+                                $('#upload_area').hide();
+                            }
+                            deleteButton.on('click', function () {
+                                swal({
+                                    text: "Are you sure you want to Delete?",
+                                    buttons: {
+                                        confirm: "Yes",
+                                        cancel: "No"
+                                    }
+                                }).then((userConfirmation) => {
+                                    if (userConfirmation) {
+                                        if (attachmentType === "AttachmentBefore") {
+
+                                            $('#file-image-before-text').show();
+                                            $('#file-image-before').show();
+                                        }
+                                        if (attachmentType === "AttachmentAfter") {
+                                            $('#file-image-after-text').show();
+                                            $('#file-image-after').show();
+                                        }
+                                        if (attachmentType === "RootProblemAttachment") {
+                                            $('#file-image-text').show();
+                                            $('#file-image').show();
+                                        }
+                                        if (attachmentType === "AdditionalAttachment") {
+                                            
+                                            $('#file-image-additional-text').show();
+                                            $('#file-image-additional').show();
+                                            $('#upload_area').show();
+                                        }
+                                        imgContainer.remove();
+                                    }
+                                });
+
+                            });
                         });
                     }
                     else 
