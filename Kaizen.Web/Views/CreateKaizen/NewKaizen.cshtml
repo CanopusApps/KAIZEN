@@ -80,14 +80,15 @@
         <div class="row page-titles mx-0 mt-5">
             <div class="col-sm-12 p-md-0">
                 <div class="welcome-text">
-                    <h4>Create Kaizen<button class="btn btn-azure float-right" type="button">Sample Kaizen Form</button></h4>
+                    <a id="printPDF" class="btn btn-azure float-right">Download PDF</a>
+                    <h4>Create Kaizen<button class="btn btn-azure float-right"  style="margin-right:2px;"type="button">Sample Kaizen Form</button></h4>
                     <p class="responsemessage"></p>
                 </div>
             </div>
         </div>
         <!-- END Page Title -->
         <!-- Accordion Section -->
-
+        <div id="downloadDiv">
         <div class="accordion-bral">
 
             <!-- Accordion Item 1 -->
@@ -1151,6 +1152,7 @@
         </div>
         @* containerdivs *@
     </div>
+    </div>
 </div>
 
 <div class="col-sm-12 ">
@@ -1169,6 +1171,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" crossorigin="anonymous"></script>
+<script src="~/assets/js/custom/html2pdf.bundle.js"></script>
+
 <script>
 
     // function generateGUID() {
@@ -1185,6 +1189,19 @@
     // window.onload = function () {
     //     updateGUID();
     // }
+
+    //Download PDF Start
+    $('#printPDF').click(function () {
+        debugger;
+        var element = document.getElementById('downloadDiv');
+        html2pdf().from(element).set({
+            margin: [30, 10, 5, 10], //top,left,buttom,right
+            pagebreak: { avoid: 'tr' },
+            jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
+        }).save()
+    });
+    //Download PDF End
+
     $(document).ready(function () {
         var userRole = $('#Userrole').data('role');
         debugger;
@@ -1293,6 +1310,7 @@
             $('#waitingapproval').hide();
             $('#waitingimage').hide();
             $('#imagelabel').hide();
+            $('#printPDF').hide();
           
           
         switch (userRole) {
@@ -1668,7 +1686,6 @@
     
 
     $(document).ready(function () {
-
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
         $("#approvedbyIE").attr("disabled", "disabled");
@@ -2174,7 +2191,7 @@
                         $('#imageaprName').text(result.approverslist[0].imageAproveName);
                         
                         $("#docNo").val(result.kaizenList[0].docNo);
-                       
+                        $('#printPDF').show();
 
                         $("#versionNo").val(result.kaizenList[0].versionNoDate);
                         $("#refNo").val(result.kaizenList[0].kaizenRefNo);
