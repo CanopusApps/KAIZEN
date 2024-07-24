@@ -20,7 +20,6 @@
 
 </style>
 
-
 <div class="card">
     <div class="card rounded bg-white p-2  mt-2 ml-2 mr-2 mb-2">
         <div class="fw-semibold" id="ProfileHeader"><h1>My Profile</h1></div>
@@ -131,6 +130,7 @@
             dataType: "json",
             data: { model: profilemodel },
             success: function (result) {
+                    var redirectErrorUrl = "/Login/ErrorPage";
                 if (result==true) {
                     swal({
                         text: "Profile  Updated Successfully !!",
@@ -140,10 +140,12 @@
                 }
                 else {
                     swal('Unable to Update Profile, Please check the Logs');
+                        window.location.href = redirectErrorUrl;
                 }
             },
             error: function (error) {
                 swal('Unable to update the profile, Please check the Logs folder');
+                    window.location.href = redirectErrorUrl;
             }
         });
         });

@@ -155,6 +155,7 @@
                 DomainId: domainId
             },
             success: function (result) {
+                var redirectErrorUrl = "/Login/ErrorPage";
                 if (result == true) {
                     swal({
                         text: "Department Saved successfully !!",
@@ -165,12 +166,14 @@
                 }
                 else {
                     swal('Unable to Save the Department Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
                 }
 
 
             },
             error: function (error) {
                 swal('Unable to Save the Department Details - Please Check the logs');
+                window.location.href = redirectErrorUrl;
             }
         });
     }
@@ -193,7 +196,7 @@
             dataType: "json",
             data: departmentmodel,
             success: function (result) {
-
+                var redirectErrorUrl = "/Login/ErrorPage";
                 if (result == true) {
                     swal({
                         text: "Department Updated successfully !!",
@@ -204,10 +207,12 @@
                 }
                 else {
                     swal('Unable to Update the Department Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
                 }
             },
             error: function (error) {
                 swal('Unable1 to Update the Department Details - Please Check the logs');
+                window.location.href = redirectErrorUrl;
             }
         });
     }
@@ -261,6 +266,7 @@
                     dataType: "json",
                     data: { id: id },
                     success: function (result) {
+                         var redirectErrorUrl = "/Login/ErrorPage";
                         if (result == true) {
                             swal({
                                 text: "Department Deleted successfully !!",
@@ -271,10 +277,12 @@
                         }
                         else {
                             swal('Unable to Delete the Department Details - Please Check the logs');
+                            window.location.href = redirectErrorUrl;
                         }
                     },
                     error: function (error) {
                         swal('Unable to Delete the Department Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
                     }
                 });
             }

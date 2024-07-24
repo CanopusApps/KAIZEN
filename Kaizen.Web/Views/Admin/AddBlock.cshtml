@@ -138,7 +138,8 @@
                 data: { BlockModel : blockModel },
                 success: function (result) {
                     // Handle success (if needed)
-                    if (result == true) {
+                    var redirectErrorUrl = "/Login/ErrorPage";
+                        if (result == true) {
                         swal({
                             text: "Block Saved successfully !!",
                             type: "success"
@@ -148,10 +149,15 @@
                     }
                     else {
                         swal('Unable to Save the Block Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
+
+
                     }
                 },
                 error: function (error) {
                     swal('Unable to Save the Block Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
+
                 }
             });
         });
@@ -183,6 +189,8 @@
             data:  domainmodel ,
                 success: function (result) {
                     // Handle success (if needed)
+                var redirectErrorUrl = "/Login/ErrorPage";
+
                 if (result == true) {
                     swal({
                         text: "Block Updated successfully !!",
@@ -193,10 +201,12 @@
                 }
                 else {
                     swal('Unable to Update the Block Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
                 }
                 },
                 error: function (error) {
                     swal('Unable to Update the Block Details - Please Check the logs');
+                window.location.href = redirectErrorUrl;
                     // Handle errors (if needed)
                     // console.error('Error:', error);
                 }
@@ -219,6 +229,7 @@
                     dataType: "json",
                     data: { id: id },
                     success: function (result) {
+                        window.location.href = redirectErrorUrl;
                         if (result == true) {
                             swal({
                                 text: "Block Deleted successfully !!",
@@ -229,10 +240,12 @@
                         }
                         else {
                             swal('Unable to Delete the Block Details - Please Check the logs');
+                            window.location.href = redirectErrorUrl;
                         }
                     },
                     error: function (error) {
                         swal('Unable to Delete the Block Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
 
                     }
                 });

@@ -1824,6 +1824,7 @@
                 contentType: false,
                 data: formData,
                 success: function (result) {
+                    var redirectErrorUrl = "/Login/ErrorPage";
                     if (result.success) {
                         swal({
                             text: 'Kaizen Saved Successfully!!',
@@ -1833,11 +1834,12 @@
                         });
                     } else {
                         swal('Unable to Save the Kaizen Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
                     }
                 },
                 error: function (error) {
                     swal('Unable to Save the Kaizen Details - Please Check the logs');
-                    console.error('Error:', error);
+                    window.location.href = redirectErrorUrl;
                 }
             });
             // updateGUID();
@@ -1950,6 +1952,7 @@
            data: formData,
            success: function (result) {
                if (result.success) {
+                        var redirectErrorUrl = "/Login/ErrorPage";
                    swal({
                        text: 'Kaizen Submitted to DRI Successfully!!',
                        type: 'success'
@@ -1958,10 +1961,12 @@
                    });
                } else {
                    swal('Unable to Submit the Kaizen Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
                }
            },
            error: function (error) {
                swal('Unable to Submit the Kaizen Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
                console.error('Error:', error);
            }
        });

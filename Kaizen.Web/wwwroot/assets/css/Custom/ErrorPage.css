@@ -1,0 +1,21 @@
+﻿body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ico {
+    font-size: 52px;
+    color: rgb(176, 177, 177);
+}
+
+.ebox h1, .ebox p {
+    font-size: 25px !important;
+    white-space: nowrap;
+}
