@@ -5,6 +5,7 @@ using Kaizen.Models.AdminModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kaizen.Web.Controllers
 {
@@ -37,6 +38,8 @@ namespace Kaizen.Web.Controllers
         {
             return View();
         }
+
+        //[Authorize(Roles ="Admin,EMPLOYEE")]
         public IActionResult AddUser()
         
         {

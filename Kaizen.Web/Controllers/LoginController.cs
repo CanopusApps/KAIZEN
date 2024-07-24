@@ -5,6 +5,9 @@ using Kaizen.Models.AdminModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Kaizen.Data.DataServices.Interfaces;
 
 using Newtonsoft.Json;
@@ -24,6 +27,8 @@ namespace Kaizen.Web.Controllers
             this._loginworker = _loginworker;
             this.conAccessor = conAccessor; 
         }
+
+        [HttpGet]
         public IActionResult Index()
         {
 
@@ -32,7 +37,7 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public IActionResult Index([Bind] LoginModel loginmodel)
         {
-            string EmpId, password,Username;
+            string EmpId, password,Username,userRole;
             string Domainname, departmentname;
             DataTable dataTable = new DataTable();
             DataTable dataTable1 = new DataTable();
@@ -47,30 +52,43 @@ namespace Kaizen.Web.Controllers
                         EmpId = row["EmpId"].ToString();
                         password = row["Password"].ToString();
                         Username= row["FirstName"].ToString();
-                        HttpContext.Session.SetString("Department", row["DepartmentName"].ToString());
-                        HttpContext.Session.SetString("Domain", row["DomainName"].ToString());
-                        HttpContext.Session.SetString("UserID", row["ID"].ToString());
-                        //HttpContext.Session.SetString("Manager", row["ManagerName"].ToString());
-                        HttpContext.Session.SetString("IEemail", row["IEEMAIL"].ToString());
-                        HttpContext.Session.SetString("Userrole", row["Userrole"].ToString());
-                      
-                        HttpContext.Session.SetString("FinanceEmail", row["FinanceEmail"].ToString());
+                        userRole = row["UserRole"].ToString();
+
                         if (EmpId == loginmodel.EmpId && password == loginmodel.Password)
                         {
                             //dataTable1 = _loginworker.Usermanager(EmpId);
+                            List<Claim> claims = new List<Claim>();
+                            claims.Add(new Claim(ClaimTypes.NameIdentifier, EmpId));
+                            claims.Add(new Claim(ClaimTypes.Name, Username));
+                            claims.Add(new Claim(ClaimTypes.Role, userRole));
+
+                            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                            HttpContext.SignInAsync(claimsPrincipal);
+
                             String Id= conAccessor.HttpContext.Session.Id;
-                           if(HttpContext != null && HttpContext.Session != null)
+
+                            ManagerList = _loginworker.Usermanager(EmpId);
+                            var ManagerListJson = JsonConvert.SerializeObject(ManagerList);
+
+                            if (HttpContext != null && HttpContext.Session != null)
                            {
-                                Response.Redirect("Admin/Adduser");
                                 HttpContext.Session.SetString("Message",Username);
                                 HttpContext.Session.SetString("EmpId", EmpId);
-                               
-                              
+
+                                HttpContext.Session.SetString("Department", row["DepartmentName"].ToString());
+                                HttpContext.Session.SetString("Domain", row["DomainName"].ToString());
+                                HttpContext.Session.SetString("UserID", row["ID"].ToString());
+                                //HttpContext.Session.SetString("Manager", row["ManagerName"].ToString());
+                                HttpContext.Session.SetString("IEemail", row["IEEMAIL"].ToString());
+                                HttpContext.Session.SetString("Userrole", row["Userrole"].ToString());
+
+                                HttpContext.Session.SetString("FinanceEmail", row["FinanceEmail"].ToString());
+                                HttpContext.Session.SetString("ManagerList", ManagerListJson);
+
                             }
                             //string manager = conAccessor.HttpContext.Session.GetString("Manager");
-                            ManagerList= _loginworker.Usermanager(EmpId);
-                            var ManagerListJson = JsonConvert.SerializeObject(ManagerList);
-                            HttpContext.Session.SetString("ManagerList", ManagerListJson);
+                            Response.Redirect("Admin/Adduser");
                         }
                         else
                         {
