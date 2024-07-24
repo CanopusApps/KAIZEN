@@ -77,3 +77,16 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function () {
+        $('tbody').on('click', '.viewuser', function (e) {
+            e.preventDefault();
+            var $row = $(this).closest('tr');
+            var kaizenid = $row.data('kaizenid');
+            sessionStorage.setItem('editKaizen', JSON.stringify({
+                kaizenid: kaizenid,
+            }));
+            window.location.href = '/CreateKaizen/NewKaizen';
+        });
+    });
+</script>

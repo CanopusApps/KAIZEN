@@ -405,7 +405,7 @@
                                                                     <div class="col-sm-12">
                                                                         <img id="file-image-before" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
                                                                         
-                                                                        <div class="attachtitle">Click here to attach files</div>
+                                                                        <div class="attachtitle" id="file-image-before-text">Click here to attach files</div>
                                                                     </div>
                                                                 </div>
                                                             </label>
@@ -423,7 +423,7 @@
                                                                 <div class="row upload-interface">
                                                                     <div class="col-sm-12">
                                                                         <img id="file-image-after" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
-                                                                        <div class="attachtitle">Click here to attach files</div>
+                                                                        <div class="attachtitle" id="file-image-after-text">Click here to attach files</div>
                                                                     </div>
                                                                 </div>
                                                             </label>
@@ -453,7 +453,7 @@
                                         <label for="additional_attachments" class="file-drag">
                                             <div class="upload-interface ">
                                                 <img id="file-image-additional" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
-                                                <div class="attachtitle mt-2">Click here to attach files</div>
+                                                <div class="attachtitle mt-2" id="file-image-additional-text">Click here to attach files</div>
                                             </div>
                                         </label>
                                     </div>
@@ -665,7 +665,7 @@
                                                                 <div class="row upload-interface">
                                                                     <div class="col-sm-12">
                                                                         <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
-                                                                        <div class="attachtitle">Click here to attach files</div>
+                                                                        <div class="attachtitle" id="file-image-text">Click here to attach files</div>
                                                                     </div>
                                                                 </div>
                                                             </label>
@@ -2322,22 +2322,36 @@
                             Ad4.className = 'col-cd-3';
                             Ad5.className = 'col-cd-3';
                         });
-                        // result.attachmentsList.forEach(item => {
-                        //     var fileName = item.fileName;
-                        //     var attachmentType = item.attachmentType;
-                        //     console.log('Original fileName:', fileName);
-                        //     // if (fileName.startsWith('/')) {
-                        //     //     fileName = fileName.substring(1);
-                        //     // }
-                        //     var imgElement = $('<img>', {
-                        //         src: fileName,
-                        //         alt: 'Image'
-                        //     });
-                        //     if (attachmentType === "AttachmentBefore") {
-                        //         $('#uploaded_before_image').append(imgElement);
-                        //     }
-                        // });
 
+                        result.attachmentsList.forEach(item => {
+                            var base64String = item.fileName;
+                            var attachmentType = item.attachmentType;
+                            var FilePath = item.filePath;
+                            var fileExtension = FilePath.split('.').pop().toLowerCase();
+
+                            var mimeType = "";
+                            if (fileExtension === "jpg" || fileExtension === "jpeg") 
+                            {
+                                mimeType = "image/jpeg";
+                            } 
+                            else if (fileExtension === "png") 
+                            {
+                                mimeType = "image/png";
+                            } 
+                            else 
+                            {
+                                mimeType = "image/jpeg";
+                            }
+
+                            var imgElement = $('<img>', {
+                                src: `data:${mimeType};base64,${base64String}`,
+                                alt: 'Image'
+                            });
+
+                            if (attachmentType === "AttachmentBefore") {
+                                $('#uploaded_before_image').append(imgElement);
+                            }
+                        });
                     }
                     else 
                     {
