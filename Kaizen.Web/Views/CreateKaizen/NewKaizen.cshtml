@@ -2453,7 +2453,7 @@
                             $('#pendingstatusid').text(reverseStatusDetails[statusDesc]).addClass('pending');
                         }
                       
-                        else if(statusDesc === statusdetails.submitted)
+                        else if(statusDesc === statusdetails.submitted && userRole != 'EMPLOYEE')
                         {
                             $('#approvers').show();
                         }
