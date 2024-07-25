@@ -2223,7 +2223,7 @@
                     if (result) {
                         const statusdetails = {
                             
-                            submitted:1
+                            submitted:1,
                             ImageApproved: 2,
                             ImageRejected: 3,
                             DRIApproved: 4,
@@ -2298,7 +2298,7 @@
                         } else if (statusDesc === statusdetails.Pending || statusDesc === statusdetails.DRIPending || statusDesc === statusdetails.IEPending || statusDesc === statusdetails.FinancePending) {
                             $('#pendingstatusid').text(reverseStatusDetails[statusDesc]).addClass('pending');
                         }
-                        debugger;
+                      
                         else if(statusDesc === statusdetails.submitted)
                         {
                             $('#approvers').show();
