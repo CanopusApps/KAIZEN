@@ -42,6 +42,7 @@ namespace Kaizen.Business.Worker
             return Kaizencount;
         }
 
+
         public List<TotalKaizennos> GetKaizentotalCount(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();

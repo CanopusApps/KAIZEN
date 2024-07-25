@@ -70,8 +70,10 @@
             e.preventDefault();
             var $row = $(this).closest('tr');
             var kaizenid = $row.data('kaizenid');
+            var edituser = 'edit'; 
             sessionStorage.setItem('editKaizen', JSON.stringify({
                 kaizenid: kaizenid,
+                edituser: edituser,
             }));
             window.location.href = '/CreateKaizen/NewKaizen';
         });
@@ -83,8 +85,10 @@
             e.preventDefault();
             var $row = $(this).closest('tr');
             var kaizenid = $row.data('kaizenid');
+            var edituser = 'view';
             sessionStorage.setItem('editKaizen', JSON.stringify({
                 kaizenid: kaizenid,
+                edituser: edituser,
             }));
             window.location.href = '/CreateKaizen/NewKaizen';
         });
