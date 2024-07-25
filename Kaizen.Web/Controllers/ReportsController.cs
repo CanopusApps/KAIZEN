@@ -96,19 +96,5 @@ namespace Kaizen.Web.Controllers
                 return View();
             }
         }
-        [HttpGet]
-        public IActionResult WinnerForm(KaizenReportModel model)
-        {
-            try
-            {
-                var list = _downloadexcel.GetWinnerReport(model);
-                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "WinnersReport.xlsx");
-            }
-            catch (Exception ex)
-            {
-                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
-                return View();
-            }
-        }
     }
 }
