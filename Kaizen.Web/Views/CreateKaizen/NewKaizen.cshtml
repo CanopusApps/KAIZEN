@@ -2346,6 +2346,7 @@
                         });
 
                         result.attachmentsList.forEach(item => {
+                            var popupShown = false;
                             var base64String = item.fileName;
                             var attachmentType = item.attachmentType;
                             var FilePath = item.filePath;
@@ -2379,6 +2380,21 @@
                             });
 
                             imgContainer.append(imgElement, deleteButton);
+                            imgElement.on('error', function () {
+                                imgContainer.remove();
+                                $('#file-image-before-text').show();
+                                $('#file-image-before').show();
+                                $('#file-image-after-text').show();
+                                $('#file-image-after').show();
+                                $('#file-image-text').show();
+                                $('#file-image').show();
+                                if (!popupShown) 
+                                {
+                                    swal('Failed to load attachment(s).');
+                                    popupShown = true;
+                                }
+                            });
+
                             if (attachmentType === "AttachmentBefore") {
                                 $('#file-image-before-text').hide();
                                 $('#file-image-before').hide();
@@ -2395,10 +2411,11 @@
                                 $('#uploaded_attach2_image').append(imgContainer);
                             }
                             if (attachmentType === "AdditionalAttachment") {
-                                $('#file-image-additional-text').hide();
-                                $('#file-image-additional').hide();
+                                $('#upload_area').removeClass('grayed-out'); 
                                 $('#preview_area').append(imgContainer);
-                                $('#upload_area').hide();
+                                $('#file-image-additional').show();
+                                $('#file-image-additional-text').show();
+                                $('#upload_area').show();
                             }
                             deleteButton.on('click', function () {
                                 swal({
@@ -2421,12 +2438,6 @@
                                         if (attachmentType === "RootProblemAttachment") {
                                             $('#file-image-text').show();
                                             $('#file-image').show();
-                                        }
-                                        if (attachmentType === "AdditionalAttachment") {
-                                            
-                                            $('#file-image-additional-text').show();
-                                            $('#file-image-additional').show();
-                                            $('#upload_area').show();
                                         }
                                         imgContainer.remove();
                                     }
