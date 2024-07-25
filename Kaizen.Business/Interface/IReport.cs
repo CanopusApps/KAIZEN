@@ -20,7 +20,6 @@ namespace Kaizen.Business.Interface
         public DataTable GetDepartmentReport(KaizenReportModel model);
 
         public DataTable GetUsersReport(KaizenReportModel model);
-        public DataTable GetWinnerReport(KaizenReportModel model);
 
         public byte[] ExportDataTableToExcel(DataTable dataTable);
         public int GetCount(object data);

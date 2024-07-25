@@ -107,19 +107,5 @@ namespace Kaizen.Data.DataServices
             return dt;
 
         }
-        public DataTable GetWinnerReportData(KaizenReportModel model)
-        {
-            com = new SqlCommand();
-            DataTable dt = new DataTable();
-            com.Connection = con;
-            com.CommandType = CommandType.StoredProcedure;
-            com.Parameters.AddWithValue("@startdate", (model.StartDate == null || model.StartDate == DateTime.MinValue) ? (object)DBNull.Value : model.StartDate);
-            com.Parameters.AddWithValue("@enddate", (model.EndDate == null || model.EndDate == DateTime.MinValue) ? (object)DBNull.Value : model.EndDate);
-            com.CommandText = StoredProcedures.Sp_Get_WinnerformReport; 
-            SqlDataAdapter da = new SqlDataAdapter(com);
-            da.Fill(dt);
-            return dt;
-
-        }
     }
 }

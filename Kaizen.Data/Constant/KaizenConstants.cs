@@ -70,7 +70,6 @@ namespace Kaizen.Data.Constant
         public static string Sp_Get_DomainformReport = "Sp_Get_DomainformReport";
         public static string Sp_Get_DepartmentformReport = "Sp_Get_DepartmentformReport";
         public static string Sp_Get_UserformReport = "Sp_Get_UserformReport";
-        public static string Sp_Get_WinnerformReport = "Sp_Get_WinnerformReport";
         public static string Sp_DashboardFilter = "Sp_DashboardFilter";
 
         
