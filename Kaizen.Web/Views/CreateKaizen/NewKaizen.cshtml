@@ -72,6 +72,44 @@
         pointer-events: none;
         cursor: not-allowed!important;
     }
+
+    #uploaded_additional_image {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    #uploaded_additional_image .img-container 
+    {
+        display: inline-block;
+        text-align: center;
+        margin: 7px;
+        box-sizing: border-box;
+        background: #fff;
+        border-radius: 7px;
+        border: 1px dashed #797A89;
+        transition: all .2s ease;
+        width: 200px;
+        position: relative;
+    }
+
+    #uploaded_additional_image .img-container img 
+    {
+        width: 100%;
+        height: 118px;
+        border-radius: 5px;
+        user-select: none;
+                
+    }
+    .delete-btn 
+    {
+        display: block;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        cursor: pointer;
+        box-sizing: border-box;
+        transition: background-color .2s ease;
+    }
 </style>
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
 <div class="content-body body mb-2" id="ReadOnly" >
@@ -448,7 +486,8 @@
                     <div class="col-lg-12">
                         <div class="carddashed" id="carddash">
                             <div class="row mt-4" id="preview_area">
-                                <div class="col-md-3 col-sm-4 ">
+                                    <span class="uploaded_imagesmall" id="uploaded_additional_image"></span>
+                                <div class="col-md-3 col-sm-4">
                                     <label class="mt-2">Add Additional Attachments</label> <br>
                                     <div class="inpfilelabel-attm mb-2 grayed-out" id="upload_area">
                                         <input id="additional_attachments" type="file" name="files" style="display: none;" multiple onchange="previewAdditionalImages(event)">
@@ -456,9 +495,9 @@
                                             <div class="upload-interface">
                                                 <img id="file-image-additional" src="~/assets/img/file-upload-icon.png" alt="Preview" class="hidden mb-2">
                                                 <div class="attachtitle mt-2" id="file-image-additional-text">Click here to attach files</div>
-                                            </div>
+                                            </div> 
                                         </label>
-                                    </div>
+                                    </div>   
                                 </div>
                             </div>
                         </div>
@@ -2510,8 +2549,7 @@
                             var deleteButton = $('<button>', {
                                 text: 'Delete',
                                 class: 'delete-btn',
-                                id:'deleteimgid',
-                                style: 'margin: 20px;'
+                               id:'deleteimgid',
                             });
 
                             imgContainer.append(imgElement, deleteButton);
@@ -2546,8 +2584,8 @@
                                 $('#uploaded_attach2_image').append(imgContainer);
                             }
                             if (attachmentType === "AdditionalAttachment") {
-                                $('#upload_area').removeClass('grayed-out'); 
-                                $('#preview_area').append(imgContainer);
+                                $('#upload_area').removeClass('grayed-out');
+                                $('#uploaded_additional_image').append(imgContainer);
                                 $('#file-image-additional').show();
                                 $('#file-image-additional-text').show();
                                 $('#upload_area').show();
