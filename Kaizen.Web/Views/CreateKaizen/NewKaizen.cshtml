@@ -74,12 +74,13 @@
     }
 </style>
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
-<div class="content-body body mb-2">
+<div class="content-body body mb-2" id="ReadOnly" >
     <div class="container-fluid">
         <!-- Page Title -->
         <div class="row page-titles mx-0 mt-2">
             <div class="col-sm-12 p-md-0">
                 <div class="welcome-text">
+                    <a id="backbtn" class="btn btn-warning float-right ml-1">Back</a>
                     <a id="printPDF" class="btn btn-azure float-right">Download PDF</a>
                     <h4>Create Kaizen<button class="btn btn-azure float-right"  style="margin-right:2px;"type="button">Sample Kaizen Form</button></h4>
                     <p class="responsemessage"></p>
@@ -1034,8 +1035,11 @@
                                                 FORMAT/ Ver,No : TEPL-IE-C-FR-0005/01
                                                 Tata Electronics Private Limited
                                             </p>
-                                        </div>
-                                      
+                                                <div class="card-body float-right mt-2" id="saveItButton">
+                                                    <button class="btn btn-warning" id="btnSaveKaizen">Save It</button>
+                                                    <button class="btn btn-azure" id="btnSubmitKaizen">Submit to DRI</button>
+                                                </div>
+                                        </div>                                                                                
                                     </div>
                                 </div>
                             </div>
@@ -1051,6 +1055,18 @@
                 <label class="ac-label" for="ac-6">Approvers <i></i></label>
                 <div class="article ac-content">
                     <div class="col-lg-12 py-2" >
+                         <div class="row">
+                                <!-- Image Sanitization Card -->
+                                <div id="ImageApprover" class="col-md-4" style="display: none;">
+                                    <div class="card carddashed">
+                                        <div class="card-header">Image Sanitization</div>
+                                        <div class="card-body">
+                                            <div><strong>Name :</strong> <span id="imageaprName"></span></div>
+                                            <div><strong>Status :</strong> <span id="imagestatusid"></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                         </div>
                     <div class="row">
                             <!-- DRI Card -->
                             <div id="DRIDept" class="col-md-4" style="display: none;">
@@ -1095,22 +1111,11 @@
                             </div>
                         </div>
                    
-                            <!-- Image Sanitization Card -->
-                            <div id="ImageApprover" class="col-md-4" style="display: none;">
-                                <div class="card carddashed">
-                                    <div class="card-header">Image Sanitization</div>
-                                    <div class="card-body">
-                                        <div><strong>Name :</strong> <span id="imageaprName"></span></div>
-                                        <div><strong>Status :</strong> <span  id="imagestatusid"></span></div>
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </div>
                         <div class="col-sm-12" id="Editbtn">
                             <label>Would You Like To Edit Kaizen :</label>
-                         
-                            <button class="btn btn-warning">Edit </button>
-                            
+                                <button id="scrollToTopBtn" class="btn btn-warning" onclick="scrollToTop()">Edit</button>
                             </div>
                             <div class="col-sm-12" id="imagelabel">
                             <label>Would You Like To Approve Kaizen Image and move it to Dri Approval </label>
@@ -1155,13 +1160,14 @@
     </div>
 </div>
 
-<div class="col-sm-12 ">
+@* <div class="col-sm-12 ">
     <div class="card-body float-right" id="saveItButton">
         <button class="btn btn-warning" id="btnSaveKaizen" >Save It</button>
         <button class="btn btn-azure" id="btnSubmitKaizen">Submit to DRI</button>
     </div>
-</div>
+</div> *@
 <!-- Styles -->
+
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" crossorigin="anonymous" />
@@ -1174,6 +1180,15 @@
 <script src="~/assets/js/custom/html2pdf.bundle.js"></script>
 
 <script>
+    // function scrollToTop() {
+    //     debugger;
+    //     var scroll_pos = $(window).scrollTop()
+    // }
+
+    $("#scrollToTopBtn").on("click", function () {
+        debugger;
+        $(window).scrollTop()
+    });
 
     // function generateGUID() {
     //     debugger;
@@ -1200,9 +1215,17 @@
             jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
         }).save()
     });
+  
+   
+    $('#backbtn').click(function () {
+        debugger;
+       window.location = "/SubmittedKaizen/ViewKaizen"
+     
+    });
     //Download PDF End
 
     $(document).ready(function () {
+
         var userRole = $('#Userrole').data('role');
         debugger;
         
@@ -1219,7 +1242,8 @@
 
                 success: function (response) {
                     swal("Status Updated").then(function () {
-                        window.location.reload();
+                        // window.location.reload();
+                        window.location = "/SubmittedKaizen/ViewKaizen"
                     });
 
                 },
@@ -1310,19 +1334,23 @@
             $('#waitingapproval').hide();
             $('#waitingimage').hide();
             $('#imagelabel').hide();
-            $('#printPDF').hide();
-          
-          
-        switch (userRole) {
+            $('#printPDF').hide();  
+        $('#backbtn').hide();
+            // $('#saveItButton').show();
+
+
+            switch (userRole) {
                 case 'IE DEPT':
                     $('#DRIDept').show();
                 // $('#IEDept').show();
+                    // $('#saveItButton').hide();
                 $('#Aprrovalbtn').show();
                 $('#waitingapproval').show();
                 break;
                 case 'FINNACE':
                     $('#DRIDept').show();
                 $('#IEDept').show();
+                    // $('#saveItButton').hide();
                 // $('#FinanceDept').show();
                 $('#Aprrovalbtn').show();
                 $('#waitingapproval').show();
@@ -1336,19 +1364,20 @@
                     $('#waitingapproval').show();
                 break;
                 case 'ADMIN':
-                    $('#IEDept').show();
-                    $('#FinanceDept').show();
-                    $('#DRIDept').show();
-                    $('#ImageApprover').show();
+                    // $('#IEDept').show();
+                    // $('#FinanceDept').show();
+                    // $('#DRIDept').show();
+                    // $('#saveItButton').hide();
+                    // $('#ImageApprover').show();
                     break;
                 case 'IMAGE APPROVER':
                     $('#waitingimage').show();
                     // $('#ImageApprover').show(); 
                     $('#imagelabel').show();
-
                     $('#Aprrovalbtn').show();
                 $('#Aprrovalbtnhold').hide();
-                 break;                        
+                 break;
+              
         }
     }
    
@@ -1356,13 +1385,15 @@
     }
     document.addEventListener('DOMContentLoaded', function () {
         var approversDiv = document.getElementById('approvers');
-        var savebutton = document.getElementById('saveItButton');
+        // var savebutton = document.getElementById('saveItButton');
         if (approversDiv) {
             var editKaizenData = sessionStorage.getItem('editKaizen');
+         
+            
             if (editKaizenData) {
                 approversDiv.style.display = 'block';
-                savebutton.style.display = 'none';
-            } else {
+                // savebutton.style.display = 'none';
+            } else if (editKaizenData) {
                 approversDiv.style.display = 'none'; 
             }
         }
@@ -2112,8 +2143,72 @@
 <script>
     $(function getSession() {
         if (sessionStorage.getItem("editKaizen")) {
+            
+           
+                
+            
+            function makeDivReadOnly() {
+                var div = document.getElementById('ReadOnly');
+                var elements = div.querySelectorAll('input, button, textarea, select');
+
+                elements.forEach(element => {
+                    if (element.tagName === 'INPUT') {
+                        if (element.type === 'radio' || element.type === 'checkbox') {
+                            element.disabled = true;
+                        } else {
+                            element.readOnly = true;
+                        }
+                    } else if (element.tagName === 'TEXTAREA') {
+                        element.readOnly = true;
+                    } else if (element.tagName === 'SELECT') {
+                        element.disabled = true;
+                    }
+                });
+
+                var specificIds = ['BenefitArea', 'ActivityDesc', 'presentCondition', 'rootcauseDetails', 'improvementsCompleted', 'deleteimgid', , 'deleteimgid', 'btnAddDeployment', 'btnDeleteDeployment', 'teamAddBtn', 'teamDelBtn'];
+
+                specificIds.forEach(id => {
+                    var specificElement = document.getElementById(id);
+                    if (specificElement) {
+                        if (specificElement.tagName === 'INPUT') {
+                            if (specificElement.type === 'radio' || specificElement.type === 'checkbox') {
+                                specificElement.disabled = true;
+                            } else {
+                                specificElement.readOnly = true;
+                            }
+                        } else if (specificElement.tagName === 'TEXTAREA') {
+                            specificElement.readOnly = true;
+                        } else if (specificElement.tagName === 'SELECT') {
+                            specificElement.disabled = true;
+                        } else if (specificElement.tagName === 'BUTTON') {
+                            specificElement.disabled = true;
+                        }
+                    }
+                });
+            }
             var editKaizen = JSON.parse(sessionStorage.getItem("editKaizen"));
             var KaizenId = editKaizen['kaizenid'];
+            var Usertype = editKaizen['edituser'];
+            debugger;
+            if (Usertype == 'view')
+            {
+                makeDivReadOnly();
+               
+
+            }
+            var userRole = $('#Userrole').data('role');
+            $('#saveItButton').show();
+            switch (userRole) {
+                case 'IE DEPT':
+                     $('#saveItButton').hide();
+                    break;
+                case 'FINNACE':                
+                    $('#saveItButton').hide();
+                    break;
+                case 'ADMIN':                    
+                    $('#saveItButton').hide();                   
+                    break;
+            }
             $.ajax({
                 type: 'GET',
                 url: '/CreateKaizen/GetKaizendetailsById',
@@ -2123,6 +2218,7 @@
                     KaizenId: KaizenId
                 },
                 success: function (result) {
+                   
                     debugger;
                     if (result) {
                         const statusdetails = {
@@ -2147,9 +2243,16 @@
                         }
 
                         var statusDesc = result.kaizenList[0].approvalStatus;
+                       
+
 
                         if (statusDesc === statusdetails.FinanceApproved || statusDesc === statusdetails.FinanceRejected || statusDesc === statusdetails.FinancePending) {
                             $('#financestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.FinanceRejected ? 'rejected' : (statusDesc === statusdetails.FinancePending ? 'pending' : 'approved'));
+                            $('#IEDept').show();
+                            $('#FinanceDept').show();
+                            $('#DRIDept').show();
+                            $('#ImageApprover').show();
+                            $('#saveItButton').hide();
                             if (statusDesc === statusdetails.FinanceRejected) {
                                 $("#finRejectedReason").text(result.kaizenList[0].rejectionreason);
                             }
@@ -2157,22 +2260,44 @@
                             $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
                             $('#dristatusid').text(reverseStatusDetails[statusdetails.DRIApproved]).addClass('approved');
                         } else if (statusDesc === statusdetails.IEApproved || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.IEPending) {
+                            $('#saveItButton').hide();
                             $('#iestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
+                            $('#IEDept').show();
+                            $('#DRIDept').show();
+                            $('#ImageApprover').show();
                             if (statusDesc === statusdetails.IERejected) {
                                 $("#ieRejectedReason").text(result.kaizenList[0].rejectionreason);
+                                $('#FinanceDept').hide();
                             }
                             $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
                             $('#dristatusid').text(reverseStatusDetails[statusdetails.DRIApproved]).addClass('approved');
                         } else if (statusDesc === statusdetails.DRIApproved || statusDesc === statusdetails.DRIRejected || statusDesc === statusdetails.DRIPending) {
+
+                            $('#DRIDept').show();
+                            $('#ImageApprover').show();
                             $('#dristatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.DRIRejected ? 'rejected' : (statusDesc === statusdetails.DRIPending ? 'pending' : 'approved'));
                             if (statusDesc === statusdetails.DRIRejected) {
                                 $("#driRejectedReason").text(result.kaizenList[0].rejectionreason);
+                                 $('#IEDept').hide();
+                                 $('#FinanceDept').hide();
+
                             }
                             $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
                         } else if (statusDesc === statusdetails.ImageApproved || statusDesc === statusdetails.ImageRejected) {
                             $('#imagestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.ImageRejected ? 'rejected' : 'approved');
+                            $('#ImageApprover').show();
+                            if (statusDesc === statusdetails.ImageRejected) {
+                                $('#IEDept').hide();
+                                $('#FinanceDept').hide();
+                                $('#DRIDept').hide();
+
+
+                            }
                         } else if (statusDesc === statusdetails.Pending || statusDesc === statusdetails.DRIPending || statusDesc === statusdetails.IEPending || statusDesc === statusdetails.FinancePending) {
                             $('#pendingstatusid').text(reverseStatusDetails[statusDesc]).addClass('pending');
+                        }else{
+                            $('#approvers').hide();
+                          
                         }
                         $('#ieDateTime').text(result.kaizenList[0].ieApprovedDate);
                         $('#driDateTime').text(result.kaizenList[0].driApprovedDate);
@@ -2197,6 +2322,7 @@
                         
                         $("#docNo").val(result.kaizenList[0].docNo);
                         $('#printPDF').show();
+                        $('#backbtn').show();
 
                         $("#versionNo").val(result.kaizenList[0].versionNoDate);
                         $("#refNo").val(result.kaizenList[0].kaizenRefNo);
@@ -2280,14 +2406,17 @@
 
                             checkbox.type = "checkbox";
                             empId.type = "text";
-                            empId.value = item.empId; 
+                            empId.value = item.empId;
+                            empId.readOnly = true;
                             empId.className = "input-width";
                             teamMemberName.type = "text";
+                            teamMemberName.readOnly = true;
                             teamMemberName.value = item.teamMemberName; 
                             teamMemberName.className = "input-width";
                             functionName.type = "text";
                             functionName.value = item.functionName;
                             functionName.className = "input-width";
+                            functionName.readOnly = true;
 
                             c1.appendChild(checkbox);
                             c2.appendChild(empId);
@@ -2319,19 +2448,24 @@
                             checkbox.type = "checkbox";
                             Sno.type = "text";
                             Sno.value = $("#txtNo").val();
+                            Sno.readOnly = true;
                             Sno.className = "input-width";
                             mc.type = "text";
                             mc.value = item.mc; 
                             mc.className = "input-width";
+                            mc.readOnly = true;
                             targetDate.type = "text";
-                            targetDate.value = item.targetFormatDate; 
+                            targetDate.value = item.targetFormatDate;
+                            targetDate.readOnly = true;
                             targetDate.className = "input-width";
                             responsibility.type = "text";
                             responsibility.value = item.responsibility;
                             responsibility.className = "input-width";
+                            responsibility.readOnly = true;
                             status.type = "text";
                             status.value = item.scopeStatus; 
                             status.className = "input-width";
+                            status.readOnly = true;
 
                             Ad1.appendChild(checkbox);
                             Ad2.appendChild(mc);
@@ -2376,6 +2510,7 @@
                             var deleteButton = $('<button>', {
                                 text: 'Delete',
                                 class: 'delete-btn',
+                                id:'deleteimgid',
                                 style: 'margin: 20px;'
                             });
 
