@@ -135,6 +135,7 @@
                 data: { DomainModel: domainmodel },
                 success: function (result) {
                     // Handle success (if needed)
+                    var redirectErrorUrl = "/Login/ErrorPage";
                     if (result == true) {
                         swal({
                             text: "Domain Saved successfully !!",
@@ -145,11 +146,13 @@
                     }
                     else {
                         swal('Unable to Save the Domain Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
                     }
                 },
                 error: function (error) {
                    
                     swal('Unable to Save the Domain Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
                 }
             });
         });
@@ -187,6 +190,7 @@
             data: domainmodel,
             success: function (result) {
                 // Handle success
+                var redirectErrorUrl = "/Login/ErrorPage";
                 if (result == true) {
                     swal({
                         text: "Domain Updated successfully !!",
@@ -197,11 +201,12 @@
                 }
                 else {
                     swal('Unable to Update the Domain Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
                 }
             },
             error: function (error) {
                 swal('Unable to Update the Domain Details - Please Check the logs');
-                console.error('Error:', error);
+                window.location.href = redirectErrorUrl;
             }
         });
     });
@@ -224,6 +229,7 @@
                     dataType: "json",
                     data: { id: id },
                     success: function (result) {
+                        var redirectErrorUrl = "/Login/ErrorPage";
                         if (result == true) {
                             swal({
                                 text: "Domain Deleted successfully !!",
@@ -234,10 +240,13 @@
                         }
                         else {
                             swal('Unable to Delete the Domain Details - Please Check the logs');
+                            window.location.href = redirectErrorUrl;
+
                         }
                     },
                     error: function (error) {
                         swal('Unable to Delete the Domain Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
 
                     }
                 });

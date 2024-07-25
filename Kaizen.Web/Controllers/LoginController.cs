@@ -20,8 +20,6 @@ namespace Kaizen.Web.Controllers
         private readonly IWebHostEnvironment _environment;
         List<ManagerModel> ManagerList = new List<ManagerModel>();
 
-       
-
         public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor)
         {
             this._loginworker = _loginworker;
@@ -121,7 +119,9 @@ namespace Kaizen.Web.Controllers
             return RedirectToAction("Index", "Login", new { area = "" });
         }
 
-
-        
+        public IActionResult ErrorPage()
+        {
+               return View();
+        }
     }
 }
