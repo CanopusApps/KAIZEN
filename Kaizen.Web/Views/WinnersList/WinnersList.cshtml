@@ -614,8 +614,15 @@
                         EndDate: endDate
                     }),
                     success: function (response) {
-                        location.reload();
-                        swal('Updated Winner Successfully!');
+                        if (response == true) {
+                            swal({
+                                text: "Block Saved successfully !!",
+                                type: "success"
+                            }).then(okay => {
+                                location.reload();
+                            });
+                        }
+                        });
 
                     },
                     error: function (xhr, status, error) {
