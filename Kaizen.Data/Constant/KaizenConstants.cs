@@ -82,6 +82,9 @@ namespace Kaizen.Data.Constant
         public static string SpUpdateWinner = "Sp_UpdateWinner";
         public static string SpUpdateWinnerStatus = "Sp_UpdateWinnerStatus";
         public static string Sp_Get_KaizenProfileDetails = "Sp_Get_KaizenProfileDetails";
+        public static string SpUpdateTheme = "Sp_UpdateTheme";
+
+        public static string SpGetTheme = "Sp_GetTheme";
     }
 
     public class ConstantValue

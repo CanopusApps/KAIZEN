@@ -1,0 +1,9 @@
+﻿td {
+    border: 1.5px solid rgba(128, 128, 128, 0.3) !important;
+}
+tr {
+    box-shadow: 2px 0px 0px 0px rgba(231, 230, 230, 0.3), 1px 1px 4px 0px rgba(119, 119, 119, 0.3);
+}
+th {
+    border-right: 1.5px solid rgba(128, 128, 128, 0.3) !important;
+}

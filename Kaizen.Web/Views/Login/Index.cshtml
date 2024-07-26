@@ -1,11 +1,37 @@
-﻿@model Kaizen.Models.AdminModel.LoginModel
+﻿@{
+    var selectedTheme = ViewBag.SelectedTheme;
+}
+
+@model Kaizen.Models.AdminModel.LoginModel
 @{
     Layout = "Empty";
 }
 
 @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { id = "userForm" }))
 {
-    @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()    
+    <style>
+        marquee {
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+            border: 1px solid rgba(0, 0, 0, .15);
+            height: 44px;    
+            background-color: gray;
+        }
+    </style>
+
+<marquee width="100%" class="my-3" direction="left" behavior="scroll" scrollamount="5">
+    <h1 style="color:white; font-size: x-large;" loginbox-title>
+        Kaizen Winner for this month is
+            <span style="color: rgb(45, 195, 232); font-weight:bold; font-size: x-large;">
+            @selectedTheme
+        </span>. 
+        Congratulations Team!
+    </h1>
+</marquee>
+
 
     <div class="login-container animated fadeIn">
         <div class="logobox btn-azure padding-top-20 padding-bottom-20" style="color:white;text-align: center;font-size:xx-large;">
