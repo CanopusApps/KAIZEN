@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kaizen.Models.AdminModel;
+
+
 
 namespace Kaizen.Models.AdminModel
 {
@@ -34,9 +37,13 @@ namespace Kaizen.Models.AdminModel
 
         public string Department { get; set; }
 
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "EmailAdrees is not valid.")]
-        [RegularExpression("@ ^[\\w\\.-]+@[a-zA-Z\\d\\.-]+\\.[a-zA-Z]{2,}$ ",ErrorMessage= "Email entered is InValid!!")]
+        //[Required(ErrorMessage = "Email is required")]
+        //[RegularExpression("@ ^[\\w\\.-]+@[a-zA-Z\\d\\.-]+\\.[a-zA-Z]{2,}$ ", ErrorMessage = "Email entered is InValid!!")]
+        //[EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [EmailAddress]
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        
         public string Email { get; set; }
 
     }
