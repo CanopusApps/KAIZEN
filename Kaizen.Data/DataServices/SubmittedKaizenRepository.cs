@@ -84,5 +84,29 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+        public bool DeleteKaizenData(int KaizenId,string UserId)
+        {
+            bool status = false;
+
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@KaizenId", KaizenId);
+                com.Parameters.AddWithValue("@UserId", UserId);
+                com.CommandText = StoredProcedures.Sp_Delete_Kaizens;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return status;
+        }
     }
 }

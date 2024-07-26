@@ -102,5 +102,11 @@ namespace Kaizen.Business.Worker
             }
             return KaizenGridData;
         }
+        public bool DeleteKaizen(int KaizenId, string UserId)
+        {
+
+            return _repositorySubmittedKaizenData.DeleteKaizenData(KaizenId, UserId);
+
+        }
     }
 }
