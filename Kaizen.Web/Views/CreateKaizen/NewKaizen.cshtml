@@ -1155,10 +1155,10 @@
                    
                            
                         </div>
-                        <div class="col-sm-12" id="Editbtn">
+                      @*   <div class="col-sm-12" id="Editbtn">
                             <label>Would You Like To Edit Kaizen :</label>
                                 <button id="scrollToTopBtn" class="btn btn-warning" onclick="scrollToTop()">Edit</button>
-                            </div>
+                            </div> *@
                             <div class="col-sm-12" id="imagelabel">
                             <label>Would You Like To Approve Kaizen Image and move it to Dri Approval </label>
                                                    
@@ -1225,11 +1225,6 @@
     // function scrollToTop() {
     //     var scroll_pos = $(window).scrollTop()
     // }
-
-    $("#scrollToTopBtn").on("click", function () {
-        $(window).scrollTop()
-    });
-
     // function generateGUID() {
     //     function s4() {
     //         return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
@@ -2462,7 +2457,9 @@
                         } else if (statusDesc === statusdetails.Pending || statusDesc === statusdetails.DRIPending || statusDesc === statusdetails.IEPending || statusDesc === statusdetails.FinancePending) {
                             $('#pendingstatusid').text(reverseStatusDetails[statusDesc]).addClass('pending');
                         }
-                      
+                        else if (statusDesc === statusdetails.submitted && userRole === 'ADMIN') {
+                            $('#approvers').hide();
+                        }
                         else if(statusDesc === statusdetails.submitted && userRole != 'EMPLOYEE')
                         {
                             $('#approvers').show();

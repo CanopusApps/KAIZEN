@@ -52,6 +52,12 @@ namespace Kaizen.Web.Controllers
         {
             return View();
         }
+        public IActionResult Dashboardtab4()
+        {
+            DashboardModel DashboardModel = new DashboardModel();
+            DashboardModel.DomainList = _domainWorker.GetDomain();
+            return View(DashboardModel);
+        }
         //public List<DepartmentModel> FetchDepartment(string domainid)
         //{
         //    List<DepartmentModel> deptList = new List<DepartmentModel>();
