@@ -124,6 +124,14 @@
         box-sizing: border-box;
         transition: background-color .2s ease;
     }
+
+    #approvedBySection {
+        display: none; 
+    }
+    #approvedBySection.show {
+      display: block;
+    }
+
 </style>
 <link href="~/assets/css/custom/newkaizen.css" rel="stylesheet" />
 <div class="content-body body mb-2" id="ReadOnly" >
@@ -606,7 +614,7 @@
                                                             <div class="col-sm-4" id="approvedBySection">
                                                             <div class="form-group">
                                                                 <label>Approved by (Accounts)</label>
-                                                                    <input type="text" name="approvedbyAccount" id="approvedbyAccount" required class="form-control grayed-out" value="@Model.AccountEmail" readonly >
+                                                                    <input type="text" name="approvedbyAccount" id="approvedbyAccount" required class="form-control " value="@Model.AccountEmail" readonly >
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1638,17 +1646,18 @@
     });
 
     $(document).ready(function () {
-        $('#approvedbyAccount').addClass('grayed-out');
         $('#cost1').on('input', function () {
             var costValue = $(this).val();
-            var approvedbyAccount = $('#approvedbyAccount');
+            var approvedBySection = $('#approvedBySection');
+
             if (costValue.length >= 6) {
-                approvedbyAccount.removeClass('grayed-out');
+                approvedBySection.addClass('show');  
             } else {
-                approvedbyAccount.addClass('grayed-out');
+                approvedBySection.removeClass('show');  
             }
         });
     });
+
     function ValidateForm() {
         var isValid = true;
         // new
@@ -2037,7 +2046,7 @@
         $("#btnSubmitKaizen").click(function () {
        var checkboxData = {};
        var checkboxData1 = {};
-       var Rootcausedata;
+       // var Rootcausedata;
        var activityValue = [];
        $('#checkboxform input[type=checkbox]:checked').each(function () {
            activityValue.push($(this).val());
@@ -2046,11 +2055,11 @@
        $('#checkboxform1 input[type=checkbox]:checked').each(function () {
            benifitarea.push($(this).val());
        });
-       var selectData1 = { "selected": [] };
-       $('#multiple-select-field option:selected').each(function () {
-           selectData1["selected"].push($(this).val());
-           Rootcausedata = selectData1["selected"].join(',');
-       });
+       // var selectData1 = { "selected": [] };
+       // $('#multiple-select-field option:selected').each(function () {
+       //     selectData1["selected"].push($(this).val());
+       //     Rootcausedata = selectData1["selected"].join(',');
+       // });
        var addedTeamMembers = new Array();
        var addedDeployment = new Array();
        $('#tblteammemberResult tbody tr').each(function () {
@@ -2101,7 +2110,7 @@
        formData.append('TotalSavings', $("#TotalSavings").val());
        formData.append('ApprovedByIE', $("#approvedbyIE").val());
        formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
-       formData.append('Rootcause', Rootcausedata);
+       formData.append('Rootcause', $("#rootcauseProblem").val());
        formData.append('MemberList', JSON.stringify(addedTeamMembers));
        formData.append('DeploymentList', JSON.stringify(addedDeployment));
        formData.append('RootCauseDetails', $("#rootcauseDetails").val());
@@ -2375,6 +2384,7 @@
                 },
                 success: function (result) {
                     if (result) {
+                        debugger;
                         const statusdetails = {
                             
                             submitted:1,
@@ -2517,12 +2527,13 @@
                         $("#Consumables").val(result.kaizenList[0].consumables);
                         $("#Others").val(result.kaizenList[0].others);
                         $("#TotalSavings").val(result.kaizenList[0].totalSavings);
-                        var rootCauses = result.kaizenList[0].rootCause.split(',').map(item => item.trim());
-                        $('#multiple-select-field option').each(function () {
-                            if (rootCauses.includes($(this).text())) {
-                                $(this).prop('selected', true);
-                            }
-                        }).change();
+                        // var rootCauses = result.kaizenList[0].rootCause.split(',').map(item => item.trim());
+                        // $('#multiple-select-field option').each(function () {
+                        //     if (rootCauses.includes($(this).text())) {
+                        //         $(this).prop('selected', true);
+                        //     }
+                        // }).change();
+                        $("#rootcauseProblem").val(result.kaizenList[0].rootCause);
                         $("#presentCondition").val(result.kaizenList[0].presentCondition);
                         $("#improvementsCompleted").val(result.kaizenList[0].improvementsCompleted);
                         $("#rootcauseDetails").val(result.kaizenList[0].rootCauseDetails);
