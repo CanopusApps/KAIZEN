@@ -4,7 +4,7 @@
     Layout = "SidebarLayout";
 }
 
-<link rel="stylesheet" href="~/assets/css/ThemeChanger.css" /> 
+<link rel="stylesheet" href="~/assets/css/ThemeChanger.css" />
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-12">
@@ -23,6 +23,11 @@
                                 </div>
                                 <div class="col-5">
                                     <input id="AddThemeBtn" type="button" value="Update" class="btn btn-azure" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col">
+                                    <div id="validationMessage" class="text-danger" style="display: none;">Please enter a theme.</div>
                                 </div>
                             </div>
                         </div>
@@ -50,29 +55,29 @@
                                                 <th class="text-center" style="border-bottom: 1px solid black !important;">Action</th>
                                             </tr>
                                         </thead>
-                                        @foreach(var dat in Model)
+                                        @foreach (var dat in Model)
                                         {
-                                        <tbody>
-                                            <tr class="border">
-                                                <td class="text-center align-middle" style="background-color: rgb(242, 242, 242);">
+                                            <tbody>
+                                                <tr class="border">
+                                                    <td class="text-center align-middle" style="background-color: rgb(242, 242, 242);">
                                                         <p class="text-center">@Model.Count()</p>
-                                                </td>
-                                                    <td class="align-middle" style="background-color: rgb(242, 242, 242);">
-                                                    <div class="row justify-content-center">
-                                                        <div class="text-center">@dat.Theme</div>
-                                                    </div>
-                                                </td>
+                                                    </td>
                                                     <td class="align-middle" style="background-color: rgb(242, 242, 242);">
                                                         <div class="row justify-content-center">
-                                                        <div>
-                                                            <a id="DeleteFunction" class="btn btn-danger btn-sm DeleteDepartment mx-1">
-                                                                <i class="edit fas fa-trash"></i>
-                                                            </a>
+                                                            <div class="text-center">@dat.Theme</div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                                    </td>
+                                                    <td class="align-middle" style="background-color: rgb(242, 242, 242);">
+                                                        <div class="row justify-content-center">
+                                                            <div>
+                                                                <a id="DeleteFunction" class="btn btn-danger btn-sm DeleteDepartment mx-1">
+                                                                    <i class="edit fas fa-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
                                         }
                                     </table>
                                 </div>
@@ -91,13 +96,14 @@
         $('#AddThemeBtn').click(function () {
             var theme = $('#theme').val().trim();
             if (theme) {
+                $('#validationMessage').hide();
                 console.log("THIS IS THE THEME: " + theme);
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("ThemeChanger", "Theme")',
                     contentType: 'application/json',
                     data: JSON.stringify({
-                        Theme: theme 
+                        Theme: theme
                     }),
                     success: function (response) {
                         if (response == true) {
@@ -115,10 +121,8 @@
                     }
                 });
             } else {
-                alert("Please enter a theme.");
+                $('#validationMessage').show();
             }
         });
     });
 </script>
-
-
