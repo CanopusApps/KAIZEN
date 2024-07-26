@@ -69,7 +69,7 @@ namespace Kaizen.Models.AdminModel
             new StatusModel  { StatusID = 1, StatusName = "Active" },
            new StatusModel { StatusID = 0, StatusName = "Inactive" }
         };
-        public int statusname { get; set; }// Stores status (1 or 0)
+        public int statusname { get; set; } = 1;// Stores status (1 or 0)
 
         [Required(ErrorMessage = "Cadre is required")]
         public int Cid { get; set; } = 0;// stores cadre id

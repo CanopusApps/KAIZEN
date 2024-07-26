@@ -68,7 +68,7 @@ namespace Kaizen.Models.AdminModel
         };
         [Required(ErrorMessage = "Block  is required")]
         public int BlockId { get; set; } = 0;//stores BLockID
-        public int StatusName { get; set; }// Stores status (1 or 0)
+        public int StatusName { get; set; } = 1;// Stores status (1 or 0)
         
         [Required(ErrorMessage = "Cadre is required")]
         public int Cid { get; set; } = 0;// stores cadre id
