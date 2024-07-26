@@ -51,6 +51,9 @@ builder.Services.AddScoped<IReport, ReportWorker>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IWinnersList, WinnersListWorker>();
 builder.Services.AddScoped<IWinnersListRepository, WinnersListRepository>();
+
+builder.Services.AddScoped<IThemeChanger, ThemeWorker>();
+builder.Services.AddScoped<IThemeRepository, ThemeWorkerRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Kaizen.Data.DataServices.Interfaces;
 
 using Newtonsoft.Json;
+using Kaizen.Models.Theme;
 namespace Kaizen.Web.Controllers
 {
     public class LoginController : Controller
@@ -18,19 +19,40 @@ namespace Kaizen.Web.Controllers
         public IHttpContextAccessor conAccessor;
         private readonly ILogin _loginworker;
         private readonly IWebHostEnvironment _environment;
+
+        private readonly IThemeChanger _addThemeWorker;
+
         List<ManagerModel> ManagerList = new List<ManagerModel>();
 
-        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor)
+        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor, IThemeChanger _addThemeWorker)
         {
             this._loginworker = _loginworker;
-            this.conAccessor = conAccessor; 
+            this.conAccessor = conAccessor;
+            this._addThemeWorker = _addThemeWorker;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
+            ThemeModel model = new ThemeModel();
+            List<ThemeModel> RetrieveTheme = new List<ThemeModel>();
+            try
+            {
+                RetrieveTheme = _addThemeWorker.RetrieveTheme();
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+            ViewBag.ThemeList = RetrieveTheme;
+            if (RetrieveTheme.Any())
+            {
+                ViewBag.SelectedTheme = RetrieveTheme.First().Theme;
+            }
+
 
             return View();
+
         }
         [HttpPost]
         public IActionResult Index([Bind] LoginModel loginmodel)
