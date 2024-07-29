@@ -31,7 +31,7 @@
                 <div class="form-group col-md-4">
                     <label for="inputDomain">Domain</label>
                     <select id="inputDomain" class="form-control txt-width">
-                        <option selected>All</option>
+                        <option selected value="0">Select Domain</option>
                         @if (Model.DomainList != null)
                         {
                             @foreach (var domain in Model.DomainList)
@@ -46,17 +46,17 @@
                 <div class="form-group col-md-4">
                     <label for="inputDepartment">Department</label>
                     <select id="inputDepartment" class="form-control txt-width">
-                        <option selected>All</option>
+                        <option selected value="0">Select Department</option>
                     </select>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputTheme">Kaizen Theme</label>
-                    <input id="inputTheme" class="form-control txt-width" style="background-color:lightgray">
+                    <input id="inputTheme" class="form-control txt-width">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputStatus">Status</label>
                     <select id="inputStatus" class="form-control txt-width">
-                        <option selected>All</option>
+                        <option selected value="0">Select Status</option>
                     </select>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                 <div class="form-group col-md-4">
                     <label for="inputShortlist">Shortlisted</label>
                     <select id="inputShortlist" class="form-control txt-width">
-                        <option selected>All</option>
+                        <option selected value="0">Select Shortlisted</option>
                         <option value="Y">Yes</option>
                         <option value="N">No</option>
                     </select>
@@ -116,8 +116,8 @@
                     if (result) {
                         dropdown.empty();
                         dropdown.append($('<option>', {
-                            value: 'all',
-                            text: 'All'
+                            value: '0',
+                            text: 'Select Department'
                         }));
                         for (var i = 0; i < result.length; i++) {
                             $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
@@ -186,49 +186,60 @@
         var KaizenTheme = $('#inputTheme').val();
         var Status = $('#inputStatus option:selected').text();
         var Shortlisted = $('#inputShortlist option:selected').text();
+        if ((StartDate === '' && EndDate === '') || StartDate < EndDate) {
+            $.ajax({
+                url: '@Url.Action("ViewFilterKaizen", "SubmittedKaizen")',
+                type: 'GET',
+                data: {
+                    StartDate: StartDate,
+                    EndDate: EndDate,
+                    Domain: Domain,
+                    Department: Department,
+                    KaizenTheme: KaizenTheme,
+                    Status: Status,
+                    Shortlisted: Shortlisted
+                },
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+                success: function (result) {
+                    var rows = [];
+                    $(result).find('tbody tr').each(function () {
+                        var $row = $(this);
+                        var rowData = {
+                            kaizentheme: $row.data('kaizentheme'),
+                            teamname: $row.data('teamname'),
+                            horozantaldeployment: $row.data('horozantaldeployment'),
+                            ieapproveddept: $row.data('ieapproveddept'),
+                            domain: $row.data('domain'),
+                            finnancedeptappr: $row.data('finnancedeptappr'),
+                            shortlisted: $row.data('shortlisted'),
+                            approvalstatus: $row.data('approvalstatus'),
+                            createdby: $row.data('createdby'),
+                            createddate: $row.data('createddate')
 
-        $.ajax({
-            url: '@Url.Action("ViewFilterKaizen", "SubmittedKaizen")',
-            type: 'GET',
-            data: {
-                StartDate: StartDate,
-                EndDate: EndDate,
-                Domain: Domain,
-                Department: Department,
-                KaizenTheme:KaizenTheme,
-                Status:Status,
-                Shortlisted:Shortlisted
-            },
-            beforeSend: function () {
-                $('#loader-wrapper').show();
-            },
-            success: function (result) {
-                var rows = [];
-                $(result).find('tbody tr').each(function () {
-                    var $row = $(this);
-                    var rowData = {
-                        kaizentheme: $row.data('kaizentheme'),
-                        teamname: $row.data('teamname'),
-                        horozantaldeployment: $row.data('horozantaldeployment'),
-                        ieapproveddept: $row.data('ieapproveddept'),
-                        domain: $row.data('domain'),
-                        finnancedeptappr: $row.data('finnancedeptappr'),
-                        shortlisted: $row.data('shortlisted'),
-                        approvalstatus: $row.data('approvalstatus'),
-                        createdby: $row.data('createdby'),
-                        createddate: $row.data('createddate')
+                        };
+                        rows.push(rowData);
+                    });
+                    $('#SubmittedKaizengrid').html(result);
 
-                    };
-                    rows.push(rowData);
-                });
-                $('#SubmittedKaizengrid').html(result);
-
-            },
-            complete: function () {
-                setTimeout(function () {
-                    $('#loader-wrapper').hide();
-                }, 3000);
-            }
-        });
+                },
+                complete: function () {
+                    setTimeout(function () {
+                        $('#loader-wrapper').hide();
+                    }, 3000);
+                }
+            });
+        }
+        else 
+        { 
+            swal("Please ensure that the Start Date is less than the End Date");
+        }
     });
+</script>
+
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
 </script>
