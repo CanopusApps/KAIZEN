@@ -95,3 +95,45 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function () {
+        $('tbody').on('click', '.deleteuser', function (e) {
+            e.preventDefault();
+            var $row = $(this).closest('tr');
+            var kaizenid = $row.data('kaizenid');
+            swal({
+                text: "Are you sure you want to Delete the Kaizen ?",
+                buttons: {
+                    confirm: "Yes",
+                    cancel: "No",
+                },
+            }).then((userConfirmation) => {
+                if (userConfirmation) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteKaizen", "SubmittedKaizen")',
+                        type: 'GET',
+                        data:
+                        {
+                            kaizenid: kaizenid,
+                        },
+                        success: function (result) {
+                            if (result == true) {
+                                swal({
+                                    text: "Kaizen Deleted successfully !!",
+                                    type: "success"
+                                }).then(okay => {
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                swal('Unable to Delete the Kaizen - Please Check the logs');
+                                window.location.href = redirectErrorUrl;
+                            }
+                        }
+                    });
+                }
+            });
+            
+        });
+    });
+</script>

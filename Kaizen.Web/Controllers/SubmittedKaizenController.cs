@@ -13,6 +13,7 @@ using Kaizen.Models.AdminModel;
 using Kaizen.Business.Worker;
 using static System.Reflection.Metadata.BlobBuilder;
 using Kaizen.Models.SubmmitedKaizen;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Kaizen.Web.Controllers
 {
@@ -89,6 +90,22 @@ namespace Kaizen.Web.Controllers
             List<ApprovalStatusModel> list = new List<ApprovalStatusModel>();
             list = _submittedKaizenWorker.GetApprovalStatus();
             return list;
+        }
+        public IActionResult DeleteKaizen(int KaizenId)
+        {
+            string UserId="";
+            bool deleteStatus = false;
+            try
+            {
+                UserId = conAccessor.HttpContext.Session.GetString("UserID");
+                deleteStatus = _submittedKaizenWorker.DeleteKaizen(KaizenId, UserId);
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+            }
+            return Ok(deleteStatus);
         }
     }
 }
