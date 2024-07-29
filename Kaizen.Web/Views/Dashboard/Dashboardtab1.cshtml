@@ -94,7 +94,7 @@
                     <!-- Second Row of Cards -->
                     <div class="card-container">
                         <div class="card">
-                            <div class="card-header">Total Kaizens Submitted / Employee's who submitted Kaizens </div>
+                            <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Domain </div>
                             <div class="card-body">
                                 <div class="row">
                                     @foreach (var domain in Model.DomainList)
@@ -102,7 +102,7 @@
                                         <!-- Added data-domain-id attribute to store the domain ID -->
                                         <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-card-type="second">
                                             <div>@domain.DomainName</div>
-                                            <div>@domain.KaizenSubmitted /@domain.KaizenSubmittedUser</div>
+                                            <div>@domain.KaizenSubmittedUser/ @domain.User_count</div>
                                             <div>0.00%</div>
                                         </div>
                                         
@@ -118,7 +118,7 @@
                         <!-- End container to display fetched data -->
                         <div class="card-container">
                             <div class="card mt-2">
-                                <div class="card-header">Departments under Selected Domain/Employee's who submitted Kaizens</div>
+                                <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Department</div>
                                 <div class="card-body ">
                                     <div class="row">
                                         <!-- Dynamic content will be appended here -->
@@ -189,7 +189,7 @@
                                       <div class="col-md-4 col-lg-3 col-xl-2 card-item">
                                         <div>
                                           ${department.departmentName}
-                                              <div> ${department.kaizen_count}/ ${department.kaizenSubmitedCountdept}</div>
+                                              <div>  ${department.kaizenSubmitedCountdept}/ ${department.user_count}</div>
                                           <div>0.00 %</div>
                                         </div>
                                       </div>

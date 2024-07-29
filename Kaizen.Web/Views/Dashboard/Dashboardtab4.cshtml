@@ -11,6 +11,12 @@
         margin-top: -10px;
         margin-left: 7px;
     }
+
+    canvas {
+        position: relative;
+        max-width: 100%;
+        
+    }
 </style>
 <div class="card ml-2 mr-2 bg-light ">
 <nav>
@@ -32,9 +38,37 @@
         <div class="container-fluid border rounded p-2" style="width:100%">
 
             <form>
+
                 <div class="card p-3 mt-2 mb-2">
                     <div class="row mb-2">
                         <div class="form-group col-lg-4">
+                            <label for="Block">Blocks<span class="text-danger">*</span></label>
+                            <select id="inputBlock" class="form-control txt-width" name="Block">
+                                <option value="0" selected>All</option>
+                                @if (Model.blockList != null)
+                                {
+                                    @foreach (var Block in Model.blockList)
+                                    {
+                                        <option value="@Block.Id">@Block.BlockName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label for="Cadre">Cadre<span class="text-danger">*</span></label>
+                            <select id="inputCadre" class="form-control txt-width" name="Cadre">
+                                <option value="0" selected>All</option>
+                                @if (Model.CadreList != null)
+                                {
+                                    @foreach (var cadre in Model.CadreList)
+                                    {
+                                        <option value="@cadre.Id">@cadre.CadreName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4">
+
                             <label for="inputDomain">Domain<span class="text-danger">*</span></label>
                             <select id="inputDomain" class="form-control txt-width" name="Domain">
                                 <option value="0" selected>All</option>
@@ -53,14 +87,14 @@
                                 <option selected>All</option>
                             </select>
                         </div>
-                        <div class="form-group col-lg-2">
+                        <div class="form-group col-lg-4">
                             <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
                             <div>
                                 <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="">
                             </div>
 
                         </div>
-                        <div class="form-group col-lg-2">
+                        <div class="form-group col-lg-4">
                             <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
                             <div>
                                 <input class="form-control txt-width" id="dtenddate" type="date" name="name" value="" />
@@ -79,12 +113,15 @@
         <div class="card bg-white border chart-container mt-4 mb-4 ml-2 mr-2">
             <div class="  card-header"> Submitted Kaizen Chart </div>
             <div class="card-body">
-                <div class="d-flex justify-content-center flex-wrap">
-                    <div class="col-lg-6 col-md-12 mb-4">
-                        <canvas id="myBarChart"></canvas>
+
+                <div class="card-body col-lg-12">
+                    <div class="row">
+                    <div class="col-lg-12 col-sm-12 mb-4">
+                        <canvas id="myBarChart" style="height:150%"></canvas>
                     </div>
-                    <div class="col-lg-6 col-md-12 mb-4">
-                        <canvas id="paretoChart"></canvas>
+                    <div class="col-lg-12 col-sm-12 mb-4">
+                            <canvas id="paretoChart" style="height:150%"></canvas>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -113,103 +150,71 @@
   </nav>
   </div>
 <script>
-    // JavaScript for rendering the bar chart
-    $(document).ready(function () {
-
-        var ctx = document.getElementById('myBarChart').getContext('2d');
-        var myBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                datasets: [
-                    {
-                        label: 'Total',
-                        data: [29, 25, 30, 22, 35, 27, 32, 28, 31, 24, 26, 30],
-                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                        borderColor: 'rgba(153, 102, 255, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Approved',
-                        data: [12, 10, 14, 9, 16, 11, 15, 13, 14, 10, 12, 14],
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Rejected',
-                        data: [19, 17, 21, 14, 23, 19, 22, 20, 21, 16, 18, 22],
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Pending',
-                        data: [3, 2, 4, 1, 5, 2, 3, 2, 4, 2, 3, 4],
-                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                        borderColor: 'rgba(255, 206, 86, 1)',
-                        borderWidth: 1
-                    }
-                ]
-            },
-            options: {
+$(document).ready(function () {
+    // Bar Chart
+        window.addEventListener('resize', () => {
+            myChart.resize();
+        });
+    var ctxBar = document.getElementById('myBarChart').getContext('2d');
+    new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            datasets: [
+                {
+                    label: 'Total',
+                    data: [29, 25, 30, 22, 35, 27, 32, 28, 31, 24, 26, 30],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Approved',
+                    data: [12, 10, 14, 9, 16, 11, 15, 13, 14, 10, 12, 14],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Rejected',
+                    data: [19, 17, 21, 14, 23, 19, 22, 20, 21, 16, 18, 22],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Pending',
+                    data: [3, 2, 4, 1, 5, 2, 3, 2, 4, 2, 3, 4],
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Kaizen based on months '
-                    }
+                y: {
+                    beginAtZero: true
                 }
-              
-                   
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Kaizen based on months'
+                }
             }
-        });
-
-        $('#inputDomain').change(function () {
-            var Domain = $('#inputDomain').val().trim();
-            $.ajax({
-                type: 'POST',
-                url: '/Admin/FetchDepartment',
-                dataType: "json",
-                data: { DomainID: Domain },
-                success: function (result) {
-                    if (result) {
-                        var dropdown = $('#inputDepartment');
-                        dropdown.empty();
-                        dropdown.append($('<option>', {
-                            value: 'all',
-                            text: 'Select Department'
-                        }));
-                        for (var i = 0; i < result.length; i++) {
-                            $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
-                        }
-                    } else {
-                        Swal.fire('Please Select Domain');
-                    }
-                },
-                error: function (error) {
-                }
-            });
-        });
-        
-    
+        }
     });
 
-
-
-</script>
-<script>
-    $(document).ready(function () {
-        // Pareto Chart
-        const ctxPareto = $('#paretoChart')[0].getContext('2d');
-        const dataPareto = {
+    // Pareto Chart
+    const ctxPareto = $('#paretoChart')[0].getContext('2d');
+    new Chart(ctxPareto, {
+        data: {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             datasets: [{
                 type: 'bar',
@@ -220,168 +225,108 @@
                 borderWidth: 1
             }, {
                 type: 'line',
-                label: 'Line based ',
+                label: 'Line based',
                 data: [29, 25, 30, 22, 35, 27, 32, 28, 31, 24, 26, 30],
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 2,
                 fill: false,
                 tension: 0.1
             }]
-        };
-
-        const paretoChart = new Chart(ctxPareto, {
-            data: dataPareto,
-            options: {
+        },
+        options: {
+                
+                maintainAspectRatio: false,
                 responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Kaizen Pareto chart'
-                    }
+            plugins: {
+                legend: {
+                    position: 'top',
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function (value) {
-                                return value;
-                            }
+                title: {
+                    display: true,
+                    text: 'Kaizen Pareto chart'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function (value) {
+                            return value;
                         }
                     }
                 }
             }
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        // Donut Chart 1
-        const ctxDonut1 = $('#donutChart1')[0].getContext('2d');
-        const donutChart1 = new Chart(ctxDonut1, {
-            type: 'doughnut',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow'],
-                datasets: [{
-                    label: 'Dataset 1',
-                    data: [300, 50, 100],
-                    backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)'
-                    ],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Based on cadre'
-                    }
-                }
-            }
-        });
-
-        // Donut Chart 2
-        const ctxDonut2 = $('#donutChart2')[0].getContext('2d');
-        const donutChart2 = new Chart(ctxDonut2, {
-            type: 'doughnut',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow'],
-                datasets: [{
-                    label: 'Dataset 2',
-                    data: [150, 200, 90],
-                    backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)'
-                    ],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Based on Blocks'
-                    }
-                }
-            }
-        });
-
-        // Donut Chart 3
-        const ctxDonut3 = $('#donutChart3')[0].getContext('2d');
-        const donutChart3 = new Chart(ctxDonut3, {
-            type: 'doughnut',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow'],
-                datasets: [{
-                    label: 'Dataset 3',
-                    data: [200, 150, 120],
-                    backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)'
-                    ],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Based on Domains'
-                    }
-                }
-            }
-        });
-
-        // Donut Chart 4
-        const ctxDonut4 = $('#donutChart4')[0].getContext('2d');
-        const donutChart4 = new Chart(ctxDonut4, {
-            type: 'doughnut',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow'],
-                datasets: [{
-                    label: 'Dataset 4',
-                    data: [180, 80, 140],
-                    backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)'
-                    ],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Based on Departments'
-                    }
-                }
-            }
-        });
-    
+        }
     });
 
+    // Donut Charts
+    const donutCharts = [
+        { id: 'donutChart1', label: 'Dataset 1', data: [300, 50, 100], title: 'Based on cadre' },
+        { id: 'donutChart2', label: 'Dataset 2', data: [150, 200, 90], title: 'Based on Blocks' },
+        { id: 'donutChart3', label: 'Dataset 3', data: [200, 150, 120], title: 'Based on Domains' },
+        { id: 'donutChart4', label: 'Dataset 4', data: [180, 80, 140], title: 'Based on Departments' }
+    ];
+
+    donutCharts.forEach(chart => {
+        const ctxDonut = $(`#${chart.id}`)[0].getContext('2d');
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow'],
+                datasets: [{
+                    label: chart.label,
+                    data: chart.data,
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: chart.title
+                    }
+                }
+            }
+        });
+    });
+
+    // Domain Dropdown
+    $('#inputDomain').change(function () {
+        var Domain = $('#inputDomain').val().trim();
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/FetchDepartment',
+            dataType: 'json',
+            data: { DomainID: Domain },
+            success: function (result) {
+                if (result) {
+                    var dropdown = $('#inputDepartment');
+                    dropdown.empty();
+                    dropdown.append($('<option>', {
+                        value: 'all',
+                        text: 'Select Department'
+                    }));
+                    result.forEach(function (item) {
+                        dropdown.append('<option value="' + item.deptId + '">' + item.departmentName + '</option>');
+                    });
+                } else {
+                    Swal.fire('Please Select Domain');
+                }
+            },
+            error: function (error) {
+                console.error('Error fetching departments:', error);
+            }
+        });
+    });
+});
 </script>
