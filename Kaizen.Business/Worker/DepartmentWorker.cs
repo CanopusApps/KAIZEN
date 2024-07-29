@@ -40,7 +40,8 @@ namespace Kaizen.Business.Worker
                         DomainName = dr["DomainName"].ToString(),
                         Status = Convert.ToBoolean(dr["Status"]),
                         User_count = Convert.ToInt32(dr["user_count"]),
-                        kaizen_count= Convert.ToInt32(dr["kaizen_count"])
+                        kaizen_count= Convert.ToInt32(dr["kaizen_count"]),
+                        KaizenSubmitedCountdept = Convert.ToInt32(dr["KaizenSubmittedUserdept"])
 
                     });
                 }
