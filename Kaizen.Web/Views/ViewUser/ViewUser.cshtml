@@ -163,7 +163,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputstatus">Status<span class="text-danger">*</span></label>
                                     <select id="ModalStatus" class="form-control">
-                                        <option selected>All</option>
+                                        <option selected value="0">Select Status</option>
                                         @if (Model.StatusList != null)
                                         {
                                             foreach (var status in Model.StatusList)
@@ -176,7 +176,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputUserType">User Type<span class="text-danger">*</span></label>
                                     <select class="form-control" id="ModalUserType">
-                                        <option selected>All</option>
+                                        <option selected value="0">Select Usertype</option>
                                         @if (Model.UserTypeList != null)
                                         {
                                             foreach (var userType in Model.UserTypeList)

@@ -13,5 +13,6 @@ namespace Kaizen.Business.Interface
     {
         public List<ApprovalStatusModel> GetApprovalStatus();
         public List<KaizenListModel> GetKaizenList(KaizenListModel model);
+        public bool DeleteKaizen(int KaizenId,string UserId);
     }
 }

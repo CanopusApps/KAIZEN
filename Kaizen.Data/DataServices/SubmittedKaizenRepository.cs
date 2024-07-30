@@ -65,11 +65,11 @@ namespace Kaizen.Data.DataServices
 
                 com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
                 com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
-                com.Parameters.AddWithValue("@Domain", model.Domain == "All" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
-                com.Parameters.AddWithValue("@Department", model.Department == "All" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
+                com.Parameters.AddWithValue("@Domain", model.Domain == "Select Domain" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
+                com.Parameters.AddWithValue("@Department", model.Department == "Select Department" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
                 com.Parameters.AddWithValue("@KaizenTheme", string.IsNullOrEmpty(model.KaizenTheme) ? " " : model.KaizenTheme);
-                com.Parameters.AddWithValue("@Status", model.Status == "All" ? "" : (string.IsNullOrEmpty(model.Status) ? " " : model.Status));
-                com.Parameters.AddWithValue("@Shortlisted", model.Shortlisted == "All" ? "" : (string.IsNullOrEmpty(model.Shortlisted) ? " " : model.Shortlisted));
+                com.Parameters.AddWithValue("@Status", model.Status == "Select Status" ? "" : (string.IsNullOrEmpty(model.Status) ? " " : model.Status));
+                com.Parameters.AddWithValue("@Shortlisted", model.Shortlisted == "Select Shortlisted" ? "" : (string.IsNullOrEmpty(model.Shortlisted) ? " " : model.Shortlisted));
                 com.Parameters.AddWithValue("@Role", string.IsNullOrEmpty(model.role) ? " " : model.role);
                 com.Parameters.AddWithValue("@UserId", string.IsNullOrEmpty(model.UserId) ? " " : model.UserId);
 
@@ -83,6 +83,30 @@ namespace Kaizen.Data.DataServices
                 throw ex;
             }
             return ds;
+        }
+        public bool DeleteKaizenData(int KaizenId,string UserId)
+        {
+            bool status = false;
+
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@KaizenId", KaizenId);
+                com.Parameters.AddWithValue("@UserId", UserId);
+                com.CommandText = StoredProcedures.Sp_Delete_Kaizens;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return status;
         }
     }
 }

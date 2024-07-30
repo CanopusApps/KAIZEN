@@ -43,11 +43,13 @@ namespace Kaizen.Data.DataServices
 
                 com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
                 com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
-                //com.Parameters.AddWithValue("@Domain", model.Domain == "All" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
+                com.Parameters.AddWithValue("@Cadre", model.Cadre == "All" ? "" : (string.IsNullOrEmpty(model.Cadre) ? " " : model.Cadre));
 
-                //com.Parameters.AddWithValue("@Department", model.Department == "All" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
+                com.Parameters.AddWithValue("@Block", model.Block == "All" ? "" : (string.IsNullOrEmpty(model.Block) ? " " : model.Block));
+
                 com.Parameters.Add("@Domain", SqlDbType.VarChar).Value = model.Domain == "All" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Domain) ? (object)DBNull.Value : model.Domain);
-                com.Parameters.Add("@Department", SqlDbType.VarChar).Value = model.Department == "All" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Department) ? (object)DBNull.Value : model.Department);
+                com.Parameters.Add("@Department", SqlDbType.VarChar).Value =  model.Department == "All" || model.Department == "Select Department" ? (object)DBNull.Value :  (string.IsNullOrEmpty(model.Department) ? (object)DBNull.Value : model.Department);
+
                 com.CommandText = StoredProcedures.Sp_DashboardFilter;
 
                 SqlDataAdapter da = new SqlDataAdapter(com);

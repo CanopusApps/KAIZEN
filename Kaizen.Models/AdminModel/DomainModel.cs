@@ -15,6 +15,7 @@ namespace Kaizen.Models.AdminModel
 
         public int User_count {  get; set; }
 
+        public int KaizenSubmittedUser { get; set; }
         public int KaizenSubmitted {  get; set; }
         public int AllKaizenSubmitted {  get; set; }
         public string CreatedBy { get; set; } = "";

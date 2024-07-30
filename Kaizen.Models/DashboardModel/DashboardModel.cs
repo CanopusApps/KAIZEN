@@ -13,15 +13,28 @@ namespace Kaizen.Models.DashboardModel
         public string EndDate { get; set; } = "";
         public string Domain { get; set; } = "";
         public string Department { get; set; } = "";
+
+        public string Cadre { get; set; } = "";
+
+        public string Block { get; set; } = "";
+        public List<CadreModel> CadreList { get; set; }
+        public List<BlockModel> blockList {  get; set; }
         public List<DomainModel> DomainList { get; set; }
         public List<TotalKaizennos> TotalKaizenList {  get; set; }
 
         public List<CountKaizenStatus> CountKaizenList { get; set; }
 
+        public List<TotalKaizennos> MonthTotalKaizenList { get; set; }
+        public List<TotalKaizennos> CustomMonthTotalKaizenList { get; set; }
+
+        public List<CountKaizenStatus> MonthCountKaizenList { get; set; }
+
+
     }
 
     public class TotalKaizennos
     {
+        public string monthbasedTotal {  get; set; }
         public int TotalKaizens { get; set; }
         public int DRITotal { get; set; }
         public int FinanceTotal { get; set; }
@@ -35,6 +48,7 @@ namespace Kaizen.Models.DashboardModel
     }
     public class CountKaizenStatus
     {
+        public string monthbased { get; set; }
         public int ApprovalCount { get; set; }
 
         public int ApprovalStatus { get; set; }
