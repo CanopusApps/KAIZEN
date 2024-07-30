@@ -229,9 +229,7 @@
                                                         <div class="form-group">
                                                             <textarea class="form-control mb10" name="activity_desc" id="activityDesc" value="@Model.ActivityDesc"></textarea>
                                                         </div>
-
-
-
+                                                            <input type="text" id="bindtxtID" value="@Model.Id" hidden />
                                                         <div class="form-group" id="checkboxform1">
                                                             <!-- <label> -->
                                                             <label class="d-block">Benefit Area <span class="mandatory">*</span></label>
@@ -1101,6 +1099,13 @@
                                                     <button class="btn btn-warning" id="btnSaveKaizen">Save It</button>
                                                     <button class="btn btn-azure" id="btnSubmitKaizen">Submit to DRI</button>
                                                 </div>
+
+                                                <div class="card-body float-right mt-2" id="saveItButton">
+                                                    <button class="btn btn-warning" id="btnUpdateKaizen">Save It</button>
+                                                    <button class="btn btn-azure" id="btnSubmitStatus">Submit to DRI</button>
+                                                </div>
+
+
                                         </div>                                                                                
                                     </div>
                                 </div>
@@ -1388,8 +1393,11 @@
             $('#waitingapproval').hide();
             $('#waitingimage').hide();
             $('#imagelabel').hide();
-            $('#printPDF').hide();  
-        $('#backbtn').hide();
+            $('#printPDF').hide(); 
+            $('#btnUpdateKaizen').hide();
+            $('#btnSubmitStatus').hide();
+
+            $('#backbtn').hide();
             $('#Srno').hide();
             $('#kaizenrefNo').hide();
 
@@ -2205,6 +2213,162 @@
        });
    });
 
+
+
+
+
+
+
+
+
+
+
+
+
+        $("#btnUpdateKaizen").click(function () {
+            debugger;
+            var checkboxData = {};
+            var checkboxData1 = {};
+            var Rootcausedata;
+            var activityValue = [];
+                    $('#checkboxform input[type=checkbox]:checked').each(function () {
+                        activityValue.push($(this).val());
+                    });
+            var benifitarea = [];
+                    $('#checkboxform1 input[type=checkbox]:checked').each(function () {
+                        benifitarea.push($(this).val());
+                    });
+            var addedTeamMembers = new Array();
+            var addedDeployment = new Array();
+            $('#tblteammemberResult tbody tr').each(function () {
+                var row = $(this);
+                var memberDetails = {};
+                 if (row.find("TD").eq(2).val() != undefined) {
+                memberDetails.EmpId = row.find("TD").eq(4).val();
+                memberDetails.TeamMemberName = row.find("TD").eq(2).val();
+                memberDetails.FunctionName = row.find("TD").eq(3).val();
+                addedTeamMembers.push(memberDetails);
+               }
+            });
+
+            $('#tblDeploymentrResult tbody tr').each(function () {
+                var row = $(this);
+                var deploymentDetails = {};
+                if (row.find("TD").eq(1).val() != undefined) {
+                    deploymentDetails.MC = row.find("TD").eq(1).val();
+                    deploymentDetails.TargetDate = row.find("TD").eq(2).val();
+                    deploymentDetails.Responsibility = row.find("TD").eq(3).val();
+                    deploymentDetails.ScopeStatus = row.find("TD").eq(4).val();
+                    // deploymentDetails.createdBy = $("#loginIDuser").val();
+                    deploymentDetails.CreatedDate = $("#CDeta").val();
+                    // deploymentDetails.KaizenID = $("#kaizenid").val();
+                    addedDeployment.push(deploymentDetails);
+                }
+            });
+
+            // var memberListJson = JSON.stringify(addedTeamMembers);
+            // var deploymentListJson = JSON.stringify(addedDeployment);
+
+
+            // Create FormData object
+            var formData = new FormData();
+
+           
+            
+            // Append text and file fields to formData
+            
+            formData.append('Id', $('#bindtxtID').text());
+            formData.append('Block', $('#BlockName').val());
+            formData.append('BlockDetails', $('#BlockName option:selected').text());
+            formData.append('Activity', activityValue);
+            formData.append('BenefitArea', benifitarea);
+            formData.append('ActivityDesc', $('#activityDesc').val());
+            formData.append('KaizenTheme', $('#ktheme').val());
+            formData.append('plantName', $('#teplplant').val());
+            formData.append('SuggestedKaizen', $('#suggestedKaizen').val());
+            formData.append('ProblemStatement', $('#probstmt').val());
+            formData.append('CounterMeasure', $('#countmeasur').val());
+            formData.append('DocNo', $("#docNo").val());
+            formData.append('VersionNoDate', $("#versionNo").val());
+            formData.append('CostCentre', $("#codeCentre").val());
+            formData.append('KaizenRefNo', $("#refNo").val());
+            formData.append('Yield', $("#yield1").val());
+            formData.append('CycleTime', $("#cycletime1").val());
+            formData.append('Cost', $("#cost1").val());
+            formData.append('ManPower', $("#Manpower").val());
+            formData.append('Consumables', $("#Consumables").val());
+            formData.append('Others', $("#Others").val());
+            formData.append('TotalSavings', $("#TotalSavings").val());
+            formData.append('ApprovedByIE', $("#approvedbyIE").val());
+            formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+            formData.append('Rootcause', $("#rootcauseProblem").val());
+            formData.append('MemberList', JSON.stringify(addedTeamMembers));
+            formData.append('DeploymentList', JSON.stringify(addedDeployment));
+            formData.append('RootCauseDetails', $("#rootcauseDetails").val());
+            formData.append('PresentCondition', $("#presentCondition").val());
+            formData.append('ImprovementsCompleted', $("#improvementsCompleted").val());
+            formData.append('HorozantalDeployment', $('input[name="horizontalDeployment"]:checked').val());
+            formData.append('InOtherMC', $('#InOtherMC').val());
+            formData.append('WithIntheDept', $('#withinDept').val());
+            formData.append('InotherDept', $('#InotherDept').val());
+            formData.append('Otherpoints', $('#Otherpoints').val());
+            formData.append('DRIApprovedBy', $('#driapprovedby').val());
+            formData.append('DRIApprovedDate', $('#driapproveddate').val());
+            formData.append('Benifits', $("#benefit").val());
+            formData.append('OriginatedBy', $("#name").val());
+            formData.append('Domain', $("#DomainId").val());
+            formData.append('Department', $("#DeptId").val());
+            formData.append('CreatedDate', $("#CDeta").val());
+            formData.append('AttachmentBefore', $('#attach_file_before')[0].files[0]);
+            formData.append('AttachmentAfter', $('#attach_file_after')[0].files[0]);
+            formData.append('RootProblemAttachment', $('#attach_file2')[0].files[0]);
+
+            //  additional attachments
+            for (let i = 0; i < allFiles.length; i++) {
+                formData.append('AdditionalAttachments', allFiles[i]);
+            }
+
+            if (!ValidateForm())
+            {
+                return;
+            }
+            //  AJAX 
+            $.ajax({
+                type: 'POST',
+                url: '/CreateKaizen/UpdateKaizen',
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (result) {
+                    var redirectErrorUrl = "/Login/ErrorPage";
+                    if (result.success) {
+                        swal({
+                            text: 'Kaizen Updated Successfully!!',
+                            type: 'success'
+                        }).then(function () {
+                         
+                        });
+                    } else {
+                        swal('Unable to Update the Kaizen Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
+                    }
+                },
+                error: function (error) {
+                    swal('Unable to Update the Kaizen Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
+                }
+            });
+            // updateGUID();
+        });
+
+
+
+
+
+
+
+
     });
 
 </script>
@@ -2506,6 +2670,7 @@
                             $('#approvers').hide();
                           
                         }
+                        $('#bindtxtID').text(result.kaizenList[0].id);
                         $('#ieDateTime').text(result.kaizenList[0].ieApprovedDate);
                         $('#driDateTime').text(result.kaizenList[0].driApprovedDate);
                         $('#finDateTime').text(result.kaizenList[0].financeApprovedDate);
@@ -2529,6 +2694,11 @@
                         
                         $("#docNo").val(result.kaizenList[0].docNo);
                         $('#printPDF').show();
+                        $('#btnUpdateKaizen').show();
+                        $('#btnSubmitStatus').show();
+                        $('#btnSaveKaizen').hide();
+                        $('#btnSubmitKaizen').hide();
+
                         $('#Srno').show();
                         $('#kaizenrefNo').show();
                         $('#backbtn').show();
