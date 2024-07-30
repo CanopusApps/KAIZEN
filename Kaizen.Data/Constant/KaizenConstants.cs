@@ -75,7 +75,7 @@ namespace Kaizen.Data.Constant
         
 
         public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
-        //public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
+        public static string Sp_Get_IEDeptDetails = "Sp_Get_IEDeptDetails";
         public static string SpAddWinner = "Sp_AddWinner";
         public static string SpGetWinnersList = "Sp_GetWinnersList";
         public static string SpDeleteWinner = "Sp_DeleteWinner";
