@@ -156,5 +156,25 @@ namespace Kaizen.Data.DataServices
                 throw ex;
             }
         }
+        public DataSet GetIEDepartData()
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.Sp_Get_IEDeptDetails;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+
+        }
     }
 }

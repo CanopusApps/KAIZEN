@@ -20,20 +20,25 @@ namespace Kaizen.Web.Controllers
     {
         public IHttpContextAccessor conAccessor;
         private readonly IBlock _blockWorker;
+        private readonly IViewuser _viewuserWorker;
         private readonly ICreateNewKaizen _createNewKaizen;
         //private readonly string _uploadspath;
         private readonly NewKaizenModel _infoSettings; 
 
         NewKaizenModel model = new NewKaizenModel();
 
-        public CreateKaizenController(IBlock worker, ICreateNewKaizen kaizenWorker, IHttpContextAccessor conAccessor, IOptions<NewKaizenModel> infoSettings)
+        public CreateKaizenController(IBlock worker, IViewuser viewuserworker  , ICreateNewKaizen kaizenWorker, IHttpContextAccessor conAccessor, IOptions<NewKaizenModel> infoSettings)
         {
             _blockWorker = worker;
+            _viewuserWorker = viewuserworker;
             _createNewKaizen = kaizenWorker;
             this.conAccessor = conAccessor;
             _infoSettings = infoSettings.Value;
         }
-
+        public ActionResult KaizenModalPopupPartial()
+        {
+            return PartialView("_KaizenModalPopupPartial");
+        }
         public IActionResult NewKaizen()
 		{
             try
@@ -50,6 +55,7 @@ namespace Kaizen.Web.Controllers
                 model.Domain = conAccessor.HttpContext.Session.GetString("Domain");
                 model.Department = conAccessor.HttpContext.Session.GetString("Department");
                 model.BlockList = _blockWorker.GetBlock();
+                model.IEDepartList = _viewuserWorker.GetIEDepart();
                 //model = _createNewKaizen.GetKaizenOriginatedby(model);
                 DateTime currentDate  = DateTime.Today;
                 model.OriginatedDate = currentDate.ToString("dd-MM-yyyy");
