@@ -1,6 +1,9 @@
 ﻿@using Kaizen.Models.AdminModel
 @model IEnumerable<KaizenListModel>
-
+@inject IHttpContextAccessor Accessor
+@{
+    var UserType = Accessor.HttpContext.Session.GetString("Userrole");
+}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
 <link href="~/assets/css/ViewUser/datatables.min.css" rel="stylesheet" />
 <script src="~/assets/js/custom/datatables.min.js"></script>
@@ -35,7 +38,16 @@
                     <td>@User.FinnanceDeptAppr</td>
                     <td>@User.Shortlisted</td>
                     <td>@User.ApprovalStatus</td>
-                    <td>@User.CreatedBy</td>
+                    <td>
+                        @if(UserType=="ADMIN")
+                        {
+                            <a class="posted-by" href="#" data-createdby="@User.PostedBy" data-role="@User.role">@User.CreatedBy</a>
+                        }
+                        else
+                        {
+                            @User.CreatedBy
+                        }
+                    </td>
                     <td>@User.CreatedDate</td>
                     <td class="text-center">
                         @if (User.AStatus < 4)
@@ -134,6 +146,44 @@
                 }
             });
             
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#KaizenTable').on('click', '.posted-by', function (e) {
+            e.preventDefault();
+            var user = $(this).data('createdby'); 
+            var role = $(this).data('role');
+            $.ajax({
+                url: '/SubmittedKaizen/FetchKaizenDetails_by_CreatedBy',
+                type: 'GET',
+                data: { UserId: user, role: role },
+                success: function (result) {
+                    var rows = [];
+                    $(result).find('tbody tr').each(function () {
+                        var $row = $(this);
+                        var rowData = {
+                            kaizentheme: $row.data('kaizentheme'),
+                            teamname: $row.data('teamname'),
+                            horozantaldeployment: $row.data('horozantaldeployment'),
+                            ieapproveddept: $row.data('ieapproveddept'),
+                            domain: $row.data('domain'),
+                            finnancedeptappr: $row.data('finnancedeptappr'),
+                            shortlisted: $row.data('shortlisted'),
+                            approvalstatus: $row.data('approvalstatus'),
+                            createdby: $row.data('createdby'),
+                            createddate: $row.data('createddate')
+
+                        };
+                        rows.push(rowData);
+                    });
+                    $('#SubmittedKaizengrid').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         });
     });
 </script>
