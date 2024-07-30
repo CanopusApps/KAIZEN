@@ -54,27 +54,26 @@
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.EmpID, "Emp ID", htmlAttributes: new { @class = "control-label" })
                     <span class="text-danger">*</span>
-                    @Html.EditorFor(model => model.EmpID, new { htmlAttributes = new { @class = "form-control", placeholder = "Employee Id", @readonly = true } })
+                    @Html.EditorFor(model => model.EmpID, new { htmlAttributes = new { @class = "form-control", placeholder = "Employee ID", @readonly = true } })
                     @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.FirstName, "First Name", htmlAttributes: new { @class = "control-label" })
                     <span class="text-danger">*</span>
-                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "Enter your  FirstName" } })
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "First Name" } })
                     @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                 </div>
-
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label" })
-                    <input type="text" asp-for="MiddleName" id="MiddleName" name="MiddleName" class="form-control txt-width" placeholder="Enter Middle Name">
+                    @Html.LabelFor(model => model.MiddleName, "Middle Name", htmlAttributes: new { @class = "control-label" })
+                    <input type="text" asp-for="MiddleName" id="MiddleName" name="MiddleName" class="form-control txt-width" placeholder="Middle Name">
                     <span id="middleNameError" class="text-danger"></span>
                 </div>                
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.LastName, "Last Name", htmlAttributes: new { @class = "control-label" })
                     <span class="text-danger">*</span>
-                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "Enter your LastName" } })
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "Last Name" } })
                     @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-4">
@@ -84,9 +83,9 @@
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.PhoneNo, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.PhoneNo, "Phone Number", htmlAttributes: new { @class = "control-label" })
                     <span class="text-danger">*</span>
-                    @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", type = "tel", pattern = "[0-9]{10}", title = "Please enter a 10-digit phone number", placeholder = "Enter your phone number" } })
+                    @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", type = "tel", pattern = "[0-9]{10}", title = "Please enter a 10-digit phone number", placeholder = "Phone Number" } })
                     @Html.ValidationMessageFor(model => model.PhoneNo, "", new { @class = "text-danger" })
                 </div>
                 
@@ -94,19 +93,19 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.BlockId, "Block", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                    @Html.DropDownListFor(m => m.BlockId, new SelectList(Model.Blocks, "Id", "BlockName"), "Select Block", new { @id = "blockId", @class = "form-control" })
+                    @Html.DropDownListFor(m => m.BlockId, new SelectList(Model.Blocks, "Id", "BlockName"), "--Select Block--", new { @id = "blockId", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.BlockId, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                    @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "Select Domain", new { @id = "Did", @class = "form-control" })
+                    @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "--Select Domain--", new { @id = "Did", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
                     <select Asp-for="DeptId" name="DeptId" id="inputDepartment" class="form-control">
-                        <option selected>Select Department</option>
+                        <option selected>--Select Department--</option>
                     </select>
                 </div>
                           
@@ -125,8 +124,8 @@
                     @Html.ValidationMessageFor(model => model.Cid, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.Rid, "UserType", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                    @Html.DropDownListFor(m => m.Rid, new SelectList(Model.UserType, "UserTypeId", "UserDesc"), "--UserType--", new { @id = "Rid", @class = "form-control" })
+                    @Html.LabelFor(model => model.Rid, "User Type", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                    @Html.DropDownListFor(m => m.Rid, new SelectList(Model.UserType, "UserTypeId", "UserDesc"), "--Select User Type--", new { @id = "Rid", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Rid, "", new { @class = "text-danger" })
                 </div>
                

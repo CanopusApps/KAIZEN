@@ -40,10 +40,17 @@ namespace Kaizen.Models.AdminModel
         //[Required(ErrorMessage = "Email is required")]
         //[RegularExpression("@ ^[\\w\\.-]+@[a-zA-Z\\d\\.-]+\\.[a-zA-Z]{2,}$ ", ErrorMessage = "Email entered is InValid!!")]
         //[EmailAddress(ErrorMessage = "Invalid Email Address")]
-        [EmailAddress]
-        [Required]
-        [DataType(DataType.EmailAddress)]
+        //[EmailAddress]
+        //[Required]
+        //[RegularExpression("/^([a-zA-Z0-9_\\.\\-\\+])+@\\(([a - zA - Z0 - 9\\-]) +\\.)+([a-zA-Z0-9]{2,4})+$/")]
+        ////[DataType(DataType.EmailAddress)]
         
+        //public string Email { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        //[DataType(DataType.EmailAddress)]
+        //[RegularExpression(/^([a - zA - Z0 - 9_\.\-\+])+@@(([a - zA - Z0 - 9\-]) +\.)+([a - zA - Z0 - 9]{2,4})+$/)]
         public string Email { get; set; }
 
     }
