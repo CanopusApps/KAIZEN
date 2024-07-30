@@ -565,13 +565,13 @@
                                                         <div class="col-sm-4 mt-3">
                                                             <div class="form-group">
                                                                 <label>Cycle Time(Sec)</label>
-                                                                    <input type="number" name="cycletime1" id="cycletime1" required class="form-control" value="" >
+                                                                    <input type="number" name="cycletime1" id="cycletime1" required class="form-control numeric-input" value="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4 mt-3">
                                                             <div class="form-group">
                                                                 <label>Cost </label>
-                                                                <input type="number" name="cost1" id="cost1" required class="form-control" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">Rs 388186 / IM01 mold ( 13 IM1 molds for PP+BMB1 + BMB2)</p>' title="Cost [Example]">
+                                                                    <input type="number" name="cost1" id="cost1" required class="form-control numeric-input" value="" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">Rs 388186 / IM01 mold ( 13 IM1 molds for PP+BMB1 + BMB2)</p>' title="Cost [Example]">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -602,7 +602,7 @@
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label>Total Savings </label>
-                                                                <input type="number" name="TotalSavings" id="TotalSavings" required class="form-control" value="@Model.TotalSavings" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">5046418</p>' title="Total Savings [Example]">
+                                                                <input type="number" name="TotalSavings" id="TotalSavings" required class="form-control numeric-input" value="@Model.TotalSavings" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">5046418</p>' title="Total Savings [Example]">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4">
@@ -648,7 +648,7 @@
                                             <table class="table table-bordered mb10" id="idAddteammember">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-center">EMP ID</th>
+                                                            <th class="text-center" @* style="width: 200px;" *@>EMP ID</th>
                                                         <th class="text-center">Team Member Name</th>
                                                         <th class="text-center">Function</th>
                                                         <th class="text-center">Action</th>
@@ -657,7 +657,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td class="border-0 text-left"><input type="text" class="form-control mx-0 " id="IdMemberAdd"></td>
+                                                            <td class="border-0 text-left"><input type="text" class="form-control mx-0 " id="IdMemberAdd" @* style="width: 200px; "*@></td>
                                                         <td class="border-0 text-left"><input type="text" class="form-control ml-1  " id="IdTeamMemberName"> </td>
                                                         <td class="border-0 text-left"><input type="text" class="form-control ml-2 " id="IdFunction"></td>
                                                         <td class="hidden-cell" style="display: none;"id="empGuid"></td>
@@ -816,26 +816,26 @@
                                                     <span class="targetGrayed">
                                                         <div class="col-lg-12">
                                                             <div class="row">
-                                                                <div class="col-lg-6 mt-2">
+                                                                <div class="col-lg-3 mt-2">
                                                                        
                                                             <label for="">In Other Machines within the cell<span class="mandatory">*</span></label>
                                                             <input class="form-control" type="text" id="InOtherMC">
                                                                     <span id="otherError" class="text-danger error-message"></span>
                                                         </div>
-                                                        <div class="col-lg-6 mt-2">
+                                                        <div class="col-lg-3 mt-2">
                                                             <label for="">Within the Department in all the machine groups <span class="mandatory">*</span></label>
                                                             <input class="form-control" type="text" id="withinDept">
                                                                     <span id="withinError" class="text-danger error-message"></span>
                                                         </div>
-                                                        </div>
+                                                       @*  </div>
                                                         
-                                                        <div class="row">
-                                                            <div class="col-lg-6 mt-2">
+                                                        <div class="row"> *@
+                                                            <div class="col-lg-3 mt-2">
                                                                 <label for="">In Other Dept/ Other Location<span class="mandatory">*</span></label>
                                                                 <input class="form-control" type="text" id="InotherDept">
                                                                     <span id="InotherError" class="text-danger error-message"></span>
                                                             </div>
-                                                            <div class="col-lg-6 mt-2">
+                                                            <div class="col-lg-3 mt-2">
                                                                 <label for="">Any other Relevant Points<span class="mandatory">*</span></label>
                                                                 <input class="form-control" type="text" id="Otherpoints">
                                                                     <span id="OtherpointsError" class="text-danger error-message"></span>
@@ -999,7 +999,7 @@
                                                                 </td>
 
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
-                                                                    <input type="text" class="mx-auto form-control col-9" id="name" name="name" value="@Model.name">
+                                                                        <input type="text" class="mx-auto form-control col-9" id="name" name="name" value="@Model.name" readonly>
                                                                     <input type="text" class="mx-auto form-control col-9" id="createdBy" name="createdBy" value="@Model.EmpId" hidden>
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
@@ -1025,10 +1025,10 @@
                                                                 </td>
 
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
-                                                                    <input type="text" class="mx-auto form-control col-9" id="DomainId" name="DomainId" value="@Model.Domain - @Model.Department" >
+                                                                        <input type="text" class="mx-auto form-control col-9" id="DomainId" name="DomainId" value="@Model.Domain - @Model.Department" readonly>
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
-                                                                    <input name="DeptId" id="DeptId" class="form-control col-9" value="@Model.Domain - @Model.Department">
+                                                                        <input name="DeptId" id="DeptId" class="form-control col-9" value="@Model.Domain - @Model.Department" readonly>
                                                                 </td>
                                                                @*  <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-4">
@@ -1155,10 +1155,10 @@
                    
                            
                         </div>
-                        <div class="col-sm-12" id="Editbtn">
+                      @*   <div class="col-sm-12" id="Editbtn">
                             <label>Would You Like To Edit Kaizen :</label>
                                 <button id="scrollToTopBtn" class="btn btn-warning" onclick="scrollToTop()">Edit</button>
-                            </div>
+                            </div> *@
                             <div class="col-sm-12" id="imagelabel">
                             <label>Would You Like To Approve Kaizen Image and move it to Dri Approval </label>
                                                    
@@ -1225,11 +1225,6 @@
     // function scrollToTop() {
     //     var scroll_pos = $(window).scrollTop()
     // }
-
-    $("#scrollToTopBtn").on("click", function () {
-        $(window).scrollTop()
-    });
-
     // function generateGUID() {
     //     function s4() {
     //         return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
@@ -1656,11 +1651,32 @@
                 approvedBySection.removeClass('show');  
             }
         });
+    }); 
+    //accept numbers
+    document.querySelectorAll('.numeric-input').forEach(function (element) {
+        element.addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    });
+    //emptable
+    $(document).ready(function () {
+        function toggleButtons() {
+            var input1 = $('#IdMemberAdd').val().trim();
+            var inputsFilled = input1.length >= 6;
+            var checkboxChecked = $('input[type="checkbox"]:checked').length > 0;
+            $('#teamAddBtn').toggleClass('grayed-out', !inputsFilled).prop('disabled', !inputsFilled);
+            $('#teamDelBtn').toggleClass('grayed-out', !checkboxChecked).prop('disabled', !checkboxChecked);
+        }
+        toggleButtons();
+        $(document).on('input', '#IdMemberAdd, #IdTeamMemberName, #IdFunction', toggleButtons);
+        $(document).on('change', 'input[type="checkbox"]', toggleButtons);
+        $('#teamAddBtn, #teamDelBtn').on('click', function () {
+            $('#teamAddBtn, #teamDelBtn').addClass('grayed-out').prop('disabled', true);
+        });
     });
 
     function ValidateForm() {
         var isValid = true;
-        // new
         $("#docNo").css("border-color", "red");
         $("#docerror").text("");
         $(".error-message").text("");
@@ -1677,7 +1693,6 @@
         $("#kaizenrefNoererror").text("");
         $(".error-message").text(""); 
 
-        // Remove red borders and error messages
         $("#BlockName").css("border-color", "red");
         $("#Blockerror").text("");
         $(".error-message").text("");
@@ -1731,7 +1746,6 @@
         $("#BenefitsError").text("");
         $(".error-message").text("");
 
-        // Check for empty or invalid fields
         var benifitarea = [];
         $('#checkboxform1 input[type=checkbox]:checked').each(function () {
             benifitarea.push($(this).val());
@@ -1739,7 +1753,6 @@
         var blockNameValue = $("#BlockName").val();
         var themeName = $("#ktheme").val();
         var plantName = $("#teplplant").val();
-        // var suggestedKaizenName = $("#suggestedKaizen").val();
         var problemName = $("#probstmt").val();
         var counterMeasuremName = $("#countmeasur").val();
         var documentNo = $("#docNo").val();
@@ -1765,41 +1778,40 @@
                 addedTeamMembers.push(memberDetails);
             }
         });
-        // new
         if (documentNo === "") {
             $("#docNo").css("border-color", "red");
-            $("#docerror").text("Doc.No is required");
+            $("#docerror").text("Doc No is required.");
             isValid = false;
         }
         if (versionNo === "") {
             $("#versionNo").css("border-color", "red");
-            $("#versionerror").text("Version.No is required");
+            $("#versionerror").text("Version No is required.");
             isValid = false;
         }
         if (codeCentre === "") {
             $("#codeCentre").css("border-color", "red");
-            $("#codecentererror").text("Cost Center is required");
+            $("#codecentererror").text("Cost Center is required.");
             isValid = false;
         }
         if (refNo === "") {
             $("#refNo").css("border-color", "red");
-            $("#kaizenrefNoererror").text("Cost Center is required");
+            $("#kaizenrefNoererror").text("Ref No is required.");
             isValid = false;
         }
-        if (blockNameValue === "--Select--") {
+        if (blockNameValue === "Select") {
             $("#BlockName").css("border-color", "red");
-            $("#BlockError").text("Please Select Domain");
+            $("#BlockError").text("Please Select Domain.");
             isValid = false;
         }
 
         if (themeName === "") {
             $("#ktheme").css("border-color", "red");
-            $("#themeError").text("Theme Name is required.");
+            $("#themeError").text("Kaizen Theme Name is required.");
             isValid = false;
         }
         if (plantName === "") {
             $("#teplplant").css("border-color", "red");
-            $("#plantError").text("Line/Machine [Example] is required.");
+            $("#plantError").text("Line/Machine is required.");
             isValid = false;
         } 
         if (rootcauseproblem === "") {
@@ -1810,12 +1822,12 @@
 
         if (problemName === "") {
             $("#probstmt").css("border-color", "red");
-            $("#probstmtError").text("Theme Problem Statement  is required.");
+            $("#probstmtError").text("Problem Statement  is required.");
             isValid = false;
         }
         if (counterMeasuremName === "") {
             $("#countmeasur").css("border-color", "red");
-            $("#countmeasurError").text("Theme Counter Measure  is required.");
+            $("#countmeasurError").text("Counter Measure  is required.");
             isValid = false;
         }
         if (PresentConditions === "") { 
@@ -1839,13 +1851,12 @@
             });
             isValid = false;
         } else {
-            // Check individual validations
             if (benifitarea.length === 0) {
-                swal("Benefit Area is required");
+                swal("Benefit Area is required.");
                 isValid = false;
             }
             if (addedTeamMembers.length === 0) {
-                swal("At least one team member must be added");
+                swal("At least one team member must be added.");
                 isValid = false;
             }
         }
@@ -1854,37 +1865,30 @@
             var withindept = $("#withinDept").val().trim();
             var Inotherdept = $("#InotherDept").val().trim();
             var otherpoints = $("#Otherpoints").val().trim();
-
-            // Validate each field
             if (inOthermc === "") {
                 $("#InOtherMC").css("border-color", "red");
-                $("#otherError").text("InOtherMC is required");
+                $("#otherError").text("In Other Machines is required.");
                 isValid = false;
             }
-
             if (withindept === "") {
                 $("#withinDept").css("border-color", "red");
-                $("#withinError").text("WithInDept is required");
+                $("#withinError").text("Within the Department is required."); 
                 isValid = false;
             }
-
             if (Inotherdept === "") {
                 $("#InotherDept").css("border-color", "red");
-                $("#InotherError").text("InOtherDept is required");
+                $("#InotherError").text("In Other Dept/ Other Location is required.");
                 isValid = false;
             }
-
             if (otherpoints === "") {
                 $("#Otherpoints").css("border-color", "red");
-                $("#OtherpointsError").text("OtherPoints is required");
+                $("#OtherpointsError").text("Other Relevant Points is required.");
                 isValid = false;
             }
         }
-        
         return isValid;
     }
     
-
     $(document).ready(function () {
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
@@ -1898,18 +1902,15 @@
                     $('#checkboxform input[type=checkbox]:checked').each(function () {
                         activityValue.push($(this).val());
                     });
-
             var benifitarea = [];
                     $('#checkboxform1 input[type=checkbox]:checked').each(function () {
                         benifitarea.push($(this).val());
                     });
-
                 // var selectData1 = { "selected": [] };
                 // $('#multiple-select-field option:selected').each(function () {
                 //     selectData1["selected"].push($(this).val());
                 // Rootcausedata = selectData1["selected"].join(',');
                 // });
-
             var addedTeamMembers = new Array();
             var addedDeployment = new Array();
             $('#tblteammemberResult tbody tr').each(function () {
@@ -1927,8 +1928,6 @@
                     // memberDetails.KaizenID = $("#kaizenid").val();
                     addedTeamMembers.push(memberDetails);
                }
-               
-               
             });
 
             $('#tblDeploymentrResult tbody tr').each(function () {
@@ -2004,9 +2003,8 @@
             formData.append('RootProblemAttachment', $('#attach_file2')[0].files[0]);
 
             //  additional attachments
-            var additionalFiles = document.getElementById('additional_attachments').files;
-            for (var i = 0; i < additionalFiles.length; i++) {
-                formData.append('AdditionalAttachments', additionalFiles[i]);
+            for (let i = 0; i < allFiles.length; i++) {
+                formData.append('AdditionalAttachments', allFiles[i]);
             }
 
             if (!ValidateForm())
@@ -2133,10 +2131,9 @@
        formData.append('AttachmentAfter', $('#attach_file_after')[0].files[0]);
        formData.append('RootProblemAttachment', $('#attach_file2')[0].files[0]);
        //  additional attachments
-       var additionalFiles = document.getElementById('additional_attachments').files;
-       for (var i = 0; i < additionalFiles.length; i++) {
-           formData.append('AdditionalAttachments', additionalFiles[i]);
-       }
+            for (let i = 0; i < allFiles.length; i++) {
+                formData.append('AdditionalAttachments', allFiles[i]);
+            }
        if (!ValidateForm()) {
            return;
        }
@@ -2215,12 +2212,10 @@
                 });
             }
         });
-
         deleteButton.css({
             'margin-left': '10px',
             'margin-top': '5px' 
         });
-
         uploadedImageContainer.append(imgElement, deleteButton);
         if ($('#attach_file_before').get(0).files.length > 0 && $('#attach_file_after').get(0).files.length > 0) {
             $('#upload_area').removeClass('grayed-out');
@@ -2228,16 +2223,11 @@
         else {
             $('#upload_area').addClass('grayed-out');
         }
-        
-
         if (event.target.files.length > 0) {
             $('#' + targetId).closest('.inpfilelabel').find('.upload-interface').hide();
             $('#' + targetId).closest('.inpfilelabel').css('padding', '4px');
             $('#' + targetId).closest('.delete-btn').css('padding', '2px 5px');
             $('#' + targetId).closest('.inpfilelabel').css('border', 'none');
-
-
-
         }
     }
     function validate_fileupload(fileName) {
@@ -2246,65 +2236,69 @@
 
         for (var i = 0; i < allowed_extensions.length; i++) {
             if (allowed_extensions[i] == file_extension) {
-                return true; // valid file extension
+                return true; 
             }
         }
         swal("Invalid file type" + fileName);
         return false;
     }
-//mutli files
-     var imgNo = 0;
+//mutli files    
+    var imgNo = 0;
+    let allFiles = [];
 
-     function previewAdditionalImages(event) {
-        var files = event.target.files;
-        var output = document.getElementById('preview_area');
-        var uploadArea = document.getElementById('upload_area');
-        var allowed_extensions = new Set(["jpg", "jpeg", "png", "gif"]);
-
-        for (var i = 0; i < files.length; i++) {
-            var fileName = files[i].name;
-            var file_extension = fileName.split('.').pop().toLowerCase();
-
-            if (!allowed_extensions.has(file_extension)) {
-                swal("Invalid file type: " + fileName);
-                continue;
-            }
-
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                var img = document.createElement("img");
-                img.src = event.target.result;
-                img.className = "uploadImageSmall";
-                img.id = "imageID" + imgNo;
-                imgNo = imgNo + 1;
-                var deleteBtn = document.createElement("span");
-                    deleteBtn.className = "delete-btn delbutt";
-                    deleteBtn.textContent = "Delete";
-                    deleteBtn.onclick = function () {
-                     swal({
-                          text: "Are you sure you want to Delete?",
-                           buttons: {
-                               confirm: "Yes",
-                               cancel: "No"
-                                    }
-                      }).then((userConfirmation) => {
-                              if (userConfirmation) {
-                            deleteBtn.parentElement.parentElement.remove();
-                              }
-                              });
-                    };
-
-                var div = document.createElement("div");
-                div.className = "col-md-3 col-sm-4 ";
-                div.innerHTML = `<div class="inpfilelabel-attm mt-2 mb-2 p-2">${img.outerHTML}</div>`;
-                div.querySelector('.inpfilelabel-attm').appendChild(deleteBtn);
-               
-                output.insertBefore(div, uploadArea.parentElement);
-            };
-
-            reader.readAsDataURL(files[i]);
+    function previewAdditionalImages(event) {
+        let newFiles = event.target.files;
+        for (let i = 0; i < newFiles.length; i++) {
+            allFiles.push(newFiles[i]);
+            previewFile(newFiles[i]);
         }
-    }    
+    }
+
+    function previewFile(file) {
+        var allowed_extensions = new Set(["jpg", "jpeg", "png", "gif"]);
+        var fileName = file.name;
+        var file_extension = fileName.split('.').pop().toLowerCase();
+
+        if (!allowed_extensions.has(file_extension)) {
+            swal("Invalid file type: " + fileName);
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            var img = document.createElement("img");
+            img.src = event.target.result;
+            img.className = "uploadImageSmall";
+            img.id = "imageID" + imgNo;
+            imgNo = imgNo + 1;
+
+            var deleteBtn = document.createElement("span");
+            deleteBtn.className = "delete-btn delbutt";
+            deleteBtn.textContent = "Delete";
+            deleteBtn.onclick = function () {
+                swal({
+                    text: "Are you sure you want to delete?",
+                    buttons: {
+                        confirm: "Yes",
+                        cancel: "No"
+                    }
+                }).then((userConfirmation) => {
+                    if (userConfirmation) {
+                        deleteBtn.parentElement.parentElement.remove();
+                    }
+                });
+            };
+            var div = document.createElement("div");
+            div.className = "col-md-3 col-sm-4";
+            div.innerHTML = `<div class="inpfilelabel-attm mt-2 mb-2 p-2">${img.outerHTML}</div>`;
+            div.querySelector('.inpfilelabel-attm').appendChild(deleteBtn);
+
+            var output = document.getElementById('preview_area');
+            var uploadArea = document.getElementById('upload_area');
+            output.insertBefore(div, uploadArea.parentElement);
+        };
+        reader.readAsDataURL(file);
+    }
 </script>
 <script>
     $(function getSession() {
@@ -2462,7 +2456,9 @@
                         } else if (statusDesc === statusdetails.Pending || statusDesc === statusdetails.DRIPending || statusDesc === statusdetails.IEPending || statusDesc === statusdetails.FinancePending) {
                             $('#pendingstatusid').text(reverseStatusDetails[statusDesc]).addClass('pending');
                         }
-                      
+                        else if (statusDesc === statusdetails.submitted && userRole === 'ADMIN') {
+                            $('#approvers').hide();
+                        }
                         else if(statusDesc === statusdetails.submitted && userRole != 'EMPLOYEE')
                         {
                             $('#approvers').show();
