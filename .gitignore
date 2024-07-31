@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 /KaizenWeb/wwwroot/LogFolder
 /KaizenWeb/wwwroot/assets
+/Kaizen.Web/Views/Profile/Profile.cshtml
