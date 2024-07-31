@@ -75,7 +75,8 @@
                         </div>
                         <span class="form-row p-4 container">
                             <button type="button" class="btn  col-lg-2 m-1 btn-azure " id="btn_filter" value="Filter">Filter</button>
-                            <button type="reset" class="btn col-lg-2 m-1 btn-warning"  value="Reset">Reset</button>
+                         @*    <button type="reset" class="btn col-lg-2 m-1 btn-warning"  value="Reset">Reset</button> *@
+                            <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="resetButton" value="Reset">Reset</button> 
 
                         </span>
                     </div>
@@ -94,8 +95,8 @@
                         <div class="card mt-2">
                             <div class="card-header">Total Kaizens Submitted / Total Employees in Domain</div>
                             <div class="card-body">
-                                <div class="row">
-                                    @foreach (var domain in Model.DomainList)
+                                <div class="row" id="firstrow">
+                                   @*  @foreach (var domain in Model.DomainList)
                                     {
                                         <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-card-type="first" data-kaizen-submitted="@domain.AllKaizenSubmitted" data-user-count="@domain.User_count">
                                             <div>@domain.DomainName</div>
@@ -103,7 +104,7 @@
                                             <div class="percentage">0.00%</div>
                                         </div>
                                         <!-- Repeat the above div for each domain item -->
-                                    }
+                                    } *@
                                 </div>
                                 
                             </div>
@@ -131,8 +132,8 @@
                         <div class="card">
                             <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Domain </div>
                             <div class="card-body">
-                                <div class="row">
-                                    @foreach (var domain in Model.DomainList)
+                                <div class="row " id="secondrow">
+                                  @*   @foreach (var domain in Model.DomainList)
                                     {
                                         <!-- Added data-kaizen-submitted and data-user-count attributes -->
                                         <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-kaizen-submitted="@domain.KaizenSubmittedUser" data-user-count="@domain.User_count" data-card-type="second">
@@ -140,7 +141,7 @@
                                             <div>@domain.KaizenSubmittedUser / @domain.User_count</div>
                                             <div class="percentage">0.00%</div>
                                         </div>
-                                    }
+                                    } *@
                                 </div> 
  
                                 
@@ -171,37 +172,131 @@
 </div>
 
 <script>
-   
+    document.getElementById('resetButton').addEventListener('click', function () {
+        window.location.reload();
+    });
     $(document).ready(function () {
-        
-            $('#btn_filter').click(function () {
-                debugger;
-                var StartDate = $('#dtstartdate').val();
-                var EndDate = $('#dtenddate').val();
+        $('#btn_filter').click(function () {
+            hideContainer('container-middle');
+            hideContainer('container-end');
+            debugger;
+            var StartDate = $('#dtstartdate').val();
+            var EndDate = $('#dtenddate').val();
+            $.ajax({
+                url: '@Url.Action("DomainkaizenFilter", "Dashboard")',
+                type: 'GET',
+                data: {
+                    StartDate: StartDate,
+                    EndDate: EndDate,
+                },
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+                success: function (result) {
+                    const container = document.querySelector('#firstrow');
+                    const containerSecond = document.querySelector('#secondrow');
+                    container.innerHTML = '';
+                    containerSecond.innerHTML = '';
 
-                var Department = $('#inputDepartment option:selected').text();
-                $.ajax({
-                    url: '@Url.Action("DomainkaizenFilter", "Dashboard")',
-                    type: 'GET',
-                    data: {
-                        StartDate: StartDate,
-                        EndDate: EndDate,
+                    for (let i = 0; i < result.domainList.length; i++) {
+                        let domain = result.domainList[i];
+                        let allKaizenSubmitted = domain.allKaizenSubmitted;
+                        let userCount = domain.user_count;
+                        let percentage = (domain.allKaizenSubmitted / domain.userCount) * 100;
+                        let kaizenSubmittedUser = domain.KaizenSubmittedUser;
+                        let percentageUser = (kaizenSubmittedUser / userCount) * 100;
 
-                    },
-                    beforeSend: function () {
-                        $('#loader-wrapper').show();
-                    },
-                    success: function (result) {
-                    updateCardData(result);
-                    },
-                    error: function (error) {
+                        let cardItem = `
+                    <div class="ml-3 col-md-4 col-lg-3 col-xl-2 card-item"
+                        data-domain-id="${domain.id}"
+                        data-card-type="first"
+                        data-kaizen-submitted="${allKaizenSubmitted}"
+                        data-user-count="${userCount}">
+                        <div>${domain.domainName}</div>
+                        <div class="kaizen-ratio">${allKaizenSubmitted} / ${userCount}</div>
+                        <div class="percentage">${percentage.toFixed(2)}%</div>
+                    </div>`;
+
+                        let cardItemSecond = `
+                    <div class="ml-3 col-md-4 col-lg-3 col-xl-2 card-item"
+                        data-domain-id="${domain.id}"
+                        data-card-type="second"
+                        data-kaizen-submitted="${domain.kaizenSubmittedUser}"
+                        data-user-count="${userCount}">
+                        <div>${domain.domainName}</div>
+                        <div>${domain.kaizenSubmittedUser} / ${userCount}</div>
+                        <div class="percentage">${percentage.toFixed(2)}%</div>
+                    </div>`;
+
+                        container.insertAdjacentHTML('beforeend', cardItem);
+                        containerSecond.insertAdjacentHTML('beforeend', cardItemSecond);
                     }
-                });
+                    updatePercentages();
+
+                    // Bind the click event handler to the card items
+                    $('.card-item').click(function () {
+                        var domainId = $(this).data('domain-id'); // Fetch the domain ID
+                        var cardType = $(this).data('card-type'); // Fetch the card type
+                        var StartDate = $('#dtstartdate').val();
+                        var EndDate = $('#dtenddate').val();
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Dashboard/FetchDepartment',
+                            dataType: "json",
+                            data: {
+                                DomainID: domainId,
+                                StartDate: StartDate,
+                                EndDate: EndDate
+                            },
+                            success: function (result) {
+                                if (result) {
+                                    if (cardType === 'first') {
+                                        const middleContainer = $('#container-middle');
+                                        const middleRow = middleContainer.find('.row');
+                                        middleRow.empty();
+                                        middleContainer.show(); // Show the middle container
+
+                                        result.forEach(department => {
+                                            const departmentHtml = `
+                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-kaizen-submitted="${department.kaizen_count}" data-user-count="${department.user_count}">
+                                            <div>
+                                                ${department.departmentName}
+                                                <div>${department.kaizen_count} / ${department.user_count}</div>
+                                                <div class="percentage">0.00%</div>
+                                            </div>
+                                        </div>`;
+                                            middleRow.append(departmentHtml);
+                                        });
+                                        updatePercentages();
+                                    } else if (cardType === 'second') {
+                                        const endContainer = $('#container-end');
+                                        const endRow = endContainer.find('.row');
+                                        endRow.empty();
+                                        endContainer.show();
+
+                                        result.forEach(department => {
+                                            const departmentHtml = `
+                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-kaizen-submitted="${department.kaizenSubmitedCountdept}" data-user-count="${department.user_count}">
+                                            <div>
+                                                ${department.departmentName}
+                                                <div>${department.kaizenSubmitedCountdept} / ${department.user_count}</div>
+                                                <div class="percentage">0.00%</div>
+                                            </div>
+                                        </div>`;
+                                            endRow.append(departmentHtml);
+                                        });
+                                        updatePercentages();
+                                    }
+                                }
+                            },
+                        });
+                    });
+                },
+                error: function (error) {
+                  
+                }
             });
-
-    
-
-        updatePercentages();
+        });
         function updatePercentages() {
             var cardItems = $('.card-item');
             cardItems.each(function () {
@@ -221,65 +316,8 @@
             hideContainer('container-end');
         });
 
-        $('.card-item').click(function () {
-            var domainId = $(this).data('domain-id'); // Fetch the domain ID
-            var cardType = $(this).data('card-type'); // Fetch the card type
-
-            $.ajax({
-                type: 'POST',
-                url: '/Admin/FetchDepartment',
-                dataType: "json",
-                data: { DomainID: domainId }, 
-                success: function (result) {
-                    if (result) {
-                        if (cardType === 'first') {
-                            // Update middle container
-                            const middleContainer = $('#container-middle');
-                            const middleRow = middleContainer.find('.row');
-                            middleRow.empty();
-                            middleContainer.show(); // Show the middle container
-
-                            result.forEach(department => {
-                                const departmentHtml = `
-                                     <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-kaizen-submitted="${department.kaizen_count}" data-user-count="${department.user_count}">
-                                 <div>
-                                       ${department.departmentName}
-                                      <div>${department.kaizen_count} / ${department.user_count}</div>
-                                     <div class="percentage">0.00%</div>
-                                  </div>
-                                   </div>
-                                `;
-                                middleRow.append(departmentHtml);
-                            });
-
-                            updatePercentages();
-                        } else if (cardType === 'second') {
-                            const endContainer = $('#container-end');
-                            const endRow = endContainer.find('.row');
-                            endRow.empty();
-                            endContainer.show(); 
-
-                            result.forEach(department => {
-                                const departmentHtml = `
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-kaizen-submitted="${department.kaizenSubmitedCountdept}" data-user-count="${department.user_count}">
-                                   <div>
-                            ${department.departmentName}
-                            <div>${department.kaizenSubmitedCountdept} / ${department.user_count}</div>
-                            <div class="percentage">0.00%</div>
-                              </div>
-                               </div>
-                                    `;
-                                endRow.append(departmentHtml);
-                            });
-                            updatePercentages();
-                        }
-                    } 
-                },
-               
-            });
-        });
-
-
+       
+        $('#btn_filter').click();
             
     });
     function hideContainer(containerId) {
