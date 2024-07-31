@@ -87,6 +87,10 @@
         display: none; 
     }
 
+    .show {
+        display: block; /* or whatever style you use to show elements */
+    }
+
     #uploaded_additional_image {
         display: flex;
         flex-wrap: wrap;
@@ -609,7 +613,7 @@
                                                                 <input type="number" name="TotalSavings" id="TotalSavings" required class="form-control numeric-input" value="@Model.TotalSavings" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">5046418</p>' title="Total Savings [Example]">
                                                             </div>
                                                         </div>
-                                                            <div class="col-sm-4" id="approvedByIeContainer">
+                                                            <div class="col-sm-4 hidden123" id="approvedByIeContainer">
                                                                 <div class="form-group">
                                                                     <label>Approved by (IE)</label>
                                                                     <div class="dropdown bootstrap-select">
@@ -629,7 +633,7 @@
 
 
                                                             
-                                                            <div class="col-sm-4" id="approvedBySection">
+                                                            <div class="col-sm-4 hidden123" id="approvedBySection">
                                                             <div class="form-group">
                                                                 <label>Approved by (Accounts)</label>
                                                                     <input type="text" name="approvedbyAccount" id="approvedbyAccount" required class="form-control " value="@Model.AccountEmail" readonly >
@@ -1395,7 +1399,7 @@
             $('#imagelabel').hide();
             $('#printPDF').hide(); 
             $('#btnUpdateKaizen').hide();
-            $('#btnSubmitStatus').hide();
+            $('#btnSubmittedStatus').hide();
 
             $('#backbtn').hide();
             $('#Srno').hide();
@@ -1674,28 +1678,30 @@
             }
         }
     });
-//FinanceApprovedBy
+ //FinanceApprovedBy
     $(document).ready(function () {
-        function toggleGrayedOutFinance() {
-            var costValue = $('#cost1').val().trim();
-            var costLength = costValue.length >= 6;
-            $('#approvedBySection').toggleClass('grayed-out', !costLength);
-            $('#approvedBySection').prop('disabled', !costLength);
-        }
-        toggleGrayedOutFinance();
-        $('#cost1').on('input', toggleGrayedOutFinance);
+        $('#cost1').on('input', function () {
+            var costValue = $(this).val();
+            var approvedBySection = $('#approvedBySection');
+            if (costValue.length >= 6) {
+                approvedBySection.addClass('show');
+            } else {
+                approvedBySection.removeClass('show');
+            }
+        });
     });
  //IEApprovedBy
     $(document).ready(function () {
-        function toggleGrayedOut() {
+        function toggleVisibility() {
             var cycleTime = $('#cycletime1').val().trim();
             var manPower = $('#Manpower').val().trim();
-            var inputsFilled = cycleTime !== '' && manPower !== '';
-            $('#approvedByIeContainer').toggleClass('grayed-out', !inputsFilled);
-            $('#approvedByIeContainer').prop('disabled', !inputsFilled);
+            var inputsFilled = cycleTime !== '' || manPower !== '';
+            var container = $('#approvedByIeContainer');
+            container.toggleClass('hidden123', !inputsFilled);
+            container.toggleClass('show', inputsFilled);
         }
-        toggleGrayedOut();
-        $('#cycletime1, #Manpower').on('input', toggleGrayedOut);
+        toggleVisibility();
+        $('#cycletime1, #Manpower').on('input', toggleVisibility);
     });
 
  //accept numbers
@@ -1704,7 +1710,24 @@
             this.value = this.value.replace(/[^0-9]/g, '');
         });
     });
-
+ //originDate < approveddate
+    $(document).ready(function () {
+        function updateMinDate() {
+            var originDate = $('#CDeta').val().split('-').reverse().join('-');
+            $('#driapproveddate').attr('min', originDate);
+        }
+        $('#CDeta').add('#driapproveddate').on('change', function () {
+            var originDate = new Date($('#CDeta').val().split('-').reverse().join('-'));
+            var approvedDate = new Date($('#driapproveddate').val());
+            if (this.id === 'CDeta') {
+                updateMinDate();
+            } else if (approvedDate <= originDate) {
+                $('#driapproveddate').val('');
+                swal('Approved date must be greater than Originated date.');
+            }
+        });
+        updateMinDate(); 
+    });
  //emptable
     $(document).ready(function () {
         function toggleButtons() {
@@ -2288,7 +2311,7 @@
             formData.append('Consumables', $("#Consumables").val());
             formData.append('Others', $("#Others").val());
             formData.append('TotalSavings', $("#TotalSavings").val());
-            formData.append('ApprovedByIE', $("#approvedbyIE").val());
+            formData.append('ApprovedByIE', $("#approvedbyIe").val());
             formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
             formData.append('Rootcause', $("#rootcauseProblem").val());
             formData.append('MemberList', JSON.stringify(addedTeamMembers));
@@ -2805,7 +2828,7 @@
                         $("#docNo").val(result.kaizenList[0].docNo);
                         $('#printPDF').show();
                         $('#btnUpdateKaizen').show();
-                        $('#btnSubmitStatus').show();
+                        $('#btnSubmittedStatus').show(); 
                         $('#btnSaveKaizen').hide();
                         $('#btnSubmitKaizen').hide();
 
@@ -2848,6 +2871,9 @@
                         //         $(this).prop('selected', true);
                         //     }
                         // }).change();
+                        $('#approvedbyIe option').map(function () {
+                            if ($(this).text() == result.kaizenList[0].approvedByIE) return this;
+                        }).attr('selected', 'selected').change();
                         $("#rootcauseProblem").val(result.kaizenList[0].rootCause);
                         $("#presentCondition").val(result.kaizenList[0].presentCondition);
                         $("#improvementsCompleted").val(result.kaizenList[0].improvementsCompleted);
@@ -2857,7 +2883,23 @@
                         $("#withinDept").val(result.kaizenList[0].withIntheDept);
                         $("#InotherDept").val(result.kaizenList[0].inOtherDept);
                         $("#Otherpoints").val(result.kaizenList[0].otherPoints);
-                      
+                      //Edit Iedepart 
+                        var costValue = $("#cost1").val();
+                        var approvedBySection = $('#approvedBySection');
+                        if (costValue.length >= 6) {
+                            approvedBySection.addClass('show');
+                        } else {
+                            approvedBySection.removeClass('show');
+                        }
+                        //Edit finance
+                        var cycletime = $("#cycletime1").val();
+                        var manPower = $("#Manpower").val();
+                        var ApprovedByieContainer = $('#approvedByIeContainer');
+                        if (cycletime !== ''|| manPower !== '') {
+                            ApprovedByieContainer.addClass('show');
+                        } else {
+                            ApprovedByieContainer.removeClass('show');
+                        }
 
                         var dateStr = result.kaizenList[0].driApprovedDate;
                         var parts = dateStr.split('-');
