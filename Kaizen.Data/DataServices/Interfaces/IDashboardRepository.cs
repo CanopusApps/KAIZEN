@@ -12,5 +12,7 @@ namespace Kaizen.Data.DataServices.Interfaces
     public interface IDashboardRepository
     {
         public DataSet GetKaizenCount(DashboardModel model);
+        public DataSet GetDomainKaizenCount(DashboardModel model);
+
     }
 }
