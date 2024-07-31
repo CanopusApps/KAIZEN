@@ -9,7 +9,7 @@
 <script src="~/assets/js/custom/datatables.min.js"></script>
 <link href="~/assets/css/custom/viewuser.css" rel="stylesheet" />
 <table id="KaizenTable" class="table table-striped" style="width:100%;">
-    <thead>
+<thead>
         <tr style="text-align:center">
             <th id="KaizenTheme">Kaizen Theme</th>
             <th id="TeamMembers">Team Members</th>
@@ -73,7 +73,9 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#KaizenTable').DataTable();
+        $('#KaizenTable').DataTable({
+            "order": [] // Disables initial sorting
+        });
     });
 </script>
 <script>
