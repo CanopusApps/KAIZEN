@@ -9,18 +9,18 @@
 <script src="~/assets/js/custom/datatables.min.js"></script>
 <link href="~/assets/css/custom/viewuser.css" rel="stylesheet" />
 <table id="KaizenTable" class="table table-striped" style="width:100%;">
-<thead>
+    <thead>
         <tr style="text-align:center">
-            <th id="KaizenTheme">Kaizen Theme</th>
-            <th id="TeamMembers">Team Members</th>
-            <th id="HORIZENTALDEP">Horizontal Deployment</th>
-            <th id="IEAPPROVAL">IE Dept Approval</th>
-            <th id="FINNANCEAPPROVAL">Finance Dept Approval</th>
-            <th id="SHORTLISTED">Shortlisted</th>
-            <th id="STATUS">Status </th>
-            <th id="POSTEDBY">Posted by</th>
-            <th id="POSTEDON">Posted on</th>
-            <th id="Action">Action</th>
+            <th id="KaizenTheme" width="10%">Kaizen Theme</th>
+            <th id="TeamMembers" width="10%">Team Members</th>
+            <th id="HORIZENTALDEP" width="10%">Horizontal Deployment</th>
+            <th id="IEAPPROVAL" width="6%">IE Dept Approval</th>
+            <th id="FINNANCEAPPROVAL" width="10%">Finance Dept Approval</th>
+            <th id="SHORTLISTED" width="10%">Shortlisted</th>
+            <th id="STATUS" width="14%">Status </th>
+            <th id="POSTEDBY" width="10%">Posted by</th>
+            <th id="POSTEDON" width="10%">Posted on</th>
+            <th id="Action" width="10%">Action</th>
         </tr>
     </thead>
     <tbody style="text-align:center">
@@ -29,17 +29,17 @@
             foreach (var User in Model)
             {
                 <tr data-kaizenid="@User.KaizenId">
-                    <td>@User.KaizenTheme</td>
-                    <td>
+                    <td width="10%">@User.KaizenTheme</td>
+                    <td width="10%">
                         @Html.Raw(User.TeamName.Replace(",", "<br />"))
                     </td>
-                    <td>@User.HorozantalDeployment</td>
-                    <td>@User.IEApprovedDept</td>
-                    <td>@User.FinnanceDeptAppr</td>
-                    <td>@User.Shortlisted</td>
-                    <td>@User.ApprovalStatus</td>
-                    <td>
-                        @if(UserType=="ADMIN")
+                    <td width="10%">@User.HorozantalDeployment</td>
+                    <td width="6%">@User.IEApprovedDept</td>
+                    <td width="10%">@User.FinnanceDeptAppr</td>
+                    <td width="10%">@User.Shortlisted</td>
+                    <td width="14%">@User.ApprovalStatus</td>
+                    <td width="10%">
+                        @if (UserType == "ADMIN")
                         {
                             <a class="posted-by" href="#" data-createdby="@User.PostedBy" data-role="@User.role">@User.CreatedBy</a>
                         }
@@ -48,8 +48,8 @@
                             @User.CreatedBy
                         }
                     </td>
-                    <td>@User.CreatedDate</td>
-                    <td class="text-center">
+                    <td width="10%">@User.CreatedDate</td>
+                    <td class="text-center" width="10%">
                         @if (User.AStatus < 4)
                         {
                             <a class="btn btn-primary btn-sm edituser" id="edit">
@@ -85,7 +85,7 @@
             e.preventDefault();
             var $row = $(this).closest('tr');
             var kaizenid = $row.data('kaizenid');
-            var edituser = 'edit'; 
+            var edituser = 'edit';
             sessionStorage.setItem('editKaizen', JSON.stringify({
                 kaizenid: kaizenid,
                 edituser: edituser,
@@ -147,7 +147,7 @@
                     });
                 }
             });
-            
+
         });
     });
 </script>
@@ -155,7 +155,7 @@
     $(document).ready(function () {
         $('#KaizenTable').on('click', '.posted-by', function (e) {
             e.preventDefault();
-            var user = $(this).data('createdby'); 
+            var user = $(this).data('createdby');
             var role = $(this).data('role');
             $.ajax({
                 url: '/SubmittedKaizen/FetchKaizenDetails_by_CreatedBy',
