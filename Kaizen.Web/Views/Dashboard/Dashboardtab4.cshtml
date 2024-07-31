@@ -39,58 +39,12 @@
 
             <form>
 
-                <div class="card p-3 mt-2 mb-2">
-                    <div class="row mb-2">
-                        <div class="form-group col-lg-4">
-                            <label for="Block">Blocks<span class="text-danger">*</span></label>
-                            <select id="inputBlock" class="form-control txt-width" name="Block">
-                                <option value="0" selected>All</option>
-                                @if (Model.blockList != null)
-                                {
-                                    @foreach (var Block in Model.blockList)
-                                    {
-                                        <option value="@Block.Id">@Block.BlockName</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group col-lg-4">
-                            <label for="Cadre">Cadre<span class="text-danger">*</span></label>
-                            <select id="inputCadre" class="form-control txt-width" name="Cadre">
-                                <option value="0" selected>All</option>
-                                @if (Model.CadreList != null)
-                                {
-                                    @foreach (var cadre in Model.CadreList)
-                                    {
-                                        <option value="@cadre.Id">@cadre.CadreName</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group col-lg-4">
-
-                            <label for="inputDomain">Domain<span class="text-danger">*</span></label>
-                            <select id="inputDomain" class="form-control txt-width" name="Domain">
-                                <option value="0" selected>All</option>
-                                @if (Model.DomainList != null)
-                                {
-                                    @foreach (var domain in Model.DomainList)
-                                    {
-                                        <option value="@domain.Id">@domain.DomainName</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group col-lg-4">
-                            <label for="inputDepartment">Department<span class="text-danger">*</span></label>
-                            <select id="inputDepartment" class="form-control txt-width" name="Department">
-                                <option selected>All</option>
-                            </select>
-                        </div>
+                <div class="row">
                         <div class="form-group col-lg-4">
                             <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
                             <div>
                                 <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="">
+                              
                             </div>
 
                         </div>
@@ -151,15 +105,68 @@
   </div>
 <script>
 $(document).ready(function () {
-    // Bar Chart
-        window.addEventListener('resize', () => {
-            myChart.resize();
+        $('#btn_filter').click(function () {
+            debugger;
+                       var StartDate = $('#dtstartdate').val();
+            var EndDate = $('#dtenddate').val();
+            var Domain = $('#inputDomain option:selected').text();
+            var Block = $('#inputBlock option:selected').text();
+            var cadre = $('#inputCadre option:selected').text();
+            var Department = $('#inputDepartment option:selected').text();
+            $.ajax({
+                url: '@Url.Action("ViewFilterKaizen", "Dashboard")',
+                type: 'GET',
+                data: {
+                    StartDate: StartDate,
+                    EndDate: EndDate,
+                    Domain: Domain,
+                    Department: Department,
+                    cadre: cadre,
+                    Block: Block
+                },
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+                success: function (result) {
+                    debugger;
+                    const statusDetails = {
+                        Submitted: 1,
+                        ImageApproved: 2,
+                        ImageRejected: 3,
+                        DRIApproved: 4,
+                        DRIRejected: 5,
+                        IEApproved: 6,
+                        IERejected: 7,
+                        FinanceApproved: 8,
+                        FinanceRejected: 9,
+                        Pending: 10,
+                        DRIPending: 11,
+                        IEPending: 12,
+                        FinancePending: 13
+                    };
+                    for (let i = 0; i < result.monthTotalKaizenList.length; i++) {
+                        let item = result.monthTotalKaizenList[i];
+                        var monthYear = item.monthbasedTotal.split('-');
+                        var month = monthYear[0].toLowerCase().substr(0, 3);
+                        var year = monthYear[1];
+                       
+                    }   
+                    for (let i = 0; i < result.monthCountKaizenList.length; i++) {
+                        let item = result.monthCountKaizenList[i];
+                        var monthYear = item.monthbased.split('-');
+                        var month = monthYear[0].toLowerCase().substr(0, 3);
+                        var year = monthYear[1];
+                    }
+                },
+                error: function (error) {
+                }
+            });
         });
     var ctxBar = document.getElementById('myBarChart').getContext('2d');
     new Chart(ctxBar, {
         type: 'bar',
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             datasets: [
                 {
                     label: 'Total',

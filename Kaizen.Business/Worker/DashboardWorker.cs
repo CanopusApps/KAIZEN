@@ -19,6 +19,31 @@ namespace Kaizen.Business.Worker
         public DashboardWorker(IDashboardRepository Repository) {
           this.Repository = Repository;
         }
+
+        public List<DomainModel> DomainbasedkaizenCount(DashboardModel model)
+        {
+            DataSet ds;
+            List<DomainModel> domainKaizencount = new List<DomainModel>();
+            ds = Repository.GetDomainKaizenCount(model);
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    domainKaizencount.Add(new DomainModel
+                    {
+                        Id = Convert.ToInt32(dr["DomainId"]),
+                        DomainName = dr["DomainName"].ToString(),
+                        Status = Convert.ToBoolean(dr["Status"]),
+                        User_count = Convert.ToInt32(dr["user_count"]),
+                        KaizenSubmitted = Convert.ToInt32(dr["kaizen_count"]),
+                        AllKaizenSubmitted = Convert.ToInt32(dr["AllKaizen_count"]),
+                        KaizenSubmittedUser = Convert.ToInt32(dr["kaizensubmittedUser"])
+                    });
+                }
+            }
+            return domainKaizencount;
+        }
+
         public List<CountKaizenStatus> GetKaizenCount(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();

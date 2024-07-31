@@ -53,7 +53,40 @@
                 <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
             </div>
         </nav>
+
+        <div class="container-fuild  bg-light" style="width:100%">
+            <form>
+                <div class="card p-3 mt-2 mb-2">
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
+                            <div>
+                                <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="">
+
+                            </div>
+
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
+                            <div>
+                                <input class="form-control txt-width" id="dtenddate" type="date" name="name" value="" />
+                            </div>
+
+                        </div>
+                        <span class="form-row p-4 container">
+                            <button type="button" class="btn  col-lg-2 m-1 btn-azure " id="btn_filter" value="Filter">Filter</button>
+                            <button type="reset" class="btn col-lg-2 m-1 btn-warning"  value="Reset">Reset</button>
+
+                        </span>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+       
         <div class="tab-content" id="nav-tabContent">
+
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                 <div class="card" id="main-container">
                     <!-- First Row of Cards -->
@@ -64,13 +97,15 @@
                                 <div class="row">
                                     @foreach (var domain in Model.DomainList)
                                     {
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-card-type="first">
+                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-card-type="first" data-kaizen-submitted="@domain.AllKaizenSubmitted" data-user-count="@domain.User_count">
                                             <div>@domain.DomainName</div>
-                                            <div> @domain.AllKaizenSubmitted/ @domain.User_count</div>
-                                            <div>0.00%</div>
+                                            <div class="kaizen-ratio">@domain.AllKaizenSubmitted / @domain.User_count</div>
+                                            <div class="percentage">0.00%</div>
                                         </div>
+                                        <!-- Repeat the above div for each domain item -->
                                     }
                                 </div>
+                                
                             </div>
                             
 
@@ -80,7 +115,7 @@
                     <div class="container" id="container-middle" style="display: none;">
                         <div class="card-container">
                             <div class="card mt-2">
-                                <div class="card-header">Departments under Selected Domain/Total Kaizen Submitted</div>
+                                <div class="card-header">Total Kaizens Submitted / Total Employees in Department</div>
                                 <div class="card-body">
                                     <div class="row">
                                         <!-- Dynamic content will be appended here -->
@@ -99,17 +134,17 @@
                                 <div class="row">
                                     @foreach (var domain in Model.DomainList)
                                     {
-                                        <!-- Added data-domain-id attribute to store the domain ID -->
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-card-type="second">
+                                        <!-- Added data-kaizen-submitted and data-user-count attributes -->
+                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-kaizen-submitted="@domain.KaizenSubmittedUser" data-user-count="@domain.User_count" data-card-type="second">
                                             <div>@domain.DomainName</div>
-                                            <div>@domain.KaizenSubmittedUser/ @domain.User_count</div>
-                                            <div>0.00%</div>
+                                            <div>@domain.KaizenSubmittedUser / @domain.User_count</div>
+                                            <div class="percentage">0.00%</div>
                                         </div>
-                                        
                                     }
-                                </div>
+                                </div> 
+ 
+                                
                             </div>
-                            
                         </div>
                     </div>
                     <!-- End Container -->
@@ -138,6 +173,45 @@
 <script>
    
     $(document).ready(function () {
+        
+            $('#btn_filter').click(function () {
+                debugger;
+                var StartDate = $('#dtstartdate').val();
+                var EndDate = $('#dtenddate').val();
+
+                var Department = $('#inputDepartment option:selected').text();
+                $.ajax({
+                    url: '@Url.Action("DomainkaizenFilter", "Dashboard")',
+                    type: 'GET',
+                    data: {
+                        StartDate: StartDate,
+                        EndDate: EndDate,
+
+                    },
+                    beforeSend: function () {
+                        $('#loader-wrapper').show();
+                    },
+                    success: function (result) {
+                    updateCardData(result);
+                    },
+                    error: function (error) {
+                    }
+                });
+            });
+
+    
+
+        updatePercentages();
+        function updatePercentages() {
+            var cardItems = $('.card-item');
+            cardItems.each(function () {
+                var kaizenSubmitted = parseFloat($(this).data('kaizen-submitted'));
+                var userCount = parseFloat($(this).data('user-count'));              
+                var percentage = (kaizenSubmitted / userCount) * 100;
+                var percentageDiv = $(this).find('.percentage');
+                percentageDiv.text(isNaN(percentage) ? '0.00%' : percentage.toFixed(2) + '%');
+            });
+        }
         $('#configreset').click(function () {
            
             hideContainer('container-middle');
@@ -167,17 +241,18 @@
 
                             result.forEach(department => {
                                 const departmentHtml = `
-                                  <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                    <div>
-                                      ${department.departmentName}
-                                          <div>${department.kaizen_count}/ ${department.user_count}</div>
-                                      <div>0.00 %</div>
-                                    </div>
+                                     <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-kaizen-submitted="${department.kaizen_count}" data-user-count="${department.user_count}">
+                                 <div>
+                                       ${department.departmentName}
+                                      <div>${department.kaizen_count} / ${department.user_count}</div>
+                                     <div class="percentage">0.00%</div>
                                   </div>
+                                   </div>
                                 `;
-
                                 middleRow.append(departmentHtml);
                             });
+
+                            updatePercentages();
                         } else if (cardType === 'second') {
                             const endContainer = $('#container-end');
                             const endRow = endContainer.find('.row');
@@ -186,24 +261,30 @@
 
                             result.forEach(department => {
                                 const departmentHtml = `
-                                      <div class="col-md-4 col-lg-3 col-xl-2 card-item">
-                                        <div>
-                                          ${department.departmentName}
-                                              <div>  ${department.kaizenSubmitedCountdept}/ ${department.user_count}</div>
-                                          <div>0.00 %</div>
-                                        </div>
-                                      </div>
+                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-kaizen-submitted="${department.kaizenSubmitedCountdept}" data-user-count="${department.user_count}">
+                                   <div>
+                            ${department.departmentName}
+                            <div>${department.kaizenSubmitedCountdept} / ${department.user_count}</div>
+                            <div class="percentage">0.00%</div>
+                              </div>
+                               </div>
                                     `;
                                 endRow.append(departmentHtml);
                             });
+                            updatePercentages();
                         }
                     } 
                 },
                
             });
         });
+
+
+            
     });
     function hideContainer(containerId) {
         $('#' + containerId).hide();
     }
 </script>
+
+
