@@ -17,47 +17,6 @@
         font-weight: bold;
     }
 
-    #dHeader {
-        font-size: 16px !important;
-        margin-top: -10px;
-        margin-left: 7px;
-    }
-
-    .dropdown {
-        position: absolute;
-        top: 40px;
-        left: 0;
-        right: 0;
-        display: none;
-        border: 1px solid #ccc;
-        background: white;
-        z-index: 10;
-    }
-
-    .year-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        padding: 10px;
-    }
-
-        .year-grid div {
-            padding: 8px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-            .year-grid div:hover {
-                background: #f0f0f0;
-            }
-
-        .year-grid .selected {
-            background: #e0e0e0;
-            font-weight: bold;
-        }
-    .year-picker {
-        position: relative;
-    }
 </style>
 <link href="~/assets/css/custom/dashboard.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -102,6 +61,7 @@
                             <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
                             <div>
                                 <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="">
+                            <span id="startDateError1" class="text-danger error-message"></span>
 
                             </div>
 
@@ -110,6 +70,8 @@
                             <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
                             <div>
                                 <input class="form-control txt-width" id="dtenddate" type="date" name="name" value="" />
+                            <span id="endDateError1" class="text-danger error-message"></span>
+                            
                             </div>
 
                         </div>
@@ -555,7 +517,7 @@
                                 <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
                                 <div>
                                     <input class="form-control txt-width" id="dtstartdate1" type="date" name="name" value="">
-
+                                    <span id="startDateError" class="text-danger error-message"></span>
                                 </div>
 
                             </div>
@@ -563,6 +525,7 @@
                                 <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
                                 <div>
                                     <input class="form-control txt-width" id="dtenddate1" type="date" name="name" value="" />
+                            <span id="endDateError" class="text-danger error-message"></span>
                                 </div>
 
                             </div>
@@ -614,7 +577,7 @@
     
     $(document).ready(function () {
 
-      
+     
 
 
         debugger;
@@ -631,6 +594,7 @@
         document.getElementById('filterDate1').addEventListener('change', function () {
             document.getElementById('toggleContent').style.display = 'none';
             document.getElementById('DateContent').style.display = 'block';
+            $('#dynamictable1').DataTable({});
           
 
         });
@@ -642,7 +606,7 @@
         document.getElementById('filterDate').addEventListener('change', function () {
             document.getElementById('toggleContent1').style.display = 'none';
             document.getElementById('DateContent1').style.display = 'block';
-
+            $('#dynamictable2').DataTable({});
 
         });
       
@@ -834,6 +798,9 @@
             debugger;
             var StartDate = $('#dtstartdate1').val();
             var EndDate = $('#dtenddate1').val();
+            if (!ValidateForm()) {
+                return;
+            }
             $.ajax({
                 url: '@Url.Action("ViewFilterKaizen", "Dashboard")',
                 type: 'GET',
@@ -880,6 +847,9 @@
             var StartDate = $('#dtstartdate').val();
             var EndDate = $('#dtenddate').val();
             debugger;
+            if (!ValidateFormtable1()) {
+                return;
+            }
             $.ajax({
                 url: '@Url.Action("ViewFilterKaizen", "Dashboard")',
                 type: 'GET',
@@ -1015,7 +985,111 @@
 
             });
         });
+        //vALIDATION
+        function ValidateForm() {
+            var isValid = true;
 
+            // Clear previous errors
+            $("#dtstartdate1, #dtenddate1").css("border-color", "");
+            $("#startDateError, #endDateError").text(""); 
+
+            var startDate = $("#dtstartdate1").val();
+            var endDate = $("#dtenddate1").val();
+
+            // Start Date validation
+            if (startDate === "") {
+                $("#dtstartdate1").css("border-color", "red");
+                $("#startDateError").text("Start Date is required.");
+                isValid = false;
+            }
+
+            // End Date validation
+            if (endDate === "") {
+                $("#dtenddate1").css("border-color", "red");
+                $("#endDateError").text("End Date is required.");
+                isValid = false;
+            }
+            if (endDate < startDate) {
+                $("#dtenddate").css("border-color", "red");
+                $("#endDateError").text("End Date cannot be before Start Date.");
+                isValid = false;
+            }
+            if (startDate !== "" && endDate !== "") {
+                var start = new Date(startDate);
+                var end = new Date(endDate);
+
+                // Calculate the difference in years
+                var yearDifference = end.getFullYear() - start.getFullYear();
+
+                // Calculate the difference in months
+                var monthDifference = end.getMonth() - start.getMonth();
+
+                // Calculate the difference in days
+                var dayDifference = end.getDate() - start.getDate();
+
+                if (yearDifference > 1 || (yearDifference === 1 && (monthDifference > 0 || dayDifference > 0))) {
+                    $("#dtenddate").css("border-color", "red");
+                    $("#endDateError").text("End Date must be within one year of Start Date.");
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+
+            return isValid;
+        }
+        function ValidateFormtable1() {
+            var isValid = true;
+
+            // Clear previous errors
+            $("#dtstartdate, #dtenddate").css("border-color", "");
+            $("#startDateError1, #endDateError1").text("");
+
+            var startDate = $("#dtstartdate").val();
+            var endDate = $("#dtenddate").val();
+
+            // Start Date validation
+            if (startDate === "") {
+                $("#dtstartdate").css("border-color", "red");
+                $("#startDateError1").text("Start Date is required.");
+                isValid = false;
+            }
+
+            // End Date validation
+            if (endDate === "") {
+                $("#dtenddate").css("border-color", "red");
+                $("#endDateError1").text("End Date is required.");
+                isValid = false;
+            }
+            if (endDate < startDate) {
+                $("#dtenddate").css("border-color", "red");
+                $("#endDateError1").text("End Date cannot be before Start Date.");
+                isValid = false;
+            }
+            if (startDate !== "" && endDate !== "") {
+                var start = new Date(startDate);
+                var end = new Date(endDate);
+
+                // Calculate the difference in years
+                var yearDifference = end.getFullYear() - start.getFullYear();
+
+                // Calculate the difference in months
+                var monthDifference = end.getMonth() - start.getMonth();
+
+                // Calculate the difference in days
+                var dayDifference = end.getDate() - start.getDate();
+
+                if (yearDifference > 1 || (yearDifference === 1 && (monthDifference > 0 || dayDifference > 0))) {
+                    $("#dtenddate").css("border-color", "red");
+                    $("#endDateError1").text("End Date must be within one year of Start Date.");
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+
+            return isValid;
+        }
 
     });
 
