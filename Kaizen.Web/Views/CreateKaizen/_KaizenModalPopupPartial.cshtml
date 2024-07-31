@@ -1,0 +1,468 @@
+﻿<link href="~/assets/css/Custom/SampleKaizenForm.css" rel="stylesheet" />
+
+<div class="modal fade bd-example-modal-lg" id="sampleKaizenModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title text-Azure"><b>Sample Kaizen Form</b></p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <table class="Kaitableform" id="samtablle">
+                    @* EndFirstrow *@
+                    <tbody>
+                        <tr>
+                            <td rowspan="4">TEPL KAIZEN IDEA</td>
+                            <td>ACTIVITY</td>
+                            <td>
+                                <label title="MURA">
+                                    <input type="checkbox" class="hidden-checkbox" name="activity[]" checked="" value="MURA" readonly="">
+                                    <img class="inputimg">
+                                    MURA
+                                </label>
+                            </td>
+                            <td>
+                                <label title="MURI">
+                                    <input type="checkbox" class="hidden-checkbox" name="activity[]" checked="" value="MURI" readonly="">
+                                    <img class="inputimg">
+                                    MURI
+                                </label>
+                            </td>
+                            <td>
+                                <label title="MUDA">
+                                    <input type="checkbox" class="hidden-checkbox" name="activity[]" checked="" value="MUDA" readonly="">
+                                    <img class="inputimg">
+                                    MUDA
+                                </label>
+                            </td>
+                            <td> Doc No</td>
+                            <td><input type="text" readonly="" name="doc_no" class="form-control inputtext" value="IM 01 Process"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" rowspan="2">
+                                <textarea class="form-control"></textarea>
+                            </td>
+                            <td>Version No/Date</td>
+                            <td><input type="text" readonly="" name="version_no" class="form-control inputtext" value="IM 01 Process"></td>
+                        </tr>
+                        <tr>
+                            <td>Cost Centre</td>
+                            <td><input type="text" readonly="" name="proj_code" class="form-control inputtext" value="IM 01 Process"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <table class="width100per">
+                                    <tbody>
+                                        <tr>
+                                            <td>Benefit Area :</td>
+
+
+                                            <td class="text-center">
+                                                <label class="tab1">
+                                                    <input readonly="" type="checkbox" name="benifit_area[]" value="P" class="tab-input">
+                                                    <div class="tab-box1">P</div>
+                                                </label>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <label class="tab1">
+                                                    <input readonly="" type="checkbox" name="benifit_area[]" value="Q" class="tab-input" checked="">
+                                                    <div class="tab-box1">Q</div>
+                                                </label>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <label class="tab1">
+                                                    <input readonly="" type="checkbox" name="benifit_area[]" value="D" class="tab-input">
+                                                    <div class="tab-box1">C</div>
+                                                </label>
+                                            </td>
+                                            <td class="text-center">
+                                                <label class="tab1">
+                                                    <input readonly="" type="checkbox" name="benifit_area[]" value="D" class="tab-input">
+                                                    <div class="tab-box1">D</div>
+                                                </label>
+                                            </td>
+                                            <td class="text-center">
+                                                <label class="tab1">
+                                                    <input readonly="" type="checkbox" name="benifit_area[]" value="S" class="tab-input" checked="">
+                                                    <div class="tab-box1">S</div>
+                                                </label>
+                                            </td>
+                                            <td class="text-center">
+                                                <label class="tab1">
+                                                    <input readonly="" type="checkbox" name="benifit_area[]" value="M" class="tab-input" checked="">
+                                                    <div class="tab-box1">M</div>
+                                                </label>
+                                            </td>
+                                            <td class="text-center">
+                                                <label class="tab1">
+                                                    <input readonly="" type="checkbox" name="benifit_area[]" value="E" class="tab-input">
+                                                    <div class="tab-box1">E</div>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>KAIZEN Ref.No</td>
+                            <td><input readonly="" type="text" name="ref_no" class="form-control" value="IM 01 Process"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                @* EndFirstrow *@
+                @* Secondrow *@
+                <table class="Kaitableform">
+                    <tbody>
+                        <tr>
+                            <td class="tdwidth">
+                                <label>Plant Name : </label>
+                                <div class="dropdown bootstrap-select ">
+                                    <select class="selectized form-control">
+                                        <option>Select</option>
+                                        <option>Block-1</option>
+                                        <option>Block-2</option>
+                                        <option>Block-3</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td class="tdwidth">
+                                <label>Line/Machine : </label>
+                                <input type="text" class="form-control" value="IM 01 Process" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdwidth">
+                                <label>Kaizen Theme: </label>
+                                <input type="text" class="form-control" value="IM 01 Process" readonly>
+                            </td>
+                            <td class="tdwidth">
+                                <label>Suggested Kaizen ( Logical Correlation with root cause): </label>
+                                <input type="text" class="form-control" value="IM 01 Process" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdwidth">
+                                <label>Problem Statement</label>
+                                <textarea @* class="textarea850" *@ name="prob_stmt" readonly="">There is no POKA YOKE for Rail placing in Heating Fixture, due to this rail can place wrong direction and it possible for Mold damage and it affect part qualitity.</textarea>
+                            </td>
+                            <td class="tdwidth">
+                                <label>Counter measure( Engineering solution):</label>
+                                <textarea name="count_measur" readonly="">Locating guide pin placed in fixture 3 places to avoid rail placing wrong orientation</textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @* EndSecondrow *@
+                @* Thirdrow *@
+                <table class="Kaitableform">
+                    <tbody>
+                        <tr>
+                            <td class="centered-cell">
+                                BEFORE
+                                <div class="image-container">
+                                    <img src="/assets/img/tooltip-imgs/before-img.jpg" class="smallimgs">
+                                </div>
+                            </td>
+
+                            <td class="centered-cell">
+                                AFTER
+                                <div class="image-container">
+                                    <img src="/assets/img/Tooltip-imgs/After-Img.jpg" class="smallimgs">
+                                </div>
+                            </td>
+                            <td>
+                                SAVINGS <!--COST SAVINGS--> <br>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Quality</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cost</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Material</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Man power</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Consumables</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Others</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Savings</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="3">Approved by</td>
+                                            <td>IE</td>
+                                            <td colspan="2"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Accounts</td>
+                                            <td colspan="2"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Standardization</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SOP/SP:</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Drawing</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @* EndThirdrow *@
+                @* Fourthrow *@
+                <table class="Kaitableform">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" readonly="" placeholder="Team member names" class="mb-2">
+                                <div class="table-responsive" id="table-responsive1">
+                                    <table class="table table-bordered table-hover" id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">EMP.ID</th>
+                                                <th class="text-center">Team member names</th>
+                                                <th class="text-center">Function</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <input type="text" readonly name="eempid" placeholder="Emp ID" class="form-control">
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly name="eempid" placeholder="Team Member Names" class="form-control">
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly name="function" placeholder="Function" class="form-control">
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-primary">Add</button>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-center">204367</td>
+                                                <td class="text-center mt-2">Silambarasan P</td>
+                                                <td class="text-center">TR- Moulding Engg</td>
+                                                <td class="text-center">
+                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">203476</td>
+                                                <td class="text-center">Afghan ismail khan</td>
+                                                <td class="text-center">TR- Moulding Engg</td>
+                                                <td class="text-center">
+                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">202152</td>
+                                                <td class="text-center">Senthil Kumar B</td>
+                                                <td class="text-center">TR- Moulding Engg</td>
+                                                <td class="text-center">
+                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">202443</td>
+                                                <td class="text-center">Balaji R</td>
+                                                <td class="text-center">TR- Moulding Engg</td>
+                                                <td class="text-center">
+                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">202918</td>
+                                                <td class="text-center">Felixvenseslas S</td>
+                                                <td class="text-center">TR- Moulding Engg</td>
+                                                <td class="text-center">
+                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">918780</td>
+                                                <td class="text-center">Shijo MP</td>
+                                                <td class="text-center">TR- Design</td>
+                                                <td class="text-center">
+                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="side-by-side">
+                                    <div>
+                                        <label>Root Cause(Problem Phenomena):</label>
+                                        <input type="text" class="form-control" value="" readonly="">
+                                    </div>
+                                    <div>
+                                        <label>RootCause Explanation:</label>
+                                        <textarea class="textareasmall" readonly="">
+To eliminate mold damages and mold repair down time
+
+Why 2
+Wrong insert orientation will cause mold damage                                  
+
+Why 3
+No poka yoke/provision to prevent wrong orientation in heating fixture                                  
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @* EndFourthrow *@
+                @* Fifthrow *@
+                <table class="Kaitableform">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label>RootCause Explanation:</label>
+                                <textarea class="textareasmall" readonly="">"There is no poka-yoke/ provision  avaiable in  Preheating Fixture.
+So, even if the rail orientation is changed during the placement by operator, it can't be easily noticed and potentially the rails would be placed in a mold with wrong orientation whci shall cause mold damage as well as defect part."</textarea>
+                            </td>
+                            <td>
+                                <label>RootCause Explanation:</label>
+                                <textarea class="textareasmall" readonly="">"This Poka Yoke improvement (stopper pin) is used to improve the rail locating guidance to avoid wrong direction placing.                                                                              Locator pin has been placed in fixture for bottom rail, left rail & right rail toavoid direction wrong loading and Mold damage as well as correction time saved.                                                                      After implementing a poka yoke, operator can't able to place a rail in wrong orientation. This problem will be permanently eliminated.
+
+POKA YOKE Pin made in Inhouse with tool room mfg support.</textarea>
+                            </td>
+                            <td>
+                                <label>RootCause Explanation:</label>
+                                <textarea class="textareasmall" readonly="">Q - This poka yoke will make sure the rail orientation is always right.              S -  This will ensure and prevent mold or part damage and improves mold
+       safety.                                                                                                                           M- It will increase MTTR & MTBF (as of now no data).                                                Since IM1 is citical for further downstream process, this will have direct impact of unplanned downtime (reduction) in downstream pro</textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @* EndFifthrow *@
+                @* sixthrow *@
+                <table class="Kaitableform">
+                    <tbody>
+                        <tr>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                            <td>
+                                <table class="table">
+                                    <tr>
+                                        <th>Horizontal Deployment:</th>
+                                    </tr>
+                                    <tr>
+                                        <td>In Other Machines within the cell:</td>
+                                        <td>
+                                            <input type="text" class="form-control" value="All IM1 heating fixtures (manual ) + IM01 Automation Heating fixtures" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Within the Department in all the machine groups:</td>
+                                        <td>
+                                            <input type="text" class="form-control" value="yes" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>In Other Dept/ Other Location:</td>
+                                        <td>
+                                            <input type="text" class="form-control" value="Included BMB01 & BMB02 Location" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Any other Relevant Points:</td>
+                                        <td>
+                                            <input type="text" class="form-control" value="Nill" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="table-responsive">
+                    <td>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>KAIZEN Originated By</th>
+                                    <th>KAIZEN Approved By</th>
+                                    <th>KAIZEN Confirmed By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <p>Dept:</p>
+                                        <p class="readonly-field">1</p>
+                                        <p class="readonly-field">Felixneslas S</p>
+                                        <p class="readonly-field">21/10/21</p>
+                                    </td>
+                                    <td>
+                                        <p>Dept:</p>
+                                        <p class="readonly-field">1</p>
+                                        <p class="readonly-field">Balaji R</p>
+                                        <p class="readonly-field">22/10/2021</p>
+                                    </td>
+                                    <td>
+                                        <p>Dept:</p>
+                                        <p class="readonly-field">1</p>
+                                        <p class="readonly-field">Senthil kumar B</p>
+                                        <p class="readonly-field">22/10/2021</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </div>
+            </div>
+            </tr>
+            </tbody>
+            </table>
+                @* Endsixthrow *@
+                @* seventhRow *@
+            <table class="Kaitableform">
+                <tbody>
+                    <tr>
+                        <td>FORMAT/ Ver,No : TEPL-IE-C-FR-0005/01</td>
+                    </tr>
+                    <tr>
+                        <td>Tata Electronics Private Limited</td>
+                    </tr>
+                </tbody>
+            </table>
+                @* EndSeventhrow *@
+        </div>
+    </div>
+</div>
+    </div>
+

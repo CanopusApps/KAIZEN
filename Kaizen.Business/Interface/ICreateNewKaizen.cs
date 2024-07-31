@@ -19,11 +19,9 @@ namespace Kaizen.Business.Interface
         public List<DeploymentDetails> GetScopeDetailsById(string KaizenId);
         public List<Attachmentsimg> GetImageListById(string KaizenId);
         public bool SubmitKaizenDri(NewKaizenModel model);
-
         public List<Approvers> GetApproversByID(string KaizenId);
-
         public bool updateKaizensatus(ApprovalRequest approvalRequest);
-
+        public bool UpdateNewKaizen(NewKaizenModel model);
 
     }
 }

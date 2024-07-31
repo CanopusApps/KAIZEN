@@ -21,5 +21,7 @@ namespace Kaizen.Data.DataServices
         public void SaveUploadedFile(UploadUserModel Employee);
 
         public DataTable ReadExcelIntoDataTable(string filePath);
+
+        public DataSet GetIEDepartData();
     }
 }

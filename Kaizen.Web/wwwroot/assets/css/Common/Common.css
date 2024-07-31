@@ -49,10 +49,11 @@ h4
     min-height: 100vh;
     width: 190px;
     /*    background-color: #2dc3e8 !important;*/
-    background-color: white !important;
+    background-color: #2dc3e8!important;
     /*color: #fff;*/
-    color: black;
+    color: white;
     transition: all 0.3s;
+    margin-top:1px;
 }
 #container-header {
     background-color: #2dc3e8;
@@ -67,22 +68,23 @@ h4
 }
 .text-light
 {
-    color:black!important;
+    color: white!important;
 }
 
 .list-group-item {
-    background-color: white !important;
-    color: black;
+    background-color: #2dc3e8 !important;
+    color: white;
     border: none;
-    cursor: pointer;
-/*    padding: 10px 30px;*/
+    cursor: pointer;        
+    /*    padding: 10px 30px;*/
 }
 
 .LogoutIcon {
-    color: #2dc3e8;
+    color: white;
     font-size: 40px;
     position: fixed;
     bottom: 58px;
+    margin-left:90px;
 }
 
 .footer {
