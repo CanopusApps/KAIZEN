@@ -1505,20 +1505,20 @@
         });
     });
 
-    $("#cycletime1").change(function () {
-        $("#approvedbyIE").removeAttr("disabled");
-    });
+    // $("#cycletime1").change(function () {
+    //     $("#approvedbyIE").removeAttr("disabled");
+    // });
 
-    $("#cost1").change(function () {
-        $("#approvedbyIE").removeAttr("disabled");
-        var varlength = $("#cost1").val();
+    // $("#cost1").change(function () {
+    //     $("#approvedbyIE").removeAttr("disabled");
+    //     var varlength = $("#cost1").val();
 
-        if (varlength>=100000)
-        {
-            $("#approvedbyAccount").removeAttr("disabled");
-        }
+    //     if (varlength>=100000)
+    //     {
+    //         $("#approvedbyAccount").removeAttr("disabled");
+    //     }
 
-    });
+    // });
 
 
     
@@ -1962,7 +1962,7 @@
     $(document).ready(function () {
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
-        $("#approvedbyIE").attr("disabled", "disabled");
+        // $("#approvedbyIE").attr("disabled", "disabled");
         $("#approvedbyAccount").attr("disabled", "disabled");
         $("#btnSaveKaizen").click(function () {
             var checkboxData = {};
@@ -2440,7 +2440,7 @@
             formData.append('Consumables', $("#Consumables").val());
             formData.append('Others', $("#Others").val());
             formData.append('TotalSavings', $("#TotalSavings").val());
-            formData.append('ApprovedByIE', $("#approvedbyIE").val());
+            formData.append('ApprovedByIE', $("#approvedbyIe").val());
             formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
             formData.append('Rootcause', $("#rootcauseProblem").val());
             formData.append('MemberList', JSON.stringify(addedTeamMembers));
