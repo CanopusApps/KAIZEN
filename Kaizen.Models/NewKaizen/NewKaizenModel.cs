@@ -86,7 +86,9 @@ namespace Kaizen.Models.NewKaizen
 
         public string Approvalstatusdesc { get; set; }
         public List<BlockModel> BlockList { get; set; }
-		public List<TeamMemberDetails> MemberList { get; set; }
+
+        public List<UserGridModel> IEDepartList { get; set; }
+        public List<TeamMemberDetails> MemberList { get; set; }
 		public List<DeploymentDetails> DeploymentList{ get; set; }
 
         public List<NewKaizenModel> KaizenList { get; set; }

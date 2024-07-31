@@ -59,6 +59,7 @@ namespace Kaizen.Data.Constant
         public static string Sp_Get_Kaizen_Details = "Sp_Get_Kaizen_Details";
         public static string SpGetKaizenOriginetedby = "Sp_Get_KaizenOriginetedby";
         public static string SpKaizen_Insert = "Sp_Kaizen_Insert_test";
+        public static string SpKaizen_Update = "Sp_Kaizen_Update";
         public static string Sp_Fetch_TeamMember = "Sp_Fetch_TeamMember"; 
         public static string Sp_UserProfile = "Sp_UserProfile";
         public static string SpGetUserManager = "Sp_GetUserManager";
@@ -75,7 +76,7 @@ namespace Kaizen.Data.Constant
         
 
         public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
-        //public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
+        public static string Sp_Get_IEDeptDetails = "Sp_Get_IEDeptDetails";
         public static string SpAddWinner = "Sp_AddWinner";
         public static string SpGetWinnersList = "Sp_GetWinnersList";
         public static string SpDeleteWinner = "Sp_DeleteWinner";

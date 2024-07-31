@@ -74,6 +74,7 @@ namespace Kaizen.Models.AdminModel
         public string UserId { get; set; } = "";
         public int AStatus { get; set; } = 0;
 
+        public string PostedBy { get; set; } = "";
 
     }
 }

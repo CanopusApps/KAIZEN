@@ -1,0 +1,142 @@
+﻿
+.Kaitableform {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.inputtext {
+    background: #ededed !important;
+    padding: 5px;
+    color: #1d7dbe !important;
+    border: 1px solid #ccc;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 16.5px;
+}
+
+.inputimg {
+    height: 20px;
+    width: 20px;
+}
+
+.hidden-checkbox {
+    visibility: hidden;
+}
+
+.Kaitableform tr td,
+.Kaitableform tr th {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.form-control {
+    background-color: #EDEDED;
+    width: 100%;
+}
+
+td {
+    color: #39393A;
+    font-size: 11px !important;
+    font-family: sans-serif;
+    padding: 5px;
+}
+
+td {
+    display: table-cell;
+    vertical-align: inherit;
+    unicode-bidi: isolate;
+}
+
+.tab1 > .tab-box1 {
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: 0.5s;
+    border-bottom: 2px solid rgba(0, 0, 0, 0);
+}
+
+.tab-box1 {
+    padding: 4px 9px;
+}
+
+.tab1 > .tab-input:checked + .tab-box1 {
+    background: #1d7dbe;
+    color: #ffffff;
+}
+
+.tdwidth {
+    width: 50%;
+}
+
+textarea {
+    width: 100%;
+}
+
+.smallimgs {
+    height: 90px;
+    max-width: 100%;
+}
+
+.textareasmall {
+    height: 150px;
+    width: 100%;
+}
+
+#table-responsive1 {
+    margin: 0;
+    padding: 0;
+}
+
+#table1 {
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+}
+
+.side-by-side {
+    display: flex;
+    flex-direction: column;
+}
+
+    .side-by-side > div {
+        margin-right: 20px;
+        flex: 1;
+    }
+
+.signature-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.signature {
+    flex: 1;
+    min-width: 200px;
+}
+
+.readonly-field {
+    background-color: #eee;
+    padding: 6px;
+    border: 1px solid #ddd;
+}
+
+.container {
+    /*  padding: 20px; */
+    width: 100%;
+}
+.centered-cell {
+    vertical-align: top;
+    text-align: center; 
+}
+
+.image-container {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    height: 100px; 
+}
+@media (max-width: 500px) {
+    .tab-box1 {
+        padding: 0;
+    }
+}

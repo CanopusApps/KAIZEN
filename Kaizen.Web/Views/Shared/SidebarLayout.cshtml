@@ -75,9 +75,14 @@
     }
     .menupadding
     {
-        padding-top:8px;
-        padding-bottom:8px;
+        margin-top:-5px;
+        font-style:oblique;
     }
+
+        .menupaddingsub
+        {
+            margin-top:-10px;
+        }
 
     #page-content-wrapper {
         flex-grow: 1;
@@ -99,6 +104,8 @@
         overflow-y: auto;
     }
 
+
+
 </style>
 @* <body class="bg-light" style="background-color:#e9ecef"> *@
 <body style="background-color:#e9ecef;overflow-y:hidden;"> 
@@ -119,9 +126,7 @@
                             <img src="~/assets/img/Profile.png" width="30px" class="mr-2" />
                             <Label id="wc" class="text-white">Hi, @Accessor.HttpContext.Session.GetString("Message")
                                 <div class="text-white"> @Accessor.HttpContext.Session.GetString("Domain")-@Accessor.HttpContext.Session.GetString("Department")</div>
-                            </Label>
-                            
-                           
+                            </Label>         
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" onclick = "ProfilePage();" href="#"><i class="fa-regular fa-user text-primary"></i> Profile</a>
@@ -129,10 +134,10 @@
                         </div>
                     </li>
                 </ul>
-            
+            </div>
+
         </nav>
-
-
+     
        <div>
         <button class="btn menu-toggle m-3" id="menu-toggle">
             <i class="fas fa-bars"></i>
@@ -144,56 +149,39 @@
             <div id="sidebar-wrapper">
                
                 <div class="list-group list-group-flush my-3">
-                    <hr />
+              
                     <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding">Dashboard</a>
-                    <hr />
-
+             
                     <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding">NewKaizen</a>
-                    <hr />
-
+              
                     <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding">Submitted Kaizen</a>
-                    <hr />
-
                     <!-- Drop down -->
-                    <div class="list-group-item list-group-item-action menupadding" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
-                    <div class="sub-menu collapse menupadding" id="demo" style="margin-top:-15px;">
-                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">Block</a>  <hr />
-                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDomain">Domain</a>  <hr />
-                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDepartment">Department</a>  <hr />
-                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddUser">User</a>  <hr />
-                        <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewUser">View User</a>  <hr />
-                        <a class="list-group-item text-light ml-3 menupadding" href="/Theme/ThemeChanger">Add Theme</a>  <hr />
+                    <div class="list-group-item list-group-item-action menupadding menupaddingsub" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
+                    <div class="sub-menu collapse menupadding" id="demo">
+                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">Block</a>  
+                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDomain">Domain</a> 
+                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDepartment">Department</a> 
+                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddUser">User</a> 
+                        <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewUser">View User</a> 
+                        <a class="list-group-item text-light ml-3 menupadding" href="/Theme/ThemeChanger">Add Theme</a> 
                     </div>
-                    <hr />
 
-                    <div class="list-group-item list-group-item-action menupadding" data-toggle="collapse" data-target="#demo2">Settings<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
-                    <div class="sub-menu collapse menupadding" id="demo2" style="margin-top:-15px;">
-                        <a class="list-group-item text-light ml-3 menupadding" href="/WinnersList/WinnersList">Winners List</a>  <hr />
-                    </div>
-                    <hr />
-                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold menupadding">Form Elements</a>
-                    <hr />
+                    <a class="list-group-item list-group-item-action text-light fw-bold menupadding" href="/WinnersList/WinnersList">Winners List</a>
+
+                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold menupadding">Image Approval</a>
+
                     <a href="/Reports/ReportDownload" class="list-group-item list-group-item-action text-light fw-bold menupadding">Reports</a>
-                    <hr />
-
-                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold menupadding">Charts</a>
-                    <hr />
-
-                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold menupadding">Icons</a>
-                    <hr />
-
+            
                     <a class="LogoutIcon list-group-item menupadding" onclick="LogoutOption();" href="#"><i class="fa-solid fa-right-from-bracket icon1 padding-left-20 margin-left-20"></i></a>
                 </div>
             </div>
+
             <!-- /Sidebar -->
             <!-- Page Content -->
             <div id="loader-wrapper">
                 <div id="loader"></div>
             </div>
-           @*  <div id="page-content-wrapper"  class="flex-grow-1" style="height:calc(100vh - 100px); overflow-y: scroll;">
-                @RenderBody()  
-
-            </div> *@
+  
             <div id="page-content-wrapper" class="container-fluid flex-grow-1" style="height:calc(100vh - 105px); overflow-y: scroll;">
                 @RenderBody()
             </div>

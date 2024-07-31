@@ -51,6 +51,12 @@ namespace Kaizen.Business.Worker
         {
           return _createNewKaizenRepository.SubmitKaizenDriData(model);
         }
+        public bool UpdateNewKaizen(NewKaizenModel model)
+        {
+            return _createNewKaizenRepository.UpdateNewKaizenData(model);
+        }
+
+       
         public bool updateKaizensatus(ApprovalRequest approvalRequest)
         {
             return _createNewKaizenRepository.updateKaizensatusData(approvalRequest);
@@ -104,7 +110,8 @@ namespace Kaizen.Business.Worker
                         WithIntheDept = dr["WithIntheDept"].ToString(),
                         InOtherDept = dr["InOtherDept"].ToString(),
                         OtherPoints = dr["OtherPoints"].ToString(),
-                       
+                        Id = dr["ID"].ToString(),
+
                         HorozantalDeployment = Convert.ToBoolean(dr["HorozantalDeployment"].ToString()),
                         OriginatedDate = dr["OrigonatedDate"] != DBNull.Value ? ((DateTime)dr["OrigonatedDate"]).ToString("dd-MM-yyyy") : string.Empty,
                         OrigionatedDept = dr["OrigionatedDept"].ToString(),

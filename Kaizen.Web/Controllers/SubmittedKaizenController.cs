@@ -107,5 +107,15 @@ namespace Kaizen.Web.Controllers
             }
             return Ok(deleteStatus);
         }
+        public IActionResult FetchKaizenDetails_by_CreatedBy(string? UserId,string? role )
+        {
+            KaizenListModel model = new KaizenListModel()
+            {
+                role = role,
+                UserId = UserId
+            };
+            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+            return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
+        }
     }
 }
