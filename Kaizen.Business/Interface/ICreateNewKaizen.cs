@@ -23,6 +23,7 @@ namespace Kaizen.Business.Interface
         public bool updateKaizensatus(ApprovalRequest approvalRequest);
         public bool UpdateNewKaizen(NewKaizenModel model);
         public bool UpdateSubmittedKaizen(NewKaizenModel model);
+        public List<TeamMemberDetails> GetTeamDetailsUpdateById(string KaizenId);
 
     }
 }

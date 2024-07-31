@@ -87,6 +87,7 @@ namespace Kaizen.Data.Constant
         public static string SpUpdateTheme = "Sp_UpdateTheme";
 
         public static string SpGetTheme = "Sp_GetTheme";
+        public static string Sp_Fetch_KaizenUpdateDetails_ById = "Sp_Fetch_KaizenUpdateDetails_ById";
     }
 
     public class ConstantValue
