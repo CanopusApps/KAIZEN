@@ -22,6 +22,7 @@ namespace Kaizen.Business.Interface
         public List<Approvers> GetApproversByID(string KaizenId);
         public bool updateKaizensatus(ApprovalRequest approvalRequest);
         public bool UpdateNewKaizen(NewKaizenModel model);
+        public bool UpdateSubmittedKaizen(NewKaizenModel model);
 
     }
 }

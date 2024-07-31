@@ -55,8 +55,12 @@ namespace Kaizen.Business.Worker
         {
             return _createNewKaizenRepository.UpdateNewKaizenData(model);
         }
+        
+        public bool UpdateSubmittedKaizen(NewKaizenModel model)
+        {
+            return _createNewKaizenRepository.UpdateSubmittedKaizenData(model);
+        }
 
-       
         public bool updateKaizensatus(ApprovalRequest approvalRequest)
         {
             return _createNewKaizenRepository.updateKaizensatusData(approvalRequest);

@@ -328,5 +328,77 @@ namespace Kaizen.Web.Controllers
             return Ok(new { success = true });
         }
 
+
+        [HttpPost]
+        [Route("CreateKaizen/UpdateSubmittedKaizen")]
+        public async Task<IActionResult> UpdateSubmittedKaizen([FromForm] NewKaizenModel model)
+        {
+            model.KaizenId = HttpContext.Session.GetString("Kaizenid");
+            string jsonMemberList = Request.Form["MemberList"].ToString();
+            string jsonDepartList = Request.Form["DeploymentList"].ToString();
+            // Deserialize JSON data
+            var memberList = JsonConvert.DeserializeObject<List<TeamMemberDetails>>(jsonMemberList);
+            var deploymentList = JsonConvert.DeserializeObject<List<DeploymentDetails>>(jsonDepartList);
+            if (model.AttachmentBefore != null && model.AttachmentAfter != null && model.RootProblemAttachment != null)
+            {
+                model.AttachmentPaths.AttachmentBeforePath = SaveUploadedFile(model.AttachmentBefore, nameof(model.AttachmentBefore));
+                model.AttachmentPaths.AttachmentAfterPath = SaveUploadedFile(model.AttachmentAfter, nameof(model.AttachmentAfter));
+                model.AttachmentPaths.RootProblemAttachmentPath = SaveUploadedFile(model.RootProblemAttachment, nameof(model.RootProblemAttachment));
+            }
+            List<Attachmentsimg> imagesList = new List<Attachmentsimg>();
+            for (int z = 0; z < 3; z++)
+            {
+                Attachmentsimg objAtt = new Attachmentsimg();
+                objAtt.kaizenId = model.KaizenId;
+                if (z == 0)
+                    objAtt.FileName = model.AttachmentPaths.AttachmentBeforePath;
+                else if (z == 1)
+                    objAtt.FileName = model.AttachmentPaths.AttachmentAfterPath;
+                else if (z == 2)
+                    objAtt.FileName = model.AttachmentPaths.RootProblemAttachmentPath;
+                objAtt.CreatedBy = model.CreatedBy;
+                imagesList.Add(objAtt);
+            }
+            if (model.AdditionalAttachments != null && model.AdditionalAttachments.Count > 0)
+            {
+                foreach (var file in model.AdditionalAttachments)
+                {
+                    string propertyName = $"AdditionalAttachment_{model.AdditionalAttachments.IndexOf(file) + 1}";
+                    string additionalPath = SaveUploadedFile(file, propertyName);
+                    Attachmentsimg objAtt = new Attachmentsimg();
+                    objAtt.kaizenId = model.KaizenId;
+                    objAtt.FileName = additionalPath;
+                    objAtt.CreatedBy = model.CreatedBy;
+                    imagesList.Add(objAtt);
+                }
+            }
+            model.AttachmentsList = imagesList;
+            model.DeploymentList = deploymentList;
+            model.MemberList = memberList;
+            model.insertStatus = false;
+
+            string loginuserid = conAccessor.HttpContext.Session.GetString("UserID");
+            if (model.MemberList != null)
+            {
+                model.MemberList.ForEach(m => m.KaizenId = model.Id.ToString());
+                model.MemberList.ForEach(m => m.CreatedBy = loginuserid.ToString());
+            }
+            if (model.DeploymentList != null)
+            {
+                model.DeploymentList.ForEach(m => m.KaizenId = model.Id.ToString());
+                model.DeploymentList.ForEach(m => m.CreatedBy = loginuserid.ToString());
+            }
+            if (model.AttachmentsList != null)
+            {
+                model.AttachmentsList.ForEach(m => m.kaizenId = model.Id.ToString());
+                model.AttachmentsList.ForEach(m => m.CreatedBy = loginuserid.ToString());
+            }
+            model.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+            model.insertStatus = _createNewKaizen.UpdateSubmittedKaizen(model);
+            return Ok(new { success = true });
+        }
+
+
+
     }
 }
