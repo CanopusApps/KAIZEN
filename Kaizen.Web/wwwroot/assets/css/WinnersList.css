@@ -33,3 +33,10 @@ table {
 #statusBadge::after {
     cursor: pointer;
 }
+
+.hidden {
+    background-color: yellow !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
