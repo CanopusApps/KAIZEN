@@ -96,5 +96,30 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+
+        public DataSet GetDepartmentKaizenCount(DashboardModel model)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            try
+            {
+                com = new SqlCommand();
+
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                string startDate = model.StartDate;
+                string endDate = model.EndDate;
+                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? " " : startDate);
+                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? " " : endDate);
+                com.CommandText = StoredProcedures.Sp_Get_DashboardDepartments;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
     }
 }
