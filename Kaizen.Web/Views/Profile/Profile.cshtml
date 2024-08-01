@@ -1,0 +1,230 @@
+﻿@inject IHttpContextAccessor Accessor;
+
+@model Kaizen.Models.AdminModel.ProfileModel
+@{
+    Layout = "SidebarLayout";
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+    #dHeader {
+        font-size: 16px !important;
+        margin-top: -10px;
+        margin-left: 7px;
+    }
+
+    #blkh {
+        color: black;
+        font-weight: 500;
+        font-size: 13px;
+    }
+    .right{
+        float:right;
+    }
+</style>
+<div class="card bg-light">
+
+    <div class="card rounded bg-white p-2  mt-2 ml-2 mr-2 mb-2">
+        <div class="col-lg-12 p-md-0 p-2">
+            <div class="welcome-text">
+                <label class="" id="dHeader">Kaizen > My Profile > Edit My Profile</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-3 border rounded ml-2 mr-2 mb-2 bg-white ">
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label class="card-title" id="blkh">Edit My Profile</label>
+                <hr />
+            </div>
+            @* <div class="form-group col-md-3">
+                <button type="submit" onclick="location.href='@Url.Action("ViewUser","ViewUser")'" class="btn btn-primary right">Back to User List</button>
+            </div> *@
+        </div>
+        <div class="custom-line mb-3"></div>
+        @using (Html.BeginForm(FormMethod.Post, new { id = "profieUserForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    @Html.LabelFor(model => model.EmpID, "Emp ID", htmlAttributes: new { @class = "control-label" })
+                    <span class="text-danger">*</span>
+                    @Html.EditorFor(model => model.EmpID, new { htmlAttributes = new { @class = "form-control", placeholder = "Employee ID", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    @Html.LabelFor(model => model.FirstName, "First Name", htmlAttributes: new { @class = "control-label" })
+                    <span class="text-danger">*</span>
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "First Name" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3">
+                    @Html.LabelFor(model => model.MiddleName, "Middle Name", htmlAttributes: new { @class = "control-label" })
+                    <input type="text" asp-for="MiddleName" id="MiddleName" name="MiddleName" class="form-control txt-width" placeholder="Middle Name">
+                    <span id="middleNameError" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    @Html.LabelFor(model => model.LastName, "Last Name", htmlAttributes: new { @class = "control-label" })
+                    <span class="text-danger">*</span>
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "Last Name" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="Gender">Gender</label>
+                    <span class="text-danger">*</span>
+                    <br />
+
+
+                    @if (Model.Gender != "" && Model.Gender == "M")
+                    {
+                        <div class="col-md-1">
+                        <label class="form-check-label" for="Male">Male</label>
+
+                        <input class="form-check-input" type="radio" id="inputGenderMale" name="Male" value="M" checked disabled />
+                        <input class="form-check-input" type="radio" id="inputGenderFemale" name="Male" value="F" disabled />
+                        <input class="form-check-input" type="radio" id="inputGenderOther" name="Male" value="O" disabled />
+                        </div>
+                    }
+                    @if (Model.Gender != "" && Model.Gender == "F")
+                    {
+                        @* <div class="col-md-1"> *@
+                        <label class="form-check-label" for="Female">Female</label>
+
+                        <input class="form-check-input" type="radio" id="inputGenderMale" name="Female" value="M" disabled />
+                        <input class="form-check-input" type="radio" id="inputGenderFemale" name="Female" value="F" checked disabled />
+                        <input class="form-check-input" type="radio" id="inputGenderOther" name="Female" value="O" disabled />
+                        @* </div> *@
+                    }
+                    @if (Model.Gender != "" && Model.Gender == "O")
+                    {
+                        @* <div class="col-md-1"> *@
+                        <label class="form-check-label" for="Other">Other</label>
+
+                        <input class="form-check-input" type="radio" id="inputGenderMale" name="Other" value="M" disabled />
+                        <input class="form-check-input" type="radio" id="inputGenderFemale" name="Other" value="F" disabled />
+                        <input class="form-check-input" type="radio" id="inputGenderOther" name="Other" value="O" checked disabled />
+                        @* </div> *@
+                    }
+                              
+                <div class="form-group col-md-2">
+                    <label for="Domain">Domain</label>
+                    <input type="text" value="@Model.Domain" class="form-control txt-width" name="Domain" id="" disabled/>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="Department">Department</label>
+                    <input type="text" value="@Model.Department" class="form-control txt-width" name="Department" id="" disabled />
+                </div>
+                <div class="form-group col-md-2">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                    <span class="text-danger">*</span>
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control txt-width", placeholder = "Email ID" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div> 
+            <div class="form-row">
+                
+                    
+
+                </div>
+             </div>
+            <br />
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <button type="submit" class="btn btn-azure btn-lg">Update My Profile</button>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+@* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Validate form using jQuery Validation Plugin
+        $("#profieUserForm").validate({
+            errorClass: "text-danger",
+            rules: {
+                EmpID: {
+                    required: true
+                },
+                FirstName: {
+                    required: true,
+                    pattern: "[A-Za-z]+"
+                },
+                MiddleName: {
+                    pattern: "[A-Za-z]+"
+                }
+                LastName: {
+                    required: true,
+                    pattern: "[A-Za-z]+"
+                },
+                Email: {
+                    required: true,
+                    email: true
+                }           
+            },
+            messages: {
+                EmpID: {
+                    required: "Employee ID is required"
+                },
+                FirstName: {
+                    required: "First Name is required",
+                    pattern: "Please enter a valid name"
+                },
+                MiddleName: {                    
+                    pattern: "Please enter a valid name"
+                },                
+                LastName: {
+                    required: "Last Name is required",
+                    pattern: "Please enter a valid name"
+                },
+                Email: {
+                    required: "Email is required",
+                    email: "Please enter a valid email address"
+                }              
+            },
+            submitHandler: function (form) {
+                $("#EmpID").attr("readonly", false);
+                $("#Gender").attr("readonly", false);
+                var formData = $(form).serialize();
+                return false; // Prevent default form submission
+            }
+        });
+
+        
+
+        
+
+        $(document).ready(function () {
+            $('#editUserForm').on('submit', function (e) {
+                e.preventDefault(); 
+                if ($(this).valid()) {
+                    $.ajax({
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize(),
+                        success: function (response) {
+                            swal({
+                                text: "Profile Updated Successfully !!",
+                                type: "success"
+                            }).then(okay => {
+                                if (okay) {
+                                    window.location.href = '/Profile/Profile';
+                                }
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle error here
+                        }
+                    });
+                }
+            });
+        });
+</script>
