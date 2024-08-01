@@ -1745,8 +1745,11 @@
         });
     });
 
+    //Valiodation from and focus
     function ValidateForm() {
         var isValid = true;
+        var firstInvalidField = null;
+
         $("#docNo").css("border-color", "red");
         $("#docerror").text("");
         $(".error-message").text("");
@@ -1757,11 +1760,11 @@
 
         $("#codeCentre").css("border-color", "red");
         $("#codecentererror").text("");
-        $(".error-message").text(""); 
-        
+        $(".error-message").text("");
+
         $("#refNo").css("border-color", "red");
         $("#kaizenrefNoererror").text("");
-        $(".error-message").text(""); 
+        $(".error-message").text("");
 
         $("#BlockName").css("border-color", "red");
         $("#Blockerror").text("");
@@ -1779,7 +1782,6 @@
         $("#probstmtError").text("");
         $(".error-message").text("");
 
-        
         $("#countmeasur").css("border-color", "red");
         $("#countmeasurError").text("");
         $(".error-message").text("");
@@ -1798,12 +1800,12 @@
 
         $("#InOtherMC").css("border-color", "red");
         $("#otherError").text("");
-        $(".error-message").text(""); 
+        $(".error-message").text("");
 
-        $("#withinDept").css("border-color", "red"); 
+        $("#withinDept").css("border-color", "red");
         $("#withinError").text("");
         $(".error-message").text("");
-                 
+
         $("#InotherDept").css("border-color", "red");
         $("#InotherError").text("");
         $(".error-message").text("");
@@ -1837,7 +1839,6 @@
         var Improvements = $("#improvementsCompleted").val();
         var Benifits = $("#benefit").val();
         var addedTeamMembers = [];
-        
         $('#tblteammemberResult tbody tr').each(function () {
             var row = $(this);
             var memberDetails = {};
@@ -1851,6 +1852,7 @@
         if (documentNo === "") {
             $("#docNo").css("border-color", "red");
             $("#docerror").text("Doc No is required.");
+            if (!firstInvalidField) firstInvalidField = "#docNo";
             isValid = false;
         }
         if (versionNo === "") {
@@ -1861,6 +1863,7 @@
         if (codeCentre === "") {
             $("#codeCentre").css("border-color", "red");
             $("#codecentererror").text("Cost Center is required.");
+            if (!firstInvalidField) firstInvalidField = "#codeCentre";
             isValid = false;
         }
         if (refNo === "") {
@@ -1871,48 +1874,55 @@
         if (blockNameValue === "Select") {
             $("#BlockName").css("border-color", "red");
             $("#BlockError").text("Please Select Domain.");
+            if (!firstInvalidField) firstInvalidField = "#BlockName";
             isValid = false;
         }
-
         if (themeName === "") {
             $("#ktheme").css("border-color", "red");
             $("#themeError").text("Kaizen Theme Name is required.");
+            if (!firstInvalidField) firstInvalidField = "#ktheme";
             isValid = false;
         }
         if (plantName === "") {
             $("#teplplant").css("border-color", "red");
             $("#plantError").text("Line/Machine is required.");
+            if (!firstInvalidField) firstInvalidField = "#teplplant";
             isValid = false;
-        } 
-        if (rootcauseproblem === "") {
-            $("#rootcauseProblem").css("border-color", "red");
-            $("#rootProblemError").text("Root Cause Problem is required.");
-            isValid = false;
-        } 
-
+        }
         if (problemName === "") {
             $("#probstmt").css("border-color", "red");
             $("#probstmtError").text("Problem Statement  is required.");
+            if (!firstInvalidField) firstInvalidField = "#probstmt";
             isValid = false;
         }
         if (counterMeasuremName === "") {
             $("#countmeasur").css("border-color", "red");
             $("#countmeasurError").text("Counter Measure  is required.");
+            if (!firstInvalidField) firstInvalidField = "#countmeasur";
             isValid = false;
         }
-        if (PresentConditions === "") { 
+        if (rootcauseproblem === "") {
+            $("#rootcauseProblem").css("border-color", "red");
+            $("#rootProblemError").text("Root Cause Problem is required.");
+            if (!firstInvalidField) firstInvalidField = "#rootcauseProblem";
+            isValid = false;
+        }
+        if (PresentConditions === "") {
             $("#presentCondition").css("border-color", "red");
             $("#presentconditionsError").text("Present Conditions is required.");
+            if (!firstInvalidField) firstInvalidField = "#presentCondition";
             isValid = false;
         }
         if (Improvements === "") {
             $("#improvementsCompleted").css("border-color", "red");
             $("#ImprovementsError").text("Improvements is required.");
+            if (!firstInvalidField) firstInvalidField = "#improvementsCompleted";
             isValid = false;
-        }      
+        }
         if (Benifits === "") {
             $("#benefit").css("border-color", "red");
             $("#BenefitsError").text("Benifits is required.");
+            if (!firstInvalidField) firstInvalidField = "#benefit";
             isValid = false;
         }
         if (benifitarea.length === 0 && addedTeamMembers.length === 0) {
@@ -1938,27 +1948,35 @@
             if (inOthermc === "") {
                 $("#InOtherMC").css("border-color", "red");
                 $("#otherError").text("In Other Machines is required.");
+                if (!firstInvalidField) firstInvalidField = "#InOtherMC";
                 isValid = false;
             }
             if (withindept === "") {
                 $("#withinDept").css("border-color", "red");
-                $("#withinError").text("Within the Department is required."); 
+                $("#withinError").text("Within the Department is required.");
+                if (!firstInvalidField) firstInvalidField = "#withinDept";
                 isValid = false;
             }
             if (Inotherdept === "") {
                 $("#InotherDept").css("border-color", "red");
                 $("#InotherError").text("In Other Dept/ Other Location is required.");
+                if (!firstInvalidField) firstInvalidField = "#InotherDept";
                 isValid = false;
             }
             if (otherpoints === "") {
                 $("#Otherpoints").css("border-color", "red");
                 $("#OtherpointsError").text("Other Relevant Points is required.");
+                if (!firstInvalidField) firstInvalidField = "#Otherpoints";
                 isValid = false;
             }
         }
+        if (!isValid && firstInvalidField) {
+            $(firstInvalidField).focus();
+        }
         return isValid;
     }
-    
+
+
     $(document).ready(function () {
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
@@ -2176,7 +2194,7 @@
        formData.append('Consumables', $("#Consumables").val());
        formData.append('Others', $("#Others").val());
        formData.append('TotalSavings', $("#TotalSavings").val());
-            formData.append('ApprovedByIE', $("#approvedbyIe").val());
+       formData.append('ApprovedByIE', $("#approvedbyIe").val());
        formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
        formData.append('Rootcause', $("#rootcauseProblem").val());
        formData.append('MemberList', JSON.stringify(addedTeamMembers));
