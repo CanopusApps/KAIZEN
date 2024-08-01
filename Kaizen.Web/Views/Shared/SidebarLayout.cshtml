@@ -3,6 +3,9 @@
 @{
     var title = "TEPL Kaizen Idea";
 }
+@{
+    var UserType = Accessor.HttpContext.Session.GetString("Userrole");
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -149,29 +152,33 @@
             <div id="sidebar-wrapper">
                
                 <div class="list-group list-group-flush my-3">
-              
                     <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding">Dashboard</a>
-             
-                    <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding">NewKaizen</a>
-              
+                    @if (UserType == "EMPLOYEE" || UserType == "IMAGE APPROVER")
+                    {
+                        <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding">NewKaizen</a>
+                    }
                     <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding">Submitted Kaizen</a>
-                    <!-- Drop down -->
-                    <div class="list-group-item list-group-item-action menupadding menupaddingsub" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
-                    <div class="sub-menu collapse menupadding" id="demo">
-                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">Block</a>  
-                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDomain">Domain</a> 
-                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDepartment">Department</a> 
-                        <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddUser">User</a> 
-                        <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewUser">View User</a> 
-                        <a class="list-group-item text-light ml-3 menupadding" href="/Theme/ThemeChanger">Add Theme</a> 
-                    </div>
-
-                    <a class="list-group-item list-group-item-action text-light fw-bold menupadding" href="/WinnersList/WinnersList">Winners List</a>
-
-                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold menupadding">Image Approval</a>
-
+                    @if(UserType == "ADMIN")
+                    {
+                        <div class="list-group-item list-group-item-action menupadding menupaddingsub" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
+                        <div class="sub-menu collapse menupadding" id="demo">
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">Block</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDomain">Domain</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDepartment">Department</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddUser">User</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewUser">View User</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Theme/ThemeChanger">Add Theme</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/WinnersList/WinnersList">Winners List</a>
+                        </div>
+                    }
+                    @if (UserType == "IMAGE APPROVER")
+                    {
+                        <a href="#" class="list-group-item list-group-item-action text-light fw-bold menupadding">Image Approval</a>
+                    }
+                    @if(UserType == "ADMIN")
+                    {
                     <a href="/Reports/ReportDownload" class="list-group-item list-group-item-action text-light fw-bold menupadding">Reports</a>
-            
+                    }
                     <a class="LogoutIcon list-group-item menupadding" onclick="LogoutOption();" href="#"><i class="fa-solid fa-right-from-bracket icon1 padding-left-20 margin-left-20"></i></a>
                 </div>
             </div>
