@@ -305,20 +305,20 @@ namespace Kaizen.Data.DataServices
             {
                 model.KaizenType = ConstantValue.KaizenType;
                 model.ApprovalStatus = (int)ApprovalStatusEnum.Saved;
-                //DataTable memberDataTable = new DataTable();
-                //memberDataTable.Columns.Add("KaizenId", typeof(Guid));
-                //memberDataTable.Columns.Add("Createdby", typeof(Guid));
-                //memberDataTable.Columns.Add("EmpId", typeof(Guid));
-                //memberDataTable.Columns.Add("TeamMemberName", typeof(string));
-                //memberDataTable.Columns.Add("FunctionName", typeof(string));
-                //if (model.MemberList != null)
-                //{
-                //    foreach (TeamMemberDetails memberList in model.MemberList)
-                //    {
-                //        memberDataTable.Rows.Add(memberList.KaizenId, memberList.CreatedBy, memberList.EmpId, memberList.TeamMemberName, memberList.FunctionName);
+                DataTable memberDataTable = new DataTable();
+                memberDataTable.Columns.Add("KaizenId", typeof(Guid));
+                memberDataTable.Columns.Add("Createdby", typeof(Guid));
+                memberDataTable.Columns.Add("EmpId", typeof(Guid));
+                memberDataTable.Columns.Add("TeamMemberName", typeof(string));
+                memberDataTable.Columns.Add("FunctionName", typeof(string));
+                if (model.MemberList != null)
+                {
+                    foreach (TeamMemberDetails memberList in model.MemberList)
+                    {
+                        memberDataTable.Rows.Add(memberList.KaizenId, memberList.CreatedBy, memberList.EmpId, memberList.TeamMemberName, memberList.FunctionName);
 
-                //    }
-                //}
+                    }
+                }
 
                 //DataTable deploymentDataTable = new DataTable();
                 //deploymentDataTable.Columns.Add("KaizenId", typeof(Guid));
@@ -353,11 +353,11 @@ namespace Kaizen.Data.DataServices
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
-               // com.Parameters.AddWithValue("@KaizenTeam", memberDataTable);
+                com.Parameters.AddWithValue("@KaizenTeam", memberDataTable);
                 //com.Parameters.AddWithValue("@KaizenScopeDetails", deploymentDataTable);
                 //com.Parameters.AddWithValue("@AttachmentDetails", attachmentDataTable);
 
-               // com.Parameters.AddWithValue("@ID", model.Id);
+                com.Parameters.AddWithValue("@ID", model.Id);
                 com.Parameters.AddWithValue("@KaizenId", model.KaizenId);
                 com.Parameters.AddWithValue("@KaizenType", model.KaizenType);
                 com.Parameters.AddWithValue("@Activity", model.Activity);
@@ -432,23 +432,20 @@ namespace Kaizen.Data.DataServices
             {
                 model.KaizenType = ConstantValue.KaizenType;
                 model.ApprovalStatus = (int)ApprovalStatusEnum.Submitted;
-                //DataTable memberDataTable = new DataTable();
-                //memberDataTable.Columns.Add("KaizenId", typeof(Guid));
-                //memberDataTable.Columns.Add("Createdby", typeof(Guid));
-                //memberDataTable.Columns.Add("EmpId", typeof(Guid));
-                //memberDataTable.Columns.Add("TeamMemberName", typeof(string));
-                //memberDataTable.Columns.Add("FunctionName", typeof(string));
-                //if (model.MemberList != null)
-                //{
-                //    foreach (TeamMemberDetails memberList in model.MemberList)
-                //    {
-                //        memberDataTable.Rows.Add(memberList.KaizenId, memberList.CreatedBy, memberList.EmpId, memberList.TeamMemberName, memberList.FunctionName);
+                DataTable memberDataTable = new DataTable();
+                memberDataTable.Columns.Add("KaizenId", typeof(Guid));
+                memberDataTable.Columns.Add("Createdby", typeof(Guid));
+                memberDataTable.Columns.Add("EmpId", typeof(Guid));
+                memberDataTable.Columns.Add("TeamMemberName", typeof(string));
+                memberDataTable.Columns.Add("FunctionName", typeof(string));
+                if (model.MemberList != null)
+                {
+                    foreach (TeamMemberDetails memberList in model.MemberList)
+                    {
+                        memberDataTable.Rows.Add(memberList.KaizenId, memberList.CreatedBy, memberList.EmpId, memberList.TeamMemberName, memberList.FunctionName);
 
-                //    }
-                //}
-
-
-
+                    }
+                }
                 //DataTable attachmentDataTable = new DataTable();
                 //attachmentDataTable.Columns.Add("KaizenId", typeof(Guid));
                 //attachmentDataTable.Columns.Add("FileName", typeof(string));
@@ -466,10 +463,10 @@ namespace Kaizen.Data.DataServices
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
-               // com.Parameters.AddWithValue("@KaizenTeam", memberDataTable);
+                com.Parameters.AddWithValue("@KaizenTeam", memberDataTable);
                 //com.Parameters.AddWithValue("@AttachmentDetails", attachmentDataTable);
 
-                //com.Parameters.AddWithValue("@ID", model.Id);
+                com.Parameters.AddWithValue("@ID", model.Id);
                 com.Parameters.AddWithValue("@KaizenId", model.KaizenId);
                 com.Parameters.AddWithValue("@KaizenType", model.KaizenType);
                 com.Parameters.AddWithValue("@Activity", model.Activity);
@@ -536,9 +533,6 @@ namespace Kaizen.Data.DataServices
             return status;
         }
 
-
-
-
         public DataSet GetKaizenDetailsById(string KaizenId)
         {
             DataSet ds = new DataSet();
@@ -550,6 +544,27 @@ namespace Kaizen.Data.DataServices
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@KaizenId", KaizenId);
                 com.CommandText = StoredProcedures.Sp_Fetch_KaizenDetails_ById;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+
+       public DataSet GetTeamDetailsUpdateById(string KaizenId)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@KaizenId", KaizenId);
+                com.CommandText = StoredProcedures.Sp_Fetch_KaizenUpdateDetails_ById;
                 SqlDataAdapter da = new SqlDataAdapter(com);
                 da.Fill(ds);
             }

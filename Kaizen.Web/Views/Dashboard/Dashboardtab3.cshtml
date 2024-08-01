@@ -886,9 +886,10 @@
                             let row = '<tr>';
                             row += '<td>' + i + 1 + '</td>';
                             row += '<td>' + monthYear[0] + "-" + monthYear[1] + '</td>';
-                            row += '<td>' + (item.driTotal || 0) + '</td>';
-                            row += '<td>' + (item.ieTotal || 0) + '</td>';
-                            row += '<td>' + (item.financeTotal || 0) + '</td>';
+                            row += '<td class="submitted-td">' + (item.driTotal || 0) + '</td>';
+                            row += '<td class="submitted-td">' + (item.ieTotal || 0) + '</td>';
+                            row += '<td class="submitted-td">' + (item.financeTotal || 0) + '</td>';
+                         
                             let imageApproved = 0;
                             let imageRejected = 0;
                             let driApproved = 0;
@@ -954,15 +955,15 @@
                             // Append status counts to the row
                             row += '<td>' + submitted + '</td>';
                             row += '<td>' + imageRejected + '</td>';
-                            row += '<td>' + driPending + '</td>';
-                            row += '<td>' + iePending + '</td>';
-                            row += '<td>' + financePending + '</td>';
-                            row += '<td>' + driRejected + '</td>';
-                            row += '<td>' + ieRejected + '</td>';
-                            row += '<td>' + financeRejected + '</td>';
-                            row += '<td>' + driApproved + '</td>';
-                            row += '<td>' + ieApproved + '</td>';
-                            row += '<td>' + financeApproved + '</td>';
+                            row += '<td class="pending-td">' + driPending + '</td>';
+                            row += '<td class="pending-td">' + iePending + '</td>';
+                            row += '<td class="pending-td">' + financePending + '</td>';
+                            row += '<td  class="rejected-td">' + driRejected + '</td>';
+                            row += '<td  class="rejected-td">' + ieRejected + '</td>';
+                            row += '<td  class="rejected-td">' + financeRejected + '</td>';
+                            row += '<td class="approved-td">' + driApproved + '</td>';
+                            row += '<td class="approved-td">' + ieApproved + '</td>';
+                            row += '<td class="approved-td">' + financeApproved + '</td>';
 
 
 

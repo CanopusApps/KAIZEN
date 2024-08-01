@@ -105,6 +105,7 @@ namespace Kaizen.Business.Worker
                         Consumables = dr["Consumables"].ToString(),
                         Others = dr["Others"].ToString(),
                         TotalSavings = dr["TotalSavings"].ToString(),
+                        ApprovedByIE = dr["Email"].ToString(),
                         RootCause = dr["RootCause"].ToString(),
                         PresentCondition = dr["PresentCondition"].ToString(),
                         ImprovementsCompleted = dr["ImprovementsCompleted"].ToString(),
@@ -230,6 +231,29 @@ namespace Kaizen.Business.Worker
             }
             return ApproversData;
         }
+
+        public List<TeamMemberDetails> GetTeamDetailsUpdateById(string KaizenId)
+        {
+            DataSet TeamList = new DataSet();
+            List<TeamMemberDetails> TeamData = new List<TeamMemberDetails>();
+            TeamList = _createNewKaizenRepository.GetTeamDetailsUpdateById(KaizenId);
+
+            if (TeamList.Tables.Count > 0)
+            {
+                foreach (DataRow dr in TeamList.Tables[0].Rows)
+                {
+                    TeamData.Add(new TeamMemberDetails
+                    {
+                        EmpId = dr["EmpID"].ToString(),
+                        TeamMemberName = dr["TeamName"].ToString(),
+                        FunctionName = dr["FunctionName"].ToString()
+                    });
+                }
+            }
+            return TeamData;
+        }
+
+
     }
 
 }

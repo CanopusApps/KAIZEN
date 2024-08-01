@@ -43,6 +43,7 @@ namespace Kaizen.Web.Controllers
         }
         public IActionResult DomainkaizenFilter(string? StartDate, string? EndDate)
         {
+            
             DashboardModel model = new DashboardModel()
             {
                 StartDate = StartDate,
@@ -84,17 +85,21 @@ namespace Kaizen.Web.Controllers
             DashboardModel.CadreList = _addUserWorker.GetCadre();
             return View(DashboardModel);
         }
-        //public List<DepartmentModel> FetchDepartment(string domainid)
-        //{
-        //    List<DepartmentModel> deptList = new List<DepartmentModel>();
-        //    if (!string.IsNullOrEmpty(domainid))
-        //    {
-        //        deptList = _departmentWorker.GetDepartments().Where(d => d.DomainId == Convert.ToInt32(domainid)).ToList();
+        public List<DepartmentModel> FetchDepartment(string? StartDate, string? EndDate, string domainid)
+        {
+            List<DepartmentModel> deptList = new List<DepartmentModel>();
+           
+                DashboardModel model = new DashboardModel()
+                {
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                    Domain = domainid,
+                };
+                deptList = _dashboardworker.DepartmentbasedkaizenCount(model).Where(model => model.DomainId == Convert.ToInt32(domainid)).ToList();
 
-        //    }
-        //    return deptList;
-        //}
-
+            
+            return deptList;
+        }
 
     }
 }
