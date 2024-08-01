@@ -97,7 +97,6 @@
 <script>
     $(document).ready(function () {
         $('tbody').on('click', '.viewuser', function (e) {
-            debugger;
             e.preventDefault();
             var $row = $(this).closest('tr');
             var kaizenid = $row.data('kaizenid');
