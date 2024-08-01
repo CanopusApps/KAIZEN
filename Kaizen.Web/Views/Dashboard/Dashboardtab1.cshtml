@@ -1,7 +1,6 @@
 ﻿@{
     Layout = "SidebarLayout";
 }
-@using Kaizen.Models.DashboardModel
 <style>
     .card-container {
         margin-bottom: 20px;
@@ -51,6 +50,7 @@
                 <a class="nav-link" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Filter by Department, Domain</a>
                 <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Monthly, Yearly table</a>
                 <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
+                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs1</a>
             </div>
         </nav>
 
@@ -96,15 +96,6 @@
                             <div class="card-header">Total Kaizens Submitted / Total Employees in Domain</div>
                             <div class="card-body">
                                 <div class="row" id="firstrow">
-                                   @*  @foreach (var domain in Model.DomainList)
-                                    {
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-card-type="first" data-kaizen-submitted="@domain.AllKaizenSubmitted" data-user-count="@domain.User_count">
-                                            <div>@domain.DomainName</div>
-                                            <div class="kaizen-ratio">@domain.AllKaizenSubmitted / @domain.User_count</div>
-                                            <div class="percentage">0.00%</div>
-                                        </div>
-                                        <!-- Repeat the above div for each domain item -->
-                                    } *@
                                 </div>
                                 
                             </div>
@@ -133,15 +124,7 @@
                             <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Domain </div>
                             <div class="card-body">
                                 <div class="row " id="secondrow">
-                                  @*   @foreach (var domain in Model.DomainList)
-                                    {
-                                        <!-- Added data-kaizen-submitted and data-user-count attributes -->
-                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-id="@domain.Id" data-kaizen-submitted="@domain.KaizenSubmittedUser" data-user-count="@domain.User_count" data-card-type="second">
-                                            <div>@domain.DomainName</div>
-                                            <div>@domain.KaizenSubmittedUser / @domain.User_count</div>
-                                            <div class="percentage">0.00%</div>
-                                        </div>
-                                    } *@
+ 
                                 </div> 
  
                                 
