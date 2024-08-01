@@ -105,6 +105,7 @@ namespace Kaizen.Business.Worker
                         Consumables = dr["Consumables"].ToString(),
                         Others = dr["Others"].ToString(),
                         TotalSavings = dr["TotalSavings"].ToString(),
+                        ApprovedByIE = dr["Email"].ToString(),
                         RootCause = dr["RootCause"].ToString(),
                         PresentCondition = dr["PresentCondition"].ToString(),
                         ImprovementsCompleted = dr["ImprovementsCompleted"].ToString(),
