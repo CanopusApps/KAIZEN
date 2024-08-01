@@ -1,11 +1,14 @@
 ﻿using Kaizen.Business.Interface;
+using Kaizen.Data.Constant;
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.AdminModel;
 using Kaizen.Models.DashboardModel;
 using Kaizen.Models.NewKaizen;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +22,64 @@ namespace Kaizen.Business.Worker
         public DashboardWorker(IDashboardRepository Repository) {
           this.Repository = Repository;
         }
+
+        public List<DepartmentModel> DepartmentbasedkaizenCount(DashboardModel model)
+        {
+            DataSet ds;
+            List<DepartmentModel> departmentModels = new List<DepartmentModel>();
+            ds= Repository.GetDepartmentKaizenCount(model);
+            try
+            {
+                if (ds.Tables.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        departmentModels.Add(new DepartmentModel
+                        {
+                            DeptId = Convert.ToInt32(dr["DeptId"]),
+                            DepartmentName = dr["DepartmentName"].ToString(),
+                            DomainId = Convert.ToInt32(dr["DomainId"].ToString()),
+                            DomainName = dr["DomainName"].ToString(),
+                            Status = Convert.ToBoolean(dr["Status"]),
+                            User_count = Convert.ToInt32(dr["user_count"]),
+                            kaizen_count = Convert.ToInt32(dr["kaizen_count"]),
+                            KaizenSubmitedCountdept = Convert.ToInt32(dr["KaizenSubmittedUserdept"])
+
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return departmentModels;
+        }
+
+        public List<DomainModel> DomainbasedkaizenCount(DashboardModel model)
+        {
+            DataSet ds;
+            List<DomainModel> domainKaizencount = new List<DomainModel>();
+            ds = Repository.GetDomainKaizenCount(model);
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    domainKaizencount.Add(new DomainModel
+                    {
+                        Id = Convert.ToInt32(dr["DomainId"]),
+                        DomainName = dr["DomainName"].ToString(),
+                        Status = Convert.ToBoolean(dr["Status"]),
+                        User_count = Convert.ToInt32(dr["user_count"]),
+                        KaizenSubmitted = Convert.ToInt32(dr["kaizen_count"]),
+                        AllKaizenSubmitted = Convert.ToInt32(dr["AllKaizen_count"]),
+                        KaizenSubmittedUser = Convert.ToInt32(dr["kaizensubmittedUser"])
+                    });
+                }
+            }
+            return domainKaizencount;
+        }
+
         public List<CountKaizenStatus> GetKaizenCount(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();

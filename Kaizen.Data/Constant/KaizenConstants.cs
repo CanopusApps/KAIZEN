@@ -72,8 +72,8 @@ namespace Kaizen.Data.Constant
         public static string Sp_Get_DepartmentformReport = "Sp_Get_DepartmentformReport";
         public static string Sp_Get_UserformReport = "Sp_Get_UserformReport";
         public static string Sp_DashboardFilter = "Sp_DashboardFilter";
-
-        
+       public static string Sp_Get_DashboardDomains = "sp_Get_DashboardDomains"; 
+          public static string Sp_Get_DashboardDepartments = "Sp_Get_DashboardDepartments";
 
         public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
         public static string Sp_Get_IEDeptDetails = "Sp_Get_IEDeptDetails";
@@ -87,6 +87,7 @@ namespace Kaizen.Data.Constant
         public static string SpUpdateTheme = "Sp_UpdateTheme";
 
         public static string SpGetTheme = "Sp_GetTheme";
+        public static string Sp_Fetch_KaizenUpdateDetails_ById = "Sp_Fetch_KaizenUpdateDetails_ById";
     }
 
     public class ConstantValue

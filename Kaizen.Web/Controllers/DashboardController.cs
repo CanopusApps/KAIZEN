@@ -1,8 +1,11 @@
-﻿using Kaizen.Business.Interface;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.EMMA;
+using Kaizen.Business.Interface;
 using Kaizen.Business.Worker;
 using Kaizen.Models.AdminModel;
 using Kaizen.Models.DashboardModel;
 using Microsoft.AspNetCore.Mvc;
+using NPOI.SS.Formula.Functions;
 
 namespace Kaizen.Web.Controllers
 {
@@ -27,7 +30,7 @@ namespace Kaizen.Web.Controllers
         public IActionResult Dashboardtab1()
         {
             DashboardModel DashboardModel = new DashboardModel();
-            DashboardModel.DomainList = _domainWorker.GetDomain();
+            DashboardModel.DomainList = _dashboardworker.DomainbasedkaizenCount(DashboardModel);
             return View(DashboardModel);
         }
         public IActionResult Dashboardtab2()
@@ -37,6 +40,17 @@ namespace Kaizen.Web.Controllers
             DashboardModel.blockList = _blockWorker.GetBlock();
             DashboardModel.CadreList = _addUserWorker.GetCadre();
             return View(DashboardModel);
+        }
+        public IActionResult DomainkaizenFilter(string? StartDate, string? EndDate)
+        {
+            
+            DashboardModel model = new DashboardModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+            };
+            model.DomainList = _dashboardworker.DomainbasedkaizenCount(model);
+            return Ok(model);
         }
         public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? Block, string? cadre)
         {
@@ -71,17 +85,21 @@ namespace Kaizen.Web.Controllers
             DashboardModel.CadreList = _addUserWorker.GetCadre();
             return View(DashboardModel);
         }
-        //public List<DepartmentModel> FetchDepartment(string domainid)
-        //{
-        //    List<DepartmentModel> deptList = new List<DepartmentModel>();
-        //    if (!string.IsNullOrEmpty(domainid))
-        //    {
-        //        deptList = _departmentWorker.GetDepartments().Where(d => d.DomainId == Convert.ToInt32(domainid)).ToList();
+        public List<DepartmentModel> FetchDepartment(string? StartDate, string? EndDate, string domainid)
+        {
+            List<DepartmentModel> deptList = new List<DepartmentModel>();
+           
+                DashboardModel model = new DashboardModel()
+                {
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                    Domain = domainid,
+                };
+                deptList = _dashboardworker.DepartmentbasedkaizenCount(model).Where(model => model.DomainId == Convert.ToInt32(domainid)).ToList();
 
-        //    }
-        //    return deptList;
-        //}
-
+            
+            return deptList;
+        }
 
     }
 }

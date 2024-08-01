@@ -87,6 +87,10 @@
         display: none; 
     }
 
+    .show {
+        display: block; /* or whatever style you use to show elements */
+    }
+
     #uploaded_additional_image {
         display: flex;
         flex-wrap: wrap;
@@ -609,7 +613,7 @@
                                                                 <input type="number" name="TotalSavings" id="TotalSavings" required class="form-control numeric-input" value="@Model.TotalSavings" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">5046418</p>' title="Total Savings [Example]">
                                                             </div>
                                                         </div>
-                                                            <div class="col-sm-4" id="approvedByIeContainer">
+                                                            <div class="col-sm-4 hidden123" id="approvedByIeContainer">
                                                                 <div class="form-group">
                                                                     <label>Approved by (IE)</label>
                                                                     <div class="dropdown bootstrap-select">
@@ -629,7 +633,7 @@
 
 
                                                             
-                                                            <div class="col-sm-4" id="approvedBySection">
+                                                            <div class="col-sm-4 hidden123" id="approvedBySection">
                                                             <div class="form-group">
                                                                 <label>Approved by (Accounts)</label>
                                                                     <input type="text" name="approvedbyAccount" id="approvedbyAccount" required class="form-control " value="@Model.AccountEmail" readonly >
@@ -1100,9 +1104,9 @@
                                                     <button class="btn btn-azure" id="btnSubmitKaizen">Submit to DRI</button>
                                                 </div>
 
-                                                <div class="card-body float-right mt-2" id="saveItButton">
+                                                <div class="card-body float-right mt-2" id="">
                                                     <button class="btn btn-warning" id="btnUpdateKaizen">Save It</button>
-                                                    <button class="btn btn-azure" id="btnSubmitStatus">Submit to DRI</button>
+                                                    <button class="btn btn-azure" id="btnSubmittedStatus">Submit to DRI</button>
                                                 </div>
 
 
@@ -1395,7 +1399,7 @@
             $('#imagelabel').hide();
             $('#printPDF').hide(); 
             $('#btnUpdateKaizen').hide();
-            $('#btnSubmitStatus').hide();
+            $('#btnSubmittedStatus').hide();
 
             $('#backbtn').hide();
             $('#Srno').hide();
@@ -1501,20 +1505,20 @@
         });
     });
 
-    $("#cycletime1").change(function () {
-        $("#approvedbyIE").removeAttr("disabled");
-    });
+    // $("#cycletime1").change(function () {
+    //     $("#approvedbyIE").removeAttr("disabled");
+    // });
 
-    $("#cost1").change(function () {
-        $("#approvedbyIE").removeAttr("disabled");
-        var varlength = $("#cost1").val();
+    // $("#cost1").change(function () {
+    //     $("#approvedbyIE").removeAttr("disabled");
+    //     var varlength = $("#cost1").val();
 
-        if (varlength>=100000)
-        {
-            $("#approvedbyAccount").removeAttr("disabled");
-        }
+    //     if (varlength>=100000)
+    //     {
+    //         $("#approvedbyAccount").removeAttr("disabled");
+    //     }
 
-    });
+    // });
 
 
     
@@ -1674,28 +1678,30 @@
             }
         }
     });
-//FinanceApprovedBy
+ //FinanceApprovedBy
     $(document).ready(function () {
-        function toggleGrayedOutFinance() {
-            var costValue = $('#cost1').val().trim();
-            var costLength = costValue.length >= 6;
-            $('#approvedBySection').toggleClass('grayed-out', !costLength);
-            $('#approvedBySection').prop('disabled', !costLength);
-        }
-        toggleGrayedOutFinance();
-        $('#cost1').on('input', toggleGrayedOutFinance);
+        $('#cost1').on('input', function () {
+            var costValue = $(this).val();
+            var approvedBySection = $('#approvedBySection');
+            if (costValue.length >= 6) {
+                approvedBySection.addClass('show');
+            } else {
+                approvedBySection.removeClass('show');
+            }
+        });
     });
  //IEApprovedBy
     $(document).ready(function () {
-        function toggleGrayedOut() {
+        function toggleVisibility() {
             var cycleTime = $('#cycletime1').val().trim();
             var manPower = $('#Manpower').val().trim();
-            var inputsFilled = cycleTime !== '' && manPower !== '';
-            $('#approvedByIeContainer').toggleClass('grayed-out', !inputsFilled);
-            $('#approvedByIeContainer').prop('disabled', !inputsFilled);
+            var inputsFilled = cycleTime !== '' || manPower !== '';
+            var container = $('#approvedByIeContainer');
+            container.toggleClass('hidden123', !inputsFilled);
+            container.toggleClass('show', inputsFilled);
         }
-        toggleGrayedOut();
-        $('#cycletime1, #Manpower').on('input', toggleGrayedOut);
+        toggleVisibility();
+        $('#cycletime1, #Manpower').on('input', toggleVisibility);
     });
 
  //accept numbers
@@ -1704,7 +1710,24 @@
             this.value = this.value.replace(/[^0-9]/g, '');
         });
     });
-
+ //originDate < approveddate
+    $(document).ready(function () {
+        function updateMinDate() {
+            var originDate = $('#CDeta').val().split('-').reverse().join('-');
+            $('#driapproveddate').attr('min', originDate);
+        }
+        $('#CDeta').add('#driapproveddate').on('change', function () {
+            var originDate = new Date($('#CDeta').val().split('-').reverse().join('-'));
+            var approvedDate = new Date($('#driapproveddate').val());
+            if (this.id === 'CDeta') {
+                updateMinDate();
+            } else if (approvedDate <= originDate) {
+                $('#driapproveddate').val('');
+                swal('Approved date must be greater than Originated date.');
+            }
+        });
+        updateMinDate(); 
+    });
  //emptable
     $(document).ready(function () {
         function toggleButtons() {
@@ -1939,7 +1962,7 @@
     $(document).ready(function () {
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
-        $("#approvedbyIE").attr("disabled", "disabled");
+        // $("#approvedbyIE").attr("disabled", "disabled");
         $("#approvedbyAccount").attr("disabled", "disabled");
         $("#btnSaveKaizen").click(function () {
             var checkboxData = {};
@@ -2214,17 +2237,6 @@
    });
 
 
-
-
-
-
-
-
-
-
-
-
-
         $("#btnUpdateKaizen").click(function () {
             debugger;
             var checkboxData = {};
@@ -2299,7 +2311,7 @@
             formData.append('Consumables', $("#Consumables").val());
             formData.append('Others', $("#Others").val());
             formData.append('TotalSavings', $("#TotalSavings").val());
-            formData.append('ApprovedByIE', $("#approvedbyIE").val());
+            formData.append('ApprovedByIE', $("#approvedbyIe").val());
             formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
             formData.append('Rootcause', $("#rootcauseProblem").val());
             formData.append('MemberList', JSON.stringify(addedTeamMembers));
@@ -2363,11 +2375,132 @@
         });
 
 
+        $("#btnSubmittedStatus").click(function () {
+            debugger;
+            var checkboxData = {};
+            var checkboxData1 = {};
+            var Rootcausedata;
+            var activityValue = [];
+            $('#checkboxform input[type=checkbox]:checked').each(function () {
+                activityValue.push($(this).val());
+            });
+            var benifitarea = [];
+            $('#checkboxform1 input[type=checkbox]:checked').each(function () {
+                benifitarea.push($(this).val());
+            });
+            var addedTeamMembers = new Array();
+            var addedDeployment = new Array();
+            $('#tblteammemberResult tbody tr').each(function () {
+                var row = $(this);
+                var memberDetails = {};
+                if (row.find("TD").eq(2).val() != undefined) {
+                    memberDetails.EmpId = row.find("TD").eq(4).val();
+                    memberDetails.TeamMemberName = row.find("TD").eq(2).val();
+                    memberDetails.FunctionName = row.find("TD").eq(3).val();
+                    addedTeamMembers.push(memberDetails);
+                }
+            });
 
+            $('#tblDeploymentrResult tbody tr').each(function () {
+                var row = $(this);
+                var deploymentDetails = {};
+                if (row.find("TD").eq(1).val() != undefined) {
+                    deploymentDetails.MC = row.find("TD").eq(1).val();
+                    deploymentDetails.TargetDate = row.find("TD").eq(2).val();
+                    deploymentDetails.Responsibility = row.find("TD").eq(3).val();
+                    deploymentDetails.ScopeStatus = row.find("TD").eq(4).val();
+                    deploymentDetails.CreatedDate = $("#CDeta").val();
+                    addedDeployment.push(deploymentDetails);
+                }
+            });
 
+            // Create FormData object
+            var formData = new FormData();
 
+            // Append text and file fields to formData
+            formData.append('Id', $('#bindtxtID').text());
+            formData.append('Block', $('#BlockName').val());
+            formData.append('BlockDetails', $('#BlockName option:selected').text());
+            formData.append('Activity', activityValue);
+            formData.append('BenefitArea', benifitarea);
+            formData.append('ActivityDesc', $('#activityDesc').val());
+            formData.append('KaizenTheme', $('#ktheme').val());
+            formData.append('plantName', $('#teplplant').val());
+            formData.append('SuggestedKaizen', $('#suggestedKaizen').val());
+            formData.append('ProblemStatement', $('#probstmt').val());
+            formData.append('CounterMeasure', $('#countmeasur').val());
+            formData.append('DocNo', $("#docNo").val());
+            formData.append('VersionNoDate', $("#versionNo").val());
+            formData.append('CostCentre', $("#codeCentre").val());
+            formData.append('KaizenRefNo', $("#refNo").val());
+            formData.append('Yield', $("#yield1").val());
+            formData.append('CycleTime', $("#cycletime1").val());
+            formData.append('Cost', $("#cost1").val());
+            formData.append('ManPower', $("#Manpower").val());
+            formData.append('Consumables', $("#Consumables").val());
+            formData.append('Others', $("#Others").val());
+            formData.append('TotalSavings', $("#TotalSavings").val());
+            formData.append('ApprovedByIE', $("#approvedbyIe").val());
+            formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+            formData.append('Rootcause', $("#rootcauseProblem").val());
+            formData.append('MemberList', JSON.stringify(addedTeamMembers));
+            formData.append('DeploymentList', JSON.stringify(addedDeployment));
+            formData.append('RootCauseDetails', $("#rootcauseDetails").val());
+            formData.append('PresentCondition', $("#presentCondition").val());
+            formData.append('ImprovementsCompleted', $("#improvementsCompleted").val());
+            formData.append('HorozantalDeployment', $('input[name="horizontalDeployment"]:checked').val());
+            formData.append('InOtherMC', $('#InOtherMC').val());
+            formData.append('WithIntheDept', $('#withinDept').val());
+            formData.append('InotherDept', $('#InotherDept').val());
+            formData.append('Otherpoints', $('#Otherpoints').val());
+            formData.append('DRIApprovedBy', $('#driapprovedby').val());
+            formData.append('DRIApprovedDate', $('#driapproveddate').val());
+            formData.append('Benifits', $("#benefit").val());
+            formData.append('OriginatedBy', $("#name").val());
+            formData.append('Domain', $("#DomainId").val());
+            formData.append('Department', $("#DeptId").val());
+            formData.append('CreatedDate', $("#CDeta").val());
+            formData.append('AttachmentBefore', $('#attach_file_before')[0].files[0]);
+            formData.append('AttachmentAfter', $('#attach_file_after')[0].files[0]);
+            formData.append('RootProblemAttachment', $('#attach_file2')[0].files[0]);
 
+            //  additional attachments
+            for (let i = 0; i < allFiles.length; i++) {
+                formData.append('AdditionalAttachments', allFiles[i]);
+            }
 
+            if (!ValidateForm()) {
+                return;
+            }
+            //  AJAX
+            $.ajax({
+                type: 'POST',
+                url: '/CreateKaizen/UpdateSubmittedKaizen',
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (result) {
+                    var redirectErrorUrl = "/Login/ErrorPage";
+                    if (result.success) {
+                        swal({
+                            text: 'Kaizen Submitted Successfully!!',
+                            type: 'success'
+                        }).then(function () {
+
+                        });
+                    } else {
+                        swal('Unable to Submit the Kaizen Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
+                    }
+                },
+                error: function (error) {
+                    swal('Unable to Submit the Kaizen Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
+                }
+            });
+            // updateGUID();
+        });
 
     });
 
@@ -2695,7 +2828,7 @@
                         $("#docNo").val(result.kaizenList[0].docNo);
                         $('#printPDF').show();
                         $('#btnUpdateKaizen').show();
-                        $('#btnSubmitStatus').show();
+                        $('#btnSubmittedStatus').show(); 
                         $('#btnSaveKaizen').hide();
                         $('#btnSubmitKaizen').hide();
 
@@ -2738,6 +2871,9 @@
                         //         $(this).prop('selected', true);
                         //     }
                         // }).change();
+                        $('#approvedbyIe option').map(function () {
+                            if ($(this).text() == result.kaizenList[0].approvedByIE) return this;
+                        }).attr('selected', 'selected').change();
                         $("#rootcauseProblem").val(result.kaizenList[0].rootCause);
                         $("#presentCondition").val(result.kaizenList[0].presentCondition);
                         $("#improvementsCompleted").val(result.kaizenList[0].improvementsCompleted);
@@ -2747,7 +2883,23 @@
                         $("#withinDept").val(result.kaizenList[0].withIntheDept);
                         $("#InotherDept").val(result.kaizenList[0].inOtherDept);
                         $("#Otherpoints").val(result.kaizenList[0].otherPoints);
-                      
+                      //Edit Iedepart 
+                        var costValue = $("#cost1").val();
+                        var approvedBySection = $('#approvedBySection');
+                        if (costValue.length >= 6) {
+                            approvedBySection.addClass('show');
+                        } else {
+                            approvedBySection.removeClass('show');
+                        }
+                        //Edit finance
+                        var cycletime = $("#cycletime1").val();
+                        var manPower = $("#Manpower").val();
+                        var ApprovedByieContainer = $('#approvedByIeContainer');
+                        if (cycletime !== ''|| manPower !== '') {
+                            ApprovedByieContainer.addClass('show');
+                        } else {
+                            ApprovedByieContainer.removeClass('show');
+                        }
 
                         var dateStr = result.kaizenList[0].driApprovedDate;
                         var parts = dateStr.split('-');

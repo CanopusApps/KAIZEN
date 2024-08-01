@@ -16,5 +16,8 @@ namespace Kaizen.Business.Interface
         public List<CountKaizenStatus> GetKaizenCountmonth(DashboardModel model);
         public List<TotalKaizennos> GetKaizentotalCountmonth(DashboardModel model);
         public List<TotalKaizennos> GetKaizentotalCountCustomMonth(DashboardModel model);
+
+        public  List<DomainModel> DomainbasedkaizenCount(DashboardModel model);
+        public List<DepartmentModel> DepartmentbasedkaizenCount(DashboardModel model);
     }
 }
