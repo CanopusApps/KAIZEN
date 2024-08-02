@@ -17,5 +17,8 @@ namespace Kaizen.Data.DataServices.Interfaces
         public DataSet GetDepartmentKaizenCount(DashboardModel model);
 
 
+        public DataSet GetGraphKaizenCount(DashboardModel model);
+
+
     }
 }

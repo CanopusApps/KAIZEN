@@ -34,9 +34,10 @@ namespace Kaizen.Web.Controllers
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
             }
-            ViewBag.WinnersList = winners;
-            return View(winners);
+            var sortedWinners = winners.OrderBy(w => w.Category).ToList();
+            return View(sortedWinners);
         }
 
         [HttpPost]

@@ -35,6 +35,7 @@
                 <a class="nav-link" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Filter by Department, Domain</a>
                 <a class="nav-link  active" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Monthly, Yearly table</a>
                 <a class="nav-link" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
+                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs1</a>
             </div>
         </nav>
 
@@ -610,8 +611,9 @@
 
         });
       
-        const startYear = 2000;
-        const endYear = new Date().getFullYear();
+        const startYear = 2024;
+        const currentYear = new Date().getFullYear();
+        const endYear = currentYear + 3;
         const yearDropdown = $("#yearDropdown");
         const yearDropdown1 = $("#yearDropdown1");
 
@@ -628,8 +630,8 @@
 
         }
 
-        yearDropdown.val(endYear);
-        yearDropdown1.val(endYear);
+        yearDropdown.val(currentYear);
+        yearDropdown1.val(currentYear);
         function resetAllStatusCounts() {
 
             const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
@@ -1091,7 +1093,8 @@
 
             return isValid;
         }
-
+        $('#btn_filter').click();
+        $('#btn_filter3').click();
     });
 
 </script>
