@@ -11,6 +11,12 @@
 {
     @Html.AntiForgeryToken()    
     <style>
+        *{
+            overflow-y: hidden;
+        }
+        h1{
+            padding-bottom: 20%;
+        }
         marquee {
             top: 0;
             left: 0;
@@ -22,8 +28,8 @@
         }
     </style>
 
-<marquee width="100%" class="my-3" direction="left" behavior="scroll" scrollamount="5">
-    <h1 style="color:white; font-size: x-large;" loginbox-title>
+<marquee width="100%" class="" direction="left" behavior="scroll" scrollamount="5">
+    <h1 class="" style="color:white; font-size: x-large;" loginbox-title>
         Kaizen Winner for this month is
             <span style="color: rgb(45, 195, 232); font-weight:bold; font-size: x-large;">
             @selectedTheme
