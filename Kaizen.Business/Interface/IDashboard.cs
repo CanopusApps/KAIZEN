@@ -19,5 +19,14 @@ namespace Kaizen.Business.Interface
 
         public  List<DomainModel> DomainbasedkaizenCount(DashboardModel model);
         public List<DepartmentModel> DepartmentbasedkaizenCount(DashboardModel model);
+
+        public List<graphKaizentotalModel> kaizenCountbasedonDepartment(DashboardModel model);
+        public List<graphKaizentotalModel> kaizenCountbasedonDomain(DashboardModel model);
+
+         public List<graphKaizentotalModel> kaizenCountbasedonCadre(DashboardModel model);
+
+        public List<graphKaizentotalModel> kaizenCountbasedonBlocks(DashboardModel model);
+
+
     }
 }

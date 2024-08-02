@@ -1,4 +1,5 @@
-﻿using Kaizen.Business.Interface;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using Kaizen.Business.Interface;
 using Kaizen.Data.Constant;
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.AdminModel;
@@ -199,6 +200,103 @@ namespace Kaizen.Business.Worker
                         TotalRejected = dr["TotalRejected"] != DBNull.Value ? Convert.ToInt32(dr["TotalRejected"]) : 0,
                         TotalApproved = dr["TotalApproved"] != DBNull.Value ? Convert.ToInt32(dr["TotalApproved"]) : 0
 
+
+
+                    });
+                }
+
+            }
+            return Kaizentotalcount;
+        }
+
+        public List<graphKaizentotalModel> kaizenCountbasedonBlocks(DashboardModel model)
+        {
+            DataSet Kaizencountdata = new DataSet();
+            List<graphKaizentotalModel> Kaizentotalcount = new List<graphKaizentotalModel>();
+            Kaizencountdata = Repository.GetGraphKaizenCount(model);
+            if (Kaizencountdata.Tables.Count > 0)
+            {
+                foreach (DataRow dr in Kaizencountdata.Tables[2].Rows)
+                {
+                    Kaizentotalcount.Add(new graphKaizentotalModel
+                    {
+
+                        Blockid= Convert.ToInt32(dr["BlockId"]),
+                        Blockname= dr["BlockName"].ToString(),
+                        TotalSubmittedKaizen = Convert.ToInt32(dr["AllKaizen_count"])
+
+
+                    });
+                }
+
+            }
+            return Kaizentotalcount;
+        } 
+
+        public List<graphKaizentotalModel> kaizenCountbasedonCadre(DashboardModel model)
+        {
+            DataSet Kaizencountdata = new DataSet();
+            List<graphKaizentotalModel> Kaizentotalcount = new List<graphKaizentotalModel>();
+            Kaizencountdata = Repository.GetGraphKaizenCount(model);
+            if (Kaizencountdata.Tables.Count > 0)
+            {
+                foreach (DataRow dr in Kaizencountdata.Tables[3].Rows)
+                {
+                    Kaizentotalcount.Add(new graphKaizentotalModel
+                    {
+
+                        Cadreid = Convert.ToInt32(dr["CadreId"]),
+                        Cadrename = dr["CadreDesc"].ToString(),
+                        TotalSubmittedKaizen = Convert.ToInt32(dr["AllKaizen_count"])
+
+                    });
+                }
+
+            }
+            return Kaizentotalcount;
+        }
+
+        public List<graphKaizentotalModel> kaizenCountbasedonDepartment(DashboardModel model)
+        {
+            DataSet Kaizencountdata = new DataSet();
+            List<graphKaizentotalModel> Kaizentotalcount = new List<graphKaizentotalModel>();
+            Kaizencountdata = Repository.GetGraphKaizenCount(model);
+            if (Kaizencountdata.Tables.Count > 0)
+            {
+                foreach (DataRow dr in Kaizencountdata.Tables[0].Rows)
+                {
+                    Kaizentotalcount.Add(new graphKaizentotalModel
+                    {
+
+                        Departmentid = Convert.ToInt32(dr["DeptId"]),
+                        Departmentname = dr["DepartmentName"].ToString(),
+                        TotalSubmittedKaizen = Convert.ToInt32(dr["AllKaizen_count"])
+
+
+
+
+                    }) ;
+                }
+
+            }
+            return Kaizentotalcount;
+        }
+
+        public List<graphKaizentotalModel> kaizenCountbasedonDomain(DashboardModel model)
+        {
+            DataSet Kaizencountdata = new DataSet();
+            List<graphKaizentotalModel> Kaizentotalcount = new List<graphKaizentotalModel>();
+            Kaizencountdata = Repository.GetGraphKaizenCount(model);
+            if (Kaizencountdata.Tables.Count > 0)
+            {
+                foreach (DataRow dr in Kaizencountdata.Tables[1].Rows)
+                {
+                    Kaizentotalcount.Add(new graphKaizentotalModel
+                    {
+
+                        Domainid = Convert.ToInt32(dr["DomainId"]),
+                        Domainname = dr["DomainName"].ToString(),
+                        TotalSubmittedKaizen = Convert.ToInt32(dr["AllKaizen_count"])
 
 
                     });

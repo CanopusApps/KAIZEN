@@ -28,10 +28,8 @@ namespace Kaizen.Web.Controllers
         }
         
         public IActionResult Dashboardtab1()
-        {
-            DashboardModel DashboardModel = new DashboardModel();
-            DashboardModel.DomainList = _dashboardworker.DomainbasedkaizenCount(DashboardModel);
-            return View(DashboardModel);
+        {          
+            return View();
         }
         public IActionResult Dashboardtab2()
         {
@@ -40,6 +38,18 @@ namespace Kaizen.Web.Controllers
             DashboardModel.blockList = _blockWorker.GetBlock();
             DashboardModel.CadreList = _addUserWorker.GetCadre();
             return View(DashboardModel);
+        }
+        public IActionResult Dashboardtab3()
+        {
+            return View();
+        }
+        public IActionResult Dashboardtab5()
+        {
+            return View();
+        }
+        public IActionResult Dashboardtab4()
+        {
+            return View();
         }
         public IActionResult DomainkaizenFilter(string? StartDate, string? EndDate)
         {
@@ -73,18 +83,23 @@ namespace Kaizen.Web.Controllers
             model.TotalKaizenList = Kaizentotallist;
             return Ok(model);
         }
-        public IActionResult Dashboardtab3()
+
+        public IActionResult Filtergraphscount(string? StartDate, string? EndDate)
         {
-            return View();
+
+            DashboardModel model = new DashboardModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+            };
+            model.MonthTotalKaizenList = _dashboardworker.GetKaizentotalCountmonth(model);
+            model.blockbasedgraph = _dashboardworker.kaizenCountbasedonBlocks(model);
+            model.Cadrebasedgraph=_dashboardworker.kaizenCountbasedonCadre(model);
+            model.departmentbasedgraph=_dashboardworker.kaizenCountbasedonDepartment(model);
+            model.domainbasedgraph=_dashboardworker.kaizenCountbasedonDomain(model);    
+            return Ok(model);
         }
-        public IActionResult Dashboardtab4()
-        {
-            DashboardModel DashboardModel = new DashboardModel();
-            DashboardModel.DomainList = _domainWorker.GetDomain();
-            DashboardModel.blockList = _blockWorker.GetBlock();
-            DashboardModel.CadreList = _addUserWorker.GetCadre();
-            return View(DashboardModel);
-        }
+
         public List<DepartmentModel> FetchDepartment(string? StartDate, string? EndDate, string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
@@ -96,6 +111,7 @@ namespace Kaizen.Web.Controllers
                     Domain = domainid,
                 };
                 deptList = _dashboardworker.DepartmentbasedkaizenCount(model).Where(model => model.DomainId == Convert.ToInt32(domainid)).ToList();
+
 
             
             return deptList;
