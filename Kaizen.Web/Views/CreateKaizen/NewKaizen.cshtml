@@ -2137,12 +2137,14 @@
                 data: formData,
                 success: function (result) {
                     var redirectErrorUrl = "/Login/ErrorPage";
+                    var redirectSucessUrl = "/SubmittedKaizen/ViewKaizen"; 
                     if (result.success) {
                         swal({
                             text: 'Kaizen Saved Successfully!!',
                             type: 'success'
                         }).then(function () {
-                            window.location.reload(); 
+                            // window.location.reload();
+                            window.location.href = redirectSucessUrl;
                         });
                     } else {
                         swal('Unable to Save the Kaizen Details - Please Check the logs');
@@ -2263,11 +2265,13 @@
            success: function (result) {
                if (result.success) {
                         var redirectErrorUrl = "/Login/ErrorPage";
+                        var redirectSucessUrl = "/SubmittedKaizen/ViewKaizen";
                    swal({
                        text: 'Kaizen Submitted to DRI Successfully!!',
                        type: 'success'
                    }).then(function () {
-                      window.location.reload();
+                      // window.location.reload();
+                            window.location.href = redirectSucessUrl;
                    });
                } else {
                    swal('Unable to Submit the Kaizen Details - Please Check the logs');
@@ -2396,12 +2400,13 @@
                 data: formData,
                 success: function (result) {
                     var redirectErrorUrl = "/Login/ErrorPage";
+                    var redirectSucessUrl = "/SubmittedKaizen/ViewKaizen";
                     if (result.success) {
                         swal({
                             text: 'Kaizen Updated Successfully!!',
                             type: 'success'
                         }).then(function () {
-                         
+                            window.location.href = redirectSucessUrl;
                         });
                     } else {
                         swal('Unable to Update the Kaizen Details - Please Check the logs');
@@ -2455,6 +2460,7 @@
                     addedDeployment.push(deploymentDetails);
                 }
             });
+
 
             // Create FormData object
             var formData = new FormData();
@@ -2526,12 +2532,13 @@
                 data: formData,
                 success: function (result) {
                     var redirectErrorUrl = "/Login/ErrorPage";
+                    var redirectSucessUrl = "/SubmittedKaizen/ViewKaizen";
                     if (result.success) {
                         swal({
                             text: 'Kaizen Submitted Successfully!!',
                             type: 'success'
                         }).then(function () {
-
+                            window.location.href = redirectSucessUrl;
                         });
                     } else {
                         swal('Unable to Submit the Kaizen Details - Please Check the logs');
