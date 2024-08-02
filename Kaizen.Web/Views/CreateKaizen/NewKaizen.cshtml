@@ -1051,7 +1051,7 @@
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
                                                                         <input name="DeptId" id="DeptId" class="form-control col-9" value="@Model.Domain - @Model.Department" readonly>
-                                                                <button class="lol">Bt</button>
+                                                              @*   <button class="lol">Bt</button> *@
                                                                     </td>
                                                                @*  <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-4">
@@ -2101,7 +2101,8 @@
             formData.append('RootCauseDetails', $("#rootcauseDetails").val());
             formData.append('PresentCondition', $("#presentCondition").val());
             formData.append('ImprovementsCompleted', $("#improvementsCompleted").val());
-            formData.append('HorozantalDeployment', $('input[name="horizontalDeployment"]:checked').val());
+            if ($("#yesRadio").is(":checked")) { formData.append('HorozantalDeployment', true); }
+            if ($("#noRadio").is(":checked")) { formData.append('HorozantalDeployment', false); }
             formData.append('InOtherMC', $('#InOtherMC').val());
             formData.append('WithIntheDept', $('#withinDept').val());
             formData.append('InotherDept', $('#InotherDept').val());
@@ -2221,7 +2222,7 @@
        formData.append('Consumables', $("#Consumables").val());
        formData.append('Others', $("#Others").val());
        formData.append('TotalSavings', $("#TotalSavings").val());
-            formData.append('ApprovedByIE', $("#approvedbyIe").val());
+       formData.append('ApprovedByIE', $("#approvedbyIe").val());
        formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
        formData.append('Rootcause', $("#rootcauseProblem").val());
        formData.append('MemberList', JSON.stringify(addedTeamMembers));
@@ -2326,14 +2327,9 @@
             // var memberListJson = JSON.stringify(addedTeamMembers);
             // var deploymentListJson = JSON.stringify(addedDeployment);
 
-
             // Create FormData object
             var formData = new FormData();
-
-           
-            
             // Append text and file fields to formData
-            
             formData.append('Id', $('#bindtxtID').text());
             formData.append('Block', $('#BlockName').val());
             formData.append('BlockDetails', $('#BlockName option:selected').text());
@@ -2364,7 +2360,8 @@
             formData.append('RootCauseDetails', $("#rootcauseDetails").val());
             formData.append('PresentCondition', $("#presentCondition").val());
             formData.append('ImprovementsCompleted', $("#improvementsCompleted").val());
-            formData.append('HorozantalDeployment', $('input[name="horizontalDeployment"]:checked').val());
+            if ($("#yesRadio").is(":checked")) { formData.append('HorozantalDeployment', true); }
+            if ($("#noRadio").is(":checked")) { formData.append('HorozantalDeployment', false); }
             formData.append('InOtherMC', $('#InOtherMC').val());
             formData.append('WithIntheDept', $('#withinDept').val());
             formData.append('InotherDept', $('#InotherDept').val());
@@ -2493,7 +2490,9 @@
             formData.append('RootCauseDetails', $("#rootcauseDetails").val());
             formData.append('PresentCondition', $("#presentCondition").val());
             formData.append('ImprovementsCompleted', $("#improvementsCompleted").val());
-            formData.append('HorozantalDeployment', $('input[name="horizontalDeployment"]:checked').val());
+           // formData.append('HorozantalDeployment', $('input[name="horizontalDeployment"]:checked').val());
+            if ($("#yesRadio").is(":checked")) { formData.append('HorozantalDeployment', true); }
+            if ($("#noRadio").is(":checked")) { formData.append('HorozantalDeployment', false); }
             formData.append('InOtherMC', $('#InOtherMC').val());
             formData.append('WithIntheDept', $('#withinDept').val());
             formData.append('InotherDept', $('#InotherDept').val());
