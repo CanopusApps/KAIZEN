@@ -1747,6 +1747,8 @@
 
     function ValidateForm() {
         var isValid = true;
+        var firstInvalidField = null; 
+
         $("#docNo").css("border-color", "red");
         $("#docerror").text("");
         $(".error-message").text("");
@@ -1851,68 +1853,80 @@
         if (documentNo === "") {
             $("#docNo").css("border-color", "red");
             $("#docerror").text("Doc No is required.");
+            if (!firstInvalidField) firstInvalidField = "#docNo";
             isValid = false;
         }
         if (versionNo === "") {
             $("#versionNo").css("border-color", "red");
             $("#versionerror").text("Version No is required.");
+            if (!firstInvalidField) firstInvalidField = "#versionNo";
             isValid = false;
         }
         if (codeCentre === "") {
             $("#codeCentre").css("border-color", "red");
             $("#codecentererror").text("Cost Center is required.");
+            if (!firstInvalidField) firstInvalidField = "#codeCentre";
             isValid = false;
         }
         if (refNo === "") {
             $("#refNo").css("border-color", "red");
             $("#kaizenrefNoererror").text("Ref No is required.");
+            if (!firstInvalidField) firstInvalidField = "#refNo";
             isValid = false;
         }
         if (blockNameValue === "Select") {
             $("#BlockName").css("border-color", "red");
-            $("#BlockError").text("Please Select Domain.");
+            $("#BlockError").text("Please Select Block.");
+            if (!firstInvalidField) firstInvalidField = "#BlockName";
             isValid = false;
         }
 
         if (themeName === "") {
             $("#ktheme").css("border-color", "red");
             $("#themeError").text("Kaizen Theme Name is required.");
+            if (!firstInvalidField) firstInvalidField = "#ktheme";
             isValid = false;
         }
         if (plantName === "") {
             $("#teplplant").css("border-color", "red");
             $("#plantError").text("Line/Machine is required.");
+            if (!firstInvalidField) firstInvalidField = "#teplplant";
             isValid = false;
         } 
-        if (rootcauseproblem === "") {
-            $("#rootcauseProblem").css("border-color", "red");
-            $("#rootProblemError").text("Root Cause Problem is required.");
-            isValid = false;
-        } 
-
         if (problemName === "") {
             $("#probstmt").css("border-color", "red");
             $("#probstmtError").text("Problem Statement  is required.");
+            if (!firstInvalidField) firstInvalidField = "#probstmt";
             isValid = false;
         }
         if (counterMeasuremName === "") {
             $("#countmeasur").css("border-color", "red");
             $("#countmeasurError").text("Counter Measure  is required.");
+            if (!firstInvalidField) firstInvalidField = "#countmeasur";
+            isValid = false;
+        }
+        if (rootcauseproblem === "") {
+            $("#rootcauseProblem").css("border-color", "red");
+            $("#rootProblemError").text("Root Cause Problem is required.");
+            if (!firstInvalidField) firstInvalidField = "#rootcauseProblem";
             isValid = false;
         }
         if (PresentConditions === "") { 
             $("#presentCondition").css("border-color", "red");
             $("#presentconditionsError").text("Present Conditions is required.");
+            if (!firstInvalidField) firstInvalidField = "#presentCondition";
             isValid = false;
         }
         if (Improvements === "") {
             $("#improvementsCompleted").css("border-color", "red");
             $("#ImprovementsError").text("Improvements is required.");
+            if (!firstInvalidField) firstInvalidField = "#improvementsCompleted";
             isValid = false;
         }      
         if (Benifits === "") {
             $("#benefit").css("border-color", "red");
             $("#BenefitsError").text("Benifits is required.");
+            if (!firstInvalidField) firstInvalidField = "#benefit";
             isValid = false;
         }
         if (benifitarea.length === 0 && addedTeamMembers.length === 0) {
@@ -1938,23 +1952,30 @@
             if (inOthermc === "") {
                 $("#InOtherMC").css("border-color", "red");
                 $("#otherError").text("In Other Machines is required.");
+                if (!firstInvalidField) firstInvalidField = "#InOtherMC";
                 isValid = false;
             }
             if (withindept === "") {
                 $("#withinDept").css("border-color", "red");
-                $("#withinError").text("Within the Department is required."); 
+                $("#withinError").text("Within the Department is required.");
+                if (!firstInvalidField) firstInvalidField = "#withinDept";
                 isValid = false;
             }
             if (Inotherdept === "") {
                 $("#InotherDept").css("border-color", "red");
                 $("#InotherError").text("In Other Dept/ Other Location is required.");
+                if (!firstInvalidField) firstInvalidField = "#InotherDept";
                 isValid = false;
             }
             if (otherpoints === "") {
                 $("#Otherpoints").css("border-color", "red");
                 $("#OtherpointsError").text("Other Relevant Points is required.");
+                if (!firstInvalidField) firstInvalidField = "#Otherpoints";
                 isValid = false;
             }
+        }
+        if (!isValid && firstInvalidField) {
+            $(firstInvalidField).focus();
         }
         return isValid;
     }
