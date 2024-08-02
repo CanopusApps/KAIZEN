@@ -108,7 +108,7 @@ namespace Kaizen.Web.Controllers
 
                             }
                             //string manager = conAccessor.HttpContext.Session.GetString("Manager");
-                            Response.Redirect("Admin/Adduser");
+                            Response.Redirect("Dashboard/Dashboardtab1");
                         }
                         else
                         {
