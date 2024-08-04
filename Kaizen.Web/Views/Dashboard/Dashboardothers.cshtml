@@ -316,6 +316,10 @@
                 $('#loader-wrapper').show();
             },
                 success: function (result) {
+                      $('.totalKaizens').text(0);
+                                    $('#totalApproved').text(0);
+                                    $('#totalRejected').text(0);
+                                    $('#totalPending').text(0);
                     debugger;
                     const monthLabels = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
