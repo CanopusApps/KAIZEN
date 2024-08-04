@@ -12,19 +12,19 @@ namespace Kaizen.Models.AdminModel
 {
     public class ProfileModel
     {
-        [Required(ErrorMessage = "FirstName is required")]
-        [StringLength(50, MinimumLength=1, ErrorMessage = "FirstName can not contain more than 50 characters")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "FirstName can only contain letters")]
+        [Required(ErrorMessage = "First Name is required")]
+        [StringLength(50, MinimumLength=1, ErrorMessage = "First Name can not contain more than 50 characters")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "First Name can only contain letters")]
         public string FirstName { get; set; }
 
 
-        [StringLength(50, MinimumLength = 0, ErrorMessage = "MiddleName can not contain more than 50 characters")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "MiddleName can only contain letters")]
+        [StringLength(50, ErrorMessage = "Middle Name can not contain more than 50 characters")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Middle Name can only contain letters")]
         public string MiddleName { get; set; } = "";
 
-        [Required(ErrorMessage = "LastName is required")]
-        [StringLength(50, MinimumLength = 1, ErrorMessage = "LastName can not contain more than 50 characters")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "LastName can only contain letters")]
+        [Required(ErrorMessage = "Last Name is required")]
+        [StringLength(50, MinimumLength = 1, ErrorMessage = "Last Name can not contain more than 50 characters")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Last Name can only contain letters")]
         public string LastName { get; set; }
 
         public string EmpID { get; set; }
@@ -40,7 +40,7 @@ namespace Kaizen.Models.AdminModel
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         [DataType(DataType.EmailAddress)]
-        [RegularExpression(@"/^([a-zA-Z0-9_\\.\\-\\+])+@@\\(([a - zA - Z0 - 9\\-]) +\\.)+([a-zA-Z0-9]{2,4})+$/")]
+        //[RegularExpression(@"/^([a-zA-Z0-9_\\.\\-\\+])+@@\\(([a - zA - Z0 - 9\\-]) +\\.)+([a-zA-Z0-9]{2,4})+$/")]
         public string Email { get; set; }
 
     }
