@@ -27,6 +27,10 @@ namespace Kaizen.Business.Interface
 
         public List<graphKaizentotalModel> kaizenCountbasedonBlocks(DashboardModel model);
 
+        public List<OtherDashboardmodel> Otherdashboard(DashboardModel model);
+
+        public List<OtherDashboardmodel> OtherMonthbaseddashboard(DashboardModel model);
+
 
     }
 }

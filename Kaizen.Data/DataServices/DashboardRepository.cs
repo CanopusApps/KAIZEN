@@ -146,5 +146,33 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+
+        public DataSet GetOtherKaizenCount(DashboardModel model)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            try
+            {
+                com = new SqlCommand();
+
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                string startDate = model.StartDate;
+                string endDate = model.EndDate;
+                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? " " : startDate);
+                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? " " : endDate);
+                com.Parameters.AddWithValue("@Block", model.Block == "All" ? "" : (string.IsNullOrEmpty(model.Block) ? " " : model.Block));
+                com.Parameters.Add("@Domain", SqlDbType.VarChar).Value = model.Domain == "All" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Domain) ? (object)DBNull.Value : model.Domain);
+                com.Parameters.Add("@Department", SqlDbType.VarChar).Value = model.Department == "All" || model.Department == "Select Department" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Department) ? (object)DBNull.Value : model.Department);
+                com.CommandText = StoredProcedures.sp_GetKaizenStatisticsByApprovalTypes;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
     }
 }

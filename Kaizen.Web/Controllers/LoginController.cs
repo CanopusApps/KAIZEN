@@ -107,8 +107,15 @@ namespace Kaizen.Web.Controllers
                                 HttpContext.Session.SetString("ManagerList", ManagerListJson);
 
                             }
-                            //string manager = conAccessor.HttpContext.Session.GetString("Manager");
-                            Response.Redirect("Dashboard/Dashboardtab1");
+                            string Userrole = conAccessor.HttpContext.Session.GetString("Userrole");
+                            if (Userrole == "ADMIN")
+                            {
+                                Response.Redirect("Dashboard/Dashboardtab1");
+                            }
+                            else
+                            {
+                                Response.Redirect("Dashboard/Dashboardothers");
+                            }
                         }
                         else
                         {

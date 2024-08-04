@@ -117,5 +117,31 @@ namespace Kaizen.Web.Controllers
             return deptList;
         }
 
+        public IActionResult Dashboardothers()
+        {
+            DashboardModel DashboardModel = new DashboardModel();
+            DashboardModel.DomainList = _domainWorker.GetDomain();
+            DashboardModel.blockList = _blockWorker.GetBlock();
+
+           
+            return View(DashboardModel);
+        }
+        public IActionResult FilterOtherDashboardcount(string? StartDate, string? EndDate, string? Domain, string? Department, string? Block)
+        {
+
+            DashboardModel model = new DashboardModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+                Domain = Domain,
+                Department = Department,
+                Block = Block
+            };
+            model.OtherdashboardList = _dashboardworker.Otherdashboard(model);
+            model.MonthBasedOtherdashboardList = _dashboardworker.OtherMonthbaseddashboard(model);
+            return Ok(model);
+        }
+
+
     }
 }

@@ -34,6 +34,9 @@ namespace Kaizen.Models.DashboardModel
         public List<graphKaizentotalModel> blockbasedgraph { get; set; }
         public List<graphKaizentotalModel> Cadrebasedgraph { get; set; }
 
+        public List<OtherDashboardmodel> OtherdashboardList { get; set; }
+        public List<OtherDashboardmodel> MonthBasedOtherdashboardList { get; set; }
+
 
 
     }
