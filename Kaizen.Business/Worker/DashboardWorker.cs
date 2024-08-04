@@ -305,5 +305,88 @@ namespace Kaizen.Business.Worker
             }
             return Kaizentotalcount;
         }
+
+        public List<OtherDashboardmodel> Otherdashboard(DashboardModel model)
+        {
+            DataSet kaizenCountData = new DataSet();
+            List<OtherDashboardmodel> otherDashboardModels = new List<OtherDashboardmodel>();
+
+            kaizenCountData = Repository.GetOtherKaizenCount(model);
+            if (kaizenCountData.Tables.Count > 0)
+            {
+                foreach (DataRow dr in kaizenCountData.Tables[0].Rows)
+                {
+                    otherDashboardModels.Add(new OtherDashboardmodel
+                    {
+
+                        EmpId = dr["UserId"] != DBNull.Value ? dr["UserId"].ToString() : string.Empty,
+                        Usertypeid = dr["UserTypeID"] != DBNull.Value ? Convert.ToInt32(dr["UserTypeID"]) : 0,
+                        FirstName = dr["FirstName"] != DBNull.Value ? dr["FirstName"].ToString() : string.Empty,
+                        LastName = dr["LastName"] != DBNull.Value ? dr["LastName"].ToString() : string.Empty,
+                        Usertypedesc = dr["UserType"] != DBNull.Value ? dr["UserType"].ToString() : string.Empty,
+                        ImageTotal = dr["ImageTotal"] != DBNull.Value ? Convert.ToInt32(dr["ImageTotal"]) : 0,
+                        ManagerTotal = dr["ManagerTotal"] != DBNull.Value ? Convert.ToInt32(dr["ManagerTotal"]) : 0,
+                        IETotal = dr["IETotal"] != DBNull.Value ? Convert.ToInt32(dr["IETotal"]) : 0,
+                        FinanceTotal = dr["FinanceTotal"] != DBNull.Value ? Convert.ToInt32(dr["FinanceTotal"]) : 0,
+                        ImageApproved = dr["ImageApproved"] != DBNull.Value ? Convert.ToInt32(dr["ImageApproved"]) : 0,
+                        ImageRejected = dr["ImageRejected"] != DBNull.Value ? Convert.ToInt32(dr["ImageRejected"]) : 0,
+                        ImagePending = dr["ImagePending"] != DBNull.Value ? Convert.ToInt32(dr["ImagePending"]) : 0,
+                        ManagerApproved = dr["ManagerApproved"] != DBNull.Value ? Convert.ToInt32(dr["ManagerApproved"]) : 0,
+                        ManagerRejected = dr["ManagerRejected"] != DBNull.Value ? Convert.ToInt32(dr["ManagerRejected"]) : 0,
+                        ManagerPending = dr["ManagerPending"] != DBNull.Value ? Convert.ToInt32(dr["ManagerPending"]) : 0,
+                        IEApproved = dr["IEApproved"] != DBNull.Value ? Convert.ToInt32(dr["IEApproved"]) : 0,
+                        IERejected = dr["IERejected"] != DBNull.Value ? Convert.ToInt32(dr["IERejected"]) : 0,
+                        IEPending = dr["IEPending"] != DBNull.Value ? Convert.ToInt32(dr["IEPending"]) : 0,
+                        FinanceApproved = dr["FinanceApproved"] != DBNull.Value ? Convert.ToInt32(dr["FinanceApproved"]) : 0,
+                        FinanceRejected = dr["FinanceRejected"] != DBNull.Value ? Convert.ToInt32(dr["FinanceRejected"]) : 0,
+                        FinancePending = dr["FinancePending"] != DBNull.Value ? Convert.ToInt32(dr["FinancePending"]) : 0
+                    });
+                }
+            }
+
+            return otherDashboardModels;
+        }
+
+
+        public List<OtherDashboardmodel> OtherMonthbaseddashboard(DashboardModel model)
+        {
+            DataSet kaizenCountData = new DataSet();
+            List<OtherDashboardmodel> otherDashboardModels = new List<OtherDashboardmodel>();
+
+            kaizenCountData = Repository.GetOtherKaizenCount(model);
+            if (kaizenCountData.Tables.Count > 0)
+            {
+                foreach (DataRow dr in kaizenCountData.Tables[1].Rows)
+                {
+                    otherDashboardModels.Add(new OtherDashboardmodel
+                    {
+                        MonthYear = dr["MonthYear"] != DBNull.Value ? dr["MonthYear"].ToString() : string.Empty,
+                        EmpId = dr["UserId"] != DBNull.Value ?dr["UserId"].ToString() :  string.Empty,
+                        Usertypeid = dr["UserTypeID"] != DBNull.Value ? Convert.ToInt32(dr["UserTypeID"]) : 0,
+                        FirstName = dr["FirstName"] != DBNull.Value ? dr["FirstName"].ToString() : string.Empty,
+                        LastName = dr["LastName"] != DBNull.Value ? dr["LastName"].ToString() : string.Empty,
+                        Usertypedesc = dr["UserType"] != DBNull.Value ? dr["UserType"].ToString() : string.Empty,
+                        ImageTotal = dr["ImageTotal"] != DBNull.Value ? Convert.ToInt32(dr["ImageTotal"]) : 0,
+                        ManagerTotal = dr["ManagerTotal"] != DBNull.Value ? Convert.ToInt32(dr["ManagerTotal"]) : 0,
+                        IETotal = dr["IETotal"] != DBNull.Value ? Convert.ToInt32(dr["IETotal"]) : 0,
+                        FinanceTotal = dr["FinanceTotal"] != DBNull.Value ? Convert.ToInt32(dr["FinanceTotal"]) : 0,
+                        ImageApproved = dr["ImageApproved"] != DBNull.Value ? Convert.ToInt32(dr["ImageApproved"]) : 0,
+                        ImageRejected = dr["ImageRejected"] != DBNull.Value ? Convert.ToInt32(dr["ImageRejected"]) : 0,
+                        ImagePending = dr["ImagePending"] != DBNull.Value ? Convert.ToInt32(dr["ImagePending"]) : 0,
+                        ManagerApproved = dr["ManagerApproved"] != DBNull.Value ? Convert.ToInt32(dr["ManagerApproved"]) : 0,
+                        ManagerRejected = dr["ManagerRejected"] != DBNull.Value ? Convert.ToInt32(dr["ManagerRejected"]) : 0,
+                        ManagerPending = dr["ManagerPending"] != DBNull.Value ? Convert.ToInt32(dr["ManagerPending"]) : 0,
+                        IEApproved = dr["IEApproved"] != DBNull.Value ? Convert.ToInt32(dr["IEApproved"]) : 0,
+                        IERejected = dr["IERejected"] != DBNull.Value ? Convert.ToInt32(dr["IERejected"]) : 0,
+                        IEPending = dr["IEPending"] != DBNull.Value ? Convert.ToInt32(dr["IEPending"]) : 0,
+                        FinanceApproved = dr["FinanceApproved"] != DBNull.Value ? Convert.ToInt32(dr["FinanceApproved"]) : 0,
+                        FinanceRejected = dr["FinanceRejected"] != DBNull.Value ? Convert.ToInt32(dr["FinanceRejected"]) : 0,
+                        FinancePending = dr["FinancePending"] != DBNull.Value ? Convert.ToInt32(dr["FinancePending"]) : 0
+                    });
+                }
+            }
+
+            return otherDashboardModels;
+        }
     }
 }

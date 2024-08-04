@@ -58,6 +58,10 @@
                             </div>
 
                         </div>
+                        <div class="form-group col-lg-4">
+                            <label for="yearDropdown">Select Year:</label>
+                            <select id="yearDropdown" class="form-control mb-3"></select>
+                        </div>
                         <span class="form-row p-4 container">
                             <button type="button" class="btn  col-lg-2 m-1 btn-azure " id="btn_filter" value="Filter">Filter</button>
                             <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset" value="Reset">Reset</button>
@@ -86,8 +90,29 @@
         </div>
   </nav>
   </div>
+
 <script>
     $(document).ready(function () {
+        // Populate Year Dropdown
+        const currentYear = new Date().getFullYear();
+        const endYear = currentYear - 4;
+        const yearDropdown = $("#yearDropdown");
+        const yearDropdown1 = $("#yearDropdown1");
+
+        for (let year = currentYear; year >= endYear; year--) {
+            yearDropdown.append($('<option>', {
+                value: year,
+                text: year
+            }));
+            yearDropdown1.append($('<option>', {
+                value: year,
+                text: year
+            }));
+        }
+
+        yearDropdown.val(currentYear);
+
+        // Initialize Bar Chart
         var ctxBar = document.getElementById('myBarChart').getContext('2d');
         var barChart = new Chart(ctxBar, {
             type: 'bar',
@@ -144,11 +169,8 @@
                         display: true,
                         color: 'black',
                         align: 'end',
-                        formatter: (value, context) => {
-                            if (value === 0) {
-                                return null;
-                            }
-                            return value;
+                        formatter: (value) => {
+                            return value === 0 ? null : value;
                         },
                         padding: {
                             top: 10
@@ -160,7 +182,7 @@
             plugins: [ChartDataLabels]
         });
 
-        // Pareto Chart
+        // Initialize Pareto Chart
         const ctxPareto = $('#paretoChart')[0].getContext('2d');
         var paretoChart = new Chart(ctxPareto, {
             type: 'bar', // Default type
@@ -200,11 +222,8 @@
                     datalabels: {
                         display: true,
                         color: 'black',
-                        formatter: (value, context) => {
-                            if (value === 0) {
-                                return null;
-                            }
-                            return value;
+                        formatter: (value) => {
+                            return value === 0 ? null : value;
                         },
                         padding: {
                             top: 10
@@ -226,8 +245,8 @@
             plugins: [ChartDataLabels]
         });
 
+        // Filter Button Click
         $('#btn_filter').click(function () {
-            debugger;
             var StartDate = $('#dtstartdate').val();
             var EndDate = $('#dtenddate').val();
 
@@ -280,8 +299,8 @@
                 }
             });
         });
+
+        // Initial filter on page load
         $('#btn_filter').click();
     });
-
-
 </script>
