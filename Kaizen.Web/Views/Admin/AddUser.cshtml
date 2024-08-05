@@ -39,7 +39,7 @@
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
                 <span class="text-danger">*</span>
-                @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control", placeholder = "Employee ID" } })
+                    @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control", placeholder = "Employee ID", id = "empIdF" } })
                 @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger" })
             </div>
            
@@ -171,6 +171,38 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js" crossorigin="anonymous"></script>
 <script>
+    $(document).ready(function () {
+        $.validator.addMethod("exactlength", function (value, element, param) {
+            return this.optional(element) || value.length === param;
+        }, "Please enter exactly {0} digits.");
+
+        $("#empIdF").validate({
+            errorClass: "text-danger",
+            rules: {
+                empIdF: {
+                    required: true,
+                    digits: true,
+                    minlength: 6,
+                    maxlength: 8
+                },
+            },
+            messages: {
+                empIdF: {
+                    required: "Employee ID is required",
+                    digits: "Employee ID must be digits only",
+                    minlength: "Employee ID must be at least 6 digits long",
+                    maxlength: "Employee ID must be no more than 8 digits long"
+                },
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+
+        $("#empIdF").on('keyup', function () {
+            $(this).valid();
+        });
+    });
     $('#configreset').click(function () {
         $('#configform')[0].reset();
     });
