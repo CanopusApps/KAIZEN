@@ -24,6 +24,8 @@ namespace Kaizen.Business.Interface
         public bool UpdateNewKaizen(NewKaizenModel model);
         public bool UpdateSubmittedKaizen(NewKaizenModel model);
         public List<TeamMemberDetails> GetTeamDetailsUpdateById(string KaizenId);
+        public DataTable GetAttachmentsByIdfordelete(string KaizenId,string AttachmentId);
+        public void RemoveAttachment(Attachmentsimg attachment, string KaizenId);
 
     }
 }

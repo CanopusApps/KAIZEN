@@ -3068,6 +3068,7 @@
                             var base64String = item.fileName;
                             var attachmentType = item.attachmentType;
                             var FilePath = item.filePath;
+                            var attachmentId = item.attachmentId;
                             var fileExtension = FilePath.split('.').pop().toLowerCase();
 
                             var ImageType = "";
@@ -3095,6 +3096,8 @@
                                 text: 'Delete',
                                 class: 'delete-btn',
                                id:'deleteimgid',
+                               'data-kaizen-id': result.kaizenList[0].id,
+                                'data-attachment-id': attachmentId
                             });
 
                             imgContainer.append(imgElement, deleteButton);
@@ -3136,16 +3139,30 @@
                                 $('#upload_area').show();
                             }
                             deleteButton.on('click', function () {
+                                debugger;
+                                var kaizenId = $(this).data('kaizen-id');
+                                var attachmentId = $(this).data('attachment-id');
                                 swal({
                                     text: "Are you sure you want to Delete?",
                                     buttons: {
-                                        confirm: "Yes",
-                                        cancel: "No"
+                                        cancel: {
+                                            text: "No",
+                                            value: false,
+                                            visible: true,
+                                            className: "",
+                                            closeModal: true
+                                        },
+                                        confirm: {
+                                            text: "Yes",
+                                            value: true,
+                                            visible: true,
+                                            className: "",
+                                            closeModal: true
+                                        }
                                     }
                                 }).then((userConfirmation) => {
                                     if (userConfirmation) {
                                         if (attachmentType === "AttachmentBefore") {
-
                                             $('#file-image-before-text').show();
                                             $('#file-image-before').show();
                                         }
@@ -3158,10 +3175,16 @@
                                             $('#file-image').show();
                                         }
                                         imgContainer.remove();
+
+                                        $.ajax({
+                                            url: '/CreateKaizen/DeleteKaizen',
+                                            type: 'POST',
+                                            data: { id: kaizenId, Attachmentid: attachmentId }
+                                        });
                                     }
                                 });
-
                             });
+
                         });
                     }
                     else 
