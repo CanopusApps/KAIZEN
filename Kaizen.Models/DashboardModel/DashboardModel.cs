@@ -37,6 +37,9 @@ namespace Kaizen.Models.DashboardModel
         public List<OtherDashboardmodel> OtherdashboardList { get; set; }
         public List<OtherDashboardmodel> MonthBasedOtherdashboardList { get; set; }
 
+        public List<EmployeeDashboardModel> EmployeedashboardList { get; set; }
+        public List<EmployeeDashboardModel> MonthBasedEmployeedashboardList { get; set; }
+
 
 
     }
