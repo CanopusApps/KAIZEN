@@ -11,7 +11,7 @@ namespace Kaizen.Business.Interface
 {
     public interface ISubmittedKaizen
     {
-        public List<ApprovalStatusModel> GetApprovalStatus();
+        public List<ApprovalStatusModel> GetApprovalStatus(string UserType);
         public List<KaizenListModel> GetKaizenList(KaizenListModel model);
         public bool DeleteKaizen(int KaizenId,string UserId);
     }
