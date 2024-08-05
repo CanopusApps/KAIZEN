@@ -22,11 +22,11 @@ namespace Kaizen.Business.Worker
         {
                 this._repositorySubmittedKaizenData = repositoryUserdata;
         }
-        public List<ApprovalStatusModel> GetApprovalStatus()
+        public List<ApprovalStatusModel> GetApprovalStatus(string UserType)
         {
             DataSet ds;
             List<ApprovalStatusModel> ApprovalStatus = new List<ApprovalStatusModel>();
-            ds = _repositorySubmittedKaizenData.GetApprovalStatus();
+            ds = _repositorySubmittedKaizenData.GetApprovalStatus(UserType);
             if (ds.Tables.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
