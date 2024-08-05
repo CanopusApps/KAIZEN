@@ -1,4 +1,5 @@
-﻿using Kaizen.Business.Interface;
+﻿using DocumentFormat.OpenXml.EMMA;
+using Kaizen.Business.Interface;
 using Kaizen.Data.Constant;
 using Kaizen.Data.DataServices;
 using Kaizen.Data.DataServices.Interfaces;
@@ -185,7 +186,8 @@ namespace Kaizen.Business.Worker
                     {
                         FileName = base64String,
                         AttachmentType = dr["AttachmentType"].ToString(),
-                        filePath= dr["FileName"].ToString()
+                        filePath= dr["FileName"].ToString(),
+                        AttachmentId = dr["ID"].ToString()
                     });
                 }
             }
@@ -251,6 +253,21 @@ namespace Kaizen.Business.Worker
                 }
             }
             return TeamData;
+        }
+
+        public DataTable GetAttachmentsByIdfordelete(string KaizenId, string AttachmentId)
+        {
+            return _createNewKaizenRepository.GetImageListByIdfordelete(KaizenId, AttachmentId);
+        }
+
+        public void RemoveAttachment(Attachmentsimg attachment, string KaizenId)
+        {
+            // Delete from file system
+            if (File.Exists(attachment.FileName))
+            {
+                File.Delete(attachment.FileName);
+            }
+            _createNewKaizenRepository.RemoveAttachment(attachment, KaizenId);
         }
 
 

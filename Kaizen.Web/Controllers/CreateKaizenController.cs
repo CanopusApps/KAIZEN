@@ -14,6 +14,8 @@ using System;
 using System.IO;
 using static NuGet.Client.ManagedCodeConventions;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using System.Data;
+using System.Net.Mail;
 
 namespace Kaizen.Web.Controllers
 {
@@ -274,10 +276,16 @@ namespace Kaizen.Web.Controllers
                 memberList = _createNewKaizen.GetTeamDetailsUpdateById(model.KaizenId);
             }
             var deploymentList = JsonConvert.DeserializeObject<List<DeploymentDetails>>(jsonDepartList);
-            if (model.AttachmentBefore != null && model.AttachmentAfter != null && model.RootProblemAttachment != null)
+            if (model.AttachmentBefore != null)
             {
                 model.AttachmentPaths.AttachmentBeforePath = SaveUploadedFile(model.AttachmentBefore, nameof(model.AttachmentBefore));
+            }
+            if (model.AttachmentAfter != null)
+            {
                 model.AttachmentPaths.AttachmentAfterPath = SaveUploadedFile(model.AttachmentAfter, nameof(model.AttachmentAfter));
+            }
+            if (model.RootProblemAttachment != null)
+            {
                 model.AttachmentPaths.RootProblemAttachmentPath = SaveUploadedFile(model.RootProblemAttachment, nameof(model.RootProblemAttachment));
             }
             List<Attachmentsimg> imagesList = new List<Attachmentsimg>();
@@ -350,10 +358,16 @@ namespace Kaizen.Web.Controllers
             }
 
             var deploymentList = JsonConvert.DeserializeObject<List<DeploymentDetails>>(jsonDepartList);
-            if (model.AttachmentBefore != null && model.AttachmentAfter != null && model.RootProblemAttachment != null)
+            if (model.AttachmentBefore != null)
             {
                 model.AttachmentPaths.AttachmentBeforePath = SaveUploadedFile(model.AttachmentBefore, nameof(model.AttachmentBefore));
+            }
+            if (model.AttachmentAfter != null)
+            {
                 model.AttachmentPaths.AttachmentAfterPath = SaveUploadedFile(model.AttachmentAfter, nameof(model.AttachmentAfter));
+            }
+            if (model.RootProblemAttachment != null)
+            {
                 model.AttachmentPaths.RootProblemAttachmentPath = SaveUploadedFile(model.RootProblemAttachment, nameof(model.RootProblemAttachment));
             }
             List<Attachmentsimg> imagesList = new List<Attachmentsimg>();
@@ -407,6 +421,39 @@ namespace Kaizen.Web.Controllers
             model.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
             model.insertStatus = _createNewKaizen.UpdateSubmittedKaizen(model);
             return Ok(new { success = true });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteKaizen(string id, string Attachmentid)
+        {
+            try
+            {
+                DataTable dataTable = _createNewKaizen.GetAttachmentsByIdfordelete(id, Attachmentid);
+                List<Attachmentsimg> attachments = new List<Attachmentsimg>();
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    attachments.Add(new Attachmentsimg
+                    {
+                        FileName = row["FileName"].ToString()
+                    });
+                }
+                foreach (var attachment in attachments)
+                {
+                    string pathforAttachments = _infoSettings.LogFilePath;
+                    /*string attachmentPath = Path.Combine("C:\\Uploads-images\\images", attachment.FileName);*/
+                    string attachmentPath = Path.Combine("pathforAttachments", attachment.FileName); 
+                    if (System.IO.File.Exists(attachmentPath))
+                    {
+                        System.IO.File.Delete(attachmentPath);
+                    }
+                    _createNewKaizen.RemoveAttachment(attachment,id);
+                }
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
 
 
