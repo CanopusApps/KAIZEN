@@ -81,6 +81,45 @@ namespace Kaizen.Business.Worker
             return domainKaizencount;
         }
 
+        public List<EmployeeDashboardModel> GetEmployeedashboardcount(DashboardModel model)
+        {
+            DataSet Kaizencountdata = new DataSet();
+            List<EmployeeDashboardModel> Kaizencount = new List<EmployeeDashboardModel>();
+            Kaizencountdata = Repository.GetEmployeeDashboardCount(model);
+            if (Kaizencountdata.Tables.Count > 0)
+            {
+                foreach (DataRow dr in Kaizencountdata.Tables[0].Rows)
+                {
+                    Kaizencount.Add(new EmployeeDashboardModel
+                    {
+
+                        EmpId = dr["EmpId"] != DBNull.Value ? dr["EmpId"].ToString() : string.Empty,
+                        FirstName = dr["FirstName"] != DBNull.Value ? dr["FirstName"].ToString() : string.Empty,
+                        KaizenCount = dr["KaizenCount"] != DBNull.Value ? Convert.ToInt32(dr["KaizenCount"]) : 0,
+                        TotalApproved = dr["TotalApproved"] != DBNull.Value ? Convert.ToInt32(dr["TotalApproved"]) : 0,
+                        TotalRejected = dr["TotalRejected"] != DBNull.Value ? Convert.ToInt32(dr["TotalRejected"]) : 0,
+                        TotalPending = dr["TotalPending"] != DBNull.Value ? Convert.ToInt32(dr["TotalPending"]) : 0,
+                        ImageApproved = dr["ImageApproved"] != DBNull.Value ? Convert.ToInt32(dr["ImageApproved"]) : 0,
+                        ImageRejected = dr["ImageRejected"] != DBNull.Value ? Convert.ToInt32(dr["ImageRejected"]) : 0,
+                        ImagePending = dr["ImagePending"] != DBNull.Value ? Convert.ToInt32(dr["ImagePending"]) : 0,
+                        ManagerApproved = dr["ManagerApproved"] != DBNull.Value ? Convert.ToInt32(dr["ManagerApproved"]) : 0,
+                        ManagerRejected = dr["ManagerRejected"] != DBNull.Value ? Convert.ToInt32(dr["ManagerRejected"]) : 0,
+                        ManagerPending = dr["ManagerPending"] != DBNull.Value ? Convert.ToInt32(dr["ManagerPending"]) : 0,
+                        IEApproved = dr["IEApproved"] != DBNull.Value ? Convert.ToInt32(dr["IEApproved"]) : 0,
+                        IERejected = dr["IERejected"] != DBNull.Value ? Convert.ToInt32(dr["IERejected"]) : 0,
+                        IEPending = dr["IEPending"] != DBNull.Value ? Convert.ToInt32(dr["IEPending"]) : 0,
+                        FinanceApproved = dr["FinanceApproved"] != DBNull.Value ? Convert.ToInt32(dr["FinanceApproved"]) : 0,
+                        FinanceRejected = dr["FinanceRejected"] != DBNull.Value ? Convert.ToInt32(dr["FinanceRejected"]) : 0,
+                        FinancePending = dr["FinancePending"] != DBNull.Value ? Convert.ToInt32(dr["FinancePending"]) : 0
+
+                    });
+                }
+
+            }
+
+            return Kaizencount;
+        }
+
         public List<CountKaizenStatus> GetKaizenCount(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -207,6 +246,35 @@ namespace Kaizen.Business.Worker
 
             }
             return Kaizentotalcount;
+        }
+
+        public List<EmployeeDashboardModel> GetmonthbasedEmployeedashboardcount(DashboardModel model)
+        {
+            DataSet Kaizencountdata = new DataSet();
+            List<EmployeeDashboardModel> Kaizencount = new List<EmployeeDashboardModel>();
+            Kaizencountdata = Repository.GetEmployeeDashboardCount(model);
+            if (Kaizencountdata.Tables.Count > 0)
+            {
+                foreach (DataRow dr in Kaizencountdata.Tables[1].Rows)
+                {
+                    Kaizencount.Add(new EmployeeDashboardModel
+                    {
+
+                        EmpId = dr["EmpId"] != DBNull.Value ? dr["EmpId"].ToString() : string.Empty,
+                         MonthYear = dr["MonthYear"] != DBNull.Value ? dr["MonthYear"].ToString() : "0",
+                        FirstName = dr["FirstName"] != DBNull.Value ? dr["FirstName"].ToString() : string.Empty,
+                        KaizenCount = dr["KaizenCount"] != DBNull.Value ? Convert.ToInt32(dr["KaizenCount"]) : 0,
+                        TotalApproved = dr["TotalApproved"] != DBNull.Value ? Convert.ToInt32(dr["TotalApproved"]) : 0,
+                        TotalRejected = dr["TotalRejected"] != DBNull.Value ? Convert.ToInt32(dr["TotalRejected"]) : 0,
+                        TotalPending = dr["TotalPending"] != DBNull.Value ? Convert.ToInt32(dr["TotalPending"]) : 0
+                      
+
+                    });
+                }
+
+            }
+
+            return Kaizencount;
         }
 
         public List<graphKaizentotalModel> kaizenCountbasedonBlocks(DashboardModel model)

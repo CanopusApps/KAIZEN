@@ -39,7 +39,6 @@
             </div>
         </div>
            <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("EmpId")">  
-            <input type="hidden" id="Userrole" data-role="@Accessor.HttpContext.Session.GetString("Userrole")">
 
 
 
@@ -294,7 +293,7 @@
       $('#btn_filter').click(function () {
         debugger;
             var Userid = $('#loginIDuser').val();
-            var userRole = $('#Userrole').data('role');
+
         var StartDate = $('#dtstartdate').val();
         var EndDate = $('#dtenddate').val();
         var Domain = $('#inputDomain option:selected').text();
@@ -346,7 +345,7 @@
                                     $('#totalPending').text(item.managerPending || 0);
                                     break;
                                 case 6:
-                                    $('#totalKaizens').text(item.imageTotal || 0);
+                                    $('.totalKaizens').text(item.imageTotal || 0);
                                     $('#totalApproved').text(item.imageApproved || 0);
                                     $('#totalRejected').text(item.imageRejected || 0);
                                     $('#totalPending').text(item.imagePending || 0);
@@ -418,7 +417,7 @@
                 },
 
             error: function (error) {
-                console.error("Error fetching data: ", error);
+               
             },
             complete: function () {
                 $('#loader-wrapper').hide();
