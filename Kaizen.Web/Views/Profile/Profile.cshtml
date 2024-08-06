@@ -59,9 +59,9 @@
                     <span id="firstNameError" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
-                    @* @Html.LabelFor(model => model.MiddleName, "Middle Name", htmlAttributes: new { @class = "control-label" })  *@
-                    <label for="MiddleName" class="control-label">Middle Name</label>
-                    <input type="text" for="MiddleName" id="MiddleNameInput" value="@Model.MiddleName" name="MiddleName" class="form-control txt-width" placeholder="Middle Name">
+                    @Html.LabelFor(model => model.MiddleName, "Middle Name", htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "Middle Name" } })
+                    @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
                     <span id="middleNameError" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
@@ -141,77 +141,54 @@
 
 
 <script type="text/javascript">
-
-    
-    // $("#profileUserForm").validate({
-    //     errorClass: "text-danger",
-    // })
-
-    //first name validation
-    
-        // $("#profileUserForm").validate({
-        //     errorClass: "text-danger",
-        // })
-
+    $(document).ready(function () {
         // middle name  validation
-        // $('#MiddleName').on('input', function () {
-        //     let value = $(this).val();
-        //     if (/[^a-zA-Z]/.test(value)) {
-        //         $('#middleNameError').text('Only letters are allowed.');
-        //     } else {
-        //         $('#middleNameError').text('');
-        //     }
-        // });
-
-    //email validation
-    // $('#Email').on('input', function () {
-    //     let value = $(this).val();
-    //     if (/^([a-zA-Z0-9_\.\-\+])+@@(([a - zA - Z0 - 9\-]) +\.)+([a-zA-Z0-9]{2,4})+$/.test(value)) {
-    //         $('#empEmailError').text('Invalid EmailAddress.');
-    //     } else {
-    //         $('#empEmailError').text('');
-    //     }
-    // });
-
-    $('#btnProfileUpdate').click(function () {
-        debugger;
-
-        var profilemodel = {
-            EmpID: $('#EmpID').val(),
-            FirstName: $('#FirstName').val(),
-            MiddleName: $('#MiddleName').val(),
-            LastName: $('#LastName').val(),
-            Email: $('#Email').val()
-        };
-
-    $(document).ready(function() {
-        $('#profileUserForm').on('submit', function(e) {
-            e.preventDefault();
-            if ($(this).valid()) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/Profile/Profile',
-                    dataType: "json",
-                    data: { model: profilemodel },
-                    success: function (result) {
-                        var redirectErrorUrl = "/Login/ErrorPage";
-                        if (result == true) {
-                            swal({
-                                text: "Profile  Updated Successfully !!",
-                                type: "success"
-                            }).then(function () { });
-                        }
-                        else {
-                            swal('Unable to Update Profile, Please check the Logs');
-                            window.location.href = redirectErrorUrl;
-                        }
-                    },
-                    error: function (error) {
-                        swal('Unable to update the profile, Please check the Logs folder');
-                        window.location.href = redirectErrorUrl;
-                    }
-                });
+        $('#MiddleName').on('input', function () {
+            let value = $(this).val();
+            if (/[^a-zA-Z]/.test(value)) {
+                $('#middleNameError').text('Only letters are allowed.');
+            } else {
+                $('#middleNameError').text('');
             }
         });
+    });   
+        
+    //form submit handler, submits the value   
+    $('#profileUserForm').on('submit', function(e) {
+        e.preventDefault();
+        if ($(this).valid()) {
+            var profilemodel = {
+                EmpID: $('#EmpID').val(),
+                FirstName: $('#FirstName').val(),
+                MiddleName: $('#MiddleName').val(),
+                LastName: $('#LastName').val(),
+                Email: $('#Email').val()
+            }
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/Profile/Profile',
+            dataType: "json",
+            data: { model: profilemodel },
+            success: function (result) {
+                var redirectErrorUrl = "/Login/ErrorPage";
+                if (result == true) {
+                    swal({
+                        text: "Profile  Updated Successfully !!",
+                        type: "success"
+                    }).then(function () { });
+                }
+                else {
+                    swal('Unable to Update Profile, Please check the Logs');
+                    window.location.href = redirectErrorUrl;
+                }
+            },
+            error: function (error) {
+                swal('Unable to update the profile, Please check the Logs folder');
+                window.location.href = redirectErrorUrl;
+            }
+        });
+            
     });
+    
 </script>
