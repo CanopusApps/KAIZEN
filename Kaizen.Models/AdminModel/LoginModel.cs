@@ -10,7 +10,8 @@ namespace Kaizen.Models.AdminModel
     public class LoginModel
     {
         [Required(ErrorMessage = "Employee ID is required")]
-        [RegularExpression(@"^\d{1,6}$", ErrorMessage = "Employee ID must be a number with 6 digits only")]
+        //[RegularExpression(@"^\d{1,6}$", ErrorMessage = "Employee ID must be a number with 6 digits only")]
+        [StringLength(8, MinimumLength = 6, ErrorMessage = "Employee ID must be between 6 and 8 digits long")]
         public string EmpId { get; set; }
 
         [Required(ErrorMessage = "Password is required")]

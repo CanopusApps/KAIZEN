@@ -11,8 +11,9 @@ namespace Kaizen.Models.AdminModel
     public class AddUserModel
     {
         [Required(ErrorMessage = "Employee ID is required")]
-        [RegularExpression(@"^\d{1,6}$", ErrorMessage = "Employee ID must be a number with 6 digits only")]
-        [StringLength(6, MinimumLength = 6, ErrorMessage = "Employee ID must be exactly 6 digits long")]
+        //[RegularExpression(@"^\d{1,6}$", ErrorMessage = "Employee ID must be a number with 6 digits only")]
+        [StringLength(8, MinimumLength = 6, ErrorMessage = "Employee ID must be a minimum of 6 and maximum of 8 digits only")]
+
         public string EmpId { get; set; }
 
         [Required(ErrorMessage = "First-name is required")]
