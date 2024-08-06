@@ -101,6 +101,19 @@
 
 <script>
     $(document).ready(function () {
+        $("#userForm").on("keydown", function (e) {
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13]) !== -1 ||
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                (e.keyCode === 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+                (e.keyCode === 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
         $.validator.addMethod("exactlength", function (value, element, param) {
             return this.optional(element) || value.length === param;
         }, "Please enter exactly {0} digits.");
@@ -123,8 +136,8 @@
                 EmpId: {
                     required: "Employee ID is required",
                     digits: "Employee ID must be digits only",
-                    minlength: "Employee ID must be at least 6 digits long",
-                    maxlength: "Employee ID must be no more than 8 digits long"
+                    minlength: "Employee ID must be a minimum of 6 and maximum of 8 digits only",
+                    maxlength: "Employee ID must be a minimum of 6 and maximum of 8 digits only"
                 },
                 Password: {
                     required: "Password is required",
