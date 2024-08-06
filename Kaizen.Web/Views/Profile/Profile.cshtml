@@ -60,7 +60,8 @@
                 </div>
                 <div class="form-group col-md-3">
                     @Html.LabelFor(model => model.MiddleName, "Middle Name", htmlAttributes: new { @class = "control-label" })
-                    <input type="text" asp-for="MiddleName" id="MiddleName" name="MiddleName" class="form-control txt-width" placeholder="Middle Name">
+                    @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control", type = "text", pattern = "[A-Za-z]+", title = "Please enter Valid text", placeholder = "Middle Name" } })
+                    @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
                     <span id="middleNameError" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
@@ -116,11 +117,13 @@
                     @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
                     <span class="text-danger">*</span>
                     @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email ID" } })
-                    @* @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" }) *@
-                    <span class="text-danger" id="empEmailError"></span>
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    
+                    @* <span class="text-danger" id="empEmailError"></span> *@
                 </div>
             </div>
             <br />
+            
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <button type="submit" class="btn btn-azure btn-lg" id="btnProfileUpdate" onclick="function()">Update My Profile</button>
@@ -136,183 +139,54 @@
 
 
 
-@* <script>
+
+<script>
     $(document).ready(function () {
-        // Validate form using jQuery Validation Plugin
-        $("#profieUserForm").validate({
-            errorClass: "text-danger",
-            rules: {
-                EmpID: {
-                    required: true
-                },
-                FirstName: {
-                    required: true,
-                    pattern: "[A-Za-z]+"
-                },
-                LastName: {
-                    required: true,
-                    pattern: "[A-Za-z]+"
-                },
-                Email: {
-                    required: true,
-                    email: true
-                },
+        // middle name  validation
+        // $('#MiddleName').on('input', function () {
+        //     let value = $(this).val();
+        //     if (/[^a-zA-Z]/.test(value)) {
+        //         $('#middleNameError').text('Only letters are allowed.');
+        //     } else {
+        //         $('#middleNameError').text('');
+        //     }
+        // });
+    });   
+        
+    //form submit handler, submits the value   
+    $('#profileUserForm').on('submit', function(e) {
+        e.preventDefault();        
+        if ($(this).valid()) {
+            var profilemodel = {
+                EmpID: $('#EmpID').val(),
+                FirstName: $('#FirstName').val(),
+                MiddleName: $('#MiddleName').val(),
+                LastName: $('#LastName').val(),
+                Email: $('#Email').val()
+            }
+        }       
+        $.ajax({
+            type: 'POST',
+            url: '/Profile/Profile',
+            dataType: "json",
+            data: { model: profilemodel },
+            success: function (result) {
+                var redirectErrorUrl = "/Login/ErrorPage";
+                if (result == true) {
+                    swal({
+                        text: "Profile  Updated Successfully !!",
+                        type: "success"
+                    }).then(function () { });
+                }
+                else {
+                    swal('Unable to Update Profile, Please check the Logs');                   
+                }
             },
-            messages: {
-                EmpId: {
-                    required: "Employee ID is required"
-                },
-                FirstName: {
-                    required: "Name is required",
-                    pattern: "Please enter a valid name"
-                },
-                LastName: {
-                    required: "Name is required",
-                    pattern: "Please enter a valid name"
-                },
-                Email: {
-                    required: "Email is required",
-                    email: "Please enter a valid email address"
-                },
-            },
-            submitHandler: function (form) {
-                $("#EmpID").attr("readonly", false);
-                var formData = $(form).serialize();
-                return false; // Prevent default form submission
+            error: function (error) {
+                swal('Unable to update the profile, Please check the Logs folder');
+                window.location.href = redirectErrorUrl;
             }
         });
-    });
-    </script> *@
-<script type="text/javascript">
-
-    $("#profileUserForm").validate({
-        errorClass: "text-danger",
-        rules: {
-            EmpID: {
-                required: true
-            },
-            FirstName: {
-                required: true,
-                pattern: "[A-Za-z]+"
-            },
-            LastName: {
-                required: true,
-                pattern: "[A-Za-z]+"
-            },
-            Email: {
-                required: true,
-                email: true,
-                pattern: /^([a-zA-Z0-9_\.\-\+])+@@(([a - zA - Z0 - 9\-]) +\.)+([a-zA-Z0-9]{2,4})+$/
-            }
-        },
-        messages: {
-            EmpID: {
-                required: "Employee ID is required"
-            },
-            FirstName: {
-                required: "Name is required",
-                pattern: "Please enter a valid name"
-            },
-            LastName: {
-                required: "Name is required",
-                pattern: "Please enter a valid name"
-            },
-            Email: {
-                required: "Email is required",
-                email: "Please enter a valid email address",
-                pattern: "Invalid Email!"
-            }
-        },
-        submitHandler: function (form) {
-            $("#EmpID").attr("readonly", false);
-            var formData = $(form).serialize();
-            return false; // Prevent default form submission
-        }
-    });
-    $("#profileUserForm").validate({
-        errorClass: "text-danger",
-    })
-
-    // //first name validation
-    // $('#FirstName').on('input', function () {
-    //     let value = $(this).val();
-    //     if (/[^a-zA-Z]/.test(value)) {
-    //         $('#firstNameError').text('Only letters are allowed.');
-    //     } else {
-    //         $('#firstNameError').text('');
-    //     }
-    // });    
-
-    // // middle name  validation
-    // $('#MiddleName').on('input', function () {
-    //     let value = $(this).val();
-    //     if (/[^a-zA-Z]/.test(value)) {
-    //         $('#middleNameError').text('Only letters are allowed.');
-    //     } else {
-    //         $('#middleNameError').text('');
-    //     }
-    // });
-
-    // //last name validation
-    // $('#LastName').on('input', function () {
-    //     let value = $(this).val();
-    //     if (/[^a-zA-Z]/.test(value)) {
-    //         $('#lastNameError').text('Only letters are allowed.');
-    //     } else {
-    //         $('#lastNameError').text('');
-    //     }
-    // });
-
-    // //email validation
-    // $('#Email').on('input', function () {
-    //     let value = $(this).val();
-    //     if (/^([a-zA-Z0-9_\.\-\+])+@@(([a - zA - Z0 - 9\-]) +\.)+([a-zA-Z0-9]{2,4})+$/.test(value)) {
-    //         $('#empEmailError').text('Invalid EmailAddress.');
-    //     } else {
-    //         $('#empEmailError').text('');
-    //     }
-    // });
-
-    $("#btnProfileUpdate").click(function () {
-        debugger;
-
-        var profilemodel = {
-            EmpID: $('#EmpID').val(),
-            FirstName: $('#FirstName').val(),
-            MiddleName: $('#MiddleName').val(),
-            LastName: $('#LastName').val(),
-            Email: $('#Email').val()
-        };
-
-    $(document).ready(function() {
-        $('#profileUserForm').on('submit', function(e) {
-            e.preventDefault();
-            if ($(this).valid()) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/Profile/Profile',
-                    dataType: "json",
-                    data: { model: profilemodel },
-                    success: function (result) {
-                        var redirectErrorUrl = "/Login/ErrorPage";
-                        if (result == true) {
-                            swal({
-                                text: "Profile  Updated Successfully !!",
-                                type: "success"
-                            }).then(function () {
-                            });
-                        }
-                        else {
-                            swal('Unable to Update Profile, Please check the Logs');
-                            window.location.href = redirectErrorUrl;
-                        }
-                    },
-                    error: function (error) {
-                        swal('Unable to update the profile, Please check the Logs folder');
-                        window.location.href = redirectErrorUrl;
-                    }
-                });
-            }
-        });
-    });
+            
+    });    
 </script>
