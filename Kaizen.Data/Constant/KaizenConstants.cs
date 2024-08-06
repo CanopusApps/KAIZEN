@@ -65,7 +65,7 @@ namespace Kaizen.Data.Constant
         public static string SpGetUserManager = "Sp_GetUserManager";
         public static string Sp_Fetch_KaizenDetails_ById = "Sp_Fetch_KaizenDetails_ById";
         public static string Sp_UpdateApprovalStatus = "UpdateApprovalStatus";
-
+        public static string sp_GetEmployeeDashboardDetails = "sp_GetEmployeeDashboardDetails";
         public static string Sp_Get_KaizenformReport = "Sp_Get_KaizenformReport";
         public static string Sp_Get_BlockformReport = "Sp_Get_BlockformReport";
         public static string Sp_Get_DomainformReport = "Sp_Get_DomainformReport";
@@ -90,6 +90,9 @@ namespace Kaizen.Data.Constant
 
         public static string SpGetTheme = "Sp_GetTheme";
         public static string Sp_Fetch_KaizenUpdateDetails_ById = "Sp_Fetch_KaizenUpdateDetails_ById";
+        public static string Sp_Fetch_KaizenAttachments_ById = "Sp_Fetch_KaizenAttachments_ById";
+        public static string Sp_DeleteAttachmentsByKaizenID = "Sp_DeleteAttachmentsByKaizenID";
+
     }
 
     public class ConstantValue

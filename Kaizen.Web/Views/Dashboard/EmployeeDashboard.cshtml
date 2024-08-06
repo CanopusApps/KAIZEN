@@ -1,0 +1,433 @@
+﻿@model Kaizen.Models.DashboardModel.DashboardModel;
+@inject IHttpContextAccessor Accessor
+@{
+    Layout = "SidebarLayout";
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<style>
+    #dHeader {
+        font-size: 16px !important;
+        margin-top: -10px;
+        margin-left: 7px;
+    }
+
+
+    .card-link {
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer !important;
+        display: block;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            cursor: pointer !important;
+            color: inherit;
+        }
+</style>
+</style>
+<div class="card ml-2 mr-2 bg-light ">
+    <nav>
+
+        <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+            <div class="col-lg-12 p-md-0 p-2">
+                <div class="welcome-text">
+                    <label id="dHeader">Masters -->Dashboard</label>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("EmpId")">
+
+
+
+        <div class="container-fluid border rounded p-2" style="width:100%">
+
+            <form>
+                <div class="row align-items-left mb-3">
+                    <label class="col-auto filter-header">Filter by:</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="filterOption" id="filterYear1" value="year" checked>
+                        <label class="form-check-label" for="filterYear1">Year</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="filterOption" id="filterDate1" value="date">
+                        <label class="form-check-label" for="filterDate1">Date</label>
+                    </div>
+                </div>
+            </form>
+            <form>
+                <div class="card p-3 mt-2 mb-2">
+                    <div class="row">
+                        <div class="form-group col-lg-4 dates">
+                            <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
+                            <div>
+                                <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="">
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4 dates">
+                            <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
+                            <div>
+                                <input class="form-control txt-width" id="dtenddate" type="date" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4" id="year">
+                            <label for="yearDropdown">Select Year:</label>
+                            <select id="yearDropdown" class="form-control mb-3"></select>
+                        </div>
+                        <span class="form-row p-4 container">
+                            <button type="button" class="btn col-lg-2 m-1 btn-azure" id="btn_filter" value="Filter">Filter</button>
+                            <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset" value="Reset">Reset</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="card mb-2 bg-white p-5 ">
+            <div class="row" style="width:100%">
+                <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb-2">
+                    <a href="/SubmittedKaizen/ViewKaizen" class="card-link">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <label class="card-title">Approved Kaizen</label>
+                                    <h3 id="totalApproved">0</h3>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar progress-animated bg-success" style="width: 80%"></div>
+                                    </div>
+                                    <label class="card-title">
+                                        Out of
+                                        <span class="totalKaizens">0</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="card-footer pt-0 pb-0 text-center">
+                                <div class="row">
+                                    <div class="col-3 pt-3 pb-3 border-right">
+                                        <h3 class="mb-1" id="driapproved">0</h3><span>DRI</span>
+                                    </div>
+                                    <div class="col-2 pt-3 pb-3 border-right">
+                                        <h3 class="mb-1 "id="ieapproved">0</h3><span>IE</span>
+                                    </div>
+                                    <div class="col-4 pt-3 pb-3 border-right">
+                                        <h3 class="mb-1 "id="financeapproved">0</h3><span>Finance</span>
+                                    </div>
+                                    <div class="col-3 pt-3 pb-3">
+                                        <h3 class="mb-1 "id="imageapproved">0</h3><span>image</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb-2">
+                    <a href="/SubmittedKaizen/ViewKaizen" class="card-link">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <label class="card-title">Rejected Kaizen</label>
+                                    <h3 id="totalRejected">0</h3>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar progress-animated bg-danger" style="width: 80%"></div>
+                                    </div>
+                                    <label class="card-title">
+                                        Out of
+                                        <span class="totalKaizens">0</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="card-footer pt-0 pb-0 text-center">
+                                <div class="row">
+                                    <div class="col-3 pt-3 pb-3 border-right">
+                                        <h3 class="mb-1 "id="driRejected">0</h3><span>DRI</span>
+                                    </div>
+                                    <div class="col-2 pt-3 pb-3 border-right">
+                                        <h3 class="mb-1 "id="ieRejected">0</h3><span>IE</span>
+                                    </div>
+                                    <div class="col-4 pt-3 pb-3 border-right">
+                                        <h3 class="mb-1 "id="financeRejected">0</h3><span>Finance</span>
+                                    </div>
+                                    <div class="col-3 pt-3 pb-3">
+                                        <h3 class="mb-1" id="imageRejected">0</h3><span>image</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb-2">
+                    <a href="/SubmittedKaizen/ViewKaizen" class="card-link">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <label class="card-title">Pending Kaizen</label>
+                                    <h3 id="totalPending">0</h3>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar progress-animated bg-warning" style="width: 80%"></div>
+                                    </div>
+                                    <label class="card-title">
+                                        Out of
+                                        <span class="totalKaizens">0</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="card-footer pt-0 pb-0 text-center">
+                                <div class="row">
+                                    <div class="col-3 pt-3 pb-3 border-right">
+                                        <h3 class="mb-1"id="pendingdri">0</h3><span>DRI</span>
+                                    </div>
+                                    <div class="col-2 pt-3 pb-3 border-right">
+                                        <h3 class="mb-1" id="pendingie">0</h3><span>IE</span>
+                                    </div>
+                                    <div class="col-4 pt-3 pb-3 border-right">
+                                        <h3 class="mb-1" id="pendingfinance">0</h3><span>Finance</span>
+                                    </div>
+                                    <div class="col-3 pt-3 pb-3">
+                                        <h3 class="mb-1" id="pendingimage">0</h3><span>image</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-white border chart-container mt-4 mb-4 ml-2 mr-2">
+            <div class="  card-header"> Submitted Kaizen Chart </div>
+            <div class="card-body">
+
+                <div class="card-body col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 mb-4">
+                            <canvas id="myBarChart" style="height:150%"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+</div>
+ <script>
+    $(document).ready(function () {
+        // Function to toggle fields based on filter option selection
+        function toggleFields() {
+            if ($('#filterYear1').is(':checked')) {
+                $('#year').show();
+                $('.dates').hide();
+            } else if ($('#filterDate1').is(':checked')) {
+                $('#year').hide();
+                $('.dates').show();
+            }
+        }
+
+        // Call toggleFields on page load
+        toggleFields();
+
+        // Bind toggleFields to the change event of the radio buttons
+        $('input[name="filterOption"]').change(function () {
+            toggleFields();
+        });
+
+        // Populate Year Dropdown
+        const currentYear = new Date().getFullYear();
+        const endYear = currentYear - 4;
+        const yearDropdown = $("#yearDropdown");
+
+        for (let year = currentYear; year >= endYear; year--) {
+            yearDropdown.append($('<option>', {
+                value: year,
+                text: year
+            }));
+        }
+
+        yearDropdown.val(currentYear);
+
+        // Event handler for filter button click
+        $('#btn_filter').click(function () {
+            var Userid = $('#loginIDuser').val();
+            debugger;
+
+            let filterData = {};
+            if ($('#filterYear1').is(':checked')) {
+                filterData.startDate = $('#yearDropdown').val();
+                filterData.endDate = $('#yearDropdown').val();
+            } else if ($('#filterDate1').is(':checked')) {
+                filterData.startDate = $('#dtstartdate').val();
+                filterData.endDate = $('#dtenddate').val();
+            }
+
+            $.ajax({
+                url: '@Url.Action("FilterEmployeeDashboardcount", "Dashboard")',
+                type: 'GET',
+                data: filterData,
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+
+                success: function (result) {
+                    let totalkaizen = Array(12).fill(0);
+                    let totalapproved = Array(12).fill(0);
+                    let totalpending = Array(12).fill(0);
+                    let totalrejected = Array(12).fill(0);
+                    const monthLabels = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+                    $('.totalKaizens').text(0);
+                    $('#totalApproved').text(0);
+                    $('#totalRejected').text(0);
+                    $('#totalPending').text(0);
+
+                    $('#driapproved').text(0);
+                    $('#ieapproved').text(0);
+                    $('#financeapproved').text(0);
+                    $('#imageapproved').text(0);
+
+                    $('#driRejected').text(0);
+                    $('#ieRejected').text(0);
+                    $('#financeRejected').text(0);
+                    $('#imageRejected').text(0);
+
+
+                    $('#pendingdri').text(0);
+                    $('#pendingie').text(0);
+                    $('#pendingfinance').text(0);
+                    $('#pendingimage').text(0);
+                    for (let i = 0; i < result.employeedashboardList.length; i++) {
+                        let item = result.employeedashboardList[i];
+                        if (Userid === item.empId) {
+                            $('.totalKaizens').text(item.kaizenCount||0);
+                            $('#totalApproved').text(item.totalApproved || 0);
+                            $('#totalRejected').text(item.totalRejected || 0);
+                            $('#totalPending').text(item.totalPending || 0);
+
+                            $('#driapproved').text(item.managerApproved || 0);
+                            $('#ieapproved').text(item.ieApproved || 0);
+                            $('#financeapproved').text(item.financeApproved || 0);
+                            $('#imageapproved').text(item.imageApproved || 0);
+
+                            $('#driRejected').text(item.managerRejected || 0);
+                            $('#ieRejected').text(item.ieRejecte || 0);
+                            $('#financeRejected').text(item.financeRejected || 0);
+                            $('#imageRejected').text(item.imageRejected || 0);
+
+                            $('#pendingdri').text(item.managerPending || 0);
+                            $('#pendingie').text(item.iePending || 0);
+                            $('#pendingfinance').text(item.financePending || 0);
+                            $('#pendingimage').text(item.imagePending || 0);
+                        }
+                    }
+                    for (let i = 0; i < result.monthBasedEmployeedashboardList.length; i++) {
+                        let item = result.monthBasedEmployeedashboardList[i];
+                        if (Userid === item.empId) {
+                            var monthYear = item.monthYear.split('-');
+                            var month = monthYear[0].toLowerCase().substr(0, 3);
+                            const monthIndex = monthLabels.indexOf(month);
+                            if (monthIndex !== -1) {
+                                totalkaizen[monthIndex] = item.kaizenCount;
+                                totalapproved[monthIndex] = item.totalApproved;
+                                totalpending[monthIndex] = item.totalPending;
+                                totalrejected[monthIndex] = item.totalRejected;
+                            }
+                        }
+                    }
+                    barChart.data.datasets[0].data = totalkaizen;
+                    barChart.data.datasets[1].data = totalapproved;
+                    barChart.data.datasets[2].data = totalrejected;
+                    barChart.data.datasets[3].data = totalpending;
+                    barChart.update();
+                   
+                },
+                error: function (error) {
+                    // Handle any errors that occurred during the request
+                },
+                complete: function () {
+                    $('#loader-wrapper').hide();
+                }
+            });
+        });
+
+        // Automatically trigger the filter button click on page load
+        $('#btn_filter').click();
+
+        // Initialize Bar Chart
+        var ctxBar = document.getElementById('myBarChart').getContext('2d');
+        var barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [
+                    {
+                        label: 'Total',
+                        data: Array(12).fill(0),
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Approved',
+                        data: Array(12).fill(0),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Rejected',
+                        data: Array(12).fill(0),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Pending',
+                        data: Array(12).fill(0),
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Kaizen based on months'
+                    },
+                    datalabels: {
+                        display: true,
+                        color: 'black',
+                        align: 'end',
+                        formatter: (value, context) => {
+                            if (value === 0) {
+                                return null;
+                            }
+                            return value;
+                        },
+                        padding: {
+                            top: 10
+                        }
+                    },
+                    offset: 10
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+    });
+
+ </script>

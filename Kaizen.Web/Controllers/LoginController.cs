@@ -112,6 +112,10 @@ namespace Kaizen.Web.Controllers
                             {
                                 Response.Redirect("Dashboard/Dashboardtab1");
                             }
+                            else if(Userrole == "EMPLOYEE")
+                            {
+                                Response.Redirect("Dashboard/EmployeeDashboard");
+                            }
                             else
                             {
                                 Response.Redirect("Dashboard/Dashboardothers");

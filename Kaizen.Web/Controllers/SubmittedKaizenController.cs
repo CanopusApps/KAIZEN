@@ -87,8 +87,10 @@ namespace Kaizen.Web.Controllers
         }
         public List<ApprovalStatusModel> ApprovalStatusList()
         {
+            string UserType;
             List<ApprovalStatusModel> list = new List<ApprovalStatusModel>();
-            list = _submittedKaizenWorker.GetApprovalStatus();
+            UserType = conAccessor.HttpContext.Session.GetString("Userrole");
+            list = _submittedKaizenWorker.GetApprovalStatus(UserType);
             return list;
         }
         public IActionResult DeleteKaizen(int KaizenId)

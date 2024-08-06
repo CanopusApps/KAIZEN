@@ -31,6 +31,9 @@ namespace Kaizen.Business.Interface
 
         public List<OtherDashboardmodel> OtherMonthbaseddashboard(DashboardModel model);
 
+        public List<EmployeeDashboardModel> GetEmployeedashboardcount(DashboardModel model);
+        public List<EmployeeDashboardModel> GetmonthbasedEmployeedashboardcount(DashboardModel model);
+
 
     }
 }

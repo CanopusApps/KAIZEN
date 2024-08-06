@@ -174,5 +174,39 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+
+        public DataSet GetEmployeeDashboardCount(DashboardModel model)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            try
+            {
+                com = new SqlCommand();
+
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                string startDate = model.StartDate;
+                string endDate = model.EndDate;
+
+                if (!string.IsNullOrEmpty(startDate) && startDate.Length == 4 && int.TryParse(startDate, out _))
+                {
+                    startDate = $"01-01-{startDate}";
+                }
+                if (!string.IsNullOrEmpty(endDate) && endDate.Length == 4 && int.TryParse(endDate, out _))
+                {
+                    endDate = $"31-12-{endDate}";
+                }
+                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? (object)DBNull.Value : DateTime.Parse(startDate));
+                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? (object)DBNull.Value : DateTime.Parse(endDate));
+                com.CommandText = StoredProcedures.sp_GetEmployeeDashboardDetails;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
     }
 }

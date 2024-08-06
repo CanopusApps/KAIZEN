@@ -152,9 +152,15 @@
                
                 <div class="list-group list-group-flush my-3">
                    @*  <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a> *@
-                    @if (UserType == "MANAGER" || UserType == "EMPLOYEE" || UserType == "IMAGE APPROVER")
+                    @if (UserType == "MANAGER" || UserType == "IMAGE APPROVER")
                     {
                         <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
+                        <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">NewKaizen</a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen</a>
+                    }
+                    @if ( UserType == "EMPLOYEE")
+                    {
+                        <a href="/Dashboard/EmployeeDashboard" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
                         <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">NewKaizen</a>
                         <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen</a>
                     }

@@ -166,7 +166,8 @@ namespace Kaizen.Models.NewKaizen
 
 	public class Attachmentsimg
 	{
-		public string kaizenId { get; set; } = "";
+        public string AttachmentId { get; set; } = "";
+        public string kaizenId { get; set; } = "";
 		public string FileName { get; set; } = "";
         public string CreatedBy { get; set; } = "";
         public string CreatedDate { get; set; } = "";
@@ -174,6 +175,9 @@ namespace Kaizen.Models.NewKaizen
         public string AttachmentType { get; set; } = "";
 
         public string filePath { get; set; } = "";
+
+        //public string ModifiedBy { get; set; } = "";
+        //public string ModifiedDate { get; set; } = "";
     }
 
 

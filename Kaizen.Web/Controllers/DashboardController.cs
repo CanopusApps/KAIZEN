@@ -116,7 +116,13 @@ namespace Kaizen.Web.Controllers
             
             return deptList;
         }
+        public IActionResult EmployeeDashboard()
+        {
+           
 
+
+            return View();
+        }
         public IActionResult Dashboardothers()
         {
             DashboardModel DashboardModel = new DashboardModel();
@@ -139,6 +145,19 @@ namespace Kaizen.Web.Controllers
             };
             model.OtherdashboardList = _dashboardworker.Otherdashboard(model);
             model.MonthBasedOtherdashboardList = _dashboardworker.OtherMonthbaseddashboard(model);
+            return Ok(model);
+        }
+        public IActionResult FilterEmployeeDashboardcount(string? StartDate, string? EndDate)
+        {
+
+            DashboardModel model = new DashboardModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+              
+            };
+            model.EmployeedashboardList=_dashboardworker.GetEmployeedashboardcount(model);
+            model.MonthBasedEmployeedashboardList = _dashboardworker.GetmonthbasedEmployeedashboardcount(model);
             return Ok(model);
         }
 
