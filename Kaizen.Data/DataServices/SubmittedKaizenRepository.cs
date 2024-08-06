@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
 using System.Data.OleDb;
-
 namespace Kaizen.Data.DataServices
 {
     public class SubmittedKaizenRepository : ISubmittedKaizenRepository
@@ -31,7 +30,7 @@ namespace Kaizen.Data.DataServices
         private static SqlConnection con = null;
         private static SqlCommand com = null;
 
-        public DataSet GetApprovalStatus()
+        public DataSet GetApprovalStatus(string UserType)
         {
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
@@ -41,6 +40,7 @@ namespace Kaizen.Data.DataServices
 
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@UserType", UserType);
                 com.CommandText = StoredProcedures.Sp_Get_Approval_Status;
 
                 SqlDataAdapter da = new SqlDataAdapter(com);

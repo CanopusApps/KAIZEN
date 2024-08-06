@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,9 @@ namespace Kaizen.Data.DataServices.Interfaces
         public bool updateKaizensatusData(ApprovalRequest approvalRequest);
         public DataSet GetKaizenDetailsById(string KaizenId);
         public DataSet GetTeamDetailsUpdateById(string KaizenId);
+        public DataTable GetImageListByIdfordelete(string KaizenId ,string AttachmentId);
+
+        public void RemoveAttachment(Attachmentsimg attachment, string KaizenId);
 
     }
 }

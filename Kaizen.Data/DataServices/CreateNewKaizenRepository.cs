@@ -336,26 +336,26 @@ namespace Kaizen.Data.DataServices
                 //    }
                 //}
 
-                //DataTable attachmentDataTable = new DataTable();
-                //attachmentDataTable.Columns.Add("KaizenId", typeof(Guid));
-                //attachmentDataTable.Columns.Add("FileName", typeof(string));
-                //attachmentDataTable.Columns.Add("Createdby", typeof(Guid));
+                DataTable attachmentDataTable = new DataTable();
+                attachmentDataTable.Columns.Add("KaizenId", typeof(Guid));
+                attachmentDataTable.Columns.Add("FileName", typeof(string));
+                attachmentDataTable.Columns.Add("Createdby", typeof(Guid));
 
 
-                //if (model.AttachmentsList != null)
-                //{
-                //    foreach (Attachmentsimg attachmentsimg in model.AttachmentsList)
-                //    {
-                //        attachmentDataTable.Rows.Add(attachmentsimg.kaizenId, attachmentsimg.FileName, attachmentsimg.CreatedBy);
-                //    }
-                //}
+                if (model.AttachmentsList != null)
+                {
+                    foreach (Attachmentsimg attachmentsimg in model.AttachmentsList)
+                    {
+                        attachmentDataTable.Rows.Add(attachmentsimg.kaizenId, attachmentsimg.FileName, attachmentsimg.CreatedBy);
+                    }
+                }
                 com = new SqlCommand();
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@KaizenTeam", memberDataTable);
                 //com.Parameters.AddWithValue("@KaizenScopeDetails", deploymentDataTable);
-                //com.Parameters.AddWithValue("@AttachmentDetails", attachmentDataTable);
+                com.Parameters.AddWithValue("@AttachmentDetails", attachmentDataTable);
 
                 com.Parameters.AddWithValue("@ID", model.Id);
                 com.Parameters.AddWithValue("@KaizenId", model.KaizenId);
@@ -446,25 +446,25 @@ namespace Kaizen.Data.DataServices
 
                     }
                 }
-                //DataTable attachmentDataTable = new DataTable();
-                //attachmentDataTable.Columns.Add("KaizenId", typeof(Guid));
-                //attachmentDataTable.Columns.Add("FileName", typeof(string));
-                //attachmentDataTable.Columns.Add("Createdby", typeof(Guid));
+                DataTable attachmentDataTable = new DataTable();
+                attachmentDataTable.Columns.Add("KaizenId", typeof(Guid));
+                attachmentDataTable.Columns.Add("FileName", typeof(string));
+                attachmentDataTable.Columns.Add("Createdby", typeof(Guid));
 
 
-                //if (model.AttachmentsList != null)
-                //{
-                //    foreach (Attachmentsimg attachmentsimg in model.AttachmentsList)
-                //    {
-                //        attachmentDataTable.Rows.Add(attachmentsimg.kaizenId, attachmentsimg.FileName, attachmentsimg.CreatedBy);
-                //    }
-                //}
+                if (model.AttachmentsList != null)
+                {
+                    foreach (Attachmentsimg attachmentsimg in model.AttachmentsList)
+                    {
+                        attachmentDataTable.Rows.Add(attachmentsimg.kaizenId, attachmentsimg.FileName, attachmentsimg.CreatedBy);
+                    }
+                }
                 com = new SqlCommand();
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@KaizenTeam", memberDataTable);
-                //com.Parameters.AddWithValue("@AttachmentDetails", attachmentDataTable);
+                com.Parameters.AddWithValue("@AttachmentDetails", attachmentDataTable);
 
                 com.Parameters.AddWithValue("@ID", model.Id);
                 com.Parameters.AddWithValue("@KaizenId", model.KaizenId);
@@ -554,7 +554,28 @@ namespace Kaizen.Data.DataServices
             return ds;
         }
 
-       public DataSet GetTeamDetailsUpdateById(string KaizenId)
+         public DataTable GetImageListByIdfordelete(string KaizenId, string Attachmentid)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@KaizenId", KaizenId);
+                com.Parameters.AddWithValue("@AttachID", Attachmentid);
+                com.CommandText = StoredProcedures.Sp_Fetch_KaizenAttachments_ById;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+
+        public DataSet GetTeamDetailsUpdateById(string KaizenId)
         {
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
@@ -600,6 +621,26 @@ namespace Kaizen.Data.DataServices
             }
             return status;
             
+        }
+        public void RemoveAttachment(Attachmentsimg attachment, string KaizenId)
+        {
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@kaizenID", KaizenId);
+                com.Parameters.AddWithValue("@FileName", attachment.FileName);
+                com.CommandText = StoredProcedures.Sp_DeleteAttachmentsByKaizenID;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ;
         }
     }
 }
