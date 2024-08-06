@@ -32,7 +32,7 @@ namespace Kaizen.Web.Controllers
             this.conAccessor = conAccessor;
         }
 
-        public IActionResult ViewKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status, string? Shortlisted)
+        public IActionResult ViewKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
         {
             SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
             try
@@ -46,7 +46,6 @@ namespace Kaizen.Web.Controllers
                     Department=Department,
                     KaizenTheme=KaizenTheme,
                     Status=Status,
-                    Shortlisted=Shortlisted,
                     role= conAccessor.HttpContext.Session.GetString("Userrole"),
                     UserId = conAccessor.HttpContext.Session.GetString("UserID")
                 };
@@ -58,7 +57,7 @@ namespace Kaizen.Web.Controllers
             }
             return View(viewModel);
         }
-        public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status, string? Shortlisted)
+        public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
         {
             KaizenListModel model = new KaizenListModel()
             {
@@ -68,7 +67,6 @@ namespace Kaizen.Web.Controllers
                 Department = Department,
                 KaizenTheme = KaizenTheme,
                 Status = Status,
-                Shortlisted = Shortlisted,
                 role = conAccessor.HttpContext.Session.GetString("Userrole"),
                 UserId = conAccessor.HttpContext.Session.GetString("UserID")
             };
@@ -109,7 +107,7 @@ namespace Kaizen.Web.Controllers
             }
             return Ok(deleteStatus);
         }
-        public IActionResult FetchKaizenDetails_by_CreatedBy(string? UserId,string? role )
+        public IActionResult FetchKaizenDetails_by_CreatedBy(string? UserId,string? role,string? LoginRole)
         {
             KaizenListModel model = new KaizenListModel()
             {
@@ -117,6 +115,11 @@ namespace Kaizen.Web.Controllers
                 UserId = UserId
             };
             var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+            if (LoginRole == "ADMIN")
+            {
+                // Exclude items with status 0
+                SubmittedKaizenList = SubmittedKaizenList.Where(k => k.ApprovalStatus != "Saved").ToList();
+            }
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
     }

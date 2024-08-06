@@ -15,7 +15,6 @@ namespace Kaizen.Models.AdminModel
         public string HorozantalDeployment { get; set; } = "";
         public string IEApprovedDept { get; set; } = "";
         public string FinnanceDeptAppr { get; set; } = "";
-        public string Shortlisted { get; set; } = "";
         public string ApprovalStatus { get; set; } = "";
         public string CreatedBy { get; set; } = "";
         public string CreatedDate { get; set; } = "";

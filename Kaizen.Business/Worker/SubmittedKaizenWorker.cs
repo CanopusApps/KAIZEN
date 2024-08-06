@@ -57,7 +57,6 @@ namespace Kaizen.Business.Worker
                         HorozantalDeployment = dr["HorozantalDeployment"].ToString(),
                         IEApprovedDept = dr["IEApprovedDept"].ToString(),
                         FinnanceDeptAppr = dr["FinnanceDeptAppr"].ToString(),
-                        Shortlisted = dr["Shortlisted"].ToString(),
                         ApprovalStatus = dr["ApprovalStatus"].ToString(),
                         CreatedBy = dr["CreatedBy"].ToString(),
                         CreatedDate = dr["CreatedDate"].ToString(),

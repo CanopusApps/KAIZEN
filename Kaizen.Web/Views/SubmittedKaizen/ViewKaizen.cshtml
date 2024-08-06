@@ -21,14 +21,6 @@
         <div class="card p-3 mt-2 mb-2 cardsize">
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="datePicker">Start Date</label><br />
-                    <input type="date" id="dtstartdate" name="datePicker">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="datePicker">End Date</label><br />
-                    <input type="date" id="dtenddate" name="datePicker">
-                </div>
-                <div class="form-group col-md-4">
                     <label for="inputDomain">Domain</label>
                     <select id="inputDomain" class="form-control txt-width">
                         <option selected value="0">--Select Domain--</option>
@@ -41,8 +33,6 @@
                         }
                     </select>
                 </div>
-            </div>
-            <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputDepartment">Department</label>
                     <select id="inputDepartment" class="form-control txt-width">
@@ -53,25 +43,27 @@
                     <label for="inputTheme">Kaizen Theme</label>
                     <input id="inputTheme" class="form-control txt-width">
                 </div>
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputStatus">Status</label>
                     <select id="inputStatus" class="form-control txt-width">
                         <option selected value="0">--Select Status--</option>
                     </select>
                 </div>
+                <div class="form-group col-md-4">
+                    <label for="datePicker">Start Date</label><br />
+                    <input type="date" id="dtstartdate" name="datePicker">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="datePicker">End Date</label><br />
+                    <input type="date" id="dtenddate" name="datePicker">
+                </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="inputShortlist">Shortlisted</label>
-                    <select id="inputShortlist" class="form-control txt-width">
-                        <option selected value="0">--Select Shortlisted--</option>
-                        <option value="Y">Yes</option>
-                        <option value="N">No</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-8">
-                    <input type="button" id="btn_filter" class="btn btn-block-custom btn-azure" style="width:116px;margin-left:4px;margin-top:21px;" value="Filter" />
-                    <button type="button" id="btnreset" class="btn btn-block-custom btn-warning" style="width:116px;margin-left:4px;margin-top:21px;">Reset</button>
+                    <input type="button" id="btn_filter" class="btn btn-block-custom btn-azure" style="width:116px;margin-left:0px;" value="Filter" />
+                    <button type="button" id="btnreset" class="btn btn-block-custom btn-warning" style="width:116px;margin-left:0px;">Reset</button>
                 </div>
             </div>
         </div>
@@ -161,7 +153,6 @@
             $('#dtenddate').val('');
             $('#inputTheme').val('');
             $('#inputStatus').prop('selectedIndex', 0); 
-            $('#inputShortlist').prop('selectedIndex', 0);
             $('#inputDomain').prop('selectedIndex', 0);
             var dropdown = $('#inputDepartment');
             dropdown.empty();
@@ -185,7 +176,6 @@
         var Department = $('#inputDepartment option:selected').text();
         var KaizenTheme = $('#inputTheme').val();
         var Status = $('#inputStatus option:selected').text();
-        var Shortlisted = $('#inputShortlist option:selected').text();
         if ((StartDate === '' && EndDate === '') || StartDate < EndDate) {
             $.ajax({
                 url: '@Url.Action("ViewFilterKaizen", "SubmittedKaizen")',
@@ -196,8 +186,7 @@
                     Domain: Domain,
                     Department: Department,
                     KaizenTheme: KaizenTheme,
-                    Status: Status,
-                    Shortlisted: Shortlisted
+                    Status: Status
                 },
                 beforeSend: function () {
                     $('#loader-wrapper').show();

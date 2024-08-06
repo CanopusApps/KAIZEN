@@ -12,12 +12,11 @@
     <thead>
         <tr style="text-align:center">
             <th id="KaizenTheme" width="10%">Kaizen Theme</th>
-            <th id="TeamMembers" width="10%">Team Members</th>
+            <th id="TeamMembers" width="15%">Team Members</th>
             <th id="HORIZENTALDEP" width="10%">Horizontal Deployment</th>
-            <th id="IEAPPROVAL" width="6%">IE Dept Approval</th>
             <th id="FINNANCEAPPROVAL" width="10%">Finance Dept Approval</th>
-            <th id="SHORTLISTED" width="10%">Shortlisted</th>
-            <th id="STATUS" width="14%">Status </th>
+            <th id="IEAPPROVAL" width="10%">IE Dept Approval</th>
+            <th id="STATUS" width="15%">Status </th>
             <th id="POSTEDBY" width="10%">Posted by</th>
             <th id="POSTEDON" width="10%">Posted on</th>
             <th id="Action" width="10%">Action</th>
@@ -30,14 +29,13 @@
             {
                 <tr data-kaizenid="@User.KaizenId">
                     <td width="10%">@User.KaizenTheme</td>
-                    <td width="10%">
+                    <td width="15%">
                         @Html.Raw(User.TeamName.Replace(",", "<br />"))
                     </td>
                     <td width="10%">@User.HorozantalDeployment</td>
-                    <td width="6%">@User.IEApprovedDept</td>
                     <td width="10%">@User.FinnanceDeptAppr</td>
-                    <td width="10%">@User.Shortlisted</td>
-                    <td width="14%">@User.ApprovalStatus</td>
+                    <td width="10%">@User.IEApprovedDept</td>
+                    <td width="15%">@User.ApprovalStatus</td>
                     <td width="10%">
                         @if (UserType == "ADMIN")
                         {
@@ -50,7 +48,7 @@
                     </td>
                     <td width="10%">@User.CreatedDate</td>
                     <td class="text-center" width="10%">
-                        @if (User.AStatus < 4)
+                        @if (User.AStatus < 4 && UserType != "ADMIN")
                         {
                             <a class="btn btn-primary btn-sm edituser" id="edit">
                                 <i class="edit fas fa-solid fa-pencil"></i>
@@ -157,10 +155,11 @@
             e.preventDefault();
             var user = $(this).data('createdby');
             var role = $(this).data('role');
+            var LoginRole = '@UserType';
             $.ajax({
                 url: '/SubmittedKaizen/FetchKaizenDetails_by_CreatedBy',
                 type: 'GET',
-                data: { UserId: user, role: role },
+                data: { UserId: user, role: role, LoginRole: LoginRole },
                 success: function (result) {
                     var rows = [];
                     $(result).find('tbody tr').each(function () {
@@ -172,7 +171,6 @@
                             ieapproveddept: $row.data('ieapproveddept'),
                             domain: $row.data('domain'),
                             finnancedeptappr: $row.data('finnancedeptappr'),
-                            shortlisted: $row.data('shortlisted'),
                             approvalstatus: $row.data('approvalstatus'),
                             createdby: $row.data('createdby'),
                             createddate: $row.data('createddate')

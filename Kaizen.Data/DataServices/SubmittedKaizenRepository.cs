@@ -69,7 +69,6 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
                 com.Parameters.AddWithValue("@KaizenTheme", string.IsNullOrEmpty(model.KaizenTheme) ? " " : model.KaizenTheme);
                 com.Parameters.AddWithValue("@Status", model.Status == "--Select Status--" ? "" : (string.IsNullOrEmpty(model.Status) ? " " : model.Status));
-                com.Parameters.AddWithValue("@Shortlisted", model.Shortlisted == "--Select Shortlisted--" ? "" : (string.IsNullOrEmpty(model.Shortlisted) ? " " : model.Shortlisted));
                 com.Parameters.AddWithValue("@Role", string.IsNullOrEmpty(model.role) ? " " : model.role);
                 com.Parameters.AddWithValue("@UserId", string.IsNullOrEmpty(model.UserId) ? " " : model.UserId);
 
