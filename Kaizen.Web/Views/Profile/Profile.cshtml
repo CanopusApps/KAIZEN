@@ -126,7 +126,7 @@
             
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <button type="submit" class="btn btn-azure btn-lg" id="btnProfileUpdate" onlick="function()">Update My Profile</button>
+                    <button type="submit" class="btn btn-azure btn-lg" id="btnProfileUpdate" onclick="function()">Update My Profile</button>
                 </div>
             </div>
         }
@@ -140,22 +140,22 @@
 
 
 
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         // middle name  validation
-        $('#MiddleName').on('input', function () {
-            let value = $(this).val();
-            if (/[^a-zA-Z]/.test(value)) {
-                $('#middleNameError').text('Only letters are allowed.');
-            } else {
-                $('#middleNameError').text('');
-            }
-        });
+        // $('#MiddleName').on('input', function () {
+        //     let value = $(this).val();
+        //     if (/[^a-zA-Z]/.test(value)) {
+        //         $('#middleNameError').text('Only letters are allowed.');
+        //     } else {
+        //         $('#middleNameError').text('');
+        //     }
+        // });
     });   
         
     //form submit handler, submits the value   
     $('#profileUserForm').on('submit', function(e) {
-        e.preventDefault();
+        e.preventDefault();        
         if ($(this).valid()) {
             var profilemodel = {
                 EmpID: $('#EmpID').val(),
@@ -164,7 +164,7 @@
                 LastName: $('#LastName').val(),
                 Email: $('#Email').val()
             }
-        }
+        }       
         $.ajax({
             type: 'POST',
             url: '/Profile/Profile',
@@ -179,8 +179,7 @@
                     }).then(function () { });
                 }
                 else {
-                    swal('Unable to Update Profile, Please check the Logs');
-                    window.location.href = redirectErrorUrl;
+                    swal('Unable to Update Profile, Please check the Logs');                   
                 }
             },
             error: function (error) {
@@ -189,6 +188,5 @@
             }
         });
             
-    });
-    
+    });    
 </script>
