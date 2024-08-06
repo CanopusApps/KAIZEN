@@ -270,12 +270,7 @@ namespace Kaizen.Web.Controllers
             string jsonDepartList = Request.Form["DeploymentList"].ToString();
             // Deserialize JSON data
             var memberList = JsonConvert.DeserializeObject<List<TeamMemberDetails>>(jsonMemberList);
-            if (memberList[0].EmpId=="")
-
-            {
-                memberList = _createNewKaizen.GetTeamDetailsUpdateById(model.KaizenId);
-            }
-            var deploymentList = JsonConvert.DeserializeObject<List<DeploymentDetails>>(jsonDepartList);
+         var deploymentList = JsonConvert.DeserializeObject<List<DeploymentDetails>>(jsonDepartList);
             if (model.AttachmentBefore != null)
             {
                 model.AttachmentPaths.AttachmentBeforePath = SaveUploadedFile(model.AttachmentBefore, nameof(model.AttachmentBefore));
@@ -351,11 +346,11 @@ namespace Kaizen.Web.Controllers
             string jsonDepartList = Request.Form["DeploymentList"].ToString();
             // Deserialize JSON data
             var memberList = JsonConvert.DeserializeObject<List<TeamMemberDetails>>(jsonMemberList);
-            if (memberList[0].EmpId == "")
+            //if (memberList[0].EmpId == "")
 
-            {
-                memberList = _createNewKaizen.GetTeamDetailsUpdateById(model.KaizenId);
-            }
+            //{
+            //    memberList = _createNewKaizen.GetTeamDetailsUpdateById(model.KaizenId);
+            //}
 
             var deploymentList = JsonConvert.DeserializeObject<List<DeploymentDetails>>(jsonDepartList);
             if (model.AttachmentBefore != null)
