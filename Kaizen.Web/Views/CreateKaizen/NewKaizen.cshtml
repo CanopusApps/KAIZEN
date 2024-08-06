@@ -293,12 +293,12 @@
                                                     <div class="card-body">
 
                                                         <div class="row">
-                                                                <div class="col-sm-6" id="Srno">
+                                                                @* <div class="col-sm-6" id="Srno">
                                                                 <div class="form-group">
                                                                     <label>Sr.No<span class="mandatory">*</span></label>
                                                                         <input type="text" name="versionNo" id="versionNo" class="form-control mb10" value="01/ @Model.OriginatedDate" readonly>
                                                                    <input type="text" name="Id" id="kaizenIDD" class="form-control mb10" hidden >
-                                                                   @*  <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("UserID")">  *@
+                                                                   @*  <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("UserID")">  
                                                                     <input type="hidden" id="Userrole" data-role="@Accessor.HttpContext.Session.GetString("Userrole")">
                                                                         <span id="versionerror" class="text-danger error-message"></span>
                                                                 </div>
@@ -309,11 +309,11 @@
                                                                         <input type="text" required="" name="refNo" id="refNo" class="form-control" readonly value="TEPL-MG-@Model.KaizenRefNo" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">IM/PP/05</p>' title="KAIZEN Ref.No [Example]">
                                                                         <span id="kaizenrefNoererror" class="text-danger error-message"></span>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
+                                                                </div> *@
+                                                                <div class="col-sm-6" id="DocumeNo">
                                                                     <div class="form-group">
                                                                         <label>Doc No <span class="mandatory">*</span></label>
-                                                                        <input type="text" name="docNo" id="docNo" class="form-control mb10" value="@Model.DocNo" @* readonly *@>
+                                                                        <input type="text" name="docNo" id="docNo" class="form-control mb10" value="@Model.DocNo" readonly >
                                                                         <span id="docerror" class="text-danger error-message"></span>
                                                                     </div>
                                                                 </div>
@@ -1310,7 +1310,7 @@
 
         var userRole = $('#Userrole').data('role');
      
-        function handleButtonClick(enumValue, RejectionReason='') {
+        function handleButtonClick(enumValue, RejectionReason='',status) {
             $.ajax({
                 url: '/CreateKaizen/getstatus',
                 type: 'POST',
@@ -1322,7 +1322,7 @@
                 }),
 
                 success: function (response) {
-                    swal("Status Updated").then(function () {
+                    swal("Kaizen " +status+" Sucessfully").then(function () {
                         // window.location.reload();
                         window.location = "/SubmittedKaizen/ViewKaizen"
                     });
@@ -1336,6 +1336,7 @@
         $('#rejectButton').click(function () {
             let enumValue;
             var RejectionReason = $('#RejectionReason').val();
+            var status = "Rejected";
             
             switch (userRole) {
                 case 'IE DEPT':
@@ -1354,11 +1355,12 @@
                     enumValue = 10; // Pending or some default value
                     break;
             }
-            handleButtonClick(enumValue, RejectionReason);
+            handleButtonClick(enumValue, RejectionReason, status);
         });
 
         $('#ApprovButton').click(function () {
             let enumValue;
+            var status = "Approved";
             switch (userRole) {
                 case 'IE DEPT':
                     enumValue = 6; // IEApproved
@@ -1376,7 +1378,7 @@
                     enumValue = 0; // Saved or some default value
                     break;
             }
-            handleButtonClick(enumValue);
+            handleButtonClick(enumValue,"",status);
         });
 
         $('#Aprrovalbtnhold').click(function () {
@@ -1419,6 +1421,7 @@
             $('#backbtn').hide();
             $('#Srno').hide();
             $('#kaizenrefNo').hide();
+            // $('#DocumeNo').hide();
 
 
             switch (userRole) {
@@ -1764,9 +1767,9 @@
         var isValid = true;
         var firstInvalidField = null; 
 
-        $("#docNo").css("border-color", "red");
-        $("#docerror").text("");
-        $(".error-message").text("");
+        // $("#docNo").css("border-color", "red");
+        // $("#docerror").text("");
+        // $(".error-message").text("");
 
         $("#versionNo").css("border-color", "red");
         $("#versionerror").text("");
@@ -1842,7 +1845,7 @@
         var plantName = $("#teplplant").val();
         var problemName = $("#probstmt").val();
         var counterMeasuremName = $("#countmeasur").val();
-        var documentNo = $("#docNo").val();
+        // var documentNo = $("#docNo").val();
         var versionNo = $("#versionNo").val();
         var codeCentre = $("#codeCentre").val();
         var refNo = $("#refNo").val();
@@ -1865,12 +1868,12 @@
                 addedTeamMembers.push(memberDetails);
             }
         });
-        if (documentNo === "") {
-            $("#docNo").css("border-color", "red");
-            $("#docerror").text("Doc No is required.");
-            if (!firstInvalidField) firstInvalidField = "#docNo";
-            isValid = false;
-        }
+        // if (documentNo === "") {
+        //     $("#docNo").css("border-color", "red");
+        //     $("#docerror").text("Doc No is required.");
+        //     if (!firstInvalidField) firstInvalidField = "#docNo";
+        //     isValid = false;
+        // }
         if (versionNo === "") {
             $("#versionNo").css("border-color", "red");
             $("#versionerror").text("Version No is required.");
@@ -2054,6 +2057,11 @@
             // var memberListJson = JSON.stringify(addedTeamMembers);
             // var deploymentListJson = JSON.stringify(addedDeployment);
 
+            var costValue = $('#cost1').val();
+            var financeApprovedBy = $('#approvedbyAccount').val();
+            if (costValue.length < 6) {
+                financeApprovedBy = null;
+            }
 
             // Create FormData object
             var formData = new FormData();
@@ -2085,7 +2093,8 @@
             formData.append('Others', $("#Others").val());
             formData.append('TotalSavings', $("#TotalSavings").val());
             formData.append('ApprovedByIE', $("#approvedbyIe").val());
-            formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+            // formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+            formData.append('FinanceApprovedBy', financeApprovedBy);
             formData.append('Rootcause', $("#rootcauseProblem").val());
             formData.append('MemberList', JSON.stringify(addedTeamMembers));
             formData.append('DeploymentList', JSON.stringify(addedDeployment));
@@ -2191,6 +2200,13 @@
                addedDeployment.push(deploymentDetails);
            }
        });
+
+            var costValue = $('#cost1').val();
+            var financeApprovedBy = $('#approvedbyAccount').val();
+            if (costValue.length < 6) {
+                financeApprovedBy = null;
+            }
+
        // Create FormData object
        var formData = new FormData();
        // Append text and file fields to formData
@@ -2216,7 +2232,8 @@
        formData.append('Others', $("#Others").val());
        formData.append('TotalSavings', $("#TotalSavings").val());
        formData.append('ApprovedByIE', $("#approvedbyIe").val());
-       formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+       // formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+       formData.append('FinanceApprovedBy', financeApprovedBy);
        formData.append('Rootcause', $("#rootcauseProblem").val());
        formData.append('MemberList', JSON.stringify(addedTeamMembers));
        formData.append('DeploymentList', JSON.stringify(addedDeployment));
@@ -2322,6 +2339,13 @@
             // var memberListJson = JSON.stringify(addedTeamMembers);
             // var deploymentListJson = JSON.stringify(addedDeployment);
 
+            var costValue = $('#cost1').val();
+            var financeApprovedBy = $('#approvedbyAccount').val();
+            if (costValue.length < 6) {
+                financeApprovedBy = null;
+            }
+
+
             // Create FormData object
             var formData = new FormData();
             // Append text and file fields to formData
@@ -2348,7 +2372,8 @@
             formData.append('Others', $("#Others").val());
             formData.append('TotalSavings', $("#TotalSavings").val());
             formData.append('ApprovedByIE', $("#approvedbyIe").val());
-            formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+            // formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+            formData.append('FinanceApprovedBy', financeApprovedBy);
             formData.append('Rootcause', $("#rootcauseProblem").val());
             formData.append('MemberList', JSON.stringify(addedTeamMembers));
             formData.append('DeploymentList', JSON.stringify(addedDeployment));
@@ -2452,6 +2477,11 @@
                 }
             });
 
+            var costValue = $('#cost1').val();
+            var financeApprovedBy = $('#approvedbyAccount').val();
+            if (costValue.length < 6) {
+                financeApprovedBy = null;
+            }
 
             // Create FormData object
             var formData = new FormData();
@@ -2480,7 +2510,8 @@
             formData.append('Others', $("#Others").val());
             formData.append('TotalSavings', $("#TotalSavings").val());
             formData.append('ApprovedByIE', $("#approvedbyIe").val());
-            formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+            // formData.append('FinanceApprovedBy', $("#approvedbyAccount").val());
+            formData.append('FinanceApprovedBy', financeApprovedBy);
             formData.append('Rootcause', $("#rootcauseProblem").val());
             formData.append('MemberList', JSON.stringify(addedTeamMembers));
             formData.append('DeploymentList', JSON.stringify(addedDeployment));
@@ -2874,8 +2905,9 @@
                         $('#btnSaveKaizen').hide();
                         $('#btnSubmitKaizen').hide();
 
-                        $('#Srno').show();
-                        $('#kaizenrefNo').show();
+                        // $('#Srno').show();
+                        // $('#kaizenrefNo').show();
+                        $('#DocumeNo').show();  
                         $('#backbtn').show();
 
                         $("#versionNo").val(result.kaizenList[0].versionNoDate);
