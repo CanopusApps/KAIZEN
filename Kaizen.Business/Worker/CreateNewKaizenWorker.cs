@@ -142,7 +142,8 @@ namespace Kaizen.Business.Worker
                     {
                         EmpId = dr["EmpID"].ToString(),
                         TeamMemberName = dr["TeamName"].ToString(),
-                        FunctionName = dr["FunctionName"].ToString()
+                        FunctionName = dr["FunctionName"].ToString(),
+                        EmpGuID = dr["EmpGuID"].ToString(),
                     });
                 }
             }

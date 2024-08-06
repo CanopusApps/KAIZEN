@@ -1601,7 +1601,7 @@
     });
 
     $("#teamDelBtn").click(function () {
-
+        debugger;
         var mytable = document.getElementById("tblteammemberResult");
         var rows = mytable.rows.length;
         for (var i = rows - 1; i > 0; i--) {
@@ -2291,19 +2291,18 @@
                     $('#checkboxform1 input[type=checkbox]:checked').each(function () {
                         benifitarea.push($(this).val());
                     });
-            var addedTeamMembers = new Array();
             var addedDeployment = new Array();
+            var addedTeamMembers = new Array();
             $('#tblteammemberResult tbody tr').each(function () {
-                var row = $(this);
-                var memberDetails = {};
-                 if (row.find("TD").eq(2).val() != undefined) {
-                memberDetails.EmpId = row.find("TD").eq(4).val();
-                memberDetails.TeamMemberName = row.find("TD").eq(2).val();
-                memberDetails.FunctionName = row.find("TD").eq(3).val();
+             var row = $(this);
+            var memberDetails = {};
+            if (row.find("TD").eq(2).find('input').val() != undefined) {
+                memberDetails.EmpId = row.find("TD").eq(4).find('input').val();
+                memberDetails.TeamMemberName = row.find("TD").eq(2).find('input').val();
+                memberDetails.FunctionName = row.find("TD").eq(3).find('input').val();
                 addedTeamMembers.push(memberDetails);
-               }
-            });
-
+            }
+        });
             $('#tblDeploymentrResult tbody tr').each(function () {
                 var row = $(this);
                 var deploymentDetails = {};
@@ -2426,15 +2425,16 @@
             $('#checkboxform1 input[type=checkbox]:checked').each(function () {
                 benifitarea.push($(this).val());
             });
-            var addedTeamMembers = new Array();
+           
             var addedDeployment = new Array();
+            var addedTeamMembers = new Array();
             $('#tblteammemberResult tbody tr').each(function () {
                 var row = $(this);
                 var memberDetails = {};
-                if (row.find("TD").eq(2).val() != undefined) {
-                    memberDetails.EmpId = row.find("TD").eq(4).val();
-                    memberDetails.TeamMemberName = row.find("TD").eq(2).val();
-                    memberDetails.FunctionName = row.find("TD").eq(3).val();
+                if (row.find("TD").eq(2).find('input').val() != undefined) {
+                    memberDetails.EmpId = row.find("TD").eq(4).find('input').val();
+                    memberDetails.TeamMemberName = row.find("TD").eq(2).find('input').val();
+                    memberDetails.FunctionName = row.find("TD").eq(3).find('input').val();
                     addedTeamMembers.push(memberDetails);
                 }
             });
@@ -2972,11 +2972,12 @@
                             var c2 = r.insertCell(1);
                             var c3 = r.insertCell(2);
                             var c4 = r.insertCell(3);
-
+                            var c5 = r.insertCell(4);
                             var checkbox = document.createElement("input");
                             var empId = document.createElement("input");
                             var teamMemberName = document.createElement("input");
                             var functionName = document.createElement("input");
+                            var EmpGuID = document.createElement("input");
 
                             checkbox.type = "checkbox";
                             empId.type = "text";
@@ -2992,15 +2993,24 @@
                             functionName.className = "input-width";
                             functionName.readOnly = true;
 
+                            EmpGuID.type = "text";
+                            EmpGuID.value = item.empGuID;
+                            EmpGuID.className = "input-width";
+                            EmpGuID.readOnly = true;
+                            EmpGuID.hidden = true;
+
                             c1.appendChild(checkbox);
                             c2.appendChild(empId);
                             c3.appendChild(teamMemberName);
                             c4.appendChild(functionName);
+                            c5.appendChild(EmpGuID);
 
                             c1.style.width = '5%';
-                            c2.style.width = '31%';
+                            c2.style.width = '15%';
                             c3.style.width = '32%';
                             c4.style.width = '32%';
+                            c5.style.border = 'white';
+                            
                         });
                         var mytable = document.getElementById("tblDeploymentrResult");
                         result.scopeList.forEach(item => {

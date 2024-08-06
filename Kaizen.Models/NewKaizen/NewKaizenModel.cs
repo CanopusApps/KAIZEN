@@ -120,7 +120,8 @@ namespace Kaizen.Models.NewKaizen
        public string CreatedBy { get; set; } = "";
        //public string CreatedDate { get; set; } = "";
         public string EmpId { get; set; } = "";
-		public string TeamMemberName { get; set; } = "";
+        public string EmpGuID { get; set; } = "";
+        public string TeamMemberName { get; set; } = "";
         public string FunctionName { get; set; } = "";
 
         public string KaizenId { get; set; } = "";
