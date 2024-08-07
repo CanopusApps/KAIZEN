@@ -767,6 +767,12 @@
             debugger;
             var StartDate = $('#yearDropdown1').val();
             var EndDate = $('#yearDropdown1').val();
+            var year = parseInt($('#yearDropdown1').val(), 10);
+            $('.year').text(year);
+            var startyear = year - 1;
+            var EndYear = year + 1;
+            $('#startyear').text(startyear);
+            $('#endyear').text(EndYear);
             resetMonthTotalKaizenCounts();
            $.ajax({
             url: '@Url.Action("ViewFilterKaizen", "Dashboard")',
@@ -779,18 +785,12 @@
                 $('#loader-wrapper').show();
             },
             success: function (result) {
+                debugger;
                     for (let i = 0; i < result.customMonthTotalKaizenList.length; i++) {
                         let item = result.customMonthTotalKaizenList[i];
                           var monthYear = item.monthbasedTotal.split('-');
                          var month1 = monthYear[1].toLowerCase().substr(0, 3);
                         var month2 = monthYear[3].toLowerCase().substr(0, 3);
-                        var year = monthYear[2].substr(0, 4);
-                        var yearNumber = parseInt(year, 10);
-                        var startyear=yearNumber-1;
-                        var EndYear = yearNumber + 1;
-                        $('.year').text(year);
-                        $('#startyear').text(startyear);
-                        $('#endyear').text(EndYear);
                         $('#val-' + month1 + '-' + month2).text(result.customMonthTotalKaizenList[i].totalKaizens || 0);
 
                     }
@@ -1102,4 +1102,12 @@
         $('#btn_filter3').click();
     });
 
+</script>
+
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
+    document.getElementById('dtstartdate1').setAttribute('max', today);
+    document.getElementById('dtenddate1').setAttribute('max', today);
 </script>

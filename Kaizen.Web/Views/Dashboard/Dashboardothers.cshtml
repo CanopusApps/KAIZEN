@@ -50,7 +50,7 @@
                         <div class="form-group col-lg-4">
                             <label for="Block">Blocks</label>
                             <select id="inputBlock" class="form-control txt-width" name="Block">
-                                <option value="0" selected>All</option>
+                                <option value="0" selected>--Select Block--</option>
                                 @if (Model.blockList != null)
                                 {
                                     @foreach (var Block in Model.blockList)
@@ -63,7 +63,7 @@
                         <div class="form-group col-lg-4">
                             <label for="inputDomain">Domain</label>
                             <select id="inputDomain" class="form-control txt-width" name="Domain">
-                                <option value="0" selected>All</option>
+                                <option value="0" selected>--Select Domain--</option>
                                 @if (Model.DomainList != null)
                                 {
                                     @foreach (var domain in Model.DomainList)
@@ -76,7 +76,7 @@
                         <div class="form-group col-lg-4">
                             <label for="inputDepartment">Department</label>
                             <select id="inputDepartment" class="form-control txt-width" name="Department">
-                                <option selected>All</option>
+                                <option selected>--Select Department--</option>
                             </select>
                         </div>
                         <div class="form-group col-lg-4">
@@ -424,10 +424,16 @@
             }
         });
       });
+                
              $('#btn_filter').click();
              
 
 
      });
+    </script>
+    <script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
     </script>
   

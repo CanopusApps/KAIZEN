@@ -61,7 +61,7 @@
                 </form>
             </div>
 
-            <div class="card bg-white border chart-container mt-4 mb-4 ml-2 mr-2">
+            <div class="card bg-white border chart-container mt-4 mb-5 ml-2 mr-2 pb-4">
                 <div class="  card-header">Kaizens Based on Cadre,Blocks,Domain and Department</div>
                 <div class="card-body col-lg-12">
                     <div class="row">
@@ -85,153 +85,177 @@
         </nav>
     </nav>
  </div>
-<script>
-        $(document).ready(function () {
-            const donutCharts = [
-                { id: 'donutChart1', label: 'Dataset 1', title: 'Based on Blocks' },
-                { id: 'donutChart2', label: 'Dataset 2', title: 'Based on cadre' },
-                { id: 'donutChart3', label: 'Dataset 3', title: 'Based on Domains' },
-                { id: 'donutChart4', label: 'Dataset 4', title: 'Based on Departments' }
-            ];
+  <script>
+    const customLabelsPlugin = {
+        id: 'customLabels',
+        afterDatasetsDraw(chart) {
+            const { ctx, chartArea: { width, height } } = chart;
+            const { datasets } = chart.data;
 
-            let chartInstances = [];
+            chart.data.labels.forEach((label, index) => {
+                const meta = chart.getDatasetMeta(0);
+                const { x, y } = meta.data[index].tooltipPosition();
+                const value = datasets[0].data[index];
+                const text = `${label}: ${value}`;
+                const color = datasets[0].backgroundColor[index];
 
-            function generateColors(count) {
-                const colors = [];
-                const colorPalette = [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(255, 159, 64)',
-                    'rgb(153, 102, 255)',
-                    'rgb(255, 205, 210)',
-                  'rgb(100, 181, 246)',
-                  'rgb(255, 245, 157)',
-                   'rgb(129, 212, 250)',
+                // Skip labels with a value of 0
+                if (value === 0) return;
+
+                // Calculate the position for the label
+                const lineLength = 100;
+                const labelX = x < width / 2 ? x - 50 : x + 50;
+                const labelY = y < height / 2 ? y - 30 : y + 30;
+
+                // Draw the arrow
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(labelX, labelY);
+                ctx.strokeStyle = color;
+                ctx.stroke();
+
+                // Draw the label
+                ctx.font = '12px Arial';
+                ctx.fillStyle = '#000';
+                ctx.textAlign = x < width / 2 ? 'right' : 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(text, labelX, labelY);
+            });
+        }
+    };
+
+    $(document).ready(function () {
+        const donutCharts = [
+            { id: 'donutChart1', label: 'Dataset 1', title: 'Based on Blocks' },
+            { id: 'donutChart2', label: 'Dataset 2', title: 'Based on Cadre' },
+            { id: 'donutChart3', label: 'Dataset 3', title: 'Based on Domains' },
+            { id: 'donutChart4', label: 'Dataset 4', title: 'Based on Departments' }
+        ];
+
+        let chartInstances = [];
+
+        function generateColors(count) {
+            const colors = [];
+            const colorPalette = [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(255, 159, 64)',
+                'rgb(153, 102, 255)',
+                'rgb(255, 205, 210)',
+                'rgb(100, 181, 246)',
+                'rgb(255, 245, 157)',
+                'rgb(129, 212, 250)',
                 'rgb(255, 183, 77)',
                 'rgb(248, 99, 71)',
                 'rgb(67, 160, 71)',
-               'rgb(0, 150, 136)',
+                'rgb(0, 150, 136)',
                 'rgb(33, 150, 243)',
                 'rgb(255, 87, 34)',
                 'rgb(156, 39, 176)',
-                ];
-                for (let i = 0; i < count; i++) {
-                    colors.push(colorPalette[i % colorPalette.length]);
-                }
-                return colors;
+            ];
+            for (let i = 0; i < count; i++) {
+                colors.push(colorPalette[i % colorPalette.length]);
             }
+            return colors;
+        }
 
-            function createDonutChart(chart, data, colors) {
-            
-
-                const ctxDonut = $(`#${chart.id}`)[0].getContext('2d');
-                const chartInstance = new Chart(ctxDonut, {
-                    type: 'doughnut',
-                    data: {
-                        datasets: [{
-                            data: data,
-                            backgroundColor: colors, // Use generated colors
-                            hoverOffset: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                                display: false,
-                            },
-                            title: {
-                                display: true,
-                                text: chart.title
-                            },
-                            datalabels: {
-                                display: true,
-                                color: 'white',
-                                formatter: (value, context) => {
-                                if (value === 0) {
-                                    return null;
-                                }
-                                const label = context.chart.data.labels[context.dataIndex];
-                                return `${label} :${value}`;
-                                   
-                                },
-                            anchor: 'end', // Position the label outside
-                            align: 'start', // Align to the end of the segment
-                            offset:1, // Offset to position outside the segment
-                            font: {
-                                weight: 'bold'
-                            }
-                            }
+        function createDonutChart(chart, data, colors) {
+            const ctxDonut = $(`#${chart.id}`)[0].getContext('2d');
+            const chartInstance = new Chart(ctxDonut, {
+                type: 'doughnut',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: chart.title
                         }
-                    },
-                    plugins: [ChartDataLabels]
-                });
-                return chartInstance;
-            }
-
-            // Initial chart rendering with default data
-            donutCharts.forEach(chart => {
-                chartInstances.push(createDonutChart(chart, [0, 0, 0], [])); // Pass empty array for colors initially
-            });
-
-            $('#btn_filter').click(function () {
-                var StartDate = $('#dtstartdate').val();
-                var EndDate = $('#dtenddate').val();
-                $.ajax({
-                    url: '@Url.Action("Filtergraphscount", "Dashboard")',
-                    type: 'GET',
-                    data: {
-                        StartDate: StartDate,
-                        EndDate: EndDate
-                    },
-                    beforeSend: function () {
-                        $('#loader-wrapper').show();
-                    },
-                    success: function (result) {
-                        // Extracting data and labels for each category
-                        let blockBasedData = result.blockbasedgraph.map(item => item.totalSubmittedKaizen);
-                        let blockBasedLabel = result.blockbasedgraph.map(item => item.blockname);
-
-                        let cadreBasedData = result.cadrebasedgraph.map(item => item.totalSubmittedKaizen);
-                        let cadreBasedLabel = result.cadrebasedgraph.map(item => item.cadrename);
-
-                        let domainBasedData = result.domainbasedgraph.map(item => item.totalSubmittedKaizen);
-                        let domainBasedLabel = result.domainbasedgraph.map(item => item.domainname);
-
-                        let departmentBasedData = result.departmentbasedgraph.map(item => item.totalSubmittedKaizen);
-                        let departmentBasedLabel = result.departmentbasedgraph.map(item => item.departmentname);
-
-                        // Generate colors for each dataset
-                        const staticData = [
-                            { data: blockBasedData, labels: blockBasedLabel, colors: generateColors(blockBasedData.length) },
-                            { data: cadreBasedData, labels: cadreBasedLabel, colors: generateColors(cadreBasedData.length) },
-                            { data: domainBasedData, labels: domainBasedLabel, colors: generateColors(domainBasedData.length) },
-                            { data: departmentBasedData, labels: departmentBasedLabel, colors: generateColors(departmentBasedData.length) }
-                        ];
-
-                        staticData.forEach((chartData, index) => {
-                            const chart = chartInstances[index];
-                            chart.data.labels = chartData.labels; // Update labels
-                            chart.data.datasets[0].data = chartData.data; // Update data
-                            chart.data.datasets[0].backgroundColor = chartData.colors; // Update colors
-                            chart.update(); // Re-render chart
-                        });
-                    },
-                    error: function (error) {
-                        console.error('Error fetching chart data:', error);
-                    },
-                    complete: function () {
-                        $('#loader-wrapper').hide();
                     }
-                });
+                },
+                plugins: [customLabelsPlugin]
             });
-        $('#btn_filter').click();
+            return chartInstance;
+        }
+
+        // Initial chart rendering with default data
+        donutCharts.forEach(chart => {
+            chartInstances.push(createDonutChart(chart, [0, 0, 0], [])); // Pass empty array for colors initially
         });
+
+        $('#btn_filter').click(function () {
+            var StartDate = $('#dtstartdate').val();
+            var EndDate = $('#dtenddate').val();
+            $.ajax({
+                url: '@Url.Action("Filtergraphscount", "Dashboard")',
+                type: 'GET',
+                data: {
+                    StartDate: StartDate,
+                    EndDate: EndDate
+                },
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+                success: function (result) {
+                    // Extracting data and labels for each category
+                    let blockBasedData = result.blockbasedgraph.map(item => item.totalSubmittedKaizen);
+                    let blockBasedLabel = result.blockbasedgraph.map(item => item.blockname);
+
+                    let cadreBasedData = result.cadrebasedgraph.map(item => item.totalSubmittedKaizen);
+                    let cadreBasedLabel = result.cadrebasedgraph.map(item => item.cadrename);
+
+                    let domainBasedData = result.domainbasedgraph.map(item => item.totalSubmittedKaizen);
+                    let domainBasedLabel = result.domainbasedgraph.map(item => item.domainname);
+
+                    let departmentBasedData = result.departmentbasedgraph.map(item => item.totalSubmittedKaizen);
+                    let departmentBasedLabel = result.departmentbasedgraph.map(item => item.departmentname);
+
+                    // Generate colors for each dataset
+                    const staticData = [
+                        { data: blockBasedData, labels: blockBasedLabel, colors: generateColors(blockBasedData.length) },
+                        { data: cadreBasedData, labels: cadreBasedLabel, colors: generateColors(cadreBasedData.length) },
+                        { data: domainBasedData, labels: domainBasedLabel, colors: generateColors(domainBasedData.length) },
+                        { data: departmentBasedData, labels: departmentBasedLabel, colors: generateColors(departmentBasedData.length) }
+                    ];
+
+                    staticData.forEach((chartData, index) => {
+                        const chart = chartInstances[index];
+                        chart.data.labels = chartData.labels; // Update labels
+                        chart.data.datasets[0].data = chartData.data; // Update data
+                        chart.data.datasets[0].backgroundColor = chartData.colors; // Update colors
+                        chart.update(); // Re-render chart
+                    });
+                },
+                error: function (error) {
+                    console.error('Error fetching chart data:', error);
+                },
+                complete: function () {
+                    $('#loader-wrapper').hide();
+                }
+            });
+        });
+
+        $('#btn_filter').click();
+    });
+ </script>
+
+
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
 </script>
-
-
-

@@ -307,13 +307,13 @@
                             $('#totalRejected').text(item.totalRejected || 0);
                             $('#totalPending').text(item.totalPending || 0);
 
-                            $('#driapproved').text(item.managerApproved || 0);
+                            $('#driapproved').text(item.managerApproved || 0); 
                             $('#ieapproved').text(item.ieApproved || 0);
                             $('#financeapproved').text(item.financeApproved || 0);
                             $('#imageapproved').text(item.imageApproved || 0);
 
                             $('#driRejected').text(item.managerRejected || 0);
-                            $('#ieRejected').text(item.ieRejecte || 0);
+                            $('#ieRejected').text(item.ieRejected || 0);
                             $('#financeRejected').text(item.financeRejected || 0);
                             $('#imageRejected').text(item.imageRejected || 0);
 
@@ -431,3 +431,8 @@
     });
 
  </script>
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
+</script>

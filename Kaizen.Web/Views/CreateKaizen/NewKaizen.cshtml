@@ -293,13 +293,14 @@
                                                     <div class="card-body">
 
                                                         <div class="row">
+                                                                <input type="hidden" id="Userrole" data-role="@Accessor.HttpContext.Session.GetString("Userrole")">
                                                                 @* <div class="col-sm-6" id="Srno">
                                                                 <div class="form-group">
                                                                     <label>Sr.No<span class="mandatory">*</span></label>
                                                                         <input type="text" name="versionNo" id="versionNo" class="form-control mb10" value="01/ @Model.OriginatedDate" readonly>
                                                                    <input type="text" name="Id" id="kaizenIDD" class="form-control mb10" hidden >
                                                                    @*  <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("UserID")">  
-                                                                    <input type="hidden" id="Userrole" data-role="@Accessor.HttpContext.Session.GetString("Userrole")">
+                                                                  
                                                                         <span id="versionerror" class="text-danger error-message"></span>
                                                                 </div>
                                                             </div>
@@ -1068,12 +1069,15 @@
                                                                      bool isValidDate = DateTime.TryParse(Model.OriginatedDate, out parsedDate);
                                                                 }
                                                                 <td class="align-middle align-items-center justify-content-center col-3">
-                                                                    <input type="text" class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@parsedDate.ToString("dd/MM/yyyy")" readonly>
+                                                                    <input type="text" class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@parsedDate.ToString("dd/MM/yyyy")">
 
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
                                                                     <input name="driapproveddate" type="date" id="driapproveddate" class="form-control col-9">
+                                                                        <span id="driapproveddateerror" class="text-danger error-message"></span>
                                                                 </td>
+                                                                    
+
                                                                 @* <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-4">
                                                                 </td> *@
@@ -1109,7 +1113,7 @@
                                                     <button class="btn btn-azure" id="btnSubmitKaizen">Submit to DRI</button>
                                                 </div>
 
-                                                <div class="card-body float-right mt-2" id="">
+                                                <div class="card-body float-right mt-2" id="updateItButton">
                                                     <button class="btn btn-warning" id="btnUpdateKaizen">Save It</button>
                                                     <button class="btn btn-azure" id="btnSubmittedStatus">Submit to DRI</button>
                                                 </div>
@@ -1206,7 +1210,7 @@
                                 </div>
                                 <button class="btn btn-primary" id="ApprovButton">Approve</button>
                                 <button class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg">Reject</button>                             
-                                <button class="btn btn-warning" id="Aprrovalbtnhold">Hold </button>
+                              @*   <button class="btn btn-warning" id="Aprrovalbtnhold">Hold </button> *@
                             </div>
                         </div>
 
@@ -1222,6 +1226,7 @@
 
                                     <div class="modal-body">
                                         <textarea class="col-lg-12"id="RejectionReason"></textarea>
+                                            <Span id="rejectionReasonError" class="error-message" style="color: red;"></Span>
                                     </div>
                                     <button class="btn btn-danger" id="rejectButton">Reject</button>
                                 </div>
@@ -1260,8 +1265,18 @@
     $(document).ready(function () {
     var dateInput = document.getElementById('CDeta');
     var dateValue = dateInput.value;
-   
-});
+    
+    if (dateValue) {
+        var parts = dateValue.split('-');
+        if (parts.length === 3) {
+            var formattedDate = parts[0] + '/' + parts[1] + '/' + parts[2];
+            dateInput.value = formattedDate;
+                console.log("Converted Date= "+formattedDate)
+        } else {
+            console.error("Date format is not correct");
+        }
+    }
+   });
 
 
     function loadModalContent() {
@@ -1272,23 +1287,7 @@
             $('#sampleKaizenModal').modal('show');
         });
     }
-    // function scrollToTop() {
-    //     var scroll_pos = $(window).scrollTop()
-    // }
-    // function generateGUID() {
-    //     function s4() {
-    //         return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-    //     }
-    //     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    // }
-    // function updateGUID() {
-    //     let guid = generateGUID();
-    //     document.getElementById('kaizenid').value = guid;
-    // }
-    // window.onload = function () {
-    //     updateGUID();
-    // }
-
+   
     //Download PDF Start
     $('#printPDF').click(function () {
         var element = document.getElementById('downloadDiv');
@@ -1335,29 +1334,49 @@
         }
         $('#rejectButton').click(function () {
             let enumValue;
+            let isValid = true;
+
+            var rejectionReason = $('#RejectionReason').val();
+
+            if (rejectionReason === "") {
+                $('#RejectionReason').css('border-color', 'red');
+                $('#rejectionReasonError').text('Rejection reason is required.');
+                isValid = false;
+            } else {
+                $('#RejectionReason').css('border-color', '');
+                $('#rejectionReasonError').text('');
+            }
+
+            if (!isValid) {
+                return;
+            }
+
             var RejectionReason = $('#RejectionReason').val();
             var status = "Rejected";
             
             switch (userRole) {
                 case 'IE DEPT':
-                    enumValue = 7; // IERejected
+                    enumValue = 7;
                     break;
-                case 'FINNACE':
-                    enumValue = 9; // FinanceRejected
+                case 'FINANCE':
+                    enumValue = 9;
+
                     break;
                 case 'MANAGER':
-                    enumValue = 5; //DriRejected
+                    enumValue = 5;
                     break;
                 case 'IMAGE APPROVER':
-                    enumValue = 3; // ImageRejected
+                    enumValue = 3;
                     break;
                 default:
-                    enumValue = 10; // Pending or some default value
+                    enumValue = 10;
                     break;
             }
-            handleButtonClick(enumValue, RejectionReason, status);
-        });
 
+            if (rejectionReason !== null && rejectionReason.trim() !== "") {
+                handleButtonClick(enumValue, rejectionReason);
+            }
+        });
         $('#ApprovButton').click(function () {
             let enumValue;
             var status = "Approved";
@@ -1370,6 +1389,7 @@
                     break;
                 case 'MANAGER':
                     enumValue = 4; // ImageApproved
+
                     break;
                 case 'IMAGE APPROVER':
                     enumValue = 2; // ImageApproved
@@ -1381,24 +1401,24 @@
             handleButtonClick(enumValue,"",status);
         });
 
-        $('#Aprrovalbtnhold').click(function () {
-            let enumValue;
-            switch (userRole) {
-                case 'IE DEPT':
-                    enumValue = 12; // Pending or some specific hold value
-                    break;
-                case 'FINNACE':
-                    enumValue = 13; // Pending or some specific hold value
-                    break;
-                case 'MANAGER':
-                    enumValue = 11; // Pending or some specific hold value
-                    break;               
-                default:
-                    enumValue = 10; // Pending or some default value
-                    break;
-            }
-            handleButtonClick(enumValue);
-        });
+        // $('#Aprrovalbtnhold').click(function () {
+        //     let enumValue;
+        //     switch (userRole) {
+        //         case 'IE DEPT':
+        //             enumValue = 12; // Pending or some specific hold value
+        //             break;
+        //         case 'FINNACE':
+        //             enumValue = 13; // Pending or some specific hold value
+        //             break;
+        //         case 'MANAGER':
+        //             enumValue = 11; // Pending or some specific hold value
+        //             break;               
+        //         default:
+        //             enumValue = 10; // Pending or some default value
+        //             break;
+        //     }
+        //     handleButtonClick(enumValue);
+        // });
     });
 
     window.onload = function () {
@@ -1836,6 +1856,10 @@
         $("#BenefitsError").text("");
         $(".error-message").text("");
 
+        $("#driapproveddate").css("border-color", "");
+        $("#driapproveddateerror").text("");
+        $(".error-message").text("");
+
         var benifitarea = [];
         $('#checkboxform1 input[type=checkbox]:checked').each(function () {
             benifitarea.push($(this).val());
@@ -1846,6 +1870,7 @@
         var problemName = $("#probstmt").val();
         var counterMeasuremName = $("#countmeasur").val();
         // var documentNo = $("#docNo").val();
+        var driapproveddate = $("#driapproveddate").val();
         var versionNo = $("#versionNo").val();
         var codeCentre = $("#codeCentre").val();
         var refNo = $("#refNo").val();
@@ -1874,6 +1899,12 @@
         //     if (!firstInvalidField) firstInvalidField = "#docNo";
         //     isValid = false;
         // }
+        if (driapproveddate === "") {
+            $("#driapproveddate").css("border-color", "red");
+            $("#driapproveddateerror").text("Date is required.");
+            if (!firstInvalidField) firstInvalidField = "#driapproveddate";
+            isValid = false;
+        }
         if (versionNo === "") {
             $("#versionNo").css("border-color", "red");
             $("#versionerror").text("Version No is required.");
@@ -2721,6 +2752,9 @@
                 var elements = div.querySelectorAll('input, button, textarea, select');
 
                 elements.forEach(element => {
+                    if (element.id === 'RejectionReason') {
+                        return;
+                    }
                     if (element.tagName === 'INPUT') {
                         if (element.type === 'radio' || element.type === 'checkbox') {
                             element.disabled = true;
@@ -2758,6 +2792,7 @@
             var editKaizen = JSON.parse(sessionStorage.getItem("editKaizen"));
             var KaizenId = editKaizen['kaizenid'];
             var Usertype = editKaizen['edituser'];
+            debugger;
             if (Usertype == 'view')
             {
                 makeDivReadOnly();
@@ -2769,12 +2804,24 @@
             switch (userRole) {
                 case 'IE DEPT':
                      $('#saveItButton').hide();
+                    $('#updateItButton').hide();
+                    
                     break;
                 case 'FINNACE':                
                     $('#saveItButton').hide();
+                    $('#updateItButton').hide();
                     break;
                 case 'ADMIN':                    
-                    $('#saveItButton').hide();                   
+                    $('#saveItButton').hide();        
+                       $('#updateItButton').hide();
+                    break;
+                case 'MANAGER':
+                    $('#btnSaveKaizen').hide();
+                    $('#btnUpdateKaizen').hide();
+                    break;
+                case 'IMAGE APPROVER':
+                    $('#btnSaveKaizen').hide();
+                    $('#btnUpdateKaizen').hide();
                     break;
             }
             $.ajax({
@@ -2875,6 +2922,16 @@
                         else{
                             $('#approvers').hide();
                           
+                        }
+                        debugger;
+                        if(result.approverslist[0].financeEmail == "")
+                        { 
+                        
+                            $('#FinanceDept').hide();
+                        }
+                        if(result.approverslist[0].iEname == "")
+                        {
+                            $('#IEDept').hide();
                         }
                         $('#bindtxtID').text(result.kaizenList[0].id);
                         $('#ieDateTime').text(result.kaizenList[0].ieApprovedDate);
@@ -3236,4 +3293,20 @@
         }
     });
 </script>
+@* <script>
+    $(document).ready(function () {
+        $('#rejectButton').click(function () {
+            debugger;
+
+            var rejectionReason = $('#RejectionReason').val();
+            if (rejectionReason === "") {
+                $('#RejectionReason').css('border-color', 'red');
+                $('#rejectionReasonError').text('Rejection reason is required.');
+                isValid = false;
+                $('#RejectionReason').css('border-color', '');
+                $('#rejectionReasonError').text('');
+            }      
+        });
+    });
+</script> *@
  
