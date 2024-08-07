@@ -101,16 +101,20 @@ namespace Kaizen.Web.Controllers
                                 HttpContext.Session.SetString("Department", row["DepartmentName"].ToString());
                                 HttpContext.Session.SetString("Domain", row["DomainName"].ToString());
                                 HttpContext.Session.SetString("UserID", row["ID"].ToString());
+
+                                // Image approver is true or false
+                                HttpContext.Session.SetString("ImageApprover", row["ImageApprover"].ToString());
                                 //HttpContext.Session.SetString("Manager", row["ManagerName"].ToString());
                                 HttpContext.Session.SetString("IEemail", row["IEEMAIL"].ToString());
                                 HttpContext.Session.SetString("Userrole", row["Userrole"].ToString());                             
                                HttpContext.Session.SetString("FinanceEmail", row["FinanceEmail"].ToString());
 
-
+                               
                                 HttpContext.Session.SetString("ManagerList", ManagerListJson);
 
                             }
                             string Userrole = conAccessor.HttpContext.Session.GetString("Userrole");
+                            string ImageApprover = conAccessor.HttpContext.Session.GetString("ImageApprover");// if True user is image Approver (store's "True" or"")
                             if (Userrole == "ADMIN")
                             {
                                 Response.Redirect("Dashboard/Dashboardtab1");
