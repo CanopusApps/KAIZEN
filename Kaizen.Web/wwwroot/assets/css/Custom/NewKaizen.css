@@ -167,7 +167,11 @@ textarea, input {
         
 }
 
-
+@media (max-width: 1117px) {
+    .tab-box {
+        padding: 4px 4px;
+    }
+}
 @media (max-width: 768px) {
     .tab {
         display: inline-block;

@@ -177,7 +177,7 @@
 
                             <div class="row">
                                 <!-- 1th box -->
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="carddashed">
 
                                         <div class="card-body">
@@ -272,7 +272,8 @@
                                                                 <input type="checkbox" value="E" id="iE"class="tab-input">
                                                                 <div class="tab-box">E</div>
                                                             </label>
-                                                            <!-- </label> -->
+                                                                <!-- </label> -->
+                                                                <span id="BenifitareaError" class="text-danger error-message"></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -283,7 +284,7 @@
                                 </div>
                                 <!-- end2nd -->
                                 <!--3rd-->
-                                <div class="col-lg-5">
+                                <div class="col-lg-4">
                                     <div class="carddashed">
                                         <div class="card-body">
 
@@ -318,14 +319,23 @@
                                                                         <span id="docerror" class="text-danger error-message"></span>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-sm-12 edit-mode">
+                                                                    <div class="form-group editmode row align-items-center">
+                                                                        <label for="codeCentre" class="col-sm-4 col-form-label editmode-label">Cost Centre <span class="mandatory">* </span></label>
+                                                                        <div class="col-sm-8 editmode-input">
+                                                                            <input type="text" required name="codeCentre" id="codeCentre" class="form-control mb10" value="@Model.CostCentre" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">00C</p>' title="Cost Centre [Example]">
+                                                                            <span id="codecentererror" class="text-danger error-message"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                                            <div class="col-sm-6">
+                                                            @* <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label>Cost Centre<span class="mandatory">*</span></label>
                                                                     <input type="text" required="" name="codeCentre" id="codeCentre" class="form-control mb10 " value="@Model.CostCentre" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">00C</p>' title="Cost Centre [Example]">
                                                                         <span id="codecentererror" class="text-danger error-message"></span>
                                                                 </div>
-                                                            </div>
+                                                            </div> *@
                                                         </div>
                                                     </div>
                                                 </div>
@@ -662,7 +672,7 @@
 
                             <div class="col-sm-12 col-lg-12">
 
-                                <div class="carddashed mt-2">
+                                    <div class="carddashed mt-2" id="tableborder">
 
                                     <div class="card-body">
 
@@ -699,6 +709,8 @@
                                                 </tbody>
 
                                             </table>
+                                             <span id="TeammemberError" class="text-danger error-message"></span>
+
 
                                             <div class="table-container">
                                             <table id="tblteammemberResult" class="col-lg-10" >
@@ -1052,7 +1064,6 @@
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
                                                                         <input name="DeptId" id="DeptId" class="form-control col-9" value="@Model.Domain - @Model.Department" readonly>
-                                                              @*   <button class="lol">Bt</button> *@
                                                                     </td>
                                                                @*  <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-4">
@@ -1073,8 +1084,11 @@
 
                                                                 </td>
                                                                 <td class="align-items-center d-flex justify-content-center h-100">
-                                                                    <input name="driapproveddate" type="date" id="driapproveddate" class="form-control col-9">
-                                                                        <span id="driapproveddateerror" class="text-danger error-message"></span>
+                                                                        <div class="align-items-center d-flex justify-content-center col-12">
+                                                                            <input name="driapproveddate" type="date" id="driapproveddate" class="form-control col-9">
+                                                                            <span id="driapproveddateerror" class="text-danger error-message"></span>
+                                                                    </div>
+
                                                                 </td>
                                                                     
 
@@ -1441,7 +1455,7 @@
             $('#backbtn').hide();
             $('#Srno').hide();
             $('#kaizenrefNo').hide();
-            // $('#DocumeNo').hide();
+            $('#DocumeNo').hide();
 
 
             switch (userRole) {
@@ -1563,7 +1577,25 @@
     $("#teamAddBtn").click(function () {
         var mytable = document.getElementById("tblteammemberResult");
         var rows = mytable.rows.length;
-        if (rows < 7) {
+        var empIdValue = $("#IdMemberAdd").val();
+        var empExists = false;
+
+        // Check for duplicate EmpId
+        for (var i = 0; i < rows; i++) {
+            var row = mytable.rows[i];
+            var cell = row.cells[1]; // EmpId second column
+            if (cell && cell.children[0] && cell.children[0].value === empIdValue) {
+                empExists = true;
+                break;
+            }
+        }
+        if (empExists) {
+            swal("EMP ID Already Exists.").then(function () {
+                $("#IdMemberAdd").val("");
+                $("#IdTeamMemberName").val("");
+                $("#IdFunction").val("");
+            });
+        } else if (rows < 7) {
         var r = mytable.insertRow(rows);
         
         var c1 = r.insertCell(0);
@@ -1860,6 +1892,14 @@
         $("#driapproveddateerror").text("");
         $(".error-message").text("");
 
+        $("#tableborder").css("border-color", "red");
+        $("#TeammemberError").text("");
+        $(".error-message").text("");
+
+        // $("#tableborder").css("border-color", "red");
+        $("#BenifitareaError").text("");
+        $(".error-message").text("");
+
         var benifitarea = [];
         $('#checkboxform1 input[type=checkbox]:checked').each(function () {
             benifitarea.push($(this).val());
@@ -1899,12 +1939,7 @@
         //     if (!firstInvalidField) firstInvalidField = "#docNo";
         //     isValid = false;
         // }
-        if (driapproveddate === "") {
-            $("#driapproveddate").css("border-color", "red");
-            $("#driapproveddateerror").text("Date is required.");
-            if (!firstInvalidField) firstInvalidField = "#driapproveddate";
-            isValid = false;
-        }
+        
         if (versionNo === "") {
             $("#versionNo").css("border-color", "red");
             $("#versionerror").text("Version No is required.");
@@ -1978,21 +2013,39 @@
             if (!firstInvalidField) firstInvalidField = "#benefit";
             isValid = false;
         }
-        if (benifitarea.length === 0 && addedTeamMembers.length === 0) {
-            swal({
-                text: "Benefit Area is required & \n At least one team member must be added"
-            });
+        if (addedTeamMembers.length === 0) {
+            $("#tableborder").css("border-color", "red");
+            $("#TeammemberError").text("At least one team member must be added.");
+            if (!firstInvalidField) firstInvalidField = "#tableborder";
             isValid = false;
-        } else {
-            if (benifitarea.length === 0) {
-                swal("Benefit Area is required.");
-                isValid = false;
-            }
-            if (addedTeamMembers.length === 0) {
-                swal("At least one team member must be added.");
-                isValid = false;
-            }
         }
+        if (benifitarea.length === 0) {
+            // $("#tableborder").css("border-color", "red");
+            $("#BenifitareaError").text("Benefit Area is required.");
+
+            isValid = false;
+        }
+        if (driapproveddate === "") {
+            $("#driapproveddate").css("border-color", "red");
+            $("#driapproveddateerror").text("Date is required.");
+            if (!firstInvalidField) firstInvalidField = "#driapproveddate";
+            isValid = false;
+        }
+        // if (benifitarea.length === 0 && addedTeamMembers.length === 0) {
+        //     swal({
+        //         text: "Benefit Area is required & \n At least one team member must be added"
+        //     });
+        //     isValid = false;
+        // } else {
+        //     if (benifitarea.length === 0) {
+        //         swal("Benefit Area is required.");
+        //         isValid = false;
+        //     }
+        //     if (addedTeamMembers.length === 0) {
+        //         swal("At least one team member must be added.");
+        //         isValid = false;
+        //     }
+        // }
         if (document.getElementById('yesRadio').checked) {
             var inOthermc = $("#InOtherMC").val().trim();
             var withindept = $("#withinDept").val().trim();
@@ -2966,6 +3019,15 @@
                         // $('#kaizenrefNo').show();
                         $('#DocumeNo').show();  
                         $('#backbtn').show();
+                        $('.edit-mode').removeClass('col-sm-12').addClass('col-sm-6');
+                        $('.editmode').removeClass('row align-items-center');
+
+                        // Remove class from editmode-input
+                        $('.editmode-input').removeClass('col-sm-8');
+
+                        // Update label class
+                        $('.editmode-label').removeClass('col-sm-4 col-form-label');
+
 
                         $("#versionNo").val(result.kaizenList[0].versionNoDate);
                         $("#refNo").val(result.kaizenList[0].kaizenRefNo);

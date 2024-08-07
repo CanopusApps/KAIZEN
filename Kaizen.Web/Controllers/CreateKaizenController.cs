@@ -77,10 +77,16 @@ namespace Kaizen.Web.Controllers
             // Deserialize JSON data
             var memberList = JsonConvert.DeserializeObject<List<TeamMemberDetails>>(jsonMemberList);
             var deploymentList = JsonConvert.DeserializeObject<List<DeploymentDetails>>(jsonDepartList);
-            if (model.AttachmentBefore != null && model.AttachmentAfter != null && model.RootProblemAttachment != null)
+            if (model.AttachmentBefore != null)
             {
                 model.AttachmentPaths.AttachmentBeforePath = SaveUploadedFile(model.AttachmentBefore, nameof(model.AttachmentBefore));
+            }
+            if (model.AttachmentAfter != null)
+            {
                 model.AttachmentPaths.AttachmentAfterPath = SaveUploadedFile(model.AttachmentAfter, nameof(model.AttachmentAfter));
+            }
+            if (model.RootProblemAttachment != null)
+            {
                 model.AttachmentPaths.RootProblemAttachmentPath = SaveUploadedFile(model.RootProblemAttachment, nameof(model.RootProblemAttachment));
             }
             List< Attachmentsimg > imagesList = new List<Attachmentsimg>();
@@ -146,10 +152,16 @@ namespace Kaizen.Web.Controllers
             // Deserialize JSON data
             var memberList = JsonConvert.DeserializeObject<List<TeamMemberDetails>>(jsonMemberList);
             var deploymentList = JsonConvert.DeserializeObject<List<DeploymentDetails>>(jsonDepartList);
-            if (model.AttachmentBefore != null && model.AttachmentAfter != null && model.RootProblemAttachment != null)
+            if (model.AttachmentBefore != null)
             {
                 model.AttachmentPaths.AttachmentBeforePath = SaveUploadedFile(model.AttachmentBefore, nameof(model.AttachmentBefore));
+            }
+            if (model.AttachmentAfter != null)
+            {
                 model.AttachmentPaths.AttachmentAfterPath = SaveUploadedFile(model.AttachmentAfter, nameof(model.AttachmentAfter));
+            }
+            if (model.RootProblemAttachment != null)
+            {
                 model.AttachmentPaths.RootProblemAttachmentPath = SaveUploadedFile(model.RootProblemAttachment, nameof(model.RootProblemAttachment));
             }
             List<Attachmentsimg> imagesList = new List<Attachmentsimg>();
