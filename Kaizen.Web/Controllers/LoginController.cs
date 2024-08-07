@@ -103,7 +103,8 @@ namespace Kaizen.Web.Controllers
                                 HttpContext.Session.SetString("UserID", row["ID"].ToString());
                                 //HttpContext.Session.SetString("Manager", row["ManagerName"].ToString());
                                 HttpContext.Session.SetString("IEemail", row["IEEMAIL"].ToString());
-                                HttpContext.Session.SetString("Userrole", row["Userrole"].ToString());
+                                HttpContext.Session.SetString("Userrole", row["Userrole"].ToString());                             
+                               HttpContext.Session.SetString("FinanceEmail", row["FinanceEmail"].ToString());
 
 
                                 HttpContext.Session.SetString("ManagerList", ManagerListJson);
