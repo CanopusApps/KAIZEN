@@ -335,3 +335,9 @@
         $('#btn_filter').click();
     });
 </script>
+
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
+</script>

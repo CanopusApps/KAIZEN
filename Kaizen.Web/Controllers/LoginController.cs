@@ -48,6 +48,8 @@ namespace Kaizen.Web.Controllers
             if (RetrieveTheme.Any())
             {
                 ViewBag.SelectedTheme = RetrieveTheme.First().Theme;
+                HttpContext.Session.SetString("SelectedTheme",RetrieveTheme.First().Theme);
+
             }
 
 
@@ -101,9 +103,10 @@ namespace Kaizen.Web.Controllers
                                 HttpContext.Session.SetString("UserID", row["ID"].ToString());
                                 //HttpContext.Session.SetString("Manager", row["ManagerName"].ToString());
                                 HttpContext.Session.SetString("IEemail", row["IEEMAIL"].ToString());
-                                HttpContext.Session.SetString("Userrole", row["Userrole"].ToString());
+                                HttpContext.Session.SetString("Userrole", row["Userrole"].ToString());                             
+                               HttpContext.Session.SetString("FinanceEmail", row["FinanceEmail"].ToString());
 
-                                HttpContext.Session.SetString("FinanceEmail", row["FinanceEmail"].ToString());
+
                                 HttpContext.Session.SetString("ManagerList", ManagerListJson);
 
                             }
@@ -141,7 +144,7 @@ namespace Kaizen.Web.Controllers
         }
         public IActionResult Logout()
         {
-            conAccessor.HttpContext.Session.GetString("Message");
+          
            
 
             
