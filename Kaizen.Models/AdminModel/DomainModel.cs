@@ -21,6 +21,6 @@ namespace Kaizen.Models.AdminModel
         public string CreatedBy { get; set; } = "";
 
         public string ModifiedBy { get; set; } = "";
-
+        public List<DomainModel> Domains { get; set; }
     }
 }

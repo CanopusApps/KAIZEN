@@ -54,6 +54,9 @@ builder.Services.AddScoped<IWinnersListRepository, WinnersListRepository>();
 
 builder.Services.AddScoped<IThemeChanger, ThemeWorker>();
 builder.Services.AddScoped<IThemeRepository, ThemeWorkerRepository>();
+
+builder.Services.AddScoped<IRegister, RegisterWorker>();
+builder.Services.AddScoped<IRegisterRepository, RegisterRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
