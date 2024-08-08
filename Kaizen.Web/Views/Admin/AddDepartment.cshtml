@@ -220,10 +220,25 @@
     function ValidateForm() {
         var isValid = true;
 
-        $("#departmentName").css("border-color", "red");
+        $("#departmentName").on("input", function () {
+            var departmentNameValue = $(this).val();
+            if (departmentNameValue !== "") {
+                $(this).css("border-color", "");
+                $("#DepError").text("");
+            }
+        });
+        $("#domainName").on("input", function () {
+            var domainNameValue = $(this).val();
+            if (domainNameValue !== "") {
+                $(this).css("border-color", "");
+                $("#DomError").text("");
+            }
+        });
+
+        $("#departmentName").css("border-color", "");
         $("#DepError").text("");
 
-        $("#domainName").css("border-color", "red");
+        $("#domainName").css("border-color", "");
         $("#DomError").text("");
 
         $(".error-message").text("");

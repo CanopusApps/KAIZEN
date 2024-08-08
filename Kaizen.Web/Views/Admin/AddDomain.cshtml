@@ -98,15 +98,22 @@
     });
     function ValidateForm() {
         var isValid = true;
+        $("#domainname").on("input", function () {
+            var domainNameValue = $(this).val();
+            if (domainNameValue !== "") {
+                $(this).css("border-color", "");
+                $("#DomainError").text("");
+            }
+        });
         // Remove red borders and error messages
-        $("#domainname").css("border-color", "red");
+        $("#domainname").css("border-color", "");
         $("#DomainError").text("");
         $(".error-message").text("");
 
         // Check for empty or invalid fields
-        var blockNameValue = $("#domainname").val();
+        var domainNameValue = $("#domainname").val();
 
-        if (blockNameValue === "") {
+        if (domainNameValue === "") {
             $("#domainname").css("border-color", "red");
             $("#DomainError").text("Domain Name is required.");
             isValid = false;
