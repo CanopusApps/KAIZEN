@@ -295,6 +295,7 @@
 
                                                         <div class="row">
                                                                 <input type="hidden" id="Userrole" data-role="@Accessor.HttpContext.Session.GetString("Userrole")">
+                                                                <input type="hidden" id="imageapproverstatus" data-role="@Accessor.HttpContext.Session.GetString("ImageApprover")">
                                                                 @* <div class="col-sm-6" id="Srno">
                                                                 <div class="form-group">
                                                                     <label>Sr.No<span class="mandatory">*</span></label>
@@ -1161,7 +1162,7 @@
                          </div>
                     <div class="row">
                             <!-- DRI Card -->
-                            <div id="DRIDept" class="col-md-4" style="display: none;">
+                            <div id="DRIDept" class="col-md-4" style="display: none;">   
                                 <div class="card carddashed">
                                     <div class="card-header">DRI</div>
                                     <div class="card-body">
@@ -1209,6 +1210,7 @@
                             <label>Would You Like To Edit Kaizen :</label>
                                 <button id="scrollToTopBtn" class="btn btn-warning" onclick="scrollToTop()">Edit</button>
                             </div> *@
+                     <div id="buttons">
                             <div class="col-sm-12" id="imagelabel">
                             <label>Would You Like To Approve Kaizen Image and move it to Dri Approval </label>
                                                    
@@ -1244,6 +1246,7 @@
                                 </div>
                             </div>
                         </div>
+                            </div>
                 </div>
             </div>
            </div>
@@ -1318,6 +1321,7 @@
     $(document).ready(function () {
 
         var userRole = $('#Userrole').data('role');
+        var imageapproverstatus = $('#imageapproverstatus').data('role');
      
         function handleButtonClick(enumValue, RejectionReason='',status) {
             $.ajax({
@@ -1363,26 +1367,29 @@
 
             var RejectionReason = $('#RejectionReason').val();
             var status = "Rejected";
-            
-            switch (userRole) {
-                case 'IE DEPT':
-                    enumValue = 7;
-                    break;
-                case 'FINANCE':
-                    enumValue = 9;
-
-                    break;
-                case 'MANAGER':
-                    enumValue = 5;
-                    break;
-                case 'IMAGE APPROVER':
-                    enumValue = 3;
-                    break;
-                default:
-                    enumValue = 10;
-                    break;
+            if (imageapproverstatus === 'True') {
+                enumValue = 3;
             }
+            else {
+                switch (userRole) {
+                    case 'IE DEPT':
+                        enumValue = 7;
+                        break;
+                    case 'FINANCE':
+                        enumValue = 9;
 
+                        break;
+                    case 'MANAGER':
+                        enumValue = 5;
+                        break;
+                    // case 'IMAGE APPROVER':
+                    //     enumValue = 3;
+                    //     break;
+                    default:
+                        enumValue = 10;
+                        break;
+                }
+            }
             if (rejectionReason !== null && rejectionReason.trim() !== "") {
                 handleButtonClick(enumValue, rejectionReason);
             }
@@ -1390,23 +1397,28 @@
         $('#ApprovButton').click(function () {
             let enumValue;
             var status = "Approved";
-            switch (userRole) {
-                case 'IE DEPT':
-                    enumValue = 6; // IEApproved
-                    break;
-                case 'FINNACE':
-                    enumValue = 8; // FinanceApproved
-                    break;
-                case 'MANAGER':
-                    enumValue = 4; // ImageApproved
+            if (imageapproverstatus === 'True') {
+                enumValue = 2;
+            }
+            else {
+                switch (userRole) {
+                    case 'IE DEPT':
+                        enumValue = 6; // IEApproved
+                        break;
+                    case 'FINNACE':
+                        enumValue = 8; // FinanceApproved
+                        break;
+                    case 'MANAGER':
+                        enumValue = 4; // ImageApproved
 
-                    break;
-                case 'IMAGE APPROVER':
-                    enumValue = 2; // ImageApproved
-                    break;
-                default:
-                    enumValue = 0; // Saved or some default value
-                    break;
+                        break;
+                    // case 'IMAGE APPROVER':
+                    //     enumValue = 2; // ImageApproved
+                    //     break;
+                    default:
+                        enumValue = 0; // Saved or some default value
+                        break;
+                }
             }
             handleButtonClick(enumValue,"",status);
         });
@@ -1433,6 +1445,7 @@
 
     window.onload = function () {
         var userRole = $('#Userrole').data('role');
+        var imageapproverstatus = $('#imageapproverstatus').data('role');
 
     function showHideDivsByRole(userRole) {
         $('#IEDept').hide();
@@ -1452,35 +1465,43 @@
             $('#Srno').hide();
             $('#kaizenrefNo').hide();
             $('#DocumeNo').hide();
-
+                if (imageapproverstatus === 'True') {
+                 
+                        $('#waitingimage').show();
+                        $('#imagelabel').show();
+                            $('#Aprrovalbtn').show();
+                        $('#Aprrovalbtnhold').hide();
+                } 
+        
+        else { 
 
             switch (userRole) {
                 case 'IE DEPT':
                     $('#DRIDept').show();
-                $('#Aprrovalbtn').show();
-                $('#waitingapproval').show();
-                break;
+                    $('#Aprrovalbtn').show();
+                    $('#waitingapproval').show();
+                    break;
                 case 'FINNACE':
                     $('#DRIDept').show();
-                $('#IEDept').show();
-                $('#Aprrovalbtn').show();
-                $('#waitingapproval').show();
-                break;
+                    $('#IEDept').show();
+                    $('#Aprrovalbtn').show();
+                    $('#waitingapproval').show();
+                    break;
                 case 'MANAGER':
                     $('#ImageApprover').show();
                     $('#Editbtn').show();
                     $('#Aprrovalbtn').show();
                     $('#waitingapproval').show();
-                break;
+                    break;
                 case 'ADMIN':
                     break;
-                case 'IMAGE APPROVER':
-                    $('#waitingimage').show();
-                    $('#imagelabel').show();
-                    $('#Aprrovalbtn').show();
-                $('#Aprrovalbtnhold').hide();
-                 break;
-              
+                // case 'IMAGE APPROVER':
+                //     $('#waitingimage').show();
+                //     $('#imagelabel').show();
+                //     $('#Aprrovalbtn').show();
+                // $('#Aprrovalbtnhold').hide();
+                //  break;
+            }  
         }
     }
    
@@ -2866,6 +2887,7 @@
 
             }
             var userRole = $('#Userrole').data('role');
+
             $('#saveItButton').show();
             switch (userRole) {
                 case 'IE DEPT':
@@ -2885,10 +2907,10 @@
                     $('#btnSaveKaizen').hide();
                     $('#btnUpdateKaizen').hide();
                     break;
-                case 'IMAGE APPROVER':
-                    $('#btnSaveKaizen').hide();
-                    $('#btnUpdateKaizen').hide();
-                    break;
+                // case 'IMAGE APPROVER':
+                //     $('#btnSaveKaizen').hide();
+                //     $('#btnUpdateKaizen').hide();
+                //     break;
             }
             $.ajax({
                 type: 'GET',
@@ -2911,10 +2933,10 @@
                             IERejected: 7,
                             FinanceApproved: 8,
                             FinanceRejected: 9,
-                            Pending: 10,
-                            DRIPending: 11,
-                            IEPending: 12,
-                            FinancePending: 13
+                            // Pending: 10,
+                            // DRIPending: 11,
+                            // IEPending: 12,
+                            // FinancePending: 13
                         };
 
                         // Reverse lookup to get the status name by its number
@@ -2924,8 +2946,12 @@
                         }
 
                         var statusDesc = result.kaizenList[0].approvalStatus;
-                       
-
+                        var imageapproverstatus = $('#imageapproverstatus').data('role');
+                        if (statusDesc === statusdetails.FinanceRejected || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.ImageRejected)
+                        {
+                            $('#saveItButton').hide();
+                            $('#updateItButton').hide();
+                        }
 
                         if (statusDesc === statusdetails.FinanceApproved || statusDesc === statusdetails.FinanceRejected || statusDesc === statusdetails.FinancePending) {
                             $('#financestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.FinanceRejected ? 'rejected' : (statusDesc === statusdetails.FinancePending ? 'pending' : 'approved'));
@@ -2971,8 +2997,6 @@
                                 $('#IEDept').hide();
                                 $('#FinanceDept').hide();
                                 $('#DRIDept').hide();
-
-
                             }
                         } else if (statusDesc === statusdetails.Pending || statusDesc === statusdetails.DRIPending || statusDesc === statusdetails.IEPending || statusDesc === statusdetails.FinancePending) {
                             $('#pendingstatusid').text(reverseStatusDetails[statusDesc]).addClass('pending');
@@ -2988,6 +3012,14 @@
                             $('#approvers').hide();
                           
                         }
+                        if (imageapproverstatus === 'True' && statusDesc !== statusdetails.submitted) {
+                            $('#buttons').hide();
+                            $('#waitingimage').hide();
+                            $('#imagelabel').hide();
+                            $('#Approvalbtn').hide();
+                        } else if (imageapproverstatus === 'True' && statusDesc === statusdetails.submitted) {
+                            $('#approvers').show();
+                        }
                         if(result.approverslist[0].financeEmail == "")
                         { 
                         
@@ -2996,6 +3028,9 @@
                         if(result.approverslist[0].iEname == "")
                         {
                             $('#IEDept').hide();
+                        }
+                        if (result.approverslist[0].imageAproveName == "") {
+                            $('#ImageApprover').hide();
                         }
                         $('#bindtxtID').text(result.kaizenList[0].id);
                         $('#ieDateTime').text(result.kaizenList[0].ieApprovedDate);

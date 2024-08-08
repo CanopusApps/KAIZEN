@@ -12,6 +12,7 @@ using Kaizen.Models.NewKaizen;
 using Kaizen.Models.AdminModel;
 using Newtonsoft.Json;
 using System.Reflection;
+using DocumentFormat.OpenXml.EMMA;
 
 namespace Kaizen.Data.DataServices
 {
@@ -179,8 +180,30 @@ namespace Kaizen.Data.DataServices
             bool status = false;
             try
             {
+                if (model.AttachmentsList != null)
+                {
+                    foreach (Attachmentsimg attachmentsimg in model.AttachmentsList)
+                    {
+                        if (attachmentsimg.FileName != null)
+                        {
+                            if (attachmentsimg.FileName.Contains("AttachmentBefore") ||
+                                attachmentsimg.FileName.Contains("AttachmentAfter") ||
+                             attachmentsimg.FileName.Contains("AdditionalAttachments"))
+                            {
+                                model.ApprovalStatus = (int)ApprovalStatusEnum.Submitted;
+                            }
+                            
+                        }
+                        
+                    }
+                  
+                }
+                if (model.ApprovalStatus != (int)ApprovalStatusEnum.Submitted)
+                {
+                    model.ApprovalStatus = (int)ApprovalStatusEnum.SubmittedWithoutImages;
+                }
                 model.KaizenType = ConstantValue.KaizenType;
-                model.ApprovalStatus = (int)ApprovalStatusEnum.Submitted;
+              
                 DataTable memberDataTable = new DataTable();
                 memberDataTable.Columns.Add("KaizenId", typeof(Guid));
                 memberDataTable.Columns.Add("Createdby", typeof(Guid));
@@ -431,7 +454,44 @@ namespace Kaizen.Data.DataServices
             try
             {
                 model.KaizenType = ConstantValue.KaizenType;
-                model.ApprovalStatus = (int)ApprovalStatusEnum.Submitted;
+                //model.ApprovalStatus = (int)ApprovalStatusEnum.Submitted;
+                if (model.UpdateAttachmentsList.Count >0)
+                {
+                    foreach (Attachmentsimg attachmentsimg in model.UpdateAttachmentsList)
+                    {
+                        if (attachmentsimg.filePath != null)
+                        {
+                            if (attachmentsimg.filePath.Contains("AttachmentBefore") ||
+                                attachmentsimg.filePath.Contains("AttachmentAfter") ||
+                             attachmentsimg.filePath.Contains("AdditionalAttachments"))
+                            {
+                                model.ApprovalStatus = (int)ApprovalStatusEnum.Submitted;
+                            }
+                            
+                        }                        
+                    }
+                }
+                if (model.AttachmentsList != null)
+                {
+                    foreach (Attachmentsimg attachmentsimg in model.AttachmentsList)
+                    {
+                        if (attachmentsimg.FileName != null)
+                        {
+                            if (attachmentsimg.FileName.Contains("AttachmentBefore") ||
+                                attachmentsimg.FileName.Contains("AttachmentAfter") ||
+                             attachmentsimg.FileName.Contains("AdditionalAttachments"))
+                            {
+                                model.ApprovalStatus = (int)ApprovalStatusEnum.Submitted;
+                            }
+                            
+                        }
+                        
+                    }
+                }
+                if (model.ApprovalStatus != (int)ApprovalStatusEnum.Submitted)
+                {
+                    model.ApprovalStatus = (int)ApprovalStatusEnum.SubmittedWithoutImages;
+                }
                 DataTable memberDataTable = new DataTable();
                 memberDataTable.Columns.Add("KaizenId", typeof(Guid));
                 memberDataTable.Columns.Add("Createdby", typeof(Guid));
@@ -596,7 +656,7 @@ namespace Kaizen.Data.DataServices
             return ds;
         }
 
-        public bool updateKaizensatusData(ApprovalRequest approvalRequest)
+        public bool updateKaizensatusData(ApprovalRequest approvalRequest,string empid)
         {
             bool status = false;
             try
@@ -605,6 +665,7 @@ namespace Kaizen.Data.DataServices
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@KaizenId", approvalRequest.kaizenID);
+                com.Parameters.AddWithValue("@Empid",empid);
                 com.Parameters.AddWithValue("@ApprovalStatus", approvalRequest.approvalStatus);
                 com.Parameters.AddWithValue("@Rejectionreason", approvalRequest.RejectionReason);
                 com.CommandText = StoredProcedures.Sp_UpdateApprovalStatus;

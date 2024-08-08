@@ -176,6 +176,7 @@ namespace Kaizen.Web.Controllers
                 else if (z == 2)
                     objAtt.FileName = model.AttachmentPaths.RootProblemAttachmentPath;
                 objAtt.CreatedBy = model.CreatedBy;
+                
                 imagesList.Add(objAtt);
             }
             if (model.AdditionalAttachments != null && model.AdditionalAttachments.Count > 0)
@@ -191,6 +192,7 @@ namespace Kaizen.Web.Controllers
                     imagesList.Add(objAtt);
                 }
             }
+
             model.AttachmentsList = imagesList;
             model.DeploymentList = deploymentList;
             model.MemberList = memberList;
@@ -239,8 +241,9 @@ namespace Kaizen.Web.Controllers
 
         [HttpPost]
         public IActionResult getstatus([FromBody] ApprovalRequest request) {
-            request.kaizenID= conAccessor.HttpContext.Session.GetString("Kaizenid");          
-            bool result = _createNewKaizen.updateKaizensatus(request);
+            request.kaizenID= conAccessor.HttpContext.Session.GetString("Kaizenid");   
+            string empid= conAccessor.HttpContext.Session.GetString("EmpId");
+            bool result = _createNewKaizen.updateKaizensatus(request,empid);
             return Ok(result);
         }
 
@@ -404,6 +407,8 @@ namespace Kaizen.Web.Controllers
                     imagesList.Add(objAtt);
                 }
             }
+           
+            model.UpdateAttachmentsList = _createNewKaizen.GetImageListById(model.KaizenId);
             model.AttachmentsList = imagesList;
             model.DeploymentList = deploymentList;
             model.MemberList = memberList;

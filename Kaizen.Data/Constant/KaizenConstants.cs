@@ -115,7 +115,14 @@ namespace Kaizen.Data.Constant
         IERejected,       // 7
         FinanceApproved,  // 8
         FinanceRejected,  // 9
-        Pending           // 10
+        pending,//10
+        DRIPending,//11
+        IEPending,//12
+        FinancePending,//13
+        Deleted,//14
+        SubmittedWithoutImages,//15
+        KaizenApproved         // 16
+
     }
 
 

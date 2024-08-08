@@ -17,7 +17,7 @@ namespace Kaizen.Data.DataServices.Interfaces
       public bool SubmitKaizenDriData(NewKaizenModel model);
         public bool UpdateNewKaizenData(NewKaizenModel model);
         public bool UpdateSubmittedKaizenData(NewKaizenModel model);
-        public bool updateKaizensatusData(ApprovalRequest approvalRequest);
+        public bool updateKaizensatusData(ApprovalRequest approvalRequest, string empid);
         public DataSet GetKaizenDetailsById(string KaizenId);
         public DataSet GetTeamDetailsUpdateById(string KaizenId);
         public DataTable GetImageListByIdfordelete(string KaizenId ,string AttachmentId);
