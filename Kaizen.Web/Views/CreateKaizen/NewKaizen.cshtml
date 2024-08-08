@@ -1295,7 +1295,7 @@
 
     function loadModalContent() {
          
-        debugger;
+      
         $.get('@Url.Action("KaizenModalPopupPartial", "CreateKaizen")', function (data) {
             $('#modalPlaceholder').html(data);
             $('#sampleKaizenModal').modal('show');
@@ -1656,7 +1656,7 @@
     });
 
     $("#teamDelBtn").click(function () {
-        debugger;
+       
         var mytable = document.getElementById("tblteammemberResult");
         var rows = mytable.rows.length;
         for (var i = rows - 1; i > 0; i--) {
@@ -2380,7 +2380,7 @@
 
 
         $("#btnUpdateKaizen").click(function () {
-            debugger;
+           
             var checkboxData = {};
             var checkboxData1 = {};
             var Rootcausedata;
@@ -2522,7 +2522,7 @@
 
 
         $("#btnSubmittedStatus").click(function () {
-            debugger;
+          
             var checkboxData = {};
             var checkboxData1 = {};
             var Rootcausedata;
@@ -2845,7 +2845,7 @@
             var editKaizen = JSON.parse(sessionStorage.getItem("editKaizen"));
             var KaizenId = editKaizen['kaizenid'];
             var Usertype = editKaizen['edituser'];
-            debugger;
+           
             if (Usertype == 'view')
             {
                 makeDivReadOnly();
@@ -2887,7 +2887,7 @@
                 },
                 success: function (result) {
                     if (result) {
-                        debugger;
+                       
                         const statusdetails = {
                             
                             submitted:1,
@@ -2976,7 +2976,7 @@
                             $('#approvers').hide();
                           
                         }
-                        debugger;
+                     
                         if(result.approverslist[0].financeEmail == "")
                         { 
                         
@@ -3290,7 +3290,7 @@
                                 $('#upload_area').show();
                             }
                             deleteButton.on('click', function () {
-                                debugger;
+                              
                                 var kaizenId = $(this).data('kaizen-id');
                                 var attachmentId = $(this).data('attachment-id');
                                 swal({

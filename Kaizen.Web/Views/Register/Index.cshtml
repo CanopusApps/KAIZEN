@@ -90,7 +90,16 @@
                             <div class="col-md-6">
                                 @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
                                 <span id="DidError" class="error-message"></span>
-                                @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "--Select Domain--", new { @id = "Did", @class = "form-control" })
+                                <select id="Did" class="form-control txt-width">
+                                    <option selected value="0">--Select Domain--</option>
+                                    @if (Model.Domains != null)
+                                    {
+                                        @foreach (var domain in Model.Domains)
+                                        {
+                                            <option value="@domain.Id">@domain.DomainName</option>
+                                        }
+                                    }
+                                </select>
                             </div>
                             <div class="col-md-6">
                                 @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
@@ -263,7 +272,6 @@
 
 
         $("#userForm").submit(function(event) {
-            debugger;
             event.preventDefault(); // Prevent default form submission
             if (ValidateForm()) {
                 var formData = $(this).serialize(); // Get form data
@@ -272,7 +280,6 @@
                     url: "/Register/RegisterUser",
                     data: formData,
                     success: function(response) {
-                        console.log(response)
                         if (response.success) {
                             Swal.fire({
                                 title: 'Success!',

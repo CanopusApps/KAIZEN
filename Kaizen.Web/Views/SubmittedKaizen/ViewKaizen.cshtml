@@ -35,8 +35,8 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputDepartment">Department</label>
-                    <select id="inputDepartment" class="form-control txt-width">
-                        <option selected value="0">--Select Department--</option>
+                    <select id="inputDepartment" class="form-control txt-width" name="Department">
+                        <option selected>All</option>
                     </select>
                 </div>
                 <div class="form-group col-md-4">
@@ -87,43 +87,35 @@
     </form>
 </div>
 <script>
-    $(document).ready(function () {
-        $('#inputDomain').change(function () {
-            var Domain = $('#inputDomain').val();
-            var dropdown = $('#inputDepartment');
-            if (Domain.toLowerCase() === '--Select Domain--') {
-                dropdown.empty();
-                dropdown.append($('<option>', {
-                    value: '0',
-                    text: '--Select Department--'
-                }));
-                return;
-            }
-            $.ajax({
-                type: 'GET',
-                url: '/ViewUser/FetchDepartment',
-                dataType: "json",
-                data: { domainid: Domain },
-                success: function (result) {
-                    if (result) {
-                        dropdown.empty();
-                        dropdown.append($('<option>', {
-                            value: '0',
-                            text: '--Select Department--'
-                        }));
-                        for (var i = 0; i < result.length; i++) {
-                            $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
-                        }
+    // Fetch departments based on selected domain
+    $('#inputDomain').change(function () {
+        var Domain = $('#inputDomain').val().trim();
+        $.ajax({
+            type: 'POST',
+            url: '/ViewUser/FetchDepartment',
+            dataType: "json",
+            data: { DomainID: Domain },
+            success: function (result) {
+                if (result) {
+                    var dropdown = $('#inputDepartment');
+                    dropdown.empty();
+                    dropdown.append($('<option>', {
+                        value: 'all',
+                        text: 'Select Department'
+                    }));
+                    for (var i = 0; i < result.length; i++) {
+                        $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
                     }
-                    else {
-                        swal('Please Select Domain');
-                    }
-                },
-                error: function (error) {
+                } else {
+                    Swal.fire('Please Select Domain');
                 }
-            });
+            },
+            error: function (error) {
+            }
         });
     });
+       
+    
 </script>
 <script>
     $(document).ready(function () {

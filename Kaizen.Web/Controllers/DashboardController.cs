@@ -17,6 +17,7 @@ namespace Kaizen.Web.Controllers
         private readonly IAddUser _addUserWorker;
         private readonly IDashboard _dashboardworker;
         private readonly ISubmittedKaizen _submittedKaizenWorker;
+       
         public DashboardController(IDomain domainWorker, IDepartment departmentWorker, IDashboard dashboardworker, ISubmittedKaizen submittedKaizenWorker, IBlock worker, IAddUser addUserWorker)
         {
             _blockWorker = worker;
@@ -33,8 +34,9 @@ namespace Kaizen.Web.Controllers
         }
         public IActionResult Dashboardtab2()
         {
+            var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
             DashboardModel DashboardModel = new DashboardModel();
-            DashboardModel.DomainList = _domainWorker.GetDomain();
+            DashboardModel.DomainList = activeDomains;// Only active domains
             DashboardModel.blockList = _blockWorker.GetBlock();
             DashboardModel.CadreList = _addUserWorker.GetCadre();
             return View(DashboardModel);
@@ -103,19 +105,37 @@ namespace Kaizen.Web.Controllers
         public List<DepartmentModel> FetchDepartment(string? StartDate, string? EndDate, string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
-           
-                DashboardModel model = new DashboardModel()
-                {
-                    StartDate = StartDate,
-                    EndDate = EndDate,
-                    Domain = domainid,
-                };
-                deptList = _dashboardworker.DepartmentbasedkaizenCount(model).Where(model => model.DomainId == Convert.ToInt32(domainid)).ToList();
 
+            if (string.IsNullOrEmpty(domainid))
+            {
+                return deptList; // Return an empty list if domainid is null or empty
+            }
 
-            
+            DashboardModel model = new DashboardModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+                Domain = domainid,
+            };
+
+            int domainId = Convert.ToInt32(domainid);
+
+            // Fetch only departments that belong to the specified domain and have Status == true
+            deptList = _dashboardworker.DepartmentbasedkaizenCount(model)
+                                       .Where(d => d.DomainId == domainId && d.Status == true)
+                                       .ToList();
+
             return deptList;
         }
+        //public List<DepartmentModel> FetchDepartment(string domainId)
+        //{
+
+        //    departments = _departmentWorker.GetDepartments();
+
+
+        //    return departments.Where(m => m.DomainId == Convert.ToInt32(domainId) && m.Status == true).ToList();
+
+        //}
         public IActionResult EmployeeDashboard()
         {
            
@@ -125,8 +145,10 @@ namespace Kaizen.Web.Controllers
         }
         public IActionResult Dashboardothers()
         {
+            var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
             DashboardModel DashboardModel = new DashboardModel();
-            DashboardModel.DomainList = _domainWorker.GetDomain();
+           
+            DashboardModel.DomainList = activeDomains;// Only active domains
             DashboardModel.blockList = _blockWorker.GetBlock();
 
            

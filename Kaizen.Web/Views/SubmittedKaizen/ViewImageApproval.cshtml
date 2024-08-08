@@ -88,35 +88,27 @@
 </div>
 <script>
     $(document).ready(function () {
+        // Fetch departments based on selected domain
         $('#inputDomain').change(function () {
-            var Domain = $('#inputDomain').val();
-            var dropdown = $('#inputDepartment');
-            if (Domain.toLowerCase() === '--Select Domain--') {
-                dropdown.empty();
-                dropdown.append($('<option>', {
-                    value: '0',
-                    text: '--Select Department--'
-                }));
-                return;
-            }
+            var Domain = $('#inputDomain').val().trim();
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: '/ViewUser/FetchDepartment',
                 dataType: "json",
-                data: { domainid: Domain },
+                data: { DomainID: Domain },
                 success: function (result) {
                     if (result) {
+                        var dropdown = $('#inputDepartment');
                         dropdown.empty();
                         dropdown.append($('<option>', {
-                            value: '0',
-                            text: '--Select Department--'
+                            value: 'all',
+                            text: 'Select Department'
                         }));
                         for (var i = 0; i < result.length; i++) {
                             $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
                         }
-                    }
-                    else {
-                        swal('Please Select Domain');
+                    } else {
+                        Swal.fire('Please Select Domain');
                     }
                 },
                 error: function (error) {

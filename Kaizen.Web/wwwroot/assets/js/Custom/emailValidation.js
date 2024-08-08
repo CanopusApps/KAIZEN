@@ -20,7 +20,7 @@ function IsEmail(dataFromProfileview) {
     // var emailTextBox = document.getElementById("empEmail");
     // var email = emailValue.toString();
     const emailRegex = /^([a-zA-Z0-9_\.\-\+])+@@(([a - zA - Z0 - 9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    //     debugger;
+   
     //     const regex = /^([a-zA-Z0-9_\.\-\+])+\(([a - zA - Z0 - 9\-]) +\.)+([a-zA-Z0-9]{2,4})+$/;        
 
     // if (email.test(emailRegex)) {

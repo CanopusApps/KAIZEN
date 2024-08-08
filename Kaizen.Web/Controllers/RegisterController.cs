@@ -15,7 +15,6 @@ using System.Collections.Generic;
 public class RegisterController : Controller
 {
     public IHttpContextAccessor conAccessor;
-    private List<DomainModel> domains;
     private readonly IRegister _registerworker;
     private readonly IDepartment _departmentWorker;
     private readonly IDomain _domainWorker;
@@ -32,17 +31,21 @@ public class RegisterController : Controller
 
 
     // GET: Register/Index
+    [HttpGet]
+    
+   [HttpGet]
+    // GET: Register/Index
     public IActionResult Index()
     {
-        // Assuming you have a service or repository to get domains
-        var domains = _domainWorker.GetDomain(); // Method to fetch domain data
+        var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
 
-        var model = new RegisterModel
+
+        var viewModel = new RegisterModel
         {
-            Domains = domains // Initialize Domains property with fetched data
+            Domains = activeDomains // Initialize Domains property with fetched data
         };
 
-        return View(model);
+        return View(viewModel);
     }
 
 

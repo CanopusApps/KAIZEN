@@ -102,7 +102,6 @@
     });
 
     function ValidateForm() {
-        debugger;
         var isValid = true;
 
         // Remove red borders and error messages
@@ -167,7 +166,7 @@
             e.preventDefault();
             $('#btnAdd').hide();
             $('#btnupdate').show();
-            debugger;
+          
             var $row = $(this).closest('tr');
             var blockid = $row.data('id');
             var blockname = $row.data('name');
@@ -176,7 +175,7 @@
         });
     })
        $("#btnupdate").click(function () {
-            debugger;
+
           var domainmodel = {
             BlockName: $('#BlockName').val(),
             Id: $('#BlockId').val()

@@ -12,6 +12,7 @@ using Kaizen.Models.ViewUserModel;
 using Kaizen.Models.AdminModel;
 using Kaizen.Business.Worker;
 using static System.Reflection.Metadata.BlobBuilder;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace Kaizen.Web.Controllers
 {
@@ -22,6 +23,7 @@ namespace Kaizen.Web.Controllers
         private readonly IDomain _domainWorker;
         private readonly IDepartment   _departmentWorker;
 		private readonly IWebHostEnvironment _environment;
+        List<DepartmentModel> departments;
         public ViewUserController(IViewuser viewUserWorker, IAddUser addUserWorker, IDomain domainWorker,IDepartment departmentWorker)
         {
 			_viewUserWorker = viewUserWorker;
@@ -72,17 +74,18 @@ namespace Kaizen.Web.Controllers
             return PartialView("_UserGridPartial", userList);
         }
 
-        public List<DepartmentModel> FetchDepartment(string domainid)
-        {
-            List<DepartmentModel> deptList = new List<DepartmentModel>();
-            if (!string.IsNullOrEmpty(domainid))
-            {
-				deptList = _departmentWorker.GetDepartments().Where(d=>d.DomainId == Convert.ToInt32(domainid)).ToList();                
+        [HttpPost]
+        
 
-            }
-            return deptList;
+        public List<DepartmentModel> FetchDepartment(string domainId)
+        {
+
+            departments = _departmentWorker.GetDepartments();
+
+
+            return departments.Where(m => m.DomainId == Convert.ToInt32(domainId) && m.Status == true).ToList();
+
         }
-      
         public IActionResult DeleteUser(int id)
         {
             bool deleteStatus = false;

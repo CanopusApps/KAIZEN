@@ -30,6 +30,7 @@ namespace Kaizen.Models.AdminModel
 
         public List<DomainModel> Domains { get; set; }
         public List<DepartmentModel> Departments { get; set; }
+       
 
     }
 

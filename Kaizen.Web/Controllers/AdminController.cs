@@ -43,10 +43,12 @@ namespace Kaizen.Web.Controllers
         public IActionResult AddUser()
         
         {
+            var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+
             AddUserModel model = new AddUserModel();
             model.Cadre = _addUserWorker.GetCadre();
             model.UserType = _addUserWorker.GetUserType();
-            model.Domains = _domainWorker.GetDomain();
+            model.Domains = activeDomains;// Only active domains
             model.Blocks = _blockWorker.GetBlock();
             //model.Departments = _departmentWorker.GetDepartments();
 
@@ -346,7 +348,9 @@ namespace Kaizen.Web.Controllers
 
         public List<DomainModel> DomainList()
         {
-            list = _departmentWorker.GetDomain(model);
+            list = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+
+            //list = _departmentWorker.GetDomain(model);
             return list;
         }
         [HttpPost]
