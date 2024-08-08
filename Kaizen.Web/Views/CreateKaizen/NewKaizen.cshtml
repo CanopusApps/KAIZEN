@@ -639,6 +639,7 @@
                                                                                 }
                                                                             }
                                                                         </select>
+                                                                        <span id="approvedbyIerror" class="text-danger error-message"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1941,6 +1942,13 @@
                 $("#driapproveddateerror").text("");
             }
         });
+        $("#approvedbyIe").on("input", function () {
+            var ApprovedbyIe = $(this).val();
+            if (ApprovedbyIe !== "") {
+                $(this).css("border-color", "");
+                $("#approvedbyIerror").text("");
+            }
+        });
 
         var benifitarea = [];
         $('#checkboxform1 input[type=checkbox]:checked').each(function () {
@@ -1958,7 +1966,9 @@
         var refNo = $("#refNo").val();
         var Yield = $("#yield1").val();
         var CycleTime = $("#cycletime1").val();
+        var Manpower = $("#Manpower").val();
         var Cost = $("#cost1").val();
+        var ApprovedbyIe = $("#approvedbyIe").val();
         var rootcauseproblem = $("#rootcauseProblem").val();
         var PresentConditions = $("#presentCondition").val();
         var Improvements = $("#improvementsCompleted").val();
@@ -2041,6 +2051,14 @@
             if (!firstInvalidField) firstInvalidField = "#countmeasur";
             isValid = false;
         }
+        if (CycleTime !== "" || Manpower !== "") {
+            if (ApprovedbyIe === "") {
+                $("#approvedbyIe").css("border-color", "red");
+                $("#approvedbyIerror").text("Version No is required.");
+                if (!firstInvalidField) firstInvalidField = "#approvedbyIe";
+                isValid = false;
+            }
+        }
         if (rootcauseproblem === "") {
             $("#rootcauseProblem").css("border-color", "red");
             $("#rootProblemError").text("Root Cause Problem is required.");
@@ -2072,9 +2090,7 @@
             isValid = false;
         }
         if (benifitarea.length === 0) {
-            // $("#tableborder").css("border-color", "red");
             $("#BenifitareaError").text("Benefit Area is required.");
-
             isValid = false;
         }
         if (Driapproveddate === "") {
