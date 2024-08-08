@@ -25,7 +25,7 @@ namespace Kaizen.Data.Constant
     public class StoredProcedures
     {
         public static string splogin = "Sp_Login";
-        public static string spregister = "Sp_Register";
+        public static string Sp_Register = "Sp_Register";
         public static string spemployee = "Sp_Employee";
         public static string spregisterLog = "Sp_RegisterLog";
         public static string spSelectState = "Sp_SelectState";
