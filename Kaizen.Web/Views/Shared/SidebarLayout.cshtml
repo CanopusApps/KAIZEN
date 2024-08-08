@@ -1,4 +1,6 @@
-﻿@inject IHttpContextAccessor Accessor
+﻿@using Kaizen.Models.AdminModel
+@using Newtonsoft.Json;
+@inject IHttpContextAccessor Accessor
 @{
     var title = "TEPL Kaizen Idea";
 }
@@ -6,6 +8,15 @@
     var UserType = Accessor.HttpContext.Session.GetString("Userrole");
     var ImageApprover = Accessor.HttpContext.Session.GetString("ImageApprover");
     string selectedTheme = Accessor.HttpContext.Session.GetString("SelectedTheme");
+}
+@{
+    var CountListJson = Accessor.HttpContext.Session.GetString("CountList");
+    List<CountModel> CountList = new List<CountModel>();
+
+    if (!string.IsNullOrEmpty(CountListJson))
+    {
+        CountList = JsonConvert.DeserializeObject<List<CountModel>>(CountListJson);
+    }
 }
 
 <!DOCTYPE html>
@@ -109,6 +120,7 @@
 
 
 
+
 </style>
 @* <body class="bg-light" style="background-color:#e9ecef"> *@
 <body style="background-color:#e9ecef;overflow-y:hidden;"> 
@@ -177,6 +189,7 @@
                     {
                         <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
                         <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen</a>
+                        <a href="/SubmittedKaizen/DeletedKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Deleted Kaizen(@CountList[0].DeletedCount)</a>
                         <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize" style="font-size:15px;" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
                         <div class="sub-menu collapse menupadding" id="demo">
                             <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">Block</a>
@@ -191,7 +204,9 @@
                     }
                     @if (ImageApprover == "True")
                     {
-                        <a href="/SubmittedKaizen/ViewImageApproval" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize" style="font-size:15px;">Image Approval</a>
+                        <a href="/SubmittedKaizen/ViewImageApproval" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize" style="font-size:15px;">
+                            Image Approval(@CountList[0].ImageApprovalCount)
+                        </a>
                     }
 
                     @if ( UserType == "IE DEPT" || UserType == "FINNACE")

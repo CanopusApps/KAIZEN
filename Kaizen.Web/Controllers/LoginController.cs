@@ -23,6 +23,7 @@ namespace Kaizen.Web.Controllers
         private readonly IThemeChanger _addThemeWorker;
 
         List<ManagerModel> ManagerList = new List<ManagerModel>();
+        List<CountModel> CountList = new List<CountModel>();
 
         public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor, IThemeChanger _addThemeWorker)
         {
@@ -93,6 +94,9 @@ namespace Kaizen.Web.Controllers
                             ManagerList = _loginworker.Usermanager(EmpId);
                             var ManagerListJson = JsonConvert.SerializeObject(ManagerList);
 
+                            CountList= _loginworker.FetchCount();
+                            var CountListJson = JsonConvert.SerializeObject(CountList);
+
                             if (HttpContext != null && HttpContext.Session != null)
                            {
                                 HttpContext.Session.SetString("Message",Username);
@@ -111,6 +115,7 @@ namespace Kaizen.Web.Controllers
 
                                
                                 HttpContext.Session.SetString("ManagerList", ManagerListJson);
+                                HttpContext.Session.SetString("CountList", CountListJson);
 
                             }
                             string Userrole = conAccessor.HttpContext.Session.GetString("Userrole");

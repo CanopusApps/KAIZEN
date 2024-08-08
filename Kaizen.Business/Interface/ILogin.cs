@@ -13,5 +13,6 @@ namespace Kaizen.Business.Interface
         public DataTable Loginuser(LoginModel loginmodel);
 
         public List<ManagerModel> Usermanager(string Empid);
+        public List<CountModel> FetchCount();
     }
 }

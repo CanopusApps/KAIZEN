@@ -50,5 +50,24 @@ namespace Kaizen.Business.Worker
             
             return ManagerList;
         }
+
+        public List<CountModel> FetchCount()
+        {
+            DataSet ds;
+            ds = _logindata.FetchCountlist();
+            List<CountModel> CountList = new List<CountModel>();
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    CountList.Add(new CountModel
+                    {
+                        DeletedCount = Convert.ToInt32(dr["DeletedCount"]),
+                        ImageApprovalCount = Convert.ToInt32(dr["ImageApprovalCount"]),
+                    });
+                }
+            }
+            return CountList;
+        }
     }
 }
