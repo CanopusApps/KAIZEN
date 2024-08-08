@@ -211,10 +211,8 @@ namespace Kaizen.Web.Controllers
             try
             {
                 domainmodel. CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
-                if (ModelState.IsValid)
-                {
                     insertStatus = _domainWorker.CreateDomain(domainmodel);       
-                }
+                
             }
             catch (Exception ex)
             {
@@ -229,10 +227,11 @@ namespace Kaizen.Web.Controllers
             try
             {
                 domainmodel. ModifiedBy =conAccessor.HttpContext.Session.GetString("EmpId");
-                if (ModelState.IsValid)
-                {
-                    updateStatus = _domainWorker.UpdateDomainDetails(domainmodel);
-                }
+                updateStatus = _domainWorker.UpdateDomainDetails(domainmodel);
+                //if (ModelState.IsValid)
+                //{
+                //updateStatus = _domainWorker.UpdateDomainDetails(domainmodel);
+                //}
             }
             catch (Exception ex)
             {

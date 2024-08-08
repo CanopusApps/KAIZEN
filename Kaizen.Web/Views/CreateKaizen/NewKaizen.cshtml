@@ -1033,11 +1033,11 @@
                                                                     Name
                                                                 </td>
 
-                                                                <td class="align-middle align-items-center justify-content-center col-3">
+                                                                    <td class="align-middle align-items-center justify-content-center col-5">
                                                                         <input type="text" class="mx-auto form-control col-9" id="name" name="name" value="@Model.name" readonly>
                                                                     <input type="text" class="mx-auto form-control col-9" id="createdBy" name="createdBy" value="@Model.EmpId" hidden>
                                                                 </td>
-                                                                <td class="align-items-center d-flex justify-content-center h-100">
+                                                                    <td class="align-items-center d-flex justify-content-center h-100 col-12">
                                                                     <select name="DRIApprovedBy" id="driapprovedby" class="form-control col-9">
                                                                         @* <option>321256 - Pankaj Singh</option>  *@
                                                                          @foreach (var manager in managerList)
@@ -1059,10 +1059,10 @@
                                                                     Dept
                                                                 </td>
 
-                                                                <td class="align-middle align-items-center justify-content-center col-3">
+                                                                <td class="align-middle align-items-center justify-content-center col-5">
                                                                         <input type="text" class="mx-auto form-control col-9" id="DomainId" name="DomainId" value="@Model.Domain - @Model.Department" readonly>
                                                                 </td>
-                                                                <td class="align-items-center d-flex justify-content-center h-100">
+                                                                    <td class="align-items-center d-flex justify-content-center h-100 col-12">
                                                                         <input name="DeptId" id="DeptId" class="form-control col-9" value="@Model.Domain - @Model.Department" readonly>
                                                                     </td>
                                                                @*  <td class="align-middle align-items-center justify-content-center col-3">
@@ -1079,18 +1079,16 @@
                                                                      DateTime parsedDate;
                                                                      bool isValidDate = DateTime.TryParse(Model.OriginatedDate, out parsedDate);
                                                                 }
-                                                                <td class="align-middle align-items-center justify-content-center col-3">
+                                                                    <td class="align-middle align-items-center justify-content-center col-5">
                                                                     <input type="text" class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@parsedDate.ToString("dd/MM/yyyy")">
 
                                                                 </td>
-                                                                <td class="align-items-center d-flex justify-content-center h-100">
-                                                                        <div class="align-items-center d-flex justify-content-center col-12">
-                                                                            <input name="driapproveddate" type="date" id="driapproveddate" class="form-control col-9">
-                                                                            <span id="driapproveddateerror" class="text-danger error-message"></span>
-                                                                    </div>
-
-                                                                </td>
-                                                                    
+                                                                    <td class="align-items-center d-flex justify-content-center h-100 col-12">
+                                                                        <div class="align-items-center d-flex flex-column justify-content-center col-12">
+                                                                            <input name="driapproveddate" type="date" id="driapproveddate" class="form-control col-9 mb-1">
+                                                                            <span id="driapproveddateerror" class="text-danger error-message mt-1"></span>
+                                                                        </div>
+                                                                    </td>
 
                                                                 @* <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-4">
@@ -1294,8 +1292,6 @@
 
 
     function loadModalContent() {
-         
-        debugger;
         $.get('@Url.Action("KaizenModalPopupPartial", "CreateKaizen")', function (data) {
             $('#modalPlaceholder').html(data);
             $('#sampleKaizenModal').modal('show');
@@ -1656,7 +1652,6 @@
     });
 
     $("#teamDelBtn").click(function () {
-        debugger;
         var mytable = document.getElementById("tblteammemberResult");
         var rows = mytable.rows.length;
         for (var i = rows - 1; i > 0; i--) {
@@ -1817,88 +1812,114 @@
 
     function ValidateForm() {
         var isValid = true;
-        var firstInvalidField = null; 
-
-        // $("#docNo").css("border-color", "red");
-        // $("#docerror").text("");
-        // $(".error-message").text("");
-
-        $("#versionNo").css("border-color", "red");
-        $("#versionerror").text("");
-        $(".error-message").text("");
-
-        $("#codeCentre").css("border-color", "red");
-        $("#codecentererror").text("");
-        $(".error-message").text(""); 
+        var firstInvalidField = null;
         
-        $("#refNo").css("border-color", "red");
-        $("#kaizenrefNoererror").text("");
-        $(".error-message").text(""); 
 
-        $("#BlockName").css("border-color", "red");
-        $("#Blockerror").text("");
-        $(".error-message").text("");
-
-        $("#ktheme").css("border-color", "red");
-        $("#themeError").text("");
-        $(".error-message").text("");
-
-        $("#teplplant").css("border-color", "red");
-        $("#teplplantError").text("");
-        $(".error-message").text("");
-
-        $("#probstmt").css("border-color", "red");
-        $("#probstmtError").text("");
-        $(".error-message").text("");
-
-        
-        $("#countmeasur").css("border-color", "red");
-        $("#countmeasurError").text("");
-        $(".error-message").text("");
-
-        $("#rootcauseProblem").css("border-color", "red");
-        $("#rootProblemError").text("");
-        $(".error-message").text("");
-
-        $("#presentCondition").css("border-color", "red");
-        $("#presentconditionsError").text("");
-        $(".error-message").text("");
-
-        $("#improvementsCompleted").css("border-color", "red");
-        $("#ImprovementsError").text("");
-        $(".error-message").text("");
-
-        $("#InOtherMC").css("border-color", "red");
-        $("#otherError").text("");
-        $(".error-message").text(""); 
-
-        $("#withinDept").css("border-color", "red"); 
-        $("#withinError").text("");
-        $(".error-message").text("");
-                 
-        $("#InotherDept").css("border-color", "red");
-        $("#InotherError").text("");
-        $(".error-message").text("");
-
-        $("#Otherpoints").css("border-color", "red");
-        $("#OtherpointsError").text("");
-        $(".error-message").text("");
-
-        $("#benefit").css("border-color", "red");
-        $("#BenefitsError").text("");
-        $(".error-message").text("");
-
-        $("#driapproveddate").css("border-color", "");
-        $("#driapproveddateerror").text("");
-        $(".error-message").text("");
-
-        $("#tableborder").css("border-color", "red");
-        $("#TeammemberError").text("");
-        $(".error-message").text("");
-
-        // $("#tableborder").css("border-color", "red");
-        $("#BenifitareaError").text("");
-        $(".error-message").text("");
+        $("#BlockName").on("input", function () {
+            var blockNameValue = $(this).val();
+            if (blockNameValue !== "") {
+                $(this).css("border-color", "");
+                $("#BlockError").text("");
+            }
+        });
+        $("#ktheme").on("input", function () {
+            var themeName = $(this).val();
+            if (themeName !== "") {
+                $(this).css("border-color", "");
+                $("#themeError").text("");
+            }
+        });
+        $("#teplplant").on("input", function () {
+            var plantName = $(this).val();
+            if (plantName !== "") {
+                $(this).css("border-color", "");
+                $("#plantError").text("");
+            }
+        });
+        $("#codeCentre").on("input", function () {
+            var codeCentre = $(this).val();
+            if (codeCentre !== "") {
+                $(this).css("border-color", "");
+                $("#codecentererror").text("");
+            }
+        });
+        $("#probstmt").on("input", function () {
+            var problemName = $(this).val();
+            if (problemName !== "") {
+                $(this).css("border-color", "");
+                $("#probstmtError").text("");
+            }
+        });
+        $("#countmeasur").on("input", function () {
+            var counterMeasuremName = $(this).val();
+            if (counterMeasuremName !== "") {
+                $(this).css("border-color", "");
+                $("#countmeasurError").text("");
+            }
+        });
+        $("#rootcauseProblem").on("input", function () {
+            var rootcauseproblem = $(this).val();
+            if (rootcauseproblem !== "") {
+                $(this).css("border-color", "");
+                $("#rootProblemError").text("");
+            }
+        });
+        $("#presentCondition").on("input", function () {
+            var PresentConditions = $(this).val();
+            if (PresentConditions !== "") {
+                $(this).css("border-color", "");
+                $("#presentconditionsError").text("");
+            }
+        });
+        $("#improvementsCompleted").on("input", function () {
+            var Improvements = $(this).val();
+            if (Improvements !== "") {
+                $(this).css("border-color", "");
+                $("#ImprovementsError").text("");
+            }
+        });
+        $("#benefit").on("input", function () {
+            var Benifits = $(this).val();
+            if (Benifits !== "") {
+                $(this).css("border-color", "");
+                $("#BenefitsError").text("");
+            }
+        });
+        $("#InOtherMC").on("input", function () {
+            var inOthermc = $(this).val();
+            if (inOthermc !== "") {
+                $(this).css("border-color", "");
+                $("#otherError").text("");
+            }
+        });
+        $("#withinDept").on("input", function () {
+            var withindept = $(this).val();
+            if (withindept !== "") {
+                $(this).css("border-color", "");
+                $("#withinError").text("");
+            }
+        });
+        $("#InotherDept").on("input", function () {
+            var Inotherdept = $(this).val();
+            if (Inotherdept !== "") {
+                $(this).css("border-color", "");
+                $("#InotherError").text("");
+            }
+        });
+        $("#Otherpoints").on("input", function () {
+            var otherpoints = $(this).val();
+            if (otherpoints !== "") {
+                $(this).css("border-color", "");
+                $("#OtherpointsError").text("");
+            }
+        });
+        $("#driapproveddate").on("input", function () {
+            var Driapproveddate = $(this).val();
+            if (Driapproveddate !== "") {
+                $(this).css("border-color", "");
+                $("#driapproveddateerror").text("");
+            }
+        });
 
         var benifitarea = [];
         $('#checkboxform1 input[type=checkbox]:checked').each(function () {
@@ -1910,7 +1931,7 @@
         var problemName = $("#probstmt").val();
         var counterMeasuremName = $("#countmeasur").val();
         // var documentNo = $("#docNo").val();
-        var driapproveddate = $("#driapproveddate").val();
+        var Driapproveddate = $("#driapproveddate").val();
         var versionNo = $("#versionNo").val();
         var codeCentre = $("#codeCentre").val();
         var refNo = $("#refNo").val();
@@ -1931,6 +1952,16 @@
                 memberDetails.TeamMemberName = row.find("TD").eq(2).val();
                 memberDetails.FunctionName = row.find("TD").eq(3).val();
                 addedTeamMembers.push(memberDetails);
+            }
+        });
+        $("#teamAddBtn").on("click", function () {
+            $("#tableborder").css("border-color", "");
+            $("#TeammemberError").text("");
+        });
+        $('#checkboxform1 input[type=checkbox]').on('change', function () {
+            var benifitarea = $('#checkboxform1 input[type=checkbox]:checked').length;
+            if (benifitarea > 0) {
+                $("#BenifitareaError").text("");
             }
         });
         // if (documentNo === "") {
@@ -2025,27 +2056,12 @@
 
             isValid = false;
         }
-        if (driapproveddate === "") {
+        if (Driapproveddate === "") {
             $("#driapproveddate").css("border-color", "red");
             $("#driapproveddateerror").text("Date is required.");
             if (!firstInvalidField) firstInvalidField = "#driapproveddate";
             isValid = false;
         }
-        // if (benifitarea.length === 0 && addedTeamMembers.length === 0) {
-        //     swal({
-        //         text: "Benefit Area is required & \n At least one team member must be added"
-        //     });
-        //     isValid = false;
-        // } else {
-        //     if (benifitarea.length === 0) {
-        //         swal("Benefit Area is required.");
-        //         isValid = false;
-        //     }
-        //     if (addedTeamMembers.length === 0) {
-        //         swal("At least one team member must be added.");
-        //         isValid = false;
-        //     }
-        // }
         if (document.getElementById('yesRadio').checked) {
             var inOthermc = $("#InOtherMC").val().trim();
             var withindept = $("#withinDept").val().trim();
@@ -2380,7 +2396,6 @@
 
 
         $("#btnUpdateKaizen").click(function () {
-            debugger;
             var checkboxData = {};
             var checkboxData1 = {};
             var Rootcausedata;
@@ -2522,7 +2537,6 @@
 
 
         $("#btnSubmittedStatus").click(function () {
-            debugger;
             var checkboxData = {};
             var checkboxData1 = {};
             var Rootcausedata;
@@ -2845,7 +2859,6 @@
             var editKaizen = JSON.parse(sessionStorage.getItem("editKaizen"));
             var KaizenId = editKaizen['kaizenid'];
             var Usertype = editKaizen['edituser'];
-            debugger;
             if (Usertype == 'view')
             {
                 makeDivReadOnly();
@@ -2887,7 +2900,6 @@
                 },
                 success: function (result) {
                     if (result) {
-                        debugger;
                         const statusdetails = {
                             
                             submitted:1,
@@ -2976,7 +2988,6 @@
                             $('#approvers').hide();
                           
                         }
-                        debugger;
                         if(result.approverslist[0].financeEmail == "")
                         { 
                         
@@ -3290,7 +3301,6 @@
                                 $('#upload_area').show();
                             }
                             deleteButton.on('click', function () {
-                                debugger;
                                 var kaizenId = $(this).data('kaizen-id');
                                 var attachmentId = $(this).data('attachment-id');
                                 swal({

@@ -104,6 +104,13 @@
     function ValidateForm() {
         debugger;
         var isValid = true;
+        $("#BlockName").on("input", function () {
+            var blockNameValue = $(this).val();
+            if (blockNameValue !== "") {
+                $(this).css("border-color", "");
+                $("#BlockError").text("");
+            }
+        });
 
         // Remove red borders and error messages
     //    $("#BlockName").css("border-color", "red");
