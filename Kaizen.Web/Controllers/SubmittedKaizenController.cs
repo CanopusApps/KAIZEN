@@ -24,6 +24,7 @@ namespace Kaizen.Web.Controllers
         private readonly IDepartment   _departmentWorker;
         private readonly ISubmittedKaizen _submittedKaizenWorker;
         private readonly IWebHostEnvironment _environment;
+        string ImageApprover;
         public SubmittedKaizenController(IDomain domainWorker,IDepartment departmentWorker, ISubmittedKaizen submittedKaizenWorker, IHttpContextAccessor conAccessor)
         {
             _domainWorker = domainWorker;
@@ -37,7 +38,7 @@ namespace Kaizen.Web.Controllers
             SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
             try
             {
-                viewModel.DomainList = _domainWorker.GetDomain();
+                viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
                 KaizenListModel model = new KaizenListModel()
                 {
                     StartDate=StartDate,
@@ -120,6 +121,49 @@ namespace Kaizen.Web.Controllers
                 // Exclude items with status 0
                 SubmittedKaizenList = SubmittedKaizenList.Where(k => k.ApprovalStatus != "Saved").ToList();
             }
+            return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
+        }
+        public IActionResult ViewImageApproval(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
+        {
+            SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
+            try
+            {
+                ImageApprover = conAccessor.HttpContext.Session.GetString("ImageApprover");
+                viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+                KaizenListModel model = new KaizenListModel()
+                {
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                    Domain = Domain,
+                    Department = Department,
+                    KaizenTheme = KaizenTheme,
+                    Status = Status,
+                    role = ImageApprover,
+                    UserId = conAccessor.HttpContext.Session.GetString("UserID")
+                };
+                viewModel.SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+            }
+            catch (Exception ex)
+            {
+                //LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
+            }
+            return View(viewModel);
+        }
+        public IActionResult ViewFilterImageApproval(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
+        {
+            ImageApprover = conAccessor.HttpContext.Session.GetString("ImageApprover");
+            KaizenListModel model = new KaizenListModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+                Domain = Domain,
+                Department = Department,
+                KaizenTheme = KaizenTheme,
+                Status = Status,
+                role = ImageApprover,
+                UserId = conAccessor.HttpContext.Session.GetString("UserID")
+            };
+            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);///
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
     }
