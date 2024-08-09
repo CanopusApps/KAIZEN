@@ -192,7 +192,7 @@
         $('#inputDomain').change(function () {
             var Domain = $('#inputDomain').val().trim();
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: '/Admin/FetchDepartment',
                 dataType: "json",
                 data: { DomainID: Domain },
@@ -201,8 +201,8 @@
                         var dropdown = $('#inputDepartment');
                         dropdown.empty();
                         dropdown.append($('<option>', {
-                            value: 'all',
-                            text: 'Select Department'
+                            value: '0',
+                            text: '--Select Department--'
                         }));
                         for (var i = 0; i < result.length; i++) {
                             $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');

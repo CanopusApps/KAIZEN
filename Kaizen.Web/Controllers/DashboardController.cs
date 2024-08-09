@@ -127,15 +127,7 @@ namespace Kaizen.Web.Controllers
 
             return deptList;
         }
-        //public List<DepartmentModel> FetchDepartment(string domainId)
-        //{
-
-        //    departments = _departmentWorker.GetDepartments();
-
-
-        //    return departments.Where(m => m.DomainId == Convert.ToInt32(domainId) && m.Status == true).ToList();
-
-        //}
+      
         public IActionResult EmployeeDashboard()
         {
            

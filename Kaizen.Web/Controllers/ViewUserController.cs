@@ -74,9 +74,8 @@ namespace Kaizen.Web.Controllers
             return PartialView("_UserGridPartial", userList);
         }
 
-        [HttpPost]
+        [HttpGet]
         
-
         public List<DepartmentModel> FetchDepartment(string domainId)
         {
 

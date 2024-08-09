@@ -348,11 +348,12 @@ namespace Kaizen.Web.Controllers
 
         public List<DomainModel> DomainList()
         {
-            list = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
 
-            //list = _departmentWorker.GetDomain(model);
+            list = _departmentWorker.GetDomain(model);
             return list;
         }
+
+
         [HttpPost]
         public IActionResult UpdateDepartment(DepartmentModel departmentmodel)
         {

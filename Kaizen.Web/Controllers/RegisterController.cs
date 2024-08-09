@@ -30,9 +30,6 @@ public class RegisterController : Controller
     }
 
 
-    // GET: Register/Index
-    [HttpGet]
-    
    [HttpGet]
     // GET: Register/Index
     public IActionResult Index()
@@ -47,8 +44,6 @@ public class RegisterController : Controller
 
         return View(viewModel);
     }
-
-
 
 
     [HttpPost]
@@ -92,7 +87,8 @@ public JsonResult RegisterUser(RegisterModel user)
         return Json(new { success = false, message = "An error occurred: " + ex.Message });
     }
 }
-    [HttpPost]
+
+    [HttpGet]
     public JsonResult FetchDepartment(string DomainID)
     {
         var departments = _departmentWorker.GetDepartments()

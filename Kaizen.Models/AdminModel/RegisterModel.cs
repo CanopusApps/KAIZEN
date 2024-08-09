@@ -11,6 +11,7 @@ namespace Kaizen.Models.AdminModel
     {
         
         public string Name { get; set; }
+        
         public string Email { get; set; }
 
        
