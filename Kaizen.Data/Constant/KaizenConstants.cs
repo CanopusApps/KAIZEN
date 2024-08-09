@@ -92,6 +92,8 @@ namespace Kaizen.Data.Constant
         public static string Sp_Fetch_KaizenUpdateDetails_ById = "Sp_Fetch_KaizenUpdateDetails_ById";
         public static string Sp_Fetch_KaizenAttachments_ById = "Sp_Fetch_KaizenAttachments_ById";
         public static string Sp_DeleteAttachmentsByKaizenID = "Sp_DeleteAttachmentsByKaizenID";
+        public static string SpFetchEmail = "Sp_FetchEmail";
+        public static string SpUpdatePassword = "Sp_UpdatePassword";
 
     }
 

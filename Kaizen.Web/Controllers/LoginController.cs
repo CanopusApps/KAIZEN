@@ -10,8 +10,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Kaizen.Data.DataServices.Interfaces;
 
+
+//Forgot Password
+using System.Net;
+using System.Net.Mail;
+
 using Newtonsoft.Json;
 using Kaizen.Models.Theme;
+using DocumentFormat.OpenXml.Office2010.Excel;
 namespace Kaizen.Web.Controllers
 {
     public class LoginController : Controller
@@ -20,16 +26,19 @@ namespace Kaizen.Web.Controllers
         private readonly ILogin _loginworker;
         private readonly IWebHostEnvironment _environment;
 
+        private readonly IForgotPassword _forgotPasswordWorker;
+
         private readonly IThemeChanger _addThemeWorker;
 
         List<ManagerModel> ManagerList = new List<ManagerModel>();
         List<CountModel> CountList = new List<CountModel>();
 
-        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor, IThemeChanger _addThemeWorker)
+        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor, IThemeChanger _addThemeWorker, IForgotPassword forgotPasswordWorker)
         {
             this._loginworker = _loginworker;
             this.conAccessor = conAccessor;
             this._addThemeWorker = _addThemeWorker;
+            this._forgotPasswordWorker = forgotPasswordWorker;
         }
 
         [HttpGet]
@@ -151,6 +160,110 @@ namespace Kaizen.Web.Controllers
 
             return View();
         }
+        public IActionResult ResetPassword(string data)
+        {
+            try
+            {
+                string[] parts = data.Split('|');
+                if (parts.Length != 2)
+                {
+                    return BadRequest("Invalid link format.");
+                }
+
+                string userId = parts[0];
+                DateTime linkGeneratedTime = DateTime.Parse(parts[1]);
+
+                // Check if the link is within the 30-minute validity period
+                if (DateTime.UtcNow - linkGeneratedTime > TimeSpan.FromMinutes(30))
+                {
+                    return BadRequest("The link has expired.");
+                }
+
+                // Pass the userId to the view
+                ViewData["UserId"] = userId;
+            }
+            catch (Exception)
+            {
+                return BadRequest("Invalid or expired link.");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword(LoginModel model)
+        {
+            bool stat= false;
+            if (ModelState.IsValid)
+            {
+                stat = _forgotPasswordWorker.UpdatePassword(model);
+                return View(model);
+            }
+            
+            return View(stat);
+        }
+        public IActionResult Forgot()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Forgot(string id)
+        {
+            String userEmail = _forgotPasswordWorker.FetchEmail(id);
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return NotFound("User email not found.");
+            }
+            string subject = "Password Reset Request";
+            DateTime linkGeneratedTime = DateTime.UtcNow; //Generating Timestamp
+            string resetLink = Url.Action("ResetPassword", "Login", new { data = $"{id}|{linkGeneratedTime}" }, protocol: HttpContext.Request.Scheme);
+            string body = $"Please reset your password by clicking on this link: <a href='{resetLink}'>Reset Password</a>";
+
+            SendEmail(userEmail, subject, body);
+
+            return Ok(true);
+        }
+        //private void SendEmail(string toEmail, string subject, string body)
+        //{
+        //    SmtpClient client = new SmtpClient("smtp.gmail.com")
+        //    {
+        //        Port = 587, 
+        //        Credentials = new NetworkCredential("sudhan.manuel30@gmail.com", "keen rajl ogjp jibz"),
+        //        EnableSsl = true,
+        //    };
+
+        //    MailMessage mailMessage = new MailMessage
+        //    {
+        //        From = new MailAddress("sudhan.manuel30@gmail.com"),
+        //        Subject = subject,
+        //        Body = body,
+        //        IsBodyHtml = true,
+        //    };
+        //    mailMessage.To.Add(toEmail);
+        //    client.Send(mailMessage);
+        //}
+        private void SendEmail(string toEmail, string subject, string body)
+        {
+            SmtpClient client = new SmtpClient("smtp.office365.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential("sudhan.manuel@canopusgbs.com", "Sudhan30#"),
+                EnableSsl = true,
+            };
+
+            MailMessage mailMessage = new MailMessage
+            {
+                From = new MailAddress("sudhan.manuel@canopusgbs.com"),
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true,
+            };
+            mailMessage.To.Add(toEmail);
+            client.Send(mailMessage);
+        }
+
+
+
         public IActionResult Logout()
         {
           

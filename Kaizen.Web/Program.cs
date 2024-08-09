@@ -57,6 +57,9 @@ builder.Services.AddScoped<IThemeRepository, ThemeWorkerRepository>();
 
 builder.Services.AddScoped<IRegister, RegisterWorker>();
 builder.Services.AddScoped<IRegisterRepository, RegisterRepository>();
+
+builder.Services.AddScoped<IForgotPassword, ForgotPasswordWorker>();
+builder.Services.AddScoped<IForgotPasswordRepository, ForgotPasswordRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
