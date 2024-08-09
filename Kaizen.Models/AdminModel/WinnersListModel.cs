@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Kaizen.Models.WinnersList
-{
+{   
     public class WinnersListModel 
     {
         public Guid Id { get; set; } 
