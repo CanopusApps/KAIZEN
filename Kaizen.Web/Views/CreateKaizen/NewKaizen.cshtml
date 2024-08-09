@@ -1278,21 +1278,21 @@
 
 <script>
     
-    $(document).ready(function () {
-    var dateInput = document.getElementById('CDeta');
-    var dateValue = dateInput.value;
+   //  $(document).ready(function () {
+   //  var dateInput = document.getElementById('CDeta');
+   //  var dateValue = dateInput.value;
     
-    if (dateValue) {
-        var parts = dateValue.split('-');
-        if (parts.length === 3) {
-            var formattedDate = parts[0] + '/' + parts[1] + '/' + parts[2];
-            dateInput.value = formattedDate;
-                console.log("Converted Date= "+formattedDate)
-        } else {
-            console.error("Date format is not correct");
-        }
-    }
-   });
+   //  if (dateValue) {
+   //      var parts = dateValue.split('-');
+   //      if (parts.length === 3) {
+   //          var formattedDate = parts[0] + '/' + parts[1] + '/' + parts[2];
+   //          dateInput.value = formattedDate;
+   //              console.log("Converted Date= "+formattedDate)
+   //      } else {
+   //          console.error("Date format is not correct");
+   //      }
+   //  }
+   // });
 
 
     function loadModalContent() {

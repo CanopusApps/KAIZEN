@@ -47,16 +47,16 @@ namespace Kaizen.Business.Worker
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    bool status = Convert.ToBoolean(dr["Status"]);
-                    if (status)
-                    {
+                    //bool status = Convert.ToBoolean(dr["Status"]);
+                    //if (status)
+                    //{
                         blackModels.Add(new BlockModel
                         {
                             Id = Convert.ToInt32(dr["BlockId"]),
                             BlockName = dr["BlockName"].ToString(),
-                            Status = status
+                            Status = Convert.ToBoolean(dr["Status"])
                         });
-                    }
+                    //}
                 }
             }
 			return blackModels;
