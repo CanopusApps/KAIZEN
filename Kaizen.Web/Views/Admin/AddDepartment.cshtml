@@ -113,6 +113,8 @@
         // Edit Department button click handler
         $('tbody').on('click', '.editdepartment', function (e) {
             e.preventDefault();
+            $('#domainName').focus();
+            $('#departmentName').focus();
             $('#btnAdd').hide(); // Hide add button
             $('#btnupdate').show(); // Show update button
 
