@@ -29,16 +29,19 @@ namespace Kaizen.Web.Controllers
         private readonly IForgotPassword _forgotPasswordWorker;
 
         private readonly IThemeChanger _addThemeWorker;
+        private readonly IConfiguration _configuration;
 
         List<ManagerModel> ManagerList = new List<ManagerModel>();
         List<CountModel> CountList = new List<CountModel>();
 
-        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor, IThemeChanger _addThemeWorker, IForgotPassword forgotPasswordWorker)
+        public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor, IThemeChanger _addThemeWorker, IForgotPassword forgotPasswordWorker, IConfiguration configuration)
         {
             this._loginworker = _loginworker;
             this.conAccessor = conAccessor;
             this._addThemeWorker = _addThemeWorker;
             this._forgotPasswordWorker = forgotPasswordWorker;
+            this._configuration = configuration;
+
         }
 
         [HttpGet]
@@ -73,6 +76,7 @@ namespace Kaizen.Web.Controllers
             string Domainname, departmentname;
             DataTable dataTable = new DataTable();
             DataTable dataTable1 = new DataTable();
+            ModelState.Remove(nameof(loginmodel.ConfirmPassword));
             try
             {
                 if (ModelState.IsValid)
@@ -223,41 +227,25 @@ namespace Kaizen.Web.Controllers
 
             return Ok(true);
         }
-        //private void SendEmail(string toEmail, string subject, string body)
-        //{
-        //    SmtpClient client = new SmtpClient("smtp.gmail.com")
-        //    {
-        //        Port = 587, 
-        //        Credentials = new NetworkCredential("sudhan.manuel30@gmail.com", "keen rajl ogjp jibz"),
-        //        EnableSsl = true,
-        //    };
-
-        //    MailMessage mailMessage = new MailMessage
-        //    {
-        //        From = new MailAddress("sudhan.manuel30@gmail.com"),
-        //        Subject = subject,
-        //        Body = body,
-        //        IsBodyHtml = true,
-        //    };
-        //    mailMessage.To.Add(toEmail);
-        //    client.Send(mailMessage);
-        //}
         private void SendEmail(string toEmail, string subject, string body)
         {
-            SmtpClient client = new SmtpClient("smtp.office365.com")
+            var emailSettings = _configuration.GetSection("EmailSettings");
+
+            SmtpClient client = new SmtpClient(emailSettings["SmtpServer"])
             {
-                Port = 587,
-                Credentials = new NetworkCredential("sudhan.manuel@canopusgbs.com", "Sudhan30#"),
-                EnableSsl = true,
+                Port = int.Parse(emailSettings["Port"]),
+                Credentials = new NetworkCredential(emailSettings["Username"], emailSettings["Password"]),
+                EnableSsl = bool.Parse(emailSettings["EnableSsl"])
             };
 
             MailMessage mailMessage = new MailMessage
             {
-                From = new MailAddress("sudhan.manuel@canopusgbs.com"),
+                From = new MailAddress(emailSettings["FromEmail"]),
                 Subject = subject,
                 Body = body,
                 IsBodyHtml = true,
             };
+
             mailMessage.To.Add(toEmail);
             client.Send(mailMessage);
         }
