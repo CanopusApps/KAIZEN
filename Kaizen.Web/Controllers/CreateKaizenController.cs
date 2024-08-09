@@ -50,14 +50,14 @@ namespace Kaizen.Web.Controllers
                 //model.Id = id.ToString();
                 // model.IEEmail = _infoSettings.IEEmail;
                 //model.AccountEmail= _infoSettings.AccountEmail;
-
+                var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
                 model.IEEmail = conAccessor.HttpContext.Session.GetString("IEemail");
                 model.AccountEmail = conAccessor.HttpContext.Session.GetString("FinanceEmail");
                 model.name = conAccessor.HttpContext.Session.GetString("Message");
                 model.EmpId = conAccessor.HttpContext.Session.GetString("EmpId");
                 model.Domain = conAccessor.HttpContext.Session.GetString("Domain");
                 model.Department = conAccessor.HttpContext.Session.GetString("Department");
-                model.BlockList = _blockWorker.GetBlock();
+                model.BlockList = activeBlocks;
                 model.IEDepartList = _viewuserWorker.GetIEDepart();
                 //model = _createNewKaizen.GetKaizenOriginatedby(model);
                 DateTime currentDate  = DateTime.Today;

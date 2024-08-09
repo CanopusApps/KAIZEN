@@ -43,11 +43,12 @@ namespace Kaizen.Web.Controllers
         public IActionResult AddUser()
         
         {
+            var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
             AddUserModel model = new AddUserModel();
             model.Cadre = _addUserWorker.GetCadre();
             model.UserType = _addUserWorker.GetUserType();
             model.Domains = _domainWorker.GetDomain();
-            model.Blocks = _blockWorker.GetBlock();
+            model.Blocks = activeBlocks;
             //model.Departments = _departmentWorker.GetDepartments();
 
 
