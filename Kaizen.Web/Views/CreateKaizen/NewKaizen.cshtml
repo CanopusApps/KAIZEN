@@ -2949,6 +2949,7 @@
                             IERejected: 7,
                             FinanceApproved: 8,
                             FinanceRejected: 9,
+                            kaizenwithoutImages:15
                             // Pending: 10,
                             // DRIPending: 11,
                             // IEPending: 12,
@@ -2980,7 +2981,12 @@
                                 $("#finRejectedReason").text(result.kaizenList[0].rejectionreason);
                             }
                             $('#iestatusid').text(reverseStatusDetails[statusdetails.IEApproved]).addClass('approved');
-                            $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
+                            if (result.approverslist[0].imageAproveName == "") {
+                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.kaizenwithoutImages]).addClass('approved');
+                            }
+                            else {
+                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
+                            }
                             $('#dristatusid').text(reverseStatusDetails[statusdetails.DRIApproved]).addClass('approved');
                         } else if (statusDesc === statusdetails.IEApproved || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.IEPending) {
                             $('#saveItButton').hide();
@@ -2992,11 +2998,17 @@
                                 $("#ieRejectedReason").text(result.kaizenList[0].rejectionreason);
                                 $('#FinanceDept').hide();
                             }
-                            $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
+                            if (result.approverslist[0].imageAproveName == "") {
+                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.kaizenwithoutImages]).addClass('approved');
+                            }
+                            else {
+                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
+                            }
                             $('#dristatusid').text(reverseStatusDetails[statusdetails.DRIApproved]).addClass('approved');
-                        } else if (statusDesc === statusdetails.DRIApproved || statusDesc === statusdetails.DRIRejected || statusDesc === statusdetails.DRIPending) {
+                        } else if (statusDesc === statusdetails.DRIApproved || statusDesc === statusdetails.DRIRejected || statusDesc === statusdetails.DRIPending ) {
 
                             $('#DRIDept').show();
+                           
                             $('#ImageApprover').show();
                             $('#dristatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.DRIRejected ? 'rejected' : (statusDesc === statusdetails.DRIPending ? 'pending' : 'approved'));
                             if (statusDesc === statusdetails.DRIRejected) {
@@ -3005,8 +3017,15 @@
                                  $('#FinanceDept').hide();
 
                             }
-                            $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
-                        } else if (statusDesc === statusdetails.ImageApproved || statusDesc === statusdetails.ImageRejected) {
+                            if (result.approverslist[0].imageAproveName == "") {
+                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.kaizenwithoutImages]).addClass('approved');
+                            }
+                            else {
+                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
+                            }
+                        }
+                        else if (statusDesc === statusdetails.ImageApproved || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.kaizenwithoutImages) {
+                           
                             $('#imagestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.ImageRejected ? 'rejected' : 'approved');
                             $('#ImageApprover').show();
                             if (statusDesc === statusdetails.ImageRejected) {
@@ -3045,9 +3064,7 @@
                         {
                             $('#IEDept').hide();
                         }
-                        if (result.approverslist[0].imageAproveName == "") {
-                            $('#ImageApprover').hide();
-                        }
+                        
                         $('#bindtxtID').text(result.kaizenList[0].id);
                         $('#ieDateTime').text(result.kaizenList[0].ieApprovedDate);
                         $('#driDateTime').text(result.kaizenList[0].driApprovedDate);
