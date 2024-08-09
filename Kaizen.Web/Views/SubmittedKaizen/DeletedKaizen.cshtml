@@ -28,13 +28,14 @@
                 <table id="KaizenTable" class="table table-striped" style="width:100%;">
                     <thead>
                         <tr style="text-align:center">
+                            <th id="DocNo" width="10%">Doc No</th>
                             <th id="KaizenTheme" width="10%">Kaizen Theme</th>
                             <th id="TeamMembers" width="15%">Team Members</th>
                             <th id="HORIZENTALDEP" width="10%">Horizontal Deployment</th>
                             <th id="FINNANCEAPPROVAL" width="10%">Finance Dept Approval</th>
                             <th id="IEAPPROVAL" width="10%">IE Dept Approval</th>
-                            <th id="STATUS" width="15%">Status </th>
-                            <th id="POSTEDBY" width="10%">Posted by</th>
+                            <th id="STATUS" width="10%">Status </th>
+                            <th id="POSTEDBY" width="5%">Posted by</th>
                             <th id="POSTEDON" width="10%">Posted on</th>
                             <th id="Action" width="10%">Action</th>
                         </tr>
@@ -45,6 +46,7 @@
                             foreach (var User in Model.SubmittedKaizenList)
                             {
                                 <tr data-kaizenid="@User.KaizenId">
+                                    <td width="10%">@User.DocNo</td>
                                     <td width="10%">@User.KaizenTheme</td>
                                     <td width="15%">
                                         @Html.Raw(User.TeamName.Replace(",", "<br />"))
@@ -52,8 +54,8 @@
                                     <td width="10%">@User.HorozantalDeployment</td>
                                     <td width="10%">@User.FinnanceDeptAppr</td>
                                     <td width="10%">@User.IEApprovedDept</td>
-                                    <td width="15%">@User.ApprovalStatus</td>
-                                    <td width="10%"> @User.CreatedBy</td>
+                                    <td width="10%">@User.ApprovalStatus</td>
+                                    <td width="5%"> @User.CreatedBy</td>
                                     <td width="10%">@User.CreatedDate</td>
                                     <td class="text-center" width="10%">
                                         <a href="#" class="btn btn-primary btn-sm viewuser" id="view">
