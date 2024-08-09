@@ -21,6 +21,7 @@
                             <div class="form-group row">
                                 <div class="col-5">
                                     <input id="theme" class="form-control" placeholder="Enter theme" />
+                                    <span id="themeError" class="text-danger"></span> 
                                 </div>
                                 <div class="col-5">
                                     <input id="AddThemeBtn" type="button" value="Update" class="btn btn-azure" />
@@ -89,10 +90,31 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+    function ValidateForm() {
+        var isValid = true;
+        var theme = $("#theme").val();
+
+        $("#theme").on("input", function () {
+            var inputVal = $(this).val();
+            if (inputVal !== "") {
+                $(this).css("border-color", "");
+                $("#themeError").text("");
+            }
+        });
+
+        if (theme === "") {
+            $("#theme").css("border-color", "red");
+            $("#themeError").text("Theme is required.");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
     $(document).ready(function () {
         $('#AddThemeBtn').click(function () {
-            var theme = $('#theme').val().trim();
-            if (theme) {
+            if (ValidateForm()) {
+                var theme = $('#theme').val().trim();
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("ThemeChanger", "Theme")',
@@ -110,14 +132,9 @@
                     error: function (xhr, status, error) {
                         swal({
                             text: "Unable to update the theme details. Please check the logs.",
-                        });
+                        });q
                         console.error('Error:', error);
                     }
-                });
-            } else {
-                swal({
-                    text: "Please enter a theme.",
-                    icon: "warning"
                 });
             }
         });
