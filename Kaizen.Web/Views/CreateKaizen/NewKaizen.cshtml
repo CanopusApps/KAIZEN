@@ -1348,7 +1348,7 @@
             });
         }
         $('#rejectButton').click(function () {
-            let enumValue;
+           
             let isValid = true;
 
             var rejectionReason = $('#RejectionReason').val();
@@ -1368,6 +1368,7 @@
 
             var RejectionReason = $('#RejectionReason').val();
             var status = "Rejected";
+            let enumValue;
             if (imageapproverstatus === 'True') {
                 enumValue = 3;
             }
@@ -1376,7 +1377,7 @@
                     case 'IE DEPT':
                         enumValue = 7;
                         break;
-                    case 'FINANCE':
+                    case 'FINNACE':
                         enumValue = 9;
 
                         break;
@@ -1386,13 +1387,11 @@
                     // case 'IMAGE APPROVER':
                     //     enumValue = 3;
                     //     break;
-                    default:
-                        enumValue = 10;
-                        break;
+                  
                 }
             }
             if (rejectionReason !== null && rejectionReason.trim() !== "") {
-                handleButtonClick(enumValue, rejectionReason);
+                handleButtonClick(enumValue, rejectionReason, status);
             }
         });
         $('#ApprovButton').click(function () {

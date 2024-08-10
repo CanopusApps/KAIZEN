@@ -584,10 +584,7 @@
     
     $(document).ready(function () {
 
-     
-
-
-        debugger;
+    
         $('#dynamictable1').hide();
         $('#dynamictable2').hide();
         document.getElementById('DateContent').style.display = 'none';
@@ -707,7 +704,10 @@
                         var year = monthYear[1];
                         $('#' + month + '-submitted-ie').text(result.monthTotalKaizenList[i].ieTotal || 0);
                         $('#' + month + '-submitted-dri').text(result.monthTotalKaizenList[i].driTotal || 0);
-                        $('#' + month + '-submitted-finance').text(result.monthTotalKaizenList[i].financeTotal || 0);                      
+                        $('#' + month + '-submitted-finance').text(result.monthTotalKaizenList[i].financeTotal || 0);
+                        $('#' + month + '-approved-dri').text(result.monthTotalKaizenList[i].cardManagerApproved || 0);
+                        $('#' + month + '-pending-dri').text(result.monthTotalKaizenList[i].cardManagerPending || 0);
+                        $('#' + month + '-approved-ie').text(result.monthTotalKaizenList[i].cardIEApproved || 0);
                       }
                     for (let i = 0; i < result.monthCountKaizenList.length; i++) {
                         let item = result.monthCountKaizenList[i];
@@ -715,11 +715,11 @@
                         var month = monthYear[0].toLowerCase().substr(0, 3);
                         var year = monthYear[1];
                         switch (item.approvalStatus) {
-                            case statusDetails.ImageApproved:
-                                $('#' + month + '-pending-dri').text(item.approvalCount || 0);
-                                break;
+                            // case statusDetails.ImageApproved:
+                            //     $('#' + month + '-pending-dri').text(item.approvalCount || 0);
+                            //     break;
                             case statusDetails.DRIApproved:
-                                $('#' + month + '-approved-dri').text(item.approvalCount || 0);
+                               
                                 $('#' + month + '-pending-ie').text(item.approvalCount || 0);
                                 break;
                             case statusDetails.DRIRejected:
@@ -727,7 +727,7 @@
                                 break;
                             case statusDetails.IEApproved:
                               
-                                $('#' + month + '-approved-ie').text(item.approvalCount || 0);                              
+                                                             
                                 $('#' + month + '-pending-finance').text(item.approvalCount || 0);
                                 break;
                             case statusDetails.IERejected:
@@ -769,7 +769,6 @@
          
         $('#btn_filter3').click(function () {
 
-            debugger;
             var StartDate = $('#yearDropdown1').val();
             var EndDate = $('#yearDropdown1').val();
             var year = parseInt($('#yearDropdown1').val(), 10);
@@ -790,7 +789,6 @@
                 $('#loader-wrapper').show();
             },
             success: function (result) {
-                debugger;
                     for (let i = 0; i < result.customMonthTotalKaizenList.length; i++) {
                         let item = result.customMonthTotalKaizenList[i];
                           var monthYear = item.monthbasedTotal.split('-');
@@ -858,7 +856,6 @@
         $('#btn_filter1').click(function () {
             var StartDate = $('#dtstartdate').val();
             var EndDate = $('#dtenddate').val();
-            debugger;
             if (!ValidateFormtable1()) {
                 return;
             }
@@ -967,15 +964,15 @@
                             // Append status counts to the row
                             row += '<td>' + submitted + '</td>';
                             row += '<td>' + imageRejected + '</td>';
-                            row += '<td class="pending-td">' + driPending + '</td>';
-                            row += '<td class="pending-td">' + iePending + '</td>';
-                            row += '<td class="pending-td">' + financePending + '</td>';
+                            row += '<td class="pending-td">' + (item.cardManagerPending || 0) + '</td>'; 
+                            row += '<td class="pending-td">' + driApproved + '</td>';
+                            row += '<td class="pending-td">' + ieApproved + '</td>';
                             row += '<td  class="rejected-td">' + driRejected + '</td>';
                             row += '<td  class="rejected-td">' + ieRejected + '</td>';
                             row += '<td  class="rejected-td">' + financeRejected + '</td>';
-                            row += '<td class="approved-td">' + driApproved + '</td>';
-                            row += '<td class="approved-td">' + ieApproved + '</td>';
-                            row += '<td class="approved-td">' + financeApproved + '</td>';
+                            row += '<td class="approved-td">' + (item.cardManagerApproved || 0) + '</td>';
+                            row += '<td class="approved-td">' + (item.cardIEApproved || 0) + '</td>';
+                            row += '<td class="approved-td">' +  financeApproved + '</td>';
 
 
 

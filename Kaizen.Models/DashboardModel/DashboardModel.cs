@@ -59,6 +59,12 @@ namespace Kaizen.Models.DashboardModel
 
         public int TotalPending { get; set; }
         public int TotalRejected { get; set; }
+
+        public int CardImageApproved {  get; set; }
+
+        public int CardManagerApproved { get; set; }
+        public int CardManagerPending { get; set; }
+        public int CardIEApproved {  get; set; }
     }
     public class CountKaizenStatus
     {

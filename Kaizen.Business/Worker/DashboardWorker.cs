@@ -187,8 +187,11 @@ namespace Kaizen.Business.Worker
                         Imagetotal = dr["Imagetotal"] != DBNull.Value ? Convert.ToInt32(dr["Imagetotal"]) : 0,
                         TotalPending = dr["TotalPending"] != DBNull.Value ? Convert.ToInt32(dr["TotalPending"]) : 0,
                         TotalRejected = dr["TotalRejected"] != DBNull.Value ? Convert.ToInt32(dr["TotalRejected"]) : 0,
-                        TotalApproved = dr["TotalApproved"] != DBNull.Value ? Convert.ToInt32(dr["TotalApproved"]) : 0
-
+                        TotalApproved = dr["TotalApproved"] != DBNull.Value ? Convert.ToInt32(dr["TotalApproved"]) : 0,
+                         CardImageApproved = dr["cardImageApproved"] != DBNull.Value ? Convert.ToInt32(dr["cardImageApproved"]) : 0,
+                        CardManagerApproved = dr["CardManagerApproved"] != DBNull.Value ? Convert.ToInt32(dr["CardManagerApproved"]) : 0,
+                        CardIEApproved = dr["CardIEApproved"] != DBNull.Value ? Convert.ToInt32(dr["CardIEApproved"]) : 0,
+                        CardManagerPending = dr["carddripending"] != DBNull.Value ? Convert.ToInt32(dr["carddripending"]) : 0
 
 
                     });
@@ -237,7 +240,12 @@ namespace Kaizen.Business.Worker
                         Imagetotal = dr["Imagetotal"] != DBNull.Value ? Convert.ToInt32(dr["Imagetotal"]) : 0,
                         TotalPending = dr["TotalPending"] != DBNull.Value ? Convert.ToInt32(dr["TotalPending"]) : 0,
                         TotalRejected = dr["TotalRejected"] != DBNull.Value ? Convert.ToInt32(dr["TotalRejected"]) : 0,
-                        TotalApproved = dr["TotalApproved"] != DBNull.Value ? Convert.ToInt32(dr["TotalApproved"]) : 0
+                        TotalApproved = dr["TotalApproved"] != DBNull.Value ? Convert.ToInt32(dr["TotalApproved"]) : 0,
+                        CardImageApproved = dr["cardImageApproved"] != DBNull.Value ? Convert.ToInt32(dr["cardImageApproved"]) : 0,
+                        CardManagerApproved = dr["CardManagerApproved"] != DBNull.Value ? Convert.ToInt32(dr["CardManagerApproved"]) : 0,
+                        CardIEApproved = dr["CardIEApproved"] != DBNull.Value ? Convert.ToInt32(dr["CardIEApproved"]) : 0,
+                        CardManagerPending = dr["carddripending"] != DBNull.Value ? Convert.ToInt32(dr["carddripending"]) : 0
+
 
 
 

@@ -156,7 +156,7 @@
                                         <h3 class="mb-1 driPending">0</h3><span class="text-xs">pending</span>
                                 </div>
                                 <div class="col-4 pt-3 pb-3 border-right">
-                                        <h3 class="mb-1" id="driApproved">0</h3><span class="text-xs">approved</span>
+                                        <h3 class="mb-1 driApproved">0</h3><span class="text-xs">approved</span>
                                 </div>
                                 <div class="col-4 pt-3 pb-3">
                                         <h3 class="mb-1 driRejected">0</h3><span class="text-xs">rejected</span>
@@ -183,7 +183,7 @@
                                         <h3 class="mb-1 iePending">0</h3><span class="text-xs">pending</span>
                                 </div>
                                 <div class="col-4 pt-3 pb-3 border-right">
-                                        <h3 class="mb-1" id="ieApproved">0</h3><span class="text-xs">approved</span>
+                                        <h3 class="mb-1 ieApproved">0</h3><span class="text-xs">approved</span>
                                 </div>
                                 <div class="col-4 pt-3 pb-3">
                                         <h3 class="mb-1 ieRejected">0</h3><span class="text-xs">rejected</span>
@@ -269,16 +269,16 @@
                     <div class="card-footer pt-0 pb-0 text-center">
                             <div class="row">
                                 <div class="col-3 pt-3 pb-3 border-right">
-                                        <h3 class="mb-1 " id="driApproved1">0</h3><span class="text-xs">Dri</span>
+                                        <h3 class="mb-1 driApproved">0</h3><span class="text-xs">Dri</span>
                                 </div>
                                 <div class="col-3 pt-3 pb-3 border-right">
-                                        <h3 class="mb-1 " id="ieApproved1">0</h3><span class="text-xs">IE</span>
+                                        <h3 class="mb-1 ieApproved">0</h3><span class="text-xs">IE</span>
                                 </div>
                                 <div class="col-3 pt-3 pb-3 border-right">
                                         <h3 class="mb-1 financeApproved">0</h3><span class="text-xs">Finance</span>
                                 </div>
                                 <div class="col-3 pt-3 pb-3 border-right">
-                                        <h3 class="mb-1 " id="imageApproved1">0</h3><span class="text-xs">Img</span>
+                                        <h3 class="mb-1 imageApproved">0</h3><span class="text-xs">Img</span>
                                 </div>
                             </div>
                     </div>
@@ -365,7 +365,7 @@
                                         <h3 class="mb-1 imagePending ">0</h3><span class="text-xs">pending</span>
                                 </div>
                             <div class="col-4 pt-3 pb-3 border-right">
-                                        <h3 class="mb-1 " id="imageApproved">0</h3><span class="text-xs">approved</span>
+                                        <h3 class="mb-1 imageApproved">0</h3><span class="text-xs">approved</span>
                             </div>
                             <div class="col-4 pt-3 pb-3">
                                         <h3 class="mb-1 imageRejected">0</h3><span class="text-xs">rejected</span>
@@ -413,7 +413,7 @@
         });
     });
         $('#btn_filter').click(function () {
-            debugger;
+      
             var StartDate = $('#dtstartdate').val();
             var EndDate = $('#dtenddate').val();
             var Domain = $('#inputDomain option:selected').text();
@@ -435,7 +435,7 @@
                     $('#loader-wrapper').show();
                 },
                 success: function (result) {
-                    debugger;
+
                     if (result) {
                         const statusDetails = {
                             Submitted:1,
@@ -453,19 +453,19 @@
                             FinancePending: 13
                         };
 
-                        $('#driApproved').text('0');
-                        $('#driApproved1').text('0');
+                        $('.driApproved').text('0');
+                       
                         $('.driRejected').text('0');
-                        $('#ieApproved').text('0');
-                        $('#ieApproved1').text('0');
+                        $('.ieApproved').text('0');
+                      
                         $('.ieRejected').text('0');
                         $('.financeApproved').text('0');
                         $('.financeRejected').text('0');
                         $('.driPending').text('0');
                         $('.iePending').text('0');
                         $('.financePending').text('0');
-                        $('#imageApproved').text('0');
-                        $('#imageApproved1').text('0');
+                        $('.imageApproved').text('0');
+                      
                         $('.imageRejected').text('0');
                         $('.imagePending').text('0');
                             for (let i = 0; i < result.countKaizenList.length; i++) {
@@ -474,8 +474,8 @@
                                 switch (item.approvalStatus) {
                                     case statusDetails.DRIApproved:
                                     
-                                        $('#driApproved').text(item.approvalCount || 0);
-                                    $('#driApproved1').text(item.approvalCount || 0);
+                                       
+                                   
                                         $('.iePending').text(item.approvalCount || 0);
                                         break;
                                     case statusDetails.DRIRejected:
@@ -483,8 +483,7 @@
                                         break;
                                     case statusDetails.IEApproved:
                                  
-                                        $('#ieApproved').text(item.approvalCount || 0);
-                                    $('#ieApproved1').text(item.approvalCount || 0);
+                                     
                                     $('.financePending').text(item.approvalCount || 0);
                                         break;
                                     case statusDetails.IERejected:
@@ -505,11 +504,9 @@
                                     // case statusDetails.FinancePending:
                                     //     $('.financePending').text(item.approvalCount || 0);
                                     //     break;
-                                    case statusDetails.ImageApproved:
-                                        $('#imageApproved').text(item.approvalCount || 0);
-                                    $('#imageApproved1').text(item.approvalCount || 0);
-                                        $('.driPending').text(item.approvalCount || 0);
-                                        break;
+                                    // case statusDetails.ImageApproved:
+                                    //     $('.driPending').text(item.approvalCount || 0);
+                                    //     break;
                                     case statusDetails.ImageRejected:
                                         $('.imageRejected').text(item.approvalCount || 0);
                                         break;
@@ -530,7 +527,12 @@
                         $('.totalApproved').text(result.totalKaizenList[0].totalApproved || 0);
                         $('.totalPending').text(result.totalKaizenList[0].totalPending || 0);
                         $('.totalRejected').text(result.totalKaizenList[0].totalRejected || 0);
-                      
+                        $('.driPending').text(result.totalKaizenList[0].cardManagerPending || 0);
+                        $('.driApproved').text(result.totalKaizenList[0].cardManagerApproved || 0);
+                        $('.ieApproved').text(result.totalKaizenList[0].cardIEApproved || 0);
+                        $('.imageApproved').text(result.totalKaizenList[0].cardImageApproved || 0);
+
+
                     }
                      else
                       {

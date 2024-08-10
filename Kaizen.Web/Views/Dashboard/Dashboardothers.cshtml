@@ -352,8 +352,7 @@
    
 
       $('#btn_filter').click(function () {
-        debugger;
-
+      
             var Userid = $('#loginIDuser').val();
 
         var StartDate = $('#dtstartdate').val();
@@ -378,7 +377,7 @@
             },
                 success: function (result) {
                     $('.card-container .row').empty();
-                    debugger;
+                   
                     $.each(result.domainmanagerList, function (index, domain) {
                         let kaizenSubmitted = domain.kaizenSubmitted;
                         let userCount = domain.kaizenSubmittedUser;
@@ -419,13 +418,13 @@
                                     $('#totalApproved').text(0);
                                     $('#totalRejected').text(0);
                                     $('#totalPending').text(0);
-                    debugger;
+                    
                     const monthLabels = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
                     for (let i = 0; i < result.otherdashboardList.length; i++) {
                         var item = result.otherdashboardList[i];
                         if (Userid == item.empId) {
-                            debugger;
+                           
                             switch (item.usertypeid) {
                                 case 4:
                                     $('.totalKaizens').text(item.ieTotal || 0);
