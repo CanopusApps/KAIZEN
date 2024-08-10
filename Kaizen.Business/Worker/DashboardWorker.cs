@@ -374,6 +374,72 @@ namespace Kaizen.Business.Worker
             return Kaizentotalcount;
         }
 
+
+
+
+
+
+        public List<DepartmentModel> managerDepartmentbasedkaizenCount(DashboardModel model, string Empid)
+        {
+            DataSet ds;
+            List<DepartmentModel> departmentModels = new List<DepartmentModel>();
+            ds = Repository.Getmanagetdomaindepartment(model,Empid);
+            try
+            {
+                if (ds.Tables.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        departmentModels.Add(new DepartmentModel
+                        {
+                            DeptId = Convert.ToInt32(dr["DeptId"]),
+                            DepartmentName = dr["DepartmentName"].ToString(),
+                            User_count = Convert.ToInt32(dr["user_count"]),
+                            kaizen_count = Convert.ToInt32(dr["kaizen_count"]),
+                            KaizenSubmitedCountdept = Convert.ToInt32(dr["KaizenSubmittedUserCount"])
+
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return departmentModels;
+        }
+
+        public List<DomainModel> ManagerDomainbasedkaizenCount(DashboardModel model, string Empid)
+        {
+            DataSet ds;
+            List<DomainModel> domainKaizencount = new List<DomainModel>();
+            ds = Repository.Getmanagetdomaindepartment(model,Empid);
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[1].Rows)
+                {
+                    domainKaizencount.Add(new DomainModel
+                    {
+                        Id = Convert.ToInt32(dr["DomainId"]),
+                        DomainName = dr["DomainName"].ToString(),
+                        User_count = Convert.ToInt32(dr["user_count"]),
+                        KaizenSubmitted = Convert.ToInt32(dr["kaizen_count"]),
+                        KaizenSubmittedUser = Convert.ToInt32(dr["kaizensubmittedUserCount"])
+                    });
+                }
+            }
+            return domainKaizencount;
+        }
+
+
+
+
+
+
+
+
+
+
         public List<OtherDashboardmodel> Otherdashboard(DashboardModel model)
         {
             DataSet kaizenCountData = new DataSet();

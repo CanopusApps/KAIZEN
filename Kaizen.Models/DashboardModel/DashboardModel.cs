@@ -22,6 +22,8 @@ namespace Kaizen.Models.DashboardModel
         public List<DomainModel> DomainList { get; set; }
         public List<TotalKaizennos> TotalKaizenList {  get; set; }
 
+        public List<DomainModel> DomainmanagerList { get; set; }
+        public List<DepartmentModel> departmentmangerlist { get; set; }
         public List<CountKaizenStatus> CountKaizenList { get; set; }
 
         public List<TotalKaizennos> MonthTotalKaizenList { get; set; }
