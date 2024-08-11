@@ -24,37 +24,48 @@
         </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-link " id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Total Kaizen's Submitted</a>
-                <a class="nav-link" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Filter by Department, Domain</a>
-                <a class="nav-link" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Monthly, Yearly table</a>
-                <a class="nav-link" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
-                <a class="nav-link active" id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="true">Graphs1</a>
+                <a class="nav-link" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Domains & Department </a>
+                <a class="nav-link" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a>
+                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Yearly & Monthly</a>
+                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
+                <a class="nav-link  active" id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="true">Charts</a>
             </div>
             <div class="container-fluid border rounded p-2" style="width:100%">
-
+                <form>
+                    <div class="row align-items-left mb-3">
+                        <label class="col-auto filter-header">Filter by:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="filterOption" id="filterYear1" value="year" checked>
+                            <label class="form-check-label" for="filterYear1">Year</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="filterOption" id="filterDate1" value="date">
+                            <label class="form-check-label" for="filterDate1">Date</label>
+                        </div>
+                    </div>
+                </form>
                 <form>
                     <div class="card p-3 mt-2 mb-2">
                         <div class="row">
-
-                            <div class="form-group col-lg-4">
+                            <div class="form-group col-lg-4 dates">
                                 <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
                                 <div>
                                     <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="">
-
                                 </div>
-
                             </div>
-                            <div class="form-group col-lg-4">
+                            <div class="form-group col-lg-4 dates">
                                 <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
                                 <div>
                                     <input class="form-control txt-width" id="dtenddate" type="date" name="name" value="" />
                                 </div>
-
+                            </div>
+                            <div class="form-group col-lg-4" id="year">
+                                <label for="yearDropdown">Select Year:</label>
+                                <select id="yearDropdown" class="form-control mb-3"></select>
                             </div>
                             <span class="form-row p-4 container">
-                                <button type="button" class="btn  col-lg-2 m-1 btn-azure " id="btn_filter" value="Filter">Filter</button>
+                                <button type="button" class="btn col-lg-2 m-1 btn-azure" id="btn_filter" value="Filter">Filter</button>
                                 <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset" value="Reset">Reset</button>
-
                             </span>
                         </div>
                     </div>
@@ -86,6 +97,37 @@
     </nav>
  </div>
   <script>
+    function toggleFields() {
+        if ($('#filterYear1').is(':checked')) {
+            $('#year').show();
+            $('.dates').hide();
+        } else if ($('#filterDate1').is(':checked')) {
+            $('#year').hide();
+            $('.dates').show();
+        }
+    }
+
+    // Call toggleFields on page load
+    toggleFields();
+
+    // Bind toggleFields to the change event of the radio buttons
+    $('input[name="filterOption"]').change(function () {
+        toggleFields();
+    });
+
+    // Populate Year Dropdown
+    const currentYear = new Date().getFullYear();
+    const endYear = currentYear - 4;
+    const yearDropdown = $("#yearDropdown");
+
+    for (let year = currentYear; year >= endYear; year--) {
+        yearDropdown.append($('<option>', {
+            value: year,
+            text: year
+        }));
+    }
+
+    yearDropdown.val(currentYear);
     const customLabelsPlugin = {
         id: 'customLabels',
         afterDatasetsDraw(chart) {
@@ -126,10 +168,10 @@
 
     $(document).ready(function () {
         const donutCharts = [
-            { id: 'donutChart1', label: 'Dataset 1', title: 'Based on Blocks' },
-            { id: 'donutChart2', label: 'Dataset 2', title: 'Based on Cadre' },
-            { id: 'donutChart3', label: 'Dataset 3', title: 'Based on Domains' },
-            { id: 'donutChart4', label: 'Dataset 4', title: 'Based on Departments' }
+            { id: 'donutChart1', label: 'Dataset 1', title: 'Blocks' },
+            { id: 'donutChart2', label: 'Dataset 2', title: 'Cadre' },
+            { id: 'donutChart3', label: 'Dataset 3', title: 'Domains' },
+            { id: 'donutChart4', label: 'Dataset 4', title: 'Departments' }
         ];
 
         let chartInstances = [];
@@ -198,15 +240,18 @@
         });
 
         $('#btn_filter').click(function () {
-            var StartDate = $('#dtstartdate').val();
-            var EndDate = $('#dtenddate').val();
+            let filterData = {};
+            if ($('#filterYear1').is(':checked')) {
+                filterData.startDate = $('#yearDropdown').val();
+                filterData.endDate = $('#yearDropdown').val();
+            } else if ($('#filterDate1').is(':checked')) {
+                filterData.startDate = $('#dtstartdate').val();
+                filterData.endDate = $('#dtenddate').val();
+            }
             $.ajax({
                 url: '@Url.Action("Filtergraphscount", "Dashboard")',
                 type: 'GET',
-                data: {
-                    StartDate: StartDate,
-                    EndDate: EndDate
-                },
+                data: filterData,
                 beforeSend: function () {
                     $('#loader-wrapper').show();
                 },

@@ -50,7 +50,8 @@ namespace Kaizen.Web.Controllers
                     role= conAccessor.HttpContext.Session.GetString("Userrole"),
                     UserId = conAccessor.HttpContext.Session.GetString("UserID")
                 };
-                viewModel.SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+                var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+                viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
             }
             catch (Exception ex)
             {
@@ -71,7 +72,8 @@ namespace Kaizen.Web.Controllers
                 role = conAccessor.HttpContext.Session.GetString("Userrole"),
                 UserId = conAccessor.HttpContext.Session.GetString("UserID")
             };
-            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);///
+            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+            SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
         public List<DepartmentModel> FetchDepartment(string domainid)
@@ -141,7 +143,8 @@ namespace Kaizen.Web.Controllers
                     role = ImageApprover,
                     UserId = conAccessor.HttpContext.Session.GetString("UserID")
                 };
-                viewModel.SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+                var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+                viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 1).ToList();
             }
             catch (Exception ex)
             {
@@ -164,7 +167,21 @@ namespace Kaizen.Web.Controllers
                 UserId = conAccessor.HttpContext.Session.GetString("UserID")
             };
             var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);///
+            SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 1).ToList();
+
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
+        }
+        public IActionResult DeletedKaizen()
+        {
+            SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
+            KaizenListModel model = new KaizenListModel()
+            {
+                role = conAccessor.HttpContext.Session.GetString("Userrole"),
+                UserId = conAccessor.HttpContext.Session.GetString("UserID")
+            };
+            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+            viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 14).ToList();
+            return View(viewModel);
         }
     }
 }

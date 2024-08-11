@@ -11,13 +11,14 @@
 <table id="KaizenTable" class="table table-striped" style="width:100%;">
     <thead>
         <tr style="text-align:center">
+            <th id="DocNo" width="10%">Doc No</th>
             <th id="KaizenTheme" width="10%">Kaizen Theme</th>
             <th id="TeamMembers" width="15%">Team Members</th>
             <th id="HORIZENTALDEP" width="10%">Horizontal Deployment</th>
             <th id="FINNANCEAPPROVAL" width="10%">Finance Dept Approval</th>
-            <th id="IEAPPROVAL" width="10%">IE Dept Approval</th>
+            <th id="IEAPPROVAL" width="5%">IE Dept Approval</th>
             <th id="STATUS" width="15%">Status </th>
-            <th id="POSTEDBY" width="10%">Posted by</th>
+            <th id="POSTEDBY" width="5%">Posted by</th>
             <th id="POSTEDON" width="10%">Posted on</th>
             <th id="Action" width="10%">Action</th>
         </tr>
@@ -28,15 +29,16 @@
             foreach (var User in Model)
             {
                 <tr data-kaizenid="@User.KaizenId">
+                    <td width="10%">@User.DocNo</td>
                     <td width="10%">@User.KaizenTheme</td>
                     <td width="15%">
                         @Html.Raw(User.TeamName.Replace(",", "<br />"))
                     </td>
                     <td width="10%">@User.HorozantalDeployment</td>
                     <td width="10%">@User.FinnanceDeptAppr</td>
-                    <td width="10%">@User.IEApprovedDept</td>
+                    <td width="5%">@User.IEApprovedDept</td>
                     <td width="15%">@User.ApprovalStatus</td>
-                    <td width="10%">
+                    <td width="5%">
                         @if (UserType == "ADMIN")
                         {
                             <a class="posted-by" href="#" data-createdby="@User.PostedBy" data-role="@User.role">@User.CreatedBy</a>
@@ -48,7 +50,7 @@
                     </td>
                     <td width="10%">@User.CreatedDate</td>
                     <td class="text-center" width="10%">
-                        @if (User.AStatus < 4 && UserType != "ADMIN")
+                        @if ((User.AStatus < 4 || User.AStatus == 15) && UserType != "ADMIN")
                         {
                             <a class="btn btn-primary btn-sm edituser" id="edit">
                                 <i class="edit fas fa-solid fa-pencil"></i>
@@ -165,6 +167,7 @@
                     $(result).find('tbody tr').each(function () {
                         var $row = $(this);
                         var rowData = {
+                            docno: $row.data('docno'),
                             kaizentheme: $row.data('kaizentheme'),
                             teamname: $row.data('teamname'),
                             horozantaldeployment: $row.data('horozantaldeployment'),

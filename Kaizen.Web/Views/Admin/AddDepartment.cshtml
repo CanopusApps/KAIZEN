@@ -113,13 +113,15 @@
         // Edit Department button click handler
         $('tbody').on('click', '.editdepartment', function (e) {
             e.preventDefault();
+            $('#domainName').focus();
+            $('#departmentName').focus();
             $('#btnAdd').hide(); // Hide add button
             $('#btnupdate').show(); // Show update button
 
             // Retrieve data from the row for editing
             var $row = $(this).closest('tr');
             var departmentId = $row.find('td:first').text().trim();
-            var departmentName = $row.find('td: eq(2)').text().trim();
+            var departmentName = $row.find('td:eq(2)').text().trim();
             var domainName = $row.find('td:eq(1)').text().trim();
 
             // Populate form fields for editing
@@ -220,10 +222,25 @@
     function ValidateForm() {
         var isValid = true;
 
-        $("#departmentName").css("border-color", "red");
+        $("#departmentName").on("input", function () {
+            var departmentNameValue = $(this).val();
+            if (departmentNameValue !== "") {
+                $(this).css("border-color", "");
+                $("#DepError").text("");
+            }
+        });
+        $("#domainName").on("input", function () {
+            var domainNameValue = $(this).val();
+            if (domainNameValue !== "") {
+                $(this).css("border-color", "");
+                $("#DomError").text("");
+            }
+        });
+
+        $("#departmentName").css("border-color", "");
         $("#DepError").text("");
 
-        $("#domainName").css("border-color", "red");
+        $("#domainName").css("border-color", "");
         $("#DomError").text("");
 
         $(".error-message").text("");

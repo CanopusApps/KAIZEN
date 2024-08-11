@@ -37,11 +37,11 @@
         </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-link" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="true">Total Kaizen's Submitted</a>
-                <a class="nav-link" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Filter by Department, Domain</a>
-                <a class="nav-link  active" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Monthly, Yearly table</a>
-                <a class="nav-link" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
-                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs1</a>
+                <a class="nav-link" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Domains & Department </a>
+                <a class="nav-link" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a>
+                <a class="nav-link active" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="true">Yearly & Monthly</a>
+                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
+                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Charts</a>
             </div>
         </nav>
 
@@ -711,7 +711,10 @@
                         var year = monthYear[1];
                         $('#' + month + '-submitted-ie').text(result.monthTotalKaizenList[i].ieTotal || 0);
                         $('#' + month + '-submitted-dri').text(result.monthTotalKaizenList[i].driTotal || 0);
-                        $('#' + month + '-submitted-finance').text(result.monthTotalKaizenList[i].financeTotal || 0);                      
+                        $('#' + month + '-submitted-finance').text(result.monthTotalKaizenList[i].financeTotal || 0);
+                        $('#' + month + '-approved-dri').text(result.monthTotalKaizenList[i].cardManagerApproved || 0);
+                        $('#' + month + '-pending-dri').text(result.monthTotalKaizenList[i].cardManagerPending || 0);
+                        $('#' + month + '-approved-ie').text(result.monthTotalKaizenList[i].cardIEApproved || 0);
                       }
                     for (let i = 0; i < result.monthCountKaizenList.length; i++) {
                         let item = result.monthCountKaizenList[i];
@@ -719,33 +722,41 @@
                         var month = monthYear[0].toLowerCase().substr(0, 3);
                         var year = monthYear[1];
                         switch (item.approvalStatus) {
+                            // case statusDetails.ImageApproved:
+                            //     $('#' + month + '-pending-dri').text(item.approvalCount || 0);
+                            //     break;
                             case statusDetails.DRIApproved:
-                                $('#' + month + '-approved-dri').text(item.approvalCount || 0);
+                               
+                                $('#' + month + '-pending-ie').text(item.approvalCount || 0);
                                 break;
                             case statusDetails.DRIRejected:
                                 $('#' + month + '-rejected-dri').text(item.approvalCount || 0);
                                 break;
                             case statusDetails.IEApproved:
-                                $('#' + month + '-approved-ie').text(item.approvalCount || 0);
+                              
+                                                             
+                                $('#' + month + '-pending-finance').text(item.approvalCount || 0);
                                 break;
                             case statusDetails.IERejected:
                                 $('#' + month + '-rejected-ie').text(item.approvalCount || 0);
                                 break;
                             case statusDetails.FinanceApproved:
+                               
                                 $('#' + month + '-approved-finance').text(item.approvalCount || 0);
+
                                 break;
                             case statusDetails.FinanceRejected:
                                 $('#' + month + '-rejected-finance').text(item.approvalCount || 0);
                                 break;
-                            case statusDetails.DRIPending:
-                                $('#' + month + '-pending-dri').text(item.approvalCount || 0);
-                                break;
-                            case statusDetails.IEPending:
-                                $('#' + month + '-pending-ie').text(item.approvalCount || 0);
-                                break;
-                            case statusDetails.FinancePending:
-                                $('#' + month + '-pending-finance').text(item.approvalCount || 0);
-                                break;
+                            // case statusDetails.DRIPending:
+                            //     $('#' + month + '-pending-dri').text(item.approvalCount || 0);
+                            //     break;
+                            // case statusDetails.IEPending:
+                            //     $('#' + month + '-pending-ie').text(item.approvalCount || 0);
+                            //     break;
+                            // case statusDetails.FinancePending:
+                            //     $('#' + month + '-pending-finance').text(item.approvalCount || 0);
+                            //     break;
                             case statusDetails.Submitted:
                                 $('#' + month + '-image-pending').text(item.approvalCount || 0);
                                 break;
@@ -753,6 +764,7 @@
                                 $('#' + month + '-image-rejected').text(item.approvalCount || 0);
                                 break;
                         }
+                     
 
                     }
  
@@ -853,7 +865,7 @@
         $('#btn_filter1').click(function () {
             var StartDate = $('#dtstartdate').val();
             var EndDate = $('#dtenddate').val();
-           
+            debugger;
             if (!ValidateFormtable1()) {
                 return;
             }
@@ -962,15 +974,15 @@
                             // Append status counts to the row
                             row += '<td>' + submitted + '</td>';
                             row += '<td>' + imageRejected + '</td>';
-                            row += '<td class="pending-td">' + driPending + '</td>';
-                            row += '<td class="pending-td">' + iePending + '</td>';
-                            row += '<td class="pending-td">' + financePending + '</td>';
+                            row += '<td class="pending-td">' + (item.cardManagerPending || 0) + '</td>'; 
+                            row += '<td class="pending-td">' + driApproved + '</td>';
+                            row += '<td class="pending-td">' + ieApproved + '</td>';
                             row += '<td  class="rejected-td">' + driRejected + '</td>';
                             row += '<td  class="rejected-td">' + ieRejected + '</td>';
                             row += '<td  class="rejected-td">' + financeRejected + '</td>';
-                            row += '<td class="approved-td">' + driApproved + '</td>';
-                            row += '<td class="approved-td">' + ieApproved + '</td>';
-                            row += '<td class="approved-td">' + financeApproved + '</td>';
+                            row += '<td class="approved-td">' + (item.cardManagerApproved || 0) + '</td>';
+                            row += '<td class="approved-td">' + (item.cardIEApproved || 0) + '</td>';
+                            row += '<td class="approved-td">' +  financeApproved + '</td>';
 
 
 

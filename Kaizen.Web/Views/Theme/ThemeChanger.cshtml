@@ -4,7 +4,8 @@
     Layout = "SidebarLayout";
 }
 
-<link rel="stylesheet" href="~/assets/css/ThemeChanger.css" /> 
+<link rel="stylesheet" href="~/assets/css/ThemeChanger.css" />
+
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-12">
@@ -20,6 +21,7 @@
                             <div class="form-group row">
                                 <div class="col-5">
                                     <input id="theme" class="form-control" placeholder="Enter theme" />
+                                    <span id="themeError" class="text-danger"></span> 
                                 </div>
                                 <div class="col-5">
                                     <input id="AddThemeBtn" type="button" value="Update" class="btn btn-azure" />
@@ -30,6 +32,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-12">
             <div class="card mt-2">
                 <div class="card-body">
@@ -41,39 +44,39 @@
                                 </div>
                             </div>
                             <div class="form-group row p-3">
-                                <div class="table-responsive mx-3" style="overflow-x: hidden">
-                                    <table class="table table-bordered" dataTable no-footer">
+                                <div class="table-responsive mx-3">
+                                    <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" style="border-bottom: 1px solid black !important;">Id</th>
-                                                <th class="text-center" style="border-bottom: 1px solid black !important;">Theme Name</th>
-                                                <th class="text-center" style="border-bottom: 1px solid black !important;">Action</th>
+                                                <th class="text-center">Id</th>
+                                                <th class="text-center">Theme Name</th>
+                                                <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
-                                        @foreach(var dat in Model)
-                                        {
                                         <tbody>
-                                            <tr class="border">
-                                                <td class="text-center align-middle" style="background-color: rgb(242, 242, 242);">
+                                            @foreach (var dat in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center align-middle bg-light">
                                                         <p class="text-center">@Model.Count()</p>
-                                                </td>
-                                                    <td class="align-middle" style="background-color: rgb(242, 242, 242);">
-                                                    <div class="row justify-content-center">
-                                                        <div class="text-center">@dat.Theme</div>
-                                                    </div>
-                                                </td>
-                                                    <td class="align-middle" style="background-color: rgb(242, 242, 242);">
+                                                    </td>
+                                                    <td class="align-middle bg-light">
                                                         <div class="row justify-content-center">
-                                                        <div>
-                                                            <a id="DeleteFunction" class="btn btn-danger btn-sm DeleteDepartment mx-1">
-                                                                <i class="edit fas fa-trash"></i>
-                                                            </a>
+                                                            <div class="text-center">@dat.Theme</div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td class="align-middle bg-light">
+                                                        <div class="row justify-content-center">
+                                                            <div>
+                                                                <a id="DeleteFunction" class="btn btn-danger btn-sm DeleteDepartment mx-1">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
                                         </tbody>
-                                        }
                                     </table>
                                 </div>
                             </div>
@@ -87,38 +90,53 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+    function ValidateForm() {
+        var isValid = true;
+        var theme = $("#theme").val();
+
+        $("#theme").on("input", function () {
+            var inputVal = $(this).val();
+            if (inputVal !== "") {
+                $(this).css("border-color", "");
+                $("#themeError").text("");
+            }
+        });
+
+        if (theme === "") {
+            $("#theme").css("border-color", "red");
+            $("#themeError").text("Theme is required.");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
     $(document).ready(function () {
         $('#AddThemeBtn').click(function () {
-            var theme = $('#theme').val().trim();
-            if (theme) {
-                console.log("THIS IS THE THEME: " + theme);
+            if (ValidateForm()) {
+                var theme = $('#theme').val().trim();
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("ThemeChanger", "Theme")',
                     contentType: 'application/json',
-                    data: JSON.stringify({
-                        Theme: theme 
-                    }),
+                    data: JSON.stringify({ Theme: theme }),
                     success: function (response) {
-                        if (response == true) {
+                        if (response) {
                             swal({
                                 text: "Theme Updated successfully !!",
-                                type: "success"
-                            }).then(OK => {
+                            }).then(() => {
                                 location.reload();
                             });
                         }
                     },
                     error: function (xhr, status, error) {
-                        swal('Unable to Update the Theme Details - Please Check the logs');
-                        console.log('Error:', error);
+                        swal({
+                            text: "Unable to update the theme details. Please check the logs.",
+                        });q
+                        console.error('Error:', error);
                     }
                 });
-            } else {
-                alert("Please enter a theme.");
             }
         });
     });
 </script>
-
-

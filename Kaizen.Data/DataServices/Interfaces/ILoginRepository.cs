@@ -13,5 +13,6 @@ namespace Kaizen.Data.DataServices
         public DataTable loginuser(LoginModel loginmodel);
 
         public DataSet usermanager(string EmpId);
+        public DataSet FetchCountlist();
     }
 }

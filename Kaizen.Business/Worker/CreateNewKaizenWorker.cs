@@ -62,9 +62,9 @@ namespace Kaizen.Business.Worker
             return _createNewKaizenRepository.UpdateSubmittedKaizenData(model);
         }
 
-        public bool updateKaizensatus(ApprovalRequest approvalRequest)
+        public bool updateKaizensatus(ApprovalRequest approvalRequest,string empid)
         {
-            return _createNewKaizenRepository.updateKaizensatusData(approvalRequest);
+            return _createNewKaizenRepository.updateKaizensatusData(approvalRequest, empid);
         }
         public List<NewKaizenModel> GetKaizenDetailsById(string KaizenId)
         {

@@ -17,9 +17,10 @@ namespace Kaizen.Web.Controllers
         private readonly IAddUser _addUserWorker;
         private readonly IDashboard _dashboardworker;
         private readonly ISubmittedKaizen _submittedKaizenWorker;
-       
-        public DashboardController(IDomain domainWorker, IDepartment departmentWorker, IDashboard dashboardworker, ISubmittedKaizen submittedKaizenWorker, IBlock worker, IAddUser addUserWorker)
+        public IHttpContextAccessor conAccessor;
+        public DashboardController(IDomain domainWorker, IDepartment departmentWorker, IDashboard dashboardworker, ISubmittedKaizen submittedKaizenWorker, IBlock worker, IAddUser addUserWorker, IHttpContextAccessor conAccessor)
         {
+            this.conAccessor = conAccessor;
             _blockWorker = worker;
             _addUserWorker = addUserWorker;
             _domainWorker = domainWorker;
@@ -34,10 +35,12 @@ namespace Kaizen.Web.Controllers
         }
         public IActionResult Dashboardtab2()
         {
-            var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+            var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
             DashboardModel DashboardModel = new DashboardModel();
             DashboardModel.DomainList = activeDomains;// Only active domains
             DashboardModel.blockList = _blockWorker.GetBlock();
+            DashboardModel.DomainList = _domainWorker.GetDomain();
+            DashboardModel.blockList = activeBlocks;
             DashboardModel.CadreList = _addUserWorker.GetCadre();
             return View(DashboardModel);
         }
@@ -138,17 +141,20 @@ namespace Kaizen.Web.Controllers
         public IActionResult Dashboardothers()
         {
             var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+            string Empid = conAccessor.HttpContext.Session.GetString("EmpId");
             DashboardModel DashboardModel = new DashboardModel();
            
             DashboardModel.DomainList = activeDomains;// Only active domains
             DashboardModel.blockList = _blockWorker.GetBlock();
+            DashboardModel.DomainmanagerList = _dashboardworker.ManagerDomainbasedkaizenCount(DashboardModel,Empid);
+            DashboardModel.departmentmangerlist = _dashboardworker.managerDepartmentbasedkaizenCount(DashboardModel, Empid);
 
-           
+
             return View(DashboardModel);
         }
         public IActionResult FilterOtherDashboardcount(string? StartDate, string? EndDate, string? Domain, string? Department, string? Block)
         {
-
+            string Empid = conAccessor.HttpContext.Session.GetString("EmpId");
             DashboardModel model = new DashboardModel()
             {
                 StartDate = StartDate,
@@ -157,6 +163,8 @@ namespace Kaizen.Web.Controllers
                 Department = Department,
                 Block = Block
             };
+            model.DomainmanagerList = _dashboardworker.ManagerDomainbasedkaizenCount(model, Empid);
+            model.departmentmangerlist = _dashboardworker.managerDepartmentbasedkaizenCount(model, Empid); 
             model.OtherdashboardList = _dashboardworker.Otherdashboard(model);
             model.MonthBasedOtherdashboardList = _dashboardworker.OtherMonthbaseddashboard(model);
             return Ok(model);

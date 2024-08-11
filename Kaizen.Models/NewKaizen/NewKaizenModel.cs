@@ -98,6 +98,7 @@ namespace Kaizen.Models.NewKaizen
         public List<IFormFile> AdditionalAttachments { get; set; }
 		public AttachmentPaths AttachmentPaths { get; set; }
         public List<Attachmentsimg> AttachmentsList { get; set; }
+        public List<Attachmentsimg> UpdateAttachmentsList { get; set; }
 
 
         public string LogFilePath { get; set; }

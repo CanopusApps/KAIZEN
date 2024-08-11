@@ -76,7 +76,7 @@ namespace Kaizen.Data.Constant
           public static string Sp_Get_DashboardDepartments = "Sp_Get_DashboardDepartments"; 
         public static string Sp_Get_Dashboardgraphs = "Sp_Get_Dashboardgraphs";
         public static string sp_GetKaizenStatisticsByApprovalTypes = "sp_GetKaizenStatisticsByApprovalTypes";
-
+        public static string Sp_Get_DashboardManagerDomainDepartment = "Sp_Get_DashboardManagerDomainDepartment";
         public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
         public static string Sp_Get_IEDeptDetails = "Sp_Get_IEDeptDetails";
         public static string SpAddWinner = "Sp_AddWinner";
@@ -92,6 +92,8 @@ namespace Kaizen.Data.Constant
         public static string Sp_Fetch_KaizenUpdateDetails_ById = "Sp_Fetch_KaizenUpdateDetails_ById";
         public static string Sp_Fetch_KaizenAttachments_ById = "Sp_Fetch_KaizenAttachments_ById";
         public static string Sp_DeleteAttachmentsByKaizenID = "Sp_DeleteAttachmentsByKaizenID";
+        public static string SpFetchEmail = "Sp_FetchEmail";
+        public static string SpUpdatePassword = "Sp_UpdatePassword";
 
     }
 
@@ -115,7 +117,14 @@ namespace Kaizen.Data.Constant
         IERejected,       // 7
         FinanceApproved,  // 8
         FinanceRejected,  // 9
-        Pending           // 10
+        pending,//10
+        DRIPending,//11
+        IEPending,//12
+        FinancePending,//13
+        Deleted,//14
+        SubmittedWithoutImages,//15
+        KaizenApproved         // 16
+
     }
 
 

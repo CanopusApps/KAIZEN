@@ -73,5 +73,27 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+        public DataSet FetchCountlist()
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                SqlCommand com = new SqlCommand("Sp_Fetch_Count", con);
+                com.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                con.Close();
+            }
+            return ds;
+        }
     }
 }

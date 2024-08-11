@@ -40,7 +40,7 @@ namespace Kaizen.Web.Controllers
             {
                 viewModel.UserTypeList = _addUserWorker.GetUserType();
 
-				viewModel.DomainList = _domainWorker.GetDomain();
+				viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
                 UserGridModel model = new UserGridModel()
                 {
                     Name = Name,

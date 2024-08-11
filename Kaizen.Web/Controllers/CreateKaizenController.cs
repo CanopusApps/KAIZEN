@@ -50,14 +50,14 @@ namespace Kaizen.Web.Controllers
                 //model.Id = id.ToString();
                 // model.IEEmail = _infoSettings.IEEmail;
                 //model.AccountEmail= _infoSettings.AccountEmail;
-
+                var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
                 model.IEEmail = conAccessor.HttpContext.Session.GetString("IEemail");
                 model.AccountEmail = conAccessor.HttpContext.Session.GetString("FinanceEmail");
                 model.name = conAccessor.HttpContext.Session.GetString("Message");
                 model.EmpId = conAccessor.HttpContext.Session.GetString("EmpId");
                 model.Domain = conAccessor.HttpContext.Session.GetString("Domain");
                 model.Department = conAccessor.HttpContext.Session.GetString("Department");
-                model.BlockList = _blockWorker.GetBlock();
+                model.BlockList = activeBlocks;
                 model.IEDepartList = _viewuserWorker.GetIEDepart();
                 //model = _createNewKaizen.GetKaizenOriginatedby(model);
                 DateTime currentDate  = DateTime.Today;
@@ -176,6 +176,7 @@ namespace Kaizen.Web.Controllers
                 else if (z == 2)
                     objAtt.FileName = model.AttachmentPaths.RootProblemAttachmentPath;
                 objAtt.CreatedBy = model.CreatedBy;
+                
                 imagesList.Add(objAtt);
             }
             if (model.AdditionalAttachments != null && model.AdditionalAttachments.Count > 0)
@@ -191,6 +192,7 @@ namespace Kaizen.Web.Controllers
                     imagesList.Add(objAtt);
                 }
             }
+
             model.AttachmentsList = imagesList;
             model.DeploymentList = deploymentList;
             model.MemberList = memberList;
@@ -239,8 +241,9 @@ namespace Kaizen.Web.Controllers
 
         [HttpPost]
         public IActionResult getstatus([FromBody] ApprovalRequest request) {
-            request.kaizenID= conAccessor.HttpContext.Session.GetString("Kaizenid");          
-            bool result = _createNewKaizen.updateKaizensatus(request);
+            request.kaizenID= conAccessor.HttpContext.Session.GetString("Kaizenid");   
+            string empid= conAccessor.HttpContext.Session.GetString("EmpId");
+            bool result = _createNewKaizen.updateKaizensatus(request,empid);
             return Ok(result);
         }
 
@@ -404,6 +407,8 @@ namespace Kaizen.Web.Controllers
                     imagesList.Add(objAtt);
                 }
             }
+           
+            model.UpdateAttachmentsList = _createNewKaizen.GetImageListById(model.KaizenId);
             model.AttachmentsList = imagesList;
             model.DeploymentList = deploymentList;
             model.MemberList = memberList;

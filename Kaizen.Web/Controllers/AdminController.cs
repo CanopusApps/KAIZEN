@@ -43,11 +43,14 @@ namespace Kaizen.Web.Controllers
         public IActionResult AddUser()
         
         {
+            var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
             var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
 
             AddUserModel model = new AddUserModel();
             model.Cadre = _addUserWorker.GetCadre();
             model.UserType = _addUserWorker.GetUserType();
+            model.Domains = _domainWorker.GetDomain();
+            model.Blocks = activeBlocks;
             model.Domains = activeDomains;// Only active domains
             model.Blocks = _blockWorker.GetBlock();
             //model.Departments = _departmentWorker.GetDepartments();
@@ -213,10 +216,8 @@ namespace Kaizen.Web.Controllers
             try
             {
                 domainmodel. CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
-                if (ModelState.IsValid)
-                {
                     insertStatus = _domainWorker.CreateDomain(domainmodel);       
-                }
+                
             }
             catch (Exception ex)
             {
@@ -231,10 +232,11 @@ namespace Kaizen.Web.Controllers
             try
             {
                 domainmodel. ModifiedBy =conAccessor.HttpContext.Session.GetString("EmpId");
-                if (ModelState.IsValid)
-                {
-                    updateStatus = _domainWorker.UpdateDomainDetails(domainmodel);
-                }
+                updateStatus = _domainWorker.UpdateDomainDetails(domainmodel);
+                //if (ModelState.IsValid)
+                //{
+                //updateStatus = _domainWorker.UpdateDomainDetails(domainmodel);
+                //}
             }
             catch (Exception ex)
             {

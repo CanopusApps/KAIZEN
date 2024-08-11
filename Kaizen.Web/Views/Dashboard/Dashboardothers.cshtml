@@ -6,6 +6,28 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <style>
+
+
+
+    .card {
+        padding: 15px;
+    }
+
+    .card-header {
+        font-weight: bold;
+    }
+
+    .card-item {
+        background-color: rgb(135, 206, 235, 0.5);
+        color: black;
+        border: 1px dashed #007bff;
+        text-align: center;
+        border-radius: 10px;
+        margin-left: 5px;
+        margin-right: 15px;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
     #dHeader {
         font-size: 16px !important;
         margin-top: -10px;
@@ -20,6 +42,7 @@
         display: block;
     }
 
+    
     .card-link:hover {
         text-decoration: none;
             cursor: pointer!important;
@@ -38,9 +61,9 @@
                 </div>
             </div>
         </div>
-           <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("EmpId")">  
-
-
+           <input type="hidden" id="loginIDuser" name="loginIDuser" value="@Accessor.HttpContext.Session.GetString("EmpId")">
+        <input type="hidden" id="Userrole" data-role="@Accessor.HttpContext.Session.GetString("Userrole")">
+       
 
         <div class="container-fluid border rounded p-2" style="width:100%">
 
@@ -102,9 +125,45 @@
             </form>
         </div>
 
+        <div id="Domaincard">
+            <div class="card mt-2">
+                <div class="card-header">Kaizens based on Departments,Domain</div>
+                <div class="card-container">
+                    <div class="card mt-2">
+                        <div class="card-body">
+                            <div class="row">
+                            </div>
 
-        <div class="card mb-2 bg-white p-5 ">
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="card mb-2 bg-white p-5 mt-2">
             <div class="row" style="width:100%">
+                <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb-2">
+                    <a href="/SubmittedKaizen/ViewKaizen" class="card-link">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <label class="card-title">Pending Kaizen</label>
+                                    <h3 id="totalPending">0</h3>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar progress-animated bg-warning" style="width: 80%"></div>
+                                    </div>
+                                    <label class="card-title">
+                                        Out of
+                                        <span class="totalKaizens">0</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
                 <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb-2">
                     <a href="/SubmittedKaizen/ViewKaizen" class="card-link">
                         <div class="card overflow-hidden">
@@ -145,25 +204,7 @@
                     </a>
                 </div>
 
-                <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb-2">
-                    <a href="/SubmittedKaizen/ViewKaizen" class="card-link">
-                        <div class="card overflow-hidden">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <label class="card-title">Pending Kaizen</label>
-                                    <h3 id="totalPending">0</h3>
-                                    <div class="progress mb-2">
-                                        <div class="progress-bar progress-animated bg-warning" style="width: 80%"></div>
-                                    </div>
-                                    <label class="card-title">
-                                        Out of
-                                        <span class="totalKaizens">0</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+              
             </div>
         </div>
 
@@ -185,11 +226,29 @@
 </div>
 
   <script>
+
     
     
 
     $(document).ready(function () {
+        updatePercentages();
+        function updatePercentages() {
+            var cardItems = $('.card-item');
+            cardItems.each(function () {
+                var kaizenSubmitted = parseFloat($(this).data('kaizen-submitted'));
+                var userCount = parseFloat($(this).data('user-count'));
+                var percentage = (kaizenSubmitted / userCount) * 100;
+                var percentageDiv = $(this).find('.percentage');
+                percentageDiv.text(isNaN(percentage) ? '0.00%' : percentage.toFixed(2) + '%');
+            });
+        }
+        $('#Domaincard').hide();
+        var userRole = $('#Userrole').data('role');
+        if (userRole === 'MANAGER') {
+            $('#Domaincard').show();
+        }
         $('#inputDomain').change(function () {
+
             var Domain = $('#inputDomain').val().trim();
             $.ajax({
                 type: 'GET',
@@ -198,6 +257,7 @@
                 data: { DomainID: Domain },
                 success: function (result) {
                     if (result) {
+                        // Clear existing content
                         var dropdown = $('#inputDepartment');
                         dropdown.empty();
                         dropdown.append($('<option>', {
@@ -230,6 +290,13 @@
                         borderWidth: 1
                     },
                     {
+                        label: 'Pending',
+                        data: Array(12).fill(0),
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        borderWidth: 1
+                    },
+                    {
                         label: 'Approved',
                         data: Array(12).fill(0),
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -242,14 +309,8 @@
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
-                    },
-                    {
-                        label: 'Pending',
-                        data: Array(12).fill(0),
-                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                        borderColor: 'rgba(255, 206, 86, 1)',
-                        borderWidth: 1
                     }
+                   
                 ]
             },
             options: {
@@ -291,7 +352,7 @@
    
 
       $('#btn_filter').click(function () {
-        
+      
             var Userid = $('#loginIDuser').val();
 
         var StartDate = $('#dtstartdate').val();
@@ -315,6 +376,44 @@
                 $('#loader-wrapper').show();
             },
                 success: function (result) {
+                    $('.card-container .row').empty();
+                   
+                    $.each(result.domainmanagerList, function (index, domain) {
+                        let kaizenSubmitted = domain.kaizenSubmitted;
+                        let userCount = domain.kaizenSubmittedUser;
+                        let percentage = (userCount !== 0) ? ((userCount / kaizenSubmitted) * 100).toFixed(2) : "0.00";
+
+                        let domainCard = `
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item">
+                        <div>${domain.domainName}</div>
+                                    <div>${domain.kaizenSubmitted} / ${domain.kaizenSubmittedUser}</div>
+                        <div class="percentage">${percentage}%</div>
+                    </div>`;
+
+                        $('.card-container .row').append(domainCard);
+                    });
+
+                    // Iterate through departmentmangerlist and append items to the container
+                    $.each(result.departmentmangerlist, function (index, department) {
+                        let kaizenCount = department.kaizen_count;
+                        let userCount = department.kaizenSubmitedCountdept;
+                        let percentage = (userCount !== 0) ? ((userCount / kaizenCount) * 100).toFixed(2) : "0.00";
+
+                        let departmentCard = `
+                    <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-kaizen-submitted="${kaizenCount}" data-user-count="${userCount}">
+                        <div>${department.departmentName}</div>
+                        <div>${kaizenCount} / ${userCount}</div>
+                        <div class="percentage">${percentage}%</div>
+                    </div>`;
+
+                        $('.card-container .row').append(departmentCard);
+                    });
+                       
+
+
+
+
+
                       $('.totalKaizens').text(0);
                                     $('#totalApproved').text(0);
                                     $('#totalRejected').text(0);
@@ -325,12 +424,13 @@
                     for (let i = 0; i < result.otherdashboardList.length; i++) {
                         var item = result.otherdashboardList[i];
                         if (Userid == item.empId) {
+                           
                             switch (item.usertypeid) {
                                 case 4:
                                     $('.totalKaizens').text(item.ieTotal || 0);
                                     $('#totalApproved').text(item.ieApproved || 0);
                                     $('#totalRejected').text(item.ieRejected || 0);
-                                    $('#totalPending').text(item.iepending || 0);
+                                    $('#totalPending').text(item.iePending || 0);
                                     break;
                                 case 3:
                                     $('.totalKaizens').text(item.financeTotal || 0);
@@ -339,6 +439,7 @@
                                     $('#totalPending').text(item.financePending || 0);
                                     break;
                                 case 5:
+                                    
                                     $('.totalKaizens').text(item.managerTotal || 0);
                                     $('#totalApproved').text(item.managerApproved || 0);
                                     $('#totalRejected').text(item.managerRejected || 0);
@@ -410,9 +511,9 @@
 
                     // Update Bar Chart Data
                     barChart.data.datasets[0].data = totalkaizen;
-                    barChart.data.datasets[1].data = totalapproved;
-                    barChart.data.datasets[2].data = totalrejected;
                     barChart.data.datasets[3].data = totalpending;
+                    barChart.data.datasets[2].data = totalapproved;
+                    barChart.data.datasets[1].data = totalrejected;                   
                     barChart.update();
                 },
 

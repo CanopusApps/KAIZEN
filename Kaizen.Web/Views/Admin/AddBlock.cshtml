@@ -103,6 +103,13 @@
 
     function ValidateForm() {
         var isValid = true;
+        $("#BlockName").on("input", function () {
+            var blockNameValue = $(this).val();
+            if (blockNameValue !== "") {
+                $(this).css("border-color", "");
+                $("#BlockError").text("");
+            }
+        });
 
         // Remove red borders and error messages
     //    $("#BlockName").css("border-color", "red");
@@ -166,7 +173,8 @@
             e.preventDefault();
             $('#btnAdd').hide();
             $('#btnupdate').show();
-          
+            $('#BlockName').focus();
+            debugger;
             var $row = $(this).closest('tr');
             var blockid = $row.data('id');
             var blockname = $row.data('name');
