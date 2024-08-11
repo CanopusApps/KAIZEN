@@ -22,6 +22,8 @@ namespace Kaizen.Models.DashboardModel
         public List<DomainModel> DomainList { get; set; }
         public List<TotalKaizennos> TotalKaizenList {  get; set; }
 
+        public List<DomainModel> DomainmanagerList { get; set; }
+        public List<DepartmentModel> departmentmangerlist { get; set; }
         public List<CountKaizenStatus> CountKaizenList { get; set; }
 
         public List<TotalKaizennos> MonthTotalKaizenList { get; set; }
@@ -57,6 +59,12 @@ namespace Kaizen.Models.DashboardModel
 
         public int TotalPending { get; set; }
         public int TotalRejected { get; set; }
+
+        public int CardImageApproved {  get; set; }
+
+        public int CardManagerApproved { get; set; }
+        public int CardManagerPending { get; set; }
+        public int CardIEApproved {  get; set; }
     }
     public class CountKaizenStatus
     {
