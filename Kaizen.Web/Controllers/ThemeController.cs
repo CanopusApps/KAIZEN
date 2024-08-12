@@ -41,6 +41,7 @@ namespace Kaizen.Web.Controllers
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View();
             }
             ViewBag.ThemeList = RetrieveTheme;
             if (RetrieveTheme.Any())
@@ -63,8 +64,17 @@ namespace Kaizen.Web.Controllers
             }
             catch(Exception ex)
             {
-                return View("./Login/ErrorPage");
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View();
             }
+        }
+        public IActionResult Kaizencriteria()
+        {
+            return View();
+        }
+        public IActionResult KaizenBreakthrough()
+        {
+            return View();
         }
     }
 }
