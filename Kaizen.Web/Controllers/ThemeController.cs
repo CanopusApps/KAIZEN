@@ -68,5 +68,13 @@ namespace Kaizen.Web.Controllers
                 return View();
             }
         }
+        public IActionResult Kaizencriteria()
+        {
+            return View();
+        }
+        public IActionResult KaizenBreakthrough()
+        {
+            return View();
+        }
     }
 }
