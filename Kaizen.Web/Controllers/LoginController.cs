@@ -186,9 +186,10 @@ namespace Kaizen.Web.Controllers
                 // Pass the userId to the view
                 ViewData["UserId"] = userId;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest("Invalid or expired link.");
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View();
             }
 
             return View();
