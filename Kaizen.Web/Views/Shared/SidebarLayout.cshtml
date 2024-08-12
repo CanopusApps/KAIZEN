@@ -122,6 +122,24 @@
 
 
 </style>
+<script>
+    (function () {
+
+        const idleDurationSecs = 1200;
+        const redirectUrl = '/Login/index';
+        let idleTimeout;
+
+        const resetIdleTimeout = function () {
+            if (idleTimeout) clearTimeout(idleTimeout);
+            idleTimeout = setTimeout(() => location.href = redirectUrl, idleDurationSecs * 1000);
+        };
+        resetIdleTimeout();
+        ['click', 'touchstart', 'mousemove'].forEach(evt =>
+            document.addEventListener(evt, resetIdleTimeout, false)
+        );
+
+    })();
+</script>
 @* <body class="bg-light" style="background-color:#e9ecef"> *@
 <body style="background-color:#e9ecef;overflow-y:hidden;"> 
     <div id="wrapper" class="d-flex flex-column">
