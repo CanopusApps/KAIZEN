@@ -25,18 +25,26 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="loginbox-submit col-6">
-                    <button type="button" class="btn btn-block btn-azure" id="submitFPId">Submit</button>
+            <div class="form-group row justify-content-center">
+                <div class="col-md-5 col-12 mb-2">
+                    <button type="button" class="btn btn-block btn-azure custom-margin" id="submitFPId">Submit</button>
                 </div>
-                <div class="loginbox-submit col-6">
-                    <button type="button" class="btn btn-block btn-azure" id="submitFPId">Submit</button>
+                <div class="col-md-5 col-12">
+                    <button type="button" class="btn btn-block btn-secondary custom-margin" id="BackToLI">Back</button>
                 </div>
             </div>
         </div>
         <div class="col-sm-4"></div>
     </div>
 }
+
+<style>
+    @@media (min-width: 992px) { /* lg and up */
+        .custom-margin {
+            margin-left: 2.5rem;
+        }
+    }
+</style>
 
 <script src="~/assets/js/custom/sweetalert.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -61,6 +69,11 @@
             },
             errorClass: "text-danger",
         });
+
+        // Corrected Back button event handler
+        $(document).on('click', '#BackToLI', function (e) {
+            window.location.href = '@Url.Action("Index", "Login")';
+        }); // <-- Missing closing parenthesis and semicolon added here
 
         $(document).on('click', '#submitFPId', function (e) {
             e.preventDefault();
@@ -97,3 +110,4 @@
         });
     });
 </script>
+
