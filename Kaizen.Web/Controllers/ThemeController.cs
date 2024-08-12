@@ -66,5 +66,13 @@ namespace Kaizen.Web.Controllers
                 return View("./Login/ErrorPage");
             }
         }
+        public IActionResult Kaizencriteria()
+        {
+            return View();
+        }
+        public IActionResult KaizenBreakthrough()
+        {
+            return View();
+        }
     }
 }
