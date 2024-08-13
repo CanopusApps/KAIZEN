@@ -14,7 +14,7 @@ namespace Kaizen.Data.DataServices
         public bool CreateDepartmentData(DepartmentModel departmentModel);
         public DataSet GetDepartments();
         public bool DeleteDepartment(int id);
-        public DataSet GetDomainData(DomainModel model);
+        public DataSet GetDomainData();
         public bool UpdateDepartmentStatus(int id, bool status);
 
         public bool UpdateDepartmentDetails(DepartmentModel departmentmodel);

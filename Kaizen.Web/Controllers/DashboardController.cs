@@ -36,10 +36,9 @@ namespace Kaizen.Web.Controllers
         public IActionResult Dashboardtab2()
         {
             var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
+            var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
             DashboardModel DashboardModel = new DashboardModel();
             DashboardModel.DomainList = activeDomains;// Only active domains
-            DashboardModel.blockList = _blockWorker.GetBlock();
-            DashboardModel.DomainList = _domainWorker.GetDomain();
             DashboardModel.blockList = activeBlocks;
             DashboardModel.CadreList = _addUserWorker.GetCadre();
             return View(DashboardModel);

@@ -350,8 +350,8 @@ namespace Kaizen.Web.Controllers
 
         public List<DomainModel> DomainList()
         {
-
-            list = _departmentWorker.GetDomain(model);
+            var activeDomains = _departmentWorker.GetDomain().Where(d => d.Status == true).ToList();
+            list = activeDomains;
             return list;
         }
 

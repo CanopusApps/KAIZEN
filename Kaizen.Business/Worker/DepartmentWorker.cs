@@ -56,11 +56,30 @@ namespace Kaizen.Business.Worker
         {
             return _repositoryDepartmentdata.UpdateDepartmentStatus(id, status);
         }
-        public List<DomainModel>GetDomain(DomainModel model)
+        //public List<DomainModel>GetDomain(DomainModel model)
+        //{
+        //    List<DomainModel> list = new List<DomainModel>();
+        //    DataSet ds = new DataSet();
+        //    ds = _repositoryDepartmentdata.GetDomainData(model);
+        //    if (ds.Tables.Count > 0)
+        //    {
+        //        foreach (DataRow dr in ds.Tables[0].Rows)
+        //        {
+        //            list.Add(new DomainModel
+        //            {
+        //                Id = Convert.ToInt32(dr["DomainID"]),
+        //                DomainName = dr["DomainName"].ToString()
+        //            });
+        //        }
+        //    }
+        //    return list;
+        //}
+
+        public List<DomainModel> GetDomain()
         {
             List<DomainModel> list = new List<DomainModel>();
-            DataSet ds = new DataSet();
-            ds = _repositoryDepartmentdata.GetDomainData(model);
+            DataSet ds = _repositoryDepartmentdata.GetDomainData();
+
             if (ds.Tables.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -68,11 +87,13 @@ namespace Kaizen.Business.Worker
                     list.Add(new DomainModel
                     {
                         Id = Convert.ToInt32(dr["DomainID"]),
-                        DomainName = dr["DomainName"].ToString()
+                        DomainName = dr["DomainName"].ToString(),
+                        Status = Convert.ToBoolean(dr["Status"])
                     });
                 }
             }
-            return list;
+
+            return  list.Where(d => d.Status == true).ToList(); ;
         }
         public bool UpdateDepartmentDetails(DepartmentModel departmentmodel)
         {
