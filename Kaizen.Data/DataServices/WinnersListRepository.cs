@@ -57,6 +57,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@EndDate", model.EndDate);
                 com.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
                 com.Parameters.AddWithValue("@Status", "Active");
+                com.Parameters.AddWithValue("@winnerimg", model.winnerimagefilepath);
                 com.CommandText = StoredProcedures.SpAddWinner;
                 con.Open();
                
@@ -135,8 +136,8 @@ namespace Kaizen.Data.DataServices
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@Id", id);
-                com.Parameters.AddWithValue("@StartDate", sd);
-                com.Parameters.AddWithValue("@EndDate", ed);
+                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(sd) ? (object)DBNull.Value : DateTime.Parse(sd));
+                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(ed) ? (object)DBNull.Value : DateTime.Parse(ed));
                 com.CommandText = StoredProcedures.SpDeleteWinner;
                 con.Open();
                 com.ExecuteNonQuery();
