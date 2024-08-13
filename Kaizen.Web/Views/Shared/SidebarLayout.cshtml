@@ -1,6 +1,10 @@
 ﻿@using Kaizen.Models.AdminModel
 @using Newtonsoft.Json;
 @inject IHttpContextAccessor Accessor
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+
 @{
     var title = "TEPL Kaizen Idea";
 }
@@ -125,7 +129,7 @@
 <script>
     (function () {
 
-        const idleDurationSecs = 1200;
+        const idleDurationSecs = @Configuration.GetSection("SessionTimeout")["Time"];
         const redirectUrl = '/Login/index';
         let idleTimeout;
 
