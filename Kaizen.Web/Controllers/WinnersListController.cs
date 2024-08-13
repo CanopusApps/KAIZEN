@@ -8,6 +8,8 @@ using System.Reflection;
 using Kaizen.Models.NewKaizen;
 using Kaizen.Business.Worker;
 using Kaizen.Models.WinnersList;
+using DocumentFormat.OpenXml.EMMA;
+using Microsoft.Extensions.Options;
 
 namespace Kaizen.Web.Controllers
 {
@@ -16,11 +18,13 @@ namespace Kaizen.Web.Controllers
         public IHttpContextAccessor conAccessor;
         private readonly IWinnersList _addWinnerWorker;
         private readonly ICreateNewKaizen _createNewKaizen;
-        public WinnersListController(IWinnersList _addWinnerWorker, ICreateNewKaizen _createNewKaizen, IHttpContextAccessor conAccessor)
+        private readonly WinnersListModel _infoSettings;
+        public WinnersListController(IWinnersList _addWinnerWorker, ICreateNewKaizen _createNewKaizen, IHttpContextAccessor conAccessor, IOptions<WinnersListModel> infoSettings)
         {
             this.conAccessor = conAccessor;
             this._addWinnerWorker = _addWinnerWorker;
             this._createNewKaizen = _createNewKaizen;
+            _infoSettings = infoSettings.Value;
         }
         [HttpGet]
         public IActionResult WinnersList()
@@ -48,26 +52,29 @@ namespace Kaizen.Web.Controllers
             return Ok(status);
         }
         [HttpPost]
-        public IActionResult WinnersList([FromBody] WinnersViewModel model)
+        public IActionResult WinnersList( WinnersViewModel model)
         {
-            
-            if (model.WinnersList.Category != null)
+            try
             {
-
+                model.WinnersList.winnerimagefilepath = SaveUploadedFile(model.WinnersList.Winnerimage);
                 model.WinnersList.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
                 var result = _addWinnerWorker.AddWinner(model.WinnersList);
-
                 return Ok("Posted");
             }
-            else if (model.NewKaizen.EmpId != null)
+            catch (Exception ex)
             {
-                model.NewKaizen = _createNewKaizen.GetKaizenOriginatedby(model.NewKaizen);
-                return Ok(model.NewKaizen);
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View(model);
             }
-            return BadRequest();
+                  
         }
-
         [HttpPost]
+        public IActionResult GetUserdatabyemp([FromBody] WinnersViewModel model)
+        {
+            model.NewKaizen = _createNewKaizen.GetKaizenOriginatedby(model.NewKaizen);
+            return Ok(model.NewKaizen);
+        }
+            [HttpPost]
         public IActionResult DeleteWinner(int id, String sd, String ed)
         {
             bool deleteStatus = false;
@@ -95,6 +102,41 @@ namespace Kaizen.Web.Controllers
             {
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
+        }
+
+
+        private string SaveUploadedFile(IFormFile file)
+        {
+            WinnersListModel model = new WinnersListModel();
+            try
+            {
+                model.LogwinnerFilePath = _infoSettings.LogwinnerFilePath;
+
+                if (!Directory.Exists(model.LogwinnerFilePath))
+                {
+                    Directory.CreateDirectory(model.LogwinnerFilePath);
+                }
+
+                string uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(file.FileName)}";
+                string filePath = Path.Combine(model.LogwinnerFilePath, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                return filePath;
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                throw;
+            }
+        }
+        public IActionResult GetImage(string imagePath)
+        {
+            string serverPath = Path.Combine(_infoSettings.LogwinnerFilePath, imagePath);
+            return PhysicalFile(serverPath, "image/jpeg");
         }
 
     }

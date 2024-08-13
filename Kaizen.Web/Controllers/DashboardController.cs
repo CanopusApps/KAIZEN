@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.EMMA;
 using Kaizen.Business.Interface;
 using Kaizen.Business.Worker;
+using Kaizen.Data.Constant;
 using Kaizen.Models.AdminModel;
 using Kaizen.Models.DashboardModel;
 using Microsoft.AspNetCore.Mvc;
@@ -30,20 +31,34 @@ namespace Kaizen.Web.Controllers
         }
         
         public IActionResult Dashboardtab1()
-        {          
+
+        {
             return View();
         }
         public IActionResult Dashboardtab2()
         {
-            var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
             DashboardModel DashboardModel = new DashboardModel();
-            DashboardModel.DomainList = _domainWorker.GetDomain();
-            DashboardModel.blockList = activeBlocks;
-            DashboardModel.CadreList = _addUserWorker.GetCadre();
+            try
+            {
+                var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
+             
+
+                DashboardModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+                DashboardModel.blockList = activeBlocks;
+                DashboardModel.CadreList = _addUserWorker.GetCadre();
+               
+            }
+            catch (Exception ex)
+            {
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
             return View(DashboardModel);
+
         }
         public IActionResult Dashboardtab3()
         {
+            
             return View();
         }
         public IActionResult Dashboardtab5()
@@ -77,13 +92,22 @@ namespace Kaizen.Web.Controllers
                 Cadre= cadre,
 
             };
-            var KaizencountList = _dashboardworker.GetKaizenCount(model);
-            var Kaizentotallist= _dashboardworker.GetKaizentotalCount(model);
-            model.MonthCountKaizenList=_dashboardworker.GetKaizenCountmonth(model);
-            model.MonthTotalKaizenList=_dashboardworker.GetKaizentotalCountmonth(model);
-            model.CustomMonthTotalKaizenList= _dashboardworker.GetKaizentotalCountCustomMonth(model);
-            model.CountKaizenList = KaizencountList;
-            model.TotalKaizenList = Kaizentotallist;
+            try
+            {
+                var KaizencountList = _dashboardworker.GetKaizenCount(model);
+                var Kaizentotallist = _dashboardworker.GetKaizentotalCount(model);
+                model.MonthCountKaizenList = _dashboardworker.GetKaizenCountmonth(model);
+                model.MonthTotalKaizenList = _dashboardworker.GetKaizentotalCountmonth(model);
+                model.CustomMonthTotalKaizenList = _dashboardworker.GetKaizentotalCountCustomMonth(model);
+                model.CountKaizenList = KaizencountList;
+                model.TotalKaizenList = Kaizentotallist;
+            }
+            catch (Exception ex)
+            {
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+           
             return Ok(model);
         }
 
@@ -95,11 +119,20 @@ namespace Kaizen.Web.Controllers
                 StartDate = StartDate,
                 EndDate = EndDate,
             };
-            model.MonthTotalKaizenList = _dashboardworker.GetKaizentotalCountmonth(model);
-            model.blockbasedgraph = _dashboardworker.kaizenCountbasedonBlocks(model);
-            model.Cadrebasedgraph=_dashboardworker.kaizenCountbasedonCadre(model);
-            model.departmentbasedgraph=_dashboardworker.kaizenCountbasedonDepartment(model);
-            model.domainbasedgraph=_dashboardworker.kaizenCountbasedonDomain(model);    
+            try
+            {
+                model.MonthTotalKaizenList = _dashboardworker.GetKaizentotalCountmonth(model);
+                model.blockbasedgraph = _dashboardworker.kaizenCountbasedonBlocks(model);
+                model.Cadrebasedgraph = _dashboardworker.kaizenCountbasedonCadre(model);
+                model.departmentbasedgraph = _dashboardworker.kaizenCountbasedonDepartment(model);
+                model.domainbasedgraph = _dashboardworker.kaizenCountbasedonDomain(model);
+            }
+            catch (Exception ex)
+            {
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+           
             return Ok(model);
         }
 
@@ -113,7 +146,16 @@ namespace Kaizen.Web.Controllers
                     EndDate = EndDate,
                     Domain = domainid,
                 };
-                deptList = _dashboardworker.DepartmentbasedkaizenCount(model).Where(model => model.DomainId == Convert.ToInt32(domainid)).ToList();
+            try
+            {
+                deptList = _dashboardworker.DepartmentbasedkaizenCount(model).Where(model => model.DomainId == Convert.ToInt32(domainid) && model.Status == true).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+               
 
 
             
@@ -130,10 +172,20 @@ namespace Kaizen.Web.Controllers
         {
             string Empid = conAccessor.HttpContext.Session.GetString("EmpId");
             DashboardModel DashboardModel = new DashboardModel();
-            DashboardModel.DomainList = _domainWorker.GetDomain();
-            DashboardModel.blockList = _blockWorker.GetBlock();
-            DashboardModel.DomainmanagerList = _dashboardworker.ManagerDomainbasedkaizenCount(DashboardModel,Empid);
-            DashboardModel.departmentmangerlist = _dashboardworker.managerDepartmentbasedkaizenCount(DashboardModel, Empid);
+
+            try
+            {
+                DashboardModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+                DashboardModel.blockList = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
+                DashboardModel.DomainmanagerList = _dashboardworker.ManagerDomainbasedkaizenCount(DashboardModel, Empid);
+                DashboardModel.departmentmangerlist = _dashboardworker.managerDepartmentbasedkaizenCount(DashboardModel, Empid);
+            }
+            catch (Exception ex)
+            {
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+           
 
 
             return View(DashboardModel);
@@ -149,10 +201,20 @@ namespace Kaizen.Web.Controllers
                 Department = Department,
                 Block = Block
             };
-            model.DomainmanagerList = _dashboardworker.ManagerDomainbasedkaizenCount(model, Empid);
-            model.departmentmangerlist = _dashboardworker.managerDepartmentbasedkaizenCount(model, Empid); 
-            model.OtherdashboardList = _dashboardworker.Otherdashboard(model);
-            model.MonthBasedOtherdashboardList = _dashboardworker.OtherMonthbaseddashboard(model);
+            try
+            {
+                model.DomainmanagerList = _dashboardworker.ManagerDomainbasedkaizenCount(model, Empid);
+                model.departmentmangerlist = _dashboardworker.managerDepartmentbasedkaizenCount(model, Empid);
+                model.OtherdashboardList = _dashboardworker.Otherdashboard(model);
+                model.MonthBasedOtherdashboardList = _dashboardworker.OtherMonthbaseddashboard(model);
+            }
+            catch (Exception ex)
+            {
+
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+         
             return Ok(model);
         }
         public IActionResult FilterEmployeeDashboardcount(string? StartDate, string? EndDate)
@@ -164,8 +226,18 @@ namespace Kaizen.Web.Controllers
                 EndDate = EndDate,
               
             };
-            model.EmployeedashboardList=_dashboardworker.GetEmployeedashboardcount(model);
-            model.MonthBasedEmployeedashboardList = _dashboardworker.GetmonthbasedEmployeedashboardcount(model);
+            try
+            {
+                model.EmployeedashboardList = _dashboardworker.GetEmployeedashboardcount(model);
+                model.MonthBasedEmployeedashboardList = _dashboardworker.GetmonthbasedEmployeedashboardcount(model);
+            }
+            catch (Exception ex)
+            {
+
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+           
             return Ok(model);
         }
 

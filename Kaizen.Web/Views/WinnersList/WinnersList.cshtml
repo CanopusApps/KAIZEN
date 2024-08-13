@@ -2,6 +2,17 @@
 @{
     Layout = "SidebarLayout";
 }
+<style>
+
+    .dashed-card {
+        border: 2px dashed #ccc;
+        border-radius: 8px;
+        height: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
 <link rel="stylesheet" href="~/assets/css/WinnersList.css" />
 
 <div id="winnersComp" class="py-5">
@@ -29,8 +40,10 @@
             <div class="row">
                 <div class="table-responsive" style="overflow-x: hidden">
                     @{
-                        var counter = 1;
-                        var sortedWinners = Model.OrderBy(w => w.Category).ToList();
+                         var counter = 1;
+                        var counter1 = 1;
+                        var counter2 = 1;
+                        var sortedWinners = Model.OrderBy(w => w.Category == "Gold" ? 0 : w.Category == "Silver" ? 1 : 2).ThenBy(w => w.EmpName);
                         string CategoryTracker = null; 
                     }
 
@@ -77,10 +90,10 @@
                                             <tr>
 
                                                 <td class="text-center align-middle">
-                                                    <p>@counter</p>
+                                                     <p>@counter</p>
                                                     @{
                                                         counter++;
-                                                    }
+                                                    } 
                                                 </td>
                                                 <td class="align-middle">
                                                     <div class="row justify-content-center">
@@ -115,7 +128,7 @@
                                                 <td hidden>@winner.DepartmentName</td>
                                                 <td hidden>@winner.Category</td>
                                                 <td hidden>@winner.Id</td>
-
+                                                <td hidden>@winner.winnerimagefilepath</td>
 
                                                 <td class="align-middle text-center">
                                                     @if (winner.Status == "Active" && DateTime.Now <= winner.EndDate)
@@ -162,9 +175,9 @@
                                             <tr>
 
                                                 <td class="text-center align-middle">
-                                                    <p>@counter</p>
+                                                    <p>@counter1</p>
                                                     @{
-                                                        counter++;
+                                                        counter1++;
                                                     }
                                                 </td>
                                                 <td class="align-middle">
@@ -200,6 +213,7 @@
                                                 <td hidden>@winner.DepartmentName</td>
                                                 <td hidden>@winner.Category</td>
                                                 <td hidden>@winner.Id</td>
+                                                <td hidden>@winner.winnerimagefilepath</td>
 
 
                                                 <td class="align-middle text-center">
@@ -247,9 +261,9 @@
                                             <tr>
 
                                                 <td class="text-center align-middle">
-                                                    <p>@counter</p>
+                                                    <p>@counter2</p>
                                                     @{
-                                                        counter++;
+                                                        counter2++;
                                                     }
                                                 </td>
                                                 <td class="align-middle">
@@ -285,6 +299,8 @@
                                                 <td hidden>@winner.DepartmentName</td>
                                                 <td hidden>@winner.Category</td>
                                                 <td hidden>@winner.Id</td>
+                                                <td hidden>@winner.winnerimagefilepath</td>
+
 
 
                                                 <td class="align-middle text-center">
@@ -334,10 +350,10 @@
 
 <div id="addWinnerForm" class="add-winner-form border-0 card container-fluid shadow rounded-lg col-12 py-3 px-5" style="display: none; margin-top: -34px;">
     <h1 class="text-primary">Add Winner</h1>
-    <form id="winnerForm">
+    <div id="winnerForm">
         <div class="form-group">
             <div class="row">
-                <div class="col">
+                <div class="col-md-4">
                     <label>Category</label>
                     <select id="Category" class="form-control">
                         <option value="Gold">Gold</option>
@@ -348,45 +364,72 @@
                 </div>
                 <input type="text" hidden value="null" id="empGuid" />
                 <p id="empGuidError"></p>
-                <div class="col">
+                <div class="col-md-4">
                     <label>Emp ID</label>
                     <input id="empId" type="number" class="text-primary form-control bg-light" />
                     <p id="eIDError"></p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
+                <div class="col-md-4">
                     <label>Emp Name</label>
-                    <input readonly id="empName" onclick="getKai()" class="form-control text-primary bg-light" />
+                    <input readonly id="empName" class="form-control text-primary bg-light" />
                     <span class="text-danger"></span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <label>Domain</label>
-                    <input readonly id="empDom" class="form-control text-primary bg-light" />
-                    <span class="text-danger"></span>
-                </div>
-                <div class="col">
-                    <label>Department</label>
-                    <input readonly id="empDep" class="form-control text-primary bg-light" />
-                    <span class="text-danger"></span>
-                </div>
+
+            <!-- Dashed card container starts here -->
+            <div>
+                <div class="row">
+                    <!-- Left Container: Input Fields -->
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Domain</label>
+                                <input readonly id="empDom" class="form-control text-primary bg-light" />
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Department</label>
+                                <input readonly id="empDep" class="form-control text-primary bg-light" />
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="winnerid" class="form-label">Upload Image</label> winnerError
+                                <input type="file" id="winnerid" class=" form-control-file text-primary bg-light">
+                                <span id="winnerError"></span>
+                            </div> 
+                           
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Start Date</label>
+                                <input id="startDate" class="form-control text-primary bg-light" type="date" />
+                                <label id="sDError"></label>
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label>End Date</label>
+                                <input id="endDate" class="form-control text-primary bg-light" type="date" />
+                                <label id="eDError"></label>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                  @*   <!-- Right Container: Image Upload -->
+                    <div class="col-md-4 d-flex justify-content-center align-items-center dashed-card p-2">
+                        <input id="attach_file2" type="file" name="files" style="display: none;" accept="image/*" onchange="previewImage(event)">
+                        <label for="attach_file2" class="file-drag">
+                            <div class="upload-interface text-center">
+                                <img id="file-image" src="~/assets/img/file-upload-icon.png" alt="Preview" class="mb-2" style="max-width: 100%; height: auto;">
+                                <div class="attachtitle" id="file-image-text">Click here to attach files</div>
+                            </div>
+                        </label>
+                    </div>
+                  </div> *@
             </div>
-            <div class="row">
-                <div class="col">
-                    <label>Start Date</label>
-                    <input id="startDate" class="form-control text-primary bg-light" type="date" />
-                    <label id="sDError"></label>
-                    <span class="text-danger"></span>
-                </div>
-                <div class="col">
-                    <label>End Date</label>
-                    <input id="endDate" class="form-control text-primary bg-light" type="date" />
-                    <label id="eDError"></label>
-                    <span class="text-danger"></span>
-                </div>
-            </div>
+            <!-- Dashed card container ends here -->
         </div>
         <br />
         <div class="row">
@@ -454,34 +497,59 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    function getKai() {
-        var empId = $('#empId').val().trim();
+  @*   <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
 
-        if (empId !== '') {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("WinnersList", "WinnersList")',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    NewKaizen: { EmpId: empId },
-                    WinnersList: {}
-                }),
-                success: function (response) {
-                    $('#eIDError').text('');
-                    $('#empName').val(response.name);
-                    $('#empDom').val(response.domain);
-                    $('#empDep').val(response.department);
-                    $('#empGuid').val(response.empguid);
-                },
-                error: function (xhr, status, error) {
-                    console.log('Error:', error);
-                }
-            });
+            reader.onload = function () {
+                const imageElement = document.getElementById('file-image');
+                const textElement = document.getElementById('file-image-text');
+
+                imageElement.src = reader.result;
+                textElement.style.display = 'none';  // Hide the text element
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
         }
-    }
+    </script> *@
+
+<script>
+            $(document).ready(function () {
+                $('#empId').on('change', function () {
+                    var empId = $('#empId').val().trim();
+
+                    if (empId !== '') {
+                        debugger;
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("GetUserdatabyemp", "WinnersList")',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                NewKaizen: { EmpId: empId },
+                                WinnersList: {}
+                            }),
+                            success: function (response) {
+                                $('#eIDError').text('');
+                                $('#empName').val(response.name);
+                                $('#empDom').val(response.domain);
+                                $('#empDep').val(response.department);
+                                $('#empGuid').val(response.empguid);
+                            },
+                            error: function (xhr, status, error) {
+                                // Handle errors here
+                            }
+                        });
+                    }
+                });
+            });
+
 
     $(document).ready(function () {
+        debugger;
+              
         $(document).on('click', '#addWinnerBtn', function () {
             var empGuid = $('#empGuid').val().trim();
             var empId = $('#empId').val().trim();
@@ -489,15 +557,17 @@
             var category = $('#Category').val().trim();
             var startDate = $('#startDate').val().trim();
             var endDate = $('#endDate').val().trim();
+              var winnerimg = $('#winnerid')[0].files[0];
+
            var result = JSON.stringify({
     EmpGd: empGuid,
     EmpId: empId,
     EmpName: empName,
     Category: category,
     StD: startDate,
-    EdD: endDate
+    EdD: endDate,
+                        Winnerimage: winnerimg
 });
-console.log(result);
 
             var isValid = true;
             if(startDate === ""){
@@ -516,18 +586,32 @@ console.log(result);
                 }
             }
                 if (empId === "" && empName === "") {
-                    alert("Yes");
                     $('#eIDError').text('Invalid Employee ID').addClass('text-danger');
                     isValid = false;
                 }
+                    var winnerimg = $('#winnerid')[0].files[0];
+                    if (!winnerimg) {
+                        $('#winnerError').text('Winner image is required').addClass('text-danger');
+                        isValid = false;
+                    }
             
-
+                var formData = new FormData();
+formData.append('NewKaizen', JSON.stringify({}));
+formData.append('WinnersList.EmpGUID', empGuid);
+formData.append('WinnersList.Category', category);
+formData.append('WinnersList.StartDate', startDate);
+formData.append('WinnersList.EndDate', endDate);
+formData.append('WinnersList.Winnerimage', winnerimg);
             if (isValid == true) {
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("WinnersList", "WinnersList")',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
+                     contentType: false,
+                      processData: false,
+
+                    data:formData,
+
+                   @*  data: JSON.stringify({
                         NewKaizen: {},
                         WinnersList: {
                             Id: '00000000-0000-0000-0000-000000000000',
@@ -538,22 +622,22 @@ console.log(result);
                             CreatedBy: '00000000-0000-0000-0000-000000000000',
                             CreatedDate: '0001-01-15T00:00:00',
                             ModifiedBy: '00000000-0000-0000-0000-000000000000',
-                            ModifiedDate: '0001-01-15T00:00:00'
+                            ModifiedDate: '0001-01-15T00:00:00',
+                                    Winnerimage: winnerimg
                         }
-                    }),
-                    success: function (response) {
-                        console.log(response);
+                    }), *@
+                    success: function (response) {                       
                         if (response == "Posted") {
                             swal({
                                 text: "Winner Added successfully !!",
                                 type: "success"
                             }).then(OK => {
-                                location.reload();
+                                window.location.href = '/WinnersList/WinnersList';
                             });
                         }
                     },
                     error: function (xhr, status, error) {
-                        console.log('Error:', error);
+                       
                     }
                 });
             }
@@ -563,18 +647,15 @@ console.log(result);
 
 
         $(document).on('click', '#statusBadgeI, #statusBadgeA, #statusBadgeE', function () {
-            console.log("This is " + this);
             var $row = $(this).closest('tr');
             var dat = $row.find('td:eq(7)').text().trim();
             var UId = $row.find('td:eq(9)').text().trim();
             var badgeName = $(this).text().trim();
             var status;
 
-            if (badgeName === 'Inactive') {
-                console.log("Inactive");
+            if (badgeName === 'Inactive') {               
                 status = "Active";
             } else if (badgeName === 'Active') {
-                console.log("Active");
                 status = "Inactive";
             }
             else {
@@ -589,7 +670,7 @@ console.log(result);
                     Status: status
                 },
                 success: function (response) {
-                    console.log(response);
+                    
                     if (response) {
                         switch (status) {
                             case "Active":
@@ -607,7 +688,7 @@ console.log(result);
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.log('Error:', error);
+                   
                 }
             }).then(function () {
                 location.reload();
@@ -615,8 +696,7 @@ console.log(result);
         });
 
         var winnersList = @Html.Raw(Json.Serialize(Model));
-        console.log(winnersList);
-
+      
         $('#statusBadge').click(function () {
             var status = $(this).data('status');
             if (status === 'Inactive') {
@@ -629,6 +709,7 @@ console.log(result);
         });
 
         $('tbody').on('click', '#DeleteFunction', function (e) {
+            debugger;
             e.preventDefault();
             var $row = $(this).closest('tr');
 
@@ -641,10 +722,10 @@ console.log(result);
                     ed: $row.find('td:eq(5)').text().trim()
                 },
                 success: function (response) {
-                    location.reload();
+                    window.location.href = '/WinnersList/WinnersList';
                 },
                 error: function (xhr, status, error) {
-                    console.log('Error:', error);
+                   
                 }
             });
         });
@@ -710,6 +791,7 @@ console.log(result);
             var empIdStr2 = $row.find('td:eq(2)').text().trim();
             var empIdStr3 = $row.find('td:eq(3)').text().trim();
             var EmpID = $row.find('td:eq(1)').text().trim();
+@*             var imagefilepath = $row.find('td:eq(11)').text().trim(); *@
             var WinId, WinName, dom, dep, Wcategory, WiD;
 
             if (EmpID > 0) {
@@ -726,7 +808,7 @@ console.log(result);
             }
             var startDate = convertDateFormat($row.find('td:eq(4)').text().trim());
             var endDate = convertDateFormat($row.find('td:eq(5)').text().trim());
-
+              
             $('#empId').val(empIdStr).prop('readonly', true).css('opacity', '0.5');
             $('#Category').val(Wcategory).prop('disabled', true).css('opacity', '0.5');;
             $('#toggleWinnersBtn').trigger('click');
@@ -736,12 +818,17 @@ console.log(result);
             $('#startDate').val(startDate);
             $('#endDate').val(endDate);
 
+
+
+
+
+
+
             $('body').on('click', '#updateWinnerBtn', function () {
                 var empId = WinId;
                 var category = Wcategory;
                 var startDate = $('#startDate').val();
                 var endDate = $('#endDate').val();
-
                        
                 $.ajax({
                     type: 'POST',
@@ -760,19 +847,19 @@ console.log(result);
                                 text: "Winner Updated successfully !!",
                                 type: "success"
                             }).then(OK => {
-                                location.reload();
+                                window.location.href = '/WinnersList/WinnersList';
                             });
                         }
                     },
                     error: function (xhr, status, error) {
-                        console.log('Error:', error);
+                       
                     }
                 });
             });
 
             $('#addWinnerBtn').replaceWith(updateButton);
             var winnersList = @Html.Raw(Json.Serialize(Model));
-            console.log(WinId + Wcategory)
+           
             winnersList.forEach(function (item) {
                 {
 
