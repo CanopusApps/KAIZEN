@@ -47,7 +47,7 @@ namespace Kaizen.Web.Controllers
             AddUserModel model = new AddUserModel();
             model.Cadre = _addUserWorker.GetCadre();
             model.UserType = _addUserWorker.GetUserType();
-            model.Domains = _domainWorker.GetDomain();
+            model.Domains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
             model.Blocks = activeBlocks;
             //model.Departments = _departmentWorker.GetDepartments();
 

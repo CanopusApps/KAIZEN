@@ -41,8 +41,9 @@ namespace Kaizen.Web.Controllers
             try
             {
                 var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
+             
 
-                DashboardModel.DomainList = _domainWorker.GetDomain();
+                DashboardModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
                 DashboardModel.blockList = activeBlocks;
                 DashboardModel.CadreList = _addUserWorker.GetCadre();
                
@@ -147,7 +148,7 @@ namespace Kaizen.Web.Controllers
                 };
             try
             {
-                deptList = _dashboardworker.DepartmentbasedkaizenCount(model).Where(model => model.DomainId == Convert.ToInt32(domainid)).ToList();
+                deptList = _dashboardworker.DepartmentbasedkaizenCount(model).Where(model => model.DomainId == Convert.ToInt32(domainid) && model.Status == true).ToList();
             }
             catch (Exception ex)
             {
@@ -174,8 +175,8 @@ namespace Kaizen.Web.Controllers
 
             try
             {
-                DashboardModel.DomainList = _domainWorker.GetDomain();
-                DashboardModel.blockList = _blockWorker.GetBlock();
+                DashboardModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+                DashboardModel.blockList = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
                 DashboardModel.DomainmanagerList = _dashboardworker.ManagerDomainbasedkaizenCount(DashboardModel, Empid);
                 DashboardModel.departmentmangerlist = _dashboardworker.managerDepartmentbasedkaizenCount(DashboardModel, Empid);
             }
