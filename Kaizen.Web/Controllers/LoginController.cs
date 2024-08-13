@@ -107,8 +107,6 @@ namespace Kaizen.Web.Controllers
                             ManagerList = _loginworker.Usermanager(EmpId);
                             var ManagerListJson = JsonConvert.SerializeObject(ManagerList);
 
-                            CountList= _loginworker.FetchCount();
-                            var CountListJson = JsonConvert.SerializeObject(CountList);
 
                             if (HttpContext != null && HttpContext.Session != null)
                            {
@@ -128,7 +126,6 @@ namespace Kaizen.Web.Controllers
 
                                
                                 HttpContext.Session.SetString("ManagerList", ManagerListJson);
-                                HttpContext.Session.SetString("CountList", CountListJson);
 
                             }
                             string Userrole = conAccessor.HttpContext.Session.GetString("Userrole");
@@ -270,5 +267,13 @@ namespace Kaizen.Web.Controllers
         {
                return View();
         }
+        [HttpGet]
+        public IActionResult GetSerializedCountList()
+        {
+            var countList = _loginworker.FetchCount();
+            var countListJson = JsonConvert.SerializeObject(countList);
+            return Json(countListJson);
+        }
+
     }
 }
