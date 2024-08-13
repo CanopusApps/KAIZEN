@@ -5,6 +5,7 @@ using Kaizen.Data.DataContent;
 using Kaizen.Data.DataServices;
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.NewKaizen;
+using Kaizen.Models.WinnersList;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 
@@ -14,6 +15,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<NewKaizenModel>(builder.Configuration.GetSection("Information"));
+builder.Services.Configure<WinnersListModel>(builder.Configuration.GetSection("Information"));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
     AddCookie(options =>
     {

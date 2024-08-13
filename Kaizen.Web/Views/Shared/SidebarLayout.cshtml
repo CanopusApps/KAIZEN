@@ -1,6 +1,10 @@
 ﻿@using Kaizen.Models.AdminModel
 @using Newtonsoft.Json;
 @inject IHttpContextAccessor Accessor
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+
 @{
     var title = "TEPL Kaizen Idea";
 }
@@ -9,7 +13,7 @@
     var ImageApprover = Accessor.HttpContext.Session.GetString("ImageApprover");
     string selectedTheme = Accessor.HttpContext.Session.GetString("SelectedTheme");
 }
-@{
+@* @{
     var CountListJson = Accessor.HttpContext.Session.GetString("CountList");
     List<CountModel> CountList = new List<CountModel>();
 
@@ -17,7 +21,7 @@
     {
         CountList = JsonConvert.DeserializeObject<List<CountModel>>(CountListJson);
     }
-}
+} *@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -125,7 +129,7 @@
 <script>
     (function () {
 
-        const idleDurationSecs = 1200;
+        const idleDurationSecs = @Configuration.GetSection("SessionTimeout")["Time"];
         const redirectUrl = '/Login/index';
         let idleTimeout;
 
@@ -207,7 +211,7 @@
                     {
                         <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
                         <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen</a>
-                        <a href="/SubmittedKaizen/DeletedKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Deleted Kaizen(@CountList[0].DeletedCount)</a>
+                        <a href="/SubmittedKaizen/DeletedKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Deleted Kaizen (<label style="font-size:15px" id="deleteApprovalCountLabel"></label>)</a>
                         <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize" style="font-size:15px;" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
                         <div class="sub-menu collapse menupadding" id="demo">
                             <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">Block</a>
@@ -228,7 +232,7 @@
                     @if (ImageApprover == "True")
                     {
                         <a href="/SubmittedKaizen/ViewImageApproval" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize" style="font-size:15px;">
-                            Image Approval(@CountList[0].ImageApprovalCount)
+                            Image Approval (<label style="font-size:15px" id="imageApprovalCountLabel"></label>)
                         </a>
                     }
 
@@ -295,6 +299,24 @@
         { 
             window.location.href = '/Profile/Profile';
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Login/GetSerializedCountList',
+                type: 'GET',
+                success: function (response) {
+                    var countList = JSON.parse(response);
+                    var imageApprovalCount = countList[0].ImageApprovalCount;
+                    var deleteApprovalCount = countList[0].DeletedCount;
+                    $('#imageApprovalCountLabel').text(imageApprovalCount);
+                    $('#deleteApprovalCountLabel').text(deleteApprovalCount);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
     </script>
 </body>
 </html>

@@ -247,13 +247,14 @@
             $('#Domaincard').show();
         }
         $('#inputDomain').change(function () {
-
+            
             var Domain = $('#inputDomain').val().trim();
             $.ajax({
                 type: 'GET',
                 url: '/Admin/FetchDepartment',
                 dataType: "json",
                 data: { DomainID: Domain },
+
                 success: function (result) {
                     if (result) {
                         // Clear existing content

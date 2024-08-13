@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,5 +26,13 @@ namespace Kaizen.Models.WinnersList
         public DateTime ModifiedDate { get; set; }
 
         public string Status { get; set; }
+
+        public IFormFile Winnerimage { get; set; }
+        public string winnerimagefilepath { get; set; }
+        public string LogwinnerFilePath { get; set; }
+
+
+        public string Winnerimgfilename {  get; set; }
+
     }
 }

@@ -1293,7 +1293,7 @@
    //      }
    //  }
    // });
-
+    var statusDesc;
 
         $.get('@Url.Action("KaizenModalPopupPartial", "CreateKaizen")', function (data) {
             $('#modalPlaceholder').html(data);
@@ -1367,7 +1367,11 @@
             var RejectionReason = $('#RejectionReason').val();
             var status = "Rejected";
             let enumValue;
-            if (imageapproverstatus === 'True') {
+            const statusdetails = {
+
+                submitted: 1
+            }
+            if (imageapproverstatus === 'True' && statusDesc === statusdetails.submitted) {
                 enumValue = 3;
             }
             else {
@@ -1395,7 +1399,11 @@
         $('#ApprovButton').click(function () {
             let enumValue;
             var status = "Approved";
-            if (imageapproverstatus === 'True') {
+            const statusdetails = {
+
+                submitted: 1
+            }
+            if (imageapproverstatus === 'True' && statusDesc === statusdetails.submitted) {
                 enumValue = 2;
             }
             else {
@@ -1453,7 +1461,7 @@
         $('#Aprrovalbtn').hide();
         $('#Editbtn').hide();
             $('#waitingapproval').hide();
-            $('#waitingimage').hide();
+            $('#waitingimage').hide();      
             $('#imagelabel').hide();
             $('#printPDF').hide(); 
             $('#btnUpdateKaizen').hide();
@@ -1465,13 +1473,14 @@
             $('#DocumeNo').hide();
                 if (imageapproverstatus === 'True') {
                  
-                        $('#waitingimage').show();
-                        $('#imagelabel').show();
-                            $('#Aprrovalbtn').show();
-                        $('#Aprrovalbtnhold').hide();
+                         $('#waitingimage').show();
+                         $('#imagelabel').show();
+                             $('#Aprrovalbtn').show();
+                         $('#Aprrovalbtnhold').hide();
+                   
                 } 
         
-        else { 
+           else { 
 
             switch (userRole) {
                 case 'IE DEPT':
@@ -2709,9 +2718,6 @@
 
     });
 
-</script>
-
- <script>
     function previewImage(event, targetId) {
         var uploadedImageContainer = $('#' + targetId);
         uploadedImageContainer.empty();
@@ -2840,8 +2846,7 @@
         };
         reader.readAsDataURL(file);
     }
-</script>
-<script>
+
     $(function getSession() {
         if (sessionStorage.getItem("editKaizen")) {
             
@@ -2959,9 +2964,9 @@
                             reverseStatusDetails[value] = key;
                         }
 
-                        var statusDesc = result.kaizenList[0].approvalStatus;
+                        statusDesc = result.kaizenList[0].approvalStatus;
                         var imageapproverstatus = $('#imageapproverstatus').data('role');
-                        if (statusDesc === statusdetails.FinanceRejected || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.ImageRejected)
+                        if (statusDesc === statusdetails.FinanceRejected || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.DRIRejected)
                         {
                             $('#saveItButton').hide();
                             $('#updateItButton').hide();
@@ -3046,11 +3051,14 @@
                         }
                      
                         if (imageapproverstatus === 'True' && statusDesc !== statusdetails.submitted) {
-                            $('#buttons').hide();
+                            debugger;
+                            $('#buttons').show();
+                            $('#waitingapproval').show();
                             $('#waitingimage').hide();
                             $('#imagelabel').hide();
-                            $('#Approvalbtn').hide();
+                            $('#Approvalbtn').show();
                         } else if (imageapproverstatus === 'True' && statusDesc === statusdetails.submitted) {
+                            debugger;
                             $('#approvers').show();
                         }
                         if(result.approverslist[0].financeEmail == "")
