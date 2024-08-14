@@ -1017,7 +1017,7 @@
 
                                                                 <th class="border-0"></th>
 
-                                                                <th class="border-0">KAIZEN Originated By</th>
+                                                                <th class="border-0 col-3">KAIZEN Originated By</th>
 
                                                                 <th class="border-0">KAIZEN Approved By</th>
                                                                 @* <th class="border-0">KAIZEN Confirmed By</th> *@
@@ -1035,7 +1035,7 @@
                                                                     Name
                                                                 </td>
 
-                                                                    <td class="align-middle align-items-center justify-content-center col-5">
+                                                                    <td class="align-middle align-items-center justify-content-center col-3">
                                                                         <input type="text" class="mx-auto form-control col-9" id="name" name="name" value="@Model.name" readonly>
                                                                     <input type="text" class="mx-auto form-control col-9" id="createdBy" name="createdBy" value="@Model.EmpId" hidden>
                                                                 </td>
@@ -1061,7 +1061,7 @@
                                                                     Dept
                                                                 </td>
 
-                                                                <td class="align-middle align-items-center justify-content-center col-5">
+                                                                <td class="align-middle align-items-center justify-content-center col-3">
                                                                         <input type="text" class="mx-auto form-control col-9" id="DomainId" name="DomainId" value="@Model.Domain - @Model.Department" readonly>
                                                                 </td>
                                                                     <td class="align-items-center d-flex justify-content-center h-100 col-12">
@@ -1081,7 +1081,7 @@
                                                                      DateTime parsedDate;
                                                                      bool isValidDate = DateTime.TryParse(Model.OriginatedDate, out parsedDate);
                                                                 }
-                                                                    <td class="align-middle align-items-center justify-content-center col-5">
+                                                                    <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@parsedDate.ToString("dd/MM/yyyy")">
 
                                                                 </td>
