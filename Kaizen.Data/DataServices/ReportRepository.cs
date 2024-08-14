@@ -44,8 +44,8 @@ namespace Kaizen.Data.DataServices
             DataTable dt = new DataTable();
             com.Connection = con;
             com.CommandType = CommandType.StoredProcedure;
-            com.Parameters.AddWithValue("@startdate", (model.StartDate == null || model.StartDate == DateTime.MinValue) ? (object)DBNull.Value : model.StartDate);
-            com.Parameters.AddWithValue("@enddate", (model.EndDate == null || model.EndDate == DateTime.MinValue) ? (object)DBNull.Value : model.EndDate);
+            com.Parameters.AddWithValue("@startdate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
+            com.Parameters.AddWithValue("@enddate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
             com.CommandText = StoredProcedures.Sp_Get_KaizenformReport;
             SqlDataAdapter da = new SqlDataAdapter(com);
             da.Fill(dt);
@@ -58,8 +58,8 @@ namespace Kaizen.Data.DataServices
             DataTable dt = new DataTable();
             com.Connection = con;
             com.CommandType = CommandType.StoredProcedure;
-            com.Parameters.AddWithValue("@startdate", (model.StartDate == null || model.StartDate == DateTime.MinValue) ? (object)DBNull.Value : model.StartDate);
-            com.Parameters.AddWithValue("@enddate", (model.EndDate == null || model.EndDate == DateTime.MinValue) ? (object)DBNull.Value : model.EndDate);
+            com.Parameters.AddWithValue("@startdate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
+            com.Parameters.AddWithValue("@enddate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
             com.CommandText = StoredProcedures.Sp_Get_BlockformReport;
             SqlDataAdapter da = new SqlDataAdapter(com);
             da.Fill(dt);
@@ -72,8 +72,8 @@ namespace Kaizen.Data.DataServices
             DataTable dt = new DataTable();
             com.Connection = con;
             com.CommandType = CommandType.StoredProcedure;
-            com.Parameters.AddWithValue("@startdate", (model.StartDate == null || model.StartDate == DateTime.MinValue) ? (object)DBNull.Value : model.StartDate);
-            com.Parameters.AddWithValue("@enddate", (model.EndDate == null || model.EndDate == DateTime.MinValue) ? (object)DBNull.Value : model.EndDate);
+            com.Parameters.AddWithValue("@startdate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
+            com.Parameters.AddWithValue("@enddate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
             com.CommandText = StoredProcedures.Sp_Get_DomainformReport;
             SqlDataAdapter da = new SqlDataAdapter(com);
             da.Fill(dt);
@@ -86,8 +86,8 @@ namespace Kaizen.Data.DataServices
             DataTable dt = new DataTable();
             com.Connection = con;
             com.CommandType = CommandType.StoredProcedure;
-            com.Parameters.AddWithValue("@startdate", (model.StartDate == null || model.StartDate == DateTime.MinValue) ? (object)DBNull.Value : model.StartDate);
-            com.Parameters.AddWithValue("@enddate", (model.EndDate == null || model.EndDate == DateTime.MinValue) ? (object)DBNull.Value : model.EndDate);
+            com.Parameters.AddWithValue("@startdate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
+            com.Parameters.AddWithValue("@enddate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
             com.CommandText = StoredProcedures.Sp_Get_DepartmentformReport;
             SqlDataAdapter da = new SqlDataAdapter(com);
             da.Fill(dt);
@@ -99,8 +99,8 @@ namespace Kaizen.Data.DataServices
             DataTable dt = new DataTable();
             com.Connection = con;
             com.CommandType = CommandType.StoredProcedure;
-            com.Parameters.AddWithValue("@startdate", (model.StartDate == null || model.StartDate == DateTime.MinValue) ? (object)DBNull.Value : model.StartDate);
-            com.Parameters.AddWithValue("@enddate", (model.EndDate == null || model.EndDate == DateTime.MinValue) ? (object)DBNull.Value : model.EndDate);
+            com.Parameters.AddWithValue("@startdate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
+            com.Parameters.AddWithValue("@enddate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
             com.CommandText = StoredProcedures.Sp_Get_UserformReport;
             SqlDataAdapter da = new SqlDataAdapter(com);
             da.Fill(dt);
