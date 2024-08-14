@@ -1,0 +1,8 @@
+Step need to follow For Window Service.
+- Open CMD with Admin
+- Enter Below command to CreateService
+C:Windows\ cd <space> Microsoft.NET\Framework64\v4.0.30319>Installutil.exe "D:\CanopusData\NewKaizenService\NewKaizenService\bin\Debug\NewKaizenService.exe"
+- Open Services with admin and right click - start the service.
+
+
+Kill Service From task manager if not able to stop service from Service window.
