@@ -199,27 +199,27 @@
                     {
                         <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
                         <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">New Kaizen</a>
-                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen's</a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
                     }
                     @if ( UserType == "EMPLOYEE")
                     {
                         <a href="/Dashboard/EmployeeDashboard" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
                         <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">New Kaizen</a>
-                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen's</a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
                     }
                   @*   <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen</a> *@
                     @if(UserType == "ADMIN")
                     {
                         <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
-                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen's</a>
-                        <a href="/SubmittedKaizen/DeletedKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Deleted Kaizen's(<label style="font-size:15px" id="deleteApprovalCountLabel"></label>)</a>
-                        <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize" style="font-size:15px;" data-toggle="collapse" data-target="#demo">Master's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
+                        <a href="/SubmittedKaizen/DeletedKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Deleted Kaizens(<label style="font-size:15px" id="deleteApprovalCountLabel"></label>)</a>
+                        <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize" style="font-size:15px;" data-toggle="collapse" data-target="#demo">Masters<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
                         <div class="sub-menu collapse menupadding" id="demo">
-                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/Admin/AddBlock">Block's</a>
-                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/Admin/AddDomain">Domain's</a>
-                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/Admin/AddDepartment">Department's</a>
+                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/Admin/AddBlock">Blocks</a>
+                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/Admin/AddDomain">Domains</a>
+                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/Admin/AddDepartment">Departments</a>
                             <a class="list-group-item text-light ml-3 menupadding textfor" href="/Admin/AddUser">New User</a>
-                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/ViewUser/ViewUser">View User's</a>
+                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/ViewUser/ViewUser">View Users</a>
                             <a class="list-group-item text-light ml-3 menupadding textfor" href="/Theme/ThemeChanger">Add Theme</a>
                             <a class="list-group-item text-light ml-3 menupadding textfor" href="/WinnersList/WinnersList">Winners List</a>
                         </div>
@@ -240,7 +240,7 @@
                     @if ( UserType == "IE DEPT" || UserType == "FINNACE")
                     {
                         <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
-                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen's</a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
                     }
                     <a class="LogoutIcon list-group-item menupadding" onclick="LogoutOption();" href="#"><i class="fa-solid fa-right-from-bracket icon1 padding-left-20 margin-left-20"></i></a>
                 </div>
