@@ -11,6 +11,18 @@
 {
     @Html.AntiForgeryToken()
     <style>
+        .forgot-password-link,
+        .register-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+            .forgot-password-link:hover,
+            .register-link:hover {
+                text-decoration: underline;
+            }
+
         * {
             overflow-y: hidden;
         }
@@ -96,9 +108,12 @@
             <div class="loginbox-submit">
                 <input type="submit" class="btn btn-block btn-azure" value="Sign in here" />
             </div>
-            <a href="/Register/Index" class="padding-30">Register New User</a>
-
-            <a href="/Login/Forgot">Forgot password</a>
+            <div class="loginbox-links" style="margin-top: 20px;">
+                <div class="col" style="display: flex; justify-content: space-between; padding: 0 9%;">
+                    <a href="/Register/Index" class="">Register New User</a>
+                    <a href="/Login/Forgot">Forgot password</a>
+                </div>
+            </div>
 
         </div>
         <div class="col-sm-4"></div>
