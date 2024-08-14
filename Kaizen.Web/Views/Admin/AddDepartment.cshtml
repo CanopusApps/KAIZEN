@@ -26,7 +26,7 @@
             <div class="col-md-3">
                 <label for="domainName">Domain Name</label>
                 <select id="domainName" class="form-control txt-width">
-                    <option selected>--Select--</option>
+                    <option selected>--Select Domain--</option>
                     @foreach (var domain in Model.DomainList)
                     {
                         <option value="@domain.Id">@domain.DomainName</option>

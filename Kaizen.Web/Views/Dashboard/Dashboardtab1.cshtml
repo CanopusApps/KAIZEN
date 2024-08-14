@@ -223,7 +223,7 @@
                         var StartDate = $('#dtstartdate').val();
                         var EndDate = $('#dtenddate').val();
                         $.ajax({
-                            type: 'POST',
+                            type: 'GET',
                             url: '/Dashboard/FetchDepartment',
                             dataType: "json",
                             data: {

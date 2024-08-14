@@ -34,16 +34,17 @@ public class RegisterController : Controller
     // GET: Register/Index
     public IActionResult Index()
     {
-        // Assuming you have a service or repository to get domains
-        var domains = _domainWorker.GetDomain(); // Method to fetch domain data
+        var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
 
-        var model = new RegisterModel
+
+        var viewModel = new RegisterModel
         {
-            Domains = domains // Initialize Domains property with fetched data
+            Domains = activeDomains // Initialize Domains property with fetched data
         };
 
-        return View(model);
+        return View(viewModel);
     }
+
 
 
 
@@ -89,7 +90,7 @@ public JsonResult RegisterUser(RegisterModel user)
         return Json(new { success = false, message = "An error occurred: " + ex.Message });
     }
 }
-    [HttpPost]
+    [HttpGet]
     public JsonResult FetchDepartment(string DomainID)
     {
         var departments = _departmentWorker.GetDepartments()

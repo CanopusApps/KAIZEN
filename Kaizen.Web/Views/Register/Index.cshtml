@@ -109,9 +109,10 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <label for="email">Email</label>
-                                <span id="EmailError" class="error-message"></span>
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email ID" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <button type="submit" class="btn btn-block btn-azure" id="registerButton">Register Me In</button>
@@ -226,17 +227,14 @@
                 $("#PhonenoError").text("Invalid Phone Number.");
                 isValid = false;
             }
-        
-           
-
-                return isValid;
-            }
+             return isValid;
+        }
    
     // Fetch departments based on selected domain
         $('#Did').change(function () {
             var Domain = $('#Did').val().trim();
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: '/Register/FetchDepartment',
                 dataType: "json",
                 data: { DomainID: Domain },
@@ -246,7 +244,7 @@
                         dropdown.empty();
                         dropdown.append($('<option>', {
                             value: '',
-                            text: 'Select Department'
+                            text: '--Select Department--'
                         }));
                         for (var i = 0; i < result.length; i++) {
                             $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
@@ -263,7 +261,6 @@
 
 
         $("#userForm").submit(function(event) {
-            debugger;
             event.preventDefault(); // Prevent default form submission
             if (ValidateForm()) {
                 var formData = $(this).serialize(); // Get form data

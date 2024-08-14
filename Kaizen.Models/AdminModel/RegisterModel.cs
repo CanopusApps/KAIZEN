@@ -11,6 +11,9 @@ namespace Kaizen.Models.AdminModel
     {
         
         public string Name { get; set; }
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
        
