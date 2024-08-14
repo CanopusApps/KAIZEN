@@ -203,11 +203,16 @@
         });
 
     });
-    
+     function formatDateForServer(dateStr) {
+        var date = $.datepicker.parseDate('dd-mm-yy', dateStr);
+        return $.datepicker.formatDate('yy-mm-dd', date);
+    }
+
     function changeOrderExportHref() {
+        debugger;
         var url = '@Url.Action("KaizenForm", "Reports")';
-        var StartDate = document.getElementById("startDate").value;
-        var EndDate = document.getElementById("endDate").value;
+        var StartDate = formatDateForServer(document.getElementById("startDate").value);
+        var EndDate = formatDateForServer(document.getElementById("endDate").value);
         window.location.href = url + "/?StartDate=" + StartDate + "&EndDate= " + EndDate;
     }
     function changeBlockExportHref() {
