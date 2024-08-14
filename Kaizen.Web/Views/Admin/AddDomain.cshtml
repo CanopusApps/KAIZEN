@@ -170,7 +170,7 @@
         $('#btnAdd').hide();
         $('#btnupdate').show();
         $('#domainname').focus();
-        debugger;
+        
         var $row = $(this).closest('tr');
         var domainid = $row.data('id');
         var domainname = $row.data('name');
@@ -179,7 +179,7 @@
     });
 
     $('#btnupdate').click(function () {
-        debugger;
+        
         var domainmodel = {
             DomainName: $('#domainname').val(),
             Id: $('#DomainId').val()

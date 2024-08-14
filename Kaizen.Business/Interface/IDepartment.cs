@@ -14,7 +14,7 @@ namespace Kaizen.Business.Interface
         public List<DepartmentModel> GetDepartments();
         public bool DeleteDepartment(int id);
         public bool UpdateDepartmentStatus(bool status, int id);
-        public List<DomainModel> GetDomain(DomainModel model);
+        public List<DomainModel> GetDomain();
         public bool UpdateDepartmentDetails(DepartmentModel departmentmodel);
     }
 }

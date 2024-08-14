@@ -132,7 +132,7 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-        public DataSet GetDomainData(DomainModel model)
+        public DataSet GetDomainData()
         {
             com = new SqlCommand();
             DataSet ds = new DataSet();

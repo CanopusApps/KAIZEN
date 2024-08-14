@@ -77,8 +77,9 @@ namespace Kaizen.Web.Controllers
             List<DepartmentModel> deptList = new List<DepartmentModel>();
             if (!string.IsNullOrEmpty(domainid))
             {
-				deptList = _departmentWorker.GetDepartments().Where(d=>d.DomainId == Convert.ToInt32(domainid)).ToList();                
-
+                deptList = _departmentWorker.GetDepartments()
+                      .Where(m => m.DomainId == Convert.ToInt32(domainid) && m.Status == true)  // Adjust based on how 'active' is represented
+                      .ToList();
             }
             return deptList;
         }
