@@ -57,7 +57,7 @@
 
         <br />
 
-        <div class="card-body">
+        <div class="card-body table-responsive">
             <table id="employeeTable" class="table table-striped" style="width:100%!important">
                 <thead>
                     <tr>
@@ -76,7 +76,7 @@
                             <td hidden>@item.DeptId</td>
                             <td>@item.DomainName</td>
                             <td>@item.DepartmentName</td>
-                            <td>0</td>
+                            <td class="text-center">0</td>
                             <td class="text-center">
                                 @if (!item.Status)
                                 {
@@ -103,7 +103,9 @@
 <script>
     $(document).ready(function () {
         $('#btnupdate').hide(); // Initially hide the update button
-        $('#employeeTable').DataTable({});
+        $('#employeeTable').DataTable({
+            responsive: true // Enable responsive feature in DataTables
+        });
 
         // Add Department button click handler
         $("#btnAdd").click(function () {
@@ -170,8 +172,6 @@
                     swal('Unable to Save the Department Details - Please Check the logs');
                     window.location.href = redirectErrorUrl;
                 }
-
-
             },
             error: function (error) {
                 swal('Unable to Save the Department Details - Please Check the logs');
@@ -283,7 +283,7 @@
                     dataType: "json",
                     data: { id: id },
                     success: function (result) {
-                         var redirectErrorUrl = "/Login/ErrorPage";
+                        var redirectErrorUrl = "/Login/ErrorPage";
                         if (result == true) {
                             swal({
                                 text: "Department Deleted successfully !!",
