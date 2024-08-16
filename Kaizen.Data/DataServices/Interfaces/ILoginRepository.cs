@@ -14,5 +14,7 @@ namespace Kaizen.Data.DataServices
 
         public DataSet usermanager(string EmpId);
         public DataSet FetchCountlist();
+        public bool USERLOGIN(string EmpId);
+        public bool USERLOGOUT(string EmpId);
     }
 }

@@ -14,5 +14,8 @@ namespace Kaizen.Business.Interface
 
         public List<ManagerModel> Usermanager(string Empid);
         public List<CountModel> FetchCount();
+        public bool USERLOGIN(string EmpId);
+
+        public bool USERLOGOUT(string EmpId);
     }
 }
