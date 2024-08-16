@@ -183,5 +183,13 @@ namespace Kaizen.Web.Controllers
             viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 14).ToList();
             return View(viewModel);
         }
+        [HttpGet]
+        // public IActionResult GetKaizenTheme(string prefix)
+        public IActionResult GetKaizenTheme()
+        {
+            var themeList = _submittedKaizenWorker.GetKaizenThemeforAutucomplete();
+            var formattedList = themeList.Select(theme => new { label = theme.Label, val = theme.Value }).ToList();
+            return Json(formattedList);
+        }
     }
 }

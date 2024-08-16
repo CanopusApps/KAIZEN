@@ -131,7 +131,8 @@
     (function () {
 
         const idleDurationSecs = @Configuration.GetSection("SessionTimeout")["Time"];
-        const redirectUrl = '/Login/index';
+        //const redirectUrl = '/Login/index';
+        const redirectUrl = '/Login/Logout';
         let idleTimeout;
 
         const resetIdleTimeout = function () {

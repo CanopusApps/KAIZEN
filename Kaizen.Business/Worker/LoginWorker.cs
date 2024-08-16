@@ -69,5 +69,14 @@ namespace Kaizen.Business.Worker
             }
             return CountList;
         }
+        public bool USERLOGIN(string EmpId)
+        {
+            return _logindata.USERLOGIN(EmpId);
+        }
+
+        public bool USERLOGOUT(string EmpId)
+        {
+            return _logindata.USERLOGOUT(EmpId);
+        }
     }
 }

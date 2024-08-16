@@ -105,6 +105,8 @@ namespace Kaizen.Web.Controllers
                             String Id= conAccessor.HttpContext.Session.Id;
 
                             ManagerList = _loginworker.Usermanager(EmpId);
+                            //here login data saving
+                             _loginworker.USERLOGIN(EmpId);
                             var ManagerListJson = JsonConvert.SerializeObject(ManagerList);
 
 
@@ -252,14 +254,14 @@ namespace Kaizen.Web.Controllers
 
         public IActionResult Logout()
         {
-          
-           
+            //Logout saving
+            _loginworker.USERLOGOUT(HttpContext.Session.GetString("EmpId"));
 
-            
             if (HttpContext.Session.IsAvailable)
             {
                 HttpContext.Session.Clear();
             }
+            
             return RedirectToAction("Index", "Login", new { area = "" });
         }
 

@@ -72,6 +72,8 @@ namespace Kaizen.Models.AdminModel
         public string role { get; set; } = "";
         public string UserId { get; set; } = "";
         public int AStatus { get; set; } = 0;
+        public string Label { get; set; } = "";
+        public string Value { get; set; }
 
         public string PostedBy { get; set; } = "";
 
