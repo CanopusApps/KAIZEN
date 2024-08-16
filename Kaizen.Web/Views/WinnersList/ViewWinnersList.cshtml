@@ -1,0 +1,422 @@
+﻿@model IEnumerable<Kaizen.Models.WinnersList.WinnersListModel>
+@{
+    Layout = "SidebarLayout";
+}
+<link rel="stylesheet" href="~/assets/css/WinnersList.css" />
+<div id="winnersComp" class="py-4">
+    <div class="cardSpace border-0 card container-fluid shadow-sm rounded-lg col-12 py-3 px-5 mb-1">
+        <h1 class="text-primary">View Winners List-</h1>
+        <div class="row">
+            <div class="col">
+                <p>Kaizen Idea > Kaizen Mang > View Winners List</p>
+            </div>
+            <div class="col text-right">
+                <button type="button" class="btn btn-azure" id="addWinnerBtn">Add Winner</button>
+            </div>
+        </div>
+    </div>
+ 
+    <div id="winnersCardContainer" class="mb-4 py-4">
+        <div class="border-0 card container-fluid shadow rounded-lg col-12 py-3 px-5" id="winnersCard">
+            <div class="col-sm-12 p-md-0">
+                <h1 class="text-primary"> Winners List-</h1>
+            </div>
+            <br>
+            <hr class="bold text-dark">
+            <br />
+            <div class="row">
+                <div class="table-responsive" style="overflow-x: hidden">
+                    @{
+                        var counter = 1;
+                        var counter1 = 1;
+                        var counter2 = 1;
+                        var sortedWinners = Model.OrderBy(w => w.Category == "Gold" ? 0 : w.Category == "Silver" ? 1 : 2).ThenBy(w => w.EmpName);
+                        string CategoryTracker = null;
+                    }
+
+
+                    <table class="table table-bordered" id="Winnertable">
+
+
+                        @foreach (var winner in sortedWinners)
+                        {
+                            @if (CategoryTracker != winner.Category)
+                            {
+
+                                <thead>
+                                    <tr>
+                                        <td class="border-0">
+                                            <h1 style="font-size: x-large;">@winner.Category</h1>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="border-0 text-center">S.NO</th>
+                                        <th class="border-0 text-center">Emp Id</th>
+                                        <th class="border-0 text-center">Emp Name</th>
+                                        <th class="border-0 text-center" hidden>CATEGORY</th>
+                                        <th class="border-0 text-center">START DATE</th>
+                                        <th class="border-0 text-center">END DATE</th>
+                                        <th class="border-0 text-center">STATUS</th>
+                                        <th class="border-0 text-center">ACTION</th>
+                                    </tr>
+                                </thead>
+                            }
+                            @switch (winner.Category)
+                            {
+                                case "Gold":
+                                    {
+                                        <tbody>
+                                            <input id="colNos" hidden value="@Model.Count()" />
+                                            <tr>
+                                                <td class="text-center align-middle">
+                                                    <p>@counter</p>
+                                                    @{
+                                                        counter++;
+                                                    }
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EmpID
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EmpName
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle" hidden>
+                                                    <div class="row justify-content-center">
+                                                        @winner.Category
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.StartDate.ToString("dd-MM-yyyy")
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EndDate.ToString("dd-MM-yyyy")
+                                                    </div>
+                                                </td>
+
+                                                <td hidden>@winner.DomainName</td>
+                                                <td hidden>@winner.DepartmentName</td>
+                                                <td hidden>@winner.Category</td>
+                                                <td hidden>@winner.Id</td>
+                                                <td hidden>@winner.winnerimagefilepath</td>
+                                                <td hidden>@winner.Winnerimgfilename</td>
+
+                                                <td class="align-middle text-center">
+                                                    @if (winner.Status == "Active" && DateTime.Now <= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadgeA" class="badge bg-success text-white" data-status="Active">Active</span>
+                                                    }
+                                                    @if (winner.Status == "Inactive" && DateTime.Now <= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadgeI" class="badge bg-warning text-white" data-status="Inactive">Inactive</span>
+                                                    }
+                                                    @if (DateTime.Now >= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadge" class="badge bg-danger text-white" data-status="Expired">Expired</span>
+                                                    }
+
+                                                </td>
+                                               <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        <a id="EditFunction" class="btn btn-primary btn-sm editdepartment mx-1">
+                                                            <i class="edit fas fa-pencil editWinner"></i>
+                                                        </a>
+                                                        <a id="DeleteFunction" class="btn btn-danger btn-sm DeleteDepartment mx-1">
+                                                            <i class="edit fas fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    }
+                                    CategoryTracker = winner.Category;
+                                    break;
+                                case "Silver":
+                                    {
+                                        <tbody col-4>
+
+                                            <input id="colNos" hidden value="@Model.Count()" />
+                                            <tr>
+                                                <td class="text-center align-middle">
+                                                    <p>@counter1</p>
+                                                    @{
+                                                        counter1++;
+                                                    }
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EmpID
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EmpName
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle" hidden>
+                                                    <div class="row justify-content-center">
+                                                        @winner.Category
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.StartDate.ToString("dd-MM-yyyy")
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EndDate.ToString("dd-MM-yyyy")
+                                                    </div>
+                                                </td>
+                                                <td hidden>@winner.DomainName</td>
+                                                <td hidden>@winner.DepartmentName</td>
+                                                <td hidden>@winner.Category</td>
+                                                <td hidden>@winner.Id</td>
+                                                <td hidden>@winner.winnerimagefilepath</td>
+                                                <td hidden>@winner.Winnerimgfilename</td>
+                                                <td class="align-middle text-center">
+                                            
+                                                    @if (winner.Status == "Active" && DateTime.Now <= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadgeA" class="badge bg-success text-white" data-status="Active">Active</span>
+                                                    }
+                                                    @if (winner.Status == "Inactive" && DateTime.Now <= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadgeI" class="badge bg-warning text-white" data-status="Inactive">Inactive</span>
+                                                    }
+                                                    @if (DateTime.Now >= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadge" class="badge bg-danger text-white" data-status="Expired">Expired</span>
+                                                    }
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        <a id="EditFunction" class="btn btn-primary btn-sm editdepartment mx-1">
+                                                            <i class="edit fas fa-pencil editWinner"></i>
+                                                        </a>
+                                                        <a id="DeleteFunction" class="btn btn-danger btn-sm DeleteDepartment mx-1">
+                                                            <i class="edit fas fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    }
+                                    CategoryTracker = winner.Category;
+                                    break;
+                                case "Bronze":
+                                    {
+                                        <tbody col-4>
+
+                                            <input id="colNos" hidden value="@Model.Count()" />
+                                            <tr>
+                                                <td class="text-center align-middle">
+                                                    <p>@counter2</p>
+                                                    @{
+                                                        counter2++;
+                                                    }
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EmpID
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EmpName
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle" hidden>
+                                                    <div class="row justify-content-center">
+                                                        @winner.Category
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.StartDate.ToString("dd-MM-yyyy")
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EndDate.ToString("dd-MM-yyyy")
+                                                    </div>
+                                                </td>
+                                                <td hidden>@winner.DomainName</td>
+                                                <td hidden>@winner.DepartmentName</td>
+                                                <td hidden>@winner.Category</td>
+                                                <td hidden>@winner.Id</td>
+                                                <td hidden>@winner.winnerimagefilepath</td>
+                                                <td hidden>@winner.Winnerimgfilename</td>
+                                                <td class="align-middle text-center">
+                                            
+                                                    @if (winner.Status == "Active" && DateTime.Now <= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadgeA" class="badge bg-success text-white" data-status="Active">Active</span>
+                                                    }
+                                                    @if (winner.Status == "Inactive" && DateTime.Now <= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadgeI" class="badge bg-warning text-white" data-status="Inactive">Inactive</span>
+                                                    }
+                                                    @if (DateTime.Now >= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadge" class="badge bg-danger text-white" data-status="Expired">Expired</span>
+                                                    }
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        <a id="EditFunction" class="btn btn-primary btn-sm editdepartment mx-1">
+                                                            <i class="edit fas fa-pencil editWinner"></i>
+                                                        </a>
+                                                        <a id="DeleteFunction" class="btn btn-danger btn-sm DeleteDepartment mx-1">
+                                                            <i class="edit fas fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                
+                                    CategoryTracker = winner.Category;
+                                    break;
+                                 }
+                            }
+                        }
+                </div>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#addWinnerBtn").click(function () {
+            sessionStorage.clear();
+            window.location.href = '/WinnersList/WinnersList';
+        });
+        $(document).on('click', '#statusBadgeI, #statusBadgeA, #statusBadgeE', function () {
+            var $row = $(this).closest('tr');
+            var dat = $row.find('td:eq(7)').text().trim();
+            var UId = $row.find('td:eq(9)').text().trim();
+            var badgeName = $(this).text().trim();
+            var status;
+
+            if (badgeName === 'Inactive') {
+                status = "Active";
+            } else if (badgeName === 'Active') {
+                status = "Inactive";
+            }
+            else {
+                alert(badgeName);
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UpdateWinnerStatus", "WinnersList")',
+                data: {
+                    Id: UId,
+                    Status: status
+                },
+                success: function (response) {
+
+                    if (response) {
+                        switch (status) {
+                            case "Active":
+                                this.text('Inactive');
+                                this.removeClass('bg-success').addClass('bg-warning');
+
+                                break;
+                            case "Inactive":
+                                this.text('Active');
+                                this.removeClass('bg-warning').addClass('bg-success');
+
+                                break;
+                        }
+
+                    }
+                },
+                error: function (xhr, status, error) {
+
+                }
+            }).then(function () {
+                location.reload();
+            });
+        });
+        var winnersList = @Html.Raw(Json.Serialize(Model));
+        $('#statusBadge').click(function () {
+            var status = $(this).data('status');
+            if (status === 'Inactive') {
+                $(this).removeClass('bg-warning').addClass('bg-success').text('Active');
+                $(this).data('status', 'Active');
+            } else if (status === 'Active') {
+                $(this).removeClass('bg-success').addClass('bg-warning').text('Inactive');
+                $(this).data('status', 'Inactive');
+            }
+        });
+        $('tbody').on('click', '#DeleteFunction', function (e) {
+            debugger;
+            e.preventDefault();
+            var $row = $(this).closest('tr');
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteWinner", "WinnersList")',
+                data: {
+                    id: parseInt($row.find('td:eq(1)').text().trim()),
+                    sd: $row.find('td:eq(4)').text().trim(),
+                    ed: $row.find('td:eq(5)').text().trim()
+                },
+                success: function (response) {
+                    window.location.href = '/WinnersList/ViewWinnersList';
+
+                },
+                error: function (xhr, status, error) {
+
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('tbody').on('click', '#EditFunction', function (e) {
+            e.preventDefault();
+            debugger;
+            var $row = $(this).closest('tr');
+            var empid = $row.find('td:eq(1)').text().trim();
+            var name = $row.find('td:eq(2)').text().trim();
+            var category = $row.find('td:eq(3)').text().trim();
+            var startdate = $row.find('td:eq(4)').text().trim();
+            var enddate = $row.find('td:eq(5)').text().trim();
+            var domain = $row.find('td:eq(6)').text().trim();
+            var department = $row.find('td:eq(7)').text().trim();
+            var id = $row.find('td:eq(9)').text().trim();
+            var Imgpath = $row.find('td:eq(10)').text().trim();
+            var base64path = $row.find('td:eq(11)').text().trim();
+
+            sessionStorage.setItem('editUser', JSON.stringify({
+                empid: empid,
+                name: name,
+                category: category,
+                startdate: startdate,
+                enddate: enddate,
+                domain: domain,
+                department: department,
+                id: id,
+                imgpath: Imgpath,
+                base64path: base64path
+            }));
+            window.location.href = '/WinnersList/WinnersList';
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Winnertable').DataTable({ /* responsive: true */ });
+    });
+</script>
