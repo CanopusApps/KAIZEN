@@ -217,32 +217,32 @@
     }
     function changeBlockExportHref() {
         var url = '@Url.Action("BlockForm", "Reports")';
-        var StartDate = document.getElementById("startDate").value;
-        var EndDate = document.getElementById("endDate").value;
+        var StartDate = formatDateForServer(document.getElementById("startDate").value);
+        var EndDate = formatDateForServer(document.getElementById("endDate").value);
         window.location.href = url + "/?StartDate=" + StartDate + "&EndDate= " + EndDate;
     }
     function changeDomainExportHref() {
         var url = '@Url.Action("DomainForm", "Reports")';
-        var StartDate = document.getElementById("startDate").value;
-        var EndDate = document.getElementById("endDate").value;
+        var StartDate = formatDateForServer(document.getElementById("startDate").value);
+        var EndDate = formatDateForServer(document.getElementById("endDate").value);
         window.location.href = url + "/?StartDate=" + StartDate + "&EndDate= " + EndDate;
     }
     function changeDepartmentExportHref() {
         var url = '@Url.Action("DepartmentForm", "Reports")';
-        var StartDate = document.getElementById("startDate").value;
-        var EndDate = document.getElementById("endDate").value;
+        var StartDate = formatDateForServer(document.getElementById("startDate").value);
+        var EndDate = formatDateForServer(document.getElementById("endDate").value);
         window.location.href = url + "/?StartDate=" + StartDate + "&EndDate= " + EndDate;
     }
     function changeUserExportHref() {
         var url = '@Url.Action("UserForm", "Reports")';
-        var StartDate = document.getElementById("startDate").value;
-        var EndDate = document.getElementById("endDate").value;
+        var StartDate = formatDateForServer(document.getElementById("startDate").value);
+        var EndDate = formatDateForServer(document.getElementById("endDate").value);
         window.location.href = url + "/?StartDate=" + StartDate + "&EndDate= " + EndDate;
     }
     function changeWinnerExportHref() {
         var url = '@Url.Action("WinnerForm", "Reports")';
-        var StartDate = document.getElementById("startDate").value;
-        var EndDate = document.getElementById("endDate").value;
+        var StartDate = formatDateForServer(document.getElementById("startDate").value);
+        var EndDate = formatDateForServer(document.getElementById("endDate").value);
         window.location.href = url + "/?StartDate=" + StartDate + "&EndDate= " + EndDate;
     }
     
