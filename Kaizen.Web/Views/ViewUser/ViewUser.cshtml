@@ -136,7 +136,7 @@
                         </p>    
                     </div>
                 </div>
-                <div class="col-md-12" style="font-weight:bold; display: flex; justify-content: end; align-items: center; height: 100px;">
+                <div class="col-md-12" style="font-weight:bold; display: flex; justify-content: end; align-items: center;">
                     <div class="row">
                         <div class="col text-center d-flex justify-content-center align-items-center">
                             <button type="button" class="btn btn-block-custom btn-warning no-margin" style="width:100px;" data-toggle="modal" data-target="#importExcelModel">Import Kaizen</button>
@@ -198,7 +198,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputpassword">Password to all<span class="text-danger">*</span></label>
-                                    <input type="text" id="ModalPassword" class="form-control" style="background-color:lightgray" placeholder="Password to all">
+                                    <input type="text" id="ModalPassword" class="form-control" placeholder="Password to all">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label>Upload<span class="text-danger">*</span></label>
@@ -342,7 +342,7 @@
             var PasswordModal = $('#ModalPassword').val();
 
             if (!StatusModal || !UserTypemodal || !PasswordModal) {
-                swal('Please Select all field');
+                swal('Please select all fields.');
                 return;
             }
 
@@ -364,18 +364,36 @@
                         $('#ModalUserType').prop('selectedIndex', 0);
                         $('#ModalPassword').val('');
                         $('#file').val('');
-                        swal(response);
+
+                        if (response === "File uploaded and data processed successfully.") {
+                            swal({
+                                title: "Success!",
+                                text: response,
+                                icon: "success",
+                            });
+                        } else {
+                            swal({
+                                title: "Warning!",
+                                text: response,
+                                icon: "warning",
+                            });
+                        }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("Error response:", jqXHR, textStatus, errorThrown);
-                        swal('File upload failed.');
+                        swal({
+                            title: "Error!",
+                            text: "File upload failed due to an internal server error.",
+                            icon: "error",
+                        });
                     }
                 });
             } else {
-                alert('Please select a file to upload.');
+                swal('Please select a file to upload.');
             }
         });
     });
+
 </script>
 <script>
     $(document).ready(function () {

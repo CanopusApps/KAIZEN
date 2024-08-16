@@ -16,8 +16,9 @@ namespace Kaizen.Business.Interface
         public List<StatusModel> GetStatus();
 
         public string SendFile(IFormFile file, string Status, string UserType, string Password);
-        public void Senddatatable(DataTable datatable, string Status, string UserType, string Password);
+        public string Senddatatable(DataTable datatable, string Status, string UserType, string Password);
 
         public List<UserGridModel> GetIEDepart();
+        public string ValidateEmployee(UploadUserModel employee);
     }
 }
