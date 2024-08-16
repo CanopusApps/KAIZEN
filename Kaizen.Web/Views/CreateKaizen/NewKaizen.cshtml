@@ -3092,7 +3092,8 @@
                         $('#finEmail').text(result.approverslist[0].financeEmail);
                         $('#finDom').text(result.approverslist[0].finDomain);
                       
-                        $('#imageaprName').text(result.approverslist[0].imageAproveName);
+                        // $('#imageaprName').text(result.approverslist[0].imageAproveName);
+                        $('#imageaprName').text(result.approverslist[0].imageAproveName ? result.approverslist[0].imageAproveName : 'N/A');
                         
                         $("#docNo").val(result.kaizenList[0].docNo);
                         $('#printPDF').show();
@@ -3299,8 +3300,9 @@
                             Ad4.className = 'col-cd-3';
                             Ad5.className = 'col-cd-3';
                         });
-
+                        debugger;
                         result.attachmentsList.forEach(item => {
+                            debugger;
                             var popupShown = false;
                             var base64String = item.fileName;
                             var attachmentType = item.attachmentType;

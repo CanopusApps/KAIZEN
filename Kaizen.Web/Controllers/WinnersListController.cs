@@ -29,6 +29,7 @@ namespace Kaizen.Web.Controllers
         [HttpGet]
         public IActionResult WinnersList()
         {
+
             WinnersListModel WModel = new WinnersListModel();
             List<WinnersListModel> winners = new List<WinnersListModel>();
             try
@@ -45,10 +46,15 @@ namespace Kaizen.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateWinnersList([FromBody] WinnersListModel model)
+        public IActionResult UpdateWinnersList(WinnersViewModel model)
         {
-           model.ModifiedBy =conAccessor.HttpContext.Session.GetString("EmpId");
-            var status= _addWinnerWorker.UpdateWinner(model);
+           model.WinnersList.ModifiedBy =conAccessor.HttpContext.Session.GetString("EmpId");
+            if (model.WinnersList.Winnerimage != null)
+            {
+
+                model.WinnersList.winnerimagefilepath = SaveUploadedFile(model.WinnersList.Winnerimage);
+            }
+            var status= _addWinnerWorker.UpdateWinner(model.WinnersList);
             return Ok(status);
         }
         [HttpPost]
@@ -138,6 +144,25 @@ namespace Kaizen.Web.Controllers
             string serverPath = Path.Combine(_infoSettings.LogwinnerFilePath, imagePath);
             return PhysicalFile(serverPath, "image/jpeg");
         }
+
+        public IActionResult ViewWinnersList()
+        {
+            WinnersListModel WModel = new WinnersListModel();
+            List<WinnersListModel> winners = new List<WinnersListModel>();
+            try
+            {
+                winners = _addWinnerWorker.GetWinners();
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+            }
+            var sortedWinners = winners.OrderBy(w => w.Category).ToList();
+            return View(sortedWinners);
+        }
+
+       
 
     }
 }
