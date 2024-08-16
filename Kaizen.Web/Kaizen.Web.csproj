@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="uploads\" />
     <Folder Include="wwwroot\LogFolder\Template\" />
   </ItemGroup>
 

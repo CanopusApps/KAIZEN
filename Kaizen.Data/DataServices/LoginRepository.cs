@@ -1,4 +1,5 @@
-﻿using Kaizen.Data.Constant;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Kaizen.Data.Constant;
 using Kaizen.Models.AdminModel;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -94,6 +95,52 @@ namespace Kaizen.Data.DataServices
                 con.Close();
             }
             return ds;
+        }
+        public bool USERLOGIN(string EmpId)
+        {
+            bool status = false;
+            try
+            {
+                com = new SqlCommand();
+                DataTable dt = new DataTable();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@USERID", EmpId);
+                com.Parameters.AddWithValue("@COMMAND", 0);
+                com.CommandText = StoredProcedures.SP_USERLOG;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return status;
+        }
+        public bool USERLOGOUT(string EmpId)
+        {
+            bool status = false;
+            try
+            {
+                com = new SqlCommand();
+                DataTable dt = new DataTable();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@USERID", EmpId);
+                com.Parameters.AddWithValue("@COMMAND", 1);
+                com.CommandText = StoredProcedures.SP_USERLOG;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return status;
         }
     }
 }
