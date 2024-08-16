@@ -3052,14 +3052,12 @@
                           
                         }
                         if (imageapproverstatus === 'True' && statusDesc !== statusdetails.submitted) {
-                            debugger;
                             $('#buttons').show();
                             $('#waitingapproval').show();
                             $('#waitingimage').hide();
                             $('#imagelabel').hide();
                             $('#Approvalbtn').show();
                         } else if (imageapproverstatus === 'True' && statusDesc === statusdetails.submitted) {
-                            debugger;
                             $('#approvers').show();
                         }
                         if(result.approverslist[0].financeEmail == "")
@@ -3300,9 +3298,7 @@
                             Ad4.className = 'col-cd-3';
                             Ad5.className = 'col-cd-3';
                         });
-                        debugger;
                         result.attachmentsList.forEach(item => {
-                            debugger;
                             var popupShown = false;
                             var base64String = item.fileName;
                             var attachmentType = item.attachmentType;

@@ -320,7 +320,6 @@ function triggerUpload() {
             // Retrieve session data and populate the form and cards
             var editUser = sessionStorage.getItem('editUser');
             if (editUser) {
-                debugger;
                 $('#addWinnerBtn').hide();
                 $('#updateWinnerBtn').show();
 
@@ -342,9 +341,8 @@ function triggerUpload() {
                 $('#empDep').val(userData.department);
                 $('#empGuid').val(userData.empid);
                 $('#recordid').val(userData.id)
-                debugger;
+
                 if (userData.imgpath) {
-                    debugger;
                     var FilePath = userData.imgpath;
                     var base64String = userData.base64path;
                     var fileExtension = FilePath.split('.').pop().toLowerCase();
@@ -399,7 +397,6 @@ function triggerUpload() {
                 }
 
                 $('#updateWinnerBtn').click(function () {
-                    debugger;
                     var empGuid = $('#empGuid').val().trim();
                     var empId = $('#empId').val().trim();
                     var empName = $('#empName').val().trim();

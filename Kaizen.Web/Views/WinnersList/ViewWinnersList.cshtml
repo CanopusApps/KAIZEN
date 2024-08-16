@@ -358,7 +358,6 @@
             }
         });
         $('tbody').on('click', '#DeleteFunction', function (e) {
-            debugger;
             e.preventDefault();
             var $row = $(this).closest('tr');
 
@@ -385,7 +384,6 @@
     $(document).ready(function () {
         $('tbody').on('click', '#EditFunction', function (e) {
             e.preventDefault();
-            debugger;
             var $row = $(this).closest('tr');
             var empid = $row.find('td:eq(1)').text().trim();
             var name = $row.find('td:eq(2)').text().trim();
