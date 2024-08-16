@@ -102,14 +102,13 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public string Upload(IFormFile file, string Status, string UserType, string Password)
         {
-            var Return = "";
             if (file == null || file.Length == 0)
             {
                 return "No file uploaded.";
             }
-            Return=_viewUserWorker.SendFile(file,Status,UserType,Password);
-            return Return;
+            string resultMessage = _viewUserWorker.SendFile(file, Status, UserType, Password);
+
+            return resultMessage;
         }
-        
     }
 }
