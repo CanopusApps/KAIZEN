@@ -252,7 +252,19 @@
                     var filteredData = $.grep(allData, function (item) {
                         return item.label.toLowerCase().indexOf(request.term.toLowerCase()) === 0;
                     });
-                    response($.map(filteredData, function (item) {
+
+                    var uniqueData = [];
+                    var labels = {};
+
+                    $.each(filteredData, function (index, item) {
+                        var normalizedLabel = item.label.toLowerCase();
+                        if (!labels[normalizedLabel]) {
+                            labels[normalizedLabel] = true;
+                            uniqueData.push(item);
+                        }
+                    });
+
+                    response($.map(uniqueData, function (item) {
                         return {
                             label: item.label,
                             value: item.value
