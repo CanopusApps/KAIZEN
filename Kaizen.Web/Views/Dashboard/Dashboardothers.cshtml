@@ -70,7 +70,7 @@
             <form>
                 <div class="card p-3 mt-2 mb-2">
                     <div class="row mb-2">
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-4" id="blockdropdown">
                             <label for="Block">Blocks</label>
                             <select id="inputBlock" class="form-control txt-width" name="Block">
                                 <option value="0" selected>--Select Block--</option>
@@ -83,7 +83,7 @@
                                 }
                             </select>
                         </div>
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-4"id="domaindropdown">
                             <label for="inputDomain">Domain</label>
                             <select id="inputDomain" class="form-control txt-width" name="Domain">
                                 <option value="0" selected>--Select Domain--</option>
@@ -96,7 +96,7 @@
                                 }
                             </select>
                         </div>
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-4"id="departmentdropdown">
                             <label for="inputDepartment">Department</label>
                             <select id="inputDepartment" class="form-control txt-width" name="Department">
                                 <option selected>--Select Department--</option>
@@ -245,6 +245,10 @@
         $('#Domaincard').hide();
         var userRole = $('#Userrole').data('role');
         if (userRole === 'MANAGER') {
+       
+            $('#domaindropdown').hide();
+            $('#departmentdropdown').hide();
+            $('#blockdropdown').hide();
             $('#Domaincard').show();
         }
         $('#inputDomain').change(function () {

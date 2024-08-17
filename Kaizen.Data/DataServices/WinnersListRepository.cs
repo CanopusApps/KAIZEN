@@ -86,6 +86,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@ID", model.EmpID);             //
                 com.Parameters.AddWithValue("@StartDate", model.StartDate);  //UPDATED START DATE
                 com.Parameters.AddWithValue("@EndDate", model.EndDate);      //UPDATED END DATE
+                com.Parameters.AddWithValue("@imgpath",model.winnerimagefilepath);
                 com.Parameters.AddWithValue("@SessionId", model.ModifiedBy); //SESSION ID
                 com.CommandText = StoredProcedures.SpUpdateWinner;
                 con.Open();
