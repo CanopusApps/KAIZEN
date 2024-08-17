@@ -2972,8 +2972,8 @@
                         {
                             $('#saveItButton').hide();
                             $('#updateItButton').hide();
+                            updateStatusText();
                         }
-
                         if (statusDesc === statusdetails.FinanceApproved || statusDesc === statusdetails.FinanceRejected || statusDesc === statusdetails.FinancePending) {
                             $('#financestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.FinanceRejected ? 'rejected' : (statusDesc === statusdetails.FinancePending ? 'pending' : 'approved'));
                             $('#IEDept').show();
@@ -2982,51 +2982,53 @@
                             $('#ImageApprover').show();
                             $('#saveItButton').hide();
                             if (statusDesc === statusdetails.FinanceRejected) {
-                                $("#finRejectedReason").text(result.kaizenList[0].rejectionreason);
-                            }
+                                $("#finRejectedReason").text(result.kaizenList[0].rejectionreason);                            
+                            }  
                             $('#iestatusid').text(reverseStatusDetails[statusdetails.IEApproved]).addClass('approved');
                             if (result.approverslist[0].imageAproveName == "") {
-                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.kaizenwithoutImages]).addClass('approved');
+                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.kaizenwithoutImages]).addClass('approved');                               
                             }
-                            else {
+                            else {                             
                                 $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
                             }
                             $('#dristatusid').text(reverseStatusDetails[statusdetails.DRIApproved]).addClass('approved');
+                            updateStatusText();
                         } else if (statusDesc === statusdetails.IEApproved || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.IEPending) {
                             $('#saveItButton').hide();
                             $('#iestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
                             $('#IEDept').show();
                             $('#DRIDept').show();
                             $('#ImageApprover').show();
-                            if (statusDesc === statusdetails.IERejected) {
+                            if (statusDesc === statusdetails.IERejected) {                                
                                 $("#ieRejectedReason").text(result.kaizenList[0].rejectionreason);
                                 $('#FinanceDept').hide();
                             }
-                            if (result.approverslist[0].imageAproveName == "") {
+                            if (result.approverslist[0].imageAproveName == "") {                            
                                 $('#imagestatusid').text(reverseStatusDetails[statusdetails.kaizenwithoutImages]).addClass('approved');
                             }
-                            else {
+                            else {                              
                                 $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
                             }
                             $('#dristatusid').text(reverseStatusDetails[statusdetails.DRIApproved]).addClass('approved');
+                            updateStatusText();
                         } else if (statusDesc === statusdetails.DRIApproved || statusDesc === statusdetails.DRIRejected || statusDesc === statusdetails.DRIPending ) {
 
                             $('#DRIDept').show();
-                           
                             $('#ImageApprover').show();
                             $('#dristatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.DRIRejected ? 'rejected' : (statusDesc === statusdetails.DRIPending ? 'pending' : 'approved'));
                             if (statusDesc === statusdetails.DRIRejected) {
                                 $("#driRejectedReason").text(result.kaizenList[0].rejectionreason);
                                  $('#IEDept').hide();
                                  $('#FinanceDept').hide();
-
+                                 
                             }
                             if (result.approverslist[0].imageAproveName == "") {
-                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.kaizenwithoutImages]).addClass('approved');
+                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.kaizenwithoutImages]).addClass('approved');                              
                             }
                             else {
-                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');
+                                $('#imagestatusid').text(reverseStatusDetails[statusdetails.ImageApproved]).addClass('approved');                           
                             }
+                            updateStatusText();
                         }
                         else if (statusDesc === statusdetails.ImageApproved || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.kaizenwithoutImages) {
                            
@@ -3037,8 +3039,10 @@
                                 $('#FinanceDept').hide();
                                 $('#DRIDept').hide();
                             }
+                            updateStatusText();
                         } else if (statusDesc === statusdetails.Pending || statusDesc === statusdetails.DRIPending || statusDesc === statusdetails.IEPending || statusDesc === statusdetails.FinancePending) {
                             $('#pendingstatusid').text(reverseStatusDetails[statusDesc]).addClass('pending');
+                            updateStatusText();
                         }
                         else if (statusDesc === statusdetails.submitted && userRole === 'ADMIN') {
                             $('#approvers').hide();
@@ -3057,13 +3061,14 @@
                             $('#waitingimage').hide();
                             $('#imagelabel').hide();
                             $('#Approvalbtn').show();
+                            updateStatusText();
                         } else if (imageapproverstatus === 'True' && statusDesc === statusdetails.submitted) {
                             $('#approvers').show();
+                            updateStatusText();
                         }
                         if(result.approverslist[0].financeEmail == "")
-                        { 
-                        
-                            $('#FinanceDept').hide();
+                        {                        
+                           $('#FinanceDept').hide();
                         }
                         if(result.approverslist[0].iEname == "")
                         {
@@ -3437,6 +3442,32 @@
             
         }
     });
+    function updateStatusText() {
+        const elements = document.querySelectorAll('#imagestatusid, #dristatusid, #iestatusid, #financestatusid');
+        elements.forEach(element => {
+            const currentText = element.textContent;
+            if (currentText.includes('ImageApproved')) {
+                element.textContent = 'Image Approved';
+            }
+            else if (currentText.includes('kaizenwithoutImages')) {
+                element.textContent = 'kaizen without Images';
+            }
+            else if (currentText.includes('DRIApproved')) {
+                element.textContent = 'DRI Approved';
+            } else if (currentText.includes('IEApproved')) {
+                element.textContent = 'IE Approved';
+            } else if (currentText.includes('FinanceApproved')) {
+                element.textContent = 'Finance Approved';
+            } else if (currentText.includes('ImageRejected')) {
+                element.textContent = 'Image Rejected';
+            } else if (currentText.includes('DRIRejected')) {
+                element.textContent = 'DRI Rejected';
+            } else if (currentText.includes('IERejected')) {
+                element.textContent = 'IE Rejected';
+            } else if (currentText.includes('FinanceRejected')) {
+                element.textContent = 'Finance Rejected';
+            }
+        });
+    }
 </script>
-
  

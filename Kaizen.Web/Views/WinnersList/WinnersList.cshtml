@@ -3,7 +3,6 @@
     Layout = "SidebarLayout";
 }
 <link rel="stylesheet" href="~/assets/css/WinnersList.css" />
-
 <div id="winnersComp" class="py-4 mb-1">
     <div class="cardSpace border-0 card container-fluid shadow-sm rounded-lg col-12 py-3 px-5">
         <h1 class="text-primary">View Winners List-</h1>
@@ -17,159 +16,136 @@
         </div>
     </div>
     </div>
-
-<div id="addWinnerForm" class=" border-0 card container-fluid shadow rounded-lg col-12 py-3 px-5 margin-top: -34px;">
+<div id="addWinnerForm" class="border-0 card container-fluid shadow rounded-lg col-12 py-3 px-5 mt-2">
     <h1 class="text-primary">Add Winner</h1>
     <div id="winnerForm">
         <div class="form-group">
             <div class="row">
-                <div class="col-md-4">
-                    <input type="text" hidden value="null" id="empGuid" />
-                    <input type="text" name="name" id="recordid" hidden />
-                    <label>Category</label>
-                    <select id="Category" class="form-control">
-                        <option value="Gold">Gold</option>
-                        <option value="Silver">Silver</option>
-                        <option value="Bronze">Bronze</option>
-                    </select>
-                    <span class="text-danger"></span>
-                </div>
-            </div>
-       @*      <div class="row">
-              
-                <p id="empGuidError"></p>
-                <div class="col-md-4">
-                    <label>Emp ID</label>
-                    <input id="empId" type="number" class="text-primary form-control bg-light" />
-                    <p id="eIDError"></p>
-                </div>
-                <div class="col-md-4">
-                    <label>Emp Name</label>
-                    <input readonly id="empName" class="form-control text-primary bg-light" />
-                    <span class="text-danger"></span>
-                </div>
-            </div>
-              *@
-            <div>
-                <div class="row">                 
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Emp ID</label>
-                                <input id="empId" type="number" class="text-primary form-control bg-light" />
-                                <p id="eIDError"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Emp Name</label>
-                                <input readonly id="empName" class="form-control text-primary bg-light" />
-                                <span class="text-danger"></span>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Domain</label>
-                                <input readonly id="empDom" class="form-control text-primary bg-light" />
-                                <span class="text-danger"></span>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Department</label>
-                                <input readonly id="empDep" class="form-control text-primary bg-light" />
-                                <span class="text-danger"></span>
-                            </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="hidden" value="null" id="empGuid" />
+                            <input type="hidden" name="name" id="recordid" />
+                            <label for="Category">Category</label>
+                            <select id="Category" class="form-control">
+                                <option value="Gold">Gold</option>
+                                <option value="Silver">Silver</option>
+                                <option value="Bronze">Bronze</option>
+                            </select>
+                            <span class="text-danger"></span>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Start Date</label>
-                                <input id="startDate" class="form-control text-primary bg-light" type="date" />
-                                <label id="sDError"></label>
-                                <span class="text-danger"></span>
-                            </div>
-                            <div class="col-md-6">
-                                <label>End Date</label>
-                                <input id="endDate" class="form-control text-primary bg-light" type="date" />
-                                <label id="eDError"></label>
-                                <span class="text-danger"></span>
-                            </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <label for="empId">Emp ID</label>
+                            <input id="empId" type="number" class="text-primary form-control bg-light" />
+                            <p id="eIDError" class="text-danger"></p>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="empName">Emp Name</label>
+                            <input readonly id="empName" class="form-control text-primary bg-light" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="empDom">Domain</label>
+                            <input readonly id="empDom" class="form-control text-primary bg-light" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="empDep">Department</label>
+                            <input readonly id="empDep" class="form-control text-primary bg-light" />
+                            <span class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-4 d-flex justify-content-center align-items-center dashed-card p-2">
-                                     <input id="attach_file2" type="file" name="files" style="display: none;" accept="image/*" onchange="previewImage(event)">
-                            <label for="attach_file2" class="file-drag">
-                            <div class="upload-interface text-center">
-                            <img id="winnerid" src="~/assets/img/file-upload-icon.png" alt="Preview" class="mb-2" style="max-width: 80%; height: 50%;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="startDate">Start Date</label>
+                            <input id="startDate" class="form-control text-primary bg-light" type="date" />
+                            <label id="sDError" class="text-danger"></label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="endDate">End Date</label>
+                            <input id="endDate" class="form-control text-primary bg-light" type="date" />
+                            <label id="eDError" class="text-danger"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex justify-content-center align-items-center dashed-card">
+                    <input id="attach_file2" type="file" name="files" style="display: none;" accept="image/*" onchange="previewImage(event)">
+                    <label for="attach_file2" class="file-drag d-flex flex-column align-items-center">
+                        <div class="upload-interface text-center">
+                            <img id="winnerid" src="~/assets/img/uil--image-upload.png" alt="Preview" class="mb-2 ml-2" style="max-width: 90%; height: 50%; cursor: pointer;">
                             <div class="attachtitle" id="file-image-text">Click here to attach Winner image</div>
-                            <span id="winnerError"></span>
-                            </div>
-                            </label>
-                            <button id="upload-again-btn" class="btn btn-azure mt-2" style="display: none;" onclick="triggerUpload()">Upload</button>
-                            </div>
-
-                  </div> 
+                            <span id="winnerError" class="text-danger"></span>
+                        </div>
+                        <div class="mt-auto d-flex align-items-center">
+                            <button id="upload-again-btn" class="btn btn-azure" style="display: none;" onclick="triggerUpload()">Upload</button>
+                        </div>
+                    </label>
+                </div>
             </div>
         </div>
         <div class="row mt-1">
             <div class="col text-center">
-                <input type="button" id="addWinnerBtn" value="Add" class="btn btn-azure"></input>
-                <input type="button" id="updateWinnerBtn" value="Update" class="btn btn-azure"></input>
+                <input type="button" id="addWinnerBtn" value="Add" class="btn btn-azure">
+                <input type="button" id="updateWinnerBtn" value="Update" class="btn btn-azure">
             </div>
         </div>
-    </form>
-    <br />
-    <h1 id="listWinnersH" class="text-primary">List Winners-</h1>
-    <hr />
-    <br />
-    <div class="row">
-        <div class="col d-flex justify-content-center align-items-center h-100">
-            <div class="card goldCard">
-                <img src="~/assets/img/WinnersPage/gold.jpg" class="w-100 img-fluid card-img-top" alt="" />
-                <div class="row no-gutters">
-                    <div class="col">
-                        <input class="form-control font-weight-bold text-warning" value="Emp ID" />
-                    </div>
-                    <div class="col">
-                        <input class="form-control font-weight-bold text-warning" value="Name" />
-                    </div>
-                    <div class="col">
-                        <input class="form-control font-weight-bold text-warning" value="Domain and Department" />
+        <br />
+        <h1 id="listWinnersH" class="text-primary">List Winners-</h1>
+        <hr />
+        <br />
+        <div class="row">
+            <div class="col d-flex justify-content-center align-items-center h-100">
+                <div class="card goldCard">
+                    <img src="~/assets/img/WinnersPage/gold.jpg" class="w-100 img-fluid card-img-top" alt="" />
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <input class="form-control font-weight-bold text-warning" value="Emp ID" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control font-weight-bold text-warning" value="Name" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control font-weight-bold text-warning" value="Domain and Department" readonly />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col d-flex justify-content-center align-items-center h-100">
-            <div class="card silverCard">
-                <img src="~/assets/img/WinnersPage/silver.jpg" class="w-100 img-fluid card-img-top" alt="" />
-                <div class="row no-gutters">
-
-                    <div class="col">
-                        <input class="form-control text-primary font-weight-bold text-secondary" value="EmpID" />
-                    </div>
-                    <div class="col">
-                        <input class="form-control text-primary font-weight-bold text-secondary" value="Name" />
-                    </div>
-                    <div class="col">
-                        <input class="form-control text-primary font-weight-bold text-secondary" value="Domain and Department" />
+            <div class="col d-flex justify-content-center align-items-center h-100">
+                <div class="card silverCard">
+                    <img src="~/assets/img/WinnersPage/silver.jpg" class="w-100 img-fluid card-img-top" alt="" />
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <input class="form-control text-primary font-weight-bold text-secondary" value="Emp ID" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control text-primary font-weight-bold text-secondary" value="Name" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control text-primary font-weight-bold text-secondary" value="Domain and Department" readonly />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col d-flex justify-content-center align-items-center h-100">
-            <div class="card bronzeCard">
-                <img src="~/assets/img/WinnersPage/bronze.jpg" class="w-100 img-fluid card-img-top" alt="" />
-                <div class="row no-gutters">
-                    <div class="col">
-                        <input class="form-control font-weight-bold" style="color:#652D12;" value="EmpID" />
-                    </div>
-                    <div class="col">
-                        <input class="form-control font-weight-bold" style="color:#652D12;" value="Name" />
-                    </div>
-                    <input hidden class="newRow" />
-                    <div class="col">
-                        <input class="form-control font-weight-bold" style="color:#652D12;" value="Domain and Department" />
+            <div class="col d-flex justify-content-center align-items-center h-100">
+                <div class="card bronzeCard">
+                    <img src="~/assets/img/WinnersPage/bronze.jpg" class="w-100 img-fluid card-img-top" alt="" />
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <input class="form-control font-weight-bold" style="color: #652D12;" value="Emp ID" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control font-weight-bold" style="color: #652D12;" value="Name" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control font-weight-bold" style="color: #652D12;" value="Domain and Department" readonly />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
       function previewImage(event) {
@@ -182,8 +158,8 @@
         imageElement.onload = function () {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
-            const width = 200;
-            const height = 180;
+            const width = 250;
+            const height = 220;
                   
             canvas.width = width;
             canvas.height = height;
@@ -366,8 +342,8 @@ function triggerUpload() {
                     // Create a canvas to resize the image
                     var canvas = document.createElement('canvas');
                     var ctx = canvas.getContext('2d');
-                    var width = 200;
-                    var height = 180;
+                    var width = 250;
+                    var height = 220;
                     canvas.width = width;
                     canvas.height = height;
 
@@ -379,10 +355,10 @@ function triggerUpload() {
                         // Show the resized image in the #winnerid element
                         var winnerImageElement = document.getElementById('winnerid');
                         winnerImageElement.src = resizedImage;
-                        winnerImageElement.style.width = '200';
-                        winnerImageElement.style.height = '120';
-                        winnerImageElement.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+                            winnerImageElement.style.width = '250';
+                            winnerImageElement.style.height = '250';
                         winnerImageElement.style.display = 'block';
+
 
                         // Hide the text and show the upload again button
                         $('#file-image-text').hide();
