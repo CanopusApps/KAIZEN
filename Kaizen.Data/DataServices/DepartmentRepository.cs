@@ -67,7 +67,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
         // For View record
         public bool DeleteDepartment(int id)
@@ -89,7 +93,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
         public bool UpdateDepartmentStatus(int id, bool status)
         {
@@ -111,7 +119,11 @@ namespace Kaizen.Data.DataServices
             {
 
             }
-            return updStatus;
+			finally
+			{
+				con.Close();
+			}
+			return updStatus;
         }
         // For View record
         public DataSet GetDepartments()
@@ -167,8 +179,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
     }	
 

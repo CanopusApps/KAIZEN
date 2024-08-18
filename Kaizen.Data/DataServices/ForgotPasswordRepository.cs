@@ -63,7 +63,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-            return email;
+			finally
+			{
+				con.Close();
+			}
+			return email;
         }
         public bool UpdatePassword(LoginModel model)
         {
@@ -89,7 +93,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
         
 

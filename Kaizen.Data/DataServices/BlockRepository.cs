@@ -52,8 +52,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
 
         public bool DeleteBlockData(int id)
@@ -78,8 +81,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
 
         public bool UpdateBlockData(int id, bool status)
@@ -105,8 +111,12 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
+			finally
+			{
+				con.Close();
+			}
 
-            return updStatus;
+			return updStatus;
         }
         // For View record
         public DataSet GetBlockData()
@@ -152,8 +162,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
 
     }

@@ -172,7 +172,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
 
         public bool SubmitKaizenDriData(NewKaizenModel model)
@@ -318,7 +322,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
 
         public bool UpdateNewKaizenData(NewKaizenModel model)
@@ -444,7 +452,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
 
 
@@ -590,7 +602,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
 
         public DataSet GetKaizenDetailsById(string KaizenId)
@@ -677,10 +693,13 @@ namespace Kaizen.Data.DataServices
             catch (Exception ex)
             {
 
-
                 throw ex;
             }
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
             
         }
         public void RemoveAttachment(Attachmentsimg attachment, string KaizenId)
@@ -701,7 +720,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-            return ;
+			finally
+			{
+				con.Close();
+			}
+			return ;
         }
     }
 }

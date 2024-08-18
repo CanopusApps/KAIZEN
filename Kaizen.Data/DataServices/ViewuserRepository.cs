@@ -84,7 +84,11 @@ namespace Kaizen.Data.DataServices
                 throw ex;
             }
 
-            return deleteStatus;
+			finally
+			{
+				con.Close();
+			}
+			return deleteStatus;
         }
 
         public DataSet GetStatus()
@@ -166,8 +170,12 @@ namespace Kaizen.Data.DataServices
             {
                 errorMessage = "An error occurred: " + ex.Message;
             }
+			finally
+			{
+				con.Close();
+			}
 
-            return errorMessage;
+			return errorMessage;
         }
 
         public DataSet GetIEDepartData()

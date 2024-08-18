@@ -92,6 +92,10 @@ namespace Kaizen.Data.DataServices
 					}
 
 				}
+				finally
+				{
+					con.Close();
+				}
 				return msg;
 			}
 		}

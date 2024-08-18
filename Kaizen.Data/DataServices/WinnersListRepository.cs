@@ -69,8 +69,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
 
         }
         public bool UpdateWinner (WinnersListModel model)
@@ -98,7 +101,11 @@ namespace Kaizen.Data.DataServices
             {
 
             }
-            return updStatus;
+			finally
+			{
+				con.Close();
+			}
+			return updStatus;
 
         }
 
@@ -125,7 +132,11 @@ namespace Kaizen.Data.DataServices
             {
                 
             }
-            return statusResult;
+			finally
+			{
+				con.Close();
+			}
+			return statusResult;
         }
         public bool DeleteWinner(int id, String sd, String ed)
         {
@@ -149,8 +160,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
         public DataSet GetWinners()
         {

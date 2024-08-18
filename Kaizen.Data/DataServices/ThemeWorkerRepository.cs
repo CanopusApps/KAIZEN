@@ -57,7 +57,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
 
         public DataSet RetrieveTheme()

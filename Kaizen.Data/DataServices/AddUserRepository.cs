@@ -81,6 +81,11 @@ namespace Kaizen.Data.DataServices
                 }
 
             }
+
+            finally
+            {
+                con.Close();
+            }
             return msg;
         }
         // method to get Get department

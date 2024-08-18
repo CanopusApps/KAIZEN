@@ -60,7 +60,10 @@ namespace Kaizen.Data.DataServices
 			{
                 throw ex;
             }
-
+			finally
+			{
+				con.Close();
+			}
 			return status;
 
 		}
@@ -88,7 +91,10 @@ namespace Kaizen.Data.DataServices
 			{
                 throw ex;
             }
-
+			finally
+			{
+				con.Close();
+			}
 			return status;
 		}
 
@@ -115,7 +121,10 @@ namespace Kaizen.Data.DataServices
 			{
                 throw ex;
             }
-
+			finally
+			{
+				con.Close();
+			}
 			return updStatus;
 		}
 		// For View record
@@ -160,8 +169,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
     }
 

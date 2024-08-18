@@ -245,18 +245,18 @@
     $(document).ready(function () {
         var allData = [];
 
-        $.ajax({
-            url: '@Url.Action("GetKaizenTheme", "SubmittedKaizen")',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                allData = data;
-                initializeAutocomplete();
-            },
-            error: function (xhr, status, error) {
-                console.error("Error loading data for autocomplete:", status, error);
-            }
-        });
+        // $.ajax({
+        //     url: '@Url.Action("GetKaizenTheme", "SubmittedKaizen")',
+        //     type: 'GET',
+        //     dataType: 'json',
+        //     success: function (data) {
+        //         allData = data;
+        //         initializeAutocomplete();
+        //     },
+        //     error: function (xhr, status, error) {
+        //         console.error("Error loading data for autocomplete:", status, error);
+        //     }
+        // });
 
         function initializeAutocomplete() {
             $("#inputTheme").autocomplete({
