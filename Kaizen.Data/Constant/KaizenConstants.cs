@@ -87,7 +87,7 @@ namespace Kaizen.Data.Constant
         public static string Sp_Get_KaizenProfileDetails = "Sp_Get_KaizenProfileDetails";
         public static string Sp_Delete_Kaizens = "Sp_Delete_Kaizens";
         public static string SpUpdateTheme = "Sp_UpdateTheme";
-
+        public static string Sp_LoginWinnerDetails = "Sp_LoginWinnerDetails";
         public static string SpGetTheme = "Sp_GetTheme";
         public static string Sp_Fetch_KaizenUpdateDetails_ById = "Sp_Fetch_KaizenUpdateDetails_ById";
         public static string Sp_Fetch_KaizenAttachments_ById = "Sp_Fetch_KaizenAttachments_ById";

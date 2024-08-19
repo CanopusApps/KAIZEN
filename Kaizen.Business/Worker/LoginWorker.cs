@@ -1,4 +1,5 @@
-﻿using Kaizen.Business.Interface;
+﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices;
 using Kaizen.Models.AdminModel;
 using System;
@@ -77,6 +78,40 @@ namespace Kaizen.Business.Worker
         public bool USERLOGOUT(string EmpId)
         {
             return _logindata.USERLOGOUT(EmpId);
+        }
+
+        public List<LoginImageModel> FetchImages()
+        {
+
+            DataSet ds;
+            ds = _logindata.GetWinnerImages();
+            List<LoginImageModel> loginImagelist = new List<LoginImageModel>();
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    string filePath = dr["WinnerimgPath"].ToString();
+                    string base64String = ConvertFileToBase64(filePath);
+                    loginImagelist.Add(new LoginImageModel
+                    {
+                        FirstName = dr["FirstName"].ToString(),
+                        Category= dr["Category"].ToString(),
+                        WinnerimgPath = dr["WinnerimgPath"].ToString(),
+                        winnerimage= base64String
+                    });
+                }
+            }
+            return loginImagelist;
+        }
+
+         private string ConvertFileToBase64(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                byte[] fileBytes = File.ReadAllBytes(filePath);
+                return Convert.ToBase64String(fileBytes);
+            }
+            return null;
         }
     }
 }

@@ -150,5 +150,35 @@ namespace Kaizen.Data.DataServices
 			}             
 			return status;
         }
+
+        public DataSet GetWinnerImages()
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.Sp_LoginWinnerDetails;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                con.Open();
+
+                com.ExecuteNonQuery();
+                con.Close();
+                da.Fill(ds);
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                con.Close();
+            }
+            return ds;
+
+        }
     }
 }

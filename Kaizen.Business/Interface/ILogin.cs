@@ -17,5 +17,8 @@ namespace Kaizen.Business.Interface
         public bool USERLOGIN(string EmpId);
 
         public bool USERLOGOUT(string EmpId);
+
+
+        public List<LoginImageModel> FetchImages();
     }
 }

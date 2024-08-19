@@ -18,6 +18,7 @@ using System.Net.Mail;
 using Newtonsoft.Json;
 using Kaizen.Models.Theme;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using Kaizen.Business.Worker;
 namespace Kaizen.Web.Controllers
 {
     public class LoginController : Controller
@@ -72,6 +73,9 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public IActionResult Index([Bind] LoginModel loginmodel)
         {
+
+
+           
             string EmpId, password,Username,userRole;
             string Domainname, departmentname;
             DataTable dataTable = new DataTable();
@@ -275,6 +279,25 @@ namespace Kaizen.Web.Controllers
             var countList = _loginworker.FetchCount();
             var countListJson = JsonConvert.SerializeObject(countList);
             return Json(countListJson);
+        }
+
+
+        public IActionResult loginImage()
+        {
+            List<LoginImageModel> images = new List<LoginImageModel>();
+            try
+            {
+               
+
+                images = _loginworker.FetchImages();
+                return Ok(images);
+            }
+            catch (Exception ex)
+            {
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+            return Ok(images);
         }
 
     }
