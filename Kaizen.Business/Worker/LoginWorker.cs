@@ -105,7 +105,7 @@ namespace Kaizen.Business.Worker
         }
 
          private string ConvertFileToBase64(string filePath)
-        {
+           {
             if (File.Exists(filePath))
             {
                 byte[] fileBytes = File.ReadAllBytes(filePath);

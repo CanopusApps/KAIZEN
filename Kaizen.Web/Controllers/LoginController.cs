@@ -282,14 +282,19 @@ namespace Kaizen.Web.Controllers
         }
 
 
-        public IActionResult loginImage()
+        public IActionResult loginImage(LoginWinnerListModel images)
         {
-            List<LoginImageModel> images = new List<LoginImageModel>();
+          
             try
             {
-               
+                // Fetch all images, including all categories
+                images.CompletewinnerList = _loginworker.FetchImages();
 
-                images = _loginworker.FetchImages();
+                // Initialize the lists based on categories from CompletewinnerList
+                images.GoldList = images.CompletewinnerList.Where(img => img.Category == "Gold").ToList();
+                images.SilverList = images.CompletewinnerList.Where(img => img.Category == "Silver").ToList();
+                images.BronzeList = images.CompletewinnerList.Where(img => img.Category == "Bronze").ToList();
+
                 return Ok(images);
             }
             catch (Exception ex)
