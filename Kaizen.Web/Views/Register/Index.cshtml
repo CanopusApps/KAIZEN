@@ -4,9 +4,7 @@
 }
 
 <style>
-    input[type="radio"] {
-        display: inline-block !important;
-    }
+   
     .loginbox-title {
         margin-top: 10px;
         position: relative;
@@ -38,7 +36,21 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    .container .card-body .form-check input[type=checkbox],
+    .container .card-body .form-check input[type=radio],
+    .container .card-body input[type=radio] {
+        opacity: 1 !important;
+        position: relative !important;
+        left: auto !important;
+        z-index: auto !important;
+        width: auto !important;
+        height: auto !important;
+        cursor: pointer !important;
+    }
+
 </style>
+
 
 @using (Html.BeginForm(FormMethod.Post, new { id = "userForm" }))
 {
@@ -67,7 +79,7 @@
                                         <input type="radio" id="GenderMale" name="Gender" value="Male" @(Model.Gender == "Male" ? "checked" : "") /> Male
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" id="GenderFemale" name="Gender" value="Female" @(Model.Gender == "Female" ? "checked" : "") /> Female
+                                        <input type="radio" id="GenderFemale" name="Gender" value="Female" @(Model.Gender == "Female" ? "checked" : "")  /> Female
                                     </label>
                                 </div>
                             </div>
