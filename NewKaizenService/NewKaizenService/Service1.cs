@@ -35,7 +35,7 @@ namespace NewKaizenService
             {
                 ScheduleTimer = new Timer(new TimerCallback(SendMail));
                 DateTime ScheduleTime = DateTime.MinValue;
-                ScheduleTime = DateTime.Parse("15:08 PM");// Need to change trigger time
+                ScheduleTime = DateTime.Parse("17:15 PM");// Need to change trigger time
                 if (DateTime.Now > ScheduleTime)
                     ScheduleTime = ScheduleTime.AddMinutes(5); // Need to change the schedule time
                 TimeSpan timespan =ScheduleTime.Subtract(DateTime.Now);
@@ -64,7 +64,7 @@ namespace NewKaizenService
                         {
                             var Email = dr["ApproverEmail"].ToString();
                             var ApprovalName = dr["ApproverName"].ToString();
-                            var KaizenID = dr["KaizenId"].ToString();
+                            var DocNo = dr["DocNo"].ToString();
                             Email = "nitishkumar154@gmail.com";//Need to change with Dynamic Email ID.
                             using (MailMessage mail = new MailMessage())
                             {     
@@ -72,7 +72,7 @@ namespace NewKaizenService
                                 mail.To.Add(Email);
                                 mail.Subject = ConfigurationManager.AppSettings["Subject"];
                                 mail.IsBodyHtml = true;
-                                mail.Body = "Dear " + ApprovalName + ",<br />Your Approval is pending for Kaizen ID "+ KaizenID + ", Please Approve the Details. <br /><br /><br /><br /><br /> Thanks & Regards,<br /> Kaizen Team ";
+                                mail.Body = "Dear " + ApprovalName + ",<br />Your Approval is pending for the below Kaizens.Please approve the Details. <br />" + DocNo + ".  <br /><br /><br /><br /><br /> Thanks & Regards,<br /> Kaizen Team ";
                                 using (SmtpClient smtp = new SmtpClient(ConfigurationManager.AppSettings["Smtp"],Convert.ToInt32(ConfigurationManager.AppSettings["Port"])))
                                 {
                                     smtp.UseDefaultCredentials = false;
