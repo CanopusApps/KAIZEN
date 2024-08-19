@@ -7,55 +7,100 @@
     Layout = "Empty";
 }
 
+<style>
+ 
+    .vertical-text {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        text-align: center;
+        font-size: 20px!important;
+        font-weight: bold;
+    }
+    .backgroundimg {
+        background-image: url('@Url.Content("~/assets/img/bacground fullartboard 1.jpg")');
+        background-size: cover; /* Ensures the image covers the entire card */
+        background-position: center; /* Centers the background image */
+    }
+    .login-container .loginbox .loginbox-textbox {
+        padding: 2px 10px !important;
+    }
+    .loginbox {
+        padding: 15px; /* Adjust padding as needed */
+        max-height: 450px; /* Set a max-height if needed */
+        overflow-y: auto; /* Allow scrolling if content exceeds max-height */
+    }
+    .image-box {
+        text-align: center;
+        margin: 10px;
+    }
+
+        .image-box img {
+            border-radius: 5px;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 3px solid transparent;
+        }
+       
+    .gold .image-box img {
+        border-color: gold;
+    }
+
+    .silver .image-box img {
+        border-color: silver;
+    }
+
+    .bronze .image-box img {
+        border-color: #cd7f32;
+    }
+
+    .image-box p {
+        margin-top: 5px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 30px 0;
+        margin-top:0px!important;
+    }
+
+    .login-container .logobox {
+        margin-top: 0px !important;
+    }
+
+    .topbar {
+        background-color: gray;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+        border: 1px solid rgba(0, 0, 0, .15);
+        color: white;
+        text-align: center;
+    }
+
+    h1 {
+        padding-top: 3px;
+        height: 30px;
+        width: 100%;
+        overflow-x: hidden;
+        font-size: x-large !important;
+        overflow: visible;
+    }
+
+    marquee {
+        top: 0;
+        left: 0;
+        overflow-x: hidden;
+        height: 45px;
+        background-color: gray;
+    }
+</style>
+
 @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { id = "userForm" }))
 {
     @Html.AntiForgeryToken()
-    <style>
-        .forgot-password-link,
-        .register-link {
-            color: #007bff;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-            .forgot-password-link:hover,
-            .register-link:hover {
-                text-decoration: underline;
-            }
-
-        * {
-            overflow-y: hidden;
-        }
-        .topbar {
-            background-color: gray;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
-            border: 1px solid rgba(0, 0, 0, .15);
-            color: white;
-            text-align: center;
-            padding-bottom: 10px;
-        }
-        h1{ 
-            padding-top: 3px;
-            height: 30px;
-            width: 100%;
-            overflow-x: hidden;
-            font-size: x-large !important;
-            overflow: visible;
-        }
-
-        marquee {
-            top: 0;
-            left: 0;
-            overflow-x: hidden;
-            height: 45px;
-            background-color: gray;
-        }
-        .login-container .logobox
-        {
-            margin-top:0px!important;
-        }
-
-    </style>
 
     <div class="topbar">
         <marquee width="100%" class="" direction="left" behavior="scroll" scrollamount="5">
@@ -68,55 +113,159 @@
             </h1>
         </marquee>
     </div>
-    <div class="login-container animated fadeIn">
-        <div class="logobox btn-azure padding-top-20 padding-bottom-20" style="color:white;text-align: center;font-size:xx-large;">
-            Kaizen Application
-        </div>
-        <div class="loginbox bg-white">
 
-            <div class="loginbox-title">Sign in to your account</div>
-            <div class="loginbox-or">
-                <div class="or-line"></div>
+    <div class="row">
+
+        <div class="d-flex">
+            <div class="flex-grow-1"></div>
             </div>
+        <div class="col-lg-4">
+            <div class="login-container animated fadeIn">
+                <div class="logobox btn-azure padding-top-20 padding-bottom-20 mr-5" style="color:white;text-align: center;font-size:xx-large;">
+                    Kaizen Application
+                </div>
+                <div class="loginbox bg-white">
 
-            <div class="loginbox-textbox">
-                <div class="row">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
-                        <span class="text-danger">*</span>
-                        <div>
-                            @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control col-md-6", placeholder = "Enter Employee Id", id = "EmpId" } })
-                            @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger" })
+                    <div class="loginbox-title">Sign in to your account</div>
+                    <div class="loginbox-or">
+                        <div class="or-line"></div>
+                    </div>
+
+                    <div class="loginbox-textbox">
+                        <div class="row">
+                            <div class="form-group" style="width: 100%;">
+                                @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
+                                <div style="width: 100%;">
+                                    @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Employee Id", id = "EmpId", style = "width: 100%;" } })
+                                    @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="loginbox-textbox">
+                        <div class="row">
+                            <div class="form-group" style="width: 100%;">
+                                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
+                                <div class="editor-container" style="width: 100%;">
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Enter your password", id = "Password", style = "width: 100%;" })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger validation-message" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="loginbox-submit">
+                        <input type="submit" class="btn btn-block btn-azure" value="Sign in here" />
+                    </div>
+                    <div class="loginbox-links" style="margin-top: 20px;">
+                        <div class="col" style="display: flex; justify-content: space-between; padding: 0 9%;">
+                            <a href="/Register/Index" class="">Register New User</a>
+                            <a href="/Login/Forgot">Forgot password</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="flex-grow-1"></div>
+        </div>
+        <div class="col-sm-8 backgroundimg" style="margin-bottom:0px;" >
+            <div class="card" style="margin:0;" >
+                <!-- Gold Row -->
+                <div class="row gold">
+                    <div class="vertical-text">Gold</div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Gname1">Ravi</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Gname2">Sheela</p>
+                    </div>
+                    <div class="image-box">
+
+                        <img src="~/assets/img/100.png" />
+                      
+                        <p id="Gname3">Amir</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Gname4">Rani</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Gname5">Kani</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Gname5">Ramesh</p>
+                    </div>
+                  
+                </div>
+
+                <!-- Silver Row -->
+                <div class="row silver">
+                    <div class="vertical-text">Silver</div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Sname1">Krishnan</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Sname3">Ebinesar</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Sname3">Ankitha</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Sname4">Annamalai</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Sname5">Anil</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Sname6">Ramesh</p>
+                    </div>
+                </div>
+
+                <!-- Bronze Row -->
+                <div class="row bronze">
+                    <div class="vertical-text bronze">Bronze</div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Bname1">Anandhan</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Bname2">Kapoor</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Bname3">Satheesh</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Bname4">Kannan</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Bname5">Parveen</p>
+                    </div>
+                    <div class="image-box">
+                        <img src="~/assets/img/100.png" />
+                        <p id="Bname6">Muthuraja</p>
                     </div>
                 </div>
             </div>
-
-            <div class="loginbox-textbox">
-                <div class="row">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
-                        <span class="text-danger">*</span>
-                        <div class="editor-container">
-                            @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Enter your password", id = "Password" })
-                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger validation-message" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="loginbox-submit">
-                <input type="submit" class="btn btn-block btn-azure" value="Sign in here" />
-            </div>
-            <div class="loginbox-links" style="margin-top: 20px;">
-                <div class="col" style="display: flex; justify-content: space-between; padding: 0 9%;">
-                    <a href="/Register/Index" class="">Register New User</a>
-                    <a href="/Login/Forgot">Forgot password</a>
-                </div>
-            </div>
-
         </div>
-        <div class="col-sm-4"></div>
     </div>
 
     @if (TempData["loginmsg"] != null)
@@ -131,6 +280,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
 <script>
+   @*  $(window).on('load', function () {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: "/Login/loginImage",
+            success: function (response) {
+                
+            },
+            error: function (xhr, status, error) {
+            }
+        });
+    }); *@
     $(document).ready(function () {
         $("#userForm").on("keydown", function (e) {
             if ($.inArray(e.keyCode, [46, 8, 9, 27, 13]) !== -1 ||
