@@ -9,11 +9,13 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace Kaizen.Data.DataServices
 {
     public class RegisterRepository : IRegisterRepository
     {
+        string hashedPassword;
         public static string SqlConnectionString { get; set; }
         public RegisterRepository()
         {
@@ -33,6 +35,16 @@ namespace Kaizen.Data.DataServices
             int res;
             try
             {
+                using (SHA256 sha256 = SHA256.Create())
+                {
+                    byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(registermodel.Password));
+                    StringBuilder hashPasswordBuilder = new StringBuilder();
+                    foreach (byte b in hashValue)
+                    {
+                        hashPasswordBuilder.Append(b.ToString("x2"));
+                    }
+                    hashedPassword = hashPasswordBuilder.ToString();
+
                     SqlCommand com = new SqlCommand(StoredProcedures.Sp_Register, con);
                     com.CommandType = CommandType.StoredProcedure;
                     com.CommandType = CommandType.StoredProcedure;
@@ -44,7 +56,7 @@ namespace Kaizen.Data.DataServices
                     com.Parameters.AddWithValue("@Deptid", registermodel.DeptId);
                     com.Parameters.AddWithValue("@MobileNumber", registermodel.Phoneno ?? (object)DBNull.Value);
                     com.Parameters.AddWithValue("@Email", registermodel.Email ?? (object)DBNull.Value);
-                    com.Parameters.AddWithValue("@Password", registermodel.Password ?? (object)DBNull.Value);
+                    com.Parameters.AddWithValue("@Password", hashedPassword ?? (object)DBNull.Value);
 
                     SqlParameter obreg = new SqlParameter();
                     obreg.ParameterName = "@result";
@@ -63,9 +75,8 @@ namespace Kaizen.Data.DataServices
                     {
                         msg = "Duplicate Emp Id";
                     }
-                    return msg;
-                
                 }
+            }
             catch (Exception ex)
             {
                 msg = "An error occurred: " + ex.Message; // Log exception

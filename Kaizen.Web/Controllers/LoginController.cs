@@ -9,6 +9,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Kaizen.Data.DataServices.Interfaces;
+using System.Security.Cryptography;
 
 
 //Forgot Password
@@ -18,6 +19,7 @@ using System.Net.Mail;
 using Newtonsoft.Json;
 using Kaizen.Models.Theme;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using System.Text;
 using Kaizen.Business.Worker;
 namespace Kaizen.Web.Controllers
 {
@@ -34,6 +36,7 @@ namespace Kaizen.Web.Controllers
 
         List<ManagerModel> ManagerList = new List<ManagerModel>();
         List<CountModel> CountList = new List<CountModel>();
+        string hashedPassword;
 
         public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor, IThemeChanger _addThemeWorker, IForgotPassword forgotPasswordWorker, IConfiguration configuration)
         {
@@ -94,7 +97,18 @@ namespace Kaizen.Web.Controllers
                         Username= row["FirstName"].ToString();
                         userRole = row["UserRole"].ToString();
 
-                        if (EmpId == loginmodel.EmpId && password == loginmodel.Password)
+                        using (SHA256 sha256 = SHA256.Create())
+                        {
+                            byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(loginmodel.Password));
+                            StringBuilder hashPasswordBuilder = new StringBuilder();
+                            foreach (byte b in hashValue)
+                            {
+                                hashPasswordBuilder.Append(b.ToString("x2"));
+                            }
+                            hashedPassword = hashPasswordBuilder.ToString();
+                        }
+
+                        if (EmpId == loginmodel.EmpId && password == hashedPassword)
                         {
                             //dataTable1 = _loginworker.Usermanager(EmpId);
                             List<Claim> claims = new List<Claim>();
