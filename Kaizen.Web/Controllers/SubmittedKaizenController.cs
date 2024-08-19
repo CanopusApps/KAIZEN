@@ -52,6 +52,12 @@ namespace Kaizen.Web.Controllers
                 };
                 var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
                 viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
+                var formattedList = viewModel.SubmittedKaizenList.Select(theme => new { label = theme.KaizenTheme, val = theme.KaizenId }).ToList();
+                // Check if the request expects a JSON response
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { SubmittedKaizenList = viewModel.SubmittedKaizenList, formattedList = formattedList });
+                }
             }
             catch (Exception ex)
             {
@@ -183,13 +189,6 @@ namespace Kaizen.Web.Controllers
             viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 14).ToList();
             return View(viewModel);
         }
-        [HttpGet]
-        // public IActionResult GetKaizenTheme(string prefix)
-        public IActionResult GetKaizenTheme()
-        {
-            var themeList = _submittedKaizenWorker.GetKaizenThemeforAutucomplete();
-            var formattedList = themeList.Select(theme => new { label = theme.Label, val = theme.Value }).ToList();
-            return Json(formattedList);
-        }
+        
     }
 }

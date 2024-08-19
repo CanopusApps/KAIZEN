@@ -242,53 +242,53 @@
 </script>
 @* autocompletescript *@
 <script>
-    $(document).ready(function () {
-        var allData = [];
+    var allData = [];
 
-        // $.ajax({
-        //     url: '@Url.Action("GetKaizenTheme", "SubmittedKaizen")',
-        //     type: 'GET',
-        //     dataType: 'json',
-        //     success: function (data) {
-        //         allData = data;
-        //         initializeAutocomplete();
-        //     },
-        //     error: function (xhr, status, error) {
-        //         console.error("Error loading data for autocomplete:", status, error);
-        //     }
-        // });
-
-        function initializeAutocomplete() {
-            $("#inputTheme").autocomplete({
-                source: function (request, response) {
-                    var filteredData = $.grep(allData, function (item) {
-                        return item.label.toLowerCase().indexOf(request.term.toLowerCase()) === 0;
-                    });
-
-                    var uniqueData = [];
-                    var labels = {};
-
-                    $.each(filteredData, function (index, item) {
-                        var normalizedLabel = item.label.toLowerCase();
-                        if (!labels[normalizedLabel]) {
-                            labels[normalizedLabel] = true;
-                            uniqueData.push(item);
-                        }
-                    });
-
-                    response($.map(uniqueData, function (item) {
-                        return {
-                            label: item.label,
-                            value: item.value
-                        };
-                    }));
-                },
-                minLength: 1,
-                select: function (event, ui) {
-                    $("#hfCustomer").val(ui.item.value);
-                }
-            });
+    $.ajax({
+        url: '@Url.Action("ViewKaizen", "SubmittedKaizen")',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            if (response && response.formattedList) {
+                allData = response.formattedList;
+                initializeAutocomplete(allData);
+            }
         }
     });
+
+    function initializeAutocomplete(data) {
+        $("#inputTheme").autocomplete({
+            source: function (request, response) {
+                var filteredData = $.grep(data, function (item) {
+                    return item.label.toLowerCase().indexOf(request.term.toLowerCase()) === 0;
+                });
+
+                var uniqueData = [];
+                var labels = {};
+
+                $.each(filteredData, function (index, item) {
+                    var normalizedLabel = item.label.toLowerCase();
+                    if (!labels[normalizedLabel]) {
+                        labels[normalizedLabel] = true;
+                        uniqueData.push(item);
+                    }
+                });
+
+                response($.map(uniqueData, function (item) {
+                    return {
+                        label: item.label,
+                        value: item.val
+                    };
+                }));
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                $("#inputTheme").val(ui.item.label);
+                $("#hfCustomer").val(ui.item.value);
+                return false;
+            }
+        });
+    }
+
 </script>
 

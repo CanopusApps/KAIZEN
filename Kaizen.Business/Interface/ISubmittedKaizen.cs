@@ -14,6 +14,6 @@ namespace Kaizen.Business.Interface
         public List<ApprovalStatusModel> GetApprovalStatus(string UserType);
         public List<KaizenListModel> GetKaizenList(KaizenListModel model);
         public bool DeleteKaizen(int KaizenId,string UserId);
-        public List<KaizenListModel> GetKaizenThemeforAutucomplete();
+
     }
 }
