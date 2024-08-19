@@ -109,25 +109,6 @@ namespace Kaizen.Business.Worker
             return _repositorySubmittedKaizenData.DeleteKaizenData(KaizenId, UserId);
 
         }
-        public List<KaizenListModel> GetKaizenThemeforAutucomplete()
-        {
-            DataSet userType = new DataSet();
-            List<KaizenListModel> KaizenGridData = new List<KaizenListModel>();
-            userType = _repositorySubmittedKaizenData.GetKaizenThemeforAutucomplete();
-
-            if (userType.Tables.Count > 0)
-            {
-                foreach (DataRow dr in userType.Tables[0].Rows)
-                {
-                    KaizenGridData.Add(new KaizenListModel
-                    {
-                        Label = dr["KaizenTheme"].ToString(),
-                        Value = dr["KaizenId"].ToString()
-                        //Value = Convert.ToInt32(dr["KaizenId"])
-                    });
-                }
-            }
-            return KaizenGridData;
-        }
+        
     }
 }

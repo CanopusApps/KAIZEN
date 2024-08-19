@@ -14,6 +14,5 @@ namespace Kaizen.Data.DataServices
         public DataSet GetKaizenList(KaizenListModel model);
 
         public bool DeleteKaizenData(int KaizenId,string UserId);
-        public DataSet GetKaizenThemeforAutucomplete();
     }
 }
