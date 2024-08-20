@@ -6,6 +6,7 @@
 }
 @{
     var UserType = Accessor.HttpContext.Session.GetString("Userrole");
+    var formattedList = ViewBag.FormattedList;
 }
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="~/assets/css/custom/submittedkaizen.css" rel="stylesheet" />
@@ -242,19 +243,9 @@
 </script>
 @* autocompletescript *@
 <script>
-    var allData = [];
-
-    $.ajax({
-        url: '@Url.Action("ViewKaizen", "SubmittedKaizen")',
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-            if (response && response.formattedList) {
-                allData = response.formattedList;
-                initializeAutocomplete(allData);
-            }
-        }
-    });
+    var formattedListJ = @Html.Raw(Json.Serialize(formattedList));
+    //console.log(formattedListJ);
+    initializeAutocomplete(formattedListJ);
 
     function initializeAutocomplete(data) {
         $("#inputTheme").autocomplete({

@@ -53,11 +53,7 @@ namespace Kaizen.Web.Controllers
                 var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
                 viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
                 var formattedList = viewModel.SubmittedKaizenList.Select(theme => new { label = theme.KaizenTheme, val = theme.KaizenId }).ToList();
-                // Check if the request expects a JSON response
-                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                {
-                    return Json(new { SubmittedKaizenList = viewModel.SubmittedKaizenList, formattedList = formattedList });
-                }
+                ViewBag.FormattedList = formattedList;
             }
             catch (Exception ex)
             {
