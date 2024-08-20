@@ -49,6 +49,7 @@
                         <tr>
                             <th class="text-center" hidden>ID</th>
                             <th class="text-center">Block Name</th>
+                            <th class="text-center" id="BlockName">TOTAL EMP</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -59,6 +60,7 @@
                         <tr data-id="@item.Id" data-name="@item.BlockName">
                                 <td hidden>@item.Id</td>
                                 <td>@item.BlockName</td>
+                            <td class="text-center">@item.User_count</td>
                                  <td class="text-center">
                                 @if(@item.Status == false)
                                 {
@@ -88,7 +90,7 @@
                             </tr>
                         }
                     </tbody>
-                </table>
+            </table>
             </div>
     </div>
 </div>
