@@ -9,7 +9,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
 
 namespace Kaizen.Data.DataServices
 {
@@ -29,53 +28,102 @@ namespace Kaizen.Data.DataServices
         }
         private static SqlConnection con = null;
         private static SqlCommand com = null;
+        //public string Registeruser(RegisterModel registermodel)
+        //{
+        //    string msg = "";
+        //    int res;
+        //    try
+        //    {
+        //        using (SHA256 sha256 = SHA256.Create())
+        //        {
+        //            byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(registermodel.Password));
+        //            StringBuilder hashPasswordBuilder = new StringBuilder();
+        //            foreach (byte b in hashValue)
+        //            {
+        //                hashPasswordBuilder.Append(b.ToString("x2"));
+        //            }
+        //            hashedPassword = hashPasswordBuilder.ToString();
+
+        //            SqlCommand com = new SqlCommand(StoredProcedures.Sp_Register, con);
+        //            com.CommandType = CommandType.StoredProcedure;
+        //            com.CommandType = CommandType.StoredProcedure;
+        //            com.Parameters.AddWithValue("@UserID", registermodel.Name ?? (object)DBNull.Value);
+        //            com.Parameters.AddWithValue("@EmpID", registermodel.EmpId ?? (object)DBNull.Value);
+        //            com.Parameters.AddWithValue("@FirstName", registermodel.Name ?? (object)DBNull.Value);
+        //            com.Parameters.AddWithValue("@Gender", registermodel.Gender ?? (object)DBNull.Value);
+        //            com.Parameters.AddWithValue("@Did", registermodel.Did);
+        //            com.Parameters.AddWithValue("@Deptid", registermodel.DeptId);
+        //            com.Parameters.AddWithValue("@MobileNumber", registermodel.Phoneno ?? (object)DBNull.Value);
+        //            com.Parameters.AddWithValue("@Email", registermodel.Email ?? (object)DBNull.Value);
+        //            com.Parameters.AddWithValue("@Password", hashedPassword ?? (object)DBNull.Value);
+
+        //            SqlParameter obreg = new SqlParameter();
+        //            obreg.ParameterName = "@result";
+        //            obreg.SqlDbType = SqlDbType.Bit;
+        //            obreg.Direction = ParameterDirection.Output;
+        //            com.Parameters.Add(obreg);
+        //            con.Open();
+        //            com.ExecuteNonQuery();
+        //            res = Convert.ToInt32(obreg.Value);
+        //            con.Close();
+        //            if (res == 0)
+        //            {
+        //                msg = "Success";
+        //            }
+        //            else
+        //            {
+        //                msg = "Duplicate Emp Id";
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        msg = "An error occurred: " + ex.Message; // Log exception
+        //    }
+        //    finally
+        //    {
+        //        con.Close();
+        //    }
+        //    return msg;
+        //}
         public string Registeruser(RegisterModel registermodel)
         {
             string msg = "";
             int res;
             try
             {
-                using (SHA256 sha256 = SHA256.Create())
+                SqlCommand com = new SqlCommand(StoredProcedures.Sp_Register, con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@UserID", registermodel.Name ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@EmpID", registermodel.EmpId ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@FirstName", registermodel.Name ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@Gender", registermodel.Gender ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@Did", registermodel.Did);
+                com.Parameters.AddWithValue("@Deptid", registermodel.DeptId);
+                com.Parameters.AddWithValue("@MobileNumber", registermodel.Phoneno ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@Email", registermodel.Email ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@Password", registermodel.Password ?? (object)DBNull.Value);
+
+                SqlParameter obreg = new SqlParameter();
+                obreg.ParameterName = "@result";
+                obreg.SqlDbType = SqlDbType.Bit;
+                obreg.Direction = ParameterDirection.Output;
+                com.Parameters.Add(obreg);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = Convert.ToInt32(obreg.Value);
+                con.Close();
+                if (res == 0)
                 {
-                    byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(registermodel.Password));
-                    StringBuilder hashPasswordBuilder = new StringBuilder();
-                    foreach (byte b in hashValue)
-                    {
-                        hashPasswordBuilder.Append(b.ToString("x2"));
-                    }
-                    hashedPassword = hashPasswordBuilder.ToString();
-
-                    SqlCommand com = new SqlCommand(StoredProcedures.Sp_Register, con);
-                    com.CommandType = CommandType.StoredProcedure;
-                    com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@UserID", registermodel.Name ?? (object)DBNull.Value);
-                    com.Parameters.AddWithValue("@EmpID", registermodel.EmpId ?? (object)DBNull.Value);
-                    com.Parameters.AddWithValue("@FirstName", registermodel.Name ?? (object)DBNull.Value);
-                    com.Parameters.AddWithValue("@Gender", registermodel.Gender ?? (object)DBNull.Value);
-                    com.Parameters.AddWithValue("@Did", registermodel.Did);
-                    com.Parameters.AddWithValue("@Deptid", registermodel.DeptId);
-                    com.Parameters.AddWithValue("@MobileNumber", registermodel.Phoneno ?? (object)DBNull.Value);
-                    com.Parameters.AddWithValue("@Email", registermodel.Email ?? (object)DBNull.Value);
-                    com.Parameters.AddWithValue("@Password", hashedPassword ?? (object)DBNull.Value);
-
-                    SqlParameter obreg = new SqlParameter();
-                    obreg.ParameterName = "@result";
-                    obreg.SqlDbType = SqlDbType.Bit;
-                    obreg.Direction = ParameterDirection.Output;
-                    com.Parameters.Add(obreg);
-                    con.Open();
-                    com.ExecuteNonQuery();
-                    res = Convert.ToInt32(obreg.Value);
-                    con.Close();
-                    if (res == 0)
-                    {
-                        msg = "Success";
-                    }
-                    else
-                    {
-                        msg = "Duplicate Emp Id";
-                    }
+                    msg = "Success";
                 }
+                else
+                {
+                    msg = "Duplicate Emp Id";
+                }
+                return msg;
+
             }
             catch (Exception ex)
             {
