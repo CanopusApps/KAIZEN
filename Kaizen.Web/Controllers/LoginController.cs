@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Kaizen.Data.DataServices.Interfaces;
 
 
+
 //Forgot Password
 using System.Net;
 using System.Net.Mail;
@@ -18,6 +19,7 @@ using System.Net.Mail;
 using Newtonsoft.Json;
 using Kaizen.Models.Theme;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using System.Text;
 using Kaizen.Business.Worker;
 namespace Kaizen.Web.Controllers
 {
@@ -34,6 +36,7 @@ namespace Kaizen.Web.Controllers
 
         List<ManagerModel> ManagerList = new List<ManagerModel>();
         List<CountModel> CountList = new List<CountModel>();
+        string hashedPassword;
 
         public LoginController(ILogin _loginworker, IHttpContextAccessor conAccessor, IThemeChanger _addThemeWorker, IForgotPassword forgotPasswordWorker, IConfiguration configuration)
         {
@@ -94,6 +97,18 @@ namespace Kaizen.Web.Controllers
                         Username= row["FirstName"].ToString();
                         userRole = row["UserRole"].ToString();
 
+                        //using (SHA256 sha256 = SHA256.Create())
+                        //{
+                        //    byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(loginmodel.Password));
+                        //    StringBuilder hashPasswordBuilder = new StringBuilder();
+                        //    foreach (byte b in hashValue)
+                        //    {
+                        //        hashPasswordBuilder.Append(b.ToString("x2"));
+                        //    }
+                        //    hashedPassword = hashPasswordBuilder.ToString();
+                        //}
+
+                        //if (EmpId == loginmodel.EmpId && password == hashedPassword)
                         if (EmpId == loginmodel.EmpId && password == loginmodel.Password)
                         {
                             //dataTable1 = _loginworker.Usermanager(EmpId);
@@ -282,14 +297,19 @@ namespace Kaizen.Web.Controllers
         }
 
 
-        public IActionResult loginImage()
+        public IActionResult loginImage(LoginWinnerListModel images)
         {
-            List<LoginImageModel> images = new List<LoginImageModel>();
+          
             try
             {
-               
+                // Fetch all images, including all categories
+                images.CompletewinnerList = _loginworker.FetchImages();
 
-                images = _loginworker.FetchImages();
+                // Initialize the lists based on categories from CompletewinnerList
+                images.GoldList = images.CompletewinnerList.Where(img => img.Category == "Gold").ToList();
+                images.SilverList = images.CompletewinnerList.Where(img => img.Category == "Silver").ToList();
+                images.BronzeList = images.CompletewinnerList.Where(img => img.Category == "Bronze").ToList();
+
                 return Ok(images);
             }
             catch (Exception ex)
