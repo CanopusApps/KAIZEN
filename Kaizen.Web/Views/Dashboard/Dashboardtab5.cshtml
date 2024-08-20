@@ -5,6 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <style>
+    
     #dHeader {
         font-size: 16px !important;
         margin-top: -10px;
@@ -71,10 +72,25 @@
                     </div>
                 </form>
             </div>
-
+            <!-- Radio buttons for chart type selection -->
+            <div class="container-fluid border rounded p-2">
+                <form>
+                    <div class="row align-items-left mb-3">
+                        <label class="col-auto filter-header">Chart Type:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="chartTypeOption" id="chartTypeDonut" value="donut" checked>
+                            <label class="form-check-label" for="chartTypeDonut">Donut Charts</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="chartTypeOption" id="chartTypeBar" value="bar">
+                            <label class="form-check-label" for="chartTypeBar">Bar Charts</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="card bg-white border chart-container mt-4 mb-5 ml-2 mr-2 pb-4">
                 <div class="  card-header">Kaizens Based on Cadre,Blocks,Domain and Department</div>
-                <div class="card-body col-lg-12">
+                <div class="card-body col-lg-12" id="donutChartsSection">
                     <div class="row">
                         <div class="col-lg-6 col-md-12 mb-4">
                             <canvas id="donutChart1"></canvas>
@@ -92,11 +108,31 @@
                         </div>
                     </div>
                 </div>
+                <div id="barChartsSection" class="card bg-white border chart-container mt-4 mb-5 ml-2 mr-2 pb-4" style="display:none;">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 mb-4">
+                            <canvas id="barChart1"></canvas>
+                        </div>
+                        <div class="col-lg-6 col-md-12 mb-4">
+                            <canvas id="barChart2"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 mb-4">
+                            <canvas id="barChart3"></canvas>
+                        </div>
+                        <div class="col-lg-6 col-md-12 mb-4">
+                            <canvas id="barChart4"></canvas>
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
         </nav>
     </nav>
  </div>
-  <script>
+<script>
     function toggleFields() {
         if ($('#filterYear1').is(':checked')) {
             $('#year').show();
@@ -107,15 +143,12 @@
         }
     }
 
-    // Call toggleFields on page load
     toggleFields();
 
-    // Bind toggleFields to the change event of the radio buttons
     $('input[name="filterOption"]').change(function () {
         toggleFields();
     });
 
-    // Populate Year Dropdown
     const currentYear = new Date().getFullYear();
     const endYear = currentYear - 4;
     const yearDropdown = $("#yearDropdown");
@@ -128,6 +161,7 @@
     }
 
     yearDropdown.val(currentYear);
+
     const customLabelsPlugin = {
         id: 'customLabels',
         afterDatasetsDraw(chart) {
@@ -141,22 +175,17 @@
                 const text = `${label}: ${value}`;
                 const color = datasets[0].backgroundColor[index];
 
-                // Skip labels with a value of 0
                 if (value === 0) return;
 
-                // Calculate the position for the label
-                const lineLength = 100;
                 const labelX = x < width / 2 ? x - 50 : x + 50;
                 const labelY = y < height / 2 ? y - 30 : y + 30;
 
-                // Draw the arrow
                 ctx.beginPath();
                 ctx.moveTo(x, y);
                 ctx.lineTo(labelX, labelY);
                 ctx.strokeStyle = color;
                 ctx.stroke();
 
-                // Draw the label
                 ctx.font = '12px Arial';
                 ctx.fillStyle = '#000';
                 ctx.textAlign = x < width / 2 ? 'right' : 'left';
@@ -172,6 +201,13 @@
             { id: 'donutChart2', label: 'Dataset 2', title: 'Cadre' },
             { id: 'donutChart3', label: 'Dataset 3', title: 'Domains' },
             { id: 'donutChart4', label: 'Dataset 4', title: 'Departments' }
+        ];
+
+        const barCharts = [
+            { id: 'barChart1', title: 'Blocks' },
+            { id: 'barChart2', title: 'Cadre' },
+            { id: 'barChart3', title: 'Domains' },
+            { id: 'barChart4', title: 'Departments' }
         ];
 
         let chartInstances = [];
@@ -205,7 +241,7 @@
 
         function createDonutChart(chart, data, colors) {
             const ctxDonut = $(`#${chart.id}`)[0].getContext('2d');
-            const chartInstance = new Chart(ctxDonut, {
+            return new Chart(ctxDonut, {
                 type: 'doughnut',
                 data: {
                     labels: [],
@@ -226,18 +262,69 @@
                         title: {
                             display: true,
                             text: chart.title
-
                         }
                     }
                 },
                 plugins: [customLabelsPlugin]
             });
-            return chartInstance;
+        }
+
+        function createBarChart(chart, data, labels) {
+            const ctxBar = $(`#${chart.id}`)[0].getContext('2d');
+            return new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: chart.label,
+                        backgroundColor: generateColors(data.length),
+                        borderWidth: 1,
+                        data: data,
+                       
+
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            display: false,
+                        },
+                        datalabels: {
+                            display: true,
+                            color: 'white',
+                            align: 'center', 
+                            anchor: 'center', 
+                            formatter: (value) => {
+                                return value === 0 ? null : value;
+                            },
+                            padding: {
+                                top: 10
+                            },
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels], 
+            });
         }
 
         // Initial chart rendering with default data
         donutCharts.forEach(chart => {
-            chartInstances.push(createDonutChart(chart, [0, 0, 0], [])); // Pass empty array for colors initially
+            chartInstances.push(createDonutChart(chart, [0, 0, 0], []));
+        });
+
+        barCharts.forEach(chart => {
+            chartInstances.push(createBarChart(chart, [0, 0, 0], []));
         });
 
         $('#btn_filter').click(function () {
@@ -257,20 +344,18 @@
                     $('#loader-wrapper').show();
                 },
                 success: function (result) {
-                    // Extracting data and labels for each category
-                    let blockBasedData = result.blockbasedgraph.map(item => item.totalSubmittedKaizen);
-                    let blockBasedLabel = result.blockbasedgraph.map(item => item.blockname);
+                    const blockBasedData = result.blockbasedgraph.map(item => item.totalSubmittedKaizen);
+                    const blockBasedLabel = result.blockbasedgraph.map(item => item.blockname);
 
-                    let cadreBasedData = result.cadrebasedgraph.map(item => item.totalSubmittedKaizen);
-                    let cadreBasedLabel = result.cadrebasedgraph.map(item => item.cadrename);
+                    const cadreBasedData = result.cadrebasedgraph.map(item => item.totalSubmittedKaizen);
+                    const cadreBasedLabel = result.cadrebasedgraph.map(item => item.cadrename);
 
-                    let domainBasedData = result.domainbasedgraph.map(item => item.totalSubmittedKaizen);
-                    let domainBasedLabel = result.domainbasedgraph.map(item => item.domainname);
+                    const domainBasedData = result.domainbasedgraph.map(item => item.totalSubmittedKaizen);
+                    const domainBasedLabel = result.domainbasedgraph.map(item => item.domainname);
 
-                    let departmentBasedData = result.departmentbasedgraph.map(item => item.totalSubmittedKaizen);
-                    let departmentBasedLabel = result.departmentbasedgraph.map(item => item.departmentname);
+                    const departmentBasedData = result.departmentbasedgraph.map(item => item.totalSubmittedKaizen);
+                    const departmentBasedLabel = result.departmentbasedgraph.map(item => item.departmentname);
 
-                    // Generate colors for each dataset
                     const staticData = [
                         { data: blockBasedData, labels: blockBasedLabel, colors: generateColors(blockBasedData.length) },
                         { data: cadreBasedData, labels: cadreBasedLabel, colors: generateColors(cadreBasedData.length) },
@@ -279,11 +364,21 @@
                     ];
 
                     staticData.forEach((chartData, index) => {
-                        const chart = chartInstances[index];
-                        chart.data.labels = chartData.labels; // Update labels
-                        chart.data.datasets[0].data = chartData.data; // Update data
-                        chart.data.datasets[0].backgroundColor = chartData.colors; // Update colors
-                        chart.update(); // Re-render chart
+                        const donutChart = chartInstances[index];
+                        const barChart = chartInstances[index + donutCharts.length];
+
+                        const filteredData = chartData.data.filter(value => value > 0);
+                        const filteredLabels = chartData.labels.filter((label, i) => chartData.data[i] > 0);
+                        const filteredColors = chartData.colors.filter((color, i) => chartData.data[i] > 0);
+
+                        donutChart.data.labels = filteredLabels;
+                        donutChart.data.datasets[0].data = filteredData;
+                        donutChart.data.datasets[0].backgroundColor = filteredColors;
+                        donutChart.update();
+
+                        barChart.data.labels = filteredLabels;
+                        barChart.data.datasets[0].data = filteredData;
+                        barChart.update();
                     });
                 },
                 error: function (error) {
@@ -296,10 +391,18 @@
         });
 
         $('#btn_filter').click();
+
+        $('input[name="chartTypeOption"]').change(function () {
+            if ($('#chartTypeDonut').is(':checked')) {
+                $('#donutChartsSection').show();
+                $('#barChartsSection').hide();
+            } else if ($('#chartTypeBar').is(':checked')) {
+                $('#donutChartsSection').hide();
+                $('#barChartsSection').show();
+            }
+        });
     });
- </script>
-
-
+</script>
 <script>
     var today = new Date().toISOString().split('T')[0];
     document.getElementById('dtstartdate').setAttribute('max', today);

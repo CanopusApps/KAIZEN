@@ -2949,7 +2949,7 @@
                 success: function (result) {
                     if (result) {
                         const statusdetails = {
-                            
+                            saved:0,
                             submitted:1,
                             ImageApproved: 2,
                             ImageRejected: 3,
@@ -3061,16 +3061,26 @@
                             $('#approvers').hide();
                           
                         }
+                        debugger;
+                       
                         if (imageapproverstatus === 'True' && statusDesc !== statusdetails.submitted) {
                             $('#buttons').show();
                             $('#waitingapproval').show();
                             $('#waitingimage').hide();
                             $('#imagelabel').hide();
-                            $('#Approvalbtn').show();
                             updateStatusText();
                         } else if (imageapproverstatus === 'True' && statusDesc === statusdetails.submitted) {
                             $('#approvers').show();
                             updateStatusText();
+                        }
+                        if (imageapproverstatus === 'True' && statusDesc !== statusdetails.submitted && userRole === 'EMPLOYEE') {
+                            $('#Aprrovalbtn').hide();
+                            $('#updateItButton').hide();
+                            $('#saveItButton').hide();
+                            if(statusDesc === statusdetails.saved)
+                            {
+                                 $('#updateItButton').show();
+                            }
                         }
                         if(result.approverslist[0].financeEmail == "")
                         {                        
