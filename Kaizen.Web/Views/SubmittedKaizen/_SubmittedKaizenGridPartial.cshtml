@@ -190,3 +190,48 @@
         });
     });
 </script>
+<script>
+    $(window).on('load', function () {
+        if (sessionStorage.getItem("ViewKaizen")) {
+            var viewKaizenData = JSON.parse(sessionStorage.getItem("ViewKaizen"));
+            var user = viewKaizenData['user'];
+            var role = viewKaizenData['role'];
+            var LoginRole = viewKaizenData['LoginRole'];
+
+            $.ajax({
+                url: '/SubmittedKaizen/FetchKaizenDetails_by_CreatedBy',
+                type: 'GET',
+                data: { UserId: user, role: role, LoginRole: LoginRole },
+                success: function (result) {
+                    var rows = [];
+                    $(result).find('tbody tr').each(function () {
+                        var $row = $(this);
+                        var rowData = {
+                            docno: $row.data('docno'),
+                            kaizentheme: $row.data('kaizentheme'),
+                            teamname: $row.data('teamname'),
+                            horozantaldeployment: $row.data('horozantaldeployment'),
+                            ieapproveddept: $row.data('ieapproveddept'),
+                            domain: $row.data('domain'),
+                            finnancedeptappr: $row.data('finnancedeptappr'),
+                            approvalstatus: $row.data('approvalstatus'),
+                            createdby: $row.data('createdby'),
+                            createddate: $row.data('createddate')
+
+                        };
+                        rows.push(rowData);
+                    });
+                    $('#SubmittedKaizengrid').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+            sessionStorage.removeItem("ViewKaizen");
+        } 
+        else 
+        {
+            sessionStorage.removeItem("ViewKaizen");
+        }
+    });
+</script>

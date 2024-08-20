@@ -60,7 +60,7 @@
                             <div class="row">
                                 @foreach (var domain in Model.DomainList)
                                 {
-                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-name="@domain.DomainName">
+                                    <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-domain-name="@domain.DomainName" data-domainid="@domain.Id">
                                         <div>@domain.DomainName</div>
                                         <div>@domain.User_count</div>
                                     </div>
@@ -73,21 +73,19 @@
         </div>
         <div class="card p-3 mt-2 mb-2 cardsize">
             <div class="form-row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="inputName">Name</label>
                     <input type="text" id="inputName" class="form-control txt-width" placeholder="Name" name="Name">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="inputEmpID">Emp ID</label>
                     <input type="text" id="inputEmpID" class="form-control txt-width" placeholder="Employee ID" name="EmpId">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="inputEmail">Email</label>
                     <input type="email" id="inputEmail" class="form-control txt-width" placeholder="Email" name="Email">
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="inputUserType">User Type</label>
                     <select id="inputUserType" class="form-control txt-width" name="UserType">
                         <option selected>All</option>
@@ -100,6 +98,8 @@
                         }
                     </select>
                 </div>
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-4" style="display:none">
                     <label for="inputDomain">Domain</label>
                     <select id="inputDomain" class="form-control txt-width" name="Domain">
@@ -120,8 +120,8 @@
                     </select>
                 </div>
                 <div class="form-group col-md-4">
-                    <input type="button" id="btn_filter" class="btn btn-azure" style="width:116px;margin-left:4px;margin-top:23px" value="Filter" />
-                    <button type="button" id="btnreset" class="btn btn-warning" style="width:116px;margin-left:4px;margin-top:23px">Reset</button>
+                    <input type="button" id="btn_filter" class="btn btn-azure" style="width:116px;" value="Filter" />
+                    <button type="button" id="btnreset" class="btn btn-warning" style="width:116px;">Reset</button>
 
                 </div>
             </div>
@@ -140,10 +140,6 @@
                     <div class="row">
                         <div class="col text-center d-flex justify-content-center align-items-center">
                             <button type="button" class="btn btn-block-custom btn-warning no-margin" style="width:100px;" data-toggle="modal" data-target="#importExcelModel">Import Kaizen</button>
-
-                        </div>
-                        <div class="col text-center d-flex justify-content-center align-items-center">
-                            <button type="button" class="btn btn-block-custom btn-azure no-margin" style="width:100px;">Kaizen Sorted</button>
                         </div>
                     </div>
                 </div>
@@ -402,13 +398,6 @@
             $('#inputEmail').val('');
             $('#inputName').val('');
             $('#inputUserType').prop('selectedIndex', 0);
-            // $('#inputDomain').prop('selectedIndex', 0);
-            // var dropdown = $('#inputDepartment');
-            // dropdown.empty();
-            // dropdown.append($('<option>', {
-            //     value: 'all',
-            //     text: 'All'
-            // }));
         }
 
         $('#btnreset').click(function () {
@@ -464,4 +453,3 @@
         });
     });
 </script>
-

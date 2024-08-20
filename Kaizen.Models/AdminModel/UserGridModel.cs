@@ -27,7 +27,11 @@ namespace Kaizen.Models.AdminModel
         public string MiddleName { get; set; } = "";
         public string LastName { get; set; } = "";
 
-        public string BlockDesc { get; set; } = ""; 
+        public string BlockDesc { get; set; } = "";
+
+        public string TotalKaizenPosted { get; set; } = "";
+        public string role { get; set; } = "";
+        public string Id { get; set; } = "";
 
     }
 }
