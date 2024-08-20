@@ -1577,10 +1577,14 @@
                 $("#empGuid").val(result.empguid);
                
             },
-            error: function (error) {
-                swal('Unable to Find the Team Member Details - Please Check the logs');
-                // Handle errors (if needed)
-                // console.error('Error:', error);
+            error: function (xhr, status, error) {
+                if (xhr.responseText) {
+                    swal('Error: ' + xhr.responseText);
+                } else {
+                    swal('Unable to Find the Team Member Details - Please Check the logs');
+                    // Handle errors (if needed)
+                    // console.error('Error:', error);
+                }
             }
         });
     });
@@ -3380,6 +3384,13 @@
                                 $('#file-image-additional-text').show();
                                 $('#upload_area').show();
                             }
+                            //EDit attachments validation for Additional  attachements
+                            if ($('#uploaded_before_image img').length > 0 && $('#uploaded_after_image img').length > 0) {
+                                $('#upload_area').removeClass('grayed-out');
+                            } else {
+                                $('#upload_area').addClass('grayed-out');
+                            }
+
                             deleteButton.on('click', function () {
                                 var kaizenId = $(this).data('kaizen-id');
                                 var attachmentId = $(this).data('attachment-id');
