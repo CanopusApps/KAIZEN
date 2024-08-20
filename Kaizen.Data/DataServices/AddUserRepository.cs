@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
+
 
 namespace Kaizen.Data.DataServices
 {
@@ -30,60 +30,119 @@ namespace Kaizen.Data.DataServices
 
 
         //method to insert all the data into the data base
+        //public string InsertUserData(AddUserModel ur)
+        //{
+        //    string msg = "";
+        //    int res;
+        //    try
+        //    {
+        //        using (SHA256 sha256 = SHA256.Create())
+        //        {
+        //            byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(ur.Password));
+        //            StringBuilder hashPasswordBuilder = new StringBuilder();
+        //            foreach (byte b in hashValue)
+        //            {
+        //                hashPasswordBuilder.Append(b.ToString("x2"));
+        //            }
+        //            string hashedPassword = hashPasswordBuilder.ToString();
+
+        //            SqlCommand com = new SqlCommand(StoredProcedures.Sp_InsertUser, con);
+        //            com.CommandType = CommandType.StoredProcedure;
+        //            com.Parameters.AddWithValue("@EmpId", ur.EmpId);
+        //            com.Parameters.AddWithValue("@Name", ur.FirstName);
+        //            com.Parameters.AddWithValue("@MiddleName", ur.MiddleName);
+        //            com.Parameters.AddWithValue("@LastName", ur.LastName);
+        //            com.Parameters.AddWithValue("@Email", ur.Email);
+        //            com.Parameters.AddWithValue("@Password", hashedPassword);
+        //            com.Parameters.AddWithValue("@Phno", ur.Phoneno);
+        //            com.Parameters.AddWithValue("@Gender", ur.Gender.Substring(0, 1));
+        //            com.Parameters.AddWithValue("@Cid", ur.Cid);
+        //            com.Parameters.AddWithValue("@Rid", ur.Rid);
+        //            com.Parameters.AddWithValue("@Createdby", ur.CreatedbyId);
+        //            com.Parameters.AddWithValue("@status", ur.statusname);
+        //            com.Parameters.AddWithValue("@Did", ur.Did);
+        //            com.Parameters.AddWithValue("@BlockId", ur.BlockId);
+        //            com.Parameters.AddWithValue("@Deptid", ur.DeptId);
+
+        //            SqlParameter obreg = new SqlParameter();
+        //            obreg.ParameterName = "@result";
+        //            obreg.SqlDbType = SqlDbType.Bit;
+        //            obreg.Direction = ParameterDirection.Output;
+        //            com.Parameters.Add(obreg);
+
+        //            con.Open();
+        //            com.ExecuteNonQuery();
+        //            res = Convert.ToInt32(obreg.Value);
+        //            con.Close();
+
+        //            if (res == 0)
+        //            {
+        //                msg = "ok";
+        //            }
+        //            else
+        //            {
+        //                msg = "Duplicate Emp Id";
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        if (con.State == ConnectionState.Open)
+        //        {
+        //            msg = ex.Message;
+        //            con.Close();
+        //        }
+
+        //    }
+
+        //    finally
+        //    {
+        //        con.Close();
+        //    }
+        //    return msg;
+        //}
         public string InsertUserData(AddUserModel ur)
         {
             string msg = "";
             int res;
             try
             {
-                using (SHA256 sha256 = SHA256.Create())
+                SqlCommand com = new SqlCommand(StoredProcedures.Sp_InsertUser, con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@EmpId", ur.EmpId);
+                com.Parameters.AddWithValue("@Name", ur.FirstName);
+                com.Parameters.AddWithValue("@MiddleName", ur.MiddleName);
+                com.Parameters.AddWithValue("@LastName", ur.LastName);
+                com.Parameters.AddWithValue("@Email", ur.Email);
+                com.Parameters.AddWithValue("@Password", ur.Password);
+                com.Parameters.AddWithValue("@Phno", ur.Phoneno);
+                com.Parameters.AddWithValue("@Gender", ur.Gender.Substring(0, 1));
+                com.Parameters.AddWithValue("@Cid", ur.Cid);
+                com.Parameters.AddWithValue("@Rid", ur.Rid);
+                com.Parameters.AddWithValue("@Createdby", ur.CreatedbyId);
+                com.Parameters.AddWithValue("@status", ur.statusname);
+                com.Parameters.AddWithValue("@Did", ur.Did);
+                com.Parameters.AddWithValue("@BlockId", ur.BlockId);
+                com.Parameters.AddWithValue("@Deptid", ur.DeptId);
+
+                SqlParameter obreg = new SqlParameter();
+                obreg.ParameterName = "@result";
+                obreg.SqlDbType = SqlDbType.Bit;
+                obreg.Direction = ParameterDirection.Output;
+                com.Parameters.Add(obreg);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = Convert.ToInt32(obreg.Value);
+                con.Close();
+                if (res == 0)
                 {
-                    byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(ur.Password));
-                    StringBuilder hashPasswordBuilder = new StringBuilder();
-                    foreach (byte b in hashValue)
-                    {
-                        hashPasswordBuilder.Append(b.ToString("x2"));
-                    }
-                    string hashedPassword = hashPasswordBuilder.ToString();
-
-                    SqlCommand com = new SqlCommand(StoredProcedures.Sp_InsertUser, con);
-                    com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@EmpId", ur.EmpId);
-                    com.Parameters.AddWithValue("@Name", ur.FirstName);
-                    com.Parameters.AddWithValue("@MiddleName", ur.MiddleName);
-                    com.Parameters.AddWithValue("@LastName", ur.LastName);
-                    com.Parameters.AddWithValue("@Email", ur.Email);
-                    com.Parameters.AddWithValue("@Password", hashedPassword);
-                    com.Parameters.AddWithValue("@Phno", ur.Phoneno);
-                    com.Parameters.AddWithValue("@Gender", ur.Gender.Substring(0, 1));
-                    com.Parameters.AddWithValue("@Cid", ur.Cid);
-                    com.Parameters.AddWithValue("@Rid", ur.Rid);
-                    com.Parameters.AddWithValue("@Createdby", ur.CreatedbyId);
-                    com.Parameters.AddWithValue("@status", ur.statusname);
-                    com.Parameters.AddWithValue("@Did", ur.Did);
-                    com.Parameters.AddWithValue("@BlockId", ur.BlockId);
-                    com.Parameters.AddWithValue("@Deptid", ur.DeptId);
-
-                    SqlParameter obreg = new SqlParameter();
-                    obreg.ParameterName = "@result";
-                    obreg.SqlDbType = SqlDbType.Bit;
-                    obreg.Direction = ParameterDirection.Output;
-                    com.Parameters.Add(obreg);
-
-                    con.Open();
-                    com.ExecuteNonQuery();
-                    res = Convert.ToInt32(obreg.Value);
-                    con.Close();
-
-                    if (res == 0)
-                    {
-                        msg = "ok";
-                    }
-                    else
-                    {
-                        msg = "Duplicate Emp Id";
-                    }
+                    msg = "ok";
                 }
+                else
+                {
+                    msg = "Duplicate Emp Id";
+                }
+                return msg;
             }
             catch (Exception ex)
             {
@@ -93,11 +152,6 @@ namespace Kaizen.Data.DataServices
                     con.Close();
                 }
 
-            }
-
-            finally
-            {
-                con.Close();
             }
             return msg;
         }
