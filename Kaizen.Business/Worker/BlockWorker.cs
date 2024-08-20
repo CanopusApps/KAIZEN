@@ -54,6 +54,7 @@ namespace Kaizen.Business.Worker
                         {
                             Id = Convert.ToInt32(dr["BlockId"]),
                             BlockName = dr["BlockName"].ToString(),
+                            User_count = Convert.ToInt32(dr["User_count"]),
                             Status = Convert.ToBoolean(dr["Status"])
                         });
                     //}
