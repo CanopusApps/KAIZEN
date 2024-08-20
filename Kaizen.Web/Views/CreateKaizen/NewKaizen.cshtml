@@ -1579,7 +1579,7 @@
             },
             error: function (xhr, status, error) {
                 if (xhr.responseText) {
-                    swal('Error: ' + xhr.responseText);
+                    swal(xhr.responseText);
                 } else {
                     swal('Unable to Find the Team Member Details - Please Check the logs');
                     // Handle errors (if needed)
