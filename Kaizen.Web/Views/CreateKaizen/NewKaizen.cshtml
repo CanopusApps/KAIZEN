@@ -998,9 +998,9 @@
                                     <div class="card-body">
                                         <div class="right-box-padding">
                                             <div class="read-content">
-                                                <div class="form-group ">
+                                                <div class="form-group">
                                                     <label>Benefits (P,Q,C,S,D,M,E)<span class="mandatory">*</span></label>
-                                                    <textarea class="textarea331" name="present_conditions" id="benefit" value="@Model.BenefitArea" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">"Q - This poka yoke will make sure the rail orientation is always right.S -
+                                                    <textarea style="height: 27vh" class="textarea331" name="present_conditions" id="benefit" value="@Model.BenefitArea" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<p class="mt-1 text-center">"Q - This poka yoke will make sure the rail orientation is always right.S -
                                                                  This will ensure and prevent mold or part damage and improves mold safety.M- It will increase MTTR & MTBF (as of now no data).
                                                                Since IM1 is citical for further downstream process, this will have direct impact of unplanned downtime (reduction) in downstream process till final assembly."</p>' title="Benefits [Example]"></textarea>
                                                         <span id="BenefitsError" class="text-danger error-message"></span>
@@ -1015,18 +1015,18 @@
                                     <div class="card-body">
                                         <div class="right-box-padding">
                                             <div class="read-content">
-                                                <div class="form-group ">
-                                                    <table class="table table-bordered" style="height: 50vh;">
+                                                <div class="form-group table-responsive">
+                                                    <table class="table table-bordered" style="height: 32vh;">
 
                                                         <thead>
 
                                                             <tr>
 
-                                                                <th class="border-0"></th>
+                                                                    <th class="border-0 col-1 text-center"></th>
 
-                                                                <th class="border-0 col-3">KAIZEN Originated By</th>
+                                                                <th class="border-0 col-3 text-center">KAIZEN Originated By</th>
 
-                                                                <th class="border-0">KAIZEN Approved By</th>
+                                                                <th class="border-0 text-center">KAIZEN Approved By</th>
                                                                 @* <th class="border-0">KAIZEN Confirmed By</th> *@
 
 
@@ -1038,16 +1038,16 @@
 
                                                             <tr>
 
-                                                                <td class="text-center align-middle py-5">
+                                                                    <td class="text-center align-middle px-3">
                                                                     Name
                                                                 </td>
 
-                                                                    <td class="align-middle align-items-center justify-content-center col-3">
+                                                                    <td class="align-middle align-items-center justify-content-center col-5">
                                                                         <input type="text" class="mx-auto form-control col-9" id="name" name="name" value="@Model.name" readonly>
                                                                     <input type="text" class="mx-auto form-control col-9" id="createdBy" name="createdBy" value="@Model.EmpId" hidden>
                                                                 </td>
-                                                                    <td class="align-items-center d-flex justify-content-center h-100 col-12">
-                                                                    <select name="DRIApprovedBy" id="driapprovedby" class="form-control col-9">
+                                                                    <td class="align-middle align-items-center justify-content-center col-5">
+                                                                    <select name="DRIApprovedBy" id="driapprovedby" class="mx-auto form-control col-9">
                                                                         @* <option>321256 - Pankaj Singh</option>  *@
                                                                          @foreach (var manager in managerList)
                                                                         {
@@ -1064,15 +1064,15 @@
                                                             </tr>
                                                             <tr>
 
-                                                                <td class="text-center align-middle py-5">
+                                                                    <td class="text-center align-middle px-3">
                                                                     Dept
                                                                 </td>
 
-                                                                <td class="align-middle align-items-center justify-content-center col-3">
+                                                                <td class="align-middle align-items-center justify-content-center col-5">
                                                                         <input type="text" class="mx-auto form-control col-9" id="DomainId" name="DomainId" value="@Model.Domain - @Model.Department" readonly>
                                                                 </td>
-                                                                    <td class="align-items-center d-flex justify-content-center h-100 col-12">
-                                                                        <input name="DeptId" id="DeptId" class="form-control col-9" value="@Model.Domain - @Model.Department" readonly>
+                                                                    <td class="align-middle align-items-center justify-content-center col-5">
+                                                                        <input name="DeptId" id="DeptId" class="mx-auto form-control col-9" value="@Model.Domain - @Model.Department" readonly>
                                                                     </td>
                                                                @*  <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-4">
@@ -1081,23 +1081,23 @@
                                                             </tr>
                                                             <tr>
 
-                                                                <td class="text-center align-middle py-5">
+                                                                <td class="text-center align-middle px-3">
                                                                     Date
                                                                 </td>
                                                                 @{
                                                                      DateTime parsedDate;
                                                                      bool isValidDate = DateTime.TryParse(Model.OriginatedDate, out parsedDate);
                                                                 }
-                                                                    <td class="align-middle align-items-center justify-content-center col-3">
+                                                                    <td class="align-middle align-items-center justify-content-center col-5">
                                                                     <input type="text" class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@parsedDate.ToString("dd/MM/yyyy")">
 
                                                                 </td>
-                                                                    <td class="align-items-center d-flex justify-content-center h-100 col-12">
-                                                                        <div class="align-items-center d-flex flex-column justify-content-center col-12">
-                                                                            <input name="driapproveddate" type="date" id="driapproveddate" class="form-control col-9 mb-1">
-                                                                            <span id="driapproveddateerror" class="text-danger error-message mt-1"></span>
-                                                                        </div>
+                                                                    <td class="align-middle align-items-center justify-content-center col-5">
+                                                                        <input name="driapproveddate" type="date" id="driapproveddate" class="mx-auto form-control mb-1 w-75">
+                                                                        <span id="driapproveddateerror" style="margin-left: 13%;" class="text-danger error-message position-absolute"></span>
                                                                     </td>
+
+
 
                                                                 @* <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-4">
@@ -2112,10 +2112,10 @@
                 isValid = false;
             }
         }
-        if (empid === "") {
-            if (!firstInvalidField) firstInvalidField = "#IdMemberAdd";
-            // isValid = false;
-        }
+        // if (addedTeamMembers === 0) {
+        //     if (!firstInvalidField) firstInvalidField = "#IdMemberAdd";
+        //     // isValid = false;
+        // }
         if (rootcauseproblem === "") {
             $("#rootcauseProblem").css("border-color", "red");
             $("#rootProblemError").text("Root Cause Problem is required.");
@@ -2143,7 +2143,7 @@
         if (addedTeamMembers.length === 0) {
             $("#tableborder").css("border-color", "red");
             $("#TeammemberError").text("At least one team member must be added.");
-            if (!firstInvalidField) firstInvalidField = "#tableborder";
+            if (!firstInvalidField) firstInvalidField = "#IdMemberAdd";
             isValid = false;
         }
         if (benifitarea.length === 0) {
