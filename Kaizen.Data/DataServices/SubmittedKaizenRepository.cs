@@ -50,6 +50,10 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
+            finally
+            {
+                con.Close();
+            }
             return ds;
         }
         public DataSet GetKaizenList(KaizenListModel model)
@@ -80,6 +84,10 @@ namespace Kaizen.Data.DataServices
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                con.Close();
             }
             return ds;
         }

@@ -84,6 +84,7 @@ namespace Kaizen.Models.NewKaizen
 		public bool insertStatus { get; set; }
         public string Empguid { get; set; }
 
+        public string Usertype { get; set; }
         public string Approvalstatusdesc { get; set; }
         public List<BlockModel> BlockList { get; set; }
 

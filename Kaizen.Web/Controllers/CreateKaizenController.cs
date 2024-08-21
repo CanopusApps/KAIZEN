@@ -223,7 +223,25 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public IActionResult GetTeamMemberDetails(NewKaizenModel model)
         {
+            var empIdFromSession = HttpContext.Session.GetString("EmpId");
+
+            if (model.EmpId == empIdFromSession)
+            {
+                return BadRequest("User cannot be added as a Team Member again");
+            }
             model = _createNewKaizen.GetKaizenOriginatedby(model);
+            if (model.Usertype == "ADMIN")
+            {
+                return BadRequest("Admin can't be added as a Team Menber ");
+            }
+            if (model.Usertype == "FINNACE")
+            {
+                return BadRequest("Finance can't be added as a Team Menber ");
+            }
+            if (model.Usertype == "IE DEPT")
+            {
+                return BadRequest("IE DEPT can't be added as a Team Menber ");
+            }
             return Ok(model); 
 		}
         public NewKaizenModel GetKaizendetailsById(string KaizenId)
