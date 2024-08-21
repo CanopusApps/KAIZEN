@@ -481,6 +481,7 @@
 <script>
     // Function to get formatted startDate and endDate
     function getFormattedDates() {
+        debugger;
         let startDate, endDate;
         $('#btn_filter').click();
         // Retrieve the filter option
@@ -494,43 +495,50 @@
         }
 
         return {
-            startDate: formatDateForServer(startDate),
-            endDate: formatDateForServer(endDate)
+            startDate,
+            endDate
         };
-    }
-
-    // Example date format function (adjust format as needed)
-    function formatDateForServer(date) {
-        // Assuming the date format is YYYY-MM-DD, adjust as needed
-        const [day, month, year] = date.split('-');
-        return `${year}-${month}-${day}`;
-    }
-
-    
+    }    
     // Export functions
     function changeBlockExportHref() {
         debugger;
-        const dates = getFormattedDates();
-        const url = '@Url.Action("DasboardBlocks", "Reports")';
-        window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+        try {
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardBlocks", "Reports")';
+            window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+        } catch {
+            location.reload();
+        }
     }
 
     function changeDomainExportHref() {
-        const dates = getFormattedDates();
-        const url = '@Url.Action("DasboardDomain", "Reports")';
-        window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+        try {
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardDomain", "Reports")';
+            window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+        } catch {
+            location.reload();
+        }
     }
 
     function changeDepartmentExportHref() {
-        const dates = getFormattedDates();
-        const url = '@Url.Action("DasboardDepartment", "Reports")';
-        window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+        try {
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardDepartment", "Reports")';
+            window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+        } catch {
+            location.reload();
+        }
     }
 
     function changeCadreExportHref() {
-        const dates = getFormattedDates();
-        const url = '@Url.Action("DasboardCadre", "Reports")';
-        window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
-    } 
+        try {
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardCadre", "Reports")';
+            window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+        } catch {
+            location.reload();
+        }
+    }
 
 </script>
