@@ -2112,10 +2112,10 @@
                 isValid = false;
             }
         }
-        if (empid === "") {
-            if (!firstInvalidField) firstInvalidField = "#IdMemberAdd";
-            // isValid = false;
-        }
+        // if (addedTeamMembers === 0) {
+        //     if (!firstInvalidField) firstInvalidField = "#IdMemberAdd";
+        //     // isValid = false;
+        // }
         if (rootcauseproblem === "") {
             $("#rootcauseProblem").css("border-color", "red");
             $("#rootProblemError").text("Root Cause Problem is required.");
@@ -2143,7 +2143,7 @@
         if (addedTeamMembers.length === 0) {
             $("#tableborder").css("border-color", "red");
             $("#TeammemberError").text("At least one team member must be added.");
-            if (!firstInvalidField) firstInvalidField = "#tableborder";
+            if (!firstInvalidField) firstInvalidField = "#IdMemberAdd";
             isValid = false;
         }
         if (benifitarea.length === 0) {
