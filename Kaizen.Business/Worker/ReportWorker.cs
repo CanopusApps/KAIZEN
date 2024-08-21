@@ -70,6 +70,40 @@ namespace Kaizen.Business.Worker
                 }
             }
         }
+        public byte[] ExportListToExcelDashboard<T>(List<T> list)
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Sheet1");
+
+                // Get the properties of the class
+                var properties = typeof(T).GetProperties();
+
+                // Add column headers
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    worksheet.Cell(1, i + 1).Value = properties[i].Name;
+                }
+
+                // Add rows with data
+                for (int i = 0; i < list.Count; i++)
+                {
+                    for (int j = 0; j < properties.Length; j++)
+                    {
+                        var value = properties[j].GetValue(list[i], null);
+                        worksheet.Cell(i + 2, j + 1).Value = value != null ? value.ToString() : string.Empty;
+                    }
+                }
+
+                // Save to memory stream and return as byte array
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    return stream.ToArray();
+                }
+            }
+        }
 
         public int GetCount(object data)
         {

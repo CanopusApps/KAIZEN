@@ -100,7 +100,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12 mb-4">
-                            <input type="button" id="CadreReport" value="Download Peport" class="btn btn-warning dow" onclick="changeCadreExportHref()" />
+                            <input type="button" id="CadreReport" value="Download Report" class="btn btn-warning dow" onclick="changeCadreExportHref()" />
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <canvas id="donutChart2"></canvas>
                             </div>
@@ -452,23 +452,31 @@
         return `${year}-${month}-${day}`;
     }
 
+    
     // Export functions
     function changeBlockExportHref() {
+        debugger;
         const dates = getFormattedDates();
-        const url = '@Url.Action("BlockForm", "Reports")';
+        const url = '@Url.Action("DasboardBlocks", "Reports")';
         window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
     }
 
     function changeDomainExportHref() {
         const dates = getFormattedDates();
-        const url = '@Url.Action("DomainForm", "Reports")';
+        const url = '@Url.Action("DasboardDomain", "Reports")';
         window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
     }
 
     function changeDepartmentExportHref() {
         const dates = getFormattedDates();
-        const url = '@Url.Action("DepartmentForm", "Reports")';
+        const url = '@Url.Action("DasboardDepartment", "Reports")';
         window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
     }
+
+    function changeCadreExportHref() {
+        const dates = getFormattedDates();
+        const url = '@Url.Action("DasboardCadre", "Reports")';
+        window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+    } 
 
 </script>

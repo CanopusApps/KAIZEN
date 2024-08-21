@@ -22,6 +22,7 @@ namespace Kaizen.Business.Interface
         public DataTable GetUsersReport(KaizenReportModel model);
 
         public byte[] ExportDataTableToExcel(DataTable dataTable);
+        public byte[] ExportListToExcelDashboard<T>(List<T> list);
         public int GetCount(object data);
     }
 }
