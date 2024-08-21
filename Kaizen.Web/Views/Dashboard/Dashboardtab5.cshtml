@@ -122,26 +122,37 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div id="barChartsSection" class="card bg-white border chart-container mt-4 mb-5 ml-2 mr-2 pb-4" style="display:none;">
                     <div class="row">
-                        <div class="col-lg-6 col-md-12 mb-4">
-                            <canvas id="barChart1"></canvas>
+                        <div class="col-lg-12 col-md-12 mb-4">
+                         
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <canvas id="barChart1" style="width: 100%;"></canvas>
+                            </div>
+                               <input type="button" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeBlockExportHref()" />
                         </div>
-                        <div class="col-lg-6 col-md-12 mb-4">
-                            <canvas id="barChart2"></canvas>
+                        <div class="col-lg-12 col-md-12 mb-4">
+                          
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <canvas id="barChart2" style="width: 100%;"></canvas>
+                            </div>
+                            <input type="button" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeCadreExportHref()" />
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6 col-md-12 mb-4">
-                            <canvas id="barChart3"></canvas>
+                        <div class="col-lg-12 col-md-12 mb-4">
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <canvas id="barChart3" style="width: 100%;"></canvas>
+                            </div>
+                            <input type="button" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeDomainExportHref()" />
                         </div>
-                        <div class="col-lg-6 col-md-12 mb-4">
-                            <canvas id="barChart4"></canvas>
+                        <div class="col-lg-12 col-md-12 mb-4">
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <canvas id="barChart4" style="width: 100%;"></canvas>
+                            </div>
+                            <input type="button" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeDepartmentExportHref()" />
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -284,20 +295,17 @@
                 plugins: [customLabelsPlugin]
             });
         }
-
         function createBarChart(chart, data, labels) {
             const ctxBar = $(`#${chart.id}`)[0].getContext('2d');
             return new Chart(ctxBar, {
                 type: 'bar',
                 data: {
-                    labels: [],
+                    labels: labels, // Added labels to the chart
                     datasets: [{
                         label: chart.label,
                         backgroundColor: generateColors(data.length),
                         borderWidth: 1,
                         data: data,
-                       
-
                     }]
                 },
                 options: {
@@ -316,25 +324,36 @@
                             position: 'top',
                             display: false,
                         },
+                        title: {
+                            display: true,
+                            text: chart.title, // Title text from chart object
+                            font: {
+                                size: 18, // Font size for the title
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 20,
+                            },
+                            align: 'center', // Center the title
+                        },
                         datalabels: {
                             display: true,
                             color: 'white',
-                            align: 'center', 
-                            anchor: 'center', 
+                            align: 'center',
+                            anchor: 'center',
                             formatter: (value) => {
                                 return value === 0 ? null : value;
                             },
                             padding: {
                                 top: 10
-                            },
+                            }
                         }
                     }
                 },
-                plugins: [ChartDataLabels], 
+                plugins: [ChartDataLabels],
             });
         }
 
-        // Initial chart rendering with default data
         donutCharts.forEach(chart => {
             chartInstances.push(createDonutChart(chart, [0, 0, 0], []));
         });
@@ -344,6 +363,7 @@
         });
 
         $('#btn_filter').click(function () {
+            debugger;
             let filterData = {};
             if ($('#filterYear1').is(':checked')) {
                 filterData.startDate = $('#yearDropdown').val();
@@ -398,7 +418,6 @@
                     });
                 },
                 error: function (error) {
-                    console.error('Error fetching chart data:', error);
                 },
                 complete: function () {
                     $('#loader-wrapper').hide();
@@ -418,17 +437,11 @@
             }
         });
     });
-</script>
-<script>
-    var today = new Date().toISOString().split('T')[0];
-    document.getElementById('dtstartdate').setAttribute('max', today);
-    document.getElementById('dtenddate').setAttribute('max', today);
-</script>
-<script>
+
     // Function to get formatted startDate and endDate
     function getFormattedDates() {
+        debugger;
         let startDate, endDate;
-        $('#btn_filter').click();
         // Retrieve the filter option
         if ($('#filterYear1').is(':checked')) {
             const selectedYear = $('#yearDropdown').val();
@@ -440,43 +453,79 @@
         }
 
         return {
-            startDate: formatDateForServer(startDate),
-            endDate: formatDateForServer(endDate)
+            startDate,
+            endDate
         };
     }
-
-    // Example date format function (adjust format as needed)
-    function formatDateForServer(date) {
-        // Assuming the date format is YYYY-MM-DD, adjust as needed
-        const [day, month, year] = date.split('-');
-        return `${year}-${month}-${day}`;
+    function downloadExcelFile(url, dates) {
+        fetch(`${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/vnd.ms-excel'
+            }
+        })
+            .then(response => response.blob())
+            .then(blob => {
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = 'report.xlsx'; // You can set the name of the downloaded file here
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(() => {
+                location.reload();
+            });
     }
 
-    
-    // Export functions
     function changeBlockExportHref() {
-        debugger;
-        const dates = getFormattedDates();
-        const url = '@Url.Action("DasboardBlocks", "Reports")';
-        window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+        $('#btn_filter').click();
+        try {
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardBlocks", "Reports")';
+            downloadExcelFile(url, dates);
+        } catch {
+            location.reload();
+        }
     }
 
     function changeDomainExportHref() {
-        const dates = getFormattedDates();
-        const url = '@Url.Action("DasboardDomain", "Reports")';
-        window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+        $('#btn_filter').click();
+        try {
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardDomain", "Reports")';
+            downloadExcelFile(url, dates);
+        } catch {
+            location.reload();
+        }
     }
 
     function changeDepartmentExportHref() {
-        const dates = getFormattedDates();
-        const url = '@Url.Action("DasboardDepartment", "Reports")';
-        window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
+        try {
+            $('#btn_filter').click(); // Ensure filter is applied
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardDepartment", "Reports")';
+            downloadExcelFile(url, dates);
+        } catch {
+            location.reload();
+        }
     }
 
     function changeCadreExportHref() {
-        const dates = getFormattedDates();
-        const url = '@Url.Action("DasboardCadre", "Reports")';
-        window.location.href = `${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`;
-    } 
+        try {
+            $('#btn_filter').click(); // Ensure filter is applied
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardCadre", "Reports")';
+            downloadExcelFile(url, dates);
+        } catch {
+            location.reload();
+        }
+    }
 
+</script>
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
 </script>

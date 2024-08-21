@@ -3099,6 +3099,7 @@
                         else if(statusDesc === statusdetails.submitted && userRole != 'EMPLOYEE')
                         {
                             $('#approvers').show();
+                            $('#btnUpdateKaizen').show();
                         }
                         else{
                             $('#approvers').hide();
@@ -3122,6 +3123,18 @@
                             if(statusDesc === statusdetails.saved)
                             {
                                  $('#updateItButton').show();
+                            }
+                        }
+                        if(statusDesc !== statusdetails.submitted && userRole === 'EMPLOYEE')
+                        {
+                            $('#updateItButton').hide();
+                            if (statusDesc === statusdetails.saved  ) {
+                                 $('#updateItButton').show();
+                                  $('#btnUpdateKaizen').show();
+                            }
+                            if( statusDesc === statusdetails.kaizenwithoutImages)
+                            {
+                                $('#updateItButton').show();
                             }
                         }
                         if(result.approverslist[0].financeEmail == "")
@@ -3158,7 +3171,7 @@
                         
                         $("#docNo").val(result.kaizenList[0].docNo);
                         $('#printPDF').show();
-                        $('#btnUpdateKaizen').show();
+                        // $('#btnUpdateKaizen').show();
                         $('#btnSubmittedStatus').show(); 
                         $('#btnSaveKaizen').hide();
                         $('#btnSubmitKaizen').hide();

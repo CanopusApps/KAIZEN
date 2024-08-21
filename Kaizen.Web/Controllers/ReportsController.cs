@@ -134,7 +134,7 @@ namespace Kaizen.Web.Controllers
                 return View();
             }
         }
-
+        [HttpGet]
         public IActionResult DasboardCadre(string? StartDate, string? EndDate)
         {
             DashboardModel model = new DashboardModel()
@@ -166,7 +166,7 @@ namespace Kaizen.Web.Controllers
                 return View();
             }
         }
-
+        [HttpGet]
         public IActionResult DasboardDomain(string? StartDate, string? EndDate)
         {
             DashboardModel model = new DashboardModel()
@@ -198,6 +198,7 @@ namespace Kaizen.Web.Controllers
                 return View();
             }
         }
+        [HttpGet]
         public IActionResult DasboardDepartment(string? StartDate, string? EndDate)
         {
             DashboardModel model = new DashboardModel()
@@ -209,7 +210,7 @@ namespace Kaizen.Web.Controllers
             try
             {
                 // Get the list of data
-                var list = _dashboardworker.kaizenCountbasedonBlocks(model)
+                var list = _dashboardworker.kaizenCountbasedonDepartment(model)
                     .Select(item => new
                     {
                         Departmentid = item.Departmentid,
