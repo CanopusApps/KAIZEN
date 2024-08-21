@@ -94,12 +94,22 @@
     }
     .menupadding
     {
-        font-weight:bold;
+        font-weight: bold;
+        padding-top: 10px; /* Adjust the top padding */
+        padding-bottom: 10px; /* Adjust the bottom padding */
+        font-size: 15px; /* Consistent font size for all headings */
+        margin-bottom: 5px; /* Remove extra space below headings */
+        
     }
 
         .menupaddingsub
         {
-            margin-top:-10px;
+        padding: 10px 15px; /* Consistent padding */
+        margin: 0; /* Remove extra margin */
+        display: flex; /* Flex layout */
+        justify-content: space-between; /* Spread content and icon */
+        align-items: center; /* Vertically center items */
+        white-space: nowrap; /* Prevent text wrapping */
         }
 
     #page-content-wrapper {
@@ -114,7 +124,8 @@
         width: 100%;
         background-color: #ffffff;
         text-align: center;
-        padding: 5px 0;
+        padding: 10px 0;
+
     }
 
     body {
@@ -125,7 +136,78 @@
     font-size: 13px!important;
     }
 
+    /*Line height changes */
 
+
+    #sidebar-wrapper{
+        width:192px !important;
+        overflow-x: hidden; /* Prevent horizontal overflow issues */
+    }
+
+    .list-group-item {
+        padding: 0.5rem 1rem; /* Adjust padding as needed */
+        font-size: 25px; /* Consistent font size */
+        font-weight: bold; /* Consistent font weight */
+        display: flex; /* Flex layout for alignment */
+        justify-content: space-between; /* Spread content and icon */
+        align-items: center; /* Vertically center items */
+        white-space: nowrap; /* Prevent text wrapping */
+        margin: 0; /* Remove margin */
+    }
+
+    .sub-menu .list-group-item {
+        padding: 5px 15px; /* Adjust padding for sub-menu items */
+        margin-left: 20px; /* Optional: adjust margin for sub-menu items */
+       font-size: 13px; /* Increase font size for sub-menu items under "Masters" */
+        margin-bottom: 0; /* Remove extra space between sub-menu items */
+    }
+
+    #sidebar-wrapper .list-group-item {
+        margin-bottom: 3px; /* Reduce margin to decrease space between items */
+    }
+
+    .textSize {
+        font-size: 14px; /* Adjust the font size if needed */
+    }
+
+    .textfor {
+        font-size: 13px !important;
+    }
+
+    #demo, #demo1 {
+        margin-top: 0; /* Remove space below "Masters" and "Evaluation Criteria" */
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+
+    .fa-sharp.fa-solid.fa-chevron-down {
+        flex-shrink: 0; /* Prevent icon from shrinking or moving to a new line */
+    }
+  
+
+    /*Profile and logout dropdown*/
+    .dropdown-menu {
+    width: 200px; /* Adjust width as needed */
+}
+
+.dropdown-item {
+    font-size: 14px !important; /* Adjust font size as needed */
+}
+
+    label {
+        margin: 0;
+        padding: 0;
+    }
+
+    span {
+        margin: -1px;
+        padding: 0;
+    }
+
+        .no-space {
+        margin: 0;
+        padding: 0;
+        display: inline;
+    }
 </style>
 <script>
     (function () {
@@ -151,15 +233,15 @@
     <div id="wrapper" class="d-flex flex-column">
      
         <nav class="navbar navbar-expand-lg navbar-light" id="container-header" style="background-color: #2dc3e8!important;">
-            
+
             <a class="navbar-brand align-items-center" href="#">
                 <img class="logo ml-5" src="~/assets/img/Tata_Logo2 (1).svg" alt="Tata Logo" />
-                <label class="text-uppercase text-white ml-3 mr-3" style=" font-size: x-large;">Tepl Kaizen Idea</label>
-                <label class=" mx-5 ml-3" style="color:white; font-size: large;" loginbox-title>
+                <label class="text-uppercase text-white ml-3 mr-3" style="font-size: x-large;">Tepl Kaizen Idea</label>
+                <label class="mx-5 ml-3" style="color:white; font-size: large;" loginbox-title>
                     Kaizen Winner for this month is
-                    <span style="color:#3085C3;   font-weight:bold; font-size: x-large;">
+                    <span style="color:#3085C3; font-weight:bold; font-size: x-large;">
                         @selectedTheme
-                    </span>.
+                    </span><span style="font-size: large;">.</span>
                     Congratulations Team!
                 </label>
             </a>
@@ -213,7 +295,7 @@
                     {
                         <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
                         <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
-                        <a href="/SubmittedKaizen/DeletedKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Deleted Kaizens(<label style="font-size:15px" id="deleteApprovalCountLabel"></label>)</a>
+                        <a href="/SubmittedKaizen/DeletedKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px; display:inline;">Deleted Kaizens(<label style="font-size:15px" id="deleteApprovalCountLabel"></label>)</a>
                         <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize" style="font-size:15px;" data-toggle="collapse" data-target="#demo">Masters<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
                         <div class="sub-menu collapse menupadding" id="demo">
                             <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">Blocks</a>
