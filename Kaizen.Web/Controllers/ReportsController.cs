@@ -9,16 +9,20 @@ using System.IO;
 using System.Threading.Tasks;
 //using NPOI.POIFS.Storage;
 using Kaizen.Data.Constant;
+using Kaizen.Business.Worker;
+using Kaizen.Models.DashboardModel;
 
 namespace Kaizen.Web.Controllers
 {
     public class ReportsController : Controller
     {
         private readonly IReport _downloadexcel;
+        private readonly IDashboard _dashboardworker;
 
-        public ReportsController(IReport reportworker)
+        public ReportsController(IReport reportworker, IDashboard dashboardworker)
         {
             _downloadexcel = reportworker;
+            _dashboardworker = dashboardworker;
         }
 
         public IActionResult ReportDownload()
@@ -92,6 +96,135 @@ namespace Kaizen.Web.Controllers
             }
             catch (Exception ex)
             {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View();
+            }
+        }
+
+        //Dashboard Reports
+        [HttpGet]
+        public IActionResult DasboardBlocks(string? StartDate, string? EndDate)
+        {
+            DashboardModel model = new DashboardModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+            };
+
+            try
+            {
+                // Get the list of data
+                var list = _dashboardworker.kaizenCountbasedonBlocks(model)
+                    .Select(item => new
+                    {
+                        Blockid = item.Blockid,
+                        Blockname = item.Blockname,
+                        TotalKaizensubmitted = item.TotalSubmittedKaizen
+                    }).ToList();
+
+                // Export to Excel and return the file
+                return File(_downloadexcel.ExportListToExcelDashboard(list),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "BlocksReport.xlsx");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and return the view
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View();
+            }
+        }
+
+        public IActionResult DasboardCadre(string? StartDate, string? EndDate)
+        {
+            DashboardModel model = new DashboardModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+            };
+
+            try
+            {
+                // Get the list of data
+                var list = _dashboardworker.kaizenCountbasedonCadre(model)
+                    .Select(item => new
+                    {
+                        cadreid = item.Cadreid,
+                        cadrename = item.Cadrename,
+                        TotalKaizensubmitted = item.TotalSubmittedKaizen
+                    }).ToList();
+
+                // Export to Excel and return the file
+                return File(_downloadexcel.ExportListToExcelDashboard(list),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "CadreReport.xlsx");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and return the view
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View();
+            }
+        }
+
+        public IActionResult DasboardDomain(string? StartDate, string? EndDate)
+        {
+            DashboardModel model = new DashboardModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+            };
+
+            try
+            {
+                // Get the list of data
+                var list = _dashboardworker.kaizenCountbasedonDomain(model)
+                    .Select(item => new
+                    {
+                        Domainid = item.Domainid,
+                        Domainname = item.Domainname,
+                        TotalKaizensubmitted = item.TotalSubmittedKaizen
+                    }).ToList();
+
+                // Export to Excel and return the file
+                return File(_downloadexcel.ExportListToExcelDashboard(list),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "DomainReport.xlsx");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and return the view
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View();
+            }
+        }
+        public IActionResult DasboardDepartment(string? StartDate, string? EndDate)
+        {
+            DashboardModel model = new DashboardModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+            };
+
+            try
+            {
+                // Get the list of data
+                var list = _dashboardworker.kaizenCountbasedonBlocks(model)
+                    .Select(item => new
+                    {
+                        Departmentid = item.Departmentid,
+                        Departmentname = item.Departmentname,
+                        TotalKaizensubmitted = item.TotalSubmittedKaizen
+                    }).ToList();
+
+                // Export to Excel and return the file
+                return File(_downloadexcel.ExportListToExcelDashboard(list),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "DepartmentReport.xlsx");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and return the view
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
                 return View();
             }
