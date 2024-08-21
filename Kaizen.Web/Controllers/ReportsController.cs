@@ -209,7 +209,7 @@ namespace Kaizen.Web.Controllers
             try
             {
                 // Get the list of data
-                var list = _dashboardworker.kaizenCountbasedonBlocks(model)
+                var list = _dashboardworker.kaizenCountbasedonDepartment(model)
                     .Select(item => new
                     {
                         Departmentid = item.Departmentid,
