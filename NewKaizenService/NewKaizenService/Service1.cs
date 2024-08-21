@@ -35,9 +35,9 @@ namespace NewKaizenService
             {
                 ScheduleTimer = new Timer(new TimerCallback(SendMail));
                 DateTime ScheduleTime = DateTime.MinValue;
-                ScheduleTime = DateTime.Parse("17:15 PM");// Need to change trigger time
+                ScheduleTime = DateTime.Parse(ConfigurationManager.AppSettings["TriggerTime"]);// Need to change trigger time
                 if (DateTime.Now > ScheduleTime)
-                    ScheduleTime = ScheduleTime.AddMinutes(5); // Need to change the schedule time
+                    ScheduleTime = ScheduleTime.AddMinutes(Convert.ToInt32(ConfigurationManager.AppSettings["From"])); // Need to change the schedule time
                 TimeSpan timespan =ScheduleTime.Subtract(DateTime.Now);
                 int dueMilliSecond = Convert.ToInt32(timespan.TotalMilliseconds);
                 ScheduleTimer.Change(dueMilliSecond, Timeout.Infinite);
