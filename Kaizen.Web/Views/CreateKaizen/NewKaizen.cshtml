@@ -17,6 +17,9 @@
     Layout = "SidebarLayout";
 }
 <style>
+    .temp-show {
+        display: block !important;
+    }
     .approved {
         color: green;
     }
@@ -486,7 +489,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>BEFORE</label> <br>
-                                                        <div class="inpfilelabel" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/before-img.jpg" height="170" />' title="BEFORE [Example]">
+                                                            <div class="inpfilelabel" id="inpfilelabelbefore" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/before-img.jpg" height="170" />' title="BEFORE [Example]">
                                                             <input id="attach_file_before" type="file" name="files" style="display: none;" onchange="previewImage(event, 'uploaded_before_image')">
                                                             <label for="attach_file_before" class="file-drag">
                                                                 <div class="row upload-interface">
@@ -500,12 +503,13 @@
                                                             <span class="uploaded_image" id="uploaded_before_image"></span>
                                                         </div>
                                                         <span class="responsemessage_img_before"></span>
+                                                            <span id="beforeerror" class="text-danger error-message"></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>AFTER</label> <br>
-                                                        <div class="inpfilelabel" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/after-img.jpg" height="170" />' title="AFTER [Example]">
+                                                        <div class="inpfilelabel" id="inpfilelabelafter" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/after-img.jpg" height="170" />' title="AFTER [Example]">
                                                             <input id="attach_file_after" type="file" name="files_a" style="display: none;" onchange="previewImage(event, 'uploaded_after_image')">
                                                             <label for="attach_file_after" class="file-drag">
                                                                 <div class="row upload-interface">
@@ -518,6 +522,7 @@
                                                             <span class="uploaded_image" id="uploaded_after_image"></span>
                                                         </div>
                                                         <span class="responsemessage_img_after"></span>
+                                                            <span id="aftererror" class="text-danger error-message"></span>
                                                     </div>
                                                 </div>
                                             </div><!-- row -->
@@ -1963,6 +1968,19 @@
                 $("#approvedbyIerror").text("");
             }
         });
+        $("#attach_file_before").on("input", function () {
+            if ($(this)[0].files.length > 0) {
+                $(this).css("border-color", "");
+                $("#beforeerror").text("");
+            }
+        });
+
+        $("#attach_file_after").on("input", function () {
+            if ($(this)[0].files.length > 0) {
+                $(this).css("border-color", "");
+                $("#aftererror").text("");
+            }
+        });
 
         var benifitarea = [];
         $('#checkboxform1 input[type=checkbox]:checked').each(function () {
@@ -1973,7 +1991,8 @@
         var plantName = $("#teplplant").val();
         var problemName = $("#probstmt").val();
         var counterMeasuremName = $("#countmeasur").val();
-        // var documentNo = $("#docNo").val();
+        var attachmentsbeforevalid = $("#attach_file_before").val();
+        var attachmentsaftervalid = $("#attach_file_after").val();
         var Driapproveddate = $("#driapproveddate").val();
         var versionNo = $("#versionNo").val();
         var codeCentre = $("#codeCentre").val();
@@ -1987,6 +2006,7 @@
         var PresentConditions = $("#presentCondition").val();
         var Improvements = $("#improvementsCompleted").val();
         var Benifits = $("#benefit").val();
+        var empid = $("#IdMemberAdd").val();
         var addedTeamMembers = [];
         
         $('#tblteammemberResult tbody tr').each(function () {
@@ -2009,13 +2029,32 @@
                 $("#BenifitareaError").text("");
             }
         });
-        // if (documentNo === "") {
-        //     $("#docNo").css("border-color", "red");
-        //     $("#docerror").text("Doc No is required.");
-        //     if (!firstInvalidField) firstInvalidField = "#docNo";
-        //     isValid = false;
-        // }
-        
+        if (attachmentsbeforevalid !== "") {
+            if (!attachmentsaftervalid) {
+                $("#inpfilelabelafter").css("border-color", "red");
+                $("#aftererror").text("Attachment After is required.");
+                if (!firstInvalidField) {
+                    firstInvalidField = "#attach_file_after";
+                    $("#attach_file_after").addClass("temp-show").focus();
+                    $("#attach_file_after").removeClass("temp-show");
+                }
+
+                isValid = false;
+            }
+        }
+
+        if (attachmentsaftervalid !== "") {
+            if (!attachmentsbeforevalid) {
+                $("#inpfilelabelbefore").css("border-color", "red");
+                $("#beforeerror").text("Attachment Before is required.");
+                if (!firstInvalidField) {
+                    firstInvalidField = "#attach_file_before";
+                    $("#attach_file_before").addClass("temp-show").focus();
+                    $("#attach_file_before").removeClass("temp-show");
+                }
+                isValid = false;
+            }
+        }
         if (versionNo === "") {
             $("#versionNo").css("border-color", "red");
             $("#versionerror").text("Version No is required.");
@@ -2072,6 +2111,10 @@
                 if (!firstInvalidField) firstInvalidField = "#approvedbyIe";
                 isValid = false;
             }
+        }
+        if (empid === "") {
+            if (!firstInvalidField) firstInvalidField = "#IdMemberAdd";
+            // isValid = false;
         }
         if (rootcauseproblem === "") {
             $("#rootcauseProblem").css("border-color", "red");
