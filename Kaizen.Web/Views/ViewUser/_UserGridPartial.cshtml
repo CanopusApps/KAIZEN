@@ -68,11 +68,11 @@
                 <th width="20%">NAME</th>
                 <th width="20%">EMAIL</th>
                 @* <th>GENDER</th> *@
-                <th width="10%">TOTAL KAIZEN POSTED</th>
+                <th width="5%">TOTAL KAIZEN POSTED</th>
                 <th width="10%">DOMAIN</th>
                 <th width="10%">DEPARTMENT</th>
                 <th width="10%">USER TYPE</th>
-                @*  <th>IMG APPROVAL</th> *@
+                <th width="5%">Image Approver</th>
                 <th width="5%">STATUS</th>
                 <th width="5%">ACTION</th>
             </tr>
@@ -87,13 +87,22 @@
                         <td width="20%">@User.Name</td>
                         <td width="20%">@User.Email</td>
                         @* <td>@User.Gender</td> *@
-                        <td width="10%">
+                        <td width="5%">
                             <a class="TotalKaizen" href="#" data-id="@User.Id" data-role="@User.role">@User.TotalKaizenPosted</a>
                         </td>
                         <td width="10%">@User.Domain</td>
                         <td width="10%">@User.Department</td>
                         <td width="10%">@User.UserType</td>
-                        @* <td><input type="checkbox" style="background-color:gray" @(User.ImageApprover == 1 ? "checked" : "") disabled /></td> *@
+                        <td width="5%">
+                            @if(User.ImageApprover == 1)
+                            {
+                                <span>Yes</span>
+                            }
+                            else
+                            {
+                                <span>No</span>
+                            }
+                        </td>
                         <td width="5%">
                             @if (@User.Status == 0)
                             {

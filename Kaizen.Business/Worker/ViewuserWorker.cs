@@ -97,7 +97,30 @@ namespace Kaizen.Business.Worker
             {
                 DataTable dataTable = _repositoryUserTypedata.ReadExcelIntoDataTable(filePath);
                 string resultMessage = Senddatatable(dataTable, Status, UserType, Password);
+                bool hasEmptyRow = false;
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    bool isEmptyRow = true;
+                    foreach (var item in row.ItemArray)
+                    {
+                        if (!string.IsNullOrWhiteSpace(item?.ToString()))
+                        {
+                            isEmptyRow = false;
+                            break;
+                        }
+                    }
 
+                    if (isEmptyRow)
+                    {
+                        hasEmptyRow = true;
+                        break;
+                    }
+                }
+
+                if (hasEmptyRow)
+                {
+                    return "The Excel file contains empty rows. Please check your data and try again.";
+                }
                 if (string.IsNullOrEmpty(resultMessage))
                 {
                     return "File uploaded and data processed successfully.";
