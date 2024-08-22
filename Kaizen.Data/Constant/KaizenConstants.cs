@@ -96,7 +96,7 @@ namespace Kaizen.Data.Constant
         public static string SpUpdatePassword = "Sp_UpdatePassword";
         //public static string Sp_Get_kaizenTheme_Autocomplete = "Sp_Get_kaizenTheme_Autocomplete";
         public static string SP_USERLOG = "SP_USERLOG";
-
+        public static string Sp_GetUserManagerupdate = "Sp_GetUserManagerupdate";
     }
 
     public class ConstantValue

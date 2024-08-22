@@ -17,5 +17,6 @@ namespace Kaizen.Data.DataServices
         public bool USERLOGOUT(string EmpId);
 
         public DataSet GetWinnerImages();
+        public DataSet usermanager1(string managerupt);
     }
 }

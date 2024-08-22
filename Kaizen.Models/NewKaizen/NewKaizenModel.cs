@@ -91,7 +91,8 @@ namespace Kaizen.Models.NewKaizen
         public List<UserGridModel> IEDepartList { get; set; }
         public List<TeamMemberDetails> MemberList { get; set; }
 		public List<DeploymentDetails> DeploymentList{ get; set; }
-
+        public List<ManagerModel> ManagerList { get; set; }
+        public List<ManagerModelUpdate> ManagerupdateList { get; set; }
         public List<NewKaizenModel> KaizenList { get; set; }
         public List<TeamMemberDetails> TeamList { get; set; }
         public List<DeploymentDetails> ScopeList { get; set; }
@@ -211,6 +212,12 @@ namespace Kaizen.Models.NewKaizen
         public string kaizenID { get; set; }
 
 
+    }
+    public class ManagerModelUpdate
+    {
+        public int MgrId { get; set; }
+        public string ManagerName { get; set; }
+        public string ManagerEmail { get; set; }
     }
 
 }

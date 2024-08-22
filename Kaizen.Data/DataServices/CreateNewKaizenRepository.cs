@@ -726,5 +726,28 @@ namespace Kaizen.Data.DataServices
 			}
 			return ;
         }
+        public DataSet Usermanagerforedit(string managerupt)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                SqlCommand com = new SqlCommand("Sp_GetUserManagerupdate", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@departid", managerupt);
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                con.Close();
+            }
+            return ds;
+        }
     }
 }

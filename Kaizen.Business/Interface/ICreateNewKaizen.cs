@@ -26,6 +26,6 @@ namespace Kaizen.Business.Interface
         public List<TeamMemberDetails> GetTeamDetailsUpdateById(string KaizenId);
         public DataTable GetAttachmentsByIdfordelete(string KaizenId,string AttachmentId);
         public void RemoveAttachment(Attachmentsimg attachment, string KaizenId);
-
+        public List<ManagerModelUpdate> Usermanagerforedit(string managerupt);
     }
 }
