@@ -137,6 +137,7 @@ namespace Kaizen.Web.Controllers
                                 HttpContext.Session.SetString("Department", row["DepartmentName"].ToString());
                                 HttpContext.Session.SetString("Domain", row["DomainName"].ToString());
                                 HttpContext.Session.SetString("UserID", row["ID"].ToString());
+                                HttpContext.Session.SetString("DepartmentId", row["DepartmentID"].ToString());
 
                                 // Image approver is true or false
                                 HttpContext.Session.SetString("ImageApprover", row["ImageApprover"].ToString());

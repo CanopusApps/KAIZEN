@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Kaizen.Data.Constant;
 using Kaizen.Models.AdminModel;
 using Microsoft.Extensions.Configuration;
@@ -179,6 +180,29 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
 
+        }
+        public DataSet usermanager1(string managerupt)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                SqlCommand com = new SqlCommand("Sp_GetUserManagerupdate", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@departid", managerupt);
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                con.Close();
+            }
+            return ds;
         }
     }
 }

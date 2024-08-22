@@ -3,7 +3,7 @@
 @inject IHttpContextAccessor Accessor
 @using Newtonsoft.Json;
 
-@{
+@* @{
     var managerListJson = Accessor.HttpContext.Session.GetString("ManagerList");
     List<ManagerModel> managerList = new List<ManagerModel>();
 
@@ -11,7 +11,7 @@
     {
         managerList = JsonConvert.DeserializeObject<List<ManagerModel>>(managerListJson);
     }
-}
+} *@
 @model NewKaizenModel;
 @{
     Layout = "SidebarLayout";
@@ -1049,12 +1049,21 @@
                                                                     <td class="align-middle align-items-center justify-content-center col-5">
                                                                     <select name="DRIApprovedBy" id="driapprovedby" class="mx-auto form-control col-9">
                                                                         @* <option>321256 - Pankaj Singh</option>  *@
-                                                                         @foreach (var manager in managerList)
+                                                                         @* @foreach (var manager in managerList)
                                                                         {
                                                                             <option value="@manager.MgrId">@manager.MgrId-@manager.ManagerName</option>
-                                                                        }
+                                                                        } *@
+                                                                            @if (Model.ManagerList != null)
+                                                                            {
+                                                                                foreach (var manager in Model.ManagerList)
+                                                                                {
+                                                                                    <option value="@manager.MgrId">@manager.MgrId - @manager.ManagerName</option>
+                                                                                }
+                                                                            }
 
                                                                     </select>
+                                                                        <select name="DRIApprovedBy" id="driapprovedbyUPDATE" class="mx-auto form-control col-9">
+                                                                        </select>
                                                                 </td>
                                                                 @* <td class="align-middle align-items-center justify-content-center col-3">
                                                                     <input type="text" class="mx-auto form-control col-4">
@@ -1475,6 +1484,7 @@
             $('#printPDF').hide(); 
             $('#btnUpdateKaizen').hide();
             $('#btnSubmittedStatus').hide();
+            $('#driapprovedbyUPDATE').hide();
 
             $('#backbtn').hide();
             $('#Srno').hide();
@@ -3175,7 +3185,8 @@
                         $('#btnSubmittedStatus').show(); 
                         $('#btnSaveKaizen').hide();
                         $('#btnSubmitKaizen').hide();
-
+                        $('#driapprovedbyUPDATE').show();
+                        $('#driapprovedby').hide();
                         // $('#Srno').show();
                         // $('#kaizenrefNo').show();
                         $('#DocumeNo').show();  
@@ -3323,6 +3334,15 @@
                             c4.style.width = '32%';
                             c5.style.border = 'white';
                             
+                        });
+                        //update managerlist
+                        var dropdown = document.getElementById('driapprovedbyUPDATE');
+                        result.managerupdateList.forEach(item => {
+                            var option = document.createElement('option');
+                            option.value = item.mgrId;
+                            //option.text = item.managerName;  // Assuming item has a property 'managerName'
+                            option.text = `${item.mgrId}-${item.managerName}`;
+                            dropdown.appendChild(option);
                         });
                         var mytable = document.getElementById("tblDeploymentrResult");
                         result.scopeList.forEach(item => {

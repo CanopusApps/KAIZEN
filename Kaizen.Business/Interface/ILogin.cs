@@ -18,7 +18,7 @@ namespace Kaizen.Business.Interface
 
         public bool USERLOGOUT(string EmpId);
 
-
+        public List<ManagerModel> Usermanager1(string managerupt);
         public List<LoginImageModel> FetchImages();
     }
 }

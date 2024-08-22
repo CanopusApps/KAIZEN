@@ -123,7 +123,8 @@ namespace Kaizen.Business.Worker
                         OriginatedDate = dr["OrigonatedDate"] != DBNull.Value ? ((DateTime)dr["OrigonatedDate"]).ToString("dd-MM-yyyy") : string.Empty,
                         OrigionatedDept = dr["OrigionatedDept"].ToString(),
                         OriginatedBy= dr["OriginatedBy"].ToString(),
-                        Dept = dr["Dept"].ToString()
+                        Dept = dr["Dept"].ToString(),
+                        Department = dr["DepartmentID"].ToString()
                     });
                 }
             }
@@ -272,7 +273,26 @@ namespace Kaizen.Business.Worker
             _createNewKaizenRepository.RemoveAttachment(attachment, KaizenId);
         }
 
+        public List<ManagerModelUpdate> Usermanagerforedit(string managerupt)
+        {
+            DataSet ds;
+            ds = _createNewKaizenRepository.Usermanagerforedit(managerupt);
+            List<ManagerModelUpdate> ManagerList = new List<ManagerModelUpdate>();
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    ManagerList.Add(new ManagerModelUpdate
+                    {
+                        MgrId = Convert.ToInt32(dr["Mgrid"]),
+                        ManagerName = dr["ManagerName"].ToString(),
+                        ManagerEmail = dr["ManagerEmail"].ToString()
+                    });
+                }
+            }
 
+            return ManagerList;
+        }
     }
 
 }

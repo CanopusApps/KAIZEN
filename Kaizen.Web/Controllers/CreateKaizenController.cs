@@ -25,18 +25,20 @@ namespace Kaizen.Web.Controllers
         private readonly IBlock _blockWorker;
         private readonly IViewuser _viewuserWorker;
         private readonly ICreateNewKaizen _createNewKaizen;
+        private readonly ILogin _loginworker;
         //private readonly string _uploadspath;
         private readonly NewKaizenModel _infoSettings; 
 
         NewKaizenModel model = new NewKaizenModel();
 
-        public CreateKaizenController(IBlock worker, IViewuser viewuserworker  , ICreateNewKaizen kaizenWorker, IHttpContextAccessor conAccessor, IOptions<NewKaizenModel> infoSettings)
+        public CreateKaizenController(IBlock worker, IViewuser viewuserworker  , ICreateNewKaizen kaizenWorker, IHttpContextAccessor conAccessor, IOptions<NewKaizenModel> infoSettings, ILogin loginworker)
         {
             _blockWorker = worker;
             _viewuserWorker = viewuserworker;
             _createNewKaizen = kaizenWorker;
             this.conAccessor = conAccessor;
             _infoSettings = infoSettings.Value;
+            _loginworker = loginworker;
         }
         public ActionResult KaizenModalPopupPartial()
         {
@@ -59,6 +61,8 @@ namespace Kaizen.Web.Controllers
                 model.Department = conAccessor.HttpContext.Session.GetString("Department");
                 model.BlockList = activeBlocks;
                 model.IEDepartList = _viewuserWorker.GetIEDepart();
+                var managerupt = conAccessor.HttpContext.Session.GetString("DepartmentId");
+                model.ManagerList = _loginworker.Usermanager1(managerupt);
                 //model = _createNewKaizen.GetKaizenOriginatedby(model);
                 DateTime currentDate  = DateTime.Today;
                 model.OriginatedDate = currentDate.ToString("dd-MM-yyyy");
@@ -248,6 +252,8 @@ namespace Kaizen.Web.Controllers
         {
             NewKaizenModel viewModel = new NewKaizenModel();
             viewModel.KaizenList= _createNewKaizen.GetKaizenDetailsById(KaizenId);
+            var managerupt = viewModel.KaizenList[0].Department;
+            viewModel.ManagerupdateList = _createNewKaizen.Usermanagerforedit(managerupt) ?? new List<ManagerModelUpdate>();
             viewModel.TeamList = _createNewKaizen.GetTeamDetailsById(KaizenId);
             viewModel.ScopeList = _createNewKaizen.GetScopeDetailsById(KaizenId);
             viewModel.Approverslist= _createNewKaizen.GetApproversByID(KaizenId);
