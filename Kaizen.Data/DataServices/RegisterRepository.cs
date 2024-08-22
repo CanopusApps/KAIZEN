@@ -95,9 +95,11 @@ namespace Kaizen.Data.DataServices
                 SqlCommand com = new SqlCommand(StoredProcedures.Sp_Register, con);
                 com.CommandType = CommandType.StoredProcedure;
                 com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@UserID", registermodel.Name ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@UserID", registermodel.EmpId ?? (object)DBNull.Value);
                 com.Parameters.AddWithValue("@EmpID", registermodel.EmpId ?? (object)DBNull.Value);
-                com.Parameters.AddWithValue("@FirstName", registermodel.Name ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@FirstName", registermodel.FirstName ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@MiddleName", registermodel.MiddleName ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@LastName", registermodel.LastName ?? (object)DBNull.Value);
                 com.Parameters.AddWithValue("@Gender", registermodel.Gender ?? (object)DBNull.Value);
                 com.Parameters.AddWithValue("@Did", registermodel.Did);
                 com.Parameters.AddWithValue("@Deptid", registermodel.DeptId);

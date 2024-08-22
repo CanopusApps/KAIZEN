@@ -57,8 +57,9 @@ public JsonResult RegisterUser(RegisterModel user)
         // Remove unnecessary model state entries
         ModelState.Remove(nameof(user.Domains));
         ModelState.Remove(nameof(user.Departments));
+         ModelState.Remove("MiddleName");
 
-        if (ModelState.IsValid)
+            if (ModelState.IsValid)
         {
             if (user.Did == 0 || user.DeptId == 0)
             {

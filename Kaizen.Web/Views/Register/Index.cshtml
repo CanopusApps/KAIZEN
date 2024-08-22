@@ -57,7 +57,7 @@
     @Html.AntiForgeryToken()
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="card margin-top-50 mx-5">
                     <img src="\assets\img\tatalogo.png" alt="Logo" class="logo">
                     <div class="loginbox-title" style="font-size: 25px;font-weight: bold;">
@@ -65,58 +65,91 @@
                     </div>
                     <div style="text-align: center;font-size:14px;">Register with your Details</div>
                     <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label" })
-                                <span id="NameError" class="error-message">*</span>
-                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Please Enter Your Name" } })
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    @Html.LabelFor(model => model.FirstName, "First Name", htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
+                                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "Please Enter Your First Name" } })
+                                <span id="FirstNameError" class="error-message"></span>
+                           
+
                             </div>
-                            <div class="col-md-6">
-                                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
-                                <span id="GenderError" class="error-message">*</span>
-                                <div class="container border rounded p-1">
-                                    <label class="radio-inline">
-                                        <input type="radio" id="GenderMale" name="Gender" value="Male" @(Model.Gender == "Male" ? "checked" : "") /> Male
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="GenderFemale" name="Gender" value="Female" @(Model.Gender == "Female" ? "checked" : "")  /> Female
-                                    </label>
+
+                                <div class="col-md-6">
+                                    @Html.LabelFor(model => model.MiddleName, "Middle Name", htmlAttributes: new { @class = "control-label" })
+                                    <input type="text" asp-for="MiddleName" id="MiddleName" name="MiddleName" class="form-control txt-width" placeholder="Middle Name">
+                                  
                                 </div>
                             </div>
-                        </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    @Html.LabelFor(model => model.LastName, "Last Name", htmlAttributes: new { @class = "control-label" })
+                                    <span class="text-danger">*</span>
+                                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Please Enter Your Last Name" } })
+                                <span id="LastNameError" class="error-message"></span>
+
+                            </div>
+                                <div class="col-md-6">
+                                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
+                                    <span class="text-danger">*</span>
+                                    <div class="container border rounded p-1 ">
+                                        <label class="radio-inline">
+                                        <input type="radio" id="GenderMale" name="Gender" value="Female" @(Model.Gender == "Male" ? "checked" : "") /> Male
+
+                                    </label>
+                                        <label class="radio-inline">
+                                        <input type="radio" id="GenderFemale" name="Gender" value="Female" @(Model.Gender == "Female" ? "checked" : "") /> Female
+
+                                    </label>
+                                        <label class="radio-inline">
+                                        <input type="radio" id="GenderOther" name="Gender" value="Female" @(Model.Gender == "Other" ? "checked" : "") /> Other
+
+                                    </label>
+                                       
+                                    </div>
+                                <span id="GenderError" class="error-message"></span>
+                                </div>
+                            </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
-                                <span id="EmpIdError" class="error-message">*</span>
+                                <span  class="error-message">*</span>
                                 @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control", placeholder = "Employee ID" } })
+                                <span id="EmpIdError" class="error-message"></span>
+
+
                             </div>
                             <div class="col-md-6">
                                 @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
-                                <span id="PasswordError" class="error-message">*</span>
+                                <span  class="error-message">*</span>
                                 <div class="editor-container">
                                     @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Please Enter your Password" })
+                                    <span id="PasswordError" class="error-message"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                                <span id="DidError" class="error-message"></span>
+                                <span class="error-message"></span>
                                 @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "--Select Domain--", new { @id = "Did", @class = "form-control" })
+                                <span id="DidError" class="error-message"></span>
                             </div>
                             <div class="col-md-6">
-                                @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                                <span id="DeptIdError" class="error-message"></span>
+                                @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })
+                                <span  class="error-message">*</span>
                                 <select Asp-for="DeptId" name="DeptId" id="inputDepartment" class="form-control">
                                     <option selected>--Select Department--</option>
                                 </select>
+                                <span id="DeptIdError" class="error-message"></span>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.Phoneno, "Phone Number", htmlAttributes: new { @class = "control-label" })
-                                <span id="PhonenoError" class="error-message">*</span>
+                                <span class="error-message">*</span>
                                 @Html.EditorFor(model => model.Phoneno, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone Number" } })
+                                <span id="PhonenoError" class="error-message"></span>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -127,6 +160,7 @@
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
                         <button type="submit" class="btn btn-block btn-azure" id="registerButton">Register Me In</button>
                         <div class="row mb-3">
                             <div>
@@ -147,170 +181,211 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-  
-        function ValidateForm() {
-            var isValid = true;
-            $(".error-message").text(""); // Clear error messages
-            $(".form-control").css("border-color", ""); // Reset border color
+    $(document).ready(function () {
+    function ValidateForm() {
+        var isValid = true;
+        $(".error-message").text(""); // Clear error messages
+        $(".form-control").css("border-color", ""); // Reset border color
 
-            var NameValue = $("#Name").val().trim();
-            var GenderValue = $("input[name='Gender']:checked").val();
-            var EmpIdValue = $("#EmpId").val().trim();
-            var PasswordValue = $("#Password").val().trim();
-            var DidValue = $("#Did").val().trim();
-            var DeptIdValue = $("#inputDepartment").val().trim();
-            var PhonenoValue = $("#Phoneno").val().trim();
-            var EmailValue = $("#Email").val().trim();
+        var FirstNameValue = $("#FirstName").val().trim();
+        var LastNameValue = $("#LastName").val().trim();
+        var GenderValue = $("input[name='Gender']:checked").val();
+        var EmpIdValue = $("#EmpId").val().trim();
+        var PasswordValue = $("#Password").val().trim();
+        var DidValue = $("#Did").val().trim();
+        var DeptIdValue = $("#inputDepartment").val().trim();
+        var PhonenoValue = $("#Phoneno").val().trim();
+        var EmailValue = $("#Email").val().trim();
 
-
-            //Name Validation
-            var nameRegex = /^[a-zA-Z]+$/;
-            if (NameValue === "") {
-                $("#Name").css("border-color", "red");
-                $("#NameError").text("Name is required.");
-                isValid = false;
-            } else if (NameValue.length > 50) {
-                $("#Name").css("border-color", "red");
-                $("#NameError").text("Name cannot be longer than 50 characters.");
-                isValid = false;
-            } else if (!nameRegex.test(NameValue)) {
-                $("#Name").css("border-color", "red");
-                $("#NameError").text("Name can only contain letters.");
-                isValid = false;
-            }
-
-            // Gender validation
-            var genderRegex = /^(Male|Female)$/;
-            if (!GenderValue) {
-                $("#GenderMale, #GenderFemale").css("border-color", "red");
-                $("#GenderError").text("Gender is required.");
-                isValid = false;
-            } else if (!genderRegex.test(GenderValue)) {
-                $("#GenderMale, #GenderFemale").css("border-color", "red");
-                $("#GenderError").text("Gender must be Male or Female.");
-                isValid = false;
-            }
-
-            // Employee ID validation
-            var empIdRegex = /^\d{6}$/;
-            if (EmpIdValue === "") {
-                $("#EmpId").css("border-color", "red");
-                $("#EmpIdError").text("Employee ID is required.");
-                isValid = false;
-            } else if (!empIdRegex.test(EmpIdValue)) {
-                $("#EmpId").css("border-color", "red");
-                $("#EmpIdError").text("Employee ID must be a number with exactly 6 digits.");
-                isValid = false;
-            }
-
-            //Password Validation
-            if (PasswordValue === "") {
-                $("#Password").css("border-color", "red");
-                $("#PasswordError").text("Password is required.");
-                isValid = false;
-            } else if (PasswordValue.length < 6 || PasswordValue.length > 10) {
-                $("#Password").css("border-color", "red");
-                $("#PasswordError").text("Password must be between 6 and 10 characters.");
-                isValid = false;
-            }
-
-            //Domain Validation
-            if (DidValue === "" || DidValue === "--Select Domain--") {
-                $("#Did").css("border-color", "red");
-                $("#DidError").text("Domain is required.");
-                isValid = false;
-            }
-
-            //Department Validation
-            if (DeptIdValue === "" || DeptIdValue === "--Select Department--") {
-                $("#inputDepartment").css("border-color", "red");
-                $("#DeptIdError").text("Department is required.");
-                isValid = false;
-            }
-
-            //Phone No. Validation
-            var phoneRegex = /^\d{10}$/;
-            if (PhonenoValue === "") {
-                $("#Phoneno").css("border-color", "red");
-                $("#PhonenoError").text("Phone Number is required.");
-                isValid = false;
-            } else if (!phoneRegex.test(PhonenoValue)) {
-                $("#Phoneno").css("border-color", "red");
-                $("#PhonenoError").text("Invalid Phone Number.");
-                isValid = false;
-            }
-             return isValid;
+        // First Name Validation
+        var FirstnameRegex = /^[a-zA-Z]+$/;
+        if (FirstNameValue === "") {
+            $("#FirstName").css("border-color", "red");
+            $("#FirstNameError").text("First Name is required.");
+            isValid = false;
+        } else if (FirstNameValue.length > 50) {
+            $("#FirstName").css("border-color", "red");
+            $("#FirstNameError").text("First Name cannot be longer than 50 characters.");
+            isValid = false;
+        } else if (!FirstnameRegex.test(FirstNameValue)) {
+            $("#FirstName").css("border-color", "red");
+            $("#FirstNameError").text("First Name can only contain letters.");
+            isValid = false;
         }
-   
+
+        // Last Name Validation
+        var LastnameRegex = /^[a-zA-Z]+$/;
+        if (LastNameValue === "") {
+            $("#LastName").css("border-color", "red");
+            $("#LastNameError").text("Last Name is required.");
+            isValid = false;
+        } else if (LastNameValue.length > 50) {
+            $("#LastName").css("border-color", "red");
+            $("#LastNameError").text("Last Name cannot be longer than 50 characters.");
+            isValid = false;
+        } else if (!LastnameRegex.test(LastNameValue)) {
+            $("#LastName").css("border-color", "red");
+            $("#LastNameError").text("Last Name can only contain letters.");
+            isValid = false;
+        }
+
+        // Gender Validation
+        if (!GenderValue) {
+            $("#GenderMale, #GenderFemale, #GenderOther").css("border-color", "red");
+            $("#GenderError").text("Gender is required.");
+            isValid = false;
+        }
+
+        // Employee ID Validation
+        var empIdRegex = /^\d{6}$/;
+        if (EmpIdValue === "") {
+            $("#EmpId").css("border-color", "red");
+            $("#EmpIdError").text("Employee ID is required.");
+            isValid = false;
+        } else if (!empIdRegex.test(EmpIdValue)) {
+            $("#EmpId").css("border-color", "red");
+            $("#EmpIdError").text("Employee ID must be a number with exactly 6 digits.");
+            isValid = false;
+        }
+
+        // Password Validation
+        if (PasswordValue === "") {
+            $("#Password").css("border-color", "red");
+            $("#PasswordError").text("Password is required.");
+            isValid = false;
+        } else if (PasswordValue.length < 6 || PasswordValue.length > 10) {
+            $("#Password").css("border-color", "red");
+            $("#PasswordError").text("Password must be between 6 and 10 characters.");
+            isValid = false;
+        }
+
+        // Domain Validation
+        if (DidValue === "" || DidValue === "--Select Domain--") {
+            $("#Did").css("border-color", "red");
+            $("#DidError").text("Domain is required.");
+            isValid = false;
+        }
+
+        // Department Validation
+        if (DeptIdValue === "" || DeptIdValue === "--Select Department--") {
+            $("#inputDepartment").css("border-color", "red");
+            $("#DeptIdError").text("Department is required.");
+            isValid = false;
+        }
+
+        // Phone Number Validation
+        var phoneRegex = /^\d{10}$/;
+        if (PhonenoValue === "") {
+            $("#Phoneno").css("border-color", "red");
+            $("#PhonenoError").text("Phone Number is required.");
+            isValid = false;
+        } else if (!phoneRegex.test(PhonenoValue)) {
+            $("#Phoneno").css("border-color", "red");
+            $("#PhonenoError").text("Invalid Phone Number.");
+            isValid = false;
+        }
+
+      
+
+        return isValid;
+    }
+
+      // Clear error messages on input
+    $(".form-control").on('input', function () {
+        $(this).css("border-color", ""); // Reset border color
+        var errorId = $(this).attr('id') + 'Error';
+        $("#" + errorId).text(""); // Clear error message
+    });
+
+    // Clear error messages on radio button change
+    $("input[name='Gender']").on('change', function () {
+        $("#GenderMale, #GenderFemale, #GenderOther").css("border-color", ""); // Reset border color
+        $("#GenderError").text(""); // Clear error message
+    });
+
+    // Clear error messages on department dropdown change
+    $("#Did").on('change', function () {
+        $("#Did").css("border-color", ""); // Reset border color
+        $("#DidError").text(""); // Clear error message
+    });
+
+    $("#inputDepartment").on('change', function () {
+        $("#inputDepartment").css("border-color", ""); // Reset border color
+        $("#DeptIdError").text(""); // Clear error message
+    });
+
+
     // Fetch departments based on selected domain
-        $('#Did').change(function () {
-            var Domain = $('#Did').val().trim();
-            $.ajax({
-                type: 'GET',
-                url: '/Register/FetchDepartment',
-                dataType: "json",
-                data: { DomainID: Domain },
-                success: function (result) {
-                    if (result) {
-                        var dropdown = $('#inputDepartment');
-                        dropdown.empty();
-                        dropdown.append($('<option>', {
-                            value: '',
-                            text: '--Select Department--'
-                        }));
-                        for (var i = 0; i < result.length; i++) {
-                            $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
-                        }
-                         } else {
-                        Swal.fire('Please Select Domain');
-                        }
-                    },
-                      error: function (error) {
-                           console.error("AJAX Error:", error);
-                       }
-            });
+    $('#Did').change(function () {
+        var Domain = $('#Did').val().trim();
+        $.ajax({
+            type: 'GET',
+            url: '/Register/FetchDepartment',
+            dataType: "json",
+            data: { DomainID: Domain },
+            success: function (result) {
+                if (result) {
+                    var dropdown = $('#inputDepartment');
+                    dropdown.empty();
+                    dropdown.append($('<option>', {
+                        value: '',
+                        text: '--Select Department--'
+                    }));
+                    for (var i = 0; i < result.length; i++) {
+                        $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
+                    }
+                } else {
+                    Swal.fire('Please Select Domain');
+                }
+            },
+            error: function (error) {
+                console.error("AJAX Error:", error);
+            }
         });
+    });
 
+    // Handle form submission
+    $("#userForm").submit(function (event) {
+        event.preventDefault(); // Prevent default form submission
+        if (ValidateForm()) { // Validate form before submitting
+            var formData = $(this).serialize(); // Serialize form data
 
-        $("#userForm").submit(function(event) {
-            event.preventDefault(); // Prevent default form submission
-            if (ValidateForm()) {
-                var formData = $(this).serialize(); // Get form data
-                $.ajax({
-                    type: "POST",
-                    url: "/Register/RegisterUser",
-                    data: formData,
-                    success: function(response) {
-                        console.log(response)
-                        if (response.success) {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'Registration successful.',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then(function() {
-                                window.location.href = "/Login/Index"; // Redirect to login page
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: response.message,
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
-                        }
-                    },
-                    error: function(error) {
+            $.ajax({
+                type: "POST",
+                url: "/Register/RegisterUser",
+                data: formData,
+                success: function (response) {
+                    console.log(response)
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Registration successful.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/Login/Index"; // Redirect to login page
+                        });
+                    } else {
                         Swal.fire({
                             title: 'Error!',
-                            text: 'An error occurred during registration. Please try again.',
+                            text: response.message,
                             icon: 'error',
                             confirmButtonText: 'OK'
                         });
-                        console.log("Registration error: ", error);
                     }
-                });
-            }
-        });
+                },
+                error: function (error) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred during registration. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    console.log("Registration error: ", error);
+                }
+            });
+        }
+    });
+});
   
 </script>
