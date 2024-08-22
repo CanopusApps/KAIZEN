@@ -37,7 +37,7 @@ namespace NewKaizenService
                 DateTime ScheduleTime = DateTime.MinValue;
                 ScheduleTime = DateTime.Parse(ConfigurationManager.AppSettings["TriggerTime"]);// Need to change trigger time
                 if (DateTime.Now > ScheduleTime)
-                    ScheduleTime = ScheduleTime.AddMinutes(Convert.ToInt32(ConfigurationManager.AppSettings["From"])); // Need to change the schedule time
+                    ScheduleTime = ScheduleTime.AddMinutes(Convert.ToInt32(ConfigurationManager.AppSettings["TriggerDuration"])); // Need to change the schedule time
                 TimeSpan timespan =ScheduleTime.Subtract(DateTime.Now);
                 int dueMilliSecond = Convert.ToInt32(timespan.TotalMilliseconds);
                 ScheduleTimer.Change(dueMilliSecond, Timeout.Infinite);
@@ -65,7 +65,7 @@ namespace NewKaizenService
                             var Email = dr["ApproverEmail"].ToString();
                             var ApprovalName = dr["ApproverName"].ToString();
                             var DocNo = dr["DocNo"].ToString();
-                            Email = "nitishkumar154@gmail.com";//Need to change with Dynamic Email ID.
+                           // Email = "nitishkumar154@gmail.com";//Need to change with Dynamic Email ID.
                             using (MailMessage mail = new MailMessage())
                             {     
                                 mail.From = new MailAddress(ConfigurationManager.AppSettings["From"]);
