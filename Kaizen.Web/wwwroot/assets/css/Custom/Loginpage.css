@@ -132,14 +132,14 @@ marquee {
         margin-top: 50%;
     }
     .row {
-        margin: 40px 0;
+        margin: 50px 0;
         margin-top: 0px !important;
     }
 
     .image-box img {
         border-radius: 5px;
-        width: 105px;
-        height: 105px;
+        width: 120px;
+        height: 120px;
         object-fit: cover;
         border: 3px solid transparent;
     }
@@ -154,8 +154,8 @@ marquee {
     }
     .image-box img {
         border-radius: 5px;
-        width: 120px;
-        height: 120px;
+        width: 150px;
+        height: 150px;
         object-fit: cover;
         border: 3px solid transparent;
     }
