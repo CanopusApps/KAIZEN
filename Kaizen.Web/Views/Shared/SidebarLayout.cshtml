@@ -174,15 +174,8 @@
         font-size: 13px !important;
     }
 
-    #demo, #demo1 {
-        margin-top: 0; /* Remove space below "Masters" and "Evaluation Criteria" */
-        margin-bottom: 0; /* Remove bottom margin */
-    }
-
-    .fa-sharp.fa-solid.fa-chevron-down {
-        flex-shrink: 0; /* Prevent icon from shrinking or moving to a new line */
-    }
-  
+ 
+    
 
     /*Profile and logout dropdown*/
     .dropdown-menu {
@@ -199,7 +192,7 @@
     }
 
     span {
-        margin: -1px;
+        margin: 0;
         padding: 0;
     }
 
@@ -315,7 +308,7 @@
                     }
                     @if (ImageApprover == "True")
                     {
-                        <a href="/SubmittedKaizen/ViewImageApproval" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize" style="font-size:15px;">
+                        <a href="/SubmittedKaizen/ViewImageApproval" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize" style="font-size:15px;display:inline">
                             Image Approval (<label style="font-size:15px" id="imageApprovalCountLabel"></label>)
                         </a>
                     }
