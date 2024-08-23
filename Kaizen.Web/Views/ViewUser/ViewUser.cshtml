@@ -366,6 +366,8 @@
                                 title: "Success!",
                                 text: response,
                                 icon: "success",
+                            }).then((value) => {
+                                window.location.reload();
                             });
                         } else {
                             swal({
