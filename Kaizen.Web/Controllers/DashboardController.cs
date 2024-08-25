@@ -124,7 +124,6 @@ namespace Kaizen.Web.Controllers
                 model.MonthTotalKaizenList = _dashboardworker.GetKaizentotalCountmonth(model);
                 model.blockbasedgraph = _dashboardworker.kaizenCountbasedonBlocks(model);
                 model.Cadrebasedgraph = _dashboardworker.kaizenCountbasedonCadre(model);
-                model.departmentbasedgraph = _dashboardworker.kaizenCountbasedonDepartment(model);
                 model.domainbasedgraph = _dashboardworker.kaizenCountbasedonDomain(model);
             }
             catch (Exception ex)
@@ -240,7 +239,26 @@ namespace Kaizen.Web.Controllers
            
             return Ok(model);
         }
+        public IActionResult getdepartmentgraphsbasedonDomain(string? StartDate, string? EndDate,string label,string value)
+        {
+            DashboardModel model = new DashboardModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+                Domain=label,
 
+            };
+            try
+            {
+                model.departmentbasedgraph = _dashboardworker.kaizenCountbasedonDepartment(model);
+            }
+            catch (Exception ex)
+            {
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+            return Ok(model);
+        }
 
     }
 }

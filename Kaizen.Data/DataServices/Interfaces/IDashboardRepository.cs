@@ -13,7 +13,7 @@ namespace Kaizen.Data.DataServices.Interfaces
     {
         public DataSet GetKaizenCount(DashboardModel model);
         public DataSet GetDomainKaizenCount(DashboardModel model);
-
+        public DataSet GetDepartmentGraphKaizenCount(DashboardModel model);
         public DataSet GetDepartmentKaizenCount(DashboardModel model);
         public DataSet Getmanagetdomaindepartment(DashboardModel model, string Empid);
 
