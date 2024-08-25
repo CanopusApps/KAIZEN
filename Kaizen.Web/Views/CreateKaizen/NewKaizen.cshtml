@@ -1434,7 +1434,6 @@
                         break;
                     case 'MANAGER':
                         enumValue = 4; // ImageApproved
-
                         break;
                     // case 'IMAGE APPROVER':
                     //     enumValue = 2; // ImageApproved
@@ -3026,7 +3025,7 @@
                         }
 
                         statusDesc = result.kaizenList[0].approvalStatus;
-                        var imageapproverstatus = $('#imageapproverstatus').data('role');
+                        var imageapproverstatus = $('#imageapproverstatus').data('role');                      
                         if (statusDesc === statusdetails.FinanceRejected || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.DRIRejected)
                         {
                             $('#saveItButton').hide();
@@ -3147,15 +3146,34 @@
                                 $('#updateItButton').show();
                             }
                         }
-                        if(result.approverslist[0].financeEmail == "")
-                        {                        
-                           $('#FinanceDept').hide();
-                        }
-                        if(result.approverslist[0].iEname == "")
+                        if (userRole === 'FINNACE')
                         {
-                            $('#IEDept').hide();
+                            if (result.approverslist[0].iEname == "") {
+                                $('#IEDept').show();
+                            }
                         }
                         
+                        
+                        if ( userRole === 'ADMIN') {
+                            debugger;
+                           
+                            if (result.approverslist[0].financeEmail == "") {
+                                $('#FinanceDept').show();
+                            }
+                            if (result.approverslist[0].iEname == "") {
+                                $('#IEDept').show();
+                            }
+                            $('#DRIDept').show();
+                               $('#ImageApprover').show();
+                        }
+                       // if(result.approverslist[0].financeEmail == "")
+                       //   {                        
+                       //    $('#FinanceDept').hide();
+                       //    }
+                       //   if(result.approverslist[0].iEname == "")
+                       //   {
+                       //     $('#IEDept').hide();
+                       //    }
                         $('#bindtxtID').text(result.kaizenList[0].id);
                         $('#ieDateTime').text(result.kaizenList[0].ieApprovedDate);
                         $('#driDateTime').text(result.kaizenList[0].driApprovedDate);
@@ -3166,15 +3184,17 @@
                         $('#driEmail').text(result.approverslist[0].driEmail);
                         $('#dDom').text(result.approverslist[0].driDomain);
 
-                        $('#ieeDept').text(result.approverslist[0].ieDept);
-                        $('#ieName').text(result.approverslist[0].iEname);
-                        $('#ieEmail').text(result.approverslist[0].ieEmail);
-                        $('#ieeDom').text(result.approverslist[0].ieDomain);
+                       
+                        $('#ieeDept').text(result.approverslist[0].ieDept ? result.approverslist[0].ieDept : 'Not Applicable');
+                        $('#ieName').text(result.approverslist[0].iEname ? result.approverslist[0].iEname : 'Not Applicable');
+                        $('#ieEmail').text(result.approverslist[0].ieEmail ? result.approverslist[0].ieEmail : 'Not Applicable');
+                        $('#ieeDom').text(result.approverslist[0].ieDomain ? result.approverslist[0].ieDomain : 'Not Applicable');
 
-                        $('#finDept').text(result.approverslist[0].finDept);
-                        $('#finName').text(result.approverslist[0].finnaceName );
-                        $('#finEmail').text(result.approverslist[0].financeEmail);
-                        $('#finDom').text(result.approverslist[0].finDomain);
+                        $('#finDept').text(result.approverslist[0].finDept ? result.approverslist[0].finDept : 'Not Applicable');
+                        $('#finName').text(result.approverslist[0].finnaceName ? result.approverslist[0].finnaceName : 'Not Applicable');
+                        $('#finEmail').text(result.approverslist[0].financeEmail ? result.approverslist[0].financeEmail : 'Not Applicable');
+                        $('#finDom').text(result.approverslist[0].finDomain ? result.approverslist[0].finDomain : 'Not Applicable');
+
                       
                         // $('#imageaprName').text(result.approverslist[0].imageAproveName);
                         $('#imageaprName').text(result.approverslist[0].imageAproveName ? result.approverslist[0].imageAproveName : 'N/A');

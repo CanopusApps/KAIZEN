@@ -336,7 +336,7 @@ namespace Kaizen.Business.Worker
         {
             DataSet Kaizencountdata = new DataSet();
             List<graphKaizentotalModel> Kaizentotalcount = new List<graphKaizentotalModel>();
-            Kaizencountdata = Repository.GetGraphKaizenCount(model);
+            Kaizencountdata = Repository.GetDepartmentGraphKaizenCount(model);
             if (Kaizencountdata.Tables.Count > 0)
             {
                 foreach (DataRow dr in Kaizencountdata.Tables[0].Rows)
@@ -346,7 +346,8 @@ namespace Kaizen.Business.Worker
 
                         Departmentid = Convert.ToInt32(dr["DeptId"]),
                         Departmentname = dr["DepartmentName"].ToString(),
-                        TotalSubmittedKaizen = Convert.ToInt32(dr["AllKaizen_count"])
+                        TotalSubmittedKaizen = Convert.ToInt32(dr["AllKaizen_count"]),
+                        Domainname = dr["DomainName"].ToString()
 
 
 

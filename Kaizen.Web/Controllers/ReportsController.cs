@@ -199,12 +199,13 @@ namespace Kaizen.Web.Controllers
             }
         }
         [HttpGet]
-        public IActionResult DasboardDepartment(string? StartDate, string? EndDate)
+        public IActionResult DasboardDepartment(string? StartDate, string? EndDate,string Domain)
         {
             DashboardModel model = new DashboardModel()
             {
                 StartDate = StartDate,
                 EndDate = EndDate,
+                Domain = Domain,
             };
 
             try

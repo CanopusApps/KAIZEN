@@ -75,6 +75,7 @@ namespace Kaizen.Data.Constant
        public static string Sp_Get_DashboardDomains = "sp_Get_DashboardDomains"; 
           public static string Sp_Get_DashboardDepartments = "Sp_Get_DashboardDepartments"; 
         public static string Sp_Get_Dashboardgraphs = "Sp_Get_Dashboardgraphs";
+        public static string Sp_Get_DashboardDepartmentgraph = "Sp_Get_DashboardDepartmentgraph";
         public static string sp_GetKaizenStatisticsByApprovalTypes = "sp_GetKaizenStatisticsByApprovalTypes";
         public static string Sp_Get_DashboardManagerDomainDepartment = "Sp_Get_DashboardManagerDomainDepartment";
         public static string Sp_Fetch_Scope_details = "Sp_Fetch_Scope_details";
