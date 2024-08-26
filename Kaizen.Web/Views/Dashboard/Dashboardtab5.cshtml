@@ -287,6 +287,7 @@
                 data: {
                     labels: chart.labels,
                     datasets: [{
+                        label: 'Total Submitted Kaizens',
                         data: data,
                         backgroundColor: colors,
                         hoverOffset: 4
@@ -335,7 +336,7 @@
                                 success: function (result) {
                                     const departmentBasedData = result.departmentbasedgraph.map(item => item.totalSubmittedKaizen);
                                     const departmentBasedLabel = result.departmentbasedgraph.map(item => item.departmentname);
-                                    const firstDomainName = result.departmentbasedgraph.map(item => item.domainname)[0];
+                                     firstDomainName = result.departmentbasedgraph.map(item => item.domainname)[0];
                                     const colors = generateColors(departmentBasedData.length);
                                     const ctx = document.getElementById('donutChart4').getContext('2d');
 
@@ -445,7 +446,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: chart.label,
+                        label: 'Total Submitted Kaizens',
                         backgroundColor: generateColors(data.length),
                         borderWidth: 1,
                         data: data,
@@ -476,7 +477,7 @@
                             const element = elements[0];
                             const datasetIndex = element.datasetIndex;
                             const dataIndex = element.index;
-
+                          
                             const dataset = this.data.datasets[datasetIndex];
                             const dataPoint = dataset.data[dataIndex];
                             const label = this.data.labels[dataIndex];
@@ -780,6 +781,7 @@
         try {
             const dates = getFormattedDates();
             const url = '@Url.Action("DasboardDepartment", "Reports")';
+            debugger;
             const updatedUrl = `${url}?domain=${firstDomainName}&startDate=${dates.startDate}&endDate=${dates.endDate}`;
 
             // Fetch and download the Excel file
