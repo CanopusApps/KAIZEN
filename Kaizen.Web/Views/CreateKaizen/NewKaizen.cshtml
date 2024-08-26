@@ -1200,7 +1200,7 @@
                                         <div><strong>Name :</strong> <span id="ieName"></span></div>
                                         <div><strong>Email :</strong> <span id="ieEmail"></span></div>
                                         <div><strong>Department :</strong><span id="ieeDom"></span>-<span id="ieeDept"></span></div>
-                                        <div><strong>Status :</strong> <span id="iestatusid"></span></div>
+                                            <div><strong>Status :</strong> <span id="iestatusid">N/A</span></div>
                                         <div><strong>Rejected Reason :</strong> <span id="ieRejectedReason"></span></div>
                                         <div><strong>Approved Date :</strong> <span id="ieDateTime"></span></div>
                                 </div>
@@ -1214,7 +1214,7 @@
                                         <div><strong>Name :</strong> <span id="finName"></span></div>
                                         <div><strong>Email :</strong> <span id="finEmail"></span></div>
                                         <div><strong>Department :</strong> <span id="finDom"></span>-<span id="finDept"></span></div>
-                                        <div><strong>Status :</strong> <span  id="financestatusid"></span></div>
+                                            <div><strong>Status :</strong> <span id="financestatusid">N/A</span></div>
                                         <div><strong>Rejected Reason :</strong> <span id="finRejectedReason"></span></div>
                                         <div><strong>Approved Date :</strong> <span id="finDateTime"></span></div>
                                 </div>
@@ -1336,7 +1336,6 @@
     //Download PDF End
 
     $(document).ready(function () {
-
         var userRole = $('#Userrole').data('role');
         var imageapproverstatus = $('#imageapproverstatus').data('role');
      
@@ -2202,6 +2201,7 @@
     }
     
     $(document).ready(function () {
+
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
         // $("#approvedbyIE").attr("disabled", "disabled");
@@ -3042,7 +3042,13 @@
                             if (statusDesc === statusdetails.FinanceRejected) {
                                 $("#finRejectedReason").text(result.kaizenList[0].rejectionreason);                            
                             }  
-                            $('#iestatusid').text(reverseStatusDetails[statusdetails.IEApproved]).addClass('approved');
+                            if (result.approverslist[0].ieEmail== "") {
+                                $('#iestatusid').addClass('rejected');
+                            }
+                            else
+                            {
+                               $('#iestatusid').text(reverseStatusDetails[statusdetails.IEApproved]).addClass('approved');
+                            }
                             if (result.approverslist[0].imageAproveName == "") {
                                 $('#imagestatusid').text(reverseStatusDetails[statusdetails.kaizenwithoutImages]).addClass('approved');                               
                             }
@@ -3053,7 +3059,7 @@
                             updateStatusText();
                         } else if (statusDesc === statusdetails.IEApproved || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.IEPending) {
                             $('#saveItButton').hide();
-                            $('#iestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
+                            $('#    ').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
                             $('#IEDept').show();
                             $('#DRIDept').show();
                             $('#ImageApprover').show();
@@ -3113,7 +3119,19 @@
                         else{
                             $('#approvers').hide();
                           
-                        }                        
+                        }
+
+                            var ieStatus = document.getElementById('iestatusid').innerText;
+                            var financeStatus = document.getElementById('financestatusid').innerText;
+
+                            if (ieStatus === "N/A") {
+                                document.getElementById('iestatusid').classList.add('rejected');
+                            }
+
+                            if (financeStatus === "N/A") {
+                                document.getElementById('financestatusid').classList.add('rejected');
+                            }
+                        
                        
                         if (imageapproverstatus === 'True' && statusDesc !== statusdetails.submitted) {
                             $('#buttons').show();
@@ -3154,9 +3172,7 @@
                         }
                         
                         
-                        if ( userRole === 'ADMIN') {
-                            debugger;
-                           
+                        if ( userRole === 'ADMIN') {                           
                             if (result.approverslist[0].financeEmail == "") {
                                 $('#FinanceDept').show();
                             }
@@ -3188,12 +3204,12 @@
                         $('#ieeDept').text(result.approverslist[0].ieDept ? result.approverslist[0].ieDept : 'Not Applicable');
                         $('#ieName').text(result.approverslist[0].iEname ? result.approverslist[0].iEname : 'Not Applicable');
                         $('#ieEmail').text(result.approverslist[0].ieEmail ? result.approverslist[0].ieEmail : 'Not Applicable');
-                        $('#ieeDom').text(result.approverslist[0].ieDomain ? result.approverslist[0].ieDomain : 'Not Applicable');
+                        $('#ieeDom').text(result.approverslist[0].ieDomain);
 
                         $('#finDept').text(result.approverslist[0].finDept ? result.approverslist[0].finDept : 'Not Applicable');
                         $('#finName').text(result.approverslist[0].finnaceName ? result.approverslist[0].finnaceName : 'Not Applicable');
                         $('#finEmail').text(result.approverslist[0].financeEmail ? result.approverslist[0].financeEmail : 'Not Applicable');
-                        $('#finDom').text(result.approverslist[0].finDomain ? result.approverslist[0].finDomain : 'Not Applicable');
+                        $('#finDom').text(result.approverslist[0].finDomain );
 
                       
                         // $('#imageaprName').text(result.approverslist[0].imageAproveName);

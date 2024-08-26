@@ -24,11 +24,11 @@
         </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-link" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Domains & Department </a>
-                <a class="nav-link" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a>
-                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Yearly & Monthly</a>
-                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
-                <a class="nav-link  active" id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="true">Charts</a>
+                <a class="nav-link tab" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Domains & Department </a>
+                <a class="nav-link tab" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Yearly & Monthly</a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
+                <a class="nav-link  tab active" id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="true">Charts</a>
             </div>
             <div class="container-fluid border rounded p-2" style="width:100%">
                 <form>
@@ -629,7 +629,6 @@
         });
 
         $('#btn_filter').click(function () {
-            debugger;
             let filterData = {};
             if ($('#filterYear1').is(':checked')) {
                 filterData.startDate = $('#yearDropdown').val();
@@ -717,7 +716,6 @@
 
     // Function to get formatted startDate and endDate
     function getFormattedDates() {
-        debugger;
         let startDate, endDate;
         // Retrieve the filter option
         if ($('#filterYear1').is(':checked')) {
@@ -778,10 +776,10 @@
         }
     }
     function changeDepartmentExportHref() {
+        debugger;
         try {
             const dates = getFormattedDates();
             const url = '@Url.Action("DasboardDepartment", "Reports")';
-            debugger;
             const updatedUrl = `${url}?domain=${firstDomainName}&startDate=${dates.startDate}&endDate=${dates.endDate}`;
 
             // Fetch and download the Excel file

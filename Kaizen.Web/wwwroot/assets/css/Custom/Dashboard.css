@@ -9,6 +9,21 @@
 }
 
 
+
+        .tab {
+            padding: 10px 20px;
+            font-size: 24px; 
+            font-weight: 700; 
+            color: #555; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            margin-right: 10px;
+        }
+            .tab:hover {
+                color: #007BFF; /* Text color on hover */
+            }
+
     #chart-container {
         width: 75%;
     }
