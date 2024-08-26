@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "SidebarLayout";
 }
+<link href="~/assets/css/custom/dashboard.css" rel="stylesheet" />
 <style>
     .card-container {
         margin-bottom: 20px;
@@ -27,6 +28,7 @@
         font-weight: 600;
     }
 
+   
     #dHeader {
         text-align: center;
         font-size: 16px !important;
@@ -46,11 +48,11 @@
         </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-link  active" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="true">Domains & Department </a>
-                <a class="nav-link" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a>
-                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Yearly & Monthly</a>
-                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
-                <a class="nav-link " id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Charts</a>
+                <a class="nav-link tab active" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="true">Domains & Department </a>
+                <a class="nav-link tab" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Yearly & Monthly</a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Charts</a>
             </div>
         </nav>
 
