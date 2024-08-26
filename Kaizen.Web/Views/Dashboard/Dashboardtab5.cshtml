@@ -91,51 +91,59 @@
                 <div class="  card-header">Kaizens Based on Cadre,Blocks,Domain and Department</div>
                 <div class="card-body col-lg-12" id="donutChartsSection">
                     <div class="row">
-                        <div class="col-lg-6 col-md-12 mb-4">
-                            <input type="button" id="BlockBlockReport" value="Download Report" class="btn btn-warning dow" onclick="changeBlockExportHref()" />
+                        <div class="col-lg-6 col-md-12 mb-4   text-right">
+ 
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <canvas id="donutChart1"></canvas>
                            
                             </div>
+                            <input type="button" id="BlockBlockReport" value="Download Report" class="btn btn-warning dow" onclick="changeBlockExportHref()" />
                         </div>
-                        <div class="col-lg-6 col-md-12 mb-4">
-                            <input type="button" id="CadreReport" value="Download Report" class="btn btn-warning dow" onclick="changeCadreExportHref()" />
+                        <div class="col-lg-6 col-md-12 mb-4   text-right">
+                       
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <canvas id="donutChart2"></canvas>
                             </div>
+                            <input type="button" id="CadreReport" value="Download Report" class="btn btn-warning dow" onclick="changeCadreExportHref()" />
                         </div>
                     </div>
                     <div class="row">
 
-                        <div class="col-lg-6 col-md-12 mb-4">
-                            <input type="button" id="DomainReport" value="Download Report" class="btn btn-warning dow" onclick="changeDomainExportHref()" />
+                        <div class="col-lg-6 col-md-12 mb-4 text-right">
+
+                           
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <canvas id="donutChart3"></canvas>
                             </div>
+                            <input type="button" id="DomainReport" value="Download Report" class="btn btn-warning " onclick="changeDomainExportHref()" />
                         </div>
-                        <div class="col-lg-6 col-md-12 mb-4">
-                            <input type="button" id="DepartmentReport" value="Download Report" class="btn btn-warning dow" onclick="changeDepartmentExportHref()" />
+                        <div class="col-lg-6 col-md-12 mb-4   text-right">
+     
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <canvas id="donutChart4"></canvas>
                             </div>
+                            <input type="button" id="DepartmentReport" value="Download Report" class="btn btn-warning dow" onclick="changeDepartmentExportHref()" />
+                            <p id="fallbackMessageDounut" class="text-center" style="font-size: 18px; color: #FF5733;">Click on domain's for change of department's</p>
+                            
+
                         </div>
                     </div>
                 </div>
                 <div id="barChartsSection" class="card bg-white border chart-container mt-4 mb-5 ml-2 mr-2 pb-4" style="display:none;">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 mb-4">
+                        <div class="col-lg-12 col-md-12 mb-4" >
                          
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <canvas id="barChart1" style="width: 100%;"></canvas>
                             </div>
-                               <input type="button" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeBlockExportHref()" />
+                               <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeBlockExportHref()" />
                         </div>
                         <div class="col-lg-12 col-md-12 mb-4">
                           
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <canvas id="barChart2" style="width: 100%;"></canvas>
                             </div>
-                            <input type="button" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeCadreExportHref()" />
+                            <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeCadreExportHref()" />
                         </div>
                     </div>
                     <div class="row">
@@ -143,13 +151,14 @@
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <canvas id="barChart3" style="width: 100%;"></canvas>
                             </div>
-                            <input type="button" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeDomainExportHref()" />
+                            <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeDomainExportHref()" />
                         </div>
                         <div class="col-lg-12 col-md-12 mb-4">
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <canvas id="barChart4" style="width: 100%;"></canvas>
                             </div>
-                            <input type="button" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeDepartmentExportHref()" />
+                            <p id="fallbackMessageBar" class="text-center" style="font-size: 18px; color: #FF5733;">Click on domain's for change of department</p>
+                            <input type="button" id="DepartmentReportbar" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeDepartmentExportHref()" />
                         </div>
                     </div>
                 </div>
@@ -223,6 +232,9 @@
     };
 
     $(document).ready(function () {
+        $('#DepartmentReport').hide();
+        $('#DepartmentReportbar').hide();
+        $('#DepartmentReportbar').hide();
         const donutCharts = [
             { id: 'donutChart1', label: 'Dataset 1', title: 'Blocks' },
             { id: 'donutChart2', label: 'Dataset 2', title: 'Cadre' },
@@ -267,6 +279,7 @@
         }
 
         function createDonutChart(chart, data, colors) {
+            
             const ctxDonut = document.getElementById(chart.id).getContext('2d');
 
             const donutChart = new Chart(ctxDonut, {
@@ -274,6 +287,7 @@
                 data: {
                     labels: chart.labels,
                     datasets: [{
+                        label: 'Total Submitted Kaizens',
                         data: data,
                         backgroundColor: colors,
                         hoverOffset: 4
@@ -283,9 +297,12 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     onClick: function (event, elements) {
+                        // Check if the clicked chart is 'donutChart3' and if there are any elements selected
                         if (chart.id === 'donutChart3' && elements.length > 0) {
                             var startDate;
                             var endDate;
+
+                            // Determine the date range based on the selected filter
                             if ($('#filterYear1').is(':checked')) {
                                 startDate = $('#yearDropdown').val();
                                 endDate = $('#yearDropdown').val();
@@ -293,6 +310,8 @@
                                 startDate = $('#dtstartdate').val();
                                 endDate = $('#dtenddate').val();
                             }
+
+                            // Get the clicked element's data
                             const element = elements[0];
                             const datasetIndex = element.datasetIndex;
                             const dataIndex = element.index;
@@ -301,12 +320,15 @@
                             const dataPoint = dataset.data[dataIndex];
                             const label = this.data.labels[dataIndex];
 
+                            // Prepare data for AJAX request
                             const postData = {
                                 StartDate: startDate,
                                 EndDate: endDate,
                                 label: label,
                                 value: dataPoint
                             };
+
+                            // Perform AJAX request to get updated data based on the selected domain
                             $.ajax({
                                 url: '/Dashboard/getdepartmentgraphsbasedonDomain',
                                 method: 'POST',
@@ -314,12 +336,16 @@
                                 success: function (result) {
                                     const departmentBasedData = result.departmentbasedgraph.map(item => item.totalSubmittedKaizen);
                                     const departmentBasedLabel = result.departmentbasedgraph.map(item => item.departmentname);
-                                    firstDomainName = result.departmentbasedgraph.map(item => item.domainname)[0];
+                                     firstDomainName = result.departmentbasedgraph.map(item => item.domainname)[0];
                                     const colors = generateColors(departmentBasedData.length);
                                     const ctx = document.getElementById('donutChart4').getContext('2d');
+
+                                    // Destroy the previous chart instance if it exists
                                     if (ctx.chartInstance) {
                                         ctx.chartInstance.destroy();
                                     }
+
+                                    // Create a new chart instance with the updated data
                                     ctx.chartInstance = new Chart(ctx, {
                                         type: 'doughnut',
                                         data: {
@@ -333,32 +359,44 @@
                                         options: {
                                             responsive: true,
                                             maintainAspectRatio: false,
-                                            
                                             plugins: {
                                                 legend: {
                                                     position: 'top',
                                                     display: false,
-                                                    
                                                 },
                                                 tooltip: {
                                                     enabled: true
                                                 },
                                                 title: {
                                                     display: true,
-                                                    text: 'Departments'
+                                                    text: 'Departments',
+                                                    font: {
+                                                        size: 24,
+                                                        family: 'Arial',
+                                                        weight: 'bold',
+                                                        style: 'italic',
+                                                    },
+                                                    padding: {
+                                                        top: 10,
+                                                        bottom: 20
+                                                    }
                                                 },
                                                 customLabels: true
                                             }
                                         },
                                         plugins: [customLabelsPlugin]
                                     });
+
+
+                                    $('#DepartmentReport').show();
                                 },
                                 error: function (xhr, status, error) {
                                     console.error('Error in AJAX request:', error);
                                 }
                             });
-                        }
+                        } 
                     },
+
                     plugins: {
                         responsive: true,
                         maintainAspectRatio: false,
@@ -374,9 +412,21 @@
                             display: false,
                             position: 'top'
                         },
+
                         title: {
                             display: true,
-                            text: chart.title
+                            text: chart.title,
+                                font: {
+                                size: 24, // Adjust the size of the font
+                                family: 'Arial', // Set the font family
+                                weight: 'bold', // Set the font weight
+                                style: 'italic', // Set the font style (optional)
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 20  
+                            }
+                            // color: '#FF5733', // Set the font color
                         },
                         customLabels: true 
                     }
@@ -396,7 +446,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: chart.label,
+                        label: 'Total Submitted Kaizens',
                         backgroundColor: generateColors(data.length),
                         borderWidth: 1,
                         data: data,
@@ -427,7 +477,7 @@
                             const element = elements[0];
                             const datasetIndex = element.datasetIndex;
                             const dataIndex = element.index;
-
+                          
                             const dataset = this.data.datasets[datasetIndex];
                             const dataPoint = dataset.data[dataIndex];
                             const label = this.data.labels[dataIndex];
@@ -490,8 +540,12 @@
                                                     display: true,
                                                     text: 'Department',
                                                     font: {
-                                                        size: 18,
+                                                        size: 24, // Adjust the size of the font
+                                                        family: 'Arial', // Set the font family
+                                                        weight: 'bold', // Set the font weight
+                                                        style: 'italic', // Set the font style (optional)
                                                     },
+                                                  
                                                     padding: {
                                                         top: 10,
                                                         bottom: 20,
@@ -514,6 +568,7 @@
                                         },
                                         plugins: [ChartDataLabels],
                                     });
+                                    $('#DepartmentReportbar').show();
                                 },
                                 error: function (xhr, status, error) {
                                     console.error('Error in AJAX request:', error);
@@ -529,10 +584,14 @@
 
                         title: {
                             display: true,
-                            text: chart.title, 
+                            text: chart.title,
                             font: {
-                                size: 18,
+                                size: 24, // Adjust the size of the font
+                                family: 'Arial', // Set the font family
+                                weight: 'bold', // Set the font weight
+                                style: 'italic', // Set the font style (optional)
                             },
+          
                             padding: {
                                 top: 10,
                                 bottom: 20,
@@ -598,7 +657,18 @@
 
                     // const departmentBasedData = result.departmentbasedgraph.map(item => item.totalSubmittedKaizen);
                     // const departmentBasedLabel = result.departmentbasedgraph.map(item => item.departmentname);
+                    const ctxNewBarChart = document.getElementById('barChart4').getContext('2d');
+                    if (ctxNewBarChart.chartInstance) {
+                        $('#DepartmentReportbar').hide();
+                        ctxNewBarChart.chartInstance.destroy();
+                    }
+                    const ctx = document.getElementById('donutChart4').getContext('2d');
 
+                    // Destroy the previous chart instance if it exists
+                    if (ctx.chartInstance) {
+                        $('#DepartmentReport').hide();
+                        ctx.chartInstance.destroy();
+                    }
                     const staticData = [
                         { data: blockBasedData, labels: blockBasedLabel, colors: generateColors(blockBasedData.length) },
                         { data: cadreBasedData, labels: cadreBasedLabel, colors: generateColors(cadreBasedData.length) },
@@ -711,6 +781,7 @@
         try {
             const dates = getFormattedDates();
             const url = '@Url.Action("DasboardDepartment", "Reports")';
+            debugger;
             const updatedUrl = `${url}?domain=${firstDomainName}&startDate=${dates.startDate}&endDate=${dates.endDate}`;
 
             // Fetch and download the Excel file
