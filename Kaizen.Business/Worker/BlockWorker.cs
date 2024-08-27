@@ -18,10 +18,10 @@ namespace Kaizen.Business.Worker
             this._repositoryBlockdata = repositoryBlockdata;
         }
         
-        public bool InsertBlockDetails(string blockName)
+        public bool InsertBlockDetails(BlockModel blockmodel)
         {
 
-            return _repositoryBlockdata.InsertBlockDetails(blockName);
+            return _repositoryBlockdata.InsertBlockDetails( blockmodel);
 
         }
 
@@ -47,15 +47,29 @@ namespace Kaizen.Business.Worker
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-					blackModels.Add(new BlockModel
-                    {
-                        Id = Convert.ToInt32(dr["BlockId"]),
-                        BlockName = dr["BlockName"].ToString(),
-                        Status = Convert.ToBoolean(dr["Status"])
-                    });
+                    //bool status = Convert.ToBoolean(dr["Status"]);
+                    //if (status)
+                    //{
+                        blackModels.Add(new BlockModel
+                        {
+                            Id = Convert.ToInt32(dr["BlockId"]),
+                            BlockName = dr["BlockName"].ToString(),
+                            User_count = Convert.ToInt32(dr["User_count"]),
+                            Status = Convert.ToBoolean(dr["Status"])
+                        });
+                    //}
                 }
             }
 			return blackModels;
         }
-	}
+
+        public bool UpdateBlockDetails(BlockModel blockmodel)
+        {
+
+            return _repositoryBlockdata.UpdateBlockDetails( blockmodel);
+
+        }
+
+
+    }
 }

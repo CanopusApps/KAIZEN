@@ -1,0 +1,215 @@
+﻿@{
+    Layout = "SidebarLayout";
+}
+<style>
+    table th,.sno {
+        border: 1px solid gray;
+        background-color: #e3e3e3;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border: 1px solid gray;
+    }
+    table td {
+        border: 1px solid gray;
+    }
+</style>
+<div class="container-fluid">
+    <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+        <div class="col-lg-12 mt-2">
+            <h4 class="text-primary"> <b>Evaluation Criteria</b></h4>
+            <div class="welcome-text">
+                <label id="dHeader">Kaizen Idea ></label>
+                <label id="dHeader">Evaluation Criteria ></label>
+                <label id="dHeader"> Breakthrough</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-5">
+        <div class="card-body">
+            <div class="col-lg-12 p-md-0">
+                <div class="mb-5">
+                <b>EVALUATION CRITERIA - BREAKTHROUGH</b>
+                </div>
+                <div class="form-row">
+                    <!-- Responsive Table Wrapper -->
+                    <div class="table-responsive">
+                        <!-- Table -->
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">S No</th>
+                                    <th class="text-center">Ordinal Rating</th>
+                                    <th class="text-center">Problem Description / Theme Selection(Total weightage=20)</th>
+                                    <th class="text-center">Data Collection using Data Measurement(Total weightage=10)</th>
+                                    <th class="text-center">Analysis of Root Cause(Total weightage=15) </th>
+                                    <th class="text-center">Solution Novality(Total weightage=15)</th>
+                                    <th class="text-center">Benefits PQCDSM(Total weightage=20)</th>
+                                    <th class="text-center">Standardization & Horizontal Deployment (Total weightage = 20)</th>
+                                    <th class="text-center">Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center sno">1</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">No problem Explained</td>
+                                    <td class="text-center">Old Data Manupulation</td>
+                                    <td class="text-center">No Root Cause Approach Followed</td>
+                                    <td class="text-center">No solution Derived</td>
+                                    <td class="text-center">No Clear Benefits Defined</td>
+                                    <td class="text-center">No Deployment and Standardization</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center sno">2</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">Haphazard Problem Definition</td>
+                                    <td class="text-center">Least Correlated and Accurate Data Collection</td>
+                                    <td class="text-center">Analytical Root Cause Approach</td>
+                                    <td class="text-center">Direct Subjective Solution</td>
+                                    <td class="text-center">Very Marginal benefits, results in 1 category, least negative impact, one time benefit Very Marginal benefits, results in 1 to 2 categories, least negative impact, one time benefit</td>
+                                    <td class="text-center">Only Deployment No Standardization</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center sno">3</td>
+                                    <td class="text-center">3</td>
+                                    <td class="text-center">External Customer Focussed/Problem defined with 4W1H (what, when, where, who, how much), Organization level problem, relevant to the goals</td>
+                                    <td class="text-center">Data Collected with Absence in Data Stratification</td>
+                                    <td class="text-center">Clearly identify the root cause thru "why why" analysis for 1 cause Clearly identify the root cause thru "why why" analysis for 1 cause</td>
+                                    <td class="text-center">Unstructural Problem Solution (Subjective)</td>
+                                    <td class="text-center">Very Marginal benefits, results in 2 categories, least negative impact, one time benefit Very Marginal benefits, results in 1 to 2 categories, least negative impact, one time benefit</td>
+                                    <td class="text-center">Implemented and Standardized in Single Machine in Modal Area</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center sno">4</td>
+                                    <td class="text-center">4</td>
+                                    <td class="text-center">Internal customer focussed, Problem from the Problem bank, Plant level problem, relevant to the plant level goals</td>
+                                    <td class="text-center">Data Collected and Stratified</td>
+                                    <td class="text-center">Clearly identify the root cause thru "why why" analysis for 2 causes Clearly identify the root cause thru "why why" analysis for 2 causes</td>
+                                    <td class="text-center">DOE (Multiple Revisions)</td>
+                                    <td class="text-center">Significant benefit with good impact on business performance, results in 3 categories of PQCDSM, Cost benefit less than a lakh Significant benefit with good impact on business performance, results in 2 to 3 categories of PQCGSM, Cost benefit less than a lakh</td>
+                                    <td class="text-center">Implemented and Standardized in All Machines Similar Machines in Gemba</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center sno">5</td>
+                                    <td class="text-center">5</td>
+                                    <td class="text-center">Problem from the top 3 of pareto chart, Cell level problem, relevant to the cell level goals, easy to implement problems</td>
+                                    <td class="text-center">Data Collected, Stratified, Measured using the Pareto Diagram</td>
+                                    <td class="text-center">All causes listed grouped effectively, adapt a brain storming method, clear categorisation of data with cause and effect and "why why" analysis All causes listed grouped effectively, adapt a brain storming method, clear categorisation of data with cause and effect and "why why" analysis</td>
+                                    <td class="text-center">Results Validation w.r.t to PQCDSM on DOE Significant benefit with high level of impact on business performance, results in more than 3 categories of PQCDSM, cost benefit in few lakhs, benefit is reccurence in nature</td>
+                                    <td class="text-center">Significant benefit with high level of impact on business performance, results in more than 3 categories of PQCGSM, cost benefit in few lakhs, benefit is reccurence in nature</td>
+                                    <td class="text-center">Implemented and Revised in Control Documents Overall for all processes</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- END Table -->
+                    </div>
+                    <!-- END Responsive Table Wrapper -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-5">
+    <div class="card-body">
+        <div class="col-lg-12 p-md-0">
+                <div class="mb-5">
+                <b>
+                    Improving the Productivity in Remove PF 	 <br>
+                    EVALUATION CRITERIA - KAIZEN
+                </b>
+                </div>
+            <div class="form-row">
+                <!-- Responsive Table Wrapper -->
+                <div class="table-responsive">
+                    <!-- Table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">S No</th>
+                                <th class="text-center">Ordinal Rating</th>
+                                <th class="text-center">Problem Description / Theme Selection(Total weightage=20)</th>
+                                <th class="text-center">Data Collection using Data Measurement(Total weightage=10)</th>
+                                <th class="text-center">Analysis of Root Cause(Total weightage=15) </th>
+                                <th class="text-center">Solution Novality(Total weightage=15)</th>
+                                <th class="text-center">Benefits PQCDSM(Total weightage=20)</th>
+                                <th class="text-center">Standardization & Horizontal Deployment (Total weightage = 20)</th>
+                                <th class="text-center">Theme(Total Weightage =5 )</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center sno">1</td>
+                                <td class="text-center">1</td>
+                                <td class="text-center">No problem Explained</td>
+                                <td class="text-center">Old Data Manupulation</td>
+                                <td class="text-center">No Root Cause Approach Followed</td>
+                                <td class="text-center">No solution Derived</td>
+                                <td class="text-center">No Clear Benefits Defined</td>
+                                <td class="text-center">No Deployment and Standardization</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center sno">2</td>
+                                <td class="text-center">2</td>
+                                <td class="text-center">Haphazard Problem Definition</td>
+                                <td class="text-center">Least Correlated and Accurate Data Collection</td>
+                                <td class="text-center">Analytical Root Cause Approach</td>
+                                <td class="text-center">Direct Subjective Solution</td>
+                                    <td class="text-center">Very Marginal benefits, results in 1 category, least negative impact, one time benefit Very Marginal benefits, results in 1 to 2 categories, least negative impact, one time benefit</td>
+                                <td class="text-center">Only Deployment No Standardization</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center sno">3</td>
+                                <td class="text-center">3</td>
+                                    <td class="text-center">External Customer Focussed/Problem defined with 4W1H (what, when, where, who, how much), Organization level problem, relevant to the goals</td>
+                                <td class="text-center">Data Collected with Absence in Data Stratification</td>
+                                    <td class="text-center">Clearly identify the root cause thru "why why" analysis for 1 cause Clearly identify the root cause thru "why why" analysis for 1 cause</td>
+                                <td class="text-center">Unstructural Problem Solution (Subjective)</td>
+                                    <td class="text-center">Very Marginal benefits, results in 2 categories, least negative impact, one time benefit Very Marginal benefits, results in 1 to 2 categories, least negative impact, one time benefit</td>
+                                <td class="text-center">Implemented and Standardized in Single Machine in Modal Area</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center sno">4</td>
+                                <td class="text-center">4</td>
+                                    <td class="text-center">Internal customer focussed, Problem from the Problem bank, Plant level problem, relevant to the plant level goals</td>
+                                <td class="text-center">Data Collected and Stratified</td>
+                                    <td class="text-center">Clearly identify the root cause thru "why why" analysis for 2 causes Clearly identify the root cause thru "why why" analysis for 2 causes</td>
+                                <td class="text-center">DOE (Multiple Revisions)</td>
+                                    <td class="text-center">Significant benefit with good impact on business performance, results in 3 categories of PQCDSM, Cost benefit less than a lakh Significant benefit with good impact on business performance, results in 2 to 3 categories of PQCGSM, Cost benefit less than a lakh</td>
+                                <td class="text-center">Implemented and Standardized in All Machines Similar Machines in Gemba</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center sno">5</td>
+                                <td class="text-center">5</td>
+                                    <td class="text-center">Problem from the top 3 of pareto chart, Cell level problem, relevant to the cell level goals, easy to implement problems</td>
+                                <td class="text-center">Data Collected, Stratified, Measured using the Pareto Diagram</td>
+                                    <td class="text-center">All causes listed grouped effectively, adapt a brain storming method, clear categorisation of data with cause and effect and "why why" analysis All causes listed grouped effectively, adapt a brain storming method, clear categorisation of data with cause and effect and "why why" analysis</td>
+                                    <td class="text-center">Results Validation w.r.t to PQCDSM on DOE Significant benefit with high level of impact on business performance, results in more than 3 categories of PQCDSM, cost benefit in few lakhs, benefit is reccurence in nature</td>
+                                    <td class="text-center">Significant benefit with high level of impact on business performance, results in more than 3 categories of PQCGSM, cost benefit in few lakhs, benefit is reccurence in nature</td>
+                                <td class="text-center">Implemented and Revised in Control Documents Overall for all processes</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- END Table -->
+                </div>
+                <!-- END Responsive Table Wrapper -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</div>

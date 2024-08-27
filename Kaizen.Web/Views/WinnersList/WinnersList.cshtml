@@ -1,0 +1,467 @@
+﻿@model IEnumerable<Kaizen.Models.WinnersList.WinnersListModel>
+@{
+    Layout = "SidebarLayout";
+}
+<link rel="stylesheet" href="~/assets/css/WinnersList.css" />
+<div id="winnersComp" class="py-4 mb-1">
+    <div class="cardSpace border-0 card container-fluid shadow-sm rounded-lg col-12 py-3 px-5">
+        <h1 class="text-primary">View Winners List-</h1>
+        <div class="row">
+            <div class="col">
+                <p>Kaizen Idea > Kaizen Mang > Add Winners List</p>
+            </div>
+            <div class="col text-right">
+                <button id="viewwinner"type="button" class="btn btn-azure">View Winner List</button>
+            </div>
+        </div>
+    </div>
+    </div>
+<div id="addWinnerForm" class="border-0 card container-fluid shadow rounded-lg col-12 py-3 px-5 mt-2">
+    <h1 class="text-primary">Add Winner</h1>
+    <div id="winnerForm">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="hidden" value="null" id="empGuid" />
+                            <input type="hidden" name="name" id="recordid" />
+                            <label for="Category">Category</label>
+                            <select id="Category" class="form-control">
+                                <option value="Gold">Gold</option>
+                                <option value="Silver">Silver</option>
+                                <option value="Bronze">Bronze</option>
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <label for="empId">Emp ID</label>
+                            <input id="empId" type="number" class="text-primary form-control bg-light" />
+                            <p id="eIDError" class="text-danger"></p>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="empName">Emp Name</label>
+                            <input readonly id="empName" class="form-control text-primary bg-light" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="empDom">Domain</label>
+                            <input readonly id="empDom" class="form-control text-primary bg-light" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="empDep">Department</label>
+                            <input readonly id="empDep" class="form-control text-primary bg-light" />
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="startDate">Start Date</label>
+                            <input id="startDate" class="form-control text-primary bg-light" type="date" />
+                            <label id="sDError" class="text-danger"></label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="endDate">End Date</label>
+                            <input id="endDate" class="form-control text-primary bg-light" type="date" />
+                            <label id="eDError" class="text-danger"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex justify-content-center align-items-center dashed-card">
+                    <input id="attach_file2" type="file" name="files" style="display: none;" accept="image/*" onchange="previewImage(event)">
+                    <label for="attach_file2" class="file-drag d-flex flex-column align-items-center">
+                        <div class="upload-interface text-center">
+                            <img id="winnerid" src="~/assets/img/uil--image-upload.png" alt="Preview" class="mb-2 ml-2" style="max-width: 90%; height: 50%; cursor: pointer;">
+                            <div class="attachtitle" id="file-image-text">Click here to attach Winner image</div>
+                            <span id="winnerError" class="text-danger"></span>
+                        </div>
+                        <div class="mt-auto d-flex align-items-center">
+                            <button id="upload-again-btn" class="btn btn-azure" style="display: none;" onclick="triggerUpload()">Upload</button>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col text-center">
+                <input type="button" id="addWinnerBtn" value="Add" class="btn btn-azure">
+                <input type="button" id="updateWinnerBtn" value="Update" class="btn btn-azure">
+            </div>
+        </div>
+        <br />
+        <h1 id="listWinnersH" class="text-primary">List Winners-</h1>
+        <hr />
+        <br />
+        <div class="row">
+            <div class="col d-flex justify-content-center align-items-center h-100">
+                <div class="card goldCard">
+                    <img src="~/assets/img/WinnersPage/gold.jpg" class="w-100 img-fluid card-img-top" alt="" />
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <input class="form-control font-weight-bold text-warning" value="Emp ID" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control font-weight-bold text-warning" value="Name" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control font-weight-bold text-warning" value="Domain and Department" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center align-items-center h-100">
+                <div class="card silverCard">
+                    <img src="~/assets/img/WinnersPage/silver.jpg" class="w-100 img-fluid card-img-top" alt="" />
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <input class="form-control text-primary font-weight-bold text-secondary" value="Emp ID" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control text-primary font-weight-bold text-secondary" value="Name" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control text-primary font-weight-bold text-secondary" value="Domain and Department" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center align-items-center h-100">
+                <div class="card bronzeCard">
+                    <img src="~/assets/img/WinnersPage/bronze.jpg" class="w-100 img-fluid card-img-top" alt="" />
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <input class="form-control font-weight-bold" style="color: #652D12;" value="Emp ID" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control font-weight-bold" style="color: #652D12;" value="Name" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control font-weight-bold" style="color: #652D12;" value="Domain and Department" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+      function previewImage(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function () {
+        const imageElement = document.createElement('img');
+        imageElement.src = reader.result;
+
+        imageElement.onload = function () {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const width = 250;
+            const height = 220;
+                  
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(imageElement, 0, 0, width, height);
+            const resizedImage = canvas.toDataURL('image/jpeg');
+            const winnerImageElement = document.getElementById('winnerid');
+            winnerImageElement.src = resizedImage;
+            const textElement = document.getElementById('file-image-text');
+            textElement.style.display = 'none';
+            // Show the "Upload Again" button
+            const uploadAgainBtn = document.getElementById('upload-again-btn');
+            uploadAgainBtn.style.display = 'block';
+        }
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+}
+
+function triggerUpload() {
+    const fileInput = document.getElementById('attach_file2');
+    fileInput.click();
+}
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Handle view winner button click
+            $("#viewwinner").click(function () {
+                window.location.href = '/WinnersList/ViewWinnersList';
+            });
+            $('#updateWinnerBtn').hide();
+            // Handle employee ID change
+            $('#empId').on('change', function () {
+                var empId = $('#empId').val().trim();
+
+                if (empId !== '') {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetUserdatabyemp", "WinnersList")',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            NewKaizen: { EmpId: empId },
+                            WinnersList: {}
+                        }),
+                        success: function (response) {
+                            $('#eIDError').text('');
+                            $('#empName').val(response.name);
+                            $('#empDom').val(response.domain);
+                            $('#empDep').val(response.department);
+                            $('#empGuid').val(response.empguid);
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle errors here
+                        }
+                    });
+                }
+            });
+
+            // Handle add winner button click
+            $(document).on('click', '#addWinnerBtn', function () {
+                var empGuid = $('#empGuid').val().trim();
+                var empId = $('#empId').val().trim();
+                var empName = $('#empName').val().trim();
+                var category = $('#Category').val().trim();
+                var startDate = $('#startDate').val().trim();
+                var endDate = $('#endDate').val().trim();
+                var winnerimg = $('#attach_file2')[0].files[0];
+
+                var isValid = true;
+                if (startDate === "") {
+                    $('#sDError').text('Start Date is required').addClass('text-danger');
+                    isValid = false;
+                }
+                const file = document.getElementById('attach_file2').files[0];
+                const errorElement = document.getElementById('winnerError');
+                if (!file) {
+                    errorElement.textContent = 'image is required.';
+                    errorElement.classList.add('text-danger');
+                    isValid = false;
+                }
+                if (endDate === "") {
+                    $('#eDError').text('End Date is required').addClass('text-danger');
+                    isValid = false;
+                }
+                if (empId === "") {
+                    if (empName === "") {
+                        $('#eIDError').text('Emp Id is required').addClass('text-danger');
+                        isValid = false;
+                    }
+                }
+                if (empId === "" && empName === "") {
+                    $('#eIDError').text('Invalid Employee ID').addClass('text-danger');
+                    isValid = false;
+                }
+
+                var formData = new FormData();
+                formData.append('NewKaizen', JSON.stringify({}));
+                formData.append('WinnersList.EmpGUID', empGuid);
+                formData.append('WinnersList.Category', category);
+                formData.append('WinnersList.StartDate', startDate);
+                formData.append('WinnersList.EndDate', endDate);
+                formData.append('WinnersList.Winnerimage', winnerimg);
+
+                if (isValid) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("WinnersList", "WinnersList")',
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (response) {
+                            if (response == "Posted") {
+                                swal({
+                                    text: "Winner Added successfully !!",
+                                    type: "success"
+                                }).then(OK => {
+                                    window.location.href = '/WinnersList/WinnersList';
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle errors here
+                        }
+                    });
+                }
+            });
+
+
+
+
+
+
+            // Retrieve session data and populate the form and cards
+            var editUser = sessionStorage.getItem('editUser');
+            if (editUser) {
+                $('#addWinnerBtn').hide();
+                $('#updateWinnerBtn').show();
+
+                var userData = JSON.parse(editUser);
+
+                // Format the dates to 'YYYY-MM-DD'
+                var startDate = convertDateFormat(userData.startdate);
+                var endDate = convertDateFormat(userData.enddate);
+                var empId = userData.empid;
+                var category = userData.category;
+
+                // Populate form fields
+                $('#empId').val(empId);
+                $('#empName').val(userData.name);
+                $('#Category').val(category);
+                $('#startDate').val(startDate);
+                $('#endDate').val(endDate);
+                $('#empDom').val(userData.domain);
+                $('#empDep').val(userData.department);
+                $('#empGuid').val(userData.empid);
+                $('#recordid').val(userData.id)
+
+                if (userData.imgpath) {
+                    var FilePath = userData.imgpath;
+                    var base64String = userData.base64path;
+                    var fileExtension = FilePath.split('.').pop().toLowerCase();
+                    var ImageType = "";
+
+                    // Determine the image type based on the file extension
+                    if (fileExtension === "jpg" || fileExtension === "jpeg") {
+                        ImageType = "image/jpeg";
+                    } else if (fileExtension === "png") {
+                        ImageType = "image/png";
+                    } else {
+                        ImageType = "image/jpeg"; // Default to JPEG
+                    }
+
+
+                    var imgElement = $('<img>', {
+                        src: `data:${ImageType};base64,${base64String}`,
+                        alt: 'Image'
+                    });
+
+                    // Create a canvas to resize the image
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+                    var width = 250;
+                    var height = 220;
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    // Draw the image on the canvas and resize it
+                    imgElement[0].onload = function () {
+                        ctx.drawImage(imgElement[0], 0, 0, width, height);
+                        var resizedImage = canvas.toDataURL('image/jpeg');
+
+                        // Show the resized image in the #winnerid element
+                        var winnerImageElement = document.getElementById('winnerid');
+                        winnerImageElement.src = resizedImage;
+                            winnerImageElement.style.width = '250';
+                            winnerImageElement.style.height = '250';
+                        winnerImageElement.style.display = 'block';
+
+
+                        // Hide the text and show the upload again button
+                        $('#file-image-text').hide();
+                        $('#upload-again-btn').show();
+
+
+
+
+                    }
+                    // Handle update winner button click
+                   
+                }
+
+                $('#updateWinnerBtn').click(function () {
+                    var empGuid = $('#empGuid').val().trim();
+                    var empId = $('#empId').val().trim();
+                    var empName = $('#empName').val().trim();
+                    var category = $('#Category').val().trim();
+                    var startDate = $('#startDate').val().trim();
+                    var endDate = $('#endDate').val().trim();
+                    var winnerimg = $('#attach_file2')[0].files[0];
+                    var id = $('#recordid').val().trim();
+
+
+                    var formData = new FormData();
+                    formData.append('WinnersList.Empid', empId);
+                    formData.append('WinnersList.Category', category);
+                    formData.append('WinnersList.StartDate', startDate);
+                    formData.append('WinnersList.EndDate', endDate);
+                    formData.append('WinnersList.Winnerimage', winnerimg);
+                    formData.append('WinnersList.Id', id);
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("UpdateWinnersList", "WinnersList")',
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (response) {
+                            if (response == true) {
+                                swal({
+                                    text: "Winner Updated successfully !!",
+                                    type: "success"
+                                }).then(OK => {
+                                    window.location.href = '/WinnersList/ViewWinnersList';
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle errors here
+                        }
+                    });
+                });
+                // Populate cards
+                var winnersList = @Html.Raw(Json.Serialize(Model));
+                winnersList.forEach(function (item) {
+                    if (item.empID == empId && item.category == category) {
+                        var row = '<div class="row no-gutters">';
+                        row += '<div class="col"><input class="form-control text-' + getCategoryColor(category) + '" value="' + item.empID + '" /></div>';
+                        row += '<div class="col"><input class="form-control text-' + getCategoryColor(category) + '" value="' + item.empName + '" /></div>';
+                        row += '<div class="col"><input class="form-control text-' + getCategoryColor(category) + '" value="' + item.domainName + ' & ' + item.departmentName + '" /></div>';
+                        row += '</div>';
+
+                        if (category == "Gold") {
+                            $('.goldCard').append(row);
+                        } else if (category == "Silver") {
+                            $('.silverCard').append(row);
+                        } else if (category == "Bronze") {
+                            $('.bronzeCard').append(row);
+                        }
+                    }
+                });
+            }
+            function convertDateFormat(dateStr) {
+                var parts = dateStr.split('-');
+                return parts[2] + '-' + parts[1] + '-' + parts[0];
+            }
+            function getCategoryColor(category) {
+                switch (category) {
+                    case "Gold":
+                        return "warning";
+                    case "Silver":
+                        return "secondary";
+                    case "Bronze":
+                        return "brown";
+                    default:
+                        return "primary";
+                }
+            }
+        });
+    </script>
+    <script>
+        const fileInput = document.getElementById('attach_file2');
+        const errorElement = document.getElementById('winnerError');
+
+        fileInput.addEventListener('change', function () {
+            const file = fileInput.files[0];
+
+            if (!file) {
+                errorElement.textContent = 'Image is required.';
+                errorElement.classList.add('text-danger');
+            } else {
+                // Clear the error message if a file is selected
+                errorElement.textContent = '';
+                errorElement.classList.remove('text-danger');
+            }
+        });
+    </script>

@@ -7,50 +7,42 @@
 {
     margin-top:20px;
 }
-
+#btnupdate {
+    margin-top: 20px;
+}
 .bd {
     background-color: rgb(16, 202, 147);
     color: white;
     font-size: small;
     border: rgb(16, 202, 147);
 }
-
+#dHeader {
+    font-size: 16px !important;
+    margin-top: -10px;
+    margin-left: 7px;
+}
 #card-block {
     height: 20vh !important;
 }
 #blktotal
 {
     color:black;
+    font-weight:700;
+    font-size:15px;
 }
-.badge-sm {
-    font-size: 11px !important;
-    padding: 5px 8px;
-    line-height: 11px;
-    border-radius: 0px !important;
-    cursor: pointer !important;
+#blkh {
+    color: black;
+    font-weight: 500;
+    font-size: 13px;
+    margin-left:-17px;
 }
-
-.table thead th {
-    border-bottom-width: 1px;
-    text-transform: uppercase;
-    font-size: 11px;
-    font-family: sans-serif;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    line-height: 3;
-    border-color: #d7dae3 !important;
-    background-color: #EEEEEE !important;
-}
-
-.table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #39393a !important;
-    border: fff;
-    border-radius: 20px;
-    border-radius: 3px;
-}
-
+    .badge-sm {
+        font-size: 11px !important;
+        padding: 5px 8px;
+        line-height: 11px;
+        border-radius: 0px !important;
+        cursor: pointer !important;
+    }
 .icon {
     padding: 3px;
    /* width: 50px;
@@ -58,20 +50,14 @@
     min-width: 26px;
     min-height: 26px;
 }
-
-.table-bordered {
-    border: 2px solid #EEEEEE;
+td {
+    border: 1px solid rgb(203, 203, 203);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
 
-    .table-bordered th,
-    .table-bordered td {
-        border: 1px solid #EEEEEE;
-    }
-
-    .table-bordered thead th,
-    .table-bordered thead td {
-        border-bottom-width: 2px;
-    }
+th {
+    border: 1px solid rgb(203, 203, 203);
+}
 
 table {
     display: table;
@@ -81,19 +67,5 @@ table {
     unicode-bidi: isolate;
     border-spacing: 3px;
     border-color: gray;
-}
-
-.tablesort td {
-    font-size: 11px !important;
-}
-
-.table tbody tr td {
-    vertical-align: middle;
-    border-color: #d7dae3;
-}
-
-.table th, .table td {
-    padding: 5px 10px;
-    font-size: 11px;
 }
 

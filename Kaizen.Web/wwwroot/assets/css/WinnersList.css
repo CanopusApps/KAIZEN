@@ -1,0 +1,42 @@
+﻿th {
+    border: none !important;
+    background-color: rgb(240, 240, 240);
+}
+
+.mo {
+    height: 96%;
+}
+
+td {
+    height: 35px !important;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: separate;
+}
+
+.cardSpace {
+}
+
+.add-winner-form {
+    display: none; /* Initially hide the form */
+}
+
+.text-danger {
+    color: red;
+}
+
+#statusBadgeI:hover,
+#statusBadgeA:hover,
+#statusBadge::after {
+    cursor: pointer;
+}
+
+.hidden {
+    background-color: yellow !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}

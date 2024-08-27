@@ -1,0 +1,237 @@
+﻿@using Kaizen.Models.AdminModel
+@model IEnumerable<KaizenListModel>
+@inject IHttpContextAccessor Accessor
+@{
+    var UserType = Accessor.HttpContext.Session.GetString("Userrole");
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+<link href="~/assets/css/ViewUser/datatables.min.css" rel="stylesheet" />
+<script src="~/assets/js/custom/datatables.min.js"></script>
+<link href="~/assets/css/custom/viewuser.css" rel="stylesheet" />
+<table id="KaizenTable" class="table table-striped" style="width:100%;">
+    <thead>
+        <tr style="text-align:center">
+            <th id="DocNo" width="10%">Doc No</th>
+            <th id="KaizenTheme" width="10%">Kaizen Theme</th>
+            <th id="TeamMembers" width="15%">Team Members</th>
+            <th id="HORIZENTALDEP" width="10%">Horizontal Deployment</th>
+            <th id="FINNANCEAPPROVAL" width="10%">Finance Dept Approval</th>
+            <th id="IEAPPROVAL" width="5%">IE Dept Approval</th>
+            <th id="STATUS" width="15%">Status </th>
+            <th id="POSTEDBY" width="5%">Posted by</th>
+            <th id="POSTEDON" width="10%">Posted on</th>
+            <th id="Action" width="10%">Action</th>
+        </tr>
+    </thead>
+    <tbody style="text-align:center">
+        @if (Model != null)
+        {
+            foreach (var User in Model)
+            {
+                <tr data-kaizenid="@User.KaizenId">
+                    <td width="10%">@User.DocNo</td>
+                    <td width="10%">@User.KaizenTheme</td>
+                    <td width="15%">
+                        @Html.Raw(User.TeamName.Replace(",", "<br />"))
+                    </td>
+                    <td width="10%">@User.HorozantalDeployment</td>
+                    <td width="10%">@User.FinnanceDeptAppr</td>
+                    <td width="5%">@User.IEApprovedDept</td>
+                    <td width="15%">@User.ApprovalStatus</td>
+                    <td width="5%">
+                        @if (UserType == "ADMIN")
+                        {
+                            <a class="posted-by" href="#" data-createdby="@User.PostedBy" data-role="@User.role">@User.CreatedBy</a>
+                        }
+                        else
+                        {
+                            @User.CreatedBy
+                        }
+                    </td>
+                    <td width="10%">@User.CreatedDate</td>
+                    <td class="text-center" width="10%">
+                        @if ((User.AStatus < 4 || User.AStatus == 15) && UserType != "ADMIN")
+                        {
+                            <a class="btn btn-primary btn-sm edituser" id="edit">
+                                <i class="edit fas fa-solid fa-pencil"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger icon deleteuser" id="delete">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-primary btn-sm viewuser" id="view">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#KaizenTable').DataTable({
+            "order": [] // Disables initial sorting
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('tbody').on('click', '.edituser', function (e) {
+            debugger;
+            e.preventDefault();
+            var $row = $(this).closest('tr');
+            var kaizenid = $row.data('kaizenid');
+            var edituser = 'edit';
+            sessionStorage.setItem('editKaizen', JSON.stringify({
+                kaizenid: kaizenid,
+                edituser: edituser,
+            }));
+            window.location.href = '/CreateKaizen/NewKaizen';
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('tbody').on('click', '.viewuser', function (e) {
+            e.preventDefault();
+            var $row = $(this).closest('tr');
+            var kaizenid = $row.data('kaizenid');
+            var edituser = 'view';
+            sessionStorage.setItem('editKaizen', JSON.stringify({
+                kaizenid: kaizenid,
+                edituser: edituser,
+            }));
+            window.location.href = '/CreateKaizen/NewKaizen';
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('tbody').on('click', '.deleteuser', function (e) {
+            e.preventDefault();
+            var $row = $(this).closest('tr');
+            var kaizenid = $row.data('kaizenid');
+            swal({
+                text: "Are you sure you want to Delete the Kaizen ?",
+                buttons: {
+                    confirm: "Yes",
+                    cancel: "No",
+                },
+            }).then((userConfirmation) => {
+                if (userConfirmation) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteKaizen", "SubmittedKaizen")',
+                        type: 'GET',
+                        data:
+                        {
+                            kaizenid: kaizenid,
+                        },
+                        success: function (result) {
+                            if (result == true) {
+                                swal({
+                                    text: "Kaizen Deleted successfully !!",
+                                    type: "success"
+                                }).then(okay => {
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                swal('Unable to Delete the Kaizen - Please Check the logs');
+                                window.location.href = redirectErrorUrl;
+                            }
+                        }
+                    });
+                }
+            });
+
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#KaizenTable').on('click', '.posted-by', function (e) {
+            e.preventDefault();
+            var user = $(this).data('createdby');
+            var role = $(this).data('role');
+            var LoginRole = '@UserType';
+            $.ajax({
+                url: '/SubmittedKaizen/FetchKaizenDetails_by_CreatedBy',
+                type: 'GET',
+                data: { UserId: user, role: role, LoginRole: LoginRole },
+                success: function (result) {
+                    var rows = [];
+                    $(result).find('tbody tr').each(function () {
+                        var $row = $(this);
+                        var rowData = {
+                            docno: $row.data('docno'),
+                            kaizentheme: $row.data('kaizentheme'),
+                            teamname: $row.data('teamname'),
+                            horozantaldeployment: $row.data('horozantaldeployment'),
+                            ieapproveddept: $row.data('ieapproveddept'),
+                            domain: $row.data('domain'),
+                            finnancedeptappr: $row.data('finnancedeptappr'),
+                            approvalstatus: $row.data('approvalstatus'),
+                            createdby: $row.data('createdby'),
+                            createddate: $row.data('createddate')
+
+                        };
+                        rows.push(rowData);
+                    });
+                    $('#SubmittedKaizengrid').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(window).on('load', function () {
+        if (sessionStorage.getItem("ViewKaizen")) {
+            var viewKaizenData = JSON.parse(sessionStorage.getItem("ViewKaizen"));
+            var user = viewKaizenData['user'];
+            var role = viewKaizenData['role'];
+            var LoginRole = viewKaizenData['LoginRole'];
+
+            $.ajax({
+                url: '/SubmittedKaizen/FetchKaizenDetails_by_CreatedBy',
+                type: 'GET',
+                data: { UserId: user, role: role, LoginRole: LoginRole },
+                success: function (result) {
+                    var rows = [];
+                    $(result).find('tbody tr').each(function () {
+                        var $row = $(this);
+                        var rowData = {
+                            docno: $row.data('docno'),
+                            kaizentheme: $row.data('kaizentheme'),
+                            teamname: $row.data('teamname'),
+                            horozantaldeployment: $row.data('horozantaldeployment'),
+                            ieapproveddept: $row.data('ieapproveddept'),
+                            domain: $row.data('domain'),
+                            finnancedeptappr: $row.data('finnancedeptappr'),
+                            approvalstatus: $row.data('approvalstatus'),
+                            createdby: $row.data('createdby'),
+                            createddate: $row.data('createddate')
+
+                        };
+                        rows.push(rowData);
+                    });
+                    $('#SubmittedKaizengrid').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+            sessionStorage.removeItem("ViewKaizen");
+        } 
+        else 
+        {
+            sessionStorage.removeItem("ViewKaizen");
+        }
+    });
+</script>

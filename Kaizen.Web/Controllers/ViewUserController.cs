@@ -38,7 +38,7 @@ namespace Kaizen.Web.Controllers
             {
                 viewModel.UserTypeList = _addUserWorker.GetUserType();
 
-				viewModel.DomainList = _domainWorker.GetDomain();
+				viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
                 UserGridModel model = new UserGridModel()
                 {
                     Name = Name,
@@ -57,36 +57,29 @@ namespace Kaizen.Web.Controllers
 
             return View(viewModel);
         }
-        public JsonResult ViewFilterUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
+        public IActionResult ViewFilterUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
         {
-            try
+            UserGridModel model = new UserGridModel()
             {
-				UserGridModel model = new UserGridModel()
-				{
-					Name = Name,
-					EmpID = EmpId,
-					Email = Email,
-					UserType = UserType,
-					Domain = Domain,
-					Department = Department
-				};
-				var userList = _viewUserWorker.GetUser(model);
-                return Json(userList);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception if needed
-                // LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
-                return Json(new { success = false, message = ex.Message });
-            }
+                Name = Name,
+                EmpID = EmpId,
+                Email = Email,
+                UserType = UserType,
+                Domain = Domain,
+                Department = Department
+            };
+            var userList = _viewUserWorker.GetUser(model);
+            return PartialView("_UserGridPartial", userList);
         }
+
         public List<DepartmentModel> FetchDepartment(string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
             if (!string.IsNullOrEmpty(domainid))
             {
-				deptList = _departmentWorker.GetDepartments().Where(d=>d.DomainId == Convert.ToInt32(domainid)).ToList();                
-
+                deptList = _departmentWorker.GetDepartments()
+                      .Where(m => m.DomainId == Convert.ToInt32(domainid) && m.Status == true)  // Adjust based on how 'active' is represented
+                      .ToList();
             }
             return deptList;
         }
@@ -109,14 +102,13 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public string Upload(IFormFile file, string Status, string UserType, string Password)
         {
-            var Return = "";
             if (file == null || file.Length == 0)
             {
                 return "No file uploaded.";
             }
-            Return=_viewUserWorker.SendFile(file,Status,UserType,Password);
-            return Return;
+            string resultMessage = _viewUserWorker.SendFile(file, Status, UserType, Password);
+
+            return resultMessage;
         }
-        
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,9 +19,9 @@ namespace Kaizen.Business.Worker
         {
             this._repositoryDepartmentdata = repositoryDepartmentdata;
         }
-        public bool CreateDepartment(int domainId, string DomainName, string DepartmentName)
+        public bool CreateDepartment(DepartmentModel departmentModel)
         {
-            return _repositoryDepartmentdata.CreateDepartmentData(domainId, DomainName, DepartmentName);
+            return _repositoryDepartmentdata.CreateDepartmentData(departmentModel);
         }
         public List<DepartmentModel> GetDepartments()
         {
@@ -37,7 +38,11 @@ namespace Kaizen.Business.Worker
                         DepartmentName = dr["DepartmentName"].ToString(),
                         DomainId = Convert.ToInt32(dr["DomainId"].ToString()),
                         DomainName = dr["DomainName"].ToString(),
-                        Status = Convert.ToBoolean(dr["Status"])
+                        Status = Convert.ToBoolean(dr["Status"]),
+                        User_count = Convert.ToInt32(dr["user_count"]),
+                        kaizen_count= Convert.ToInt32(dr["kaizen_count"]),
+                        KaizenSubmitedCountdept = Convert.ToInt32(dr["KaizenSubmittedUserdept"])
+
                     });
                 }
             }
@@ -51,11 +56,11 @@ namespace Kaizen.Business.Worker
         {
             return _repositoryDepartmentdata.UpdateDepartmentStatus(id, status);
         }
-        public List<DomainModel>GetDomain(DomainModel model)
+        public List<DomainModel> GetDomain()
         {
             List<DomainModel> list = new List<DomainModel>();
-            DataSet ds = new DataSet();
-            ds = _repositoryDepartmentdata.GetDomainData(model);
+            DataSet ds = _repositoryDepartmentdata.GetDomainData();
+
             if (ds.Tables.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -63,11 +68,17 @@ namespace Kaizen.Business.Worker
                     list.Add(new DomainModel
                     {
                         Id = Convert.ToInt32(dr["DomainID"]),
-                        DomainName = dr["DomainName"].ToString()
+                        DomainName = dr["DomainName"].ToString(),
+                        Status = Convert.ToBoolean(dr["Status"])
                     });
                 }
             }
-            return list;
+
+            return list.Where(d => d.Status == true).ToList(); ;
+        }
+        public bool UpdateDepartmentDetails(DepartmentModel departmentmodel)
+        {
+            return _repositoryDepartmentdata.UpdateDepartmentDetails(departmentmodel);
         }
     }
 }

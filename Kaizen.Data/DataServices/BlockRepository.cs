@@ -31,7 +31,7 @@ namespace Kaizen.Data.DataServices
             return builder.Build();
         }
 
-        public bool InsertBlockDetails(string blockName)
+        public bool InsertBlockDetails(BlockModel blockmodel)
         {
             bool status = false;
             try
@@ -40,7 +40,8 @@ namespace Kaizen.Data.DataServices
                 DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@blockname", blockName);
+                com.Parameters.AddWithValue("@blockname",  blockmodel.BlockName);
+                com.Parameters.AddWithValue("@CreatedBy",  blockmodel.CreatedBy);
                 com.CommandText = StoredProcedures.sp_InsertBlockDetails;
                 con.Open();
                 com.ExecuteNonQuery();
@@ -51,8 +52,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
 
         public bool DeleteBlockData(int id)
@@ -77,8 +81,11 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
-
-            return status;
+			finally
+			{
+				con.Close();
+			}
+			return status;
         }
 
         public bool UpdateBlockData(int id, bool status)
@@ -104,8 +111,12 @@ namespace Kaizen.Data.DataServices
             {
                 throw ex;
             }
+			finally
+			{
+				con.Close();
+			}
 
-            return updStatus;
+			return updStatus;
         }
         // For View record
         public DataSet GetBlockData()
@@ -129,5 +140,34 @@ namespace Kaizen.Data.DataServices
 
 		}
 
-	}
+        public bool UpdateBlockDetails(BlockModel blockmodel)
+        {
+            bool status = false;
+            try
+            {
+                com = new SqlCommand();
+                DataTable dt = new DataTable();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@blockname",  blockmodel.BlockName);
+                com.Parameters.AddWithValue("@blockId",  blockmodel.Id);
+                com.Parameters.AddWithValue("@ModifiedBy", blockmodel.ModifiedBy);
+                com.CommandText = StoredProcedures.sp_UpdateBlock;
+                con.Open();
+                com.ExecuteNonQuery();
+                con.Close();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+			finally
+			{
+				con.Close();
+			}
+			return status;
+        }
+
+    }
 }

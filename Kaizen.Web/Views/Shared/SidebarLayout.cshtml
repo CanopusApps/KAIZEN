@@ -1,8 +1,27 @@
-﻿@inject IHttpContextAccessor Accessor
+﻿@using Kaizen.Models.AdminModel
+@using Newtonsoft.Json;
+@inject IHttpContextAccessor Accessor
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
 
 @{
-    var title = "Responsive Sidebar";
+    var title = "TEPL Kaizen Idea";
 }
+@{
+    var UserType = Accessor.HttpContext.Session.GetString("Userrole");
+    var ImageApprover = Accessor.HttpContext.Session.GetString("ImageApprover");
+    string selectedTheme = Accessor.HttpContext.Session.GetString("SelectedTheme");
+}
+@* @{
+    var CountListJson = Accessor.HttpContext.Session.GetString("CountList");
+    List<CountModel> CountList = new List<CountModel>();
+
+    if (!string.IsNullOrEmpty(CountListJson))
+    {
+        CountList = JsonConvert.DeserializeObject<List<CountModel>>(CountListJson);
+    }
+} *@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +29,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@title</title>
+    <link rel="shortcut icon" href="~/assets/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -18,80 +38,302 @@
     <script src="~/assets/js/custom/sweetalert.min.js"></script>
 </head>
 <style>
+    /* styles.css */
 
+    #loader-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+        z-index: 1000; /* Make sure it covers everything */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #loader {
+        border: 10px solid #f3f3f3; /* Light grey */
+        border-top: 10px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        animation: spin 2s linear infinite;
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+    .logo{
+        width:50px;
+    }
     #wc {
         font-size: 15px;
         color: white;
+        cursor:pointer!important;
+    }
+
+    hr {
+        display: block;
+     /*    height: 1px; */
+        border: 0;
+        border-top: 1px solid #ccc;
+        margin: 0em 0;
+        padding: 0;
+        margin-left:12px;
+        margin-right:20px;
+    }
+    .menupadding
+    {
+        font-weight: bold;
+        padding-top: 10px; /* Adjust the top padding */
+        padding-bottom: 10px; /* Adjust the bottom padding */
+        font-size: 15px; /* Consistent font size for all headings */
+        margin-bottom: 5px; /* Remove extra space below headings */
+        
+    }
+
+        .menupaddingsub
+        {
+        padding: 10px 15px; /* Consistent padding */
+        margin: 0; /* Remove extra margin */
+        display: flex; /* Flex layout */
+        justify-content: space-between; /* Spread content and icon */
+        align-items: center; /* Vertically center items */
+        white-space: nowrap; /* Prevent text wrapping */
+        }
+
+    #page-content-wrapper {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 20px;
+    }
+
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #ffffff;
+        text-align: center;
+        padding: 10px 0;
+
+    }
+
+    body {
+        background-color: #fff;
+        overflow-y: auto;
+    }
+    .textfor{
+    font-size: 13px!important;
+    }
+
+    /*Line height changes */
+
+
+    #sidebar-wrapper{
+        width:192px !important;
+        overflow-x: hidden; /* Prevent horizontal overflow issues */
+    }
+
+    .list-group-item {
+        padding: 0.5rem 1rem; /* Adjust padding as needed */
+        font-size: 25px; /* Consistent font size */
+        font-weight: bold; /* Consistent font weight */
+        display: flex; /* Flex layout for alignment */
+        justify-content: space-between; /* Spread content and icon */
+        align-items: center; /* Vertically center items */
+        white-space: nowrap; /* Prevent text wrapping */
+        margin: 0; /* Remove margin */
+    }
+
+    .sub-menu .list-group-item {
+        padding: 5px 15px; /* Adjust padding for sub-menu items */
+        margin-left: 20px; /* Optional: adjust margin for sub-menu items */
+       font-size: 13px; /* Increase font size for sub-menu items under "Masters" */
+        margin-bottom: 0; /* Remove extra space between sub-menu items */
+    }
+
+    #sidebar-wrapper .list-group-item {
+        margin-bottom: 3px; /* Reduce margin to decrease space between items */
+    }
+
+    .textSize {
+        font-size: 14px; /* Adjust the font size if needed */
+    }
+
+    .textfor {
+        font-size: 13px !important;
+    }
+
+ 
+    
+
+    /*Profile and logout dropdown*/
+    .dropdown-menu {
+    width: 200px; /* Adjust width as needed */
+}
+
+.dropdown-item {
+    font-size: 14px !important; /* Adjust font size as needed */
+}
+
+    label {
+        margin: 0;
+        padding: 0;
+    }
+
+    span {
+        margin: 0;
+        padding: 0;
+    }
+
+        .no-space {
+        margin: 0;
+        padding: 0;
+        display: inline;
     }
 </style>
-<body class="bg-light">
+<script>
+    (function () {
+
+        const idleDurationSecs = @Configuration.GetSection("SessionTimeout")["Time"];
+        //const redirectUrl = '/Login/index';
+        const redirectUrl = '/Login/Logout';
+        let idleTimeout;
+
+        const resetIdleTimeout = function () {
+            if (idleTimeout) clearTimeout(idleTimeout);
+            idleTimeout = setTimeout(() => location.href = redirectUrl, idleDurationSecs * 1000);
+        };
+        resetIdleTimeout();
+        ['click', 'touchstart', 'mousemove'].forEach(evt =>
+            document.addEventListener(evt, resetIdleTimeout, false)
+        );
+
+    })();
+</script>
+@* <body class="bg-light" style="background-color:#e9ecef"> *@
+<body style="background-color:#e9ecef;overflow-y:hidden;"> 
     <div id="wrapper" class="d-flex flex-column">
-        <!-- Navbar -->
-        <nav class="navbar navbar-light " id="container-header">
-                <div class="text-center text-uppercase border-bottom text-light pl-5" style="background-color:#2dc3e8!important">
-                    <img class="logo" src="~/assets/img/logo-white.png" alt="Tata Logo" />
-                    <h4>Tepl Kaizen Idea</h4>
-                </div>
-              @*   <img src="~/assets/img/favicon.png" width="50px" /> *@
-                <ul class="navbar-nav header-right pr-4">
-                    <li class="nav-item">
-                        <div class="header-info">
-                            <div class="d-flex align-items-center">
-                                <img src="~/assets/img/favicon.png" width="50px" class="mr-2" />
-                                <h3 class="mb-0">
-                                    <label id="wc">
-                                    Hi,<div id="wc">@Accessor.HttpContext.Session.GetString("Message")</div>
-                                    </label>
-                                </h3>
-                            </div>
+     
+        <nav class="navbar navbar-expand-lg navbar-light" id="container-header" style="background-color: #2dc3e8!important;">
+
+            <a class="navbar-brand align-items-center" href="#">
+                <img class="logo ml-5" src="~/assets/img/Tata_Logo2 (1).svg" alt="Tata Logo" />
+                <label class="text-uppercase text-white ml-3 mr-3" style="font-size: x-large;">Tepl Kaizen Idea</label>
+                <label class="mx-5 ml-3" style="color:white; font-size: large;" loginbox-title>
+                    Kaizen Winner for this month is
+                    <span style="color:#3085C3; font-weight:bold; font-size: x-large;">
+                        @selectedTheme
+                    </span><span style="font-size: large;">.</span>
+                    Congratulations Team!
+                </label>
+            </a>
+            
+            <div class="ml-auto d-flex align-items-center">
+             
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle no-caret text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="~/assets/img/Profile.png" width="30px" class="mr-2" />
+                            <Label id="wc" class="text-white">Hi, @Accessor.HttpContext.Session.GetString("Message")
+                                <div class="text-white"> @Accessor.HttpContext.Session.GetString("Domain")-@Accessor.HttpContext.Session.GetString("Department")</div>
+                            </Label>         
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" onclick = "ProfilePage();" href="#"><i class="fa-regular fa-user text-primary"></i> Profile</a>
+                            <a class="dropdown-item" onclick="LogoutOption();" href="#"><i class="fa-solid fa-right-from-bracket text-danger"></i> Logout</a>
                         </div>
                     </li>
-                </ul>          
+                </ul>
+            </div>
+
         </nav>
-        <div>
+     
+       <div>
         <button class="btn menu-toggle m-3" id="menu-toggle">
             <i class="fas fa-bars"></i>
         </button>
-        </div>
+        </div> 
         <!-- /Navbar -->
         <div class="d-flex flex-row">
             <!-- Sidebar -->
             <div id="sidebar-wrapper">
+               
                 <div class="list-group list-group-flush my-3">
-                    <a href="/Dashboard/Dashboard" class="list-group-item list-group-item-action fw-bold text-light">Dashboard</a>
-                    <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light">NewKaizen</a>
-                    <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light">Submitted Kaizen</a>
+                   @*  <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a> *@
+                    @if (UserType == "MANAGER")
+                    {
+                        <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
+                        <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">New Kaizen</a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
+                    }
+                    @if ( UserType == "EMPLOYEE")
+                    {
+                        <a href="/Dashboard/EmployeeDashboard" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
+                        <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">New Kaizen</a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
+                    }
+                  @*   <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen</a> *@
+                    @if(UserType == "ADMIN")
+                    {
+                        <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
+                        <a href="/SubmittedKaizen/DeletedKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px; display:inline;">Deleted Kaizens(<label style="font-size:15px" id="deleteApprovalCountLabel"></label>)</a>
+                        <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize" style="font-size:15px;" data-toggle="collapse" data-target="#demo">Masters<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
+                        <div class="sub-menu collapse menupadding" id="demo">
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">Blocks</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDomain">Domains</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDepartment">Departments</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddUser">New User</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewUser">View Users</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Theme/ThemeChanger">Add Theme</a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/WinnersList/ViewWinnersList">Winners List</a>
+                        </div>
+                        <a href="/Reports/ReportDownload" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize" style="font-size:15px;">Reports</a> 
+                        <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize" style="font-size:15px;" data-toggle="collapse" data-target="#demo1">Evaluation Criteria<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
+                        <div class="sub-menu collapse menupadding" id="demo1">
+                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/Theme/Kaizencriteria">Kaizen</a>
+                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/Theme/KaizenBreakthrough">Breakthrough</a>
+                        </div>
+                    }
+                    @if (ImageApprover == "True")
+                    {
+                        <a href="/SubmittedKaizen/ViewImageApproval" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize" style="font-size:15px;display:inline">
+                            Image Approval (<label style="font-size:15px" id="imageApprovalCountLabel"></label>)
+                        </a>
+                    }
 
-                    <div class="collapse" id="basicUIElementsSubmenu">
-                        <a href="#" class="list-group-item list-group-item-action fw-bold">Element 1</a>
-                        <a href="#" class="list-group-item list-group-item-action fw-bold">Element 2</a>
-                    </div>
-                    <!-- Drop down -->
-                    <div class="list-group-item list-group-item-action" data-toggle="collapse" data-target="#demo">Master Page's<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
-                    <div class="sub-menu collapse" id="demo">
-                        <a class="list-group-item text-light ml-3" href="/Admin/AddBlock">Block</a>
-                        <a class="list-group-item text-light ml-3" href="/Admin/AddDomain">Domain</a>
-                        <a class="list-group-item text-light ml-3" href="/Admin/AddDepartment">Department</a>
-                        <a class="list-group-item text-light ml-3" href="/Admin/AddUser">User</a>
-                        <a class="list-group-item text-light ml-3" href="/ViewUser/ViewUser">View User</a>
-                    </div>
-
-                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold">Form Elements</a>
-                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold">Tables</a>
-                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold">Charts</a>
-                    <a href="#" class="list-group-item list-group-item-action text-light fw-bold">Icons</a>
-                    <a class="LogoutIcon list-group-item" href="/Login/Logout"><i class="fa-solid fa-right-from-bracket icon1 padding-left-20 margin-left-20"></i></a>
+                    @if ( UserType == "IE DEPT" || UserType == "FINNACE")
+                    {
+                        <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
+                    }
+                    <a class="LogoutIcon list-group-item menupadding" onclick="LogoutOption();" href="#"><i class="fa-solid fa-right-from-bracket icon1 padding-left-20 margin-left-20"></i></a>
                 </div>
             </div>
+
             <!-- /Sidebar -->
             <!-- Page Content -->
-            <div id="page-content-wrapper" class="flex-grow-1">
+            <div id="loader-wrapper">
+                <div id="loader"></div>
+            </div>
+  
+            <div id="page-content-wrapper" class="container-fluid flex-grow-1" style="height:calc(100vh - 105px); overflow-y: scroll;">
                 @RenderBody()
-                <!-- Footer-->
-               @*  <div class="footer">
-                    <p>Copyright © TEPL-KAIZEN-IDEA 2024</p>
-                </div> 
-            </div> *@
+            </div>
+  
+        </div>
+            
         </div>
     </div>
 
@@ -100,12 +342,57 @@
             <div class="container py-3 ">
                 <p class="mb-0 ">Copyright © TEPL-KAIZEN-IDEA 2024</p>
             </div>
-        </div>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        </div> 
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script>
         $("#menu-toggle").click(function (e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
+        });
+        function LogoutOption() 
+        {
+                swal({
+                    text: "Are you sure you want to Logout ?",
+                    buttons: {
+                        confirm: "Yes",
+                        cancel: "No",
+                    },
+                }).then((userConfirmation) => {
+                    if (userConfirmation) {
+                        window.location = "/Login/Logout";
+                    }
+                });
+        }
+    </script>
+    <script>
+            $(window).on('load', function () {
+                $('#loader-wrapper').fadeOut('slow', function () {
+                    $(this).remove();
+                });
+            });
+    </script>
+    <script>
+        function ProfilePage() 
+        { 
+            window.location.href = '/Profile/Profile';
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Login/GetSerializedCountList',
+                type: 'GET',
+                success: function (response) {
+                    var countList = JSON.parse(response);
+                    var imageApprovalCount = countList[0].ImageApprovalCount;
+                    var deleteApprovalCount = countList[0].DeletedCount;
+                    $('#imageApprovalCountLabel').text(imageApprovalCount);
+                    $('#deleteApprovalCountLabel').text(deleteApprovalCount);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         });
     </script>
 </body>

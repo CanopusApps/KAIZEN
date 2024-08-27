@@ -1,4 +1,4 @@
-﻿ @model Kaizen.Models.AdminModel.LoginModel
+﻿@model Kaizen.Models.AdminModel.LoginModel
 @{
     Layout = "Empty";
 }
@@ -10,8 +10,6 @@
             Kaizen Application
         </div>
         <div class="loginbox bg-white">
-
-            @*  <img src="~/assets/img/Tepl Kaizen Image.png" class="img-fluid center-image" style="width: 300px; height: 150px" /> *@
             <div class="loginbox-title">Forgot Password ?</div>
             <div class="loginbox-or">
                 <div class="or-line"></div>
@@ -21,16 +19,95 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
                         <span class="text-danger">*</span>
-                        @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control col-md-6", placeholder = "Enter Employee Id" } })
+                        @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control col-md-6", placeholder = "Enter Employee Id", id = "EmpId" } })
                         <br />
-                        @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger" })
+                        <span id="IdVal"></span>
                     </div>
                 </div>
             </div>
-            <div class="loginbox-submit">
-                <input type="submit" class="btn btn-block  btn-azure" value="Submit" />
+            <div class="form-group row justify-content-center">
+                <div class="col-md-5 col-12 mb-2">
+                    <button type="button" class="btn btn-block btn-azure custom-margin" id="submitFPId">Submit</button>
+                </div>
+                <div class="col-md-5 col-12">
+                    <button type="button" class="btn btn-block btn-secondary custom-margin" id="BackToLI">Back</button>
+                </div>
             </div>
         </div>
         <div class="col-sm-4"></div>
     </div>
 }
+
+<style>
+    @@media (min-width: 992px) { /* lg and up */
+        .custom-margin {
+            margin-left: 2.5rem;
+        }
+    }
+</style>
+
+<script src="~/assets/js/custom/sweetalert.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("form").validate({
+            rules: {
+                EmpId: {
+                    required: true,
+                    digits: true
+                }
+            },
+            messages: {
+                EmpId: {
+                    required: "Please enter your Employee ID",
+                    digits: "Employee ID should only contain numbers"
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.appendTo("#IdVal");
+            },
+            errorClass: "text-danger",
+        });
+
+        // Corrected Back button event handler
+        $(document).on('click', '#BackToLI', function (e) {
+            window.location.href = '@Url.Action("Index", "Login")';
+        }); // <-- Missing closing parenthesis and semicolon added here
+
+        $(document).on('click', '#submitFPId', function (e) {
+            e.preventDefault();
+
+            if ($("form").valid()) {
+                var empid = $('#EmpId').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Forgot", "Login")',
+                    data: { id: empid },
+                    success: function (response) {
+                        console.log("This is the response" + response);
+                        if (response) {
+                            swal({
+                                text: "Please check email and verify.",
+                            }).then(OK => {
+                                location.reload();
+                            });
+                        } else {
+                            swal({
+                                text: "No response from server. Please try again later.",
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        swal({
+                            text: "An error occurred. Please try again later.",
+                        });
+                        console.log('Error:', error);
+                    }
+                });
+            }
+        });
+    });
+</script>
+

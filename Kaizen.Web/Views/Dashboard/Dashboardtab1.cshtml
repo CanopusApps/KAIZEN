@@ -1,0 +1,317 @@
+﻿@{
+    Layout = "SidebarLayout";
+}
+<link href="~/assets/css/custom/dashboard.css" rel="stylesheet" />
+<style>
+    .card-container {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card-header {
+        font-weight: bold;
+    }
+
+    .card-item {
+        background-color: rgb(135, 206, 235, 0.5);
+        color: black;
+        border: 1px dashed #007bff;
+        text-align: center;
+        border-radius: 10px;
+        margin-left: 5px;
+        margin-right: 15px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+   
+    #dHeader {
+        text-align: center;
+        font-size: 16px !important;
+        margin-top: -10px;
+        margin-left: 7px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
+<div class="card ml-2 mr-2 bg-light">
+    <nav>
+        <div class="container-fluid rounded bg-white p-2 mt-2 mb-2">
+            <div class="col-lg-12 p-md-0 p-2">
+                <div class="welcome-text">
+                    <label id="dHeader">Masters -->Dashboard</label>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-link tab active" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="true">Domains & Department </a>
+                <a class="nav-link tab" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Yearly & Monthly</a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Charts</a>
+            </div>
+        </nav>
+
+        <div class="container-fuild  bg-light" style="width:100%">
+            <form>
+                <div class="card p-3 mt-2 mb-2">
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
+                            <div>
+                                <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="">
+
+                            </div>
+
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
+                            <div>
+                                <input class="form-control txt-width" id="dtenddate" type="date" name="name" value="" />
+                            </div>
+
+                        </div>
+                        <span class="form-row p-4 container">
+                            <button type="button" class="btn  col-lg-2 m-1 btn-azure " id="btn_filter" value="Filter">Filter</button>
+                         @*    <button type="reset" class="btn col-lg-2 m-1 btn-warning"  value="Reset">Reset</button> *@
+                            <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="resetButton" value="Reset">Reset</button> 
+
+                        </span>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+       
+        <div class="tab-content" id="nav-tabContent">
+
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="card" id="main-container">
+                    <!-- First Row of Cards -->
+                    <div class="card-container">
+                        <div class="card mt-2">
+                            <div class="card-header">Total Kaizens Submitted / Total Employees in Domain</div>
+                            <div class="card-body">
+                                <div class="row" id="firstrow">
+                                </div>
+                                
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                   
+                    <div class="container" id="container-middle" style="display: none;">
+                        <div class="card-container">
+                            <div class="card mt-2">
+                                <div class="card-header">Total Kaizens Submitted / Total Employees in Department</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <!-- Dynamic content will be appended here -->
+                                    </div>
+                                </div>
+                                <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset" value="Reset">Hide</button>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <!-- Second Row of Cards -->
+                    <div class="card-container">
+                        <div class="card">
+                            <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Domain </div>
+                            <div class="card-body">
+                                <div class="row " id="secondrow">
+ 
+                                </div> 
+ 
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Container -->
+                    <div class="container" id="container-end" style="display: none;">
+                      
+                        <!-- End container to display fetched data -->
+                        <div class="card-container">
+                            <div class="card mt-2">
+                                <div class="card-header">Total Employees Submitted Kaizens / Total Employees in Department</div>
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <!-- Dynamic content will be appended here -->
+                                        
+                                    </div>
+                                </div>
+                                <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset1" value="Reset">Hide</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </nav>
+</div>
+</div>
+
+<script>
+    document.getElementById('resetButton').addEventListener('click', function () {
+        window.location.reload();
+    });
+    $(document).ready(function () {
+        $('#btn_filter').click(function () {
+            hideContainer('container-middle');
+            hideContainer('container-end');
+           
+            var StartDate = $('#dtstartdate').val();
+            var EndDate = $('#dtenddate').val();
+            $.ajax({
+                url: '@Url.Action("DomainkaizenFilter", "Dashboard")',
+                type: 'GET',
+                data: {
+                    StartDate: StartDate,
+                    EndDate: EndDate,
+                },
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+                success: function (result) {
+                    const container = document.querySelector('#firstrow');
+                    const containerSecond = document.querySelector('#secondrow');
+                    container.innerHTML = '';
+                    containerSecond.innerHTML = '';
+
+                    for (let i = 0; i < result.domainList.length; i++) {
+                        let domain = result.domainList[i];
+                        let allKaizenSubmitted = domain.allKaizenSubmitted;
+                        let userCount = domain.user_count;
+                        let percentage = (domain.allKaizenSubmitted / domain.userCount) * 100;
+                        let kaizenSubmittedUser = domain.KaizenSubmittedUser;
+                        let percentageUser = (kaizenSubmittedUser / userCount) * 100;
+
+                        let cardItem = `
+                    <div class="ml-3 col-md-4 col-lg-3 col-xl-2 card-item"
+                        data-domain-id="${domain.id}"
+                        data-card-type="first"
+                        data-kaizen-submitted="${allKaizenSubmitted}"
+                        data-user-count="${userCount}">
+                        <div>${domain.domainName}</div>
+                        <div class="kaizen-ratio">${allKaizenSubmitted} / ${userCount}</div>
+                        <div class="percentage">${percentage.toFixed(2)}%</div>
+                    </div>`;
+
+                        let cardItemSecond = `
+                    <div class="ml-3 col-md-4 col-lg-3 col-xl-2 card-item"
+                        data-domain-id="${domain.id}"
+                        data-card-type="second"
+                        data-kaizen-submitted="${domain.kaizenSubmittedUser}"
+                        data-user-count="${userCount}">
+                        <div>${domain.domainName}</div>
+                        <div>${domain.kaizenSubmittedUser} / ${userCount}</div>
+                        <div class="percentage">${percentage.toFixed(2)}%</div>
+                    </div>`;
+
+                        container.insertAdjacentHTML('beforeend', cardItem);
+                        containerSecond.insertAdjacentHTML('beforeend', cardItemSecond);
+                    }
+                    updatePercentages();
+
+                    // Bind the click event handler to the card items
+                    $('.card-item').click(function () {
+                        var domainId = $(this).data('domain-id'); // Fetch the domain ID
+                        var cardType = $(this).data('card-type'); // Fetch the card type
+                        var StartDate = $('#dtstartdate').val();
+                        var EndDate = $('#dtenddate').val();
+                        $.ajax({
+                            type: 'GET',
+                            url: '/Dashboard/FetchDepartment',
+                            dataType: "json",
+                            data: {
+                                DomainID: domainId,
+                                StartDate: StartDate,
+                                EndDate: EndDate
+                            },
+                            success: function (result) {
+                                if (result) {
+                                    if (cardType === 'first') {
+                                        const middleContainer = $('#container-middle');
+                                        const middleRow = middleContainer.find('.row');
+                                        middleRow.empty();
+                                        middleContainer.show(); // Show the middle container
+
+                                        result.forEach(department => {
+                                            const departmentHtml = `
+                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-kaizen-submitted="${department.kaizen_count}" data-user-count="${department.user_count}">
+                                            <div>
+                                                ${department.departmentName}
+                                                <div>${department.kaizen_count} / ${department.user_count}</div>
+                                                <div class="percentage">0.00%</div>
+                                            </div>
+                                        </div>`;
+                                            middleRow.append(departmentHtml);
+                                        });
+                                        updatePercentages();
+                                    } else if (cardType === 'second') {
+                                        const endContainer = $('#container-end');
+                                        const endRow = endContainer.find('.row');
+                                        endRow.empty();
+                                        endContainer.show();
+
+                                        result.forEach(department => {
+                                            const departmentHtml = `
+                                        <div class="col-md-4 col-lg-3 col-xl-2 card-item" data-kaizen-submitted="${department.kaizenSubmitedCountdept}" data-user-count="${department.user_count}">
+                                            <div>
+                                                ${department.departmentName}
+                                                <div>${department.kaizenSubmitedCountdept} / ${department.user_count}</div>
+                                                <div class="percentage">0.00%</div>
+                                            </div>
+                                        </div>`;
+                                            endRow.append(departmentHtml);
+                                        });
+                                        updatePercentages();
+                                    }
+                                }
+                            },
+                        });
+                    });
+                },
+                error: function (error) {
+                  
+                }
+            });
+        });
+        function updatePercentages() {
+            var cardItems = $('.card-item');
+            cardItems.each(function () {
+                var kaizenSubmitted = parseFloat($(this).data('kaizen-submitted'));
+                var userCount = parseFloat($(this).data('user-count'));              
+                var percentage = (kaizenSubmitted / userCount) * 100;
+                var percentageDiv = $(this).find('.percentage');
+                percentageDiv.text(isNaN(percentage) ? '0.00%' : percentage.toFixed(2) + '%');
+            });
+        }
+        $('#configreset').click(function () {
+           
+            hideContainer('container-middle');
+        });
+        $('#configreset1').click(function () {
+
+            hideContainer('container-end');
+        });
+
+       
+        $('#btn_filter').click();
+            
+    });
+    function hideContainer(containerId) {
+        $('#' + containerId).hide();
+    }
+</script>
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
+</script>
+

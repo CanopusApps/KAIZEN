@@ -1,0 +1,826 @@
+﻿@{
+    Layout = "SidebarLayout";
+}
+<link href="~/assets/css/custom/dashboard.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<style>
+    #dHeader {
+        font-size: 16px !important;
+        margin-top: -10px;
+        margin-left: 7px;
+    }   
+</style>
+
+
+<div class="card ml-2 mr-2 bg-light ">
+    <nav>
+        <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+            <div class="col-lg-12 p-md-0 p-2">
+                <div class="welcome-text">
+                    <label id="dHeader">Masters -->Dashboard</label>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-link tab" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Domains & Department </a>
+                <a class="nav-link tab" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Yearly & Monthly</a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
+                <a class="nav-link  tab active" id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="true">Charts</a>
+            </div>
+            <div class="container-fluid border rounded p-2" style="width:100%">
+                <form>
+                    <div class="row align-items-left mb-3">
+                        <label class="col-auto filter-header">Filter by:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="filterOption" id="filterYear1" value="year" checked>
+                            <label class="form-check-label" for="filterYear1">Year</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="filterOption" id="filterDate1" value="date">
+                            <label class="form-check-label" for="filterDate1">Date</label>
+                        </div>
+                    </div>
+                </form>
+                <form>
+                    <div class="card p-3 mt-2 mb-2">
+                        <div class="row">
+                            <div class="form-group col-lg-4 dates">
+                                <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
+                                <div>
+                                    <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 dates">
+                                <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
+                                <div>
+                                    <input class="form-control txt-width" id="dtenddate" type="date" name="name" value="" />
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4" id="year">
+                                <label for="yearDropdown">Select Year:</label>
+                                <select id="yearDropdown" class="form-control mb-3"></select>
+                            </div>
+                            <span class="form-row p-4 container">
+                                <button type="button" class="btn col-lg-2 m-1 btn-azure" id="btn_filter" value="Filter">Filter</button>
+                                <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset" value="Reset">Reset</button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Radio buttons for chart type selection -->
+            <div class="container-fluid border rounded p-2">
+                <form>
+                    <div class="row align-items-left mb-3">
+                        <label class="col-auto filter-header">Chart Type:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="chartTypeOption" id="chartTypeDonut" value="donut" checked>
+                            <label class="form-check-label" for="chartTypeDonut">Donut Charts</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="chartTypeOption" id="chartTypeBar" value="bar">
+                            <label class="form-check-label" for="chartTypeBar">Bar Charts</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card bg-white border chart-container mt-4 mb-5 ml-2 mr-2 pb-4">
+                <div class="  card-header">Kaizens Based on Cadre,Blocks,Domain and Department</div>
+                <div class="card-body col-lg-12" id="donutChartsSection">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 mb-4   text-right">
+ 
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <canvas id="donutChart1"></canvas>
+                           
+                            </div>
+                            <input type="button" id="BlockBlockReport" value="Download Report" class="btn btn-warning dow" onclick="changeBlockExportHref()" />
+                        </div>
+                        <div class="col-lg-6 col-md-12 mb-4   text-right">
+                       
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <canvas id="donutChart2"></canvas>
+                            </div>
+                            <input type="button" id="CadreReport" value="Download Report" class="btn btn-warning dow" onclick="changeCadreExportHref()" />
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-12 mb-4 text-right">
+
+                           
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <canvas id="donutChart3"></canvas>
+                            </div>
+                            <input type="button" id="DomainReport" value="Download Report" class="btn btn-warning " onclick="changeDomainExportHref()" />
+                        </div>
+                        <div class="col-lg-6 col-md-12 mb-4   text-right">
+     
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <canvas id="donutChart4"></canvas>
+                            </div>
+                            <input type="button" id="DepartmentReport" value="Download Report" class="btn btn-warning dow" onclick="changeDepartmentExportHref()" />
+                            <p id="fallbackMessageDounut" class="text-center" style="font-size: 18px; color: #FF5733;">Click on domain's for change of department's</p>
+                            
+
+                        </div>
+                    </div>
+                </div>
+                <div id="barChartsSection" class="card bg-white border chart-container mt-4 mb-5 ml-2 mr-2 pb-4" style="display:none;">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 mb-4" >
+                         
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <canvas id="barChart1" style="width: 100%;"></canvas>
+                            </div>
+                               <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeBlockExportHref()" />
+                        </div>
+                        <div class="col-lg-12 col-md-12 mb-4">
+                          
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <canvas id="barChart2" style="width: 100%;"></canvas>
+                            </div>
+                            <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeCadreExportHref()" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 mb-4">
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <canvas id="barChart3" style="width: 100%;"></canvas>
+                            </div>
+                            <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeDomainExportHref()" />
+                        </div>
+                        <div class="col-lg-12 col-md-12 mb-4">
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <canvas id="barChart4" style="width: 100%;"></canvas>
+                            </div>
+                            <p id="fallbackMessageBar" class="text-center" style="font-size: 18px; color: #FF5733;">Click on domain's for change of department</p>
+                            <input type="button" id="DepartmentReportbar" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeDepartmentExportHref()" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </nav>
+    </nav>
+ </div>
+<script>
+    var firstDomainName = '';
+    function toggleFields() {
+        if ($('#filterYear1').is(':checked')) {
+            $('#year').show();
+            $('.dates').hide();
+        } else if ($('#filterDate1').is(':checked')) {
+            $('#year').hide();
+            $('.dates').show();
+        }
+    }
+
+    toggleFields();
+
+    $('input[name="filterOption"]').change(function () {
+        toggleFields();
+    });
+
+    const currentYear = new Date().getFullYear();
+    const endYear = currentYear - 4;
+    const yearDropdown = $("#yearDropdown");
+
+    for (let year = currentYear; year >= endYear; year--) {
+        yearDropdown.append($('<option>', {
+            value: year,
+            text: year
+        }));
+    }
+
+    yearDropdown.val(currentYear);
+
+    const customLabelsPlugin = {
+        id: 'customLabels',
+        afterDatasetsDraw(chart) {
+            const { ctx, chartArea: { width, height } } = chart;
+            const { datasets } = chart.data;
+
+            chart.data.labels.forEach((label, index) => {
+                const meta = chart.getDatasetMeta(0);
+                const { x, y } = meta.data[index].tooltipPosition();
+                const value = datasets[0].data[index];
+                const text = `${label}: ${value}`;
+                const color = datasets[0].backgroundColor[index];
+
+                if (value === 0) return;
+
+                const labelX = x < width / 2 ? x - 50 : x + 50;
+                const labelY = y < height / 2 ? y - 30 : y + 30;
+
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(labelX, labelY);
+                ctx.strokeStyle = color;
+                ctx.stroke();
+
+                ctx.font = '12px Arial';
+                ctx.fillStyle = '#000';
+                ctx.textAlign = x < width / 2 ? 'right' : 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(text, labelX, labelY);
+            });
+        }
+    };
+
+    $(document).ready(function () {
+        $('#DepartmentReport').hide();
+        $('#DepartmentReportbar').hide();
+        $('#DepartmentReportbar').hide();
+        const donutCharts = [
+            { id: 'donutChart1', label: 'Dataset 1', title: 'Blocks' },
+            { id: 'donutChart2', label: 'Dataset 2', title: 'Cadre' },
+            { id: 'donutChart3', label: 'Dataset 3', title: 'Domains' }
+            // { id: 'donutChart4', label: 'Dataset 4', title: 'Departments' }
+        ];
+
+        const barCharts = [
+            { id: 'barChart1', title: 'Blocks' },
+            { id: 'barChart2', title: 'Cadre' },
+            { id: 'barChart3', title: 'Domains' }
+          //   { id: 'barChart4', title: 'Departments' }
+        ];
+
+        let chartInstances = [];
+
+        function generateColors(count) {
+            const colors = [];
+            const colorPalette = [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(255, 159, 64)',
+                'rgb(153, 102, 255)',
+                'rgb(255, 205, 210)',
+                'rgb(100, 181, 246)',
+                'rgb(255, 245, 157)',
+                'rgb(129, 212, 250)',
+                'rgb(255, 183, 77)',
+                'rgb(248, 99, 71)',
+                'rgb(67, 160, 71)',
+                'rgb(0, 150, 136)',
+                'rgb(33, 150, 243)',
+                'rgb(255, 87, 34)',
+                'rgb(156, 39, 176)',
+            ];
+            for (let i = 0; i < count; i++) {
+                colors.push(colorPalette[i % colorPalette.length]);
+            }
+            return colors;
+        }
+
+        function createDonutChart(chart, data, colors) {
+            
+            const ctxDonut = document.getElementById(chart.id).getContext('2d');
+
+            const donutChart = new Chart(ctxDonut, {
+                type: 'doughnut',
+                data: {
+                    labels: chart.labels,
+                    datasets: [{
+                        label: 'Total Submitted Kaizens',
+                        data: data,
+                        backgroundColor: colors,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: function (event, elements) {
+                        // Check if the clicked chart is 'donutChart3' and if there are any elements selected
+                        if (chart.id === 'donutChart3' && elements.length > 0) {
+                            var startDate;
+                            var endDate;
+
+                            // Determine the date range based on the selected filter
+                            if ($('#filterYear1').is(':checked')) {
+                                startDate = $('#yearDropdown').val();
+                                endDate = $('#yearDropdown').val();
+                            } else if ($('#filterDate1').is(':checked')) {
+                                startDate = $('#dtstartdate').val();
+                                endDate = $('#dtenddate').val();
+                            }
+
+                            // Get the clicked element's data
+                            const element = elements[0];
+                            const datasetIndex = element.datasetIndex;
+                            const dataIndex = element.index;
+
+                            const dataset = this.data.datasets[datasetIndex];
+                            const dataPoint = dataset.data[dataIndex];
+                            const label = this.data.labels[dataIndex];
+
+                            // Prepare data for AJAX request
+                            const postData = {
+                                StartDate: startDate,
+                                EndDate: endDate,
+                                label: label,
+                                value: dataPoint
+                            };
+
+                            // Perform AJAX request to get updated data based on the selected domain
+                            $.ajax({
+                                url: '/Dashboard/getdepartmentgraphsbasedonDomain',
+                                method: 'POST',
+                                data: postData,
+                                success: function (result) {
+                                    const departmentBasedData = result.departmentbasedgraph.map(item => item.totalSubmittedKaizen);
+                                    const departmentBasedLabel = result.departmentbasedgraph.map(item => item.departmentname);
+                                     firstDomainName = result.departmentbasedgraph.map(item => item.domainname)[0];
+                                    const colors = generateColors(departmentBasedData.length);
+                                    const ctx = document.getElementById('donutChart4').getContext('2d');
+
+                                    // Destroy the previous chart instance if it exists
+                                    if (ctx.chartInstance) {
+                                        ctx.chartInstance.destroy();
+                                    }
+
+                                    // Create a new chart instance with the updated data
+                                    ctx.chartInstance = new Chart(ctx, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: departmentBasedLabel,
+                                            datasets: [{
+                                                label: 'Total Submitted Kaizens',
+                                                data: departmentBasedData,
+                                                backgroundColor: colors
+                                            }]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            maintainAspectRatio: false,
+                                            plugins: {
+                                                legend: {
+                                                    position: 'top',
+                                                    display: false,
+                                                },
+                                                tooltip: {
+                                                    enabled: true
+                                                },
+                                                title: {
+                                                    display: true,
+                                                    text: 'Departments',
+                                                    font: {
+                                                        size: 24,
+                                                        family: 'Arial',
+                                                        weight: 'bold',
+                                                        style: 'italic',
+                                                    },
+                                                    padding: {
+                                                        top: 10,
+                                                        bottom: 20
+                                                    }
+                                                },
+                                                customLabels: true
+                                            }
+                                        },
+                                        plugins: [customLabelsPlugin]
+                                    });
+
+
+                                    $('#DepartmentReport').show();
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error in AJAX request:', error);
+                                }
+                            });
+                        } 
+                    },
+
+                    plugins: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        legend: {
+                            display: false,
+                            position: 'top'
+                        },
+
+                        title: {
+                            display: true,
+                            text: chart.title,
+                                font: {
+                                size: 24, // Adjust the size of the font
+                                family: 'Arial', // Set the font family
+                                weight: 'bold', // Set the font weight
+                                style: 'italic', // Set the font style (optional)
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 20  
+                            }
+                            // color: '#FF5733', // Set the font color
+                        },
+                        customLabels: true 
+                    }
+                },
+                plugins: [customLabelsPlugin] 
+            });
+
+            return donutChart;
+        }
+
+
+        function createBarChart(chart, data, labels) {
+            const ctxBar = $(`#${chart.id}`)[0].getContext('2d');
+
+            const barChart = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total Submitted Kaizens',
+                        backgroundColor: generateColors(data.length),
+                        borderWidth: 1,
+                        data: data,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    onClick: function (event, elements) {
+                        if (chart.id === 'barChart3' && elements.length > 0) {
+                            var startDate;
+                            var endDate;
+                            if ($('#filterYear1').is(':checked')) {
+                                startDate = $('#yearDropdown').val();
+                                endDate = $('#yearDropdown').val();
+                            } else if ($('#filterDate1').is(':checked')) {
+                                startDate = $('#dtstartdate').val();
+                                endDate = $('#dtenddate').val();
+                            }
+                            const element = elements[0];
+                            const datasetIndex = element.datasetIndex;
+                            const dataIndex = element.index;
+                          
+                            const dataset = this.data.datasets[datasetIndex];
+                            const dataPoint = dataset.data[dataIndex];
+                            const label = this.data.labels[dataIndex];
+
+                            const postData = {
+                                StartDate: startDate,
+                                EndDate: endDate,
+                                label: label,
+                                value: dataPoint
+                            };
+                            $.ajax({
+                                url: '/Dashboard/getdepartmentgraphsbasedonDomain',
+                                method: 'POST',
+                                data: postData,
+                                success: function (result) {
+                                    let departmentBasedData = result.departmentbasedgraph.map(item => item.totalSubmittedKaizen);
+                                    let departmentBasedLabel = result.departmentbasedgraph.map(item => item.departmentname);
+                                    firstDomainName = result.departmentbasedgraph.map(item => item.domainname)[0];
+                                    const colors = generateColors(departmentBasedData.length);
+                                    departmentBasedData = departmentBasedData.filter((value, index) => {
+                                        return value !== 0;
+                                    });
+                                    departmentBasedLabel = departmentBasedLabel.filter((label, index) => {
+                                        return result.departmentbasedgraph[index].totalSubmittedKaizen !== 0;
+                                    });
+
+                                    const ctxNewBarChart = document.getElementById('barChart4').getContext('2d');
+                                    if (ctxNewBarChart.chartInstance) {
+                                        ctxNewBarChart.chartInstance.destroy();
+                                    }
+
+                                    ctxNewBarChart.chartInstance = new Chart(ctxNewBarChart, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: departmentBasedLabel,
+                                            datasets: [{
+                                                label: 'Total Submitted Kaizens',
+                                                backgroundColor: colors,
+                                                borderWidth: 1,
+                                                data: departmentBasedData,
+                                            }]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            maintainAspectRatio: false,
+                                            scales: {
+                                                x: {
+                                                    beginAtZero: true
+                                                },
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            },
+                                            plugins: {
+                                                legend: {
+                                                    position: 'top',
+                                                    display: false,
+                                                },
+                                                title: {
+                                                    display: true,
+                                                    text: 'Department',
+                                                    font: {
+                                                        size: 24, // Adjust the size of the font
+                                                        family: 'Arial', // Set the font family
+                                                        weight: 'bold', // Set the font weight
+                                                        style: 'italic', // Set the font style (optional)
+                                                    },
+                                                  
+                                                    padding: {
+                                                        top: 10,
+                                                        bottom: 20,
+                                                    },
+                                                    align: 'center',
+                                                },
+                                                datalabels: {
+                                                    display: true,
+                                                    color: 'white',
+                                                    align: 'center',
+                                                    anchor: 'center',
+                                                    formatter: (value) => {
+                                                        return value === 0 ? null : value;
+                                                    },
+                                                    padding: {
+                                                        top: 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        plugins: [ChartDataLabels],
+                                    });
+                                    $('#DepartmentReportbar').show();
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error in AJAX request:', error);
+                                }
+                            });
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            display: false,
+                        },
+
+                        title: {
+                            display: true,
+                            text: chart.title,
+                            font: {
+                                size: 24, // Adjust the size of the font
+                                family: 'Arial', // Set the font family
+                                weight: 'bold', // Set the font weight
+                                style: 'italic', // Set the font style (optional)
+                            },
+          
+                            padding: {
+                                top: 10,
+                                bottom: 20,
+                            },
+                            align: 'center',
+                        },
+                        datalabels: {
+                            display: true,
+                            color: 'white',
+                            align: 'center',
+                            anchor: 'center',
+                            formatter: (value) => {
+                                return value === 0 ? null : value;
+                            },
+                            padding: {
+                                top: 10
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels],
+            });
+
+            return barChart;
+        }
+
+
+
+        donutCharts.forEach(chart => {
+            chartInstances.push(createDonutChart(chart, [0, 0, 0], []));
+        });
+
+        barCharts.forEach(chart => {
+            chartInstances.push(createBarChart(chart, [0, 0, 0], []));
+        });
+
+        $('#btn_filter').click(function () {
+            let filterData = {};
+            if ($('#filterYear1').is(':checked')) {
+                filterData.startDate = $('#yearDropdown').val();
+                filterData.endDate = $('#yearDropdown').val();
+            } else if ($('#filterDate1').is(':checked')) {
+                filterData.startDate = $('#dtstartdate').val();
+                filterData.endDate = $('#dtenddate').val();
+            }
+            $.ajax({
+                url: '@Url.Action("Filtergraphscount", "Dashboard")',
+                type: 'GET',
+                data: filterData,
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+                success: function (result) {
+                    const blockBasedData = result.blockbasedgraph.map(item => item.totalSubmittedKaizen);
+                    const blockBasedLabel = result.blockbasedgraph.map(item => item.blockname);                 
+
+                    const cadreBasedData = result.cadrebasedgraph.map(item => item.totalSubmittedKaizen);
+                    const cadreBasedLabel = result.cadrebasedgraph.map(item => item.cadrename);
+
+                    const domainBasedData = result.domainbasedgraph.map(item => item.totalSubmittedKaizen);
+                    const domainBasedLabel = result.domainbasedgraph.map(item => item.domainname);
+
+                    // const departmentBasedData = result.departmentbasedgraph.map(item => item.totalSubmittedKaizen);
+                    // const departmentBasedLabel = result.departmentbasedgraph.map(item => item.departmentname);
+                    const ctxNewBarChart = document.getElementById('barChart4').getContext('2d');
+                    if (ctxNewBarChart.chartInstance) {
+                        $('#DepartmentReportbar').hide();
+                        ctxNewBarChart.chartInstance.destroy();
+                    }
+                    const ctx = document.getElementById('donutChart4').getContext('2d');
+
+                    // Destroy the previous chart instance if it exists
+                    if (ctx.chartInstance) {
+                        $('#DepartmentReport').hide();
+                        ctx.chartInstance.destroy();
+                    }
+                    const staticData = [
+                        { data: blockBasedData, labels: blockBasedLabel, colors: generateColors(blockBasedData.length) },
+                        { data: cadreBasedData, labels: cadreBasedLabel, colors: generateColors(cadreBasedData.length) },
+                        { data: domainBasedData, labels: domainBasedLabel, colors: generateColors(domainBasedData.length) }
+                        // { data: departmentBasedData, labels: departmentBasedLabel, colors: generateColors(departmentBasedData.length) }
+                    ];
+
+                    staticData.forEach((chartData, index) => {
+                        const donutChart = chartInstances[index];
+                        const barChart = chartInstances[index + donutCharts.length];
+
+                        const filteredData = chartData.data.filter(value => value > 0);
+                        const filteredLabels = chartData.labels.filter((label, i) => chartData.data[i] > 0);
+                        const filteredColors = chartData.colors.filter((color, i) => chartData.data[i] > 0);
+
+                        donutChart.data.labels = filteredLabels;
+                        donutChart.data.datasets[0].data = filteredData;
+                        donutChart.data.datasets[0].backgroundColor = filteredColors;
+                        donutChart.update();
+
+                        barChart.data.labels = filteredLabels;
+                        barChart.data.datasets[0].data = filteredData;
+                        barChart.update();
+                    });
+                },
+                error: function (error) {
+                },
+                complete: function () {
+                    $('#loader-wrapper').hide();
+                }
+            });
+        });
+
+        $('#btn_filter').click();
+
+        $('input[name="chartTypeOption"]').change(function () {
+            if ($('#chartTypeDonut').is(':checked')) {
+                $('#donutChartsSection').show();
+                $('#barChartsSection').hide();
+            } else if ($('#chartTypeBar').is(':checked')) {
+                $('#donutChartsSection').hide();
+                $('#barChartsSection').show();
+            }
+        });
+    });
+
+    // Function to get formatted startDate and endDate
+    function getFormattedDates() {
+        let startDate, endDate;
+        // Retrieve the filter option
+        if ($('#filterYear1').is(':checked')) {
+            const selectedYear = $('#yearDropdown').val();
+            startDate = `01-01-${selectedYear}`; // Start of the year
+            endDate = `31-12-${selectedYear}`;   // End of the year
+        } else if ($('#filterDate1').is(':checked')) {
+            startDate = $('#dtstartdate').val();
+            endDate = $('#dtenddate').val();
+        }
+
+        return {
+            startDate,
+            endDate
+        };
+    }
+    function downloadExcelFile(url, dates) {
+        fetch(`${url}/?StartDate=${dates.startDate}&EndDate=${dates.endDate}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/vnd.ms-excel'
+            }
+        })
+            .then(response => response.blob())
+            .then(blob => {
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = 'report.xlsx'; // You can set the name of the downloaded file here
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(() => {
+                location.reload();
+            });
+    }
+
+    function changeBlockExportHref() {
+        try {
+            $('#btn_filter').click(); 
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardBlocks", "Reports")';
+            downloadExcelFile(url, dates);
+        } catch {
+            location.reload();
+        }
+    }
+
+    function changeDomainExportHref() {
+        $('#btn_filter').click();
+        try {
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardDomain", "Reports")';
+            downloadExcelFile(url, dates);
+        } catch {
+            location.reload();
+        }
+    }
+    function changeDepartmentExportHref() {
+        debugger;
+        try {
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardDepartment", "Reports")';
+            const updatedUrl = `${url}?domain=${firstDomainName}&startDate=${dates.startDate}&endDate=${dates.endDate}`;
+
+            // Fetch and download the Excel file
+            fetch(updatedUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/vnd.ms-excel'
+                }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const downloadUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = 'report.xlsx'; // Set the name of the downloaded file
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                })
+                .catch(() => {
+                    location.reload();
+                });
+        } catch {
+            location.reload();
+        }
+    }
+
+
+    function changeCadreExportHref() {
+        try {
+            $('#btn_filter').click(); // Ensure filter is applied
+            const dates = getFormattedDates();
+            const url = '@Url.Action("DasboardCadre", "Reports")';
+            downloadExcelFile(url, dates);
+        } catch {
+            location.reload();
+        }
+    }
+</script>
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
+</script>

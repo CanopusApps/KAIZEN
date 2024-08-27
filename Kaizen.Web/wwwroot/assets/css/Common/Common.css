@@ -20,7 +20,7 @@
 }
 
 *:not(.LogoutIcon):not(.fa-solid) {
-    font-size: 12px;
+    font-size: 11px;
     line-height: 15px;
 }
 
@@ -34,6 +34,7 @@ Fontmedium {
 
 body {
     background-color: #fff;
+    overflow-y: auto;
 }
 
 .text-center text-uppercase border-bottom text-light
@@ -48,17 +49,18 @@ h4
     min-height: 100vh;
     width: 190px;
     /*    background-color: #2dc3e8 !important;*/
-    background-color: white !important;
+    background-color: #2dc3e8!important;
     /*color: #fff;*/
-    color: black;
+    color: white;
     transition: all 0.3s;
+    margin-top:1px;
 }
 #container-header {
     background-color: #2dc3e8;
 }
 .logo {
-    margin-top: 0px;
-    width: 85px;
+    margin-top: 1px;
+    width: 45px;
 }
 
 #page-content-wrapper {
@@ -66,22 +68,23 @@ h4
 }
 .text-light
 {
-    color:black!important;
+    color: white!important;
 }
 
 .list-group-item {
-    background-color: white !important;
-    color: black;
+    background-color: #2dc3e8 !important;
+    color: white;
     border: none;
-    cursor: pointer;
-    padding: 10px 30px;
+    cursor: pointer;        
+    /*    padding: 10px 30px;*/
 }
 
 .LogoutIcon {
-    color: #2dc3e8;
+    color: white;
     font-size: 40px;
     position: fixed;
-    bottom: 0px;
+    bottom: 58px;
+    margin-left:90px;
 }
 
 .footer {
@@ -140,3 +143,8 @@ h4
     }
 }
 
+@media screen and (max-width: 768px) {
+    #page-content-wrapper {
+        height: calc(100vh - 140px) !important;
+    }
+}

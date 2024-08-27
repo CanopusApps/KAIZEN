@@ -8,20 +8,19 @@
 <link href="~/assets/css/common/datatables.min.css" rel="stylesheet" />
 <script src="~/assets/js/custom/datatables.min.js"></script>
 
-
-
-
-
-<div class="container-fluid p-2">
+<div class="container-fluid">
     <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
-    <div class="col-lg-12 p-md-0 p-2">
-
-        <div class="welcome-text ">
-            <h4 class="text-Azure">Add Domain</h4>
+        <div class="col-lg-12 p-md-0 p-2">
+            <div class="welcome-text">
+                <label class="" id="dHeader">Masters --> Domains</label>
+            </div>
         </div>
     </div>
-</div>
-    <div class=" card p-3 mt-2 mb-2 cardsize" id="card-block">
+
+    <div class="card p-3 mt-2 mb-2 cardsize" id="card-block">
+        <div class="col-md-10">
+            <div><label class="card-title" id="blkh">Add Domain</label></div>
+        </div>
         <div class="row">
             <div class="col-md-5">
                 <label for="Domain-name">Domain Name<span class="text-danger">*</span></label>
@@ -31,10 +30,12 @@
         <div class="row">
             <div class="col-md-4">
                 <input class="form-control" id="domainname" name="domainname" asp-for="" />
+                 <label id="DomainId" hidden></label> 
                 <span id="DomainError" class="text-danger error-message"></span>
             </div>
             <div class="col-2">
                 <input class="btn btn-azure" id="btnAdd" value="Add" type="button" />
+                 <button class="btn btn-azure" id="btnupdate" onclick="">Update</button> 
             </div>
         </div>
     </div>
@@ -42,12 +43,12 @@
 
         <div class="row">
             <div class="col-md-10">
-                <p>Domain Names - @Model.Count()</p>
+                <label id="lblTotal">Domain  List - @Model.Count()</label>
             </div>
         </div>
 
         <div class="card-body">
-            <table id="empTable" class="table table-striped " style="overflow-x:auto; >
+            <table id="empTable" class="table table-striped" style="width:100%!important">
                 <thead>
                     <tr>
                         <th hidden scope="col" class="text-center" id="DomName">SNo</th>
@@ -60,39 +61,29 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr data-id="@item.Id" data-name="@item.DomainName"> 
                             <td hidden>@item.Id</td>
                             <td>@item.DomainName</td>
-                            <td class="text-center">0</td>
+                            <td class="text-center">@item.User_count</td>
                             <td class="text-center">
                                 @if (@item.Status == false)
-
                                 {
-
                                     <a href="/Admin/UpdateDomainStatus?id=@item.Id &status= true"><span class="btn btn-warning">Inactive</span></a>
-
                                 }
-
                                 @if (@item.Status == true)
-
                                 {
-
                                     <a href="/Admin/UpdateDomainStatus?id=@item.Id &status= false"><span class="btn btn-success">Active</span></a>
-
                                 }
                             </td>
-
                             <td class="text-center">
-                                <a href="/Admin/DeleteDomain?id=@item.Id" class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a>
+                                @* <a href="#" class="btn btn-danger icon deleteuser" onclick="Deletedomain(@item.Id);"><i class="fa-solid fa-trash-can"></i></a> *@
+                                <a id="editdomain" class="btn btn-primary btn-sm editdomain" data-empid="@item.Id" ><i class="edit fas fa-solid fa-pencil"></i></a>
                             </td>
-
                         </tr>
-
                     }
-  
                 </tbody>
                        <tr>
-                        <td colspan="1" align="right">Total Employees</td>
+                        <td colspan="1" align="right">Total Employees</td> 
                         <td class="text-center">@Model.Sum(i => i.TotalEmp)</td>
                         <td colspan="2"></td>
                     </tr> 
@@ -100,26 +91,29 @@
         </div>
     </div>
 </div>
-
-
 <script>
-
     $(document).ready(function () {
         $('#empTable').DataTable({});
+        $('#btnupdate').hide();
     });
-
     function ValidateForm() {
         var isValid = true;
-
+        $("#domainname").on("input", function () {
+            var domainNameValue = $(this).val();
+            if (domainNameValue !== "") {
+                $(this).css("border-color", "");
+                $("#DomainError").text("");
+            }
+        });
         // Remove red borders and error messages
-        $("#domainname").css("border-color", "red");
+        $("#domainname").css("border-color", "");
         $("#DomainError").text("");
         $(".error-message").text("");
 
         // Check for empty or invalid fields
-        var blockNameValue = $("#domainname").val();
+        var domainNameValue = $("#domainname").val();
 
-        if (blockNameValue === "") {
+        if (domainNameValue === "") {
             $("#domainname").css("border-color", "red");
             $("#DomainError").text("Domain Name is required.");
             isValid = false;
@@ -134,8 +128,9 @@
 
     $(document).ready(function () {
         $("#btnAdd").click(function () {
-            var domainName = $('#domainname').val();
-
+            var domainmodel = {
+                DomainName: $('#domainname').val()
+            }
             if (!ValidateForm()) {
                 // If validation fails, return or perform any other necessary actions
                 return;
@@ -144,32 +139,130 @@
                 type: 'POST',
                 url: '/Admin/AddDomain',
                 dataType: "json",
-                data: { DomainName: domainName },
+                data: { DomainModel: domainmodel },
                 success: function (result) {
                     // Handle success (if needed)
-                    var res = $.isEmptyObject(result);
-
-                    if (res) {
-                        swal('Unable to Save the Domain Details - Please Check the logs');
-                    }
-                    else {
+                    var redirectErrorUrl = "/Login/ErrorPage";
+                    if (result == true) {
                         swal({
-                            text: "Domain saved successfully !!",
+                            text: "Domain Saved successfully !!",
                             type: "success"
                         }).then(okay => {
-                            if (okay) {
-                                location.reload();
-                            }
+                            location.reload();
                         });
+                    }
+                    else {
+                        swal('Unable to Save the Domain Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
                     }
                 },
                 error: function (error) {
                    
                     swal('Unable to Save the Domain Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
                 }
             });
         });
     });
+
+    $('tbody').on('click', '.editdomain', function (e) {
+        e.preventDefault();
+        $('#btnAdd').hide();
+        $('#btnupdate').show();
+        $('#domainname').focus();
+        
+        var $row = $(this).closest('tr');
+        var domainid = $row.data('id');
+        var domainname = $row.data('name');
+        document.getElementById("domainname").value = domainname;
+        document.getElementById("DomainId").value = domainid;
+    });
+
+    $('#btnupdate').click(function () {
+        
+        var domainmodel = {
+            DomainName: $('#domainname').val(),
+            Id: $('#DomainId').val()
+        };
+
+        // Validate form fields
+        if (!ValidateForm()) {
+            return;
+        }
+
+        // Perform AJAX request
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/UpdateDomain',
+            dataType: 'json',
+            data: domainmodel,
+            success: function (result) {
+                // Handle success
+                var redirectErrorUrl = "/Login/ErrorPage";
+                if (result == true) {
+                    swal({
+                        text: "Domain Updated successfully !!",
+                        type: "success"
+                    }).then(okay => {
+                        location.reload();
+                    });
+                }
+                else {
+                    swal('Unable to Update the Domain Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
+                }
+            },
+            error: function (error) {
+                swal('Unable to Update the Domain Details - Please Check the logs');
+                window.location.href = redirectErrorUrl;
+            }
+        });
+    });
+
+
+
+    function Deletedomain(id) {
+        var id = id;
+        swal({
+            text: "Are you sure you want to Delete the Domain ?",
+            buttons: {
+                confirm: "Yes",
+                cancel: "No",
+            },
+        }).then((userConfirmation) => {
+            if (userConfirmation) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/DeleteDomain',
+                    dataType: "json",
+                    data: { id: id },
+                    success: function (result) {
+                        var redirectErrorUrl = "/Login/ErrorPage";
+                        if (result == true) {
+                            swal({
+                                text: "Domain Deleted successfully !!",
+                                type: "success"
+                            }).then(okay => {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal('Unable to Delete the Domain Details - Please Check the logs');
+                            window.location.href = redirectErrorUrl;
+
+                        }
+                    },
+                    error: function (error) {
+                        swal('Unable to Delete the Domain Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
+
+                    }
+                });
+            }
+        });
+
+    }
+
 
 </script>
 

@@ -4,47 +4,52 @@
     Layout = "SidebarLayout";
 }
 <link href="~/assets/css/custom/addblock.css" rel="stylesheet" />
-<link href="~/assets/css/common/common.css" rel="stylesheet" />
-<script src="~/assets/js/custom/jquery.min.js"></script>
 <link href="~/assets/css/common/datatables.min.css" rel="stylesheet" />
 <script src="~/assets/js/custom/datatables.min.js"></script>
-<div class="container-fluid center">
-     <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
-        <div class="col-lg-12 p-md-0 p-2">
 
-            <div class="welcome-text ">
-                <label class="text-Azure">Add Block    </label>
+<div class="container-fluid">
+    <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+        <div class="col-lg-12 p-md-0 p-2">
+            <div class="welcome-text">
+                <label id="dHeader">Masters--></label>
+                    <label class="" id="dHeader">Blocks</label>
             </div>
         </div>
     </div>
-    <div class="row p-2">
-        <div class="col-md-12">
-            <div class=" card p-3 mt-2 mb-2 cardsize">
+            <div class="card p-3 mt-2 mb-2 cardsize">
+        <div class="col-md-10">
+            <div><label class="card-title" id="blkh">Add Block</label></div>
+        </div>
                 <div class="row">
-                    <div class="col-md-4">
+          
+                        <div class="col-md-4">
                         <label>Block Name</strong><span class="mandatory">*</span></label>
                         <input class="form-control" id="BlockName" name="BlockName" />
+                        <label id="BlockId" hidden></label>
                         <span id="BlockError" class="error-message"></span>
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-azure" id="btnAdd">Add</button>
+                <button class="btn btn-azure" id="btnupdate" onclick="">Update</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <div><h4 class="card-title" id="blktotal">Block Names - @Model.Count()</h4></div>
-            </div>
+        
 
+            </div>
+        
+    <div class="card p-3 mt-2 mb-2 cardsize">
+
+        <div class="col-md-10">
+            <div><label class="card-title" id="blktotal">Block List - @Model.Count()</label></div>
+        </div>
+        
             <div class="card-body">
-                <table class="table table-striped" id="tblblock">
+                <table id="tblblock" class="table table-striped" style="width:100%!important">
                     <thead>
                         <tr>
                             <th class="text-center" hidden>ID</th>
                             <th class="text-center">Block Name</th>
+                            <th class="text-center" id="BlockName">TOTAL EMP</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -52,9 +57,10 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
+                        <tr data-id="@item.Id" data-name="@item.BlockName">
                                 <td hidden>@item.Id</td>
                                 <td>@item.BlockName</td>
+                            <td class="text-center">@item.User_count</td>
                                  <td class="text-center">
                                 @if(@item.Status == false)
                                 {
@@ -72,16 +78,20 @@
 
                              
                                 <td class="text-center">
-                                    <a href="/Admin/DeleteBlock?id=@item.Id" class="btn btn-danger   icon  deleteuser"><i class="fa-solid fa-trash-can"></i></a>
-                                </td>
+                                   @*  <a href="/Admin/DeleteBlock?id=@item.Id" class="btn btn-danger icon deleteuser"><i class="fa-solid fa-trash-can"></i></a> *@
+                               @*  <a href="#" class="btn btn-danger icon deleteuser" onclick="Deleteblock(@item.Id);"><i class="fa-solid fa-trash-can"></i></a> *@
+
+                                <a id="editblock" class="btn btn-primary btn-sm editblock" data-empid="@item.Id">
+                                    <i class="edit fas fa-solid fa-pencil"></i>
+                                </a>
+
+                            </td>
 
                             </tr>
                         }
                     </tbody>
-
-                </table>
+            </table>
             </div>
-        </div>
     </div>
 </div>
 
@@ -89,14 +99,23 @@
 
     $(document).ready(function () {
         $('#tblblock').DataTable({});
-    });
+        $('#btnupdate').hide();
 
+    });
 
     function ValidateForm() {
         var isValid = true;
+        $("#BlockName").on("input", function () {
+            var blockNameValue = $(this).val();
+            if (blockNameValue !== "") {
+                $(this).css("border-color", "");
+                $("#BlockError").text("");
+            }
+        });
 
         // Remove red borders and error messages
-        $("#BlockName").css("border-color", "red");
+    //    $("#BlockName").css("border-color", "red");
+
         $("#Blockerror").text("");
         $(".error-message").text("");
 
@@ -108,18 +127,15 @@
             $("#BlockError").text("Block Name is required.");
             isValid = false;
         }
-        if (!isValid) {
-            $("#error-message").text("Please fill in the required field correctly.");
-            // Add red border to the submit button
-            $("#submitButton").css("border-color", "red");
-        }
         return isValid;
     }
 
     $(document).ready(function () {
         $("#btnAdd").click(function () {
 
-            var BlockName = $('#BlockName').val();
+            var blockModel = { 
+                BlockName: $('#BlockName').val()
+            }
 
             if (!ValidateForm()) {
                 // If validation fails, return or perform any other necessary actions
@@ -129,31 +145,122 @@
                 type: 'POST',
                 url: '/Admin/AddBlock',
                 dataType: "json",
-                data: { blockName: BlockName },
+                data: { BlockModel : blockModel },
                 success: function (result) {
                     // Handle success (if needed)
-                    var res = $.isEmptyObject(result);
-                    if (res) {
-                        swal('Unable to Save the Block Details - Please Check the logs');
-                    }
-                    else {
+                    var redirectErrorUrl = "/Login/ErrorPage";
+                        if (result == true) {
                         swal({
-                            text: "Block saved successfully !!",
+                            text: "Block Saved successfully !!",
                             type: "success"
                         }).then(okay => {
-                            if (okay) {
-                                location.reload();
-                            }
+                            location.reload();
                         });
+                    }
+                    else {
+                        swal('Unable to Save the Block Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
+
+
                     }
                 },
                 error: function (error) {
                     swal('Unable to Save the Block Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
+
+                }
+            });
+        });
+        $('tbody').on('click', '.editblock', function (e) {
+            e.preventDefault();
+            $('#btnAdd').hide();
+            $('#btnupdate').show();
+            $('#BlockName').focus();
+          
+            var $row = $(this).closest('tr');
+            var blockid = $row.data('id');
+            var blockname = $row.data('name');
+            document.getElementById("BlockName").value = blockname;
+            document.getElementById("BlockId").value = blockid;
+        });
+    })
+       $("#btnupdate").click(function () {
+           
+          var domainmodel = {
+            BlockName: $('#BlockName').val(),
+            Id: $('#BlockId').val()
+        }; 
+            if (!ValidateForm()) {
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/UpdateBlock',
+                dataType: "json",
+            data:  domainmodel ,
+                success: function (result) {
+                    // Handle success (if needed)
+                var redirectErrorUrl = "/Login/ErrorPage";
+
+                if (result == true) {
+                    swal({
+                        text: "Block Updated successfully !!",
+                        type: "success"
+                    }).then(okay => {
+                        location.reload();
+                    });
+                }
+                else {
+                    swal('Unable to Update the Block Details - Please Check the logs');
+                    window.location.href = redirectErrorUrl;
+                }
+                },
+                error: function (error) {
+                    swal('Unable to Update the Block Details - Please Check the logs');
+                window.location.href = redirectErrorUrl;
                     // Handle errors (if needed)
                     // console.error('Error:', error);
                 }
             });
-        });    
-    })
+        });
 
+    function Deleteblock(id) {
+        var id = id;
+        swal({
+            text: "Are you sure you want to Delete the Block ?",
+            buttons: {
+                confirm: "Yes",
+                cancel: "No",
+            },
+        }).then((userConfirmation) => {
+            if (userConfirmation) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/DeleteBlock',
+                    dataType: "json",
+                    data: { id: id },
+                    success: function (result) {
+                        window.location.href = redirectErrorUrl;
+                        if (result == true) {
+                            swal({
+                                text: "Block Deleted successfully !!",
+                                type: "success"
+                            }).then(okay => {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal('Unable to Delete the Block Details - Please Check the logs');
+                            window.location.href = redirectErrorUrl;
+                        }
+                    },
+                    error: function (error) {
+                        swal('Unable to Delete the Block Details - Please Check the logs');
+                        window.location.href = redirectErrorUrl;
+
+                    }
+                });
+            }
+        });
+    }
 </script>

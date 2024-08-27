@@ -84,7 +84,11 @@ namespace Kaizen.Data.DataServices
                 throw ex;
             }
 
-            return deleteStatus;
+			finally
+			{
+				con.Close();
+			}
+			return deleteStatus;
         }
 
         public DataSet GetStatus()
@@ -123,38 +127,76 @@ namespace Kaizen.Data.DataServices
                 }
             }
         }
-
-        public void SaveUploadedFile(UploadUserModel Employee)
+        public string SaveUploadedFile(UploadUserModel Employee)
         {
+            string errorMessage = string.Empty;
+
+            try
+            {
+                using (SqlCommand com = new SqlCommand())
+                {
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandText = StoredProcedures.Sp_Upload_Users;
+
+                    com.Parameters.Add(new SqlParameter("@EmpId", Employee.EmpID));
+                    com.Parameters.Add(new SqlParameter("@FirstName", Employee.FirstName));
+                    com.Parameters.Add(new SqlParameter("@MiddleName", Employee.MiddleName));
+                    com.Parameters.Add(new SqlParameter("@LastName", Employee.LastName));
+                    com.Parameters.Add(new SqlParameter("@Gender", Employee.Gender));
+                    com.Parameters.Add(new SqlParameter("@Email", Employee.Email));
+                    com.Parameters.Add(new SqlParameter("@Domain", Employee.Domain));
+                    com.Parameters.Add(new SqlParameter("@Department", Employee.Department));
+                    com.Parameters.Add(new SqlParameter("@Cadre", Employee.Cadre));
+                    com.Parameters.Add(new SqlParameter("@MobileNo", Employee.PhoneNumber));
+                    com.Parameters.Add(new SqlParameter("@Status", Employee.Status));
+                    com.Parameters.Add(new SqlParameter("@UserType", Employee.UserType));
+                    com.Parameters.Add(new SqlParameter("@Password", Employee.Password));
+
+                    SqlParameter errorMessageParam = new SqlParameter("@ErrorMessage", SqlDbType.NVarChar, 500)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    com.Parameters.Add(errorMessageParam);
+
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    con.Close();
+
+                    errorMessage = errorMessageParam.Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "An error occurred: " + ex.Message;
+            }
+			finally
+			{
+				con.Close();
+			}
+
+			return errorMessage;
+        }
+
+        public DataSet GetIEDepartData()
+        {
+            DataSet ds = new DataSet();
+
             try
             {
                 com = new SqlCommand();
-
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
-                com.CommandText = StoredProcedures.Sp_Upload_Users;
-
-                com.Parameters.Add(new SqlParameter("@EmpId", Employee.EmpID));
-                com.Parameters.Add(new SqlParameter("@FirstName", Employee.FirstName));
-                com.Parameters.Add(new SqlParameter("@MiddleName", Employee.MiddleName));
-                com.Parameters.Add(new SqlParameter("@LastName", Employee.LastName));
-                com.Parameters.Add(new SqlParameter("@Gender", Employee.Gender));
-                com.Parameters.Add(new SqlParameter("@Email", Employee.Email));
-                com.Parameters.Add(new SqlParameter("@Domain", Employee.Domain));
-                com.Parameters.Add(new SqlParameter("@Department", Employee.Department));
-                com.Parameters.Add(new SqlParameter("@Cadre", Employee.Cadre));
-                com.Parameters.Add(new SqlParameter("@MobileNo", Employee.PhoneNumber));
-                com.Parameters.Add(new SqlParameter("@Status", Employee.Status));
-                com.Parameters.Add(new SqlParameter("@UserType", Employee.UserType));
-                com.Parameters.Add(new SqlParameter("@Password", Employee.Password));
-                con.Open();
-                com.ExecuteNonQuery();
-                con.Close();
+                com.CommandText = StoredProcedures.Sp_Get_IEDeptDetails;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            return ds;
+
         }
     }
 }

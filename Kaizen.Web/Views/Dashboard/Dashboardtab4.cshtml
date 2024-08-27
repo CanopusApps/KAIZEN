@@ -1,0 +1,343 @@
+﻿@{
+    Layout = "SidebarLayout";
+}
+<link href="~/assets/css/custom/dashboard.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<style>
+    #dHeader {
+        text-align: center;
+        font-size: 16px !important;
+        margin-top: -10px;
+        margin-left: 7px;
+    }
+
+    canvas {
+        position: relative;
+        max-width: 100%;
+        
+    }
+
+    .filter-header {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+
+  
+</style>
+<div class="card ml-2 mr-2 bg-light ">
+<nav>
+    <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+        <div class="col-lg-12 p-md-0 p-2">
+            <div class="welcome-text">
+                <label id="dHeader">Masters -->Dashboard</label>
+            </div>
+        </div>
+    </div>
+    <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-link tab" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Domains & Department </a>
+                <a class="nav-link tab" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Yearly & Monthly</a>
+                <a class="nav-link tab active" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="true">Graphs</a>
+                <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Charts</a>
+            </div>
+    </nav>
+        <div class="container-fluid border rounded p-2" style="width:100%">
+            <form >
+                <div class="row align-items-left mb-3">
+                    <label class="col-auto filter-header">Filter by:</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="filterOption" id="filterYear1" value="year" checked>
+                        <label class="form-check-label" for="filterYear1">Year</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="filterOption" id="filterDate1" value="date">
+                        <label class="form-check-label" for="filterDate1">Date</label>
+                    </div>
+                </div>
+            </form>
+            <form>
+                <div class="card p-3 mt-2 mb-2">
+                    <div class="row">
+                        <div class="form-group col-lg-4 dates">
+                            <label for="inputUserType">Start-Date<span class="text-danger">*</span></label>
+                            <div>
+                                <input class="form-control txt-width" id="dtstartdate" type="date" name="name" value="">
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4 dates">
+                            <label for="inputUserType">End-Date<span class="text-danger">*</span></label>
+                            <div>
+                                <input class="form-control txt-width" id="dtenddate" type="date" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4" id="year">
+                            <label for="yearDropdown">Select Year:</label>
+                            <select id="yearDropdown" class="form-control mb-3"></select>
+                        </div>
+                        <span class="form-row p-4 container">
+                            <button type="button" class="btn col-lg-2 m-1 btn-azure" id="btn_filter" value="Filter">Filter</button>
+                            <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset" value="Reset">Reset</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card bg-white border chart-container mt-4 mb-4 ml-2 mr-2">
+            <div class="  card-header"> Submitted Kaizen Chart </div>
+            <div class="card-body">
+
+                <div class="card-body col-lg-12">
+                    <div class="row">
+                    <div class="col-lg-12 col-sm-12 mb-4">
+                        <canvas id="myBarChart" style="height:150%"></canvas>
+                    </div>
+                    <div class="col-lg-12 col-sm-12 mb-4">
+                            <canvas id="paretoChart" style="height:150%"></canvas>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </nav>
+  </div>
+<script>
+    $(document).ready(function () {
+        function toggleFields() {
+            if ($('#filterYear1').is(':checked')) {
+                $('#year').show();
+                $('.dates').hide();
+            } else if ($('#filterDate1').is(':checked')) {
+                $('#year').hide();
+                $('.dates').show();
+            }
+        }
+
+        // Call toggleFields on page load
+        toggleFields();
+
+        // Bind toggleFields to the change event of the radio buttons
+        $('input[name="filterOption"]').change(function () {
+            toggleFields();
+        });
+
+        // Populate Year Dropdown
+        const currentYear = new Date().getFullYear();
+        const endYear = currentYear - 4;
+        const yearDropdown = $("#yearDropdown");
+
+        for (let year = currentYear; year >= endYear; year--) {
+            yearDropdown.append($('<option>', {
+                value: year,
+                text: year
+            }));
+        }
+
+        yearDropdown.val(currentYear);
+
+        // Initialize Bar Chart
+        var ctxBar = document.getElementById('myBarChart').getContext('2d');
+        var barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [
+                    {
+                        label: 'Total',
+                        data: Array(12).fill(0),
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Pending',
+                        data: Array(12).fill(0),
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Approved',
+                        data: Array(12).fill(0),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Rejected',
+                        data: Array(12).fill(0),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                    
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Kaizen based on months'
+                    },
+                    datalabels: {
+                        display: true,
+                        color: 'black',
+                        align: 'end',
+                        formatter: (value) => {
+                            return value === 0 ? null : value;
+                        },
+                        padding: {
+                            top: 10
+                        }
+                    },
+                    offset: 10
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        // Initialize Pareto Chart
+        const ctxPareto = $('#paretoChart')[0].getContext('2d');
+        var paretoChart = new Chart(ctxPareto, {
+            type: 'bar', // Default type
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    type: 'bar',
+                    label: 'Total Kaizen',
+                    data: Array(12).fill(0),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }, {
+                    type: 'line',
+                    label: 'Line based',
+                    data: Array(12).fill(0),
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.1,
+                    datalabels: {
+                        display: false // Hide data labels for this dataset
+                    }
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Kaizen Pareto chart'
+                    },
+                    datalabels: {
+                        display: true,
+                        color: 'black',
+                        formatter: (value) => {
+                            return value === 0 ? null : value;
+                        },
+                        padding: {
+                            top: 10
+                        },
+                        align: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return value;
+                            }
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        // Filter Button Click
+        $('#btn_filter').click(function () {
+            let filterData = {};
+            if ($('#filterYear1').is(':checked')) {
+                filterData.startDate = $('#yearDropdown').val();
+                filterData.endDate = $('#yearDropdown').val();
+            } else if ($('#filterDate1').is(':checked')) {
+                filterData.startDate = $('#dtstartdate').val();
+                filterData.endDate = $('#dtenddate').val();
+            }
+
+            $.ajax({
+                url: '@Url.Action("Filtergraphscount", "Dashboard")',
+                type: 'GET',
+                data: filterData,
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+                success: function (result) {
+                    const monthLabels = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+                    let totalkaizen = Array(12).fill(0);
+                    let totalapproved = Array(12).fill(0);
+                    let totalpending = Array(12).fill(0);
+                    let totalrejected = Array(12).fill(0);
+
+                    result.monthTotalKaizenList.forEach(item => {
+                        var monthYear = item.monthbasedTotal.split('-');
+                        var month = monthYear[0].toLowerCase().substr(0, 3);
+                        const monthIndex = monthLabels.indexOf(month);
+                        if (monthIndex !== -1) {
+                            totalkaizen[monthIndex] = item.totalKaizens;
+                            totalapproved[monthIndex] = item.totalApproved;
+                            totalpending[monthIndex] = item.totalPending;
+                            totalrejected[monthIndex] = item.totalRejected;
+                        }
+                    });
+
+                    // Update Bar Chart Data
+                    barChart.data.datasets[0].data = totalkaizen;
+                    barChart.data.datasets[2].data = totalapproved;
+                    barChart.data.datasets[3].data = totalrejected;
+                    barChart.data.datasets[1].data = totalpending;
+                    barChart.update();
+
+                    // Update Pareto Chart Data
+                    paretoChart.data.datasets[0].data = totalkaizen;
+                    paretoChart.data.datasets[1].data = totalkaizen; // Assuming line data is same
+                    paretoChart.update();
+                },
+                error: function (error) {
+                    
+                },
+                complete: function () {
+                    $('#loader-wrapper').hide();
+                }
+            });
+        });
+
+        // Initial filter on page load
+        $('#btn_filter').click();
+    });
+</script>
+
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
+</script>
