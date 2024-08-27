@@ -18,6 +18,8 @@ namespace Kaizen.Models.AdminModel
         public string Email { get; set; } = "";
 
         public string Gender { get; set; } = "";
+
+        public string Block { get; set; } = "";
         public string Domain { get; set; } = "";
         public string Department { get; set; } = "";
         public string Cadre { get; set; } = "";
