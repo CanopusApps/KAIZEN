@@ -97,6 +97,10 @@ namespace Kaizen.Business.Worker
             {
                 DataTable dataTable = _repositoryUserTypedata.ReadExcelIntoDataTable(filePath);
                 string resultMessage = Senddatatable(dataTable, Status, UserType, Password);
+                if (dataTable.Rows.Count == 0)
+                {
+                    return "The Excel file contains no data. Please check your file and try again.";
+                }
                 bool hasEmptyRow = false;
                 foreach (DataRow row in dataTable.Rows)
                 {
@@ -152,6 +156,7 @@ namespace Kaizen.Business.Worker
                     LastName = row["Last Name"].ToString(),
                     Gender = row["Gender"].ToString(),
                     Email = row["Email Id"].ToString(),
+                    Block= row["Block"].ToString(),
                     Domain = row["Domain"].ToString(),
                     Department = row["Department"].ToString(),
                     Cadre = row["Cadre"].ToString(),
@@ -223,6 +228,9 @@ namespace Kaizen.Business.Worker
 
             if (string.IsNullOrEmpty(employee.PhoneNumber) || employee.PhoneNumber.Length != 10 || !employee.PhoneNumber.All(char.IsDigit))
                 return "Mobile Number must be exactly 10 digits.";
+
+            if (string.IsNullOrEmpty(employee.Block))
+                return "Block cannot be empty.";
 
             if (string.IsNullOrEmpty(employee.Domain))
                 return "Domain cannot be empty.";
