@@ -61,8 +61,9 @@ namespace Kaizen.Web.Controllers
                 model.Department = conAccessor.HttpContext.Session.GetString("Department");
                 model.BlockList = activeBlocks;
                 model.IEDepartList = _viewuserWorker.GetIEDepart();
+                model.FinanceList = _viewuserWorker.GetFinance();
                 var managerupt = conAccessor.HttpContext.Session.GetString("DepartmentId");
-                model.ManagerList = _loginworker.Usermanager1(managerupt);
+                    model.ManagerList = _loginworker.Usermanager1(managerupt);
                 //model = _createNewKaizen.GetKaizenOriginatedby(model);
                 DateTime currentDate  = DateTime.Today;
                 model.OriginatedDate = currentDate.ToString("dd-MM-yyyy");

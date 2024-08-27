@@ -654,7 +654,21 @@
                                                             <div class="col-sm-4 hidden123" id="approvedBySection">
                                                             <div class="form-group">
                                                                 <label>Approved by (Accounts)</label>
-                                                                    <input type="text" name="approvedbyAccount" id="approvedbyAccount" required class="form-control " value="@Model.AccountEmail" readonly >
+                                                                    @* <input type="text" name="approvedbyAccount" id="approvedbyAccount" required class="form-control " value="@Model.AccountEmail" readonly > *@
+                                                                     <div class="dropdown bootstrap-select ">
+                                                                         <select id="approvedbyAccount" class="form-control txt-width" name="UserType">
+                                                                        <option selected>Select</option>
+                                                                        @if (Model.FinanceList != null)
+                                                                        {
+                                                                            foreach (var financeList in Model.FinanceList)
+                                                                            {
+                                                                                <option value="@financeList.EmpID">@financeList.UserType</option>
+                                                                            }
+                                                                        }
+
+                                                                    </select>
+                                                                    <span id="approvedbyAccounterror" class="text-danger error-message"></span>
+                                                                    </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1317,7 +1331,7 @@
             $('#sampleKaizenModal').modal('show');
         });
     }
-   
+    
     //Download PDF Start
     $('#printPDF').click(function () {
         var element = document.getElementById('downloadDiv');
@@ -1976,6 +1990,13 @@
                 $("#approvedbyIerror").text("");
             }
         });
+        $("#approvedbyAccount").on("input", function () {
+            var ApprovedbyAccount = $(this).val();
+            if (ApprovedbyAccount !== "") {
+                $(this).css("border-color", "");
+                $("#approvedbyAccounterror").text("");
+            }
+        });
         $("#attach_file_before").on("input", function () {
             if ($(this)[0].files.length > 0) {
                 $(this).css("border-color", "");
@@ -2009,6 +2030,7 @@
         var CycleTime = $("#cycletime1").val();
         var Manpower = $("#Manpower").val();
         var Cost = $("#cost1").val();
+        var ApprovedbyAccount = $("#approvedbyAccount").val();
         var ApprovedbyIe = $("#approvedbyIe").val();
         var rootcauseproblem = $("#rootcauseProblem").val();
         var PresentConditions = $("#presentCondition").val();
@@ -2120,6 +2142,14 @@
                 isValid = false;
             }
         }
+        if (Cost.length >= 6) { 
+            if (ApprovedbyAccount === "Select") {
+                $("#approvedbyAccount").css("border-color", "red");
+                $("#approvedbyAccounterror").text("ApprovedbyAccount is required.");
+                if (!firstInvalidField) firstInvalidField = "#approvedbyAccount";
+                isValid = false;
+            }
+        }
         // if (addedTeamMembers === 0) {
         //     if (!firstInvalidField) firstInvalidField = "#IdMemberAdd";
         //     // isValid = false;
@@ -2205,7 +2235,7 @@
         // Initialize all popovers
         $('[data-toggle="popover"]').popover();
         // $("#approvedbyIE").attr("disabled", "disabled");
-        $("#approvedbyAccount").attr("disabled", "disabled");
+        //$("#approvedbyAccount").attr("disabled", "disabled");
         $("#btnSaveKaizen").click(function () {
             var checkboxData = {};
             var checkboxData1 = {};
@@ -3274,6 +3304,9 @@
                         // }).change();
                         $('#approvedbyIe option').map(function () {
                             if ($(this).text() == result.kaizenList[0].approvedByIE) return this;
+                        }).attr('selected', 'selected').change();
+                        $('#approvedbyAccount option').map(function () {
+                            if ($(this).text() == result.kaizenList[0].financeApprovedBy) return this;
                         }).attr('selected', 'selected').change();
                         $("#rootcauseProblem").val(result.kaizenList[0].rootCause);
                         $("#presentCondition").val(result.kaizenList[0].presentCondition);

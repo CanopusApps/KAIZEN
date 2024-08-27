@@ -263,6 +263,24 @@ namespace Kaizen.Business.Worker
             }
             return userviewModels;
         }
-
+        public List<UserGridModel> GetFinance()
+        {
+            DataSet ds;
+            List<UserGridModel> userviewModels = new List<UserGridModel>();
+            ds = _repositoryUserTypedata.GetFinanceData();
+            if (ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    userviewModels.Add(new UserGridModel
+                    {
+                        EmpID = dr["EmpID"].ToString(),
+                        UserType = dr["Email"].ToString(),
+                        Status = Convert.ToInt32(dr["Status"])
+                    });
+                }
+            }
+            return userviewModels;
+        }
     }
 }

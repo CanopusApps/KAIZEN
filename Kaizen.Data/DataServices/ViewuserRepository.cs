@@ -198,5 +198,24 @@ namespace Kaizen.Data.DataServices
             return ds;
 
         }
+        public DataSet GetFinanceData() 
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.Sp_Get_FinanceDetails;
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
     }
 }
