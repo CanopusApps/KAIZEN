@@ -22,6 +22,8 @@ namespace Kaizen.Data.DataServices
 
         public DataTable ReadExcelIntoDataTable(string filePath);
 
-        public DataSet GetIEDepartData();
+        public DataSet GetIEDepartData(); 
+
+        public DataSet GetFinanceData();
     }
 }
