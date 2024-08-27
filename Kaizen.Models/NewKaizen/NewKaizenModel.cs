@@ -89,6 +89,8 @@ namespace Kaizen.Models.NewKaizen
         public List<BlockModel> BlockList { get; set; }
 
         public List<UserGridModel> IEDepartList { get; set; }
+
+        public List<UserGridModel> FinanceList { get; set; }
         public List<TeamMemberDetails> MemberList { get; set; }
 		public List<DeploymentDetails> DeploymentList{ get; set; }
         public List<ManagerModel> ManagerList { get; set; }
