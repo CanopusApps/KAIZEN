@@ -98,6 +98,7 @@ namespace Kaizen.Data.Constant
         public static string Sp_Get_FinanceDetails = "Sp_Get_FinanceDetails";
         public static string SP_USERLOG = "SP_USERLOG";
         public static string Sp_GetUserManagerupdate = "Sp_GetUserManagerupdate";
+        public static string Sp_Get_UserLogformReport = "Sp_Get_UserLogformReport";
     }
 
     public class ConstantValue

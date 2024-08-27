@@ -107,5 +107,19 @@ namespace Kaizen.Data.DataServices
             return dt;
 
         }
+        public DataTable GetUserLogformData(KaizenReportModel model)
+        {
+            com = new SqlCommand();
+            DataTable dt = new DataTable();
+            com.Connection = con;
+            com.CommandType = CommandType.StoredProcedure;
+            com.Parameters.AddWithValue("@startdate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
+            com.Parameters.AddWithValue("@enddate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
+            com.CommandText = StoredProcedures.Sp_Get_UserLogformReport;
+            SqlDataAdapter da = new SqlDataAdapter(com);
+            da.Fill(dt);
+            return dt;
+
+        }
     }
 }

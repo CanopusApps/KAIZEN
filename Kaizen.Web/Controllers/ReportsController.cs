@@ -101,6 +101,21 @@ namespace Kaizen.Web.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult UserlogForm(KaizenReportModel model)
+        {
+            try
+            {
+                var list = _downloadexcel.GetUserLogform(model);
+                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "UserLogReport.xlsx");
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return View();
+            }
+        }
+
         //Dashboard Reports
         [HttpGet]
         public IActionResult DasboardBlocks(string? StartDate, string? EndDate)
