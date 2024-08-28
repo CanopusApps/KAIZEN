@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Kaizen.Data.Constant;
 using System.Text.RegularExpressions;
 using System.Transactions;
+using ClosedXML.Excel;
 
 namespace Kaizen.Business.Worker
 {
@@ -84,54 +85,40 @@ namespace Kaizen.Business.Worker
         }
         public string SendFile(IFormFile file, string Status, string UserType, string Password)
         {
-            var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
-            Directory.CreateDirectory(uploadsPath);
-            var filePath = Path.Combine(uploadsPath, file.FileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                file.CopyTo(stream);
-            }
-
             try
             {
-                DataTable dataTable = _repositoryUserTypedata.ReadExcelIntoDataTable(filePath);
-                string resultMessage = Senddatatable(dataTable, Status, UserType, Password);
-                if (dataTable.Rows.Count == 0)
+                using (var memoryStream = new MemoryStream())
                 {
-                    return "The Excel file contains no data. Please check your file and try again.";
-                }
-                bool hasEmptyRow = false;
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    bool isEmptyRow = true;
-                    foreach (var item in row.ItemArray)
+                    file.CopyTo(memoryStream);
+                    byte[] fileBytes = memoryStream.ToArray();
+
+                    // Read the Excel file into a DataTable using ClosedXML
+                    DataTable dataTable = ReadExcelIntoDataTable(fileBytes);
+
+                    if (dataTable == null || dataTable.Rows.Count == 0)
                     {
-                        if (!string.IsNullOrWhiteSpace(item?.ToString()))
-                        {
-                            isEmptyRow = false;
-                            break;
-                        }
+                        return "The uploaded Excel file is empty or invalid.";
                     }
 
-                    if (isEmptyRow)
-                    {
-                        hasEmptyRow = true;
-                        break;
-                    }
-                }
+                    // Check for empty rows
+                    bool hasEmptyRow = dataTable.AsEnumerable().Any(row => row.ItemArray.All(field => string.IsNullOrWhiteSpace(field?.ToString())));
 
-                if (hasEmptyRow)
-                {
-                    return "The Excel file contains empty rows. Please check your data and try again.";
-                }
-                if (string.IsNullOrEmpty(resultMessage))
-                {
-                    return "File uploaded and data processed successfully.";
-                }
-                else
-                {
-                    return $"There are errors:\n{resultMessage}";
+                    if (hasEmptyRow)
+                    {
+                        return "The Excel file contains empty rows. Please check your data and try again.";
+                    }
+
+                    // Process the dataTable
+                    string resultMessage = Senddatatable(dataTable, Status, UserType, Password);
+
+                    if (string.IsNullOrEmpty(resultMessage))
+                    {
+                        return "File uploaded and data processed successfully.";
+                    }
+                    else
+                    {
+                        return $"There are errors:\n{resultMessage}";
+                    }
                 }
             }
             catch (Exception ex)
@@ -140,12 +127,43 @@ namespace Kaizen.Business.Worker
             }
         }
 
+        private DataTable ReadExcelIntoDataTable(byte[] fileBytes)
+        {
+            using (var stream = new MemoryStream(fileBytes))
+            using (var workbook = new XLWorkbook(stream))
+            {
+                var worksheet = workbook.Worksheet(1); // Reads the first worksheet
+                var dataTable = new DataTable();
+
+                // Add columns to the DataTable based on the first row of the worksheet
+                foreach (IXLCell firstRowCell in worksheet.Row(1).Cells())
+                {
+                    dataTable.Columns.Add(firstRowCell.Value.ToString());
+                }
+
+                // Start from the second row to add rows to the DataTable
+                foreach (IXLRow row in worksheet.RowsUsed().Skip(1))
+                {
+                    var newRow = dataTable.NewRow();
+                    int i = 0;
+                    foreach (IXLCell cell in row.Cells())
+                    {
+                        newRow[i] = cell.Value.ToString();
+                        i++;
+                    }
+
+                    dataTable.Rows.Add(newRow);
+                }
+
+                return dataTable;
+            }
+        }
+
         public string Senddatatable(DataTable dataTable, string Status, string UserType, string Password)
         {
             var errorMessages = new List<string>();
             var validRecords = new List<UploadUserModel>();
 
-            // Validate each record
             foreach (DataRow row in dataTable.Rows)
             {
                 var employee = new UploadUserModel
@@ -220,11 +238,20 @@ namespace Kaizen.Business.Worker
             if (string.IsNullOrEmpty(employee.LastName))
                 return "Last Name cannot be empty.";
 
+            if (string.IsNullOrEmpty(employee.Gender))
+                return "Gender cannot be empty.";
+
             if (string.IsNullOrEmpty(employee.Gender) || !new[] { 'F', 'M' }.Contains(employee.Gender[0]))
                 return "Gender must be either F or M.";
 
+            if (string.IsNullOrEmpty(employee.Email))
+                return "Email cannot be empty.";
+
             if (string.IsNullOrEmpty(employee.Email) || !Regex.IsMatch(employee.Email, @"^(.+)@.{2,}\..{2,}$"))
                 return "Email is not in a valid format.";
+
+            if (string.IsNullOrEmpty(employee.PhoneNumber))
+                return "PhoneNumber cannot be empty.";
 
             if (string.IsNullOrEmpty(employee.PhoneNumber) || employee.PhoneNumber.Length != 10 || !employee.PhoneNumber.All(char.IsDigit))
                 return "Mobile Number must be exactly 10 digits.";
