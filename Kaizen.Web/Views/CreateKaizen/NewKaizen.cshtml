@@ -1107,12 +1107,14 @@
                                                                 <td class="text-center align-middle px-3">
                                                                     Date
                                                                 </td>
-                                                                @{
+                                                              
+                                                               @*  @{
+
                                                                      DateTime parsedDate;
                                                                      bool isValidDate = DateTime.TryParse(Model.OriginatedDate, out parsedDate);
-                                                                }
+                                                                } *@
                                                                     <td class="align-middle align-items-center justify-content-center col-5">
-                                                                    <input type="text" class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@parsedDate.ToString("dd/MM/yyyy")">
+                                                                        <input type="text" class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@Model.OriginatedDate" readonly>
 
                                                                 </td>
                                                                     <td class="align-middle align-items-center justify-content-center col-5">
@@ -1305,7 +1307,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" crossorigin="anonymous"></script>
 <script src="~/assets/js/custom/html2pdf.bundle.js"></script>
-
 <script>
     
    //  $(document).ready(function () {
@@ -1407,14 +1408,14 @@
             }
             else {
                 switch (userRole) {
-                    case 'IE DEPT':
+                    case 'IED':
                         enumValue = 7;
                         break;
-                    case 'FINNACE':
+                    case 'FIN':
                         enumValue = 9;
 
                         break;
-                    case 'MANAGER':
+                    case 'MGR':
                         enumValue = 5;
                         break;
                     // case 'IMAGE APPROVER':
@@ -1439,13 +1440,13 @@
             }
             else {
                 switch (userRole) {
-                    case 'IE DEPT':
+                    case 'IED':
                         enumValue = 6; // IEApproved
                         break;
-                    case 'FINNACE':
+                    case 'FIN':
                         enumValue = 8; // FinanceApproved
                         break;
-                    case 'MANAGER':
+                    case 'MGR':
                         enumValue = 4; // ImageApproved
                         break;
                     // case 'IMAGE APPROVER':
@@ -1514,24 +1515,24 @@
            else { 
 
             switch (userRole) {
-                case 'IE DEPT':
+                case 'IED':
                     $('#DRIDept').show();
                     $('#Aprrovalbtn').show();
                     $('#waitingapproval').show();
                     break;
-                case 'FINNACE':
+                case 'FIN':
                     $('#DRIDept').show();
                     $('#IEDept').show();
                     $('#Aprrovalbtn').show();
                     $('#waitingapproval').show();
                     break;
-                case 'MANAGER':
+                case 'MGR':
                     $('#ImageApprover').show();
                     $('#Editbtn').show();
                     $('#Aprrovalbtn').show();
                     $('#waitingapproval').show();
                     break;
-                case 'ADMIN':
+                case 'ADM':
                     break;
                 // case 'IMAGE APPROVER':
                 //     $('#waitingimage').show();
@@ -2998,20 +2999,20 @@
 
             $('#saveItButton').show();
             switch (userRole) {
-                case 'IE DEPT':
+                case 'IED':
                      $('#saveItButton').hide();
                     $('#updateItButton').hide();
                     
                     break;
-                case 'FINNACE':                
+                case 'FIN':                
                     $('#saveItButton').hide();
                     $('#updateItButton').hide();
                     break;
-                case 'ADMIN':                    
+                case 'ADM':                    
                     $('#saveItButton').hide();        
                        $('#updateItButton').hide();
                     break;
-                case 'MANAGER':
+                case 'MGR':
                     $('#btnSaveKaizen').hide();
                     $('#btnUpdateKaizen').hide();
                     break;
@@ -3089,7 +3090,7 @@
                             updateStatusText();
                         } else if (statusDesc === statusdetails.IEApproved || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.IEPending) {
                             $('#saveItButton').hide();
-                            $('#dristatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
+                            $('#iestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
                             $('#IEDept').show();
                             $('#DRIDept').show();
                             $('#ImageApprover').show();
@@ -3138,10 +3139,10 @@
                             $('#pendingstatusid').text(reverseStatusDetails[statusDesc]).addClass('pending');
                             updateStatusText();
                         }
-                        else if (statusDesc === statusdetails.submitted && userRole === 'ADMIN') {
+                        else if (statusDesc === statusdetails.submitted && userRole === 'ADM') {
                             $('#approvers').hide();
                         }
-                        else if(statusDesc === statusdetails.submitted && userRole != 'EMPLOYEE')
+                        else if(statusDesc === statusdetails.submitted && userRole != 'EMP')
                         {
                             $('#approvers').show();
                             $('#btnUpdateKaizen').show();
@@ -3171,9 +3172,10 @@
                             updateStatusText();
                         } else if (imageapproverstatus === 'True' && statusDesc === statusdetails.submitted) {
                             $('#approvers').show();
+                            $('#btnUpdateKaizen').hide();
                             updateStatusText();
                         }
-                        if (imageapproverstatus === 'True' && statusDesc !== statusdetails.submitted && userRole === 'EMPLOYEE') {
+                        if (imageapproverstatus === 'True' && statusDesc !== statusdetails.submitted && userRole === 'EMP') {
                             $('#Aprrovalbtn').hide();
                             $('#updateItButton').hide();
                             $('#saveItButton').hide();
@@ -3182,7 +3184,7 @@
                                  $('#updateItButton').show();
                             }
                         }
-                        if(statusDesc !== statusdetails.submitted && userRole === 'EMPLOYEE')
+                        if(statusDesc !== statusdetails.submitted && userRole === 'EMP')
                         {
                             $('#updateItButton').hide();
                             if (statusDesc === statusdetails.saved  ) {
@@ -3194,7 +3196,7 @@
                                 $('#updateItButton').show();
                             }
                         }
-                        if (userRole === 'FINNACE')
+                        if (userRole === 'FIN')
                         {
                             if (result.approverslist[0].iEname == "") {
                                 $('#IEDept').show();
@@ -3202,7 +3204,7 @@
                         }
                         
                         
-                        if ( userRole === 'ADMIN') {                           
+                        if ( userRole === 'ADM') {                           
                             if (result.approverslist[0].financeEmail == "") {
                                 $('#FinanceDept').show();
                             }

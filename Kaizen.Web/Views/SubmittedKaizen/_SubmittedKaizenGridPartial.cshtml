@@ -39,7 +39,7 @@
                     <td width="5%">@User.IEApprovedDept</td>
                     <td width="15%">@User.ApprovalStatus</td>
                     <td width="5%">
-                        @if (UserType == "ADMIN")
+                        @if (UserType == "ADM")
                         {
                             <a class="posted-by" href="#" data-createdby="@User.PostedBy" data-role="@User.role">@User.CreatedBy</a>
                         }
@@ -50,7 +50,7 @@
                     </td>
                     <td width="10%">@User.CreatedDate</td>
                     <td class="text-center" width="10%">
-                        @if ((User.AStatus < 4 || User.AStatus == 15) && UserType != "ADMIN")
+                        @if ((User.AStatus < 4 || User.AStatus == 15) && UserType != "ADM")
                         {
                             <a class="btn btn-primary btn-sm edituser" id="edit">
                                 <i class="edit fas fa-solid fa-pencil"></i>
