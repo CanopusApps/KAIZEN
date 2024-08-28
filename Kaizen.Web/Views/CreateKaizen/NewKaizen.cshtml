@@ -1602,15 +1602,15 @@
                 $("#IdTeamMemberName").val(result.name);
                 $("#IdFunction").val(result.domain);
                 $("#empGuid").val(result.empguid);
-               
+                toggleButtons();
             },
             error: function (xhr, status, error) {
                 if (xhr.responseText) {
-                    swal(xhr.responseText);
+                    swal(xhr.responseText).then(function () {
+                        $('#IdMemberAdd').val('');
+                    });
                 } else {
                     swal('Unable to Find the Team Member Details - Please Check the logs');
-                    // Handle errors (if needed)
-                    // console.error('Error:', error);
                 }
             }
         });
@@ -1857,21 +1857,21 @@
         updateMinDate(); 
     });
  //emptable
-    $(document).ready(function () {
-        function toggleButtons() {
-            var input1 = $('#IdMemberAdd').val().trim();
-            var inputsFilled = input1.length >= 6;
-            var checkboxChecked = $('input[type="checkbox"]:checked').length > 0;
-            $('#teamAddBtn').toggleClass('grayed-out', !inputsFilled).prop('disabled', !inputsFilled);
-            $('#teamDelBtn').toggleClass('grayed-out', !checkboxChecked).prop('disabled', !checkboxChecked);
-        }
-        toggleButtons();
-        $(document).on('input', '#IdMemberAdd, #IdTeamMemberName, #IdFunction', toggleButtons);
-        $(document).on('change', 'input[type="checkbox"]', toggleButtons);
-        $('#teamAddBtn, #teamDelBtn').on('click', function () {
-            $('#teamAddBtn, #teamDelBtn').addClass('grayed-out').prop('disabled', true);
-        });
-    });
+     function toggleButtons() {
+         var input1 = $('#IdMemberAdd').val().trim();
+         var input2 = $('#IdTeamMemberName').val().trim();
+         var input3 = $('#IdFunction').val().trim();
+         var inputsFilled = input1.length >= 6 && input2.trim().length > 0 && input3.trim().length > 0;
+         var checkboxChecked = $('input[type="checkbox"]:checked').length > 0;
+         $('#teamAddBtn').toggleClass('grayed-out', !inputsFilled).prop('disabled', !inputsFilled);
+         $('#teamDelBtn').toggleClass('grayed-out', !checkboxChecked).prop('disabled', !checkboxChecked);
+     }
+     toggleButtons();
+     $(document).on('input', '#IdMemberAdd, #IdTeamMemberName, #IdFunction', toggleButtons);
+     $(document).on('change', 'input[type="checkbox"]', toggleButtons);
+     $('#teamAddBtn, #teamDelBtn').on('click', function () {
+         $('#teamAddBtn, #teamDelBtn').addClass('grayed-out').prop('disabled', true);
+     });
 
     function ValidateForm() {
         var isValid = true;
@@ -3089,7 +3089,7 @@
                             updateStatusText();
                         } else if (statusDesc === statusdetails.IEApproved || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.IEPending) {
                             $('#saveItButton').hide();
-                            $('#    ').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
+                            $('#dristatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
                             $('#IEDept').show();
                             $('#DRIDept').show();
                             $('#ImageApprover').show();
