@@ -13,22 +13,21 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="topbar">
-        <marquee width="100%" class="" direction="left" behavior="scroll" scrollamount="5">
-            <h1 class="" style="color:white; font-size: x-large;margin:-1px;" loginbox-title>
-                Kaizen Winner for this month is
-                <span style="color: rgb(45, 195, 232); font-weight:bold; font-size: x-large;">
-                    @selectedTheme
-                </span>.
-                Congratulations Team!
-            </h1>
-        </marquee>
-    </div>
-
     <div class="row fullscreen">
 
         <div class="d-flex">
             <div class="flex-grow-1"></div>
+            </div>
+        <div class="col-lg-12 topbar">
+            <marquee width="100%" class="" direction="left" behavior="scroll" scrollamount="5">
+                <h1 class="" style="color:white; font-size: x-large;margin:-1px;" loginbox-title>
+                    Kaizen Winner for this month is
+                    <span style="color: rgb(45, 195, 232); font-weight:bold; font-size: x-large;">
+                        @selectedTheme
+                    </span>.
+                    Congratulations Team!
+                </h1>
+            </marquee>
             </div>
         <div class="col-lg-4">
             <div class="login-container animated fadeIn">
@@ -146,7 +145,7 @@
                 </div>
 
                 <!-- Bronze Row -->
-                <div class="row bronze">
+                <div class="row bronze"style="margin-bottom:0px">
                     <div class="vertical-text bronze">Bronze</div>
                     <div class="image-box">
                         <img id="bimg1" src="~/assets/img/profile.png" />

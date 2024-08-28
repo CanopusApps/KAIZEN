@@ -28,7 +28,7 @@
         </div>
         <div class="card p-3 mt-2 mb-2 cardsize">
             <div class="form-row">
-                @if (UserType != "MANAGER" && UserType != "EMPLOYEE")
+                @if (UserType != "MGR" && UserType != "EMP")
                 {
                     <div class="form-group col-md-2">
                         <label for="inputDomain">Domain</label>
@@ -44,7 +44,7 @@
                         </select>
                     </div>
                 }
-                @if (UserType != "MANAGER" && UserType != "EMPLOYEE")
+                @if (UserType != "MGR" && UserType != "EMP")
                 {
                     <div class="form-group col-md-2">
                         <label for="inputDepartment">Department</label>

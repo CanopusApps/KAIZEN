@@ -23,7 +23,9 @@
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 0;
+        color: #343a40;
     }
+  
 
   
 </style>
@@ -47,8 +49,8 @@
     </nav>
         <div class="container-fluid border rounded p-2" style="width:100%">
             <form >
-                <div class="row align-items-left mb-3">
-                    <label class="col-auto filter-header">Filter by:</label>
+                <div class="row align-items-left mb-4 px-0 pt-3 pb-1 mx-1  bg-light filter-header">
+                    <label class="col-auto ">Filter by:</label>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="filterOption" id="filterYear1" value="year" checked>
                         <label class="form-check-label" for="filterYear1">Year</label>
@@ -88,7 +90,7 @@
         </div>
 
         <div class="card bg-white border chart-container mt-4 mb-4 ml-2 mr-2">
-            <div class="  card-header"> Submitted Kaizen Chart </div>
+            <div class=" card-header filter-header "> Submitted Kaizen's </div>
             <div class="card-body">
 
                 <div class="card-body col-lg-12">
@@ -190,7 +192,7 @@
                         position: 'top',
                     },
                     title: {
-                        display: true,
+                        display: false,
                         text: 'Kaizen based on months'
                     },
                     datalabels: {
@@ -244,7 +246,7 @@
                         position: 'top',
                     },
                     title: {
-                        display: true,
+                        display: false,
                         text: 'Kaizen Pareto chart'
                     },
                     datalabels: {
