@@ -254,6 +254,7 @@ function triggerUpload() {
                     $('#eIDError').text('Invalid Employee ID').addClass('text-danger');
                     isValid = false;
                 }
+               
 
                 var formData = new FormData();
                 formData.append('NewKaizen', JSON.stringify({}));
@@ -263,28 +264,46 @@ function triggerUpload() {
                 formData.append('WinnersList.EndDate', endDate);
                 formData.append('WinnersList.Winnerimage', winnerimg);
 
-                if (isValid) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("WinnersList", "WinnersList")',
-                        contentType: false,
-                        processData: false,
-                        data: formData,
-                        success: function (response) {
-                            if (response == "Posted") {
-                                swal({
-                                    text: "Winner Added successfully !!",
-                                    type: "success"
-                                }).then(OK => {
-                                    window.location.href = '/WinnersList/WinnersList';
-                                });
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            // Handle errors here
+            if (isValid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("WinnersList", "WinnersList")',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        if (response == true) {
+                            swal({
+                                text: "Winner Added successfully !!",
+                                type: "success"
+                            }).then(OK => {
+                                window.location.href = '/WinnersList/WinnersList';
+                            });
                         }
-                    });
-                }
+                        else if (response == false) {
+                            swal({
+                                text: "Duplicate entry already exists! Please check date or Change Category.",
+                                type: "failure"
+                            }).then(OK => {
+                                window.location.href = '/WinnersList/WinnersList';
+                            });
+                        }
+
+                        else {
+                            swal({
+                                text: response, // Show the error message received from the server
+                                type: "error"
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        swal({
+                            text: "An Unexpected Error Occured" + error,
+                            type: "error"
+                        });
+                    }
+                });
+            }
             });
 
 
@@ -456,7 +475,6 @@ function triggerUpload() {
             const file = fileInput.files[0];
 
             if (!file) {
-                errorElement.textContent = 'Image is required.';
                 errorElement.classList.add('text-danger');
             } else {
                 // Clear the error message if a file is selected

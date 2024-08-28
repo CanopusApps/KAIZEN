@@ -122,7 +122,7 @@
         // Check for empty or invalid fields
         var blockNameValue = $("#BlockName").val();
 
-        if (blockNameValue === "") {
+        if (blockNameValue.trim() === "") {
             $("#BlockName").css("border-color", "red");
             $("#BlockError").text("Block Name is required.");
             isValid = false;
