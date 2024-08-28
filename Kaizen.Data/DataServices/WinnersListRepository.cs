@@ -41,41 +41,53 @@ namespace Kaizen.Data.DataServices
         private static SqlCommand com = null;
 
 
-        public bool AddWinner (WinnersListModel model)
+        public bool AddWinner(WinnersListModel model)
         {
             bool status = false;
+            SqlCommand com = null;
+
             try
             {
-
                 com = new SqlCommand();
-                DataTable dt = new DataTable();
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.SpAddWinner;
                 com.Parameters.AddWithValue("@EmpGUID", model.EmpGUID);
                 com.Parameters.AddWithValue("@Category", model.Category);
                 com.Parameters.AddWithValue("@StartDate", model.StartDate);
                 com.Parameters.AddWithValue("@EndDate", model.EndDate);
-                com.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                com.Parameters.AddWithValue("@CreatedBy", model.CreatedBy ?? (object)DBNull.Value);
                 com.Parameters.AddWithValue("@Status", "Active");
-                com.Parameters.AddWithValue("@winnerimg", model.winnerimagefilepath);
-                com.CommandText = StoredProcedures.SpAddWinner;
+                com.Parameters.AddWithValue("@winnerimg", model.winnerimagefilepath ?? (object)DBNull.Value);
+
+                SqlParameter resultParam = new SqlParameter
+                {
+                    ParameterName = "@result",
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.Output
+                };
+                com.Parameters.Add(resultParam);
+
                 con.Open();
-               
                 com.ExecuteNonQuery();
-                con.Close();
-                status = true;
+                bool result = (bool)resultParam.Value;
+                status = !result;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
-			finally
-			{
-				con.Close();
-			}
-			return status;
-
+            finally
+            {
+                if (com != null) com.Dispose();
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+            return status;
         }
+
         public bool UpdateWinner (WinnersListModel model)
         {
             bool updStatus = false;
