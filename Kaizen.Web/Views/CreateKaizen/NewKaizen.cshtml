@@ -3089,7 +3089,7 @@
                             updateStatusText();
                         } else if (statusDesc === statusdetails.IEApproved || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.IEPending) {
                             $('#saveItButton').hide();
-                            $('#    ').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
+                            $('#dristatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
                             $('#IEDept').show();
                             $('#DRIDept').show();
                             $('#ImageApprover').show();
