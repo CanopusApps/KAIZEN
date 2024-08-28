@@ -1107,12 +1107,14 @@
                                                                 <td class="text-center align-middle px-3">
                                                                     Date
                                                                 </td>
+                                                              
                                                                @*  @{
+
                                                                      DateTime parsedDate;
                                                                      bool isValidDate = DateTime.TryParse(Model.OriginatedDate, out parsedDate);
                                                                 } *@
                                                                     <td class="align-middle align-items-center justify-content-center col-5">
-                                                                    <input type="text" class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@Model.OriginatedDate">
+                                                                    <input type="text" class="mx-auto form-control col-9" id="CDeta" name="CDate" value="@Model.OriginatedDate" readonly>
 
                                                                 </td>
                                                                     <td class="align-middle align-items-center justify-content-center col-5">
