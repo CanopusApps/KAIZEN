@@ -10,6 +10,12 @@
         margin-top: -10px;
         margin-left: 7px;
     }   
+    .filter-header {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 0;
+        color: #343a40;
+    }
 </style>
 
 
@@ -30,9 +36,9 @@
                 <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
                 <a class="nav-link  tab active" id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="true">Charts</a>
             </div>
-            <div class="container-fluid border rounded p-2" style="width:100%">
+            <div class="container-fluid border rounded p-2 bg-light" style="width:100%">
                 <form>
-                    <div class="row align-items-left mb-3">
+                    <div class="row align-items-left mb-3 p-3  filter-header">
                         <label class="col-auto filter-header">Filter by:</label>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="filterOption" id="filterYear1" value="year" checked>
@@ -72,23 +78,24 @@
                 </form>
             </div>
             <!-- Radio buttons for chart type selection -->
-            <div class="container-fluid border rounded p-2">
-                <form>
-                    <div class="row align-items-left mb-3">
-                        <label class="col-auto filter-header">Chart Type:</label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="chartTypeOption" id="chartTypeDonut" value="donut" checked>
-                            <label class="form-check-label" for="chartTypeDonut">Donut Charts</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="chartTypeOption" id="chartTypeBar" value="bar">
-                            <label class="form-check-label" for="chartTypeBar">Bar Charts</label>
-                        </div>
-                    </div>
-                </form>
-            </div>
+
             <div class="card bg-white border chart-container mt-4 mb-5 ml-2 mr-2 pb-4">
-                <div class="  card-header">Kaizens Based on Cadre,Blocks,Domain and Department</div>
+                <div class="container-fluid border rounded p-2">
+                    <form>
+                        <div class="row align-items-left mb-3">
+                            <label class="col-auto filter-header">Chart Type:</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="chartTypeOption" id="chartTypeDonut" value="donut" checked>
+                                <label class="form-check-label" for="chartTypeDonut">Donut Charts</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="chartTypeOption" id="chartTypeBar" value="bar">
+                                <label class="form-check-label" for="chartTypeBar">Bar Charts</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            @*     <div class="  card-header">Kaizens Based on Cadre,Blocks,Domain and Department</div> *@
                 <div class="card-body col-lg-12" id="donutChartsSection">
                     <div class="row">
                         <div class="col-lg-6 col-md-12 mb-4   text-right">

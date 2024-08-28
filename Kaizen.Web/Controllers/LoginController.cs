@@ -79,7 +79,7 @@ namespace Kaizen.Web.Controllers
 
 
            
-            string EmpId, password,Username,userRole;
+            string EmpId, password,Username,userRole,userRolecode;
             string Domainname, departmentname;
             DataTable dataTable = new DataTable();
             DataTable dataTable1 = new DataTable();
@@ -96,6 +96,8 @@ namespace Kaizen.Web.Controllers
                         password = row["Password"].ToString();
                         Username= row["FirstName"].ToString();
                         userRole = row["UserRole"].ToString();
+                        userRolecode = row["UserRolecode"].ToString();
+
 
                         //using (SHA256 sha256 = SHA256.Create())
                         //{
@@ -143,7 +145,7 @@ namespace Kaizen.Web.Controllers
                                 HttpContext.Session.SetString("ImageApprover", row["ImageApprover"].ToString());
                                 //HttpContext.Session.SetString("Manager", row["ManagerName"].ToString());
                                 HttpContext.Session.SetString("IEemail", row["IEEMAIL"].ToString());
-                                HttpContext.Session.SetString("Userrole", row["Userrole"].ToString());                             
+                                HttpContext.Session.SetString("Userrole", row["userRolecode"].ToString());                             
                                HttpContext.Session.SetString("FinanceEmail", row["FinanceEmail"].ToString());
 
                                
@@ -152,11 +154,11 @@ namespace Kaizen.Web.Controllers
                             }
                             string Userrole = conAccessor.HttpContext.Session.GetString("Userrole");
                             string ImageApprover = conAccessor.HttpContext.Session.GetString("ImageApprover");// if True user is image Approver (store's "True" or"")
-                            if (Userrole == "ADMIN")
+                            if (Userrole == "ADM")
                             {
                                 Response.Redirect("Dashboard/Dashboardtab1");
                             }
-                            else if(Userrole == "EMPLOYEE")
+                            else if(Userrole == "EMP")
                             {
                                 Response.Redirect("Dashboard/EmployeeDashboard");
                             }

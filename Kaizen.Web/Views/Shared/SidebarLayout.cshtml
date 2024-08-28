@@ -271,20 +271,20 @@
                
                 <div class="list-group list-group-flush my-3">
                    @*  <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a> *@
-                    @if (UserType == "MANAGER")
+                    @if (UserType == "MGR")
                     {
                         <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
                         <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">New Kaizen</a>
                         <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
                     }
-                    @if ( UserType == "EMPLOYEE")
+                    @if ( UserType == "EMP")
                     {
                         <a href="/Dashboard/EmployeeDashboard" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
                         <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">New Kaizen</a>
                         <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
                     }
                   @*   <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen</a> *@
-                    @if(UserType == "ADMIN")
+                    @if(UserType == "ADM")
                     {
                         <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
                         <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
@@ -313,7 +313,7 @@
                         </a>
                     }
 
-                    @if ( UserType == "IE DEPT" || UserType == "FINNACE")
+                    @if ( UserType == "IED" || UserType == "FIN")
                     {
                         <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
                         <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>

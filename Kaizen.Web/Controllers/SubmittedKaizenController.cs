@@ -120,7 +120,7 @@ namespace Kaizen.Web.Controllers
                 UserId = UserId
             };
             var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
-            if (LoginRole == "ADMIN")
+            if (LoginRole == "ADM")
             {
                 // Exclude items with status 0
                 SubmittedKaizenList = SubmittedKaizenList.Where(k => k.ApprovalStatus != "Saved").ToList();

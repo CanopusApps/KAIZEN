@@ -45,7 +45,7 @@ namespace Kaizen.Models.AdminModel
         [StringLength(10, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 10 characters")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Confirm Password is required")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
