@@ -16,8 +16,9 @@ namespace Kaizen.Data.DataServices
         public DataSet GetCadreList();
         public DataSet GetUserTypeList();
 
-        
+
+        public bool CheckuserData(string value);
 
 
-	}
+    }
 }

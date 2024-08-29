@@ -247,3 +247,28 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function () {
+        $('#empIdF').on('change', function () {
+            var inputValue = $(this).val();
+            if (inputValue.length >= 6) {
+                $.ajax({
+                    url: '/Admin/CheckIfExists',
+                    type: 'GET',
+                    data: { value: inputValue },
+                    success: function (response) {
+                        if (response.exists) {
+                            swal('Emp ID already exists.').then(() => {
+                                $('#empIdF').val('');
+                            });
+                        }
+                    },
+                    error: function (error) {
+                    }
+                });
+            }
+        });
+    });
+
+
+</script>

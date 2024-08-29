@@ -509,5 +509,12 @@ namespace Kaizen.Web.Controllers
             return View();
         }
 
+        public IActionResult CheckIfExists(string value)
+        {
+            bool exists  = _addUserWorker.Checkuser(value);
+            return Json(new { exists = exists });
+        }
+
+
     }
 }

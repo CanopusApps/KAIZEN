@@ -241,5 +241,25 @@ namespace Kaizen.Data.DataServices
         //--------------------------------------------
         // to get Domain table data and convert it into a list
 
+        public bool CheckuserData(string value)
+        {
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = StoredProcedures.sp_checkuser;
+                com.Parameters.AddWithValue("@EmpId", value);
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                con.Open();
+                var result = com.ExecuteScalar();
+                return result != null && Convert.ToInt32(result) == 1;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
     }
 }
