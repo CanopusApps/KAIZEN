@@ -13,7 +13,6 @@ namespace Kaizen.Models.AdminModel
         [Required(ErrorMessage = "Employee ID is required")]
         //[RegularExpression(@"^\d{1,6}$", ErrorMessage = "Employee ID must be a number with 6 digits only")]
         [StringLength(8, MinimumLength = 6, ErrorMessage = "Employee ID must be a minimum of 6 and maximum of 8 digits only")]
-
         public string EmpId { get; set; }
 
         [Required(ErrorMessage = "First-name is required")]
@@ -74,10 +73,12 @@ namespace Kaizen.Models.AdminModel
 
         [Required(ErrorMessage = "Cadre is required")]
         public int Cid { get; set; } = 0;// stores cadre id
-        [Required(ErrorMessage = "Usertype is required")]
+        [Required(ErrorMessage = "User type is required")]
         public int Rid { get; set; } = 0;// stores usertype id
         [Required(ErrorMessage = "Domain  is required")]
         public int Did { get; set; } = 0;// stores domain id 
+
+        [Required(ErrorMessage = "Department is Required")]
         public int DeptId { get; set; } = 0;// stores deptid 
 
         [Required(ErrorMessage = "Block  is required")]
