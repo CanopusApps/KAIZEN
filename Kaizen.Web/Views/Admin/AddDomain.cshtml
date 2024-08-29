@@ -105,7 +105,7 @@
                 $("#DomainError").text("");
             }
         });
-        // Remove red borders and error messages
+        // Remove red borders and error messages    
         $("#domainname").css("border-color", "");
         $("#DomainError").text("");
         $(".error-message").text("");
@@ -113,7 +113,7 @@
         // Check for empty or invalid fields
         var domainNameValue = $("#domainname").val();
 
-        if (domainNameValue === "") {
+        if (domainNameValue.trim() === "") {
             $("#domainname").css("border-color", "red");
             $("#DomainError").text("Domain Name is required.");
             isValid = false;

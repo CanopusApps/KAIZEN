@@ -58,21 +58,21 @@ namespace Kaizen.Web.Controllers
             return Ok(status);
         }
         [HttpPost]
-        public IActionResult WinnersList( WinnersViewModel model)
+        public IActionResult WinnersList(WinnersViewModel model)
         {
             try
             {
                 model.WinnersList.winnerimagefilepath = SaveUploadedFile(model.WinnersList.Winnerimage);
                 model.WinnersList.CreatedBy = conAccessor.HttpContext.Session.GetString("EmpId");
                 var result = _addWinnerWorker.AddWinner(model.WinnersList);
-                return Ok("Posted");
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
                 return View(model);
             }
-                  
+
         }
         [HttpPost]
         public IActionResult GetUserdatabyemp([FromBody] WinnersViewModel model)

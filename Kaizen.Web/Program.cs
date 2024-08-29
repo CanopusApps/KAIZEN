@@ -6,6 +6,7 @@ using Kaizen.Data.DataServices;
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.NewKaizen;
 using Kaizen.Models.WinnersList;
+using Kaizen.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 
@@ -64,6 +65,9 @@ builder.Services.AddScoped<IForgotPassword, ForgotPasswordWorker>();
 builder.Services.AddScoped<IForgotPasswordRepository, ForgotPasswordRepository>();
 var app = builder.Build();
 
+
+// Initialize LogEvents with configuration
+LogEvents.Initialize(builder.Configuration);
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
