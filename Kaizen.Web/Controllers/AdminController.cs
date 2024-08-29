@@ -41,16 +41,23 @@ namespace Kaizen.Web.Controllers
 
         //[Authorize(Roles ="Admin,EMPLOYEE")]
         public IActionResult AddUser()
-        
-        {
-            var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
-            AddUserModel model = new AddUserModel();
-            model.Cadre = _addUserWorker.GetCadre();
-            model.UserType = _addUserWorker.GetUserType();
-            model.Domains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
-            model.Blocks = activeBlocks;
-            //model.Departments = _departmentWorker.GetDepartments();
 
+        {
+            AddUserModel model = new AddUserModel();
+            try
+            {
+                var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
+                model.Cadre = _addUserWorker.GetCadre();
+                model.UserType = _addUserWorker.GetUserType();
+                model.Domains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+                model.Blocks = activeBlocks;
+                // model.Departments = _departmentWorker.GetDepartments();
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+            }
 
             return View(model);
         }
@@ -421,51 +428,68 @@ namespace Kaizen.Web.Controllers
 
         public IActionResult EditUser()
         {
-            editmodel.Domains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
-            editmodel.Cadre = _addUserWorker.GetCadre();
-            editmodel.UserType = _addUserWorker.GetUserType();
-            editmodel.Blocks= _blockWorker.GetBlock();
-            //editmodel.Departments = FetchDepartment("1002");
-            //editmodel.Departments = _departmentWorker.GetDepartments();
+            try
+            {
+                editmodel.Domains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+                editmodel.Cadre = _addUserWorker.GetCadre();
+                editmodel.UserType = _addUserWorker.GetUserType();
+                editmodel.Blocks = _blockWorker.GetBlock();
+                //editmodel.Departments = FetchDepartment("1002");
+                //editmodel.Departments = _departmentWorker.GetDepartments();
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+               
+            }
             return View(editmodel);
         }
 		[HttpPost]
 		public IActionResult EditUser(EditUserModel editUserModel)
 		{
 			string msg="";
-            editUserModel.ModifiedBy = conAccessor.HttpContext.Session.GetString("EmpId");
-            ModelState.Remove(nameof(editUserModel.UserType));
-			ModelState.Remove(nameof(editUserModel.Cadre));
-			ModelState.Remove(nameof(editUserModel.Domains));
-			ModelState.Remove(nameof(editUserModel.Departments));
-            ModelState.Remove(nameof(editUserModel.ModifiedBy));
-            ModelState.Remove(nameof(editUserModel.MiddleName));
-            ModelState.Remove(nameof(editUserModel.Blocks));
+            try
+            {
+                editUserModel.ModifiedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+                ModelState.Remove(nameof(editUserModel.UserType));
+                ModelState.Remove(nameof(editUserModel.Cadre));
+                ModelState.Remove(nameof(editUserModel.Domains));
+                ModelState.Remove(nameof(editUserModel.Departments));
+                ModelState.Remove(nameof(editUserModel.ModifiedBy));
+                ModelState.Remove(nameof(editUserModel.MiddleName));
+                ModelState.Remove(nameof(editUserModel.Blocks));
 
-            if (ModelState.IsValid)
-			{
-                msg = _editUserWorker.EditUser(editUserModel);
-                if (msg == "ok")
-				{
-					TempData["Editmsg"] = "Data saved Sucessfully ";
-				}
-				else if (msg == "Employee doesnot exist.")
-				{
-					TempData["Editmsg"] = msg;
-				}
-				else
-				{
-					TempData["Editmsg"] = "some error occured";
-				}
+                if (ModelState.IsValid)
+                {
+                    msg = _editUserWorker.EditUser(editUserModel);
+                    if (msg == "ok")
+                    {
+                        TempData["Editmsg"] = "Data saved Sucessfully ";
+                    }
+                    else if (msg == "Employee doesnot exist.")
+                    {
+                        TempData["Editmsg"] = msg;
+                    }
+                    else
+                    {
+                        TempData["Editmsg"] = "some error occured";
+                    }
 
-			}
-			else
-			{
+                }
+                else
+                {
 
-				TempData["msg"] = "some data Feids missing";
-			}
+                    TempData["msg"] = "some data Feids missing";
+                }
 
-			return RedirectToAction("ViewUser", "ViewUser");
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                TempData["Editmsg"] = "An error occurred while processing your request.";
+            }
+
+            return RedirectToAction("ViewUser", "ViewUser");
 		}
 
         public IActionResult TeamTable()
