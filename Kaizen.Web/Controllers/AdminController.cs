@@ -340,22 +340,34 @@ namespace Kaizen.Web.Controllers
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
             return Ok(insertStatus);
-        }		
+        }
         public List<DepartmentModel> FetchDepartment(string domainId)
         {
-            
-            departments = _departmentWorker.GetDepartments();
-            
-           
+            try
+            {
+                var departments = _departmentWorker.GetDepartments();
                 return departments.Where(m => m.DomainId == Convert.ToInt32(domainId) && m.Status == true).ToList();
-            
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return new List<DepartmentModel>(); // Return an empty list in case of an exception
+            }
         }
 
         public List<DomainModel> DomainList()
         {
-            var activeDomains = _departmentWorker.GetDomain().Where(d => d.Status == true).ToList();
-            list = activeDomains;
-            return list;
+            try
+            {
+                var activeDomains = _departmentWorker.GetDomain().Where(d => d.Status == true).ToList();
+                list = activeDomains;
+                return list;
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return new List<DomainModel>(); // Return an empty list in case of an exception
+            }
         }
 
         [HttpPost]

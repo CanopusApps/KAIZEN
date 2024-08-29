@@ -34,14 +34,17 @@ public class RegisterController : Controller
     // GET: Register/Index
     public IActionResult Index()
     {
-        var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
-
-
-        var viewModel = new RegisterModel
+        RegisterModel viewModel = new RegisterModel();
+        try
         {
-            Domains = activeDomains // Initialize Domains property with fetched data
-        };
-
+            var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+            viewModel.Domains = activeDomains; // Initialize Domains property with fetched data
+        }
+        catch (Exception ex)
+        {
+            LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            TempData["ErrorMsg"] = "An error occurred while loading the page. Please try again later.";
+        } 
         return View(viewModel);
     }
 
@@ -94,10 +97,18 @@ public JsonResult RegisterUser(RegisterModel user)
     [HttpGet]
     public JsonResult FetchDepartment(string DomainID)
     {
-        var departments = _departmentWorker.GetDepartments()
-                                           .Where(m => m.DomainId == Convert.ToInt32(DomainID) && m.Status == true)
-                                           .ToList();
-        return Json(departments);
+        try
+        {
+            var departments = _departmentWorker.GetDepartments()
+                                               .Where(m => m.DomainId == Convert.ToInt32(DomainID) && m.Status == true)
+                                               .ToList();
+            return Json(departments);
+        }
+        catch (Exception ex)
+        {
+            LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            return Json(new { success = false, message = "An error occurred while fetching departments. Please try again later." });
+        }
     }
 
 }
