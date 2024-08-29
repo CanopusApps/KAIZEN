@@ -2187,6 +2187,7 @@
         }
         if (benifitarea.length === 0) {
             $("#BenifitareaError").text("Benefit Area is required.");
+            $('#checkboxform1').attr('tabindex', '-1').focus();
             isValid = false;
         }
         if (Driapproveddate === "") {
