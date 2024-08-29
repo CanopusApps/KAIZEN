@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.3" />
-    <PackageReference Include="EPPlus" Version="6.0.8" />
-    <PackageReference Include="GemBox.Spreadsheet" Version="49.0.1767" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
