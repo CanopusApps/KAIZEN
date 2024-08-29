@@ -19,7 +19,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
                         <span class="text-danger">*</span>
-                        @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control col-md-6", placeholder = "Enter Employee Id", id = "EmpId" } })
+                        @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control numeric-input col-md-6", placeholder = "Enter Employee Id", id = "EmpId" } })
                         <br />
                         <span id="IdVal"></span>
                     </div>
@@ -30,7 +30,7 @@
                     <button type="button" class="btn btn-block btn-azure custom-margin" id="submitFPId">Submit</button>
                 </div>
                 <div class="col-md-5 col-12">
-                    <button type="button" class="btn btn-block btn-secondary custom-margin" id="BackToLI">Back</button>
+                    <button type="button" class="btn btn-block btn-warning custom-margin" id="BackToLI">Back</button>
                 </div>
             </div>
         </div>
@@ -55,7 +55,8 @@
             rules: {
                 EmpId: {
                     required: true,
-                    digits: true
+                    digits: true,
+                    rangelength: [6, 8]
                 }
             },
             messages: {
@@ -109,5 +110,12 @@
             }
         });
     });
+    document.querySelectorAll('.numeric-input').forEach(function (element) {
+        element.addEventListener('input', function (e) {
+            // Replace non-numeric characters with an empty string
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    });
+
 </script>
 

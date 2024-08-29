@@ -103,6 +103,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@Gender", registermodel.Gender ?? (object)DBNull.Value);
                 com.Parameters.AddWithValue("@Did", registermodel.Did);
                 com.Parameters.AddWithValue("@Deptid", registermodel.DeptId);
+                com.Parameters.AddWithValue("@BlockId", registermodel.BlockId);
                 com.Parameters.AddWithValue("@MobileNumber", registermodel.Phoneno ?? (object)DBNull.Value);
                 com.Parameters.AddWithValue("@Email", registermodel.Email ?? (object)DBNull.Value);
                 com.Parameters.AddWithValue("@Password", registermodel.Password ?? (object)DBNull.Value);

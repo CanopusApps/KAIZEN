@@ -19,10 +19,12 @@ public class RegisterController : Controller
     private readonly IRegister _registerworker;
     private readonly IDepartment _departmentWorker;
     private readonly IDomain _domainWorker;
+    private readonly IBlock _blockWorker;
 
 
-    public RegisterController(IRegister _registerworker, IHttpContextAccessor conAccessor, IDomain _domainWorker, IDepartment _departmentWorker)
+    public RegisterController(IBlock worker,IRegister _registerworker, IHttpContextAccessor conAccessor, IDomain _domainWorker, IDepartment _departmentWorker)
     {
+        _blockWorker = worker;
         this._registerworker = _registerworker;
         this._departmentWorker = _departmentWorker;
         this._domainWorker = _domainWorker;
@@ -38,14 +40,16 @@ public class RegisterController : Controller
         try
         {
             var activeDomains = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
-            viewModel.Domains = activeDomains; // Initialize Domains property with fetched data
+            var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
+            viewModel.Domains = activeDomains;// Initialize Domains property with fetched data
+               viewModel.Blocks = activeBlocks;
         }
         catch (Exception ex)
         {
             LogEvents.LogToFile(DbFiles.Title, ex.ToString());
-            TempData["ErrorMsg"] = "An error occurred while loading the page. Please try again later.";
-        } 
+        }
         return View(viewModel);
+
     }
 
 
@@ -60,7 +64,8 @@ public JsonResult RegisterUser(RegisterModel user)
         // Remove unnecessary model state entries
         ModelState.Remove(nameof(user.Domains));
         ModelState.Remove(nameof(user.Departments));
-         ModelState.Remove("MiddleName");
+            ModelState.Remove(nameof(user.Blocks));
+            ModelState.Remove("MiddleName");
 
             if (ModelState.IsValid)
         {
