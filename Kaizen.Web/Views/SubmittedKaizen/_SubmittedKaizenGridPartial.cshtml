@@ -198,11 +198,15 @@
             var role = viewKaizenData['role'];
             var LoginRole = viewKaizenData['LoginRole'];
 
+            console.log('ViewKaizen Data:', viewKaizenData);
+
             $.ajax({
                 url: '/SubmittedKaizen/FetchKaizenDetails_by_CreatedBy',
                 type: 'GET',
                 data: { UserId: user, role: role, LoginRole: LoginRole },
                 success: function (result) {
+                    $('#SubmittedKaizengrid').html(result);
+
                     var rows = [];
                     $(result).find('tbody tr').each(function () {
                         var $row = $(this);
@@ -217,21 +221,19 @@
                             approvalstatus: $row.data('approvalstatus'),
                             createdby: $row.data('createdby'),
                             createddate: $row.data('createddate')
-
                         };
                         rows.push(rowData);
                     });
-                    $('#SubmittedKaizengrid').html(result);
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    swal('Error in AJAX request:', error);
                 }
             });
             sessionStorage.removeItem("ViewKaizen");
-        } 
-        else 
-        {
+        } else {
+            swal('No ViewKaizen data found in sessionStorage.');
             sessionStorage.removeItem("ViewKaizen");
         }
     });
 </script>
+
