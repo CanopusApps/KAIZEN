@@ -71,14 +71,21 @@ namespace Kaizen.Web.Controllers
         }
         public IActionResult DomainkaizenFilter(string? StartDate, string? EndDate)
         {
-            
-            DashboardModel model = new DashboardModel()
+            try
             {
-                StartDate = StartDate,
-                EndDate = EndDate,
-            };
-            model.DomainList = _dashboardworker.DomainbasedkaizenCount(model);
-            return Ok(model);
+                DashboardModel model = new DashboardModel()
+                {
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                };
+                model.DomainList = _dashboardworker.DomainbasedkaizenCount(model);
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
         }
         public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? Block, string? cadre)
         {
