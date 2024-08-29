@@ -2060,32 +2060,32 @@
                 $("#BenifitareaError").text("");
             }
         });
-        if (attachmentsbeforevalid !== "") {
-            if (!attachmentsaftervalid) {
-                $("#inpfilelabelafter").css("border-color", "red");
-                $("#aftererror").text("Attachment After is required.");
-                if (!firstInvalidField) {
-                    firstInvalidField = "#attach_file_after";
-                    $("#attach_file_after").addClass("temp-show").focus();
-                    $("#attach_file_after").removeClass("temp-show");
-                }
+        // if (attachmentsbeforevalid !== "") {
+        //     if (!attachmentsaftervalid) {
+        //         $("#inpfilelabelafter").css("border-color", "red");
+        //         $("#aftererror").text("Attachment After is required.");
+        //         if (!firstInvalidField) {
+        //             firstInvalidField = "#attach_file_after";
+        //             $("#attach_file_after").addClass("temp-show").focus();
+        //             $("#attach_file_after").removeClass("temp-show");
+        //         }
 
-                isValid = false;
-            }
-        }
+        //         isValid = false;
+        //     }
+        // }
 
-        if (attachmentsaftervalid !== "") {
-            if (!attachmentsbeforevalid) {
-                $("#inpfilelabelbefore").css("border-color", "red");
-                $("#beforeerror").text("Attachment Before is required.");
-                if (!firstInvalidField) {
-                    firstInvalidField = "#attach_file_before";
-                    $("#attach_file_before").addClass("temp-show").focus();
-                    $("#attach_file_before").removeClass("temp-show");
-                }
-                isValid = false;
-            }
-        }
+        // if (attachmentsaftervalid !== "") {
+        //     if (!attachmentsbeforevalid) {
+        //         $("#inpfilelabelbefore").css("border-color", "red");
+        //         $("#beforeerror").text("Attachment Before is required.");
+        //         if (!firstInvalidField) {
+        //             firstInvalidField = "#attach_file_before";
+        //             $("#attach_file_before").addClass("temp-show").focus();
+        //             $("#attach_file_before").removeClass("temp-show");
+        //         }
+        //         isValid = false;
+        //     }
+        // }
         if (versionNo === "") {
             $("#versionNo").css("border-color", "red");
             $("#versionerror").text("Version No is required.");
@@ -2187,6 +2187,7 @@
         }
         if (benifitarea.length === 0) {
             $("#BenifitareaError").text("Benefit Area is required.");
+            $('#checkboxform1').attr('tabindex', '-1').focus();
             isValid = false;
         }
         if (Driapproveddate === "") {
