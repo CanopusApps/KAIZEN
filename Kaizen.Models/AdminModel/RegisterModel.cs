@@ -19,11 +19,19 @@ namespace Kaizen.Models.AdminModel
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-       
+        [StringLength(8, MinimumLength = 6, ErrorMessage = "Employee ID must be a minimum of 6 and maximum of 8 digits only")]
         public string EmpId { get; set; }
 
-       
+        [StringLength(16, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 16 characters")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [StringLength(16, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 16 characters")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+
+        [StringLength(10)]
         public string Phoneno { get; set; }
 
         
@@ -34,8 +42,11 @@ namespace Kaizen.Models.AdminModel
         
         public int DeptId { get; set; } // stores deptid 
 
+        public int BlockId { get; set; } = 0;//stores BLockID
         public List<DomainModel> Domains { get; set; }
         public List<DepartmentModel> Departments { get; set; }
+
+        public List<BlockModel> Blocks { get; set; }
 
     }
 
