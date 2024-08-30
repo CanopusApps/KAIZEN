@@ -37,6 +37,8 @@ namespace Kaizen.Web.Controllers
             try
             {
                 RetrieveTheme = _addThemeWorker.RetrieveTheme();
+                HttpContext.Session.Remove("SelectedTheme");
+                HttpContext.Session.SetString("SelectedTheme", RetrieveTheme.First().Theme);
             }
             catch (Exception ex)
             {

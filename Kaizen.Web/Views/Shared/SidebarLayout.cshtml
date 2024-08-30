@@ -13,6 +13,7 @@
     var ImageApprover = Accessor.HttpContext.Session.GetString("ImageApprover");
     string selectedTheme = Accessor.HttpContext.Session.GetString("SelectedTheme");
 }
+
 @* @{
     var CountListJson = Accessor.HttpContext.Session.GetString("CountList");
     List<CountModel> CountList = new List<CountModel>();
@@ -39,7 +40,7 @@
 </head>
 <style>
     /* styles.css */
-
+    
     #loader-wrapper {
         position: fixed;
         top: 0;
@@ -232,7 +233,7 @@
                 <label class="text-uppercase text-white ml-3 mr-3" style="font-size: x-large;">Tepl Kaizen Idea</label>
                 <label class="mx-5 ml-3" style="color:white; font-size: large;" loginbox-title>
                     Kaizen Winner for this month is
-                    <span style="color:#3085C3; font-weight:bold; font-size: x-large;">
+                    <span class="" style="color:#3085C3; font-weight:bold; font-size: x-large;">
                         @selectedTheme
                     </span><span style="font-size: large;">.</span>
                     Congratulations Team!

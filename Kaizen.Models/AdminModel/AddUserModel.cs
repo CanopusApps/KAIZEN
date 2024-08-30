@@ -27,7 +27,8 @@ namespace Kaizen.Models.AdminModel
         [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
         public string LastName { get; set; }
-		[Required(ErrorMessage = "Phone number is required")]
+        [StringLength(10)]
+        [Required(ErrorMessage = "Phone number is required")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Phone Number")]
         public string Phoneno { get; set; }
 

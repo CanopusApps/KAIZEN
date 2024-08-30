@@ -89,16 +89,24 @@
                     success: function (response) {
                         console.log("This is the response" + response);
                         if (response) {
+                            if (response == true) {
+                                swal({
+                                    text: "Please check email and verify.",
+
+                                }).then(OK => {
+                                    location.reload();
+                                });
+                            }
+                            
+                        } else {
                             swal({
-                                text: "Please check email and verify.",
+                                text: "EmpId does not exist. Please contact Admin.",
+
                             }).then(OK => {
                                 location.reload();
                             });
-                        } else {
-                            swal({
-                                text: "No response from server. Please try again later.",
-                            });
                         }
+                        
                     },
                     error: function (xhr, status, error) {
                         swal({
