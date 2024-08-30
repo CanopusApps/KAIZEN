@@ -56,20 +56,19 @@ namespace Kaizen.Web.Controllers
             try
             {
                 RetrieveTheme = _addThemeWorker.RetrieveTheme();
+
+                // If themes are retrieved successfully, set the ViewBag and Session values
+                if (RetrieveTheme.Any())
+                {
+                    ViewBag.SelectedTheme = RetrieveTheme.First().Theme;
+                    HttpContext.Session.SetString("SelectedTheme", RetrieveTheme.First().Theme);
+                }
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
             ViewBag.ThemeList = RetrieveTheme;
-            if (RetrieveTheme.Any())
-            {
-                ViewBag.SelectedTheme = RetrieveTheme.First().Theme;
-                HttpContext.Session.SetString("SelectedTheme",RetrieveTheme.First().Theme);
-
-            }
-
-
             return View();
 
         }
@@ -179,7 +178,7 @@ namespace Kaizen.Web.Controllers
             }
             catch (Exception ex)
             {
-               
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
 
 
@@ -220,12 +219,20 @@ namespace Kaizen.Web.Controllers
         public IActionResult ResetPassword(LoginModel model)
         {
             bool stat= false;
-            if (ModelState.IsValid)
+            try
             {
-                stat = _forgotPasswordWorker.UpdatePassword(model);
-                return View(model);
+                if (ModelState.IsValid)
+                {
+                    stat = _forgotPasswordWorker.UpdatePassword(model);
+                    return View(model);
+                } 
             }
-            
+            catch (Exception ex)
+            {
+                // Log the exception to a file or another logging mechanism
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+              
+            }
             return View(stat);
         }
         public IActionResult Forgot()
@@ -235,56 +242,83 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public IActionResult Forgot(string id)
         {
-            String userEmail = _forgotPasswordWorker.FetchEmail(id);
-            if (string.IsNullOrEmpty(userEmail))
+            try
             {
-                return NotFound("User email not found.");
+                String userEmail = _forgotPasswordWorker.FetchEmail(id);
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return NotFound("User email not found.");
+                }
+                string subject = "Password Reset Request";
+                DateTime linkGeneratedTime = DateTime.UtcNow; //Generating Timestamp
+                string resetLink = Url.Action("ResetPassword", "Login", new { data = $"{id}|{linkGeneratedTime}" }, protocol: HttpContext.Request.Scheme);
+                string body = $"Please reset your password by clicking on this link: <a href='{resetLink}'>Reset Password</a>";
+
+                SendEmail(userEmail, subject, body);
+                return Ok(true);
+
             }
-            string subject = "Password Reset Request";
-            DateTime linkGeneratedTime = DateTime.UtcNow; //Generating Timestamp
-            string resetLink = Url.Action("ResetPassword", "Login", new { data = $"{id}|{linkGeneratedTime}" }, protocol: HttpContext.Request.Scheme);
-            string body = $"Please reset your password by clicking on this link: <a href='{resetLink}'>Reset Password</a>";
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return StatusCode(500, "An error occurred while processing your request. Please try again later.");
 
-            SendEmail(userEmail, subject, body);
+            }
 
-            return Ok(true);
         }
         private void SendEmail(string toEmail, string subject, string body)
         {
-            var emailSettings = _configuration.GetSection("EmailSettings");
-
-            SmtpClient client = new SmtpClient(emailSettings["SmtpServer"])
+            try
             {
-                Port = int.Parse(emailSettings["Port"]),
-                Credentials = new NetworkCredential(emailSettings["Username"], emailSettings["Password"]),
-                EnableSsl = bool.Parse(emailSettings["EnableSsl"])
-            };
+                var emailSettings = _configuration.GetSection("EmailSettings");
 
-            MailMessage mailMessage = new MailMessage
+                SmtpClient client = new SmtpClient(emailSettings["SmtpServer"])
+                {
+                    Port = int.Parse(emailSettings["Port"]),
+                    Credentials = new NetworkCredential(emailSettings["Username"], emailSettings["Password"]),
+                    EnableSsl = bool.Parse(emailSettings["EnableSsl"])
+                };
+
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress(emailSettings["FromEmail"]),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true,
+                };
+
+                mailMessage.To.Add(toEmail);
+                client.Send(mailMessage);
+            }
+            catch (Exception ex)
             {
-                From = new MailAddress(emailSettings["FromEmail"]),
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true,
-            };
-
-            mailMessage.To.Add(toEmail);
-            client.Send(mailMessage);
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
         }
 
 
 
         public IActionResult Logout()
         {
-            //Logout saving
-            _loginworker.USERLOGOUT(HttpContext.Session.GetString("EmpId"));
-
-            if (HttpContext.Session.IsAvailable)
+            try
             {
-                HttpContext.Session.Clear();
+                _loginworker.USERLOGOUT(HttpContext.Session.GetString("EmpId"));
+
+                if (HttpContext.Session.IsAvailable)
+                {
+                    HttpContext.Session.Clear();
+                }
+                return RedirectToAction("Index", "Login", new { area = "" });
             }
-            
-            return RedirectToAction("Index", "Login", new { area = "" });
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+                // Optionally, return an error view or redirect to an error page
+                return RedirectToAction("Error", "Home");  // Assuming you have an Error action in HomeController
+            }
+          
         }
 
         public IActionResult ErrorPage()
@@ -294,9 +328,18 @@ namespace Kaizen.Web.Controllers
         [HttpGet]
         public IActionResult GetSerializedCountList()
         {
-            var countList = _loginworker.FetchCount();
-            var countListJson = JsonConvert.SerializeObject(countList);
-            return Json(countListJson);
+            try
+            {
+                var countList = _loginworker.FetchCount();
+                var countListJson = JsonConvert.SerializeObject(countList);
+                return Json(countListJson);
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+                return Json(new { error = "An error occurred while fetching the count list." });
+            }
         }
 
 
