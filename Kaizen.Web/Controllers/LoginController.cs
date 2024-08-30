@@ -238,7 +238,7 @@ namespace Kaizen.Web.Controllers
             String userEmail = _forgotPasswordWorker.FetchEmail(id);
             if (string.IsNullOrEmpty(userEmail))
             {
-                return NotFound("User email not found.");
+                return Ok(false);
             }
             string subject = "Password Reset Request";
             DateTime linkGeneratedTime = DateTime.UtcNow; //Generating Timestamp

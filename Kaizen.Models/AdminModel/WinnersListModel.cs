@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,7 @@ namespace Kaizen.Models.WinnersList
 {   
     public class WinnersListModel 
     {
-        public Guid Id { get; set; } 
-
+        public Guid Id { get; set; }
         public int EmpID { get; set; }
         public string EmpName { get; set; }
         public string DomainName { get; set; }
