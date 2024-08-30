@@ -265,7 +265,7 @@ namespace Kaizen.Web.Controllers
                 {
                     return BadRequest("Admin can't be added as a Team Menber ");
                 }
-                if (model.Usertype == "FINNACE")
+                if (model.Usertype == "FINANCE")
                 {
                     return BadRequest("Finance can't be added as a Team Menber ");
                 }
