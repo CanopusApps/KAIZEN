@@ -46,7 +46,7 @@
                                 @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
                                 <span class="text-danger">*</span>
                                 <div style="width: 100%;">
-                                    @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Employee Id", id = "EmpId", style = "width: 100%;" } })
+                                    @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control numeric-input", placeholder = "Enter Employee Id", id = "EmpId", style = "width: 100%;" } })
                                     @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -236,4 +236,12 @@
             $(this).valid();
         });
     });
+</script>
+<script>
+        document.querySelectorAll('.numeric-input').forEach(function (element) {
+            element.addEventListener('input', function (e) {
+                // Replace non-numeric characters with an empty string
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
 </script>
