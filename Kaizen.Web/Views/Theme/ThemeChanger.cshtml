@@ -3,7 +3,11 @@
 @{
     Layout = "SidebarLayout";
 }
-
+<style>
+    .table-responsive {
+        overflow-x:hidden!important;
+    }
+</style>
 <link rel="stylesheet" href="~/assets/css/ThemeChanger.css" />
 
 <div class="col-lg-12">
@@ -20,7 +24,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-5">
-                                    <input id="theme" class="form-control" placeholder="Enter theme" />
+                                    <input id="theme" class="form-control" placeholder="Enter theme" / maxlength="20">
                                     <span id="themeError" class="text-danger"></span> 
                                 </div>
                                 <div class="col-5">
@@ -50,7 +54,6 @@
                                             <tr>
                                                 <th class="text-center">Id</th>
                                                 <th class="text-center">Theme Name</th>
-                                                <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -65,15 +68,7 @@
                                                             <div class="text-center">@dat.Theme</div>
                                                         </div>
                                                     </td>
-                                                    <td class="align-middle bg-light">
-                                                        <div class="row justify-content-center">
-                                                            <div>
-                                                                <a id="DeleteFunction" class="btn btn-danger btn-sm DeleteDepartment mx-1">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                               
                                                 </tr>
                                             }
                                         </tbody>

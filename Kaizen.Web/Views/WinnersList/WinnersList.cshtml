@@ -37,7 +37,7 @@
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
                             <label for="empId">Emp ID</label>
-                            <input id="empId" type="number" class="text-primary form-control bg-light" />
+                            <input id="empId" class="text-primary form-control bg-light numeric-input" maxlength="8" />
                             <p id="eIDError" class="text-danger"></p>
                         </div>
                         <div class="col-md-6">
@@ -185,6 +185,14 @@ function triggerUpload() {
 }
     </script>
     <script>
+    document.querySelectorAll('.numeric-input').forEach(function (element) {
+        element.addEventListener('input', function (e) {
+            // Replace non-numeric characters with an empty string
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    });
+    </script>
+    <script>
         $(document).ready(function () {
         $('#endDate').on('click', function () {
             $('#endDate').attr('min', $('#startDate').val());
@@ -257,12 +265,12 @@ function triggerUpload() {
                     $('#eDError').text('End Date is required').addClass('text-danger');
                     isValid = false;
                 }
-                if (empId === "") {
-                    if (empName === "") {
-                        $('#eIDError').text('Emp Id is required').addClass('text-danger');
-                        isValid = false;
-                    }
-                }
+            if (empId === "" || !/^\d{6,8}$/.test(empId)) {
+                $('#eIDError').text('Emp Id is required and must be bettween 6 and 8 digits').addClass('text-danger');
+                isValid = false;
+            } else {
+                $('#eIDError').text('').removeClass('text-danger'); // Clear error if valid
+            }
                 if (empId === "" && empName === "") {
                     $('#eIDError').text('Invalid Employee ID').addClass('text-danger');
                     isValid = false;
