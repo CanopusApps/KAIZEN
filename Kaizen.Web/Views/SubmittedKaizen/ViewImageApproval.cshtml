@@ -222,4 +222,21 @@
     var today = new Date().toISOString().split('T')[0];
     document.getElementById('dtstartdate').setAttribute('max', today);
     document.getElementById('dtenddate').setAttribute('max', today);
+
+    function setEndDateMin() {
+        var startDate = document.getElementById('dtstartdate').value;
+        var endDate = document.getElementById('dtenddate').value;
+
+        if (startDate) {
+            document.getElementById('dtenddate').setAttribute('min', startDate);
+            if (endDate && endDate < startDate) {
+                document.getElementById('dtenddate').value = '';
+            }
+        } else {
+            document.getElementById('dtenddate').removeAttribute('min');
+        }
+    }
+
+    document.getElementById('dtstartdate').addEventListener('change', setEndDateMin);
+    setEndDateMin();
 </script>

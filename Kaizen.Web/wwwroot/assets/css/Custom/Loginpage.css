@@ -101,7 +101,11 @@ marquee {
     height: 100vh !important;
     margin-bottom: 0px !important;
 }
-
+@media (min-width: 1280px) {
+    body {
+        overflow-y: hidden;
+    }
+}
 /* Media query for small laptops (13-inch and smaller) */
 @media only screen and (max-width: 1366px) {
 

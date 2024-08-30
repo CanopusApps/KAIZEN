@@ -58,12 +58,12 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="startDate">Start Date</label>
+                            <label for="startDate">Start Date<span class="mandatory">*</span></label>
                             <input id="startDate" class="form-control text-primary bg-light" type="date" />
                             <label id="sDError" class="text-danger"></label>
                         </div>
                         <div class="col-md-6">
-                            <label for="endDate">End Date</label>
+                            <label for="endDate">End Date<span class="mandatory">*</span></label>
                             <input id="endDate" class="form-control text-primary bg-light" type="date" />
                             <label id="eDError" class="text-danger"></label>
                         </div>
@@ -186,6 +186,19 @@ function triggerUpload() {
     </script>
     <script>
         $(document).ready(function () {
+        $('#endDate').on('click', function () {
+            $('#endDate').attr('min', $('#startDate').val());
+        });
+
+        $('#startDate').on('change', function () {
+            if ($('#endDate').val() && $('#endDate').val() < $('#startDate').val()) {
+                $('#endDate').val('');
+            }
+        });
+
+
+
+
             // Handle view winner button click
             $("#viewwinner").click(function () {
                 window.location.href = '/WinnersList/ViewWinnersList';
