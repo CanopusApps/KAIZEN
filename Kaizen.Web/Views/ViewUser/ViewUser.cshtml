@@ -33,6 +33,20 @@
         font-weight: 600;
     }
 
+    .department-item
+    {
+        background-color: rgb(135, 206, 235, 0.5);
+        color: black;
+        border: 1px dashed #007bff;
+        text-align: center;
+        border-radius: 10px;
+        margin-left: 5px;
+        margin-right: 15px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
@@ -67,6 +81,17 @@
                                 }
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="card-container" id="container-middle" style="display:none;">
+                    <div class="card mt-2">
+                        <div class="card-header">Filter as Per Department</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Dynamic content will be appended here -->
+                            </div>
+                        </div>
+                        <button type="reset" class="btn col-lg-2 m-1 btn-warning" id="configreset" value="Reset">Hide</button>
                     </div>
                 </div>
             </div>
@@ -133,7 +158,7 @@
                     <div>
                         <p style="font-weight:bold;font-size: 16px">
                             User List - <span id="blkuserlist" style="font-size: 16px">@userCount</span>
-                        </p>    
+                        </p>
                     </div>
                 </div>
                 <div class="col-md-12" style="font-weight:bold; display: flex; justify-content: end; align-items: center;">
@@ -145,7 +170,7 @@
                 </div>
 
 
-               
+
             </div>
             <div id="userGridContainer" style="padding:2px">
 
@@ -217,45 +242,6 @@
         </div>
     </form>
 </div>
-@* <script>
-    $(document).ready(function () {
-        $('#inputDomain').change(function () {
-            var Domain = $('#inputDomain').val();
-            var dropdown = $('#inputDepartment');
-            if (Domain.toLowerCase() === 'all') {
-                dropdown.empty();
-                dropdown.append($('<option>', {
-                    value: 'all',
-                    text: 'All'
-                }));
-                return;
-            }
-            $.ajax({
-                type: 'GET',
-                url: '/ViewUser/FetchDepartment',
-                dataType: "json",
-                data: { domainid: Domain },
-                success: function (result) {
-                    if (result) {
-                        dropdown.empty();
-                        dropdown.append($('<option>', {
-                            value: 'all',
-                            text: 'All'
-                        }));
-                        for (var i = 0; i < result.length; i++) {
-                            $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
-                        }
-                    }
-                    else {
-                        swal('Please Select Domain');
-                    }
-                },
-                error: function (error) {
-                }
-            });
-        });
-    });
-</script> *@
 <script>
     $('#btn_filter').click(function () {
         debugger
@@ -280,7 +266,7 @@
                 $('#loader-wrapper').show();
             },
             success: function (result) {
-               
+
                 var rows = [];
                 $(result).find('tbody tr').each(function () {
                     var $row = $(this);
@@ -451,6 +437,90 @@
                 setTimeout(function () {
                     $('#loader-wrapper').hide();
                 }, 3000);
+            }
+        });
+    });
+</script>
+<script>
+    $('#configreset').click(function () {
+        hideContainer('container-middle');
+    });
+    function hideContainer(containerId) {
+        $('#' + containerId).hide();
+    }
+    $('.card-item').click(function () {
+        var domainId = $(this).data('domainid'); // Fetch the domain ID
+        $.ajax({
+            type: 'GET',
+            url: '/Dashboard/FetchDepartment',
+            dataType: "json",
+            data: {
+                DomainID: domainId
+            },
+            success: function (result) {
+                if (result) {
+                    const middleContainer = $('#container-middle');
+                    const middleRow = middleContainer.find('.row');
+                    middleRow.empty();
+                    middleContainer.show();
+                    result.forEach(department => {
+                        const departmentHtml = `
+                                <div class="col-md-4 col-lg-3 col-xl-2 department-item" data-departmentname="${department.departmentName}" data-user-count="${department.user_count} ">
+                                <div>
+                                    ${department.departmentName}
+                                    <div>${department.user_count}</div>
+                                </div>
+                            </div>`;
+                        middleRow.append(departmentHtml);
+                    });
+                }
+            },
+        });
+    });
+</script>
+<script>
+    $(document).on('click', '.department-item', function () {
+        var Department = $(this).data('departmentname');
+        $.ajax({
+            url: '@Url.Action("ViewFilterUser", "ViewUser")',
+            type: 'GET',
+            data: {
+                Department: Department,
+            },
+            beforeSend: function () {
+                $('#loader-wrapper').show();
+            },
+            success: function (result) {
+                var rows = [];
+                $(result).find('tbody tr').each(function () {
+                    var $row = $(this);
+                    var rowData = {
+                        empid: $row.data('empid'),
+                        name: $row.data('name'),
+                        email: $row.data('email'),
+                        gender: $row.data('gender'),
+                        domain: $row.data('domain'),
+                        department: $row.data('department'),
+                        usertype: $row.data('usertype'),
+                        status: $row.data('status'),
+                        phoneno: $row.data('phoneno'),
+                        password: $row.data('password'),
+                        cadre: $row.data('cadre'),
+                        ImageApprove: $row.data('imageapprover')
+                    };
+                    rows.push(rowData);
+                });
+                var recordCount = rows.length;
+                var blktotalElement = document.getElementById('blkuserlist');
+                if (blktotalElement) {
+                    blktotalElement.textContent = recordCount;
+                }
+                $('#userGridContainer').html(result);
+            },
+            complete: function () {
+                setTimeout(function () {
+                    $('#loader-wrapper').hide();
+                }, 2000);
             }
         });
     });
