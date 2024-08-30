@@ -57,6 +57,11 @@ namespace Kaizen.Business.Worker
 				}
 			}
 			return cadre;
-		}
+		}	
+        public bool Checkuser(string value)
+        {
+            bool msg = _addUserData.CheckuserData(value);
+            return msg;
+        }
     }
 }

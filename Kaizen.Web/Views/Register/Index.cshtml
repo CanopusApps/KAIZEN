@@ -116,7 +116,7 @@
                             <div class="col-md-6">
                                 @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
                                 <span  class="error-message">*</span>
-                                @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control numeric-input", placeholder = "Employee ID" } })
+                                @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control numeric-input", placeholder = "Employee ID", id = "EmpId" } })
                                 <span id="EmpIdError" class="error-message"></span>
 
 
@@ -402,4 +402,32 @@
         });
     });
 
+</script>
+<script>
+    $(document).ready(function () {
+        $('#EmpId').on('change', function () {
+            var inputValue = $(this).val();
+            if (inputValue.length >= 6) {
+                $.ajax({
+                    url: '/Admin/CheckIfExists',
+                    type: 'GET',
+                    data: { value: inputValue },
+                    success: function (response) {
+                        if (response.exists) {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Emp ID already exists.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            }).then(function () {
+                                $('#EmpId').val('');
+                            });
+                        }
+                    },
+                    error: function (error) {
+                    }
+                });
+            }
+        });
+    });
 </script>
