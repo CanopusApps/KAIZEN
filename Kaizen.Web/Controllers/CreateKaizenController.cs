@@ -261,15 +261,15 @@ namespace Kaizen.Web.Controllers
                     return BadRequest("User cannot be added as a Team Member again");
                 }
                 model = _createNewKaizen.GetKaizenOriginatedby(model);
-                if (model.Usertype == "ADMIN")
+                if (model.Usertype == "ADM")
                 {
                     return BadRequest("Admin can't be added as a Team Menber ");
                 }
-                if (model.Usertype == "FINANCE")
+                if (model.Usertype == "FIN")
                 {
                     return BadRequest("Finance can't be added as a Team Menber ");
                 }
-                if (model.Usertype == "IE DEPT")
+                if (model.Usertype == "IED")
                 {
                     return BadRequest("IE DEPT can't be added as a Team Menber ");
                 }

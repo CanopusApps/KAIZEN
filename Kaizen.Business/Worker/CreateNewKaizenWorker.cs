@@ -38,7 +38,7 @@ namespace Kaizen.Business.Worker
                 model.Domain = string.IsNullOrEmpty($"{row["DomainName"]}") ? string.Empty : Convert.ToString($"{row["DomainName"]}");
                 model.Department = string.IsNullOrEmpty($"{row["DepartmentName"]}") ? string.Empty : Convert.ToString($"{row["DepartmentName"]}");
                 model.OriginatedDate = string.IsNullOrEmpty($"{row["CurrentDate"]}") ? string.Empty : Convert.ToString($"{row["CurrentDate"]}");
-                model.Usertype = string.IsNullOrEmpty($"{row["UserDesc"]}") ? string.Empty : Convert.ToString($"{row["UserDesc"]}");
+                model.Usertype = string.IsNullOrEmpty($"{row["UserCode"]}") ? string.Empty : Convert.ToString($"{row["UserCode"]}");
             }
             return model;
         }
