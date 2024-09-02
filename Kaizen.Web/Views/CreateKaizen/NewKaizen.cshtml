@@ -1076,6 +1076,7 @@
                                                                             }
 
                                                                     </select>
+                                                                        <span id="driapprovedbyerror" style="margin-left: 13%;" class="text-danger error-message position-absolute"></span>
                                                                         <select name="DRIApprovedBy" id="driapprovedbyUPDATE" class="mx-auto form-control col-9">
                                                                         </select>
                                                                 </td>
@@ -1977,6 +1978,13 @@
                 $("#OtherpointsError").text("");
             }
         });
+        $("#driapprovedby").on("input", function () {
+            var Driapprovedby = $(this).val();
+            if (Driapprovedby !== "") {
+                $(this).css("border-color", "");
+                $("#driapprovedbyerror").text("");
+            }
+        });
         $("#driapproveddate").on("input", function () {
             var Driapproveddate = $(this).val();
             if (Driapproveddate !== "") {
@@ -1998,19 +2006,19 @@
                 $("#approvedbyAccounterror").text("");
             }
         });
-        $("#attach_file_before").on("input", function () {
-            if ($(this)[0].files.length > 0) {
-                $(this).css("border-color", "");
-                $("#beforeerror").text("");
-            }
-        });
+        // $("#attach_file_before").on("input", function () {
+        //     if ($(this)[0].files.length > 0) {
+        //         $(this).css("border-color", "");
+        //         $("#beforeerror").text("");
+        //     }
+        // });
 
-        $("#attach_file_after").on("input", function () {
-            if ($(this)[0].files.length > 0) {
-                $(this).css("border-color", "");
-                $("#aftererror").text("");
-            }
-        });
+        // $("#attach_file_after").on("input", function () {
+        //     if ($(this)[0].files.length > 0) {
+        //         $(this).css("border-color", "");
+        //         $("#aftererror").text("");
+        //     }
+        // });
 
         var benifitarea = [];
         $('#checkboxform1 input[type=checkbox]:checked').each(function () {
@@ -2038,6 +2046,7 @@
         var Improvements = $("#improvementsCompleted").val();
         var Benifits = $("#benefit").val();
         var empid = $("#IdMemberAdd").val();
+        var Driapprovedby = $("#driapprovedby").val();
         var addedTeamMembers = [];
         
         $('#tblteammemberResult tbody tr').each(function () {
@@ -2188,6 +2197,12 @@
         if (benifitarea.length === 0) {
             $("#BenifitareaError").text("Benefit Area is required.");
             $('#checkboxform1').attr('tabindex', '-1').focus();
+            isValid = false;
+        }
+        if (Driapprovedby === null) {
+            $("#driapprovedby").css("border-color", "red");
+            $("#driapprovedbyerror").text("Dri is required.");
+            if (!firstInvalidField) firstInvalidField = "#driapprovedby";
             isValid = false;
         }
         if (Driapproveddate === "") {
