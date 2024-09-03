@@ -75,6 +75,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@Status", model.Status == "--Select Status--" ? "" : (string.IsNullOrEmpty(model.Status) ? " " : model.Status));
                 com.Parameters.AddWithValue("@Role", string.IsNullOrEmpty(model.role) ? " " : model.role);
                 com.Parameters.AddWithValue("@UserId", string.IsNullOrEmpty(model.UserId) ? " " : model.UserId);
+                com.Parameters.AddWithValue("@BenefitArea", string.IsNullOrEmpty(model.BenefitArea) ? " " : model.BenefitArea);
 
                 com.CommandText = StoredProcedures.Sp_Get_Kaizen_Details;
 
