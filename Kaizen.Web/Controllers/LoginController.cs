@@ -256,7 +256,6 @@ namespace Kaizen.Web.Controllers
 
                 SendEmail(userEmail, subject, body);
                 return Ok(true);
-
             }
             catch (Exception ex)
             {

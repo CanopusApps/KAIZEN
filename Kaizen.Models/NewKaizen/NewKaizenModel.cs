@@ -104,8 +104,11 @@ namespace Kaizen.Models.NewKaizen
         public List<Attachmentsimg> AttachmentsList { get; set; }
         public List<Attachmentsimg> UpdateAttachmentsList { get; set; }
 
-
         public string LogFilePath { get; set; }
+        public string CertificatePath { get; set; }
+        public string CertificateDownloadPath { get; set; }
+        public string CertificateCreatedDate { get; set; }
+
         public NewKaizenModel()
         {
             AttachmentPaths = new AttachmentPaths();

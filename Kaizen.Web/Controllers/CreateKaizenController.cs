@@ -16,6 +16,11 @@ using static NuGet.Client.ManagedCodeConventions;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using System.Data;
 using System.Net.Mail;
+using System.Drawing.Imaging;
+using System.Drawing;
+using GemBox.Spreadsheet.Drawing;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Kaizen.Web.Controllers
 {
@@ -27,7 +32,8 @@ namespace Kaizen.Web.Controllers
         private readonly ICreateNewKaizen _createNewKaizen;
         private readonly ILogin _loginworker;
         //private readonly string _uploadspath;
-        private readonly NewKaizenModel _infoSettings; 
+        private readonly NewKaizenModel _infoSettings;
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment env;
 
         NewKaizenModel model = new NewKaizenModel();
 
@@ -39,6 +45,8 @@ namespace Kaizen.Web.Controllers
             this.conAccessor = conAccessor;
             _infoSettings = infoSettings.Value;
             _loginworker = loginworker;
+            this.env = env;
+
         }
         public ActionResult KaizenModalPopupPartial()
         {
@@ -261,15 +269,15 @@ namespace Kaizen.Web.Controllers
                     return BadRequest("User cannot be added as a Team Member again");
                 }
                 model = _createNewKaizen.GetKaizenOriginatedby(model);
-                if (model.Usertype == "ADMIN")
+                if (model.Usertype == "ADM")
                 {
                     return BadRequest("Admin can't be added as a Team Menber ");
                 }
-                if (model.Usertype == "FINNACE")
+                if (model.Usertype == "FIN")
                 {
                     return BadRequest("Finance can't be added as a Team Menber ");
                 }
-                if (model.Usertype == "IE DEPT")
+                if (model.Usertype == "IED")
                 {
                     return BadRequest("IE DEPT can't be added as a Team Menber ");
                 }
@@ -571,6 +579,53 @@ namespace Kaizen.Web.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
+        public IActionResult DownloadCertificate()
+        {
+            model.name = conAccessor.HttpContext.Session.GetString("Message");
+            model.Department = conAccessor.HttpContext.Session.GetString("Department");
+            model.CertificateCreatedDate = DateTime.Now.ToString("dd/MM/yyyy");
+            string imageFilePath = _infoSettings.CertificatePath;
+            string imageFilePath1 = _infoSettings.CertificateDownloadPath;
+            try
+            {
+                PointF firstLocation = new PointF(410f, 540f);
+                PointF secondLocation = new PointF(570f, 650f);
+                PointF thirdLocation = new PointF(1220f, 650f);
+
+                //string imageFilePath = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\assets\img\Tata Electronic Certificate.jpg"}";
+                //string imageFilePath1 = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\assets\img\Tata Electronic Certificate- Copy.jpg"}";
+
+                Bitmap bitmap = (Bitmap)Image.FromFile(imageFilePath);//load the image file
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    using (Font arialFont = new Font("CalibriLight", 12))
+                    {
+                        graphics.DrawString("Mr/Mrs  "+ model.name, arialFont, Brushes.Black, firstLocation);
+                        graphics.DrawString(model.Department, arialFont, Brushes.Black, secondLocation);
+                        graphics.DrawString(model.CertificateCreatedDate, arialFont, Brushes.Black, thirdLocation);
+                    }
+                }
+                bitmap.Save(imageFilePath1, ImageFormat.Jpeg);//save the image file
+                byte[] fileBytes = System.IO.File.ReadAllBytes(imageFilePath1);
+            }
+
+            catch(Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+            }
+            // return File(imageFilePath1, "image/png", "test.jpg");
+            return Json(new { success = true });
+
+        }
+
+
+
+
+
+
+
 
 
 

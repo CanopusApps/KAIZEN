@@ -39,21 +39,21 @@
                                 </label>
                             </td>
                             <td> Doc No</td>
-                            <td><input type="text" readonly="" name="doc_no" class="form-control inputtext" value="IM 01 Process"></td>
+                            <td><input type="text" readonly="" name="doc_no" class="form-control inputtext" value="TEPL-IE-C-FR-0005"></td>
                         </tr>
                         <tr>
                             <td colspan="4" rowspan="2">
                                 <textarea class="form-control"></textarea>
                             </td>
-                            <td>Version No/Date</td>
-                            <td><input type="text" readonly="" name="version_no" class="form-control inputtext" value="IM 01 Process"></td>
+                            @* <td >Cost Centre</td>
+                            <td><input type="text" readonly="" name="proj_code" class="form-control inputtext" value="00C"></td> *@
                         </tr>
                         <tr>
                             <td>Cost Centre</td>
-                            <td><input type="text" readonly="" name="proj_code" class="form-control inputtext" value="IM 01 Process"></td>
+                            <td><input type="text" readonly="" name="proj_code" class="form-control inputtext" value="00C"></td>
                         </tr>
                         <tr>
-                            <td colspan="4">
+                            <td colspan="6">
                                 <table class="width100per">
                                     <tbody>
                                         <tr>
@@ -110,8 +110,8 @@
                                     </tbody>
                                 </table>
                             </td>
-                            <td>KAIZEN Ref.No</td>
-                            <td><input readonly="" type="text" name="ref_no" class="form-control" value="IM 01 Process"></td>
+                            @* <td>KAIZEN Ref.No</td>
+                            <td><input readonly="" type="text" name="ref_no" class="form-control" value="IM/PP/05"></td> *@
                         </tr>
                     </tbody>
                 </table>
@@ -121,7 +121,7 @@
                     <tbody>
                         <tr>
                             <td class="tdwidth">
-                                <label>Plant Name : </label>
+                                <label>Block Name : </label>
                                 <div class="dropdown bootstrap-select ">
                                     <select class="selectized form-control">
                                         <option>Select</option>
@@ -139,11 +139,11 @@
                         <tr>
                             <td class="tdwidth">
                                 <label>Kaizen Theme: </label>
-                                <input type="text" class="form-control" value="IM 01 Process" readonly>
+                                <input type="text" class="form-control" value="Poka yoke in Rail placing" readonly>
                             </td>
                             <td class="tdwidth">
                                 <label>Suggested Kaizen ( Logical Correlation with root cause): </label>
-                                <input type="text" class="form-control" value="IM 01 Process" readonly>
+                                <input type="text" class="form-control" value="Provide stopper pin in Heating Fixture" readonly>
                             </td>
                         </tr>
                         <tr>
@@ -181,16 +181,16 @@
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <td>Quality</td>
+                                            <td>Yield</td>
+                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cycle Time(sec)</td>
                                             <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
                                         </tr>
                                         <tr>
                                             <td>Cost</td>
-                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Material</td>
-                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                            <td colspan="3"><input type="text" class="form-control" value="100000" readonly=""></td>
                                         </tr>
                                         <tr>
                                             <td>Man power</td>
@@ -206,7 +206,7 @@
                                         </tr>
                                         <tr>
                                             <td>Total Savings</td>
-                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                            <td colspan="3"><input type="text" class="form-control" value="5046418" readonly=""></td>
                                         </tr>
                                         <tr>
                                             <td rowspan="3">Approved by</td>
@@ -217,18 +217,18 @@
                                             <td>Accounts</td>
                                             <td colspan="2"><input type="text" class="form-control" value="" readonly=""></td>
                                         </tr>
-                                        <tr>
+                                        @* <tr>
                                             <td>Standardization</td>
-                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
-                                        </tr>
-                                        <tr>
+                                            <td colspan="3"><input type="text" class="form-control" value="Under Standardization" readonly=""></td>
+                                        </tr> *@
+                                        @* <tr>
                                             <td>SOP/SP:</td>
-                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
+                                            <td colspan="3"><input type="text" class="form-control" value="Added in Work instruction" readonly=""></td>
                                         </tr>
                                         <tr>
                                             <td>Drawing</td>
-                                            <td colspan="3"><input type="text" class="form-control" value="" readonly=""></td>
-                                        </tr>
+                                            <td colspan="3"><input type="text" class="form-control" value="Fixture Drawing updated" readonly=""></td>
+                                        </tr> *@
 
                                     </tbody>
                                 </table>
@@ -255,66 +255,66 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="text-center">
-                                                    <input type="text" readonly name="eempid" placeholder="Emp ID" class="form-control">
+                                                <td class="text-center" style="vertical-align: middle;">
+                                                    <input type="text" readonly name="eempid" placeholder="Emp ID" class="form-control" >
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style="vertical-align: middle;">
                                                     <input type="text" readonly name="eempid" placeholder="Team Member Names" class="form-control">
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style="vertical-align: middle;">
                                                     <input type="text" readonly name="function" placeholder="Function" class="form-control">
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style="vertical-align: middle;">
                                                     <button type="button" class="btn btn-primary">Add</button>
                                                 </td>
                                             </tr>
 
                                             <tr>
-                                                <td class="text-center">204367</td>
-                                                <td class="text-center mt-2">Silambarasan P</td>
-                                                <td class="text-center">TR- Moulding Engg</td>
-                                                <td class="text-center">
-                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                <td class="text-center" style="vertical-align: middle;">204367</td>
+                                                <td class="text-center" style="vertical-align: middle;">Silambarasan P</td>
+                                                <td class="text-center" style="vertical-align: middle;">TR- Moulding Engg</td>
+                                                <td class="text-center" style="vertical-align: middle;">
+                                                    <span class="cursor-pointer" style="vertical-align: middle;"><i class="fa fa-times-circle" style="font-size:14px;color:red"></i></span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-center">203476</td>
-                                                <td class="text-center">Afghan ismail khan</td>
-                                                <td class="text-center">TR- Moulding Engg</td>
-                                                <td class="text-center">
-                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                <td class="text-center" style="vertical-align: middle;">203476</td>
+                                                <td class="text-center" style="vertical-align: middle;">Afghan ismail khan</td>
+                                                <td class="text-center" style="vertical-align: middle;">TR- Moulding Engg</td>
+                                                <td class="text-center" style="vertical-align: middle;">
+                                                    <span class="cursor-pointer" style="vertical-align: middle;"><i class="fa fa-times-circle" style="font-size:14px;color:red"></i></span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-center">202152</td>
-                                                <td class="text-center">Senthil Kumar B</td>
-                                                <td class="text-center">TR- Moulding Engg</td>
-                                                <td class="text-center">
-                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                <td class="text-center" style="vertical-align: middle;">202152</td>
+                                                <td class="text-center" style="vertical-align: middle;">Senthil Kumar B</td>
+                                                <td class="text-center" style="vertical-align: middle;">TR- Moulding Engg</td>
+                                                <td class="text-center" style="vertical-align: middle;">
+                                                    <span class="cursor-pointer" style="vertical-align: middle;"><i class="fa fa-times-circle" style="font-size:14px;color:red"></i></span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-center">202443</td>
-                                                <td class="text-center">Balaji R</td>
-                                                <td class="text-center">TR- Moulding Engg</td>
-                                                <td class="text-center">
-                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                <td class="text-center" style="vertical-align: middle;">202443</td>
+                                                <td class="text-center" style="vertical-align: middle;">Balaji R</td>
+                                                <td class="text-center" style="vertical-align: middle;">TR- Moulding Engg</td>
+                                                <td class="text-center" style="vertical-align: middle;">
+                                                    <span class="cursor-pointer" style="vertical-align: middle;"><i class="fa fa-times-circle" style="font-size:14px;color:red"></i></span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-center">202918</td>
-                                                <td class="text-center">Felixvenseslas S</td>
-                                                <td class="text-center">TR- Moulding Engg</td>
-                                                <td class="text-center">
-                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                <td class="text-center" style="vertical-align: middle;">202918</td>
+                                                <td class="text-center" style="vertical-align: middle;">Felixvenseslas S</td>
+                                                <td class="text-center" style="vertical-align: middle;">TR- Moulding Engg</td>
+                                                <td class="text-center" style="vertical-align: middle;">
+                                                    <span class="cursor-pointer" style="vertical-align: middle;"><i class="fa fa-times-circle" style="font-size:14px;color:red"></i></span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-center">918780</td>
-                                                <td class="text-center">Shijo MP</td>
-                                                <td class="text-center">TR- Design</td>
-                                                <td class="text-center">
-                                                    <span class="cursor-pointer"><i class="fas fa-times"></i></span>
+                                                <td class="text-center" style="vertical-align: middle;">918780</td>
+                                                <td class="text-center" style="vertical-align: middle;">Shijo MP</td>
+                                                <td class="text-center" style="vertical-align: middle;">TR- Design</td>
+                                                <td class="text-center" style="vertical-align: middle;">
+                                                    <span class="cursor-pointer" style="vertical-align: middle;"><i class="fa fa-times-circle" style="font-size:14px;color:red"></i></span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -350,18 +350,18 @@ No poka yoke/provision to prevent wrong orientation in heating fixture
                     <tbody>
                         <tr>
                             <td>
-                                <label>RootCause Explanation:</label>
+                                <label>Brief explanation of present conditions :</label>
                                 <textarea class="textareasmall" readonly="">"There is no poka-yoke/ provision  avaiable in  Preheating Fixture.
 So, even if the rail orientation is changed during the placement by operator, it can't be easily noticed and potentially the rails would be placed in a mold with wrong orientation whci shall cause mold damage as well as defect part."</textarea>
                             </td>
                             <td>
-                                <label>RootCause Explanation:</label>
+                                <label>Brief explanation of Improvements done :</label>
                                 <textarea class="textareasmall" readonly="">"This Poka Yoke improvement (stopper pin) is used to improve the rail locating guidance to avoid wrong direction placing.                                                                              Locator pin has been placed in fixture for bottom rail, left rail & right rail toavoid direction wrong loading and Mold damage as well as correction time saved.                                                                      After implementing a poka yoke, operator can't able to place a rail in wrong orientation. This problem will be permanently eliminated.
 
 POKA YOKE Pin made in Inhouse with tool room mfg support.</textarea>
                             </td>
                             <td>
-                                <label>RootCause Explanation:</label>
+                                <label>Benifits (P,Q,C,S,D,M,E):</label>
                                 <textarea class="textareasmall" readonly="">Q - This poka yoke will make sure the rail orientation is always right.              S -  This will ensure and prevent mold or part damage and improves mold
        safety.                                                                                                                           M- It will increase MTTR & MTBF (as of now no data).                                                Since IM1 is citical for further downstream process, this will have direct impact of unplanned downtime (reduction) in downstream pro</textarea>
                             </td>
@@ -422,19 +422,16 @@ POKA YOKE Pin made in Inhouse with tool room mfg support.</textarea>
                             <tbody>
                                 <tr>
                                     <td>
-                                        <p>Dept:</p>
                                         <p class="readonly-field">1</p>
                                         <p class="readonly-field">Felixneslas S</p>
                                         <p class="readonly-field">21/10/21</p>
                                     </td>
                                     <td>
-                                        <p>Dept:</p>
                                         <p class="readonly-field">1</p>
                                         <p class="readonly-field">Balaji R</p>
                                         <p class="readonly-field">22/10/2021</p>
                                     </td>
                                     <td>
-                                        <p>Dept:</p>
                                         <p class="readonly-field">1</p>
                                         <p class="readonly-field">Senthil kumar B</p>
                                         <p class="readonly-field">22/10/2021</p>

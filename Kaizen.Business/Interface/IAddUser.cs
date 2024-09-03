@@ -13,5 +13,7 @@ namespace Kaizen.Business.Interface
 
         public List<UserTypeModel> GetUserType();
 		public List<CadreModel> GetCadre();
-	}
+
+        public bool Checkuser(string value);
+    }
 }
