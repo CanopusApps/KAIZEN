@@ -95,6 +95,9 @@ namespace Kaizen.Data.Constant
         public static string Sp_GetUserManagerupdate = "Sp_GetUserManagerupdate";
         public static string Sp_Get_UserLogformReport = "Sp_Get_UserLogformReport";
         public static string sp_checkuser = "sp_checkuser";
+
+        public static string sp_GetUsersByDomainId = "Sp_GetUsersByDomainId";
+
     }
 
     public class ConstantValue

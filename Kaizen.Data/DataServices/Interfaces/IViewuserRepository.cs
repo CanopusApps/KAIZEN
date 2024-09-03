@@ -25,5 +25,9 @@ namespace Kaizen.Data.DataServices
         public DataSet GetIEDepartData(); 
 
         public DataSet GetFinanceData();
+
+
+        //users by domainid
+       public DataSet GetUsersByDomainId(int  domainId);
     }
 }
