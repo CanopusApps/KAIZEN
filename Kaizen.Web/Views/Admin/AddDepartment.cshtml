@@ -222,8 +222,6 @@
 
     function ValidateForm() {
         var isValid = true;
-        alert("Started Validating!" + isValid)
-
         $("#departmentName").on("input", function () {
             var departmentNameValue = $(this).val();
             if (departmentNameValue !== "") {
@@ -247,7 +245,7 @@
 
         $(".error-message").text("");
 
-        var departmentNameValue = $("#departmentName").val();
+        var departmentNameValue = $("#departmentName").val
         var domainNameValue = $("#domainName").val();
 
         if (departmentNameValue.trim() === "") {
@@ -266,8 +264,6 @@
             $("#error-message").text("Please fill in the required field correctly.");
             $("#submitButton").css("border-color", "red");
         }
-
-        alert("Ended Validating!" + isValid)
         return isValid;
     }
 
