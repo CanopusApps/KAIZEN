@@ -218,5 +218,32 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+
+
+        public DataSet GetUsersByDomainId(int domainId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                using (SqlCommand com = new SqlCommand())
+                {
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandText = StoredProcedures.sp_GetUsersByDomainId;
+
+                    // Pass the domainId to filter users
+                    com.Parameters.AddWithValue("@DomainId", domainId);
+
+                    SqlDataAdapter da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while fetching users by domain ID.", ex);
+            }
+            return ds;
+        }
+
     }
 }

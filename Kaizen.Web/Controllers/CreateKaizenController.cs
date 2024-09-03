@@ -16,6 +16,12 @@ using static NuGet.Client.ManagedCodeConventions;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using System.Data;
 using System.Net.Mail;
+using System.Drawing.Imaging;
+using System.Drawing;
+using GemBox.Spreadsheet.Drawing;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Org.BouncyCastle.Utilities;
 
 namespace Kaizen.Web.Controllers
 {
@@ -27,7 +33,8 @@ namespace Kaizen.Web.Controllers
         private readonly ICreateNewKaizen _createNewKaizen;
         private readonly ILogin _loginworker;
         //private readonly string _uploadspath;
-        private readonly NewKaizenModel _infoSettings; 
+        private readonly NewKaizenModel _infoSettings;
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment env;
 
         NewKaizenModel model = new NewKaizenModel();
 
@@ -39,6 +46,8 @@ namespace Kaizen.Web.Controllers
             this.conAccessor = conAccessor;
             _infoSettings = infoSettings.Value;
             _loginworker = loginworker;
+            this.env = env;
+
         }
         public ActionResult KaizenModalPopupPartial()
         {
@@ -571,6 +580,60 @@ namespace Kaizen.Web.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
+        public IActionResult DownloadCertificate(string OriginatedByName,string OriginatedByDept)
+        {
+            //model.name = System.Text.Json.JsonNamingPolicy.CamelCase.ConvertName(OriginatedByName); 
+            model.name = FirstLetterToUpper(OriginatedByName);
+            model.Department = OriginatedByDept;
+            model.CertificateCreatedDate = DateTime.Now.ToString("dd/MM/yyyy");
+            string imageFilePath = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\assets\img\Tata Electronic Certificate.jpg"}";
+            string imageFilePath1 = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\assets\img\Tata Electronic CertificateNew.jpg"}";
+            try
+            {
+                PointF Title = new PointF(410f, 540f);
+                PointF firstLocation = new PointF(810f, 540f);
+                PointF secondLocation = new PointF(570f, 650f);
+                PointF thirdLocation = new PointF(1220f, 650f);
+                Bitmap bitmap = (Bitmap)Image.FromFile(imageFilePath);//load the image file
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    using (Font arialFont = new Font("CalibriLight", 13))
+                    {
+                        graphics.DrawString("Mr/Mrs  ", arialFont, Brushes.Black, Title);
+                        graphics.DrawString(model.name, arialFont, Brushes.Black, firstLocation);
+                    }
+                    using (Font arialFont = new Font("CalibriLight", 10))
+                    {
+                        graphics.DrawString(model.Department, arialFont, Brushes.Black, secondLocation);
+                        graphics.DrawString(model.CertificateCreatedDate, arialFont, Brushes.Black, thirdLocation);
+                    }
+                }
+                bitmap.Save(imageFilePath1, ImageFormat.Jpeg);//save the image file
+                           }
+            catch(Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                //return Json(new { success = false });
+                return Json(new { error = "An error occurred while processing your request." });
+            }
+            byte[] bytes = System.IO.File.ReadAllBytes(imageFilePath1);
+            return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AppreciationCertificate-" + model.name + ".jpg");
+            //  return File(bytes, "image/jpg", imageFilePath1);
+        }
+        public string FirstLetterToUpper(string str)
+        {
+            if (str == null)return null;
+            if (str.Length > 1)
+                return char.ToUpper(str[0]) + str.Substring(1);
+            return str.ToUpper();
+        }
+
+
+
+
+
+
 
 
 

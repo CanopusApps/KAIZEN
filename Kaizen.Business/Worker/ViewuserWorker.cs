@@ -317,5 +317,47 @@ namespace Kaizen.Business.Worker
             }
             return userviewModels;
         }
+
+
+        public List<UserGridModel> GetUsersByDomainId(int  domainId)
+        {
+            DataSet userData = new DataSet();
+            List<UserGridModel> userGridData = new List<UserGridModel>();
+
+            // Assuming _repositoryUserTypedata is set up to handle database calls
+            userData = _repositoryUserTypedata.GetUsersByDomainId(domainId);
+
+            if (userData.Tables.Count > 0)
+            {
+                foreach (DataRow dr in userData.Tables[0].Rows)
+                {
+                    userGridData.Add(new UserGridModel
+                    {
+                        EmpID = dr["EmpID"].ToString(),
+                        Name = dr["Name"].ToString(),
+                        Email = dr["Email"].ToString(),
+                        Gender = dr["Gender"].ToString(),
+                        Domain = dr["Domain"].ToString(),
+                        Department = dr["Department"].ToString(),
+                        UserType = dr["UserType"].ToString(),
+                        ImageApprover = Convert.ToInt16(dr["ImageApprover"]),
+                        Status = Convert.ToInt16(dr["Status"]),
+                        PhoneNo = dr["PhoneNo"].ToString(),
+                        Password = dr["Password"].ToString(),
+                        Cadre = dr["CadreDesc"].ToString(),
+                        BlockDesc = dr["Blockdesc"].ToString(),
+                        TotalKaizenPosted = dr["TotalKaizenPosted"].ToString(),
+                        role = dr["Role"].ToString(),
+                        Id = dr["Id"].ToString(),
+                    });
+                }
+            }
+
+            return userGridData;
+        }
     }
+
+
+
+
 }

@@ -52,49 +52,75 @@ namespace Kaizen.Web.Controllers
                 viewModel.StatusList = _viewUserWorker.GetStatus();
             }
             catch (Exception ex) {
-                //LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString()); 
             }
 
             return View(viewModel);
         }
         public IActionResult ViewFilterUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
         {
-            UserGridModel model = new UserGridModel()
+            try
             {
-                Name = Name,
-                EmpID = EmpId,
-                Email = Email,
-                UserType = UserType,
-                Domain = Domain,
-                Department = Department
-            };
-            var userList = _viewUserWorker.GetUser(model);
-            return PartialView("_UserGridPartial", userList);
+                UserGridModel model = new UserGridModel()
+                {
+                    Name = Name,
+                    EmpID = EmpId,
+                    Email = Email,
+                    UserType = UserType,
+                    Domain = Domain,
+                    Department = Department
+                };
+                var userList = _viewUserWorker.GetUser(model);
+                return PartialView("_UserGridPartial", userList);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception with a descriptive message
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return PartialView("_UserGridPartial", new List<UserGridModel>()); // Return an empty list in case of an error
+            }
         }
 
         public List<DepartmentModel> FetchDepartment(string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
-            if (!string.IsNullOrEmpty(domainid))
+            try
             {
-                deptList = _departmentWorker.GetDepartments()
-                      .Where(m => m.DomainId == Convert.ToInt32(domainid) && m.Status == true)  // Adjust based on how 'active' is represented
-                      .ToList();
+                if (!string.IsNullOrEmpty(domainid))
+                {
+                    deptList = _departmentWorker.GetDepartments()
+                          .Where(m => m.DomainId == Convert.ToInt32(domainid) && m.Status == true)  // Adjust based on how 'active' is represented
+                          .ToList();
+                }
             }
+            catch (Exception ex)
+            {
+                // Log the exception with a descriptive message
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+            }
+
             return deptList;
         }
       
         public IActionResult DeleteUser(int id)
         {
             bool deleteStatus = false;
-            ViewUserallModel viewModel = new ViewUserallModel();
-
-            deleteStatus = _viewUserWorker.DeleteUser(id);
-            if (deleteStatus)
+            try
             {
+                ViewUserallModel viewModel = new ViewUserallModel();
 
+                deleteStatus = _viewUserWorker.DeleteUser(id);
+                if (deleteStatus)
+                {
+
+                }
             }
-
+            catch (Exception ex)
+            {
+                // Log the exception with a descriptive message
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
             return RedirectToAction("ViewUser");
 
         }
@@ -102,13 +128,56 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public string Upload(IFormFile file, string Status, string UserType, string Password)
         {
-            if (file == null || file.Length == 0)
+            string resultMessage = string.Empty;
+
+            try
             {
-                return "No file uploaded.";
+                if (file == null || file.Length == 0)
+                {
+                    return "No file uploaded.";
+                }
+                 resultMessage = _viewUserWorker.SendFile(file, Status, UserType, Password);
             }
-            string resultMessage = _viewUserWorker.SendFile(file, Status, UserType, Password);
+            catch (Exception ex)
+            {
+                // Log the exception with a descriptive message
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                // Return a generic error message
+                resultMessage = "An error occurred while uploading the file.";
+            }
 
             return resultMessage;
+        }
+
+        public IActionResult ViewUserByDomainID(int? domainId, string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
+        {
+            ViewUserallModel viewModel = new ViewUserallModel();
+            try
+            {
+                // Fetch the user types
+                viewModel.UserTypeList = _addUserWorker.GetUserType();
+
+                // Fetch and filter domains (if needed)
+                viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+
+                // Get users based on the domainId if provided
+                if (domainId.HasValue)
+                {
+                    viewModel.UsergridList = _viewUserWorker.GetUsersByDomainId(domainId.Value);
+                }
+                //else
+                //{
+                //    viewModel.UsergridList = new List<User>();
+                //}
+
+                viewModel.StatusList = _viewUserWorker.GetStatus();
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+
+            return View("/Views/ViewUser/ViewUser.cshtml", viewModel);
         }
     }
 }
