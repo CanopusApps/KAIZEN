@@ -154,6 +154,8 @@
                     <a id="backbtn" class="btn btn-warning float-right ml-1">Back</a>
                     <a id="printPDF" class="btn btn-azure float-right">Download PDF</a>
                     <div id="modalPlaceholder"></div>
+                    <a class="btn btn-azure float-right" style="margin-right:2px;" onclick="DownloadCertificate()">Generate Certificate</a>
+
                     <h4>Create Kaizen<button class="btn btn-azure float-right" style="margin-right:2px;" type="button" onclick="loadModalContent()">Sample Kaizen Form</button></h4>
                     <p class="responsemessage"></p>
                 </div>
@@ -1333,7 +1335,32 @@
             $('#sampleKaizenModal').modal('show');
         });
     }
+   
     
+     function DownloadCertificate() {
+        // $.get('@Url.Action("DownloadCertificate", "CreateKaizen")', function (data) {
+        // });
+          $.ajax({
+            url: '/CreateKaizen/DownloadCertificate',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({  
+                }),
+                success: function (response) {
+                swal("Certificate Created Successfully!");
+                },
+                error: function (error) {
+                    swal("some error");
+                }
+            });
+
+
+
+
+    }
+   
+
+
     //Download PDF Start
     $('#printPDF').click(function () {
         var element = document.getElementById('downloadDiv');
