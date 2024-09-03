@@ -1060,8 +1060,6 @@
 
                                                                     <td class="align-middle align-items-center justify-content-center col-5">
                                                                         <input type="text" class="mx-auto form-control col-9" id="name" name="name" value="@Model.name" readonly>
-                                                                        <input type="text" class="mx-auto form-control col-9" id="KaizenIdCertificate" name="name" value="@Model.KaizenId" hidden>
-
                                                                         <input type="text" class="mx-auto form-control col-9" id="createdBy" name="createdBy" value="@Model.EmpId" hidden>
                                                                 </td>
                                                                     <td class="align-middle align-items-center justify-content-center col-5">
@@ -1330,58 +1328,20 @@
    //  }
    // });
     var statusDesc;
-
     function loadModalContent() {
         $.get('@Url.Action("KaizenModalPopupPartial", "CreateKaizen")', function (data) {
             $('#modalPlaceholder').html(data);
             $('#sampleKaizenModal').modal('show');
         });
     }
-   
-    
      function DownloadCertificate() {
-         debugger;
         var OriginatedByName = $('#name').val();
         var OriginatedByDept = $('#DomainId').val();
             var url = '@Url.Action("DownloadCertificate", "CreateKaizen")';
             var OriginatedByName = document.getElementById("name").value;
             var OriginatedByDept = document.getElementById("DomainId").value;
             window.location.href = url + "/?OriginatedByName=" + OriginatedByName + "&OriginatedByDept= " + OriginatedByDept;
-
-   
-
-
-
-          // $.ajax({
-          //   type: 'GET',
-          //   url: '/CreateKaizen/DownloadCertificate',
-          //   dataType: "json",
-          //   data:
-          //   {
-          //       OriginatedByName: OriginatedByName, OriginatedByDept: OriginatedByDept
-          //   },
-          //       success: function (response) {
-          //           if(true)
-          //           {
-          //           swal("Certificate Created Successfully!");
-          //           }
-          //           else
-          //           {
-          //           swal("Certificate Not Generated Please Check the Logs!");
-          //           }
-          //       },
-          //       error: function (error) {
-          //           swal("some error");
-          //       }
-          //   });
-
-
-
-
     }
-   
-
-
     //Download PDF Start
     $('#printPDF').click(function () {
         var element = document.getElementById('downloadDiv');
