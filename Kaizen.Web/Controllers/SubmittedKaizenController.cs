@@ -57,43 +57,69 @@ namespace Kaizen.Web.Controllers
             }
             catch (Exception ex)
             {
-                //LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString()); 
             }
             return View(viewModel);
         }
         public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
         {
-            KaizenListModel model = new KaizenListModel()
+            try
             {
-                StartDate = StartDate,
-                EndDate = EndDate,
-                Domain = Domain,
-                Department = Department,
-                KaizenTheme = KaizenTheme,
-                Status = Status,
-                role = conAccessor.HttpContext.Session.GetString("Userrole"),
-                UserId = conAccessor.HttpContext.Session.GetString("UserID")
-            };
-            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
-            SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
-            return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
+                KaizenListModel model = new KaizenListModel()
+                {
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                    Domain = Domain,
+                    Department = Department,
+                    KaizenTheme = KaizenTheme,
+                    Status = Status,
+                    role = conAccessor.HttpContext.Session.GetString("Userrole"),
+                    UserId = conAccessor.HttpContext.Session.GetString("UserID")
+                };
+                var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+                SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
+                return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+                return PartialView("_ErrorPartial", new { error = "An error occurred while filtering the Kaizen list." });
+            }
         }
         public List<DepartmentModel> FetchDepartment(string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
-            if (!string.IsNullOrEmpty(domainid))
+            try
             {
-                deptList = _departmentWorker.GetDepartments().Where(d => d.DomainId == Convert.ToInt32(domainid)).ToList();
+                if (!string.IsNullOrEmpty(domainid))
+                {
+                    deptList = _departmentWorker.GetDepartments().Where(d => d.DomainId == Convert.ToInt32(domainid)).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
 
             }
             return deptList;
         }
         public List<ApprovalStatusModel> ApprovalStatusList()
         {
-            string UserType;
             List<ApprovalStatusModel> list = new List<ApprovalStatusModel>();
-            UserType = conAccessor.HttpContext.Session.GetString("Userrole");
-            list = _submittedKaizenWorker.GetApprovalStatus(UserType);
+            try
+            {
+                string UserType;
+                UserType = conAccessor.HttpContext.Session.GetString("Userrole");
+                list = _submittedKaizenWorker.GetApprovalStatus(UserType);
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                
+            }
+
             return list;
         }
         public IActionResult DeleteKaizen(int KaizenId)
@@ -114,16 +140,25 @@ namespace Kaizen.Web.Controllers
         }
         public IActionResult FetchKaizenDetails_by_CreatedBy(string? UserId,string? role,string? LoginRole)
         {
-            KaizenListModel model = new KaizenListModel()
+            List<KaizenListModel> SubmittedKaizenList = new List<KaizenListModel>();
+            try
             {
-                role = role,
-                UserId = UserId
-            };
-            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
-            if (LoginRole == "ADM")
+                KaizenListModel model = new KaizenListModel()
+                {
+                    role = role,
+                    UserId = UserId
+                };
+                SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+                if (LoginRole == "ADM")
+                {
+                    // Exclude items with status 0
+                    SubmittedKaizenList = SubmittedKaizenList.Where(k => k.ApprovalStatus != "Saved").ToList();
+                }
+            }
+            catch (Exception ex)
             {
-                // Exclude items with status 0
-                SubmittedKaizenList = SubmittedKaizenList.Where(k => k.ApprovalStatus != "Saved").ToList();
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return StatusCode(500, "An error occurred while fetching Kaizen details."); // or another appropriate response
             }
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
@@ -150,39 +185,60 @@ namespace Kaizen.Web.Controllers
             }
             catch (Exception ex)
             {
-                //LogEvents.LogToFile(DbFiles.Title, ex.ToString(), _environment); 
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString()); 
             }
             return View(viewModel);
         }
         public IActionResult ViewFilterImageApproval(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
         {
-            ImageApprover = conAccessor.HttpContext.Session.GetString("ImageApprover");
-            KaizenListModel model = new KaizenListModel()
+            List<KaizenListModel> SubmittedKaizenList = new List<KaizenListModel>();
+            try
             {
-                StartDate = StartDate,
-                EndDate = EndDate,
-                Domain = Domain,
-                Department = Department,
-                KaizenTheme = KaizenTheme,
-                Status = Status,
-                role = ImageApprover,
-                UserId = conAccessor.HttpContext.Session.GetString("UserID")
-            };
-            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);///
-            SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 1).ToList();
+                ImageApprover = conAccessor.HttpContext.Session.GetString("ImageApprover");
+                KaizenListModel model = new KaizenListModel()
+                {
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                    Domain = Domain,
+                    Department = Department,
+                    KaizenTheme = KaizenTheme,
+                    Status = Status,
+                    role = ImageApprover,
+                    UserId = conAccessor.HttpContext.Session.GetString("UserID")
+                };
+                SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);///
+                SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 1).ToList();
+            }
+            catch (Exception ex)
+            {
 
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return StatusCode(500, "An error occurred while filtering the Kaizen list."); // or another appropriate response
+            }
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
         public IActionResult DeletedKaizen()
         {
             SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
-            KaizenListModel model = new KaizenListModel()
+            try
             {
-                role = conAccessor.HttpContext.Session.GetString("Userrole"),
-                UserId = conAccessor.HttpContext.Session.GetString("UserID")
-            };
-            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
-            viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 14).ToList();
+
+                KaizenListModel model = new KaizenListModel()
+                {
+                    role = conAccessor.HttpContext.Session.GetString("Userrole"),
+                    UserId = conAccessor.HttpContext.Session.GetString("UserID")
+                };
+                var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+                viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 14).ToList();
+            }
+            catch (Exception ex)
+            {
+               
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+                viewModel.SubmittedKaizenList = new List<KaizenListModel>(); // or another appropriate response
+            }
+
             return View(viewModel);
         }
         
