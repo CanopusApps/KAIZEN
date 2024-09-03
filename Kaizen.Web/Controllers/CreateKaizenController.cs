@@ -21,6 +21,7 @@ using System.Drawing;
 using GemBox.Spreadsheet.Drawing;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Org.BouncyCastle.Utilities;
 
 namespace Kaizen.Web.Controllers
 {
@@ -580,46 +581,53 @@ namespace Kaizen.Web.Controllers
             }
         }
 
-        public IActionResult DownloadCertificate()
+        public IActionResult DownloadCertificate(string OriginatedByName,string OriginatedByDept)
         {
-            model.name = conAccessor.HttpContext.Session.GetString("Message");
-            model.Department = conAccessor.HttpContext.Session.GetString("Department");
+            //model.name = System.Text.Json.JsonNamingPolicy.CamelCase.ConvertName(OriginatedByName); 
+            model.name = FirstLetterToUpper(OriginatedByName);
+            model.Department = OriginatedByDept;
             model.CertificateCreatedDate = DateTime.Now.ToString("dd/MM/yyyy");
-            string imageFilePath = _infoSettings.CertificatePath;
-            string imageFilePath1 = _infoSettings.CertificateDownloadPath;
+            string imageFilePath = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\assets\img\Tata Electronic Certificate.jpg"}";
+            string imageFilePath1 = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\assets\img\Tata Electronic CertificateNew.jpg"}";
             try
             {
-                PointF firstLocation = new PointF(410f, 540f);
+                PointF Title = new PointF(410f, 540f);
+                PointF firstLocation = new PointF(810f, 540f);
                 PointF secondLocation = new PointF(570f, 650f);
                 PointF thirdLocation = new PointF(1220f, 650f);
-
-                //string imageFilePath = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\assets\img\Tata Electronic Certificate.jpg"}";
-                //string imageFilePath1 = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\assets\img\Tata Electronic Certificate- Copy.jpg"}";
-
                 Bitmap bitmap = (Bitmap)Image.FromFile(imageFilePath);//load the image file
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
-                    using (Font arialFont = new Font("CalibriLight", 12))
+                    using (Font arialFont = new Font("CalibriLight", 13))
                     {
-                        graphics.DrawString("Mr/Mrs  "+ model.name, arialFont, Brushes.Black, firstLocation);
+                        graphics.DrawString("Mr/Mrs  ", arialFont, Brushes.Black, Title);
+                        graphics.DrawString(model.name, arialFont, Brushes.Black, firstLocation);
+                    }
+                    using (Font arialFont = new Font("CalibriLight", 10))
+                    {
                         graphics.DrawString(model.Department, arialFont, Brushes.Black, secondLocation);
                         graphics.DrawString(model.CertificateCreatedDate, arialFont, Brushes.Black, thirdLocation);
                     }
                 }
                 bitmap.Save(imageFilePath1, ImageFormat.Jpeg);//save the image file
-                byte[] fileBytes = System.IO.File.ReadAllBytes(imageFilePath1);
-            }
-
+                           }
             catch(Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
-
+                //return Json(new { success = false });
+                return Json(new { error = "An error occurred while processing your request." });
             }
-            // return File(imageFilePath1, "image/png", "test.jpg");
-            return Json(new { success = true });
-
+            byte[] bytes = System.IO.File.ReadAllBytes(imageFilePath1);
+            return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AppreciationCertificate-" + model.name + ".jpg");
+            //  return File(bytes, "image/jpg", imageFilePath1);
         }
-
+        public string FirstLetterToUpper(string str)
+        {
+            if (str == null)return null;
+            if (str.Length > 1)
+                return char.ToUpper(str[0]) + str.Substring(1);
+            return str.ToUpper();
+        }
 
 
 
