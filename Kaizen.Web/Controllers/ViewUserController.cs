@@ -148,5 +148,36 @@ namespace Kaizen.Web.Controllers
 
             return resultMessage;
         }
+
+        public IActionResult ViewUserByDomainID(int? domainId, string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
+        {
+            ViewUserallModel viewModel = new ViewUserallModel();
+            try
+            {
+                // Fetch the user types
+                viewModel.UserTypeList = _addUserWorker.GetUserType();
+
+                // Fetch and filter domains (if needed)
+                viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+
+                // Get users based on the domainId if provided
+                if (domainId.HasValue)
+                {
+                    viewModel.UsergridList = _viewUserWorker.GetUsersByDomainId(domainId.Value);
+                }
+                //else
+                //{
+                //    viewModel.UsergridList = new List<User>();
+                //}
+
+                viewModel.StatusList = _viewUserWorker.GetStatus();
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+
+            return View("/Views/ViewUser/ViewUser.cshtml", viewModel);
+        }
     }
 }

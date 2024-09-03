@@ -21,5 +21,8 @@ namespace Kaizen.Business.Interface
         public List<UserGridModel> GetIEDepart();
         public List<UserGridModel> GetFinance();
         public string ValidateEmployee(UploadUserModel employee);
+
+        List<UserGridModel> GetUsersByDomainId(int  domainId);
+
     }
 }

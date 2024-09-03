@@ -64,7 +64,9 @@
                         <tr data-id="@item.Id" data-name="@item.DomainName"> 
                             <td hidden>@item.Id</td>
                             <td>@item.DomainName</td>
-                            <td class="text-center">@item.User_count</td>
+                            <td class="text-center" data-domain-id="@item.Id">
+                                <a class="user-count">@item.User_count</a>
+                            </td>
                             <td class="text-center">
                                 @if (@item.Status == false)
                                 {
@@ -91,6 +93,7 @@
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function () {
         $('#empTable').DataTable({});
@@ -263,6 +266,15 @@
 
     }
 
+    $(document).ready(function () {
+        $('.text-center').on('click', function () {
+            var domainId = $(this).data('domain-id');
+            if (domainId) {
+                window.location.href = '@Url.Action("ViewUserByDomainID", "ViewUser")' + '?domainId=' + domainId;
+            }
+        });
 
+       
+    });
 </script>
 
