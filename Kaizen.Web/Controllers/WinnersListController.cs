@@ -48,14 +48,26 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public IActionResult UpdateWinnersList(WinnersViewModel model)
         {
-           model.WinnersList.ModifiedBy =conAccessor.HttpContext.Session.GetString("EmpId");
-            if (model.WinnersList.Winnerimage != null)
+            try
             {
 
-                model.WinnersList.winnerimagefilepath = SaveUploadedFile(model.WinnersList.Winnerimage);
+                model.WinnersList.ModifiedBy = conAccessor.HttpContext.Session.GetString("EmpId");
+                if (model.WinnersList.Winnerimage != null)
+                {
+
+                    model.WinnersList.winnerimagefilepath = SaveUploadedFile(model.WinnersList.Winnerimage);
+                }
+                var status = _addWinnerWorker.UpdateWinner(model.WinnersList);
+                return Ok(status);
             }
-            var status= _addWinnerWorker.UpdateWinner(model.WinnersList);
-            return Ok(status);
+            catch (Exception ex)
+            {
+                // Log the exception with a descriptive message
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+                // Return an internal server error status with a descriptive message
+                return StatusCode(500, "An error occurred while updating the winners list.");
+            }
         }
         [HttpPost]
         public IActionResult WinnersList(WinnersViewModel model)
@@ -77,8 +89,17 @@ namespace Kaizen.Web.Controllers
         [HttpPost]
         public IActionResult GetUserdatabyemp([FromBody] WinnersViewModel model)
         {
-            model.NewKaizen = _createNewKaizen.GetKaizenOriginatedby(model.NewKaizen);
-            return Ok(model.NewKaizen);
+            try
+            {
+                model.NewKaizen = _createNewKaizen.GetKaizenOriginatedby(model.NewKaizen);
+                return Ok(model.NewKaizen);
+            }
+            catch(Exception ex)
+            {
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return StatusCode(500, "An error occurred while retrieving user data.");
+            }
         }
             [HttpPost]
         public IActionResult DeleteWinner(int id, String sd, String ed)
@@ -91,7 +112,7 @@ namespace Kaizen.Web.Controllers
             }
             catch (Exception ex)
             {
-
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
             return Ok(deleteStatus);
         }
@@ -106,6 +127,7 @@ namespace Kaizen.Web.Controllers
             }
             catch (Exception ex)
             {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
@@ -141,8 +163,17 @@ namespace Kaizen.Web.Controllers
         }
         public IActionResult GetImage(string imagePath)
         {
-            string serverPath = Path.Combine(_infoSettings.LogwinnerFilePath, imagePath);
-            return PhysicalFile(serverPath, "image/jpeg");
+            try
+            {
+                string serverPath = Path.Combine(_infoSettings.LogwinnerFilePath, imagePath);
+                return PhysicalFile(serverPath, "image/jpeg");
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                // Return a 500 Internal Server Error status with a descriptive message
+                return StatusCode(500, "An error occurred while retrieving the image.");
+            }
         }
 
         public IActionResult ViewWinnersList()
