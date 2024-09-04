@@ -412,7 +412,10 @@
             } else if (currentUrl.includes('/ViewUser/ViewUserByDeptID')) {
                 // Redirect to the ViewUser page if on the ViewUserByDeptID page
                 window.location.href = '@Url.Action("ViewUser", "ViewUser")';
-            } else {
+            } else if (currentUrl.includes('/ViewUser/ViewUserByBlockID')) {
+                // Redirect to the ViewUser page if on the ViewUserByDeptID page
+                window.location.href = '@Url.Action("ViewUser", "ViewUser")';
+            }else {
                 // If not on the specific pages, simply reload the page
                 location.reload();
             }

@@ -214,5 +214,37 @@ namespace Kaizen.Web.Controllers
 
             return View("/Views/ViewUser/ViewUser.cshtml", viewModel);
         }
+
+
+        public IActionResult ViewUserByBlockID(int? blockId)
+        {
+            ViewUserallModel viewModel = new ViewUserallModel();
+            try
+            {
+                // Fetch the user types
+                viewModel.UserTypeList = _addUserWorker.GetUserType();
+
+                // Fetch domains if needed (e.g., for a dropdown or filter)
+                viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+
+                // Get users based on the blockId if provided
+                if (blockId.HasValue)
+                {
+                    viewModel.UsergridList = _viewUserWorker.GetUsersByBlockId(blockId.Value);
+                }
+                else
+                {
+                    viewModel.UsergridList = new List<UserGridModel>();
+                }
+
+                viewModel.StatusList = _viewUserWorker.GetStatus();
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+
+            return View("/Views/ViewUser/ViewUser.cshtml", viewModel);
+        }
     }
 }
