@@ -15,8 +15,9 @@ namespace Kaizen.Models.AdminModel
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        [DataType(DataType.EmailAddress)]
+        //[EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid Email Address")]
+        //[DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [StringLength(8, MinimumLength = 6, ErrorMessage = "Employee ID must be a minimum of 6 and maximum of 8 digits only")]
