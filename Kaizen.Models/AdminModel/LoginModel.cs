@@ -14,9 +14,9 @@ namespace Kaizen.Models.AdminModel
         public string EmpId { get; set; }
 
         [Required(ErrorMessage = "Password is required!")]
-        [StringLength(16, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 10 characters")]
+        [StringLength(16, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 16 characters")]
         public string Password { get; set; }
-        [StringLength(16, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 10 characters")]
+        [StringLength(16, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 16 characters")]
         public string ConfirmPassword { get; set; }
 
         
