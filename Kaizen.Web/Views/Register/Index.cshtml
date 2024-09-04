@@ -334,22 +334,29 @@
                 dataType: "json",
                 data: { DomainID: Domain },
                 success: function (result) {
-                    if (result) {
-                        var dropdown = $('#inputDepartment');
-                        dropdown.empty();
+                    var dropdown = $('#inputDepartment');
+                    dropdown.empty();
+                    if (result.length > 1) {
                         dropdown.append($('<option>', {
                             value: '',
                             text: '--Select Department--'
                         }));
                         for (var i = 0; i < result.length; i++) {
-                            $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
+                            dropdown.append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
                         }
+                    } else if (result.length === 1) {
+                        dropdown.append($('<option>', {
+                            value: result[0].deptId,
+                            text: result[0].departmentName
+                        }));
                     } else {
-                        Swal.fire('Please Select Domain');
+                        dropdown.append($('<option>', {
+                            value: '',
+                            text: '--No Departments Available--'
+                        }));
                     }
                 },
                 error: function (error) {
-                    console.error("AJAX Error:", error);
                 }
             });
         });
