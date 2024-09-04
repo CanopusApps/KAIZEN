@@ -402,20 +402,18 @@
             $('#inputUserType').prop('selectedIndex', 0);
         }
 
-        // $('#btnreset').click(function () {
-        //     Resetform();
-        //     location.reload();
-        // });
-
-        // Click event for the reset button to navigate back to ViewUser
         $('#btnreset').click(function () {
-            // Determine if we're on the ViewUserByDomainID page
+            // Determine the current URL
             var currentUrl = window.location.href;
+
             if (currentUrl.includes('/ViewUser/ViewUserByDomainID')) {
-                // Redirect to the ViewUser page
+                // Redirect to the ViewUser page if on the ViewUserByDomainID page
+                window.location.href = '@Url.Action("ViewUser", "ViewUser")';
+            } else if (currentUrl.includes('/ViewUser/ViewUserByDeptID')) {
+                // Redirect to the ViewUser page if on the ViewUserByDeptID page
                 window.location.href = '@Url.Action("ViewUser", "ViewUser")';
             } else {
-                // If not on the ViewUserByDomainID page, simply reload the page
+                // If not on the specific pages, simply reload the page
                 location.reload();
             }
         });

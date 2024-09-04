@@ -179,5 +179,40 @@ namespace Kaizen.Web.Controllers
 
             return View("/Views/ViewUser/ViewUser.cshtml", viewModel);
         }
+
+        public IActionResult ViewUserByDeptID(int? domainId, int? departmentId, string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
+        {
+            ViewUserallModel viewModel = new ViewUserallModel();
+            try
+            {
+                // Fetch the user types
+                viewModel.UserTypeList = _addUserWorker.GetUserType();
+
+                // Fetch and filter domains (if needed)
+                viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+
+                // Get users based on the domainId and departmentId if provided
+                if (domainId.HasValue && departmentId.HasValue)
+                {
+                    viewModel.UsergridList = _viewUserWorker.GetUsersByDeptId(domainId.Value, departmentId.Value);
+                }
+                else if (domainId.HasValue)
+                {
+                    viewModel.UsergridList = _viewUserWorker.GetUsersByDomainId(domainId.Value);
+                }
+                else
+                {
+                    viewModel.UsergridList = new List<UserGridModel>(); // Empty list if no domainId or departmentId is provided
+                }
+
+                viewModel.StatusList = _viewUserWorker.GetStatus();
+            }
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+
+            return View("/Views/ViewUser/ViewUser.cshtml", viewModel);
+        }
     }
 }

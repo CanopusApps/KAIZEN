@@ -24,5 +24,7 @@ namespace Kaizen.Business.Interface
 
         List<UserGridModel> GetUsersByDomainId(int  domainId);
 
+        List<UserGridModel> GetUsersByDeptId(int domainId, int departmentId);
+
     }
 }

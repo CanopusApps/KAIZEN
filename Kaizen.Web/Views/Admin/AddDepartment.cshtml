@@ -76,7 +76,10 @@
                             <td hidden>@item.DeptId</td>
                             <td>@item.DomainName</td>
                             <td>@item.DepartmentName</td>
-                            <td class="text-center">@item.User_count</td>
+                            <td class="text-center" data-department-id="@item.DeptId" data-domain-id="@item.DomainId">
+                                <a class="user-count" style="cursor: pointer;">@item.User_count</a>
+                            </td>
+
                             <td class="text-center">
                                 @if (!item.Status)
                                 {
@@ -304,4 +307,14 @@
             }
         });
     }
+
+    $(document).ready(function () {
+        $('.user-count').on('click', function () {
+            var departmentId = $(this).closest('td').data('department-id');
+            var domainId = $(this).closest('td').data('domain-id');
+            if (departmentId && domainId) {
+                window.location.href = '@Url.Action("ViewUserByDeptID", "ViewUser")' + '?domainId=' + domainId + '&departmentId=' + departmentId;
+            }
+        });
+    });
 </script>

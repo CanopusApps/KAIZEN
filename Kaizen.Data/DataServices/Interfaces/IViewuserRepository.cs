@@ -29,5 +29,8 @@ namespace Kaizen.Data.DataServices
 
         //users by domainid
        public DataSet GetUsersByDomainId(int  domainId);
+
+        //users by deptid
+        public DataSet GetUsersByDeptId(int domainId,int departmentId);
     }
 }
