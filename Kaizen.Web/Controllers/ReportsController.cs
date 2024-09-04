@@ -120,31 +120,20 @@ namespace Kaizen.Web.Controllers
         [HttpGet]
         public IActionResult DasboardBlocks(string? StartDate, string? EndDate)
         {
-            DashboardModel model = new DashboardModel()
-            {
-                StartDate = StartDate,
-                EndDate = EndDate,
-            };
+           
 
             try
             {
-                // Get the list of data
-                var list = _dashboardworker.kaizenCountbasedonBlocks(model)
-                    .Select(item => new
-                    {
-                        Blockid = item.Blockid,
-                        Blockname = item.Blockname,
-                        TotalKaizensubmitted = item.TotalSubmittedKaizen
-                    }).ToList();
-
-                // Export to Excel and return the file
-                return File(_downloadexcel.ExportListToExcelDashboard(list),
-                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            "BlocksReport.xlsx");
+                DashboardModel model = new DashboardModel()
+                {
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                };
+                var list = _downloadexcel.DashboardBlockReport(model);
+                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "UserReport.xlsx");
             }
             catch (Exception ex)
             {
-                // Log the exception and return the view
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
                 return View();
             }
@@ -152,31 +141,18 @@ namespace Kaizen.Web.Controllers
         [HttpGet]
         public IActionResult DasboardCadre(string? StartDate, string? EndDate)
         {
-            DashboardModel model = new DashboardModel()
-            {
-                StartDate = StartDate,
-                EndDate = EndDate,
-            };
-
             try
             {
-                // Get the list of data
-                var list = _dashboardworker.kaizenCountbasedonCadre(model)
-                    .Select(item => new
-                    {
-                        cadreid = item.Cadreid,
-                        cadrename = item.Cadrename,
-                        TotalKaizensubmitted = item.TotalSubmittedKaizen
-                    }).ToList();
-
-                // Export to Excel and return the file
-                return File(_downloadexcel.ExportListToExcelDashboard(list),
-                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            "CadreReport.xlsx");
+                DashboardModel model = new DashboardModel()
+                {
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                };
+                var list = _downloadexcel.DashboardCadreReport(model);
+                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "UserReport.xlsx");
             }
             catch (Exception ex)
             {
-                // Log the exception and return the view
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
                 return View();
             }
@@ -184,31 +160,18 @@ namespace Kaizen.Web.Controllers
         [HttpGet]
         public IActionResult DasboardDomain(string? StartDate, string? EndDate)
         {
-            DashboardModel model = new DashboardModel()
-            {
-                StartDate = StartDate,
-                EndDate = EndDate,
-            };
-
             try
             {
-                // Get the list of data
-                var list = _dashboardworker.kaizenCountbasedonDomain(model)
-                    .Select(item => new
-                    {
-                        Domainid = item.Domainid,
-                        Domainname = item.Domainname,
-                        TotalKaizensubmitted = item.TotalSubmittedKaizen
-                    }).ToList();
-
-                // Export to Excel and return the file
-                return File(_downloadexcel.ExportListToExcelDashboard(list),
-                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            "DomainReport.xlsx");
+                DashboardModel model = new DashboardModel()
+                {
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                };
+                var list = _downloadexcel.DashboardDomainReport(model);
+                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "UserReport.xlsx");
             }
             catch (Exception ex)
             {
-                // Log the exception and return the view
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
                 return View();
             }
@@ -216,32 +179,19 @@ namespace Kaizen.Web.Controllers
         [HttpGet]
         public IActionResult DasboardDepartment(string? StartDate, string? EndDate,string Domain)
         {
-            DashboardModel model = new DashboardModel()
-            {
-                StartDate = StartDate,
-                EndDate = EndDate,
-                Domain = Domain,
-            };
-
             try
             {
-                // Get the list of data
-                var list = _dashboardworker.kaizenCountbasedonDepartment(model)
-                    .Select(item => new
-                    {
-                        Departmentid = item.Departmentid,
-                        Departmentname = item.Departmentname,
-                        TotalKaizensubmitted = item.TotalSubmittedKaizen
-                    }).ToList();
-
-                // Export to Excel and return the file
-                return File(_downloadexcel.ExportListToExcelDashboard(list),
-                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            "DepartmentReport.xlsx");
+                DashboardModel model = new DashboardModel()
+                {
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                    Domain = Domain
+                };
+                var list = _downloadexcel.DashboardDepartmentReport(model);
+                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "UserReport.xlsx");
             }
             catch (Exception ex)
             {
-                // Log the exception and return the view
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
                 return View();
             }

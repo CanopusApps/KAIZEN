@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
+using Kaizen.Models.DashboardModel;
 
 namespace Kaizen.Business.Interface
 {
@@ -22,6 +23,15 @@ namespace Kaizen.Business.Interface
         public DataTable GetUsersReport(KaizenReportModel model);
 
         public DataTable GetUserLogform(KaizenReportModel model);
+
+        public DataTable DashboardDepartmentReport(DashboardModel model);
+        public DataTable DashboardDomainReport(DashboardModel model);
+        public DataTable DashboardBlockReport(DashboardModel model);
+        public DataTable DashboardCadreReport(DashboardModel model);
+
+
+
+
 
         public byte[] ExportDataTableToExcel(DataTable dataTable);
         public byte[] ExportListToExcelDashboard<T>(List<T> list);
