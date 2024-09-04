@@ -174,8 +174,6 @@
     $(document).ready(function () {
         $('#MobileNumber').on('input', function () {
             let inputVal = $(this).val();
-
-            // If the first character is zero, remove it immediately
             if (inputVal.startsWith('0')) {
                 $(this).val(inputVal.substring(1));
             }
