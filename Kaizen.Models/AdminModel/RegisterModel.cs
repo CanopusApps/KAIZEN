@@ -16,7 +16,7 @@ namespace Kaizen.Models.AdminModel
 
         [Required(ErrorMessage = "Email is required")]
         //[EmailAddress(ErrorMessage = "Invalid Email Address")]
-        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid Email Address")]
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$", ErrorMessage = "Invalid Email Address")]
         //[DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
