@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using DocumentFormat.OpenXml.EMMA;
+using Kaizen.Models.DashboardModel;
 
 namespace Kaizen.Data.DataServices
 {
@@ -120,6 +122,30 @@ namespace Kaizen.Data.DataServices
             da.Fill(dt);
             return dt;
 
+        }
+
+       
+        public DataSet GetDashboardData(DashboardModel model)
+        {
+            SqlCommand com = new SqlCommand();
+            DataSet ds = new DataSet();
+            com.Connection = con;
+            com.CommandType = CommandType.StoredProcedure;
+            com.CommandText = StoredProcedures.Sp_Get_AllDashboardReports;
+            string startDate = model.StartDate;
+            string endDate = model.EndDate;
+
+            DateTime parsedStartDate;
+            DateTime parsedEndDate;
+
+            com.Parameters.AddWithValue("@StartDate", DateTime.TryParse(startDate, out parsedStartDate) ? (object)parsedStartDate : DBNull.Value);
+            com.Parameters.AddWithValue("@EndDate", DateTime.TryParse(endDate, out parsedEndDate) ? (object)parsedEndDate : DBNull.Value);
+            com.Parameters.AddWithValue("@Domain", string.IsNullOrEmpty(model.Domain) ? " " : model.Domain);
+
+
+            SqlDataAdapter da = new SqlDataAdapter(com);
+            da.Fill(ds);
+            return ds;
         }
     }
 }

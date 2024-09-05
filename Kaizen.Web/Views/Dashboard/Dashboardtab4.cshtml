@@ -41,7 +41,7 @@
     <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-link tab" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Domains & Department </a>
-                <a class="nav-link tab" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a>
+              @*   <a class="nav-link tab" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a> *@
                 <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Yearly & Monthly</a>
                 <a class="nav-link tab active" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="true">Graphs</a>
                 <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab5", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Charts</a>
@@ -246,8 +246,8 @@
                         position: 'top',
                     },
                     title: {
-                        display: false,
-                        text: 'Kaizen Pareto chart'
+                        display: true,
+                        text: 'Kaizen Cummulative chart'
                     },
                     datalabels: {
                         display: true,
@@ -274,16 +274,30 @@
             },
             plugins: [ChartDataLabels]
         });
-
-        // Filter Button Click
         $('#btn_filter').click(function () {
             let filterData = {};
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonthIndex = currentDate.getMonth();
+            const formattedCurrentDate = currentDate.toISOString().split('T')[0];
+
             if ($('#filterYear1').is(':checked')) {
-                filterData.startDate = $('#yearDropdown').val();
-                filterData.endDate = $('#yearDropdown').val();
+                const selectedYear = $('#yearDropdown').val();
+                filterData.startDate = Math.min(selectedYear, currentYear).toString();
+                filterData.endDate = filterData.startDate;
             } else if ($('#filterDate1').is(':checked')) {
-                filterData.startDate = $('#dtstartdate').val();
-                filterData.endDate = $('#dtenddate').val();
+                const startDate = $('#dtstartdate').val();
+                const endDate = $('#dtenddate').val();
+                if (!startDate) {
+                    filterData.startDate = currentYear.toString();
+                } else {
+                    filterData.startDate = startDate > formattedCurrentDate ? formattedCurrentDate : startDate;
+                }
+                if (!endDate) {
+                    filterData.endDate = formattedCurrentDate;
+                } else {
+                    filterData.endDate = endDate > formattedCurrentDate ? formattedCurrentDate : endDate;
+                }
             }
 
             $.ajax({
@@ -301,9 +315,10 @@
                     let totalrejected = Array(12).fill(0);
 
                     result.monthTotalKaizenList.forEach(item => {
-                        var monthYear = item.monthbasedTotal.split('-');
-                        var month = monthYear[0].toLowerCase().substr(0, 3);
+                        const monthYear = item.monthbasedTotal.split('-');
+                        const month = monthYear[0].toLowerCase().substr(0, 3);
                         const monthIndex = monthLabels.indexOf(month);
+                        const year = parseInt(monthYear[1], 10);
                         if (monthIndex !== -1) {
                             totalkaizen[monthIndex] = item.totalKaizens;
                             totalapproved[monthIndex] = item.totalApproved;
@@ -312,20 +327,36 @@
                         }
                     });
 
-                    // Update Bar Chart Data
                     barChart.data.datasets[0].data = totalkaizen;
+                    barChart.data.datasets[1].data = totalpending;
                     barChart.data.datasets[2].data = totalapproved;
                     barChart.data.datasets[3].data = totalrejected;
-                    barChart.data.datasets[1].data = totalpending;
                     barChart.update();
 
+                    let cumulativeKaizen = [];
+                    for (let i = 0; i < totalkaizen.length; i++) {
+                        if (i === 0) {
+                            cumulativeKaizen[i] = totalkaizen[i];
+                        } else {
+                            cumulativeKaizen[i] = cumulativeKaizen[i - 1] + totalkaizen[i];
+                        }
+                    }
+
+                    if ($('#filterYear1').is(':checked') && filterData.startDate == currentYear.toString()) {
+                        cumulativeKaizen = cumulativeKaizen.slice(0, currentMonthIndex + 1);
+                    } else if ($('#filterDate1').is(':checked')) {
+                        const startMonthIndex = new Date(filterData.startDate).getMonth();
+                        const endMonthIndex = new Date(filterData.endDate).getMonth();
+                        cumulativeKaizen = cumulativeKaizen.slice(startMonthIndex, endMonthIndex + 1);
+                    }
+
                     // Update Pareto Chart Data
-                    paretoChart.data.datasets[0].data = totalkaizen;
-                    paretoChart.data.datasets[1].data = totalkaizen; // Assuming line data is same
+                    paretoChart.data.datasets[0].data = cumulativeKaizen;
+                    paretoChart.data.datasets[1].data = cumulativeKaizen;
                     paretoChart.update();
                 },
                 error: function (error) {
-                    
+                    console.error("Error fetching data:", error);
                 },
                 complete: function () {
                     $('#loader-wrapper').hide();
@@ -333,7 +364,6 @@
             });
         });
 
-        // Initial filter on page load
         $('#btn_filter').click();
     });
 </script>

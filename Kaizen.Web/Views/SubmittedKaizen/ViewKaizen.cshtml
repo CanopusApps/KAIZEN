@@ -105,6 +105,55 @@
 </div>
 <script>
     $(document).ready(function () {
+        // Retrieve the status from session storage
+        var status = sessionStorage.getItem('status');
+
+        if (status) {
+            $.ajax({
+                url: '@Url.Action("ViewFilterKaizen", "SubmittedKaizen")',
+                type: 'post',
+                data: {
+                    status: status
+                },
+                success: function (result) {
+                    var rows = [];
+                    $(result).find('tbody tr').each(function () {
+                        var $row = $(this);
+                        var rowData = {
+                            kaizentheme: $row.data('kaizentheme'),
+                            teamname: $row.data('teamname'),
+                            horozantaldeployment: $row.data('horozantaldeployment'),
+                            ieapproveddept: $row.data('ieapproveddept'),
+                            domain: $row.data('domain'),
+                            finnancedeptappr: $row.data('finnancedeptappr'),
+                            shortlisted: $row.data('shortlisted'),
+                            approvalstatus: $row.data('approvalstatus'),
+                            createdby: $row.data('createdby'),
+                            createddate: $row.data('createddate')
+
+                        };
+                        rows.push(rowData);
+                    });
+                    $('#SubmittedKaizengrid').html(result);
+                    sessionStorage.removeItem("status");
+                },
+                complete: function () {
+                    setTimeout(function () {
+                        $('#loader-wrapper').hide();
+                    }, 3000);
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX request failed. Error:', error);
+                    sessionStorage.removeItem("status");
+                }
+            });
+        } else {
+            console.error('No status found in session storage.');
+        }
+    });
+
+
+    $(document).ready(function () {
         $('#inputDomain').change(function () {
             var Domain = $('#inputDomain').val();
             $.ajax({

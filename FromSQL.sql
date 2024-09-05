@@ -1,0 +1,3 @@
+SELECT * FROM PERSON
+
+select * from ACCOUNT
