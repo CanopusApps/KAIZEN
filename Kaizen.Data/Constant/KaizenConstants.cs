@@ -97,7 +97,10 @@ namespace Kaizen.Data.Constant
         public static string sp_checkuser = "sp_checkuser";
 
         public static string sp_GetUsersByDomainId = "Sp_GetUsersByDomainId";
+        public static string sp_GetUsersByDeptId = "Sp_GetUsersByDeptId";
+        public static string sp_GetUsersByBlockId = "Sp_GetUsersByBlockId";
         public static string Sp_Get_AllDashboardReports = "Sp_Get_AllDashboardReports";
+
 
     }
 
