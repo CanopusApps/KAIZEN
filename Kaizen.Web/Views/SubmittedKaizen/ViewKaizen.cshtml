@@ -17,6 +17,36 @@
 @* autocomplete js/css *@
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+    .tab {
+        display: inline-block;
+        margin-right: 2px;
+        margin-bottom: 10px;
+    }
+
+    .tabcheckbox {
+        float: left;
+        border: 1px solid #ccc;
+        margin-right: 5px;
+    }
+
+    .tab-box {
+        padding: 4px 7px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+
+    .tab-input:checked + .tab-box {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .tab-input {
+        display: none;
+    }
+
+
+</style>
 <div class="container-fluid p-2">
     <form>
         <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
@@ -76,9 +106,47 @@
                 
             </div>
             <div class="form-row">
+                <div class="form-group col-md-3" id="checkboxform1">
+                    <label class="d-block">Benefit Area <span class="mandatory">*</span></label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="P" id="iP" class="tab-input">
+                        <div class="tab-box">P</div>
+                    </label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="Q" id="iQ" class="tab-input">
+                        <div class="tab-box">Q</div>
+                    </label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="C" id="iC" class="tab-input">
+                        <div class="tab-box">C</div>
+                    </label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="D" id="iD" class="tab-input">
+                        <div class="tab-box">D</div>
+                    </label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="S" id="iS" class="tab-input">
+                        <div class="tab-box">S</div>
+                    </label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="M" id="iM" class="tab-input">
+                        <div class="tab-box">M</div>
+                    </label>
+
+                    <label class="tab tabcheckbox " data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="E" id="iE" class="tab-input">
+                        <div class="tab-box">E</div>
+                    </label>
+                </div>
                 <div class="form-group col-md-4">
-                    <input type="button" id="btn_filter" class="btn btn-block-custom btn-azure" style="width:116px;margin-left:0px;" value="Filter" />
-                    <button type="button" id="btnreset" class="btn btn-block-custom btn-warning" style="width:116px;margin-left:0px;">Reset</button>
+                    <input type="button" id="btn_filter" class="btn btn-block-custom btn-azure" style="width:116px;margin-left:0px;margin-top:17px" value="Filter" />
+                    <button type="button" id="btnreset" class="btn btn-block-custom btn-warning" style="width:116px;margin-left:0px;margin-top:17px">Reset</button>
                 </div>
             </div>
             </div>
@@ -234,6 +302,12 @@
         var Department = $('#inputDepartment option:selected').text();
         var KaizenTheme = $('#inputTheme').val();
         var Status = $('#inputStatus option:selected').text();
+        var benifitarea = [];
+        $('#checkboxform1 input[type=checkbox]:checked').each(function () {
+            benifitarea.push($(this).val());
+        });
+        var benefitareaString = benifitarea.join(',');
+
         if ((StartDate === '' && EndDate === '') || StartDate < EndDate) {
             $.ajax({
                 url: '@Url.Action("ViewFilterKaizen", "SubmittedKaizen")',
@@ -244,7 +318,8 @@
                     Domain: Domain,
                     Department: Department,
                     KaizenTheme: KaizenTheme,
-                    Status: Status
+                    Status: Status,
+                    benifitarea: benefitareaString
                 },
                 beforeSend: function () {
                     $('#loader-wrapper').show();

@@ -486,10 +486,11 @@
                                     <div class="read-content">
 
                                         <div class="card-body">
-
+                                           <span style="line-height: 23px;font-size: 14px;color:red">Note: Allowed file types: JPG, PNG ,GIF</span>
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
+                                                      
                                                         <label>BEFORE</label> <br>
                                                             <div class="inpfilelabel" id="inpfilelabelbefore" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/before-img.jpg" height="170" />' title="BEFORE [Example]">
                                                             <input id="attach_file_before" type="file" name="files" style="display: none;" onchange="previewImage(event, 'uploaded_before_image')">
@@ -782,6 +783,7 @@
                                                         </select> *@
                                                     </div>
                                                     <div class="form-group">
+                                                            <span style="line-height: 23px;font-size: 14px;color:red">Note: Allowed file types: JPG, PNG ,GIF</span>
                                                         <label>Attachment</label>
                                                         <br>
                                                         <div class="inpfilelabel addattachfile mb-3" title="Attachment [Example]">
@@ -2917,10 +2919,9 @@
     }
 
     function previewFile(file) {
-        var allowed_extensions = new Set(["jpg", "jpeg", "png", "gif"]);
+        var allowed_extensions = new Set(["jpg", "jpeg", "png", "gif", "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx"]);
         var fileName = file.name;
         var file_extension = fileName.split('.').pop().toLowerCase();
-
         if (!allowed_extensions.has(file_extension)) {
             swal("Invalid file type: " + fileName);
             return;

@@ -19,9 +19,6 @@ namespace Kaizen.Data.DataServices
 
         public DataSet GetStatus();
         public string SaveUploadedFile(UploadUserModel Employee);
-
-        public DataTable ReadExcelIntoDataTable(string filePath);
-
         public DataSet GetIEDepartData(); 
 
         public DataSet GetFinanceData();

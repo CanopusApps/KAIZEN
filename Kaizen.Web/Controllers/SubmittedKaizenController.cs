@@ -14,6 +14,8 @@ using Kaizen.Business.Worker;
 using static System.Reflection.Metadata.BlobBuilder;
 using Kaizen.Models.SubmmitedKaizen;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Kaizen.Web.Controllers
 {
@@ -61,7 +63,7 @@ namespace Kaizen.Web.Controllers
             }
             return View(viewModel);
         }
-        public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
+        public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status,string? benifitarea)
         {
             KaizenListModel model = new KaizenListModel()
             {
@@ -71,8 +73,9 @@ namespace Kaizen.Web.Controllers
                 Department = Department,
                 KaizenTheme = KaizenTheme,
                 Status = (Status == "Rejected" || Status == "Pending") ? null : Status,
-            role = conAccessor.HttpContext.Session.GetString("Userrole"),
-                UserId = conAccessor.HttpContext.Session.GetString("UserID")
+                role = conAccessor.HttpContext.Session.GetString("Userrole"),
+                UserId = conAccessor.HttpContext.Session.GetString("UserID"),
+                BenefitArea = benifitarea
             };
             var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
             //SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
