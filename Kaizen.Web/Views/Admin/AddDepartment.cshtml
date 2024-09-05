@@ -147,9 +147,8 @@
         var departmentName = $('#departmentName').val();
         var domainId = $('#domainName').val();
         var domainName = $('#domainName option:selected').text();
-        console.log()
         if (!ValidateForm()) {
-            alert("Not valid"); 
+           
             return;
         }
 
@@ -225,48 +224,59 @@
 
     function ValidateForm() {
         var isValid = true;
+        $(".error-message").text("");
+        // Real-time validation for department name
         $("#departmentName").on("input", function () {
-            var departmentNameValue = $(this).val();
+            var departmentNameValue = $(this).val().trim(); // Trim whitespace
             if (departmentNameValue !== "") {
                 $(this).css("border-color", "");
                 $("#DepError").text("");
             }
         });
+
+        // Real-time validation for domain name
         $("#domainName").on("input", function () {
-            var domainNameValue = $(this).val();
+            var domainNameValue = $(this).val().trim(); // Trim whitespace
             if (domainNameValue !== "") {
                 $(this).css("border-color", "");
                 $("#DomError").text("");
             }
         });
 
+        // Reset previous error messages and styles
         $("#departmentName").css("border-color", "");
         $("#DepError").text("");
-
         $("#domainName").css("border-color", "");
         $("#DomError").text("");
-
         $(".error-message").text("");
 
-        var departmentNameValue = $("#departmentName").val
-        var domainNameValue = $("#domainName").val();
+        // Get the values and trim whitespaces
+        var departmentNameValue = $("#departmentName").val().trim(); // Fixed: Added parentheses to val()
+        var domainNameValue = $("#domainName").val(); // For dropdown validation
 
-        if (departmentNameValue.trim() === "") {
+        // Validate department name (empty or only spaces)
+        if (departmentNameValue === "") {
             $("#departmentName").css("border-color", "red");
             $("#DepError").text("Department Name is required.");
             isValid = false;
         }
 
-        if (domainNameValue === "--Select--") {
+        // Validate domain dropdown selection
+        if (domainNameValue === "" || domainNameValue === "--Select Domain--") {
             $("#domainName").css("border-color", "red");
             $("#DomError").text("Please Select Domain");
             isValid = false;
         }
-
+        
+        // Handle form-level error message and submit button styling
         if (!isValid) {
             $("#error-message").text("Please fill in the required field correctly.");
             $("#submitButton").css("border-color", "red");
+
+            // Prevent form submission
+            event.preventDefault();
         }
+
         return isValid;
     }
 
