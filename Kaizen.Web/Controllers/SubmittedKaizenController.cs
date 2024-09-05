@@ -63,29 +63,47 @@ namespace Kaizen.Web.Controllers
         }
         public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
         {
+            KaizenListModel model = new KaizenListModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+                Domain = Domain,
+                Department = Department,
+                KaizenTheme = KaizenTheme,
+                Status = (Status == "Rejected" || Status == "Pending") ? null : Status,
+            role = conAccessor.HttpContext.Session.GetString("Userrole"),
+                UserId = conAccessor.HttpContext.Session.GetString("UserID")
+            };
+            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+            //SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
             try
             {
-                KaizenListModel model = new KaizenListModel()
+
+                if (Status == "Rejected")
                 {
-                    StartDate = StartDate,
-                    EndDate = EndDate,
-                    Domain = Domain,
-                    Department = Department,
-                    KaizenTheme = KaizenTheme,
-                    Status = Status,
-                    role = conAccessor.HttpContext.Session.GetString("Userrole"),
-                    UserId = conAccessor.HttpContext.Session.GetString("UserID")
-                };
-                var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
-                SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
-                return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
+                    var targetStatuses = new List<int> { 3, 5, 7, 9 };
+                    //SubmittedKaizenList = SubmittedKaizenList.Where(K => targetStatuses.Contains(K.AStatus)).ToList();
+                    SubmittedKaizenList = SubmittedKaizenList
+                      .Where(K => K.AStatus != null && targetStatuses.Contains((int)K.AStatus))
+                      .ToList();
+                }
+                if (Status == "Pending")
+                {
+                    var targetStatuses = new List<int> { 1, 2, 4, 6, 15 };
+                    //SubmittedKaizenList = SubmittedKaizenList.Where(K => targetStatuses.Contains(K.AStatus)).ToList();
+                    SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != null && targetStatuses.Contains((int)K.AStatus) && K.ApprovalStatus != "Approved Kaizen").ToList();
+                }
+                else
+                {
+                    // Filter where AStatus is not equal to 14
+                    SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
+                }
             }
             catch (Exception ex)
             {
-                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
 
-                return PartialView("_ErrorPartial", new { error = "An error occurred while filtering the Kaizen list." });
             }
+            return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
         public List<DepartmentModel> FetchDepartment(string domainid)
         {

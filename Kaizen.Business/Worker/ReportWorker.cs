@@ -3,6 +3,7 @@ using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices;
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.AdminModel;
+using Kaizen.Models.DashboardModel;
 using Kaizen.Models.ReportModel;
 using System;
 using System.Collections.Generic;
@@ -118,6 +119,30 @@ namespace Kaizen.Business.Worker
                 DataTable table => table.Rows.Count,
                 _ => 0
             };
+        }
+
+        public DataTable DashboardDepartmentReport(DashboardModel model)
+        {
+            DataSet ds = _reportRepository.GetDashboardData(model);
+            return ds.Tables[0];
+        }
+
+        public DataTable DashboardDomainReport(DashboardModel model)
+        {
+            DataSet ds = _reportRepository.GetDashboardData(model);
+            return ds.Tables[1];
+        }
+
+        public DataTable DashboardBlockReport(DashboardModel model)
+        {
+            DataSet ds = _reportRepository.GetDashboardData(model);
+            return ds.Tables[2];
+        }
+
+        public DataTable DashboardCadreReport(DashboardModel model)
+        {
+            DataSet ds = _reportRepository.GetDashboardData(model);
+            return ds.Tables[3];
         }
     }
 }

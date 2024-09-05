@@ -1,4 +1,6 @@
-﻿using Kaizen.Models.ReportModel;
+﻿using Kaizen.Models.AdminModel;
+using Kaizen.Models.DashboardModel;
+using Kaizen.Models.ReportModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,5 +21,7 @@ namespace Kaizen.Data.DataServices.Interfaces
         public DataTable GetUsersReportData(KaizenReportModel model);
 
         public DataTable GetUserLogformData(KaizenReportModel model);
+
+        public DataSet GetDashboardData(DashboardModel model);
     }
 }
