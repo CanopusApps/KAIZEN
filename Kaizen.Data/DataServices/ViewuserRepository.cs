@@ -245,5 +245,57 @@ namespace Kaizen.Data.DataServices
             return ds;
         }
 
+
+        public DataSet GetUsersByDeptId(int domainId, int deptId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                using (SqlCommand com = new SqlCommand())
+                {
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandText = StoredProcedures.sp_GetUsersByDeptId; // Update with your actual stored procedure name
+
+                    // Pass the domainId and deptId to filter users
+                    com.Parameters.AddWithValue("@DomainId", domainId);
+                    com.Parameters.AddWithValue("@DeptId", deptId);
+
+                    SqlDataAdapter da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while fetching users by department ID.", ex);
+            }
+            return ds;
+        }
+
+
+        public DataSet GetUsersByBlockId(int blockId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                using (SqlCommand com = new SqlCommand())
+                {
+                    com.Connection = con; // Assuming `con` is your SqlConnection object
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandText = StoredProcedures.sp_GetUsersByBlockId; // Replace with your actual stored procedure name
+
+                    // Pass the blockId to filter users
+                    com.Parameters.AddWithValue("@BlockId", blockId);
+
+                    SqlDataAdapter da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while fetching users by block ID.", ex);
+            }
+            return ds;
+        }
     }
 }

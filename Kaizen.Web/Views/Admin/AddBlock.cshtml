@@ -60,7 +60,9 @@
                         <tr data-id="@item.Id" data-name="@item.BlockName">
                                 <td hidden>@item.Id</td>
                                 <td>@item.BlockName</td>
-                            <td class="text-center">@item.User_count</td>
+                            <td class="text-center" data-block-id="@item.Id">
+                                <a class="user-count" style="cursor: pointer;">@item.User_count</a>
+                            </td>
                                  <td class="text-center">
                                 @if(@item.Status == false)
                                 {
@@ -263,4 +265,15 @@
             }
         });
     }
+
+    $(document).ready(function () {
+        $('.text-center').on('click', function () {
+            var blockId = $(this).data('block-id');
+            if (blockId) {
+                window.location.href = '@Url.Action("ViewUserByBlockID", "ViewUser")' + '?blockId=' + blockId;
+            }
+        });
+
+
+    });
 </script>
