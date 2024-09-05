@@ -1,4 +1,4 @@
-/****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 21:01:24 ******/
+﻿/****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 21:01:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -12,8 +12,7 @@ AS
  set @CreatedId=(select ID FROM [dbo].[Users] WHERE EmpID = @CreatedBy)   
  BEGIN  
  INSERT INTO [Blocks]            
- (BlockName,
-	Status,
+ (BlockName,Status,
 	CreatedBy,
 	CreatedDate)             
  VALUES             
