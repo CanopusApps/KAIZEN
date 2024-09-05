@@ -38,7 +38,8 @@ namespace Kaizen.Models.AdminModel
         public string CreatedbyId { get; set; } = "";
 
         [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        //[EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$", ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
        
         [Required(ErrorMessage = "Password is required")]

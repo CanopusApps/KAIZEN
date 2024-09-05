@@ -75,11 +75,11 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="inputName">Name</label>
-                    <input type="text" id="inputName" class="form-control txt-width" placeholder="Name" name="Name">
+                    <input type="text" id="inputName" class="form-control txt-width alpha-input" placeholder="Name" name="Name">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputEmpID">Emp ID</label>
-                    <input type="text" id="inputEmpID" class="form-control txt-width" placeholder="Employee ID" name="EmpId">
+                    <input type="text" id="inputEmpID" class="form-control txt-width numeric-input" placeholder="Employee ID" name="EmpId">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputEmail">Email</label>
@@ -466,6 +466,21 @@
                     $('#loader-wrapper').hide();
                 }, 3000);
             }
+        });
+    });
+
+    document.querySelectorAll('.numeric-input').forEach(function (element) {
+        element.addEventListener('input', function (e) {
+            // Replace non-numeric characters with an empty string
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    });
+
+
+    document.querySelectorAll('.alpha-input').forEach(function (element) {
+        element.addEventListener('input', function (e) {
+            // Replace non-alphabetic characters with an empty string
+            this.value = this.value.replace(/[^a-zA-Z]/g, '');
         });
     });
 </script>

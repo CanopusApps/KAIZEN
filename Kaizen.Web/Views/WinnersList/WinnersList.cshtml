@@ -226,11 +226,17 @@ function triggerUpload() {
                             WinnersList: {}
                         }),
                         success: function (response) {
+                        if (response.empguid === null) {
+                            swal('Emp ID not found.').then(() => {
+                                $('#empId').val('');
+                            });
+                        } else {
                             $('#eIDError').text('');
                             $('#empName').val(response.name);
                             $('#empDom').val(response.domain);
                             $('#empDep').val(response.department);
                             $('#empGuid').val(response.empguid);
+                           }
                         },
                         error: function (xhr, status, error) {
                             // Handle errors here
