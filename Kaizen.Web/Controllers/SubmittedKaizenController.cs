@@ -203,6 +203,8 @@ namespace Kaizen.Web.Controllers
                 };
                 var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
                 viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 1).ToList();
+                var formattedList = viewModel.SubmittedKaizenList.Select(theme => new { label = theme.KaizenTheme, val = theme.KaizenId }).ToList();
+                ViewBag.FormattedList = formattedList;
             }
             catch (Exception ex)
             {

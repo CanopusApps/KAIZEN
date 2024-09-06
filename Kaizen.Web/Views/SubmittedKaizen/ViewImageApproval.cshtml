@@ -3,12 +3,18 @@
 @{
     Layout = "SidebarLayout";
 }
+@{
+    var formattedList = ViewBag.FormattedList;
+}
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="~/assets/css/custom/submittedkaizen.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link href="~/assets/css/ViewUser/datatables.min.css" rel="stylesheet" />
 <script src="~/assets/js/custom/datatables.min.js"></script>
+@* autocomplete js/css *@
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <div class="container-fluid p-2">
     <form>
         <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
@@ -42,6 +48,7 @@
                 <div class="form-group col-md-4">
                     <label for="inputTheme">Kaizen Theme</label>
                     <input id="inputTheme" class="form-control txt-width">
+                    <input type="hidden" id="hfCustomer">
                 </div>
             </div>
             <div class="form-row">
@@ -239,4 +246,44 @@
 
     document.getElementById('dtstartdate').addEventListener('change', setEndDateMin);
     setEndDateMin();
+</script>
+<script>
+    var formattedListJ = @Html.Raw(Json.Serialize(formattedList));
+    //console.log(formattedListJ);
+    initializeAutocomplete(formattedListJ);
+
+    function initializeAutocomplete(data) {
+        $("#inputTheme").autocomplete({
+            source: function (request, response) {
+                var filteredData = $.grep(data, function (item) {
+                    return item.label.toLowerCase().indexOf(request.term.toLowerCase()) === 0;
+                });
+
+                var uniqueData = [];
+                var labels = {};
+
+                $.each(filteredData, function (index, item) {
+                    var normalizedLabel = item.label.toLowerCase();
+                    if (!labels[normalizedLabel]) {
+                        labels[normalizedLabel] = true;
+                        uniqueData.push(item);
+                    }
+                });
+
+                response($.map(uniqueData, function (item) {
+                    return {
+                        label: item.label,
+                        value: item.val
+                    };
+                }));
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                $("#inputTheme").val(ui.item.label);
+                $("#hfCustomer").val(ui.item.value);
+                return false;
+            }
+        });
+    }
+
 </script>
