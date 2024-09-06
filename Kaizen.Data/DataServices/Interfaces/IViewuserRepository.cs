@@ -36,5 +36,7 @@ namespace Kaizen.Data.DataServices
         //users by Blockid
 
         public DataSet GetUsersByBlockId(int blockId);
+
+        public DataSet GetManagers(UserGridModel model);
     }
 }

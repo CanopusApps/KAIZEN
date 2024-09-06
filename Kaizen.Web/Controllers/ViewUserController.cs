@@ -18,14 +18,14 @@ namespace Kaizen.Web.Controllers
     public class ViewUserController : Controller
     {
         private readonly IViewuser _viewUserWorker;
-		private readonly IAddUser _addUserWorker;
+        private readonly IAddUser _addUserWorker;
         private readonly IDomain _domainWorker;
-        private readonly IDepartment   _departmentWorker;
-		private readonly IWebHostEnvironment _environment;
-        public ViewUserController(IViewuser viewUserWorker, IAddUser addUserWorker, IDomain domainWorker,IDepartment departmentWorker)
+        private readonly IDepartment _departmentWorker;
+        private readonly IWebHostEnvironment _environment;
+        public ViewUserController(IViewuser viewUserWorker, IAddUser addUserWorker, IDomain domainWorker, IDepartment departmentWorker)
         {
-			_viewUserWorker = viewUserWorker;
-			_addUserWorker = addUserWorker;
+            _viewUserWorker = viewUserWorker;
+            _addUserWorker = addUserWorker;
             _domainWorker = domainWorker;
             _departmentWorker = departmentWorker;
         }
@@ -38,7 +38,7 @@ namespace Kaizen.Web.Controllers
             {
                 viewModel.UserTypeList = _addUserWorker.GetUserType();
 
-				viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+                viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
                 UserGridModel model = new UserGridModel()
                 {
                     Name = Name,
@@ -48,11 +48,12 @@ namespace Kaizen.Web.Controllers
                     Domain = Domain,
                     Department = Department
                 };
-				viewModel.UsergridList = _viewUserWorker.GetUser(model);
+                viewModel.UsergridList = _viewUserWorker.GetUser(model);
                 viewModel.StatusList = _viewUserWorker.GetStatus();
             }
-            catch (Exception ex) {
-                LogEvents.LogToFile(DbFiles.Title, ex.ToString()); 
+            catch (Exception ex)
+            {
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
 
             return View(viewModel);
@@ -102,7 +103,7 @@ namespace Kaizen.Web.Controllers
 
             return deptList;
         }
-      
+
         public IActionResult DeleteUser(int id)
         {
             bool deleteStatus = false;
@@ -136,7 +137,7 @@ namespace Kaizen.Web.Controllers
                 {
                     return "No file uploaded.";
                 }
-                 resultMessage = _viewUserWorker.SendFile(file, Status, UserType, Password);
+                resultMessage = _viewUserWorker.SendFile(file, Status, UserType, Password);
             }
             catch (Exception ex)
             {
@@ -245,6 +246,46 @@ namespace Kaizen.Web.Controllers
             }
 
             return View("/Views/ViewUser/ViewUser.cshtml", viewModel);
+        }
+
+
+
+        //View User by UserType
+
+        public IActionResult ViewManagers(string? Name, string? EmpId, string? Email, string? Gender, string? Domain, string? Department, string? UserType, string? Cadre)
+        {
+            ViewUserallModel viewModel = new ViewUserallModel();
+            try
+            {
+                // Get User Types
+                viewModel.UserTypeList = _addUserWorker.GetUserType();
+
+                // Get Active Domains
+                viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+
+                // Prepare the model with filter criteria
+                UserGridModel model = new UserGridModel()
+                {
+                    Name = Name,
+                    EmpID = EmpId,
+                    Email = Email,
+                    Gender = Gender,
+                    Domain = Domain,
+                    Department = Department,
+                    UserType = UserType,
+                    Cadre = Cadre,
+                };
+
+                // Call the worker method to get the filtered users (no need for user type filter in code)
+                viewModel.UsergridList = _viewUserWorker.GetManagers(model);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            }
+
+            return View("~/Views/Manager/ViewManagers.cshtml", viewModel);
         }
     }
 }

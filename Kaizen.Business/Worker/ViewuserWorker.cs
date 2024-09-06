@@ -403,6 +403,36 @@ namespace Kaizen.Business.Worker
 
             return userGridData;
         }
+
+        public List<UserGridModel> GetManagers(UserGridModel model)
+        {
+            DataSet userType = new DataSet();
+            List<UserGridModel> UserGridData = new List<UserGridModel>();
+
+            // Call the stored procedure or SQL command that already filters for Manager, IE, Finance
+            userType = _repositoryUserTypedata.GetManagers(model);
+
+            if (userType.Tables.Count > 0)
+            {
+                foreach (DataRow dr in userType.Tables[0].Rows)
+                {
+                    UserGridData.Add(new UserGridModel
+                    {
+                        EmpID = dr["EmpID"].ToString(),
+                        Name = dr["Name"].ToString(),
+                        Email = dr["Email"].ToString(),
+                        Gender = dr["Gender"].ToString(),
+                        Domain = dr["Domain"].ToString(),
+                        Department = dr["Department"].ToString(),
+                        UserType = dr["UserType"].ToString(),
+                        Cadre = dr["Cadre"].ToString(),
+                        
+                    });
+                }
+            }
+
+            return UserGridData;
+        }
     }
 
 
