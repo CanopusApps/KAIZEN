@@ -318,6 +318,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            bottom: 40
+                        }
+                    },
                     onClick: (event, elements) => {
 
                         if (elements.length > 0) {
@@ -337,6 +342,7 @@
                     plugins: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        
                         scales: {
                             x: {
                                 beginAtZero: true
@@ -392,6 +398,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                   
                     scales: {
                         x: {
                             beginAtZero: true
@@ -400,6 +407,7 @@
                             beginAtZero: true
                         }
                     },
+
                     onClick: (event, elements) => {
                         if (elements.length > 0) {
                             // const index = elements[0].index;// to pass data based on blocks ,cadre, domain,department
@@ -420,7 +428,6 @@
                             position: 'top',
                             display: false,
                         },
-
                         title: {
                             display: true,
                             text: chart.title,
@@ -624,6 +631,12 @@
                             options: {
                                 responsive: true,
                                 maintainAspectRatio: false,
+                                layout: {
+                                    padding: {
+                                      
+                                        bottom: 40
+                                    }
+                                },
                                 onClick: (event, elements) => {
                                     if (elements.length > 0) {
                                         // const index = elements[0].index;// to pass data based on blocks ,cadre, domain,department
@@ -647,6 +660,7 @@
                                     tooltip: {
                                         enabled: true
                                     },
+                                    
                                     title: {
                                         display: true,
                                         text: 'Departments',
@@ -725,6 +739,7 @@
                                         options: {
                                             responsive: true,
                                             maintainAspectRatio: false,
+                                           
                                             onClick: (event, elements) => {
                                                 if (elements.length > 0) {
                                         // const index = elements[0].index;// to pass data based on blocks ,cadre, domain,department
