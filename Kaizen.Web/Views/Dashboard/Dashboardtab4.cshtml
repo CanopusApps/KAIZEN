@@ -345,9 +345,14 @@
                     if ($('#filterYear1').is(':checked') && filterData.startDate == currentYear.toString()) {
                         cumulativeKaizen = cumulativeKaizen.slice(0, currentMonthIndex + 1);
                     } else if ($('#filterDate1').is(':checked')) {
-                        const startMonthIndex = new Date(filterData.startDate).getMonth();
-                        const endMonthIndex = new Date(filterData.endDate).getMonth();
-                        cumulativeKaizen = cumulativeKaizen.slice(startMonthIndex, endMonthIndex + 1);
+                        const startDate = new Date(filterData.startDate);
+                        const endDate = new Date(filterData.endDate);
+
+                        if (startDate <= endDate) {
+                            const startMonthIndex = startDate.getMonth();
+                            const endMonthIndex = endDate.getMonth();
+                            cumulativeKaizen = cumulativeKaizen.slice(0, endMonthIndex + 1);
+                        }
                     }
 
                     // Update Pareto Chart Data
