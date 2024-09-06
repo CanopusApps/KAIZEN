@@ -714,7 +714,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                            <td class="border-0 text-left"><input type="text" class="form-control mx-0 " id="IdMemberAdd" @* style="width: 200px; "*@></td>
+                                                            <td class="border-0 text-left"><input type="text" class="form-control mx-0 numeric-input" id="IdMemberAdd" maxlength="8" @* style="width: 200px; "*@></td>
                                                         <td class="border-0 text-left"><input type="text" class="form-control ml-1  " id="IdTeamMemberName" readonly> </td>
                                                             <td class="border-0 text-left"><input type="text" class="form-control ml-2 " id="IdFunction" readonly></td>
                                                         <td class="hidden-cell" style="display: none;"id="empGuid"></td>
@@ -783,7 +783,7 @@
                                                         </select> *@
                                                     </div>
                                                     <div class="form-group">
-                                                            <span style="line-height: 23px;font-size: 14px;color:red">Note: Allowed file types: JPG, PNG ,GIF</span>
+                                                            <span style="line-height: 23px;font-size: 14px;color:red">Note: Allowed file types: JPG, PNG ,GIF</span><br />
                                                         <label>Attachment</label>
                                                         <br>
                                                         <div class="inpfilelabel addattachfile mb-3" title="Attachment [Example]">
@@ -1601,31 +1601,42 @@
         toggleTableGrayedOut(isChecked);
     });
 
-    jQuery("#IdMemberAdd").blur(function () {
+    // jQuery("#IdMemberAdd").blur(function () {
+    jQuery("#IdMemberAdd").change(function () {
         var EmpId = $('#IdMemberAdd').val();
-        $.ajax({
-            type: 'POST',
-            url: '/CreateKaizen/GetTeamMemberDetails',
-            dataType: "json",
-            data: {
-              EmpId: EmpId
-            },
-            success: function (result) {
-                $("#IdTeamMemberName").val(result.name);
-                $("#IdFunction").val(result.domain);
-                $("#empGuid").val(result.empguid);
-                toggleButtons();
-            },
-            error: function (xhr, status, error) {
-                if (xhr.responseText) {
-                    swal(xhr.responseText).then(function () {
-                        $('#IdMemberAdd').val('');
-                    });
-                } else {
-                    swal('Unable to Find the Team Member Details - Please Check the logs');
+        if (EmpId !== '') {
+            $.ajax({
+                type: 'POST',
+                url: '/CreateKaizen/GetTeamMemberDetails',
+                dataType: "json",
+                data: {
+                    EmpId: EmpId
+                },
+                success: function (result) {
+                    if (result.empguid === null) {
+                        swal('Emp ID not found.').then(() => {
+                            $('#IdMemberAdd').val('');
+                            $('#IdTeamMemberName').val('');
+                            $('#IdFunction').val('');
+                        });
+                    } else {
+                        $("#IdTeamMemberName").val(result.name);
+                        $("#IdFunction").val(result.domain);
+                        $("#empGuid").val(result.empguid);
+                        toggleButtons();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    if (xhr.responseText) {
+                        swal(xhr.responseText).then(function () {
+                            $('#IdMemberAdd').val('');
+                        });
+                    } else {
+                        swal('Unable to Find the Team Member Details - Please Check the logs');
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     // $("#cycletime1").change(function () {
