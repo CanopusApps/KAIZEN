@@ -53,7 +53,7 @@ namespace NewKaizenService
             using (SqlConnection conn = new SqlConnection(connection))
             {
                 DataTable dt = new DataTable();
-                SqlCommand com = new SqlCommand(ConfigurationManager.AppSettings["ApprovalProc"], conn);
+                SqlCommand com = new SqlCommand("Sp_Fetch_Kaizens_For_Approval", conn);
                 SqlDataAdapter da = new SqlDataAdapter(com);
                 da.Fill(dt);
                 if (dt.Rows.Count > 0)
