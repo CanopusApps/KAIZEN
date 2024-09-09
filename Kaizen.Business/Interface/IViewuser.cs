@@ -28,5 +28,8 @@ namespace Kaizen.Business.Interface
 
         List<UserGridModel> GetUsersByBlockId(int blockId);
 
+
+        public List<UserGridModel> GetManagers(UserGridModel model);
+
     }
 }

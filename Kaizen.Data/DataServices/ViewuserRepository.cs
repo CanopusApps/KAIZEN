@@ -297,5 +297,41 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
+
+        public DataSet GetManagers(UserGridModel model)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                using (SqlCommand com = new SqlCommand())
+                {
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+
+                    // Setting up parameters for the stored procedure
+                    com.Parameters.AddWithValue("@Name", string.IsNullOrEmpty(model.Name) ? (object)DBNull.Value : model.Name);
+                    com.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(model.Email) ? (object)DBNull.Value : model.Email);
+                    com.Parameters.AddWithValue("@EmpID", string.IsNullOrEmpty(model.EmpID) ? (object)DBNull.Value : model.EmpID);
+                    com.Parameters.AddWithValue("@UserDesc", string.IsNullOrEmpty(model.UserType) ? (object)DBNull.Value : model.UserType);
+                    com.Parameters.AddWithValue("@Domain", string.IsNullOrEmpty(model.Domain) ? (object)DBNull.Value : model.Domain);
+                    com.Parameters.AddWithValue("@Department", string.IsNullOrEmpty(model.Department) ? (object)DBNull.Value : model.Department);
+                    com.Parameters.AddWithValue("@Gender", string.IsNullOrEmpty(model.Gender) ? (object)DBNull.Value : model.Gender);
+                    com.Parameters.AddWithValue("@Cadre", string.IsNullOrEmpty(model.Cadre) ? (object)DBNull.Value : model.Cadre);
+
+                    com.CommandText = StoredProcedures.sp_GetManagers; 
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(com))
+                    {
+                        da.Fill(ds);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log exception or handle as needed
+                throw ex;
+            }
+            return ds;
+        }
     }
 }
