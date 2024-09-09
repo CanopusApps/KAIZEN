@@ -173,12 +173,62 @@
 </div>
 <script>
     $(document).ready(function () {
+
+        if (sessionStorage.getItem('chartdata')) {
+            const chartData = JSON.parse(sessionStorage.getItem('chartdata'));
+            $.ajax({
+                url: '@Url.Action("ViewFilterKaizenonclickDashboard", "SubmittedKaizen")',
+                type: 'post',
+                data: {
+                    StartDate: '',
+                    EndDate: '',
+                    Domain: chartData.domain,
+                    Department: chartData.department,
+                    cadre: chartData.cadre,
+                    Status: '',
+                    Block: chartData.block
+                },
+                success: function (result) {
+                    var rows = [];
+                    $(result).find('tbody tr').each(function () {
+                        var $row = $(this);
+                        var rowData = {
+                            kaizentheme: $row.data('kaizentheme'),
+                            teamname: $row.data('teamname'),
+                            horozantaldeployment: $row.data('horozantaldeployment'),
+                            ieapproveddept: $row.data('ieapproveddept'),
+                            domain: $row.data('domain'),
+                            finnancedeptappr: $row.data('finnancedeptappr'),
+                            shortlisted: $row.data('shortlisted'),
+                            approvalstatus: $row.data('approvalstatus'),
+                            createdby: $row.data('createdby'),
+                            createddate: $row.data('createddate')
+
+                        };
+                        rows.push(rowData);
+                    });
+                    $('#SubmittedKaizengrid').html(result);
+                    sessionStorage.removeItem("chartdata");
+                },
+                complete: function () {
+                    setTimeout(function () {
+                        $('#loader-wrapper').hide();
+                    }, 3000);
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX request failed. Error:', error);
+                    sessionStorage.removeItem("status");
+                }
+            });
+        } else {
+            console.error('No status found in session storage.');
+        }
         // Retrieve the status from session storage
         var status = sessionStorage.getItem('status');
 
         if (status) {
             $.ajax({
-                url: '@Url.Action("ViewFilterKaizen", "SubmittedKaizen")',
+                url: '@Url.Action("ViewFilterKaizenonclickDashboard", "SubmittedKaizen")',
                 type: 'post',
                 data: {
                     status: status

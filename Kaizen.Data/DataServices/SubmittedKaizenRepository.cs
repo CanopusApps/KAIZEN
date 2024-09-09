@@ -87,6 +87,41 @@ namespace Kaizen.Data.DataServices
 
             return ds;
         }
+        public DataSet GetKaizenListOnclickDashboard(KaizenListModel model)
+        {
+            DataSet ds = new DataSet();
+
+            using (SqlConnection con = new SqlConnection(SqlConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand com = new SqlCommand(StoredProcedures.Sp_Get_kaizen_details_On_clickdashboard, con))
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+
+                        com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
+                        com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
+                        com.Parameters.AddWithValue("@Domain", model.Domain == "--Select Domain--" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
+                        com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
+                        com.Parameters.AddWithValue("@Block", string.IsNullOrEmpty(model.Block) ? " " : model.Block);
+                        com.Parameters.AddWithValue("@Cadre", string.IsNullOrEmpty(model.Cadre) ? " " : model.Cadre);
+                        com.Parameters.AddWithValue("@Status", model.Status == "--Select Status--" ? "" : (string.IsNullOrEmpty(model.Status) ? " " : model.Status));
+                        com.Parameters.AddWithValue("@Role", string.IsNullOrEmpty(model.role) ? " " : model.role);
+                        com.Parameters.AddWithValue("@UserId", string.IsNullOrEmpty(model.UserId) ? " " : model.UserId);
+                     
+
+                        SqlDataAdapter da = new SqlDataAdapter(com);
+                        da.Fill(ds);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return ds;
+        }
 
         public bool DeleteKaizenData(int KaizenId, string UserId)
         {
