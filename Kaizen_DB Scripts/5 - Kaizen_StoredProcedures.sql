@@ -834,31 +834,34 @@ End
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Fetch_Kaizens_For_Approval]    Script Date: 05-09-2024 20:04:16 ******/
+
+/****** Object:  StoredProcedure [dbo].[Sp_Fetch_Kaizens_For_Approval]    Script Date: 06-09-2024 16:56:19 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[Sp_Fetch_Kaizens_For_Approval]      
-AS      
-BEGIN      
-SELECT distinct Users.Email as ApproverEmail,Users.FirstName as ApproverName,Kaizens.DocNo,Kaizens.DRIApprovedDate     
-INTO #EmailTable FROM Kaizens INNER JOIN Users       
-ON Users.id = Kaizens.DRIApprovedBy WHERE DRIApprovedDate <= CAST(GETDATE() AS DATE); --and (ApprovalStatus<4 and ApprovalStatus not in (0)) ;     
-WITH cteEmailsend AS    
-(    
-SELECT  ApproverEmail,ApproverName, DocNo = STRING_AGG(DocNo,', ') FROM #EmailTable    
-GROUP BY ApproverEmail,ApproverName)    
-    
-    SELECT ApproverEmail,ApproverName, DocNo    
-    FROM cteEmailsend    
-    GROUP BY ApproverEmail,ApproverName,DocNo;    
-    
-    
-END      
- 
- 
+
+CREATE PROCEDURE [dbo].[Sp_Fetch_Kaizens_For_Approval]        
+AS        
+BEGIN        
+SELECT distinct U.Email as ApproverEmail,U.FirstName as ApproverName,Kaizens.DocNo,Kaizens.DRIApprovedDate       
+INTO #EmailTable FROM Kaizens INNER JOIN Users U        
+ON U.id = Kaizens.DRIApprovedBy WHERE DRIApprovedDate <= CAST(GETDATE() AS DATE) and ApprovalStatus in(2);       
+WITH cteEmailsend AS      
+(      
+SELECT  ApproverEmail,ApproverName, DocNo = STRING_AGG(DocNo,', ') FROM #EmailTable      
+GROUP BY ApproverEmail,ApproverName)      
+      
+    SELECT ApproverEmail,ApproverName, DocNo      
+    FROM cteEmailsend      
+    GROUP BY ApproverEmail,ApproverName,DocNo;      
+      
+      
+END        
+
 GO
+
 /****** Object:  StoredProcedure [dbo].[Sp_Fetch_KaizenUpdateDetails_ById]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
