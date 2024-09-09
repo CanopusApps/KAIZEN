@@ -324,20 +324,41 @@
                         }
                     },
                     onClick: (event, elements) => {
-
                         if (elements.length > 0) {
-                            // const index = elements[0].index;// to pass data based on blocks ,cadre, domain,department
-                            // const status = labels[index];
+                            debugger;
+                            const index = elements[0].index;
+                            const label = donutChart.data.labels[index];
+                            let block = '';
+                            let cadre = '';
+                            let domain = '';
 
-                            if (sessionStorage.getItem('status')) {
-                                sessionStorage.removeItem('status');
+                            if (chart.id === 'donutChart1') {
+                                block = label;
+                            }
+                            else if (chart.id === 'donutChart2') {
+                                cadre = label;
+                            }
+                            else if (chart.id === 'donutChart3') {
+                                domain = label;
                             }
 
-                            sessionStorage.setItem('status', '');
+                            if (sessionStorage.getItem('chartdata')) {
+                                sessionStorage.removeItem('chartdata');
+                            }
+
+                            const statusObj = {
+                                block: block || '',
+                                cadre: cadre || '',
+                                domain: domain || '',
+                                department: '',
+                            };
+
+                            sessionStorage.setItem('chartdata', JSON.stringify(statusObj));
 
                             window.location.href = "/SubmittedKaizen/ViewKaizen";
                         }
                     },
+
 
                     plugins: {
                         responsive: true,
@@ -407,22 +428,43 @@
                             beginAtZero: true
                         }
                     },
-
                     onClick: (event, elements) => {
                         if (elements.length > 0) {
-                            // const index = elements[0].index;// to pass data based on blocks ,cadre, domain,department
-                            // const status = labels[index];
+                            debugger;
+                            const index = elements[0].index;
+                            const label = barChart.data.labels[index];
+                            let block = '';
+                            let cadre = '';
+                            let domain = '';
+                            let department = '';
 
-
-                            if (sessionStorage.getItem('status')) {
-                                sessionStorage.removeItem('status');
+                            if (chart.id === 'barChart1') {
+                                block = label;
+                            }
+                            else if (chart.id === 'barChart2') {
+                                cadre = label;
+                            }
+                            else if (chart.id === 'barChart3') {
+                                domain = label;
                             }
 
-                            sessionStorage.setItem('status', '');
+                            if (sessionStorage.getItem('chartdata')) {
+                                sessionStorage.removeItem('chartdata');
+                            }
+
+                            const statusObj = {
+                                block: block || '',
+                                cadre: cadre || '',
+                                domain: domain || '',
+                                department: '',
+                            };
+
+                            sessionStorage.setItem('chartdata', JSON.stringify(statusObj));
 
                             window.location.href = "/SubmittedKaizen/ViewKaizen";
                         }
                     },
+
                     plugins: {
                         legend: {
                             position: 'top',
@@ -639,15 +681,24 @@
                                 },
                                 onClick: (event, elements) => {
                                     if (elements.length > 0) {
-                                        // const index = elements[0].index;// to pass data based on blocks ,cadre, domain,department
-                                        // const status = labels[index];
+                                        debugger;
+                                        const index = elements[0].index; 
+                                        const department = departmentBasedLabel[index];
 
 
-                                        if (sessionStorage.getItem('status')) {
-                                            sessionStorage.removeItem('status');
+                                        if (sessionStorage.getItem('chartdata')) {
+                                            sessionStorage.removeItem('chartdata');
                                         }
 
-                                        sessionStorage.setItem('status', '');
+                                        const statusObj = {
+                                            block: '',
+                                            cadre: '',
+                                            domain:  '',
+                                            department: department||'',
+
+                                        };
+
+                                        sessionStorage.setItem('chartdata', JSON.stringify(statusObj));
 
                                         window.location.href = "/SubmittedKaizen/ViewKaizen";
                                     }
@@ -742,15 +793,24 @@
                                            
                                             onClick: (event, elements) => {
                                                 if (elements.length > 0) {
-                                        // const index = elements[0].index;// to pass data based on blocks ,cadre, domain,department
-                                        // const status = labels[index];
+                                                    debugger;
+                                                    const index = elements[0].index; 
+                                                    const department = departmentBasedLabel[index];
 
 
-                                                    if (sessionStorage.getItem('status')) {
-                                                        sessionStorage.removeItem('status');
+                                                    if (sessionStorage.getItem('chartdata')) {
+                                                        sessionStorage.removeItem('chartdata');
                                                     }
 
-                                                    sessionStorage.setItem('status', '');
+                                                    const statusObj = {
+                                                        block: '',
+                                                        cadre: '',
+                                                        domain: '',
+                                                        department: department || '',
+
+                                                    };
+
+                                                           sessionStorage.setItem('chartdata', JSON.stringify(statusObj));
 
                                                     window.location.href = "/SubmittedKaizen/ViewKaizen";
                                                 }

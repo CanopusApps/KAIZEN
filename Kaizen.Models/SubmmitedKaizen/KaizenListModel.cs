@@ -25,6 +25,8 @@ namespace Kaizen.Models.AdminModel
         public string Department { get; set; } = "";
         public string Status { get; set; } = "";
 
+        public string Cadre { get; set; } = "";
+
         public string KaizenId { get; set; } = "";
         public string KaizenType { get; set; } = "";
         public string Activity { get; set; } = "";

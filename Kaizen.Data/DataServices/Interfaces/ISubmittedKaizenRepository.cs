@@ -12,7 +12,7 @@ namespace Kaizen.Data.DataServices
     {
         public DataSet GetApprovalStatus(string UserType);
         public DataSet GetKaizenList(KaizenListModel model);
-
+        public DataSet GetKaizenListOnclickDashboard(KaizenListModel model);
         public bool DeleteKaizenData(int KaizenId,string UserId);
     }
 }
