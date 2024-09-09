@@ -847,7 +847,7 @@ AS
 BEGIN        
 SELECT distinct U.Email as ApproverEmail,U.FirstName as ApproverName,Kaizens.DocNo,Kaizens.DRIApprovedDate       
 INTO #EmailTable FROM Kaizens INNER JOIN Users U        
-ON U.id = Kaizens.DRIApprovedBy WHERE DRIApprovedDate <= CAST(GETDATE() AS DATE) and ApprovalStatus in(2);       
+ON U.id = Kaizens.DRIApprovedBy WHERE DRIApprovedDate <= CAST(GETDATE() AS DATE) and ApprovalStatus in(2,15);       
 WITH cteEmailsend AS      
 (      
 SELECT  ApproverEmail,ApproverName, DocNo = STRING_AGG(DocNo,', ') FROM #EmailTable      
