@@ -3090,7 +3090,7 @@
                         for (const [key, value] of Object.entries(statusdetails)) {
                             reverseStatusDetails[value] = key;
                         }
-
+                       
                         statusDesc = result.kaizenList[0].approvalStatus;
                         var imageapproverstatus = $('#imageapproverstatus').data('role');                      
                         if (statusDesc === statusdetails.FinanceRejected || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.DRIRejected)
@@ -3130,6 +3130,7 @@
                             $('#iestatusid').text(reverseStatusDetails[statusDesc]).addClass(statusDesc === statusdetails.IERejected ? 'rejected' : (statusDesc === statusdetails.IEPending ? 'pending' : 'approved'));
                             $('#IEDept').show();
                             $('#DRIDept').show();
+                            $('#FinanceDept').show();
                             $('#ImageApprover').show();
                             if (statusDesc === statusdetails.IERejected) {                                
                                 $("#ieRejectedReason").text(result.kaizenList[0].rejectionreason);
@@ -3627,6 +3628,21 @@
                                     }
                                 });
                             });
+
+
+
+
+                            const financeApproved = statusDesc === statusdetails.FinanceApproved;
+                            const ieApproved = statusDesc === statusdetails.IEApproved;
+                            const driApproved = statusDesc === statusdetails.DRIApproved;
+
+                            if (
+                                (userRole === 'FIN' && financeApproved) ||
+                                (userRole === 'IED' && (ieApproved || financeApproved)) ||
+                                (userRole === 'MGR' && (driApproved || ieApproved || financeApproved))
+                            ) {
+                                $('#Aprrovalbtn').hide();
+                            }
 
                         });
                     }

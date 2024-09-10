@@ -363,6 +363,12 @@
                     plugins: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        downloadButton: {
+                            text: 'Download Image',
+                            position: 'top-left',
+                        
+                            
+                        },
                         
                         scales: {
                             x: {
@@ -469,6 +475,10 @@
                         legend: {
                             position: 'top',
                             display: false,
+                        },
+                        downloadButton: {
+                            text: 'Download Image',
+                            position: 'top-left'
                         },
                         title: {
                             display: true,
@@ -711,7 +721,10 @@
                                     tooltip: {
                                         enabled: true
                                     },
-                                    
+                                    downloadButton: {
+                                        text: 'Download Image',
+                                        position: 'top-left'
+                                    },
                                     title: {
                                         display: true,
                                         text: 'Departments',
@@ -828,6 +841,10 @@
                                                     position: 'top',
                                                     display: false,
                                                 },
+                                    downloadButton: {
+                                        text: 'Download Image',
+                                         position: 'top-left'
+                                         },
                                                 title: {
                                                     display: true,
                                                     text: 'Department',
@@ -837,8 +854,7 @@
                                                         weight: 'bold',
                                                         style: 'italic', 
                                                     },
-                                                  
-                                                    padding: {
+                                               padding: {
                                                         top: 10,
                                                         bottom: 20,
                                                     },
@@ -974,7 +990,80 @@
             location.reload();
         }
     }
-  
+  // image download button plugin
+    Chart.register({
+        id: 'downloadButton',
+        beforeDraw: function (chart, args, options) {
+            const { ctx, canvas } = chart;
+            const { text, position } = options;
+            const fontSize = 16;
+
+            ctx.font = `${fontSize}px Arial`;
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center'; // Center align text horizontally
+
+            const textWidth = ctx.measureText(text).width;
+            const textHeight = fontSize;
+            let x, y;
+
+            switch (position) {
+                case 'top-right':
+                    x = chart.width - textWidth / 2 - 20; // Center the text horizontally
+                    y = textHeight / 2 + 20; // Adjust for vertical positioning
+                    break;
+                case 'top-left':
+                    x = textWidth / 2 + 20; // Center the text horizontally
+                    y = textHeight / 2 + 20; // Adjust for vertical positioning
+                    break;
+            }
+
+            ctx.fillStyle = '#007bff';
+            ctx.fillText(text, x, y); // Center text at (x, y)
+
+            if (!canvas.downloadEventAdded) {
+                canvas.addEventListener('mousemove', function (event) {
+                    const rect = canvas.getBoundingClientRect();
+                    const mouseX = event.clientX - rect.left;
+                    const mouseY = event.clientY - rect.top;
+
+                    if (
+                        mouseX >= x - textWidth / 2 &&
+                        mouseX <= x + textWidth / 2 &&
+                        mouseY >= y - textHeight / 2 &&
+                        mouseY <= y + textHeight / 2
+                    ) {
+                        canvas.style.cursor = 'pointer';
+                    } else {
+                        canvas.style.cursor = 'default';
+                    }
+                });
+
+                canvas.addEventListener('click', function (event) {
+                    const rect = canvas.getBoundingClientRect();
+                    const mouseX = event.clientX - rect.left;
+                    const mouseY = event.clientY - rect.top;
+
+                    if (
+                        mouseX >= x - textWidth / 2 &&
+                        mouseX <= x + textWidth / 2 &&
+                        mouseY >= y - textHeight / 2 &&
+                        mouseY <= y + textHeight / 2
+                    ) {
+                        const link = document.createElement('a');
+                        link.href = canvas.toDataURL('image/png');
+                        link.download = 'chart.png';
+                        link.click();
+
+                        canvas.style.cursor = 'default'; // Reset cursor after click
+                    }
+                });
+
+                canvas.downloadEventAdded = true;
+            }
+        }
+    });
+
+
         
      
 </script>
