@@ -101,8 +101,8 @@ namespace Kaizen.Data.DataServices
 		public bool UpdateDomainStatus(int id, bool status)
 		{
 			bool updStatus = false;
-
-			try
+            string message = string.Empty;
+            try
 			{
 				com = new SqlCommand();
 				com.Connection = con;
@@ -112,10 +112,23 @@ namespace Kaizen.Data.DataServices
 				//com.Parameters.AddWithValue("@blockname", model.blockName);
 				//com.Parameters.AddWithValue("@flag", model.flag);
 				com.CommandText = StoredProcedures.sp_UpdateDomainStatus;
-				con.Open();
+                SqlParameter messageParam = new SqlParameter("@Message", SqlDbType.NVarChar, 250)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                com.Parameters.Add(messageParam);
+                con.Open();
 				com.ExecuteNonQuery();
 				con.Close();
-				updStatus = true;
+                message = messageParam.Value.ToString();
+                if (!string.IsNullOrEmpty(message))
+                {
+                    updStatus = false;
+                }
+                else
+                {
+                    updStatus = true;
+                }
 			}
 			catch (Exception ex)
 			{

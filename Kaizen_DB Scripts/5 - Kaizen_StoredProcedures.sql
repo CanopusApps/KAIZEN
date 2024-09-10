@@ -226,6 +226,9 @@ GO
 /****** Object:  StoredProcedure [dbo].[Sp_GetManagers]    Script Date: 10-09-2024 12:11:49 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_GetManagers]
 GO
+/****** Object:  StoredProcedure [dbo].[sp_UpdateDomainStatus]    Script Date: 10-09-2024 15:19:49 ******/
+DROP PROCEDURE IF EXISTS [dbo].[sp_UpdateDomainStatus]
+GO
 /****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
@@ -632,68 +635,102 @@ BEGIN
       AND EndDate = @EndDate;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 10-09-2024 15:08:40 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-  
-CREATE PROCEDURE [dbo].[Sp_EditUser]  
-   
- @EmployeeID NVARCHAR(50),  
- @FirstName NVARCHAR(300),  
- @MiddleName NVARCHAR(300),  
- @LastName NVARCHAR(300),  
- @Email NVARCHAR(200),  
- @PhoneNo NVARCHAR(200),  
- @Status INT,  
- @ImageApprover BIT,  
- @Cid INT,  
- @Rid INT,  
- @Did INT,  
- @Deptid INT,  
- --@Password NVARCHAR(200),  
- @Gender NVARCHAR(20),  
- @ModifiedEmpId NVARCHAR(50) = NULL,  
- @BlockId Int=0,  
- @result BIT Out  
-AS  
-BEGIN  
-   
- SET NOCOUNT ON;  
-      
- Declare @ModifiedBy nvarchar(100);    
- set @ModifiedBy =(select ID FROM [dbo].[Users] WHERE EmpID=@ModifiedEmpId)   
-  
-SET @result = ( SELECT COUNT(*) FROM [dbo].[USERS] WHERE EMPID = @EmployeeID)  
-  
-IF (@result = 1)  
- BEGIN  
-  UPDATE [dbo].[USERS]  
-  SET    UserID = @EmployeeID,  
-  FirstName = CASE WHEN @FirstName IS NOT NULL AND @FirstName <> FirstName THEN @FirstName ELSE FirstName END,  
-  MiddleName = @MiddleName, 
-  LastName = @LastName,
-  --LastName = CASE WHEN @LastName IS NOT NULL AND @LastName <> LastName THEN @LastName ELSE LastName END,  
-  Email = CASE WHEN @Email IS NOT NULL AND @Email <> Email THEN @Email ELSE Email END,   
-  MobileNumber = CASE WHEN @PhoneNo IS NOT NULL AND @PhoneNo <> MobileNumber THEN @PhoneNo ELSE MobileNumber END,  
-  --Password = CASE WHEN @Password IS NOT NULL AND @Password <> Password THEN @Password ELSE Password END,  
-  Gender = CASE WHEN @gender IS NOT NULL AND @gender <> Gender THEN @gender ELSE Gender END,  
-  Status = CASE WHEN @Status IS NOT NULL AND @Status <> Status THEN @Status ELSE Status END,   
-  --ImageApprover = CASE WHEN @ImageApprover IS NOT NULL AND @ImageApprover <> ImageApprover THEN @ImageApprover ELSE ImageApprover END,  
-  ImageApprover = @ImageApprover,
-  Domain = (SELECT ID FROM [dbo].[Domains] WHERE DomainID = @Did),   
-  Department = (SELECT ID FROM [dbo].[Departments] WHERE DeptId = @Deptid),   
-  UserType = (SELECT ID FROM [dbo].[USERTYPE] WHERE UserTypeId = @Rid),   
-  Cadre = (SELECT ID FROM [dbo].[Cadre] WHERE CadreId = @Cid),  
-  Block=(Select ID From[dbo].[Blocks] where BlockId=@BlockId),  
-  ModifiedBy = @ModifiedBy,  
-  ModifiedDate = getdate()  
-  
-    WHERE EmpID = @EmployeeID;  
-  END  
-END  
-  
+
+
+CREATE PROCEDURE [dbo].[Sp_EditUser]    
+@EmployeeID NVARCHAR(50),    
+@FirstName NVARCHAR(300),    
+@MiddleName NVARCHAR(300),    
+@LastName NVARCHAR(300),    
+@Email NVARCHAR(200),    
+@PhoneNo NVARCHAR(200),    
+@Status INT,    
+@ImageApprover BIT,    
+@Cid INT,    
+@Rid INT,    
+@Did INT,    
+@Deptid INT,    
+--@Password NVARCHAR(200),    
+@Gender NVARCHAR(20),    
+@ModifiedEmpId NVARCHAR(50) = NULL,    
+@BlockId Int=0,    
+@result BIT Out ,
+@ReturnMessage NVARCHAR(500) OUT,
+@ReturnUser NVARCHAR(500) OUT
+AS    
+BEGIN    
+Declare @employe nvarchar(100),
+        @usertype nvarchar(100);      
+set @employe =(select ID FROM [dbo].[Users] WHERE EmpID=@EmployeeID);
+set @usertype =(select ID FROM [dbo].[UserType] WHERE UserCode='ADM');
+SET NOCOUNT ON;
+  IF @Status = 0
+    BEGIN
+        IF EXISTS (
+            SELECT 1 
+            FROM [dbo].[Kaizens] 
+            WHERE CreatedBy = @employe 
+            AND [ApprovalStatus] IN (1,2,4,6,15)
+        )
+        BEGIN
+            SET @ReturnMessage = 'The employee has associated Kaizens with approval ';
+            RETURN; 
+        END
+    END
+
+	 IF @Rid IN ('2', '3', '4', '5', '6')
+    BEGIN
+        DECLARE @adminCount INT;
+        SELECT @adminCount = COUNT(1)
+        FROM [dbo].[Users]
+        WHERE UserType = @usertype
+        AND ID != @employe;
+
+        IF @adminCount < 1
+        BEGIN
+            SET @ReturnUser = 'At least two users with UserType 1 must remain in the system.';
+            RETURN;
+        END
+    END
+ 
+ 
+Declare @ModifiedBy nvarchar(100);      
+set @ModifiedBy =(select ID FROM [dbo].[Users] WHERE EmpID=@ModifiedEmpId)     
+SET @result = ( SELECT COUNT(*) FROM [dbo].[USERS] WHERE EMPID = @EmployeeID)    
+
+IF (@result = 1)    
+
+BEGIN    
+  UPDATE [dbo].[USERS]    
+  SET    UserID = @EmployeeID,    
+  FirstName = CASE WHEN @FirstName IS NOT NULL AND @FirstName <> FirstName THEN @FirstName ELSE FirstName END,    
+  MiddleName = @MiddleName,   
+  LastName = @LastName,  
+  --LastName = CASE WHEN @LastName IS NOT NULL AND @LastName <> LastName THEN @LastName ELSE LastName END,    
+  Email = CASE WHEN @Email IS NOT NULL AND @Email <> Email THEN @Email ELSE Email END,     
+  MobileNumber = CASE WHEN @PhoneNo IS NOT NULL AND @PhoneNo <> MobileNumber THEN @PhoneNo ELSE MobileNumber END,    
+  --Password = CASE WHEN @Password IS NOT NULL AND @Password <> Password THEN @Password ELSE Password END,    
+  Gender = CASE WHEN @gender IS NOT NULL AND @gender <> Gender THEN @gender ELSE Gender END,    
+  Status = CASE WHEN @Status IS NOT NULL AND @Status <> Status THEN @Status ELSE Status END,     
+  --ImageApprover = CASE WHEN @ImageApprover IS NOT NULL AND @ImageApprover <> ImageApprover THEN @ImageApprover ELSE ImageApprover END,    
+  ImageApprover = @ImageApprover,  
+  Domain = (SELECT ID FROM [dbo].[Domains] WHERE DomainID = @Did),     
+  Department = (SELECT ID FROM [dbo].[Departments] WHERE DeptId = @Deptid),     
+  UserType = (SELECT ID FROM [dbo].[USERTYPE] WHERE UserTypeId = @Rid),     
+  Cadre = (SELECT ID FROM [dbo].[Cadre] WHERE CadreId = @Cid),    
+  Block=(Select ID From[dbo].[Blocks] where BlockId=@BlockId),    
+  ModifiedBy = @ModifiedBy,    
+  ModifiedDate = getdate()    
+    WHERE EmpID = @EmployeeID;    
+  END    
+END 
+ 
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Fetch_Count]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -3751,21 +3788,39 @@ AS
  
  END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_UpdateBlockStatus]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_UpdateBlockStatus]    Script Date: 10-09-2024 15:10:34 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [dbo].[Sp_UpdateBlockStatus]           
-@ID int,                   
-@status bit           
---@Blockname nvarchar(50)=null,                    
-AS      
-BEGIN
-	UPDATE [Blocks] SET Status= @status WHERE BlockId = @ID
- END  
 
- 
+CREATE PROC [dbo].[Sp_UpdateBlockStatus]           
+@ID int,                     
+@status bit,
+@Message nvarchar(250) OUTPUT
+AS        
+BEGIN 
+    DECLARE @GID uniqueidentifier,
+            @Usercount int;
+    SET @GID = (SELECT ID FROM Blocks WHERE BlockId = @ID);  
+    SET @Usercount = (SELECT COUNT(EmpID) FROM Users WHERE Block = @GID);
+    
+    BEGIN
+    IF @Usercount > 0 AND @status = 0
+    BEGIN
+        SET @Message = 'Block cannot be Inactive as it has associated users.';
+    END
+    ELSE
+    BEGIN
+        UPDATE [Blocks] 
+        SET Status = @status 
+        WHERE BlockId = @ID;
+    END
+END
+END
+	 
+
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdateDepartment]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -3789,21 +3844,36 @@ Declare @Domain uniqueidentifier,
  END
  END 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_UpdateDepartmentStatus]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_UpdateDepartmentStatus]    Script Date: 10-09-2024 15:12:37 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [dbo].[Sp_UpdateDepartmentStatus]           
-@ID int,                   
-@status bit           
---@Blockname nvarchar(50)=null,                    
-AS      
-BEGIN
-	UPDATE [dbo].[Departments] SET Status= @status WHERE DeptId = @ID
- END  
 
- 
+CREATE PROC [dbo].[Sp_UpdateDepartmentStatus]           
+@ID int,                     
+@status bit,
+@Message nvarchar(250) OUTPUT
+AS        
+BEGIN 
+    DECLARE @GID uniqueidentifier,
+            @Usercount int;
+    SET @GID = (SELECT ID FROM Departments WHERE DeptId = @ID);  
+    SET @Usercount = (SELECT COUNT(EmpID) FROM Users WHERE Department = @GID);
+    BEGIN
+    IF @Usercount > 0 AND @status = 0
+    BEGIN
+        SET @Message = 'Department cannot be Inactive as it has associated users.';
+    END
+    ELSE
+    BEGIN
+        UPDATE [Departments] 
+        SET Status = @status 
+        WHERE DeptId = @ID;
+    END
+END
+END
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdateDomain]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -4399,5 +4469,36 @@ BEGIN
 END
 
 GO
+/****** Object:  StoredProcedure [dbo].[sp_UpdateDomainStatus]    Script Date: 10-09-2024 15:20:08 ******/
+SET ANSI_NULLS ON
+GO
 
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [dbo].[sp_UpdateDomainStatus]             
+@ID int,                     
+@status bit,
+@Message nvarchar(250) OUTPUT
+AS        
+BEGIN 
+    DECLARE @GID uniqueidentifier,
+            @Usercount int;
+    SET @GID = (SELECT ID FROM Domains WHERE DomainID = @ID);  
+    SET @Usercount = (SELECT COUNT(EmpID) FROM Users WHERE Domain = @GID);
+    
+    BEGIN
+    IF @Usercount > 0 AND @status = 0
+    BEGIN
+        SET @Message = 'Domain cannot be Inactive as it has associated users.';
+    END
+    ELSE
+    BEGIN
+        UPDATE [Domains] 
+        SET Status = @status 
+        WHERE DomainID = @ID;
+    END
+END
+END
+GO
 
