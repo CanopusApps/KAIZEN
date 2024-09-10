@@ -673,10 +673,10 @@ SET NOCOUNT ON;
             SELECT 1 
             FROM [dbo].[Kaizens] 
             WHERE CreatedBy = @employe 
-            AND [ApprovalStatus] IN (1,15, 8, 16, 4)
+            AND [ApprovalStatus] IN (1,2,4,6,15)
         )
         BEGIN
-            SET @ReturnMessage = 'The employee has associated Kaizens with approval IDs 15, 8, 16, or 4.';
+            SET @ReturnMessage = 'The employee has associated Kaizens with approval ';
             RETURN; 
         END
     END
