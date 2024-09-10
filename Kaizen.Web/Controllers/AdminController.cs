@@ -191,6 +191,10 @@ namespace Kaizen.Web.Controllers
                 {
                     blocks = _blockWorker.GetBlock();
                 }
+                else
+                {
+                    TempData["SwalMessage"] = "Block cannot be inactive as it has associated users.";
+                }
             }
             catch (Exception ex)
             {
@@ -273,12 +277,16 @@ namespace Kaizen.Web.Controllers
                 {
                     domains = _domainWorker.GetDomain();
                 }
+                else
+                {
+                    TempData["SwalMessage"] = "Domain cannot be inactive as it has associated users.";
+                }
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            return View("AddDomain", domains);
+            return RedirectToAction("AddDomain");
 
         }
 
@@ -423,17 +431,21 @@ namespace Kaizen.Web.Controllers
                 {
                     departments = _departmentWorker.GetDepartments();
                 }
+                else
+                {
+                    TempData["SwalMessage"] = "Department cannot be inactive as it has associated users.";
+                }
             }
             catch (Exception ex)
             {
                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            DepartmentModel departmentModel = new DepartmentModel
-            {
-                DomainList = DomainList()
-            };
-            ViewBag.DepartmentList = departments;
-            return View("AddDepartment", departmentModel);
+            //DepartmentModel departmentModel = new DepartmentModel
+            //{
+            //    DomainList = DomainList()
+            //};
+            //ViewBag.DepartmentList = departments;
+            return RedirectToAction("AddDepartment");
         }
 
         //End Department
@@ -460,6 +472,7 @@ namespace Kaizen.Web.Controllers
 		public IActionResult EditUser(EditUserModel editUserModel)
 		{
 			string msg="";
+            bool success = false;
             try
             {
                 editUserModel.ModifiedBy = conAccessor.HttpContext.Session.GetString("EmpId");
@@ -476,33 +489,41 @@ namespace Kaizen.Web.Controllers
                     msg = _editUserWorker.EditUser(editUserModel);
                     if (msg == "ok")
                     {
-                        TempData["Editmsg"] = "Data saved Sucessfully ";
+                        success = true;
+                        msg = "Record updated successfully.";
                     }
                     else if (msg == "Employee doesnot exist.")
                     {
-                        TempData["Editmsg"] = msg;
+                        msg = msg;
+                    }
+                    else if (msg == "returnMessage")
+                    {
+                        msg = "The employee has associated Kaizens with approval.";
+                    }
+                    else if (msg == "Usertype")
+                    {
+                        msg = "At least one admin must remain in the system.";
                     }
                     else
                     {
-                        TempData["Editmsg"] = "some error occured";
+                        msg = "Some error occurred.";
                     }
 
                 }
                 else
                 {
-
-                    TempData["msg"] = "some data Feids missing";
+                    msg = "Some data fields are missing.";
                 }
 
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
-                TempData["Editmsg"] = "An error occurred while processing your request.";
+                msg = "An error occurred while processing your request.";
             }
 
-            return RedirectToAction("ViewUser", "ViewUser");
-		}
+            return Json(new { success = success, message = msg });
+        }
 
         public IActionResult TeamTable()
         {

@@ -377,26 +377,66 @@
 
 </script>
 <script type="text/javascript">
+    // $(document).ready(function () {
+    //     $('#editUserForm').on('submit', function (e) {
+    //         e.preventDefault(); 
+    //         if ($(this).valid()) {
+    //             $.ajax({
+    //                 url: this.action,
+    //                 type: this.method,
+    //                 data: $(this).serialize(),
+    //                 success: function (response) {
+    //                     swal({
+    //                         text: "Record Updated successfully !!",
+    //                         type: "success"
+    //                     }).then(okay => {
+    //                         if (okay) {
+    //                             window.location.href = '/ViewUser/ViewUser';
+    //                         }
+    //                     });
+    //                 },
+    //                 error: function (xhr, status, error) {
+    //                     // Handle error here
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
     $(document).ready(function () {
         $('#editUserForm').on('submit', function (e) {
-            e.preventDefault(); 
+            e.preventDefault();
             if ($(this).valid()) {
                 $.ajax({
                     url: this.action,
                     type: this.method,
                     data: $(this).serialize(),
                     success: function (response) {
+                        // swal({
+                        //     text: response.message,
+                        //     type: "success"
+                        // }).then((result) => {
+                        //     if (response.success) {
+                        //         // window.location.href = '/ViewUser/ViewUser';
+                        //         //window.location.replace('/ViewUser/ViewUser');
+                        //         location.assign('/ViewUser/ViewUser');
+                        //     }
+                        // });
                         swal({
-                            text: "Record Updated successfully !!",
-                            type: "success"
-                        }).then(okay => {
-                            if (okay) {
-                                window.location.href = '/ViewUser/ViewUser';
+                            text: response.message,
+                            buttons: {
+                                confirm: "OK"
+                            },
+                        }).then((userConfirmation) => {
+                            if (userConfirmation) {
+                                window.location = "/ViewUser/ViewUser";
                             }
                         });
                     },
                     error: function (xhr, status, error) {
-                        // Handle error here
+                        swal({
+                            text: 'An unexpected error occurred. Please try again later.',
+                            icon: 'error', 
+                        });
                     }
                 });
             }
