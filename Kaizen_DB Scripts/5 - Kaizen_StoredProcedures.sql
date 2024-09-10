@@ -219,6 +219,10 @@ GO
 /****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_AddBlockDetails]
 GO
+
+/****** Object:  StoredProcedure [dbo].[Sp_GetManagers]    Script Date: 10-09-2024 12:11:49 ******/
+DROP PROCEDURE IF EXISTS [dbo].[Sp_GetManagers]
+GO
 /****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
@@ -4160,3 +4164,60 @@ BEGIN
     END
 END;
 GO
+
+
+/****** Object:  StoredProcedure [dbo].[Sp_GetManagers]    Script Date: 10-09-2024 12:12:18 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Sp_GetManagers]
+    @Name NVARCHAR(100) = NULL,
+    @EmpID NVARCHAR(50) = NULL,
+    @Email NVARCHAR(100) = NULL,
+    @UserDesc NVARCHAR(100) = NULL,
+    @Domain NVARCHAR(100) = NULL,
+    @Department NVARCHAR(100) = NULL,
+    @Gender NVARCHAR(10) = NULL,
+    @Cadre NVARCHAR(50) = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        u.ID,
+        u.UserID,
+        u.EmpID,
+        -- Modify name concatenation to handle NULLs
+        (u.FirstName + ' ' + ISNULL(u.MiddleName + ' ', '') + ISNULL(u.LastName, '')) AS Name,
+        u.Email,
+        u.MobileNumber,
+        u.Gender,
+        d.DomainName AS Domain, -- Fetch Domain Name
+        dept.DepartmentName AS Department, -- Fetch Department Name
+        c.cadreDesc AS Cadre, -- Fetch Cadre Name
+        ut.UserDesc AS UserType -- Fetch User Type
+      
+    FROM Users u
+    -- Join Domain Table
+    LEFT JOIN Domains d ON u.Domain = d.ID
+    -- Join Department Table
+    LEFT JOIN Departments dept ON u.Department = dept.ID
+    -- Join Cadre Table
+    LEFT JOIN Cadre c ON u.Cadre = c.ID
+    -- Join UserType Table
+    INNER JOIN UserType ut ON u.UserType = ut.ID
+    WHERE ut.UserDesc IN ('Manager', 'IE DEPT', 'Finance')
+      AND u.Status = 1
+      AND (@Name IS NULL OR (u.FirstName + ' ' + ISNULL(u.MiddleName + ' ', '') + ISNULL(u.LastName, '')) LIKE '%' + @Name + '%')
+      AND (@EmpID IS NULL OR u.EmpID = @EmpID)
+      AND (@Email IS NULL OR u.Email LIKE '%' + @Email + '%')
+      AND (@Domain IS NULL OR d.DomainName = @Domain) -- Filter by Domain Name
+      AND (@Department IS NULL OR dept.DepartmentName = @Department) -- Filter by Department Name
+      AND (@Gender IS NULL OR u.Gender = @Gender)
+      AND (@Cadre IS NULL OR c.cadreDesc = @Cadre); -- Filter by Cadre Name
+END
+
+GO
+
+
