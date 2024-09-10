@@ -1963,11 +1963,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
---exec Sp_Get_Kaizen_Details '','','','','','','','EMPLOYEE','6fcd60ce-2566-4517-83dd-020b9279a5c8'
-
-USE [KAIZEN]
-GO
 /****** Object:  StoredProcedure [dbo].[Sp_Get_Kaizen_Details]    Script Date: 10-09-2024 15:02:14 ******/
 SET ANSI_NULLS ON
 GO
