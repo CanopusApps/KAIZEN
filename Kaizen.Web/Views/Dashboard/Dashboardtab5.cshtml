@@ -4,6 +4,8 @@
 <link href="~/assets/css/custom/dashboard.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
     #dHeader {
         font-size: 16px !important;
@@ -104,14 +106,14 @@
                                 <canvas id="donutChart1"></canvas>
                            
                             </div>
-                            <input type="button" id="BlockBlockReport" value="Download Report" class="btn btn-warning dow" onclick="changeBlockExportHref()" />
+                          @*   <input type="button" id="BlockBlockReport" value="Download Report" class="btn btn-warning dow" onclick="changeBlockExportHref()" /> *@
                         </div>
                         <div class="col-lg-6 col-md-12 mb-4   text-right">
                        
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <canvas id="donutChart2"></canvas>
                             </div>
-                            <input type="button" id="CadreReport" value="Download Report" class="btn btn-warning dow" onclick="changeCadreExportHref()" />
+                         @*    <input type="button" id="CadreReport" value="Download Report" class="btn btn-warning dow" onclick="changeCadreExportHref()" /> *@
                         </div>
                     </div>
                     <div class="row">
@@ -133,13 +135,13 @@
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <canvas id="donutChart3"></canvas>
                             </div>
-                            <input type="button" id="DomainReport" value="Download Report" class="btn btn-warning " onclick="changeDomainExportHref()" />
+                          @*   <input type="button" id="DomainReport" value="Download Report" class="btn btn-warning " onclick="changeDomainExportHref()" /> *@
                         </div>
                         <div class="col-lg-6 col-md-12 mb-4 text-right">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <canvas id="donutChart4"></canvas>
                             </div>
-                            <input type="button" id="DepartmentReport" value="Download Report" class="btn btn-warning dow" onclick="changeDepartmentExportHref()" />                           
+                         @*    <input type="button" id="DepartmentReport" value="Download Report" class="btn btn-warning dow" onclick="changeDepartmentExportHref()" />     *@                       
                         </div>
 
 
@@ -152,14 +154,14 @@
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <canvas id="barChart1" style="width: 100%;"></canvas>
                             </div>
-                               <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeBlockExportHref()" />
+                              @*  <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeBlockExportHref()" /> *@
                         </div>
                         <div class="col-lg-12 col-md-12 mb-4">
                           
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <canvas id="barChart2" style="width: 100%;"></canvas>
                             </div>
-                            <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeCadreExportHref()" />
+                          @*   <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeCadreExportHref()" /> *@
                         </div>
                     </div>
                     <div class="row">
@@ -167,7 +169,7 @@
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <canvas id="barChart3" style="width: 100%;"></canvas>
                             </div>
-                            <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeDomainExportHref()" />
+                           @*  <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeDomainExportHref()" /> *@
                         </div>
                         <div class="col-lg-12 col-md-12 mb-4">
                             <div class="form-group col-md-4">
@@ -180,7 +182,7 @@
                                 <canvas id="barChart4" style="width: 100%;"></canvas>
                             </div>
                          @*    <p id="fallbackMessageBar" class="text-center" style="font-size: 18px; color: #FF5733;">Click on domain's for change of department</p> *@
-                            <input type="button" id="DepartmentReportbar" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeDepartmentExportHref()" />
+                           @*  <input type="button" id="DepartmentReportbar" value="Download Report" class="btn btn-warning dow mr-3 mt-1 float-right" onclick="changeDepartmentExportHref()" /> *@
                         </div>
                     </div>
                 </div>
@@ -364,10 +366,8 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         downloadButton: {
-                            text: 'Download Image',
-                            position: 'top-left',
-                        
-                            
+                            text: 'Download',
+                            position: 'bottom-right',
                         },
                         
                         scales: {
@@ -477,8 +477,8 @@
                             display: false,
                         },
                         downloadButton: {
-                            text: 'Download Image',
-                            position: 'top-left'
+                            text: 'Download',
+                            position: 'top-right',
                         },
                         title: {
                             display: true,
@@ -722,8 +722,8 @@
                                         enabled: true
                                     },
                                     downloadButton: {
-                                        text: 'Download Image',
-                                        position: 'top-left'
+                                        text: 'Download',
+                                        position: 'bottom-right',
                                     },
                                     title: {
                                         display: true,
@@ -841,10 +841,10 @@
                                                     position: 'top',
                                                     display: false,
                                                 },
-                                    downloadButton: {
-                                        text: 'Download Image',
-                                         position: 'top-left'
-                                         },
+                                                downloadButton: {
+                                                    text: 'Download',
+                                                    position: 'top-right',
+                                                },                                                    
                                                 title: {
                                                     display: true,
                                                     text: 'Department',
@@ -1008,17 +1008,17 @@
 
             switch (position) {
                 case 'top-right':
-                    x = chart.width - textWidth / 2 - 20; // Center the text horizontally
-                    y = textHeight / 2 + 20; // Adjust for vertical positioning
+                    x = chart.width - textWidth / 2 - 20; 
+                    y = textHeight / 2 + 20; 
                     break;
-                case 'top-left':
-                    x = textWidth / 2 + 20; // Center the text horizontally
-                    y = textHeight / 2 + 20; // Adjust for vertical positioning
+                case 'bottom-right':
+                    x = chart.width - textWidth / 2 - 20; 
+                    y = chart.height - textHeight / 2 ; 
                     break;
             }
 
             ctx.fillStyle = '#007bff';
-            ctx.fillText(text, x, y); // Center text at (x, y)
+            ctx.fillText(text, x, y);
 
             if (!canvas.downloadEventAdded) {
                 canvas.addEventListener('mousemove', function (event) {
@@ -1049,10 +1049,18 @@
                         mouseY >= y - textHeight / 2 &&
                         mouseY <= y + textHeight / 2
                     ) {
-                        const link = document.createElement('a');
-                        link.href = canvas.toDataURL('image/png');
-                        link.download = 'chart.png';
-                        link.click();
+                        // Generate PDF using jsPDF
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF();
+
+                        // Add the chart image to the PDF
+                        const chartImage = canvas.toDataURL('image/png');
+                        const imgProps = pdf.getImageProperties(chartImage);
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                        pdf.addImage(chartImage, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                        pdf.save('chart.pdf');
 
                         canvas.style.cursor = 'default'; // Reset cursor after click
                     }
@@ -1062,6 +1070,8 @@
             }
         }
     });
+
+
 
 
         
