@@ -2000,7 +2000,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-/****** Object:  StoredProcedure [dbo].[Sp_Get_Kaizen_Details]    Script Date: 10-09-2024 15:02:14 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_Kaizen_Details]    Script Date: 11-09-2024 11:04:59 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -2106,7 +2106,8 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
         WHERE
             (
                 (@ImageApprover = 'True' AND Kaizens.ApprovalStatus = 1) OR
-                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,4,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
+                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
+				(@Role = 'FIN' AND Kaizens.ApprovalStatus in (4) AND (Kaizens.ApprovedByIE is NULL) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
                 (@Role = 'MGR' AND Kaizens.ApprovalStatus in (2,15,5)) OR
                 (@Role = 'IED' AND Kaizens.ApprovalStatus in(4,7) AND Kaizens.ApprovedByIE IS NOT NULL) OR
                 (@Role = 'ADM' AND 1 = 1 AND Kaizens.ApprovalStatus != 0) OR
@@ -2214,7 +2215,8 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
             ) AND
             (
                 (@ImageApprover = 'True' AND Kaizens.ApprovalStatus = 1) OR
-                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,4,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
+                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
+				(@Role = 'FIN' AND Kaizens.ApprovalStatus in (4) AND (Kaizens.ApprovedByIE is NULL) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
                 (@Role = 'MGR' AND Kaizens.ApprovalStatus in (2,15,5)) OR
                 (@Role = 'IED' AND Kaizens.ApprovalStatus in(4,7) AND Kaizens.ApprovedByIE IS NOT NULL) OR
                 (@Role = 'ADM' AND 1 = 1 AND Kaizens.ApprovalStatus != 0) OR
