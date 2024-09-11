@@ -2,15 +2,20 @@
 @{
     Layout = "Empty";
 }
+<style>
+    .login-image {
+        width: 100%;
+        height: 70px;
+        object-fit: contain;
+    }
+</style>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <div class="login-container animated fadeIn">
-        <div class="logobox btn-azure padding-top-20 padding-bottom-20" style="color:white;text-align: center;font-size:xx-large;">
-            Kaizen Application
-        </div>
         <div class="loginbox bg-white">
-            <div class="loginbox-title">Forgot Password ?</div>
+            <img src="~/assets/img/Tepl Kaizen Image.png" class="login-image" alt="Kaizen Image" />
+            <div class="loginbox-title">Forgot Password?</div>
             <div class="loginbox-or">
                 <div class="or-line"></div>
             </div>
