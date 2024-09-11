@@ -10,125 +10,80 @@ using System.Net;
 using System.Net.Mail;
 using System.ServiceProcess;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.Timers;
+using System.Runtime.Remoting.Messaging;
 
 namespace NewKaizenService
 {
     public partial class Service1 : ServiceBase
     {
-        public Timer ScheduleTimer;
-
+        private Timer timer1 = null;
+        double Interval = double.Parse(ConfigurationManager.AppSettings["TriggerDuration"]);
         public Service1()
         {
             InitializeComponent();
-        }
+            this.timer1 = new System.Timers.Timer(Interval);
+            this.timer1.AutoReset = true;
+            this.timer1.Elapsed += new System.Timers.ElapsedEventHandler(this.timer1_check);
+            this.timer1.Start();
+        }      
         protected override void OnStart(string[] args)
         {
-            Thread startThread = new Thread(new ThreadStart(ScheduleService));
-            startThread.Start();
+            Library.writeErrorLog("Started:- " + DateTime.Now);
         }
-        public void ScheduleService()
+        private void timer1_check(object sender, ElapsedEventArgs e)
         {
+            Library.writeErrorLog("Running...." + DateTime.Now);
             try
             {
-                ScheduleTimer = new Timer(new TimerCallback(SendMail));
-                DateTime ScheduleTime = DateTime.MinValue;
-                ScheduleTime = DateTime.Parse(ConfigurationManager.AppSettings["TriggerTime"]);// Need to change trigger time
-                if (DateTime.Now > ScheduleTime)
-                    ScheduleTime = ScheduleTime.AddMinutes(Convert.ToInt32(ConfigurationManager.AppSettings["TriggerDuration"])); // Need to change the schedule time
-                TimeSpan timespan =ScheduleTime.Subtract(DateTime.Now);
-                int dueMilliSecond = Convert.ToInt32(timespan.TotalMilliseconds);
-                ScheduleTimer.Change(dueMilliSecond, Timeout.Infinite);
-            }
-            catch (Exception ex)
-            {
-                WriteErrorLog(ex);
-            }
-        }
-        public void SendMail(object e)
-        {
-            string connection = System.Configuration.ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
-            using (SqlConnection conn = new SqlConnection(connection))
-            {
-                DataTable dt = new DataTable();
-                SqlCommand com = new SqlCommand("Sp_Fetch_Kaizens_For_Approval", conn);
-                SqlDataAdapter da = new SqlDataAdapter(com);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                Library.writeErrorLog("Executed  DB data...." + DateTime.Now);
+                string connection = System.Configuration.ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+                using (SqlConnection conn = new SqlConnection(connection))
                 {
-                    try
+                    DataTable dt = new DataTable();
+                    SqlCommand com = new SqlCommand("Sp_Fetch_Kaizens_For_Approval", conn);
+                    SqlDataAdapter da = new SqlDataAdapter(com);
+                    da.Fill(dt);
+                    if (dt.Rows.Count > 0)
                     {
+
                         foreach (DataRow dr in dt.Rows)
                         {
                             var Email = dr["ApproverEmail"].ToString();
+                            //var Email = "nitish.kumar@canopusgbs.com";
                             var ApprovalName = dr["ApproverName"].ToString();
                             var DocNo = dr["DocNo"].ToString();
-                           // Email = "nitishkumar154@gmail.com";//Need to change with Dynamic Email ID.
                             using (MailMessage mail = new MailMessage())
-                            {     
+                            {
                                 mail.From = new MailAddress(ConfigurationManager.AppSettings["From"]);
                                 mail.To.Add(Email);
                                 mail.Subject = ConfigurationManager.AppSettings["Subject"];
                                 mail.IsBodyHtml = true;
                                 mail.Body = "Dear " + ApprovalName + ",<br />Your Approval is pending for the below Kaizens.Please approve the Details. <br />" + DocNo + ".  <br /><br /><br /><br /><br /> Thanks & Regards,<br /> Kaizen Team ";
-                                using (SmtpClient smtp = new SmtpClient(ConfigurationManager.AppSettings["Smtp"],Convert.ToInt32(ConfigurationManager.AppSettings["Port"])))
+                                using (SmtpClient smtp = new SmtpClient(ConfigurationManager.AppSettings["Smtp"], Convert.ToInt32(ConfigurationManager.AppSettings["Port"])))
                                 {
                                     smtp.UseDefaultCredentials = false;
                                     smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["From"], ConfigurationManager.AppSettings["Password"]);
                                     smtp.EnableSsl = true;
                                     smtp.Send(mail);
-                                }                               
+                                }
                             }
                         }
 
                     }
-                    catch (Exception ex)
-                    {
-                    
-
-                    }
                 }
-
             }
-
-           this.ScheduleService(); 
-        }
-
-        public static void WriteErrorLog(Exception ex)
-        {
-            StreamWriter sw = null;
-            try
+            catch (Exception ex)
             {
-                sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\LogFile.txt",true);
-                sw.WriteLine(DateTime.Now.ToString()+": " + ex.Source.ToString().Trim()+"; " + ex.Message.ToString().Trim());
-                sw.Flush();
-                sw.Close();
+                Library.writeErrorLog("Started:- " + ex.Message + DateTime.Now);
             }
-            catch
-            {
-
-            }
-        }
-        public static void WriteErrorLog(string Message)
-        {
-            StreamWriter sw = null;
-            try
-            {
-                sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\LogFile.txt", true);
-                sw.WriteLine(DateTime.Now.ToString() + ": " + Message);
-                sw.Flush();
-                sw.Close();
-            }
-            catch
-            {
-
-            }
-        }
+           }
         protected override void OnStop()
         {
-            ScheduleTimer.Dispose();
+            Library.writeErrorLog("Service Stoped:- " + DateTime.Now);
+            timer1.Enabled = false;
         }
     }
 }
