@@ -105,6 +105,17 @@
 
 <script>
     $(document).ready(function () {
+    @if (TempData["SwalMessage"] != null)
+    {
+        <text>
+                swal({
+                    text: '@TempData["SwalMessage"]',
+                    button: 'OK'
+                });
+        </text>
+    }
+        });
+    $(document).ready(function () {
         $('#btnupdate').hide(); // Initially hide the update button
         $('#employeeTable').DataTable({
             responsive: true // Enable responsive feature in DataTables

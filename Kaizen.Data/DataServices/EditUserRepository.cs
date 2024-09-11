@@ -31,73 +31,79 @@ namespace Kaizen.Data.DataServices
 			return builder.Build();
 		}
 
-		public string EditUserData(EditUserModel editUserModel)
-		{
-			{
-				string msg = "";
-				int res;
-				try
-				{
-					SqlCommand com = new SqlCommand(StoredProcedures.Sp_Update_Users, con);
-					com.CommandType = CommandType.StoredProcedure;
-					com.Parameters.AddWithValue("@EmployeeID", editUserModel.EmpID);
-					com.Parameters.AddWithValue("@FirstName", editUserModel.FirstName);
-					if(editUserModel.MiddleName==null)
-					{
-                        com.Parameters.AddWithValue("@MiddleName", DBNull.Value);
-                    }
-					else
-					{
-                        com.Parameters.AddWithValue("@MiddleName", editUserModel.MiddleName);
-                    }
-                    
+        
+        public string EditUserData(EditUserModel editUserModel)
+        {
+            string msg = "";
+            try
+            {
+                using (SqlCommand com = new SqlCommand(StoredProcedures.Sp_Update_Users, con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@EmployeeID", editUserModel.EmpID);
+                    com.Parameters.AddWithValue("@FirstName", editUserModel.FirstName);
+                    com.Parameters.AddWithValue("@MiddleName", string.IsNullOrEmpty(editUserModel.MiddleName) ? (object)DBNull.Value : editUserModel.MiddleName);
                     com.Parameters.AddWithValue("@LastName", editUserModel.LastName);
                     com.Parameters.AddWithValue("@Email", editUserModel.Email);
-					//com.Parameters.AddWithValue("@Password", editUserModel.Password);
-					com.Parameters.AddWithValue("@PhoneNo", editUserModel.PhoneNo);
-					com.Parameters.AddWithValue("@Gender", editUserModel.Gender.Substring(0, 1));
-					com.Parameters.AddWithValue("@Cid", editUserModel.Cid);
-					com.Parameters.AddWithValue("@Rid", editUserModel.Rid);
-					com.Parameters.AddWithValue("@Status", editUserModel.StatusName);
-					com.Parameters.AddWithValue("@Did", editUserModel.Did);
-					com.Parameters.AddWithValue("@Deptid", editUserModel.DeptId);
-					com.Parameters.AddWithValue("@ImageApprover", editUserModel.ImageApprover);
+                    com.Parameters.AddWithValue("@PhoneNo", editUserModel.PhoneNo);
+                    com.Parameters.AddWithValue("@Gender", editUserModel.Gender.Substring(0, 1));
+                    com.Parameters.AddWithValue("@Cid", editUserModel.Cid);
+                    com.Parameters.AddWithValue("@Rid", editUserModel.Rid);
+                    com.Parameters.AddWithValue("@Status", editUserModel.StatusName);
+                    com.Parameters.AddWithValue("@Did", editUserModel.Did);
+                    com.Parameters.AddWithValue("@Deptid", editUserModel.DeptId);
+                    com.Parameters.AddWithValue("@ImageApprover", editUserModel.ImageApprover);
                     com.Parameters.AddWithValue("@BlockId", editUserModel.BlockId);
                     com.Parameters.AddWithValue("@ModifiedEmpId", editUserModel.ModifiedBy);
-                    SqlParameter obreg = new SqlParameter();
-					obreg.ParameterName = "@result";
-					obreg.SqlDbType = SqlDbType.Bit;
-					obreg.Direction = ParameterDirection.Output;
-					com.Parameters.Add(obreg);
-					con.Open();
-					com.ExecuteNonQuery();
-					res = Convert.ToInt32(obreg.Value);
-					con.Close();
-					if (res == 1)
-					{
-						msg = "ok";
-					}
-					else
-					{
-						msg = "Employee doesnot exist.";
-					}
-					return msg;
-				}
-				catch (Exception ex)
-				{
-					if (con.State == ConnectionState.Open)
-					{
-						msg = ex.Message;
-						con.Close();
-					}
 
-				}
-				finally
-				{
-					con.Close();
-				}
-				return msg;
-			}
-		}
-	}
+                    com.Parameters.Add(new SqlParameter("@result", SqlDbType.Bit) { Direction = ParameterDirection.Output });
+                    com.Parameters.Add(new SqlParameter("@ReturnMessage", SqlDbType.NVarChar, 500) { Direction = ParameterDirection.Output });
+                    com.Parameters.Add(new SqlParameter("@ReturnUser", SqlDbType.NVarChar, 500) { Direction = ParameterDirection.Output });
+
+                    con.Open();
+                    com.ExecuteNonQuery();
+
+                    var resultParam = com.Parameters["@result"].Value;
+                    int res = resultParam == DBNull.Value ? 0 : Convert.ToInt32(resultParam);
+
+                    var returnMessageParam = com.Parameters["@ReturnMessage"].Value;
+                    string returnMessage = returnMessageParam == DBNull.Value ? string.Empty : Convert.ToString(returnMessageParam);
+
+                    var returnMessageuser = com.Parameters["@ReturnUser"].Value;
+                    string returnMes = returnMessageuser == DBNull.Value ? string.Empty : Convert.ToString(returnMessageuser);
+
+                    if (!string.IsNullOrEmpty(returnMessage))
+                    {
+                        msg = "returnMessage";
+                    }
+                    else if (res == 1)
+                    {
+                        msg = "ok";
+                    }
+                    else if (!string.IsNullOrEmpty(returnMes))
+                    {
+                        msg = "Usertype";
+                    }
+                    else
+                    {
+                        msg = "Employee does not exist.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+            return msg;
+        }
+
+
+    }
 }

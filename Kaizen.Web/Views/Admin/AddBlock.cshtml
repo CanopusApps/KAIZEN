@@ -98,6 +98,18 @@
 </div>
 
 <script>
+     $(document).ready(function () {
+        @if (TempData["SwalMessage"] != null)
+        {
+            <text>
+                swal({
+                    text: '@TempData["SwalMessage"]',
+                    button: 'OK'
+                });
+            </text>
+        }
+    });
+
 
     $(document).ready(function () {
         $('#tblblock').DataTable({});

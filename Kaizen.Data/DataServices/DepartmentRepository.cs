@@ -102,6 +102,7 @@ namespace Kaizen.Data.DataServices
         public bool UpdateDepartmentStatus(int id, bool status)
         {
             bool updStatus = false;
+            string message = string.Empty;
             try
             {
                 com = new SqlCommand();
@@ -110,10 +111,23 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@ID", id);
                 com.Parameters.AddWithValue("@status", status);
                 com.CommandText = StoredProcedures.sp_UpdateDepartmentStatus;
+                SqlParameter messageParam = new SqlParameter("@Message", SqlDbType.NVarChar, 250)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                com.Parameters.Add(messageParam);
                 con.Open();
                 com.ExecuteNonQuery();
                 con.Close();
-                updStatus = true;
+                message = messageParam.Value.ToString();
+                if (!string.IsNullOrEmpty(message))
+                {
+                    updStatus = false;
+                }
+                else
+                {
+                    updStatus = true;
+                }
             }
             catch (Exception ex)
             {

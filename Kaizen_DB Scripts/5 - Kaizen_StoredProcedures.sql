@@ -219,6 +219,16 @@ GO
 /****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_AddBlockDetails]
 GO
+/****** Object:  StoredProcedure [dbo].[Sp_Get_kaizen_details_On_clickdashboard]    Script Date: 10-09-2024 15:00:16 ******/
+DROP PROCEDURE IF EXISTS [dbo].[Sp_Get_kaizen_details_On_clickdashboard]
+GO
+
+/****** Object:  StoredProcedure [dbo].[Sp_GetManagers]    Script Date: 10-09-2024 12:11:49 ******/
+DROP PROCEDURE IF EXISTS [dbo].[Sp_GetManagers]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_UpdateDomainStatus]    Script Date: 10-09-2024 15:19:49 ******/
+DROP PROCEDURE IF EXISTS [dbo].[sp_UpdateDomainStatus]
+GO
 /****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
@@ -625,68 +635,102 @@ BEGIN
       AND EndDate = @EndDate;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 10-09-2024 15:08:40 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-  
-CREATE PROCEDURE [dbo].[Sp_EditUser]  
-   
- @EmployeeID NVARCHAR(50),  
- @FirstName NVARCHAR(300),  
- @MiddleName NVARCHAR(300),  
- @LastName NVARCHAR(300),  
- @Email NVARCHAR(200),  
- @PhoneNo NVARCHAR(200),  
- @Status INT,  
- @ImageApprover BIT,  
- @Cid INT,  
- @Rid INT,  
- @Did INT,  
- @Deptid INT,  
- --@Password NVARCHAR(200),  
- @Gender NVARCHAR(20),  
- @ModifiedEmpId NVARCHAR(50) = NULL,  
- @BlockId Int=0,  
- @result BIT Out  
-AS  
-BEGIN  
-   
- SET NOCOUNT ON;  
-      
- Declare @ModifiedBy nvarchar(100);    
- set @ModifiedBy =(select ID FROM [dbo].[Users] WHERE EmpID=@ModifiedEmpId)   
-  
-SET @result = ( SELECT COUNT(*) FROM [dbo].[USERS] WHERE EMPID = @EmployeeID)  
-  
-IF (@result = 1)  
- BEGIN  
-  UPDATE [dbo].[USERS]  
-  SET    UserID = @EmployeeID,  
-  FirstName = CASE WHEN @FirstName IS NOT NULL AND @FirstName <> FirstName THEN @FirstName ELSE FirstName END,  
-  MiddleName = @MiddleName, 
-  LastName = @LastName,
-  --LastName = CASE WHEN @LastName IS NOT NULL AND @LastName <> LastName THEN @LastName ELSE LastName END,  
-  Email = CASE WHEN @Email IS NOT NULL AND @Email <> Email THEN @Email ELSE Email END,   
-  MobileNumber = CASE WHEN @PhoneNo IS NOT NULL AND @PhoneNo <> MobileNumber THEN @PhoneNo ELSE MobileNumber END,  
-  --Password = CASE WHEN @Password IS NOT NULL AND @Password <> Password THEN @Password ELSE Password END,  
-  Gender = CASE WHEN @gender IS NOT NULL AND @gender <> Gender THEN @gender ELSE Gender END,  
-  Status = CASE WHEN @Status IS NOT NULL AND @Status <> Status THEN @Status ELSE Status END,   
-  --ImageApprover = CASE WHEN @ImageApprover IS NOT NULL AND @ImageApprover <> ImageApprover THEN @ImageApprover ELSE ImageApprover END,  
-  ImageApprover = @ImageApprover,
-  Domain = (SELECT ID FROM [dbo].[Domains] WHERE DomainID = @Did),   
-  Department = (SELECT ID FROM [dbo].[Departments] WHERE DeptId = @Deptid),   
-  UserType = (SELECT ID FROM [dbo].[USERTYPE] WHERE UserTypeId = @Rid),   
-  Cadre = (SELECT ID FROM [dbo].[Cadre] WHERE CadreId = @Cid),  
-  Block=(Select ID From[dbo].[Blocks] where BlockId=@BlockId),  
-  ModifiedBy = @ModifiedBy,  
-  ModifiedDate = getdate()  
-  
-    WHERE EmpID = @EmployeeID;  
-  END  
-END  
-  
+
+
+CREATE PROCEDURE [dbo].[Sp_EditUser]    
+@EmployeeID NVARCHAR(50),    
+@FirstName NVARCHAR(300),    
+@MiddleName NVARCHAR(300),    
+@LastName NVARCHAR(300),    
+@Email NVARCHAR(200),    
+@PhoneNo NVARCHAR(200),    
+@Status INT,    
+@ImageApprover BIT,    
+@Cid INT,    
+@Rid INT,    
+@Did INT,    
+@Deptid INT,    
+--@Password NVARCHAR(200),    
+@Gender NVARCHAR(20),    
+@ModifiedEmpId NVARCHAR(50) = NULL,    
+@BlockId Int=0,    
+@result BIT Out ,
+@ReturnMessage NVARCHAR(500) OUT,
+@ReturnUser NVARCHAR(500) OUT
+AS    
+BEGIN    
+Declare @employe nvarchar(100),
+        @usertype nvarchar(100);      
+set @employe =(select ID FROM [dbo].[Users] WHERE EmpID=@EmployeeID);
+set @usertype =(select ID FROM [dbo].[UserType] WHERE UserCode='ADM');
+SET NOCOUNT ON;
+  IF @Status = 0
+    BEGIN
+        IF EXISTS (
+            SELECT 1 
+            FROM [dbo].[Kaizens] 
+            WHERE CreatedBy = @employe 
+            AND [ApprovalStatus] IN (1,2,4,6,15)
+        )
+        BEGIN
+            SET @ReturnMessage = 'The employee has associated Kaizens with approval ';
+            RETURN; 
+        END
+    END
+
+	 IF @Rid IN ('2', '3', '4', '5', '6')
+    BEGIN
+        DECLARE @adminCount INT;
+        SELECT @adminCount = COUNT(1)
+        FROM [dbo].[Users]
+        WHERE UserType = @usertype
+        AND ID != @employe;
+
+        IF @adminCount < 1
+        BEGIN
+            SET @ReturnUser = 'At least two users with UserType 1 must remain in the system.';
+            RETURN;
+        END
+    END
+ 
+ 
+Declare @ModifiedBy nvarchar(100);      
+set @ModifiedBy =(select ID FROM [dbo].[Users] WHERE EmpID=@ModifiedEmpId)     
+SET @result = ( SELECT COUNT(*) FROM [dbo].[USERS] WHERE EMPID = @EmployeeID)    
+
+IF (@result = 1)    
+
+BEGIN    
+  UPDATE [dbo].[USERS]    
+  SET    UserID = @EmployeeID,    
+  FirstName = CASE WHEN @FirstName IS NOT NULL AND @FirstName <> FirstName THEN @FirstName ELSE FirstName END,    
+  MiddleName = @MiddleName,   
+  LastName = @LastName,  
+  --LastName = CASE WHEN @LastName IS NOT NULL AND @LastName <> LastName THEN @LastName ELSE LastName END,    
+  Email = CASE WHEN @Email IS NOT NULL AND @Email <> Email THEN @Email ELSE Email END,     
+  MobileNumber = CASE WHEN @PhoneNo IS NOT NULL AND @PhoneNo <> MobileNumber THEN @PhoneNo ELSE MobileNumber END,    
+  --Password = CASE WHEN @Password IS NOT NULL AND @Password <> Password THEN @Password ELSE Password END,    
+  Gender = CASE WHEN @gender IS NOT NULL AND @gender <> Gender THEN @gender ELSE Gender END,    
+  Status = CASE WHEN @Status IS NOT NULL AND @Status <> Status THEN @Status ELSE Status END,     
+  --ImageApprover = CASE WHEN @ImageApprover IS NOT NULL AND @ImageApprover <> ImageApprover THEN @ImageApprover ELSE ImageApprover END,    
+  ImageApprover = @ImageApprover,  
+  Domain = (SELECT ID FROM [dbo].[Domains] WHERE DomainID = @Did),     
+  Department = (SELECT ID FROM [dbo].[Departments] WHERE DeptId = @Deptid),     
+  UserType = (SELECT ID FROM [dbo].[USERTYPE] WHERE UserTypeId = @Rid),     
+  Cadre = (SELECT ID FROM [dbo].[Cadre] WHERE CadreId = @Cid),    
+  Block=(Select ID From[dbo].[Blocks] where BlockId=@BlockId),    
+  ModifiedBy = @ModifiedBy,    
+  ModifiedDate = getdate()    
+    WHERE EmpID = @EmployeeID;    
+  END    
+END 
+ 
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Fetch_Count]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -983,11 +1027,14 @@ BEGIN
     WHERE EmpID = @Id;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_AllDashboardReports]    Script Date: 05-09-2024 20:04:16 ******/
+
+/****** Object:  StoredProcedure [dbo].[Sp_Get_AllDashboardReports]    Script Date: 10-09-2024 14:58:07 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[Sp_Get_AllDashboardReports]
     @StartDate DATE = NULL,
     @EndDate DATE = NULL,
@@ -1382,37 +1429,47 @@ END
 
 	
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_BlockformReport]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_BlockformReport]    Script Date: 11-09-2024 10:44:43 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE Proc [dbo].[Sp_Get_BlockformReport]
-@startdate datetime = NULL,
-@enddate datetime = NULL
-as
-BEGIN
--- Handle NULL parameters
-    SET @startdate = NULLIF(@startdate, '')
-    SET @enddate = NULLIF(@enddate, '')
-    IF @startdate IS NULL AND @enddate IS NULL
-    BEGIN
-        SELECT * FROM [dbo].[Blocks];
-    END
-    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL
-    BEGIN
-        SELECT * FROM [dbo].[Blocks] WHERE CreatedDate >= @startdate;
-    END
-    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL
-    BEGIN
-        SELECT * FROM [dbo].[Blocks] WHERE CreatedDate <= DATEADD(DAY, 1, @enddate);
-    END
-    
-    ELSE
-Begin
-Select * from [dbo].[Blocks] WHERE CreatedDate >= @startdate AND CreatedDate <= DATEADD(DAY, 1, @enddate);
-END
-END
+
+CREATE Proc [dbo].[Sp_Get_BlockformReport]  
+@startdate datetime = NULL,  
+@enddate datetime = NULL  
+as  
+BEGIN  
+-- Handle NULL parameters  
+    SET @startdate = NULLIF(@startdate, '')  
+    SET @enddate = NULLIF(@enddate, '')  
+    IF @startdate IS NULL AND @enddate IS NULL  
+    BEGIN  
+        SELECT b.ID,b.BlockId,b.BlockName,b.Status,u.FirstName,b.CreatedDate FROM [dbo].[Blocks] as b 
+		INNER JOIN [dbo].[Users] AS u ON b.CreatedBy = u.ID;  
+    END  
+    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
+    BEGIN  
+        SELECT b.ID,b.BlockId,b.BlockName,b.Status,u.FirstName,b.CreatedDate FROM [dbo].[Blocks] as b 
+		INNER JOIN [dbo].[Users] AS u ON b.CreatedBy = u.ID
+		WHERE b.CreatedDate >= @startdate;  
+    END  
+    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
+    BEGIN  
+        SELECT b.ID,b.BlockId,b.BlockName,b.Status,u.FirstName,b.CreatedDate FROM [dbo].[Blocks] as b 
+		INNER JOIN [dbo].[Users] AS u ON b.CreatedBy = u.ID
+		WHERE b.CreatedDate <= DATEADD(DAY, 1, @enddate);  
+    END  
+      
+    ELSE  
+Begin  
+SELECT b.ID,b.BlockId,b.BlockName,b.Status,u.FirstName,b.CreatedDate FROM [dbo].[Blocks] as b 
+		INNER JOIN [dbo].[Users] AS u ON b.CreatedBy = u.ID
+		WHERE b.CreatedDate >= @startdate AND b.CreatedDate <= DATEADD(DAY, 1, @enddate);  
+END  
+END  
+
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Get_Cadre]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -1767,37 +1824,50 @@ BEGIN
         d.DomainId;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_DepartmentformReport]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_DepartmentformReport]    Script Date: 11-09-2024 10:47:34 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE Proc [dbo].[Sp_Get_DepartmentformReport]
-@startdate datetime = NULL,
-@enddate datetime = NULL
-as
-BEGIN
--- Handle NULL parameters
-    SET @startdate = NULLIF(@startdate, '')
-    SET @enddate = NULLIF(@enddate, '')
-    IF @startdate IS NULL AND @enddate IS NULL
-    BEGIN
-        SELECT * FROM [dbo].[Departments];
-    END
-    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL
-    BEGIN
-        SELECT * FROM [dbo].[Departments] WHERE CreatedDate >= @startdate;
-    END
-    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL
-    BEGIN
-        SELECT * FROM [dbo].[Departments] WHERE CreatedDate <= DATEADD(DAY, 1, @enddate);
-    END
-    
-    ELSE
-Begin
-Select * from [dbo].[Departments] WHERE CreatedDate >= @startdate AND CreatedDate <= DATEADD(DAY, 1, @enddate);
-END
-END
+
+CREATE Proc [dbo].[Sp_Get_DepartmentformReport]  
+@startdate datetime = NULL,  
+@enddate datetime = NULL  
+as  
+BEGIN  
+-- Handle NULL parameters  
+    SET @startdate = NULLIF(@startdate, '')  
+    SET @enddate = NULLIF(@enddate, '')  
+    IF @startdate IS NULL AND @enddate IS NULL  
+    BEGIN  
+		SELECT d.ID,d.DeptId,d.DepartmentName,a.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Departments] as d 
+		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
+		INNER JOIN [dbo].[Domains] AS a ON a.ID = d.DomainId;
+    END  
+    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
+    BEGIN  
+        SELECT d.ID,d.DeptId,d.DepartmentName,a.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Departments] as d 
+		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
+		INNER JOIN [dbo].[Domains] AS a ON a.ID = d.DomainId
+		WHERE d.CreatedDate >= @startdate;  
+    END  
+    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
+    BEGIN  
+        SELECT d.ID,d.DeptId,d.DepartmentName,a.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Departments] as d 
+		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
+		INNER JOIN [dbo].[Domains] AS a ON a.ID = d.DomainId
+		WHERE d.CreatedDate <= DATEADD(DAY, 1, @enddate);  
+    END  
+      
+    ELSE  
+Begin  
+SELECT d.ID,d.DeptId,d.DepartmentName,a.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Departments] as d 
+		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
+		INNER JOIN [dbo].[Domains] AS a ON a.ID = d.DomainId
+		WHERE d.CreatedDate >= @startdate AND d.CreatedDate <= DATEADD(DAY, 1, @enddate);  
+END  
+END  
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Get_Departments]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -1845,37 +1915,46 @@ ORDER BY
     d.DeptId;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_DomainformReport]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_DomainformReport]    Script Date: 11-09-2024 10:46:04 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE Proc [dbo].[Sp_Get_DomainformReport]
-@startdate datetime = NULL,
-@enddate datetime = NULL
-as
-BEGIN
--- Handle NULL parameters
-    SET @startdate = NULLIF(@startdate, '')
-    SET @enddate = NULLIF(@enddate, '')
-    IF @startdate IS NULL AND @enddate IS NULL
-    BEGIN
-        SELECT * FROM [dbo].[Domains];
-    END
-    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL
-    BEGIN
-        SELECT * FROM [dbo].[Domains] WHERE CreatedDate >= @startdate;
-    END
-    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL
-    BEGIN
-        SELECT * FROM [dbo].[Domains] WHERE CreatedDate <= DATEADD(DAY, 1, @enddate);
-    END
-    
-    ELSE
-Begin
-Select * from [dbo].[Domains] WHERE CreatedDate >= @startdate AND CreatedDate <= DATEADD(DAY, 1, @enddate);
-END
-END
+
+CREATE Proc [dbo].[Sp_Get_DomainformReport]  
+@startdate datetime = NULL,  
+@enddate datetime = NULL  
+as  
+BEGIN  
+-- Handle NULL parameters  
+    SET @startdate = NULLIF(@startdate, '')  
+    SET @enddate = NULLIF(@enddate, '')  
+    IF @startdate IS NULL AND @enddate IS NULL  
+    BEGIN  
+		SELECT d.ID,d.DomainID,d.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
+		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID;
+    END  
+    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
+    BEGIN  
+        SELECT d.ID,d.DomainID,d.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
+		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
+		WHERE d.CreatedDate >= @startdate;  
+    END  
+    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
+    BEGIN  
+        SELECT d.ID,d.DomainID,d.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
+		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
+		WHERE d.CreatedDate <= DATEADD(DAY, 1, @enddate);  
+    END  
+      
+    ELSE  
+Begin  
+SELECT d.ID,d.DomainID,d.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
+		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
+		WHERE d.CreatedDate >= @startdate AND d.CreatedDate <= DATEADD(DAY, 1, @enddate);  
+END  
+END  
 GO
 /****** Object:  StoredProcedure [dbo].[sp_Get_Domains]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -1952,6 +2031,14 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+/****** Object:  StoredProcedure [dbo].[Sp_Get_Kaizen_Details]    Script Date: 11-09-2024 11:04:59 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
 
 
 --exec Sp_Get_Kaizen_Details '','','','','','','','EMPLOYEE','6fcd60ce-2566-4517-83dd-020b9279a5c8'
@@ -2051,7 +2138,8 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
         WHERE
             (
                 (@ImageApprover = 'True' AND Kaizens.ApprovalStatus = 1) OR
-                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,4,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
+                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
+				(@Role = 'FIN' AND Kaizens.ApprovalStatus in (4) AND (Kaizens.ApprovedByIE is NULL) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
                 (@Role = 'MGR' AND Kaizens.ApprovalStatus in (2,15,5)) OR
                 (@Role = 'IED' AND Kaizens.ApprovalStatus in(4,7) AND Kaizens.ApprovedByIE IS NOT NULL) OR
                 (@Role = 'ADM' AND 1 = 1 AND Kaizens.ApprovalStatus != 0) OR
@@ -2159,7 +2247,8 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
             ) AND
             (
                 (@ImageApprover = 'True' AND Kaizens.ApprovalStatus = 1) OR
-                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,4,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
+                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
+				(@Role = 'FIN' AND Kaizens.ApprovalStatus in (4) AND (Kaizens.ApprovedByIE is NULL) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
                 (@Role = 'MGR' AND Kaizens.ApprovalStatus in (2,15,5)) OR
                 (@Role = 'IED' AND Kaizens.ApprovalStatus in(4,7) AND Kaizens.ApprovedByIE IS NOT NULL) OR
                 (@Role = 'ADM' AND 1 = 1 AND Kaizens.ApprovalStatus != 0) OR
@@ -2183,38 +2272,285 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenformReport]    Script Date: 05-09-2024 20:04:16 ******/
+
+
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenformReport]    Script Date: 11-09-2024 10:50:12 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE Proc [dbo].[Sp_Get_KaizenformReport]
-@startdate Date = NULL,
-@enddate Date = NULL
-as
-BEGIN
- -- Handle NULL parameters
-    SET @startdate = NULLIF(@startdate, '')
-    SET @enddate = NULLIF(@enddate, '')
-    IF @startdate IS NULL AND @enddate IS NULL
-    BEGIN
-        SELECT * FROM [dbo].[Kaizens];
-    END
-    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL
-    BEGIN
-        SELECT * FROM [dbo].[Kaizens] WHERE CreatedDate >= @startdate;
-    END
-    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL
-    BEGIN
-        SELECT * FROM [dbo].[Kaizens] WHERE CreatedDate <= DATEADD(DAY, 1, @enddate);
-    END
-    
-    ELSE
-Begin
-Select * from [dbo].[Kaizens] WHERE CreatedDate >= @startdate AND CreatedDate <= DATEADD(DAY, 1, @enddate);
-END
-END
 
+CREATE Proc [dbo].[Sp_Get_KaizenformReport]  
+@startdate Date = NULL,  
+@enddate Date = NULL  
+as  
+BEGIN  
+ -- Handle NULL parameters  
+    SET @startdate = NULLIF(@startdate, '')  
+    SET @enddate = NULLIF(@enddate, '')  
+    IF @startdate IS NULL AND @enddate IS NULL  
+    BEGIN  
+        SELECT 
+		kd.ID,
+        kd.KaizenId,
+        kd.KaizenType,
+        kd.Activity,
+        kd.ActivityDesc,
+        kd.BenefitArea,
+        kd.DocNo,
+        kd.CostCentre,
+        kd.BlockDetails,
+		 d.DepartmentName, 
+        kd.SuggestedKaizen,
+        kd.ProblemStatement,
+        kd.CounterMeasure,
+        kd.Yield,
+        kd.CycleTime,
+        kd.Cost,
+        kd.ManPower,
+        kd.Consumables,
+        kd.others, 
+        kd.TotalSavings,
+        kd.RootCause,
+        kd.PresentCondition,
+        kd.ImprovementsCompleted,
+        kd.RootCauseDetails,
+        kd.InOtherMC,
+        kd.WithIntheDept,
+        kd.InOtherDept,
+        kd.OtherPoints,
+        kd.Benifits,
+        kd.KaizenTheme,
+        kd.CreatedDate,
+        u.FirstName AS CreatedBy,
+        aps.StatusDescription AS ApprovalStatus,
+        dom.DomainName AS Domain,
+        b.BlockName AS Block,
+        c.CadreDesc AS Cadre,
+        u1.FirstName AS DriName,
+        u2.FirstName AS IEApprovedBy,
+        u3.FirstName AS FinanceApprovedBy
+    FROM 
+        Departments d 
+    LEFT JOIN 
+        Kaizens kd ON kd.Department = d.ID
+    LEFT JOIN 
+        Users u ON u.ID = kd.CreatedBy
+    LEFT JOIN 
+        Users u1 ON u1.ID = kd.DRIApprovedBy
+    LEFT JOIN 
+        Users u2 ON u2.ID = kd.ApprovedByIE
+    LEFT JOIN 
+        Users u3 ON u3.ID = kd.FinanceApprovedBy
+    LEFT JOIN 
+        ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
+    LEFT JOIN 
+        Domains dom ON dom.ID = kd.Domain
+    LEFT JOIN 
+        Blocks b ON b.ID = kd.Block
+    LEFT JOIN 
+        Cadre c ON c.ID = u.Cadre 
+		where kd.ID is NOT NULL
+    END  
+    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
+    BEGIN  
+        SELECT 
+        d.DepartmentName, 
+        d.DeptId,
+        kd.KaizenId,
+        kd.KaizenType,
+        kd.Activity,
+        kd.ActivityDesc,
+        kd.BenefitArea,
+        kd.DocNo,
+        kd.CostCentre,
+        kd.BlockDetails,
+        kd.SuggestedKaizen,
+        kd.ProblemStatement,
+        kd.CounterMeasure,
+        kd.Yield,
+        kd.CycleTime,
+        kd.Cost,
+        kd.ManPower,
+        kd.Consumables,
+        kd.others, 
+        kd.TotalSavings,
+        kd.RootCause,
+        kd.PresentCondition,
+        kd.ImprovementsCompleted,
+        kd.RootCauseDetails,
+        kd.InOtherMC,
+        kd.WithIntheDept,
+        kd.InOtherDept,
+        kd.OtherPoints,
+        kd.Benifits,
+        kd.KaizenTheme,
+        kd.CreatedDate,
+        u.FirstName AS CreatedBy,
+        aps.StatusDescription AS ApprovalStatus,
+        dom.DomainName AS Domain,
+        b.BlockName AS Block,
+        c.CadreDesc AS Cadre,
+        u1.FirstName AS DriName,
+        u2.FirstName AS IEApprovedBy,
+        u3.FirstName AS FinanceApprovedBy
+    FROM 
+        Departments d 
+    LEFT JOIN 
+        Kaizens kd ON kd.Department = d.ID
+    LEFT JOIN 
+        Users u ON u.ID = kd.CreatedBy
+    LEFT JOIN 
+        Users u1 ON u1.ID = kd.DRIApprovedBy
+    LEFT JOIN 
+        Users u2 ON u2.ID = kd.ApprovedByIE
+    LEFT JOIN 
+        Users u3 ON u3.ID = kd.FinanceApprovedBy
+    LEFT JOIN 
+        ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
+    LEFT JOIN 
+        Domains dom ON dom.ID = kd.Domain
+    LEFT JOIN 
+        Blocks b ON b.ID = kd.Block
+    LEFT JOIN 
+        Cadre c ON c.ID = u.Cadre
+		WHERE kd.CreatedDate >= @startdate And  kd.ID is NOT NULL;  
+    END  
+    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
+    BEGIN  
+        SELECT 
+        d.DepartmentName, 
+        d.DeptId,
+        kd.KaizenId,
+        kd.KaizenType,
+        kd.Activity,
+        kd.ActivityDesc,
+        kd.BenefitArea,
+        kd.DocNo,
+        kd.CostCentre,
+        kd.BlockDetails,
+        kd.SuggestedKaizen,
+        kd.ProblemStatement,
+        kd.CounterMeasure,
+        kd.Yield,
+        kd.CycleTime,
+        kd.Cost,
+        kd.ManPower,
+        kd.Consumables,
+        kd.others, 
+        kd.TotalSavings,
+        kd.RootCause,
+        kd.PresentCondition,
+        kd.ImprovementsCompleted,
+        kd.RootCauseDetails,
+        kd.InOtherMC,
+        kd.WithIntheDept,
+        kd.InOtherDept,
+        kd.OtherPoints,
+        kd.Benifits,
+        kd.KaizenTheme,
+        kd.CreatedDate,
+        u.FirstName AS CreatedBy,
+        aps.StatusDescription AS ApprovalStatus,
+        dom.DomainName AS Domain,
+        b.BlockName AS Block,
+        c.CadreDesc AS Cadre,
+        u1.FirstName AS DriName,
+        u2.FirstName AS IEApprovedBy,
+        u3.FirstName AS FinanceApprovedBy
+    FROM 
+        Departments d 
+    LEFT JOIN 
+        Kaizens kd ON kd.Department = d.ID
+    LEFT JOIN 
+        Users u ON u.ID = kd.CreatedBy
+    LEFT JOIN 
+        Users u1 ON u1.ID = kd.DRIApprovedBy
+    LEFT JOIN 
+        Users u2 ON u2.ID = kd.ApprovedByIE
+    LEFT JOIN 
+        Users u3 ON u3.ID = kd.FinanceApprovedBy
+    LEFT JOIN 
+        ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
+    LEFT JOIN 
+        Domains dom ON dom.ID = kd.Domain
+    LEFT JOIN 
+        Blocks b ON b.ID = kd.Block
+    LEFT JOIN 
+        Cadre c ON c.ID = u.Cadre
+		WHERE kd.CreatedDate <= DATEADD(DAY, 1, @enddate) AND  kd.ID is NOT NULL;  
+    END  
+      
+    ELSE  
+Begin  
+SELECT 
+        d.DepartmentName, 
+        d.DeptId,
+        kd.KaizenId,
+        kd.KaizenType,
+        kd.Activity,
+        kd.ActivityDesc,
+        kd.BenefitArea,
+        kd.DocNo,
+        kd.CostCentre,
+        kd.BlockDetails,
+        kd.SuggestedKaizen,
+        kd.ProblemStatement,
+        kd.CounterMeasure,
+        kd.Yield,
+        kd.CycleTime,
+        kd.Cost,
+        kd.ManPower,
+        kd.Consumables,
+        kd.others, 
+        kd.TotalSavings,
+        kd.RootCause,
+        kd.PresentCondition,
+        kd.ImprovementsCompleted,
+        kd.RootCauseDetails,
+        kd.InOtherMC,
+        kd.WithIntheDept,
+        kd.InOtherDept,
+        kd.OtherPoints,
+        kd.Benifits,
+        kd.KaizenTheme,
+        kd.CreatedDate,
+        u.FirstName AS CreatedBy,
+        aps.StatusDescription AS ApprovalStatus,
+        dom.DomainName AS Domain,
+        b.BlockName AS Block,
+        c.CadreDesc AS Cadre,
+        u1.FirstName AS DriName,
+        u2.FirstName AS IEApprovedBy,
+        u3.FirstName AS FinanceApprovedBy
+    FROM 
+        Departments d 
+    LEFT JOIN 
+        Kaizens kd ON kd.Department = d.ID
+    LEFT JOIN 
+        Users u ON u.ID = kd.CreatedBy
+    LEFT JOIN 
+        Users u1 ON u1.ID = kd.DRIApprovedBy
+    LEFT JOIN 
+        Users u2 ON u2.ID = kd.ApprovedByIE
+    LEFT JOIN 
+        Users u3 ON u3.ID = kd.FinanceApprovedBy
+    LEFT JOIN 
+        ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
+    LEFT JOIN 
+        Domains dom ON dom.ID = kd.Domain
+    LEFT JOIN 
+        Blocks b ON b.ID = kd.Block
+    LEFT JOIN 
+        Cadre c ON c.ID = u.Cadre
+		WHERE kd.CreatedDate >= @startdate AND kd.CreatedDate <= DATEADD(DAY, 1, @enddate) AND  kd.ID is NOT NULL;  
+END  
+END  
+  
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenOriginetedby]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -2263,37 +2599,56 @@ Begin
 Select StatusID,StatusName from [dbo].Status  
 end 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_UserformReport]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_UserformReport]    Script Date: 11-09-2024 10:48:47 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE Proc [dbo].[Sp_Get_UserformReport]
-@startdate datetime = NULL,
-@enddate datetime = NULL
-as
-BEGIN
--- Handle NULL parameters
-    SET @startdate = NULLIF(@startdate, '')
-    SET @enddate = NULLIF(@enddate, '')
-    IF @startdate IS NULL AND @enddate IS NULL
-    BEGIN
-        select UserID,EmpID,FirstName,MiddleName,LastName,Email,MobileNumber,Gender,Domain,Department,Plant,Area from [dbo].[Users];
-    END
-    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL
-    BEGIN
-        select UserID,EmpID,FirstName,MiddleName,LastName,Email,MobileNumber,Gender,Domain,Department,Plant,Area from [dbo].[Users] WHERE CreatedDate >= @startdate;
-    END
-    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL
-    BEGIN
-        select UserID,EmpID,FirstName,MiddleName,LastName,Email,MobileNumber,Gender,Domain,Department,Plant,Area from [dbo].[Users] WHERE CreatedDate <= DATEADD(DAY, 1, @enddate);
-    END
-    
-    ELSE
-Begin
-select UserID,EmpID,FirstName,MiddleName,LastName,Email,MobileNumber,Gender,Domain,Department,Plant,Area from [dbo].[Users] WHERE CreatedDate >= @startdate AND CreatedDate <= DATEADD(DAY, 1, @enddate);
-END
-END
+
+CREATE Proc [dbo].[Sp_Get_UserformReport]  
+@startdate datetime = NULL,  
+@enddate datetime = NULL  
+as  
+BEGIN  
+-- Handle NULL parameters  
+    SET @startdate = NULLIF(@startdate, '')  
+    SET @enddate = NULLIF(@enddate, '')  
+    IF @startdate IS NULL AND @enddate IS NULL  
+    BEGIN  
+        select u.UserID,u.EmpID,u.FirstName,u.MiddleName,u.LastName,u.Email,u.MobileNumber,u.Gender,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc,Plant,Area from [dbo].[Users] as u
+		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
+		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
+		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
+		INNER JOIN [dbo].[UserType] AS u1 ON u1.ID = u.UserType;  
+    END  
+    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
+    BEGIN  
+        select u.UserID,u.EmpID,u.FirstName,u.MiddleName,u.LastName,u.Email,u.MobileNumber,u.Gender,a.DomainName,d.DepartmentName,Plant,Area from [dbo].[Users] as u
+		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
+		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
+		WHERE u.CreatedDate >= @startdate;  
+    END  
+    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
+    BEGIN  
+        select u.UserID,u.EmpID,u.FirstName,u.MiddleName,u.LastName,u.Email,u.MobileNumber,u.Gender,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc,Plant,Area from [dbo].[Users] as u
+		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
+		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
+		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
+		INNER JOIN [dbo].[UserType] AS u1 ON u1.ID = u.UserType
+		WHERE u.CreatedDate <= DATEADD(DAY, 1, @enddate);  
+    END  
+      
+    ELSE  
+Begin  
+select u.UserID,u.EmpID,u.FirstName,u.MiddleName,u.LastName,u.Email,u.MobileNumber,u.Gender,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc,Plant,Area from [dbo].[Users] as u
+		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
+		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
+		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
+		INNER JOIN [dbo].[UserType] AS u1 ON u1.ID = u.UserType
+		WHERE u.CreatedDate >= @startdate AND u.CreatedDate <= DATEADD(DAY, 1, @enddate);  
+END  
+END  
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Get_UserLogformReport]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -3728,21 +4083,39 @@ AS
  
  END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_UpdateBlockStatus]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_UpdateBlockStatus]    Script Date: 10-09-2024 15:10:34 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [dbo].[Sp_UpdateBlockStatus]           
-@ID int,                   
-@status bit           
---@Blockname nvarchar(50)=null,                    
-AS      
-BEGIN
-	UPDATE [Blocks] SET Status= @status WHERE BlockId = @ID
- END  
 
- 
+CREATE PROC [dbo].[Sp_UpdateBlockStatus]           
+@ID int,                     
+@status bit,
+@Message nvarchar(250) OUTPUT
+AS        
+BEGIN 
+    DECLARE @GID uniqueidentifier,
+            @Usercount int;
+    SET @GID = (SELECT ID FROM Blocks WHERE BlockId = @ID);  
+    SET @Usercount = (SELECT COUNT(EmpID) FROM Users WHERE Block = @GID);
+    
+    BEGIN
+    IF @Usercount > 0 AND @status = 0
+    BEGIN
+        SET @Message = 'Block cannot be Inactive as it has associated users.';
+    END
+    ELSE
+    BEGIN
+        UPDATE [Blocks] 
+        SET Status = @status 
+        WHERE BlockId = @ID;
+    END
+END
+END
+	 
+
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdateDepartment]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -3766,21 +4139,36 @@ Declare @Domain uniqueidentifier,
  END
  END 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_UpdateDepartmentStatus]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_UpdateDepartmentStatus]    Script Date: 10-09-2024 15:12:37 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [dbo].[Sp_UpdateDepartmentStatus]           
-@ID int,                   
-@status bit           
---@Blockname nvarchar(50)=null,                    
-AS      
-BEGIN
-	UPDATE [dbo].[Departments] SET Status= @status WHERE DeptId = @ID
- END  
 
- 
+CREATE PROC [dbo].[Sp_UpdateDepartmentStatus]           
+@ID int,                     
+@status bit,
+@Message nvarchar(250) OUTPUT
+AS        
+BEGIN 
+    DECLARE @GID uniqueidentifier,
+            @Usercount int;
+    SET @GID = (SELECT ID FROM Departments WHERE DeptId = @ID);  
+    SET @Usercount = (SELECT COUNT(EmpID) FROM Users WHERE Department = @GID);
+    BEGIN
+    IF @Usercount > 0 AND @status = 0
+    BEGIN
+        SET @Message = 'Department cannot be Inactive as it has associated users.';
+    END
+    ELSE
+    BEGIN
+        UPDATE [Departments] 
+        SET Status = @status 
+        WHERE DeptId = @ID;
+    END
+END
+END
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdateDomain]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -4160,3 +4548,252 @@ BEGIN
     END
 END;
 GO
+
+/****** Object:  StoredProcedure [dbo].[Sp_Get_kaizen_details_On_clickdashboard]    Script Date: 10-09-2024 15:00:59 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[Sp_Get_kaizen_details_On_clickdashboard]
+(
+    @StartDate DATE = NULL,
+    @EndDate DATE = NULL,
+    @Domain NVARCHAR(100) = NULL,
+    @Department NVARCHAR(100) = NULL,
+    @Block NVARCHAR(100) = NULL,
+    @Cadre NVARCHAR(100) = NULL,
+    @Status NVARCHAR(50) = NULL,
+    @Shortlisted NVARCHAR(50) = NULL,
+    @Role NVARCHAR(50) = NULL,
+    @UserId NVARCHAR(50) = NULL
+)
+AS
+BEGIN
+    SET @StartDate = NULLIF(@StartDate, '')
+    SET @EndDate = NULLIF(@EndDate, '')
+    SET @Domain = NULLIF(@Domain, '')
+    SET @Department = NULLIF(@Department, '')
+    SET @Block = NULLIF(@Block, '')
+    SET @Cadre = NULLIF(@Cadre, '')
+    SET @Status = NULLIF(@Status, '')
+    SET @Shortlisted = NULLIF(@Shortlisted, '')
+
+    DECLARE @Userguid NVARCHAR(MAX)
+    DECLARE @ImageApprover NVARCHAR(50)
+    SELECT @Userguid = ID FROM Users WHERE ID = @UserId
+    SET @ImageApprover = @Role
+
+    SELECT DISTINCT Kaizens.KaizenId, KaizenType, Activity, ActivityDesc, Kaizens.[BenefitArea], DocNo, VersionNoDate, CostCentre, KaizenRefNo,
+                    Blocks.BlockName AS Block, BlockDetails, SuggestedKaizen, ProblemStatement, CounterMeasure, AttachmentBefore, AttachmentAfter, AttachmentOthers, Yield, CycleTime, Cost, ManPower, Consumables, others, TotalSavings, Kaizens.TeamMemberID, RootCause, PresentCondition, ImprovementsCompleted, RootProblemAttachment, RootCauseDetails, ScopeOfDeploymentId, InOtherMC, WithIntheDept, InOtherDept, OtherPoints, Benifits, OrigionatedDept, OrigonatedDate,
+                    KaizenTheme, Kaizens.ApprovalStatus AS Status, Kaizens.CreatedBy AS PostedBy, Kaizens.ModifiedDate,
+                    STUFF((SELECT ', ' + TeamMemberName
+                           FROM KaizenTeamMembers
+                           WHERE KaizenID = Kaizens.ID
+                           FOR XML PATH('')), 1, 2, '') AS TeamName,
+                    CASE 
+                        WHEN HorozantalDeployment = 0 THEN 'NO' 
+                        WHEN HorozantalDeployment = 1 THEN 'YES'
+                    END AS HorozantalDeployment,
+                    CASE 
+                        WHEN CycleTime > 0 THEN 'YES' 
+                        WHEN CycleTime = 0 THEN 'NO'
+                        WHEN CycleTime IS NULL THEN 'NO'
+                    END AS IEApprovedDept, 
+                    CASE 
+                        WHEN Cost > 100000 THEN 'YES' 
+                        WHEN Cost <= 100000 THEN 'NO'
+                    END AS FinnanceDeptAppr,
+                    CASE 
+                        WHEN Shortlisted = 0 THEN 'NO' 
+                        WHEN Shortlisted = 1 THEN 'YES'
+                    END AS Shortlisted,
+                    CASE 
+                        WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
+                        WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
+                        WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
+                        WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finance Approval'
+                        WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'
+                        WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'
+                        WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved' 
+                        WHEN Kaizens.ApprovalStatus = 1 THEN 'Waiting For Image Approval' 
+                        WHEN Kaizens.ApprovalStatus IN (2, 15) THEN 'Waiting For DRI Approval'
+                        WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'
+                        WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'
+                        WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finance Approval'
+                        WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'
+                        WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'
+                        WHEN Kaizens.ApprovalStatus = 14 THEN 'DELETED'	
+                    END AS ApprovalStatus,
+                    Users.FirstName AS CreatedBy,
+                    CONVERT(VARCHAR, Kaizens.CreatedDate, 105) AS CreatedDate,
+                    UserType.UserDesc AS Role
+    FROM 
+        [dbo].[Kaizens]
+    LEFT JOIN 
+        KaizenTeamMembers ON KaizenTeamMembers.KaizenID = Kaizens.ID
+    INNER JOIN 
+        Users ON Users.ID = Kaizens.CreatedBy
+    LEFT JOIN 
+        ApprovalStatus ON ApprovalStatus.StatusID = Kaizens.ApprovalStatus
+    LEFT JOIN 
+        Domains ON Domains.ID = Kaizens.Domain
+    LEFT JOIN 
+        Departments ON Departments.ID = Kaizens.Department
+    LEFT JOIN 
+        Blocks ON Blocks.ID = Kaizens.Block
+    LEFT JOIN 
+        UserType ON UserType.ID = Users.UserType
+    LEFT JOIN
+        Cadre ON Cadre.ID = Users.Cadre
+    WHERE 
+
+        (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
+        (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate) AND
+        (@Domain IS NULL OR Domains.DomainName = @Domain) AND
+        (@Department IS NULL OR Departments.DepartmentName = @Department) AND
+        (@Block IS NULL OR Blocks.BlockName = @Block) AND
+        (@Cadre IS NULL OR Cadre.cadreDesc = @Cadre) AND
+        (@Status IS NULL OR
+            CASE 
+                WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
+                WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
+                WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
+                WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finance Approval'
+                WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'
+                WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'
+                WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved' 
+                WHEN Kaizens.ApprovalStatus = 1 THEN 'Waiting For Image Approval' 
+                WHEN Kaizens.ApprovalStatus IN (2, 15) THEN 'Waiting For DRI Approval'
+                WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'
+                WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'
+                WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finance Approval'
+                WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'
+                WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'
+                WHEN Kaizens.ApprovalStatus = 14 THEN 'DELETED'	
+            END = @Status
+        ) AND
+        (@Shortlisted IS NULL OR 
+            (@Shortlisted = 'YES' AND Kaizens.Shortlisted = 1) 
+            OR 
+            (@Shortlisted = 'NO' AND Kaizens.Shortlisted = 0)
+        ) AND
+        (
+            (@ImageApprover = 'True' AND Kaizens.ApprovalStatus = 1) OR
+			((@Role IN ('FIN', 'IED', 'MGR') AND (
+                (Kaizens.ApprovalStatus = 8) OR
+                (Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL) OR
+                (Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL))AND
+					(
+						(@Role = 'FIN' AND Kaizens.FinanceApprovedBy = @UserId) OR
+						(@Role = 'IED' AND Kaizens.ApprovedByIE = @UserId) OR
+						(@Role = 'MGR' AND Kaizens.DRIApprovedBy = @UserId)
+					)
+			)
+			
+			) OR
+			  (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,4,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is NOt NULL )  AND Kaizens.FinanceApprovedBy = @Userguid) OR
+            (@Role = 'MGR' AND Kaizens.ApprovalStatus IN (2, 15, 5)AND Kaizens.DRIApprovedBy=@Userguid and Kaizens.DRIApprovedBy=@Userguid) OR
+            (@Role = 'IED' AND Kaizens.ApprovalStatus IN (4,7) AND Kaizens.ApprovedByIE = @Userguid) OR
+            (@Role = 'ADM' AND Kaizens.ApprovalStatus != 0) OR
+            (@UserId IS NOT NULL AND EXISTS (SELECT 1 
+                                             FROM KaizenTeamMembers 
+                                             WHERE KaizenTeamMembers.KaizenID = Kaizens.ID 
+                                             AND KaizenTeamMembers.EmpID = @UserId)) OR
+            (@Role = 'EMP' AND Kaizens.CreatedBy = @Userguid)
+        ) 
+        AND (Kaizens.ApprovalStatus != 14 OR @Role = 'ADM')
+    ORDER BY ModifiedDate DESC
+END
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[Sp_GetManagers]    Script Date: 10-09-2024 12:12:18 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Sp_GetManagers]
+    @Name NVARCHAR(100) = NULL,
+    @EmpID NVARCHAR(50) = NULL,
+    @Email NVARCHAR(100) = NULL,
+    @UserDesc NVARCHAR(100) = NULL,
+    @Domain NVARCHAR(100) = NULL,
+    @Department NVARCHAR(100) = NULL,
+    @Gender NVARCHAR(10) = NULL,
+    @Cadre NVARCHAR(50) = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        u.ID,
+        u.UserID,
+        u.EmpID,
+        -- Modify name concatenation to handle NULLs
+        (u.FirstName + ' ' + ISNULL(u.MiddleName + ' ', '') + ISNULL(u.LastName, '')) AS Name,
+        u.Email,
+        u.MobileNumber,
+        u.Gender,
+        d.DomainName AS Domain, -- Fetch Domain Name
+        dept.DepartmentName AS Department, -- Fetch Department Name
+        c.cadreDesc AS Cadre, -- Fetch Cadre Name
+        ut.UserDesc AS UserType -- Fetch User Type
+      
+    FROM Users u
+    -- Join Domain Table
+    LEFT JOIN Domains d ON u.Domain = d.ID
+    -- Join Department Table
+    LEFT JOIN Departments dept ON u.Department = dept.ID
+    -- Join Cadre Table
+    LEFT JOIN Cadre c ON u.Cadre = c.ID
+    -- Join UserType Table
+    INNER JOIN UserType ut ON u.UserType = ut.ID
+    WHERE ut.UserDesc IN ('Manager', 'IE DEPT', 'Finance')
+      AND u.Status = 1
+      AND (@Name IS NULL OR (u.FirstName + ' ' + ISNULL(u.MiddleName + ' ', '') + ISNULL(u.LastName, '')) LIKE '%' + @Name + '%')
+      AND (@EmpID IS NULL OR u.EmpID = @EmpID)
+      AND (@Email IS NULL OR u.Email LIKE '%' + @Email + '%')
+      AND (@Domain IS NULL OR d.DomainName = @Domain) -- Filter by Domain Name
+      AND (@Department IS NULL OR dept.DepartmentName = @Department) -- Filter by Department Name
+      AND (@Gender IS NULL OR u.Gender = @Gender)
+      AND (@Cadre IS NULL OR c.cadreDesc = @Cadre); -- Filter by Cadre Name
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[sp_UpdateDomainStatus]    Script Date: 10-09-2024 15:20:08 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [dbo].[sp_UpdateDomainStatus]             
+@ID int,                     
+@status bit,
+@Message nvarchar(250) OUTPUT
+AS        
+BEGIN 
+    DECLARE @GID uniqueidentifier,
+            @Usercount int;
+    SET @GID = (SELECT ID FROM Domains WHERE DomainID = @ID);  
+    SET @Usercount = (SELECT COUNT(EmpID) FROM Users WHERE Domain = @GID);
+    
+    BEGIN
+    IF @Usercount > 0 AND @status = 0
+    BEGIN
+        SET @Message = 'Domain cannot be Inactive as it has associated users.';
+    END
+    ELSE
+    BEGIN
+        UPDATE [Domains] 
+        SET Status = @status 
+        WHERE DomainID = @ID;
+    END
+END
+END
+GO
+

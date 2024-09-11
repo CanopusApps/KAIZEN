@@ -88,9 +88,40 @@ namespace Kaizen.Data.DataServices
 			return status;
         }
 
+        //     public bool UpdateBlockData(int id, bool status)
+        //     {
+        //         bool updStatus = false;
+
+        //         try
+        //         {
+        //             com = new SqlCommand();
+        //             com.Connection = con;
+        //             com.CommandType = CommandType.StoredProcedure;
+        //             com.Parameters.AddWithValue("@Id", id);
+        //             com.Parameters.AddWithValue("@status", status);
+        //             //com.Parameters.AddWithValue("@blockname", model.blockName);
+        //             //com.Parameters.AddWithValue("@flag", model.flag);
+        //             com.CommandText = StoredProcedures.sp_UpdateBlockDetails;
+        //             con.Open();
+        //             com.ExecuteNonQuery();
+        //             con.Close();
+        //             updStatus = true;
+        //         }
+        //         catch (Exception ex)
+        //         {
+        //             throw ex;
+        //         }
+        //finally
+        //{
+        //	con.Close();
+        //}
+
+        //return updStatus;
+        //     }
         public bool UpdateBlockData(int id, bool status)
         {
             bool updStatus = false;
+            string message = string.Empty;
 
             try
             {
@@ -99,25 +130,41 @@ namespace Kaizen.Data.DataServices
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@Id", id);
                 com.Parameters.AddWithValue("@status", status);
-                //com.Parameters.AddWithValue("@blockname", model.blockName);
-                //com.Parameters.AddWithValue("@flag", model.flag);
+                // com.Parameters.AddWithValue("@blockname", model.blockName);
+                // com.Parameters.AddWithValue("@flag", model.flag);
                 com.CommandText = StoredProcedures.sp_UpdateBlockDetails;
+                SqlParameter messageParam = new SqlParameter("@Message", SqlDbType.NVarChar, 250)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                com.Parameters.Add(messageParam);
                 con.Open();
                 com.ExecuteNonQuery();
                 con.Close();
-                updStatus = true;
+                message = messageParam.Value.ToString();
+                if (!string.IsNullOrEmpty(message))
+                {
+                    updStatus = false;  
+                }
+                else
+                {
+                    updStatus = true; 
+                }
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw ex; 
             }
-			finally
-			{
-				con.Close();
-			}
+            finally
+            {
+                con.Close();
+            }
 
-			return updStatus;
+            return updStatus; 
         }
+
+
+
         // For View record
         public DataSet GetBlockData()
         {
