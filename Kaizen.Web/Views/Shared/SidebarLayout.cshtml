@@ -34,13 +34,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
     <link href="~/assets/css/common/common.css" rel="stylesheet" />
     <script src="~/assets/js/custom/jquery.min.js"></script>
     <script src="~/assets/js/custom/sweetalert.min.js"></script>
 </head>
 <style>
-    /* styles.css */
-    
+    .list-group .active {
+        background-color: #fff !important;
+        color: #3498db !important;
+    }
     #loader-wrapper {
         position: fixed;
         top: 0;
@@ -72,6 +75,23 @@
             transform: rotate(360deg);
         }
     }
+
+    .list-group-item {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    .icon-large {
+        font-size: 24px !important; 
+    }
+
+    .menu-text {
+        flex-grow: 1 !important;
+        padding-right: 10px !important;
+    }
+
+
 
 
     .logo{
@@ -125,7 +145,8 @@
         width: 100%;
         background-color: #ffffff;
         text-align: center;
-        padding: 10px 0;
+        padding-top: 0px!important ;
+        padding-bottom:  0px!important ;
 
     }
 
@@ -142,7 +163,8 @@
 
     #sidebar-wrapper{
         width:192px !important;
-        overflow-x: hidden; /* Prevent horizontal overflow issues */
+        margin-top:0px !important;
+        overflow-x: hidden; 
     }
 
     .list-group-item {
@@ -269,61 +291,133 @@
         <div class="d-flex flex-row">
             <!-- Sidebar -->
             <div id="sidebar-wrapper">
-               
+                <!-- Updated HTML Structure -->
                 <div class="list-group list-group-flush my-3">
-                   @*  <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a> *@
                     @if (UserType == "MGR")
                     {
-                        <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
-                        <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">New Kaizen</a>
-                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
+                        <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding dashboard-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:view-dashboard"></span>
+                            <span class="menu-text">Dashboard</span>
+                        </a>
+                        <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action fw-bold text-light menupadding kaizen-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:lightbulb-on-outline"></span>
+                            <span class="menu-text">New Kaizen</span>
+                        </a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action fw-bold text-light menupadding submitted-kaizen-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:check-circle-outline"></span>
+                            <span class="menu-text">Submitted Kaizens</span>
+                        </a>
                     }
-                    @if ( UserType == "EMP")
+                    @if (UserType == "EMP")
                     {
-                        <a href="/Dashboard/EmployeeDashboard" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
-                        <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">New Kaizen</a>
-                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
+                        <a href="/Dashboard/EmployeeDashboard" class="list-group-item list-group-item-action fw-bold text-light menupadding employee-dashboard-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:view-dashboard"></span>
+                            <span class="menu-text">Dashboard</span>
+                        </a>
+                        <a href="/CreateKaizen/NewKaizen" class="list-group-item list-group-item-action fw-bold text-light menupadding kaizen-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:lightbulb-on-outline"></span>
+                            <span class="menu-text">New Kaizen</span>
+                        </a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action fw-bold text-light menupadding submitted-kaizen-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:check-circle-outline"></span>
+                            <span class="menu-text">Submitted Kaizens</span>
+                        </a>
                     }
-                  @*   <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizen</a> *@
-                    @if(UserType == "ADM")
+                    @if (UserType == "ADM")
                     {
-                        <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
-                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
-                        <a href="/SubmittedKaizen/DeletedKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px; display:inline;">Deleted Kaizens(<label style="font-size:15px" id="deleteApprovalCountLabel"></label>)</a>
-                        <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize" style="font-size:15px;" data-toggle="collapse" data-target="#demo">Masters<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
-                        <div class="sub-menu collapse menupadding" id="demo">
-                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">Blocks</a>
-                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDomain">Domains</a>
-                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDepartment">Departments</a>
-                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddUser">New User</a>
-                            <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewUser">View Users</a>
-                            <a class="list-group-item text-light ml-3 menupadding" href="/Theme/ThemeChanger">Add Theme</a>
-                            <a class="list-group-item text-light ml-3 menupadding" href="/WinnersList/ViewWinnersList">Winners List</a>
-                            <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewManagers">View Managers</a>
+                        <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding admin-dashboard-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:view-dashboard"></span>
+                            <span class="menu-text">Dashboard</span>
+                        </a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action fw-bold text-light menupadding submitted-kaizen-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:check-circle-outline"></span>
+                            <span class="menu-text">Submitted Kaizens</span>
+                        </a>
+                        <a href="/SubmittedKaizen/DeletedKaizen" class="list-group-item list-group-item-action fw-bold text-light menupadding deleted-kaizen-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:trash-can-outline"></span>
+                            <span class="menu-text">Deleted Kaizens (<label style="font-size:12px" id="deleteApprovalCountLabel"></label>)</span>
+                        </a>
+                        <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize masters-link" style="font-size:15px;" data-toggle="collapse" data-target="#demo">
+                            <span class="iconify icon-large" data-icon="mdi:cogs"></span>
+                            <span class="menu-text">Masters</span>
+                            <span class="iconify icon-large dropdown-arrow" data-icon="mdi:chevron-down"></span>
                         </div>
-                        <a href="/Reports/ReportDownload" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize" style="font-size:15px;">Reports</a> 
-                        <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize" style="font-size:15px;" data-toggle="collapse" data-target="#demo1">Evaluation Criteria<span><i class="fa-sharp fa-solid fa-chevron-down p-3"></i></span></div>
+                        <div class="sub-menu collapse menupadding" id="demo">
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddBlock">
+                                <span class="iconify icon-large" data-icon="mdi:domain"></span>
+                                <span class="menu-text">Blocks</span>
+                            </a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDomain">
+                                <span class="iconify icon-large" data-icon="mdi:domain"></span>
+                                <span class="menu-text">Domains</span>
+                            </a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddDepartment">
+                                <span class="iconify icon-large" data-icon="mdi:domain"></span>
+                                <span class="menu-text">Departments</span>
+                            </a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Admin/AddUser">
+                                <span class="iconify icon-large" data-icon="mdi:account-plus-outline"></span>
+                                <span class="menu-text">New User</span>
+                            </a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewUser">
+                                <span class="iconify icon-large" data-icon="mdi:account-multiple-outline"></span>
+                                <span class="menu-text">View Users</span>
+                            </a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/Theme/ThemeChanger">
+                                <span class="iconify icon-large" data-icon="mdi:palette-swatch"></span>
+                                <span class="menu-text">Add Theme</span>
+                            </a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/WinnersList/ViewWinnersList">
+                                <span class="iconify icon-large" data-icon="mdi:trophy-outline"></span>
+                                <span class="menu-text">Winners List</span>
+                            </a>
+                            <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewManagers">
+                                <span class="iconify icon-large" data-icon="mdi:account-tie"></span>
+                                <span class="menu-text">View Managers</span>
+                            </a>
+                        </div>
+                        <a href="/Reports/ReportDownload" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize reports-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:file-download-outline"></span>
+                            <span class="menu-text">Reports</span>
+                        </a>
+                        <div class="list-group-item list-group-item-action menupadding menupaddingsub textSize criteria-link" style="font-size:15px;" data-toggle="collapse" data-target="#demo1">
+                            <span class="iconify icon-large" data-icon="mdi:check-outline"></span>
+                            <span class="menu-text">Evaluation Criteria</span>
+                            <span class="iconify icon-large dropdown-arrow" data-icon="mdi:chevron-down"></span> 
+                        </div>
                         <div class="sub-menu collapse menupadding" id="demo1">
-                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/Theme/Kaizencriteria">Kaizen</a>
-                            <a class="list-group-item text-light ml-3 menupadding textfor" href="/Theme/KaizenBreakthrough">Breakthrough</a>
+                            <a class="list-group-item text-light ml-3 menupadding textfor kaizen-criteria-link" href="/Theme/Kaizencriteria">
+                                <span class="iconify icon-large" data-icon="mdi:lightbulb-on"></span>
+                                <span class="menu-text">Kaizen</span>
+                            </a>
+                            <a class="list-group-item text-light ml-3 menupadding textfor breakthrough-criteria-link" href="/Theme/KaizenBreakthrough">
+                                <span class="iconify icon-large" data-icon="mdi:star-outline"></span>
+                                <span class="menu-text">Breakthrough</span>
+                            </a>
                         </div>
                     }
                     @if (ImageApprover == "True")
                     {
-                        <a href="/SubmittedKaizen/ViewImageApproval" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize" style="font-size:15px;display:inline">
-                            Image Approval (<label style="font-size:15px" id="imageApprovalCountLabel"></label>)
+                        <a href="/SubmittedKaizen/ViewImageApproval" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize image-approval-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:image-outline"></span>
+                            <span class="menu-text">Image Approval (<label style="font-size:15px" id="imageApprovalCountLabel"></label>)</span>
                         </a>
                     }
-
-                    @if ( UserType == "IED" || UserType == "FIN")
+                    @if (UserType == "IED" || UserType == "FIN")
                     {
-                        <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding" style="font-size:15px;">Dashboard</a>
-                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action  fw-bold  text-light menupadding textSize" style="font-size:15px;">Submitted Kaizens</a>
+                        <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding dashboard-others-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:view-dashboard-outline"></span>
+                            <span class="menu-text">Dashboard</span>
+                        </a>
+                        <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action fw-bold text-light menupadding textSize submitted-kaizen-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:check-circle-outline"></span>
+                            <span class="menu-text">Submitted Kaizens</span>
+                        </a>
                     }
-                    <a class="LogoutIcon list-group-item menupadding" onclick="LogoutOption();" href="#"><i class="fa-solid fa-right-from-bracket icon1 padding-left-20 margin-left-20"></i></a>
-                </div>
+                </div>            
+               
             </div>
-
+           
             <!-- /Sidebar -->
             <!-- Page Content -->
             <div id="loader-wrapper">
@@ -344,7 +438,7 @@
             <div class="container py-3 ">
                 <p class="mb-0 ">Copyright © TEPL-KAIZEN-IDEA 2024</p>
             </div>
-        </div> 
+        </div>  
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script>
         $("#menu-toggle").click(function (e) {
@@ -395,6 +489,76 @@
                     console.error('Error:', error);
                 }
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Handle dropdown toggle, ensure only one dropdown is open at a time
+            $('.menupaddingsub').on('click', function () {
+                // Collapse all other open dropdowns
+                $('.sub-menu').not($(this).next()).collapse('hide');
+
+                // Toggle this dropdown
+                $(this).next('.sub-menu').collapse('toggle');
+            });
+
+           
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var currentUrl = window.location.pathname.toLowerCase();
+
+            // Loop through each sidebar link and add 'active' class if the current URL matches the href
+            $('.list-group a').each(function () {
+                var linkUrl = $(this).attr('href').toLowerCase();
+                if (currentUrl === linkUrl) {
+                    $(this).addClass('active');
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $('.menupaddingsub').on('click', function () {
+                var subMenu = $(this).next('.sub-menu');
+                var hasActiveSubItem = subMenu.find('.active').length > 0;
+
+                if (hasActiveSubItem) {
+                    $('.sub-menu').not(subMenu).collapse('hide');
+                } else {
+                    $('.sub-menu').not(subMenu).collapse('hide');
+                    subMenu.collapse('toggle');
+                }
+            });
+
+            var currentUrl = window.location.pathname.toLowerCase();
+
+            $('.list-group a').each(function () {
+                var linkUrl = $(this).attr('href').toLowerCase();
+                if (currentUrl === linkUrl) {
+                    $(this).addClass('active');
+                    var parentSubMenu = $(this).closest('.sub-menu');
+                    if (parentSubMenu.length) {
+                        parentSubMenu.collapse('show');
+                    }
+                }
+            });
+        });
+        document.querySelector('.masters-link').addEventListener('click', function () {
+            const arrow = this.querySelector('.dropdown-arrow');
+            if (arrow.getAttribute('data-icon') === 'mdi:chevron-down') {
+                arrow.setAttribute('data-icon', 'mdi:chevron-up');
+            } else {
+                arrow.setAttribute('data-icon', 'mdi:chevron-down');
+            }
+        });
+        document.querySelector('.criteria-link').addEventListener('click', function () {
+            const arrow = this.querySelector('.dropdown-arrow');
+            if (arrow.getAttribute('data-icon') === 'mdi:chevron-down') {
+                arrow.setAttribute('data-icon', 'mdi:chevron-up');
+            } else {
+                arrow.setAttribute('data-icon', 'mdi:chevron-down');
+            }
         });
     </script>
 </body>
