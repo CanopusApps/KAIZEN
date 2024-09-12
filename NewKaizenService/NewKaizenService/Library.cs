@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Configuration;
 
 namespace NewKaizenService
 {
@@ -14,7 +15,7 @@ namespace NewKaizenService
             StreamWriter sw = null;
             try
             {
-                sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\LogFile.txt", true);
+                sw = new StreamWriter(ConfigurationManager.AppSettings["LoggerPath"] + "\\WindowsServiceLogFile.txt", true);
                 sw.WriteLine(DateTime.Now.ToString() + "" + ex.Source.ToString().Trim() + "" + ex.Source.ToString().Trim());
                 sw.Flush();
                 sw.Close();
@@ -29,7 +30,7 @@ namespace NewKaizenService
             StreamWriter sw = null;
             try
             {
-                sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\LogFile.txt", true);
+                sw = new StreamWriter(ConfigurationManager.AppSettings["LoggerPath"] + "\\WindowsServiceLogFile.txt", true);
                 sw.WriteLine(DateTime.Now.ToString() + "" + message);
                 sw.Flush();
                 sw.Close();
