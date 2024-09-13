@@ -41,8 +41,8 @@
 </head>
 <style>
     .list-group .active {
-        background-color: #fff !important;
-        color: #3498db !important;
+        background-color: #78B7d0 !important;
+        color: #fff !important;
     }
     #loader-wrapper {
         position: fixed;
@@ -88,10 +88,17 @@
 
     .menu-text {
         flex-grow: 1 !important;
+        padding-left:10px !important;
         padding-right: 10px !important;
     }
 
+    .sub-menu .iconify.icon-large {
+        font-size: 14px!important; /* Adjust size to medium */
+    }
 
+    .sub-menu .menu-text {
+        font-size: 12px; 
+    }
 
 
     .logo{
@@ -163,8 +170,8 @@
 
     #sidebar-wrapper{
         width:192px !important;
-        margin-top:0px !important;
-        overflow-x: hidden; 
+        overflow-x: hidden;
+        padding-top:0px important;
     }
 
     .list-group-item {
@@ -197,7 +204,9 @@
         font-size: 13px !important;
     }
 
- 
+    #sidebar-wrapper .list-group .list-group-item:first-child {
+        margin-top: 0;
+    }
     
 
     /*Profile and logout dropdown*/
@@ -248,14 +257,14 @@
 <body style="background-color:#e9ecef;overflow-y:hidden;"> 
     <div id="wrapper" class="d-flex flex-column">
      
-        <nav class="navbar navbar-expand-lg navbar-light" id="container-header" style="background-color: #2dc3e8!important;">
+        <nav class="navbar navbar-expand-lg navbar-light" id="container-header" >
 
             <a class="navbar-brand align-items-center" href="#">
                 <img class="logo ml-5" src="~/assets/img/Tata_Logo2 (1).svg" alt="Tata Logo" />
                 <label class="text-uppercase text-white ml-3 mr-3" style="font-size: x-large;">Tepl Kaizen Idea</label>
                 <label class="mx-5 ml-3" style="color:white; font-size: large;" loginbox-title>
                     Kaizen Winner for this month is
-                    <span class="" style="color:#3085C3; font-weight:bold; font-size: x-large;">
+                    <span class="" style="color:#FFC436; font-weight:bold; font-size: x-large;">
                         @selectedTheme
                     </span><span style="font-size: large;">.</span>
                     Congratulations Team!
@@ -292,10 +301,10 @@
             <!-- Sidebar -->
             <div id="sidebar-wrapper">
                 <!-- Updated HTML Structure -->
-                <div class="list-group list-group-flush my-3">
+                <div class="list-group list-group-flush">
                     @if (UserType == "MGR")
                     {
-                        <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding dashboard-link" style="font-size:15px;">
+                        <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding dashboard-link mt-0" style="font-size:15px;">
                             <span class="iconify icon-large" data-icon="mdi:view-dashboard"></span>
                             <span class="menu-text">Dashboard</span>
                         </a>
@@ -310,7 +319,7 @@
                     }
                     @if (UserType == "EMP")
                     {
-                        <a href="/Dashboard/EmployeeDashboard" class="list-group-item list-group-item-action fw-bold text-light menupadding employee-dashboard-link" style="font-size:15px;">
+                        <a href="/Dashboard/EmployeeDashboard" class="list-group-item list-group-item-action fw-bold text-light menupadding employee-dashboard-link mt-0" style="font-size:15px;">
                             <span class="iconify icon-large" data-icon="mdi:view-dashboard"></span>
                             <span class="menu-text">Dashboard</span>
                         </a>
@@ -325,7 +334,7 @@
                     }
                     @if (UserType == "ADM")
                     {
-                        <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding admin-dashboard-link" style="font-size:15px;">
+                        <a href="/Dashboard/Dashboardtab1" class="list-group-item list-group-item-action fw-bold text-light menupadding admin-dashboard-link mt-0" id="activeDashboard" style="font-size:15px;">
                             <span class="iconify icon-large" data-icon="mdi:view-dashboard"></span>
                             <span class="menu-text">Dashboard</span>
                         </a>
@@ -400,12 +409,12 @@
                     {
                         <a href="/SubmittedKaizen/ViewImageApproval" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize image-approval-link" style="font-size:15px;">
                             <span class="iconify icon-large" data-icon="mdi:image-outline"></span>
-                            <span class="menu-text">Image Approval (<label style="font-size:15px" id="imageApprovalCountLabel"></label>)</span>
+                            <span class="menu-text">Image Approval (<label style="font-size:12px" id="imageApprovalCountLabel"></label>)</span>
                         </a>
                     }
                     @if (UserType == "IED" || UserType == "FIN")
                     {
-                        <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding dashboard-others-link" style="font-size:15px;">
+                        <a href="/Dashboard/Dashboardothers" class="list-group-item list-group-item-action fw-bold text-light menupadding dashboard-others-link mt-0" style="font-size:15px;">
                             <span class="iconify icon-large" data-icon="mdi:view-dashboard-outline"></span>
                             <span class="menu-text">Dashboard</span>
                         </a>
@@ -514,6 +523,11 @@
                 var linkUrl = $(this).attr('href').toLowerCase();
                 if (currentUrl === linkUrl) {
                     $(this).addClass('active');
+                }
+                else
+                if (window.location.href.indexOf('Dashboard') > -1) {
+                    
+                        $('#activeDashboard').addClass('active');
                 }
             });
         });
