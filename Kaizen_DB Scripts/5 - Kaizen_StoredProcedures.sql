@@ -229,6 +229,9 @@ GO
 /****** Object:  StoredProcedure [dbo].[sp_UpdateDomainStatus]    Script Date: 10-09-2024 15:19:49 ******/
 DROP PROCEDURE IF EXISTS [dbo].[sp_UpdateDomainStatus]
 GO
+/****** Object:  StoredProcedure [dbo].[Sp_UserProfile]     Script Date: 12-09-2024 16:04:49 ******/
+DROP PROCEDURE IF EXISTS [dbo].[Sp_UserProfile] 
+GO
 /****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
@@ -4795,5 +4798,24 @@ BEGIN
     END
 END
 END
+GO
+/****** Object:  StoredProcedure [dbo].[Sp_UserProfile]    Script Date: 12-09-2024 15:59:09 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[Sp_UserProfile]      
+@EmpID nvarchar(8),    
+@FirstName nvarchar(50),
+@MiddleName nvarchar(50) = null,
+@LastName nvarchar(50) ,
+@Email nvarchar(100)
+AS
+ BEGIN               
+     update Users set FirstName=@FirstName,MiddleName=@MiddleName,LastName=@LastName,Email=@Email where EmpID=@EmpID
+ END
+ 
 GO
 
