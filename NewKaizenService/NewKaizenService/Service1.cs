@@ -20,11 +20,11 @@ namespace NewKaizenService
     public partial class Service1 : ServiceBase
     {
         private Timer timer1 = null;
-        double Interval = double.Parse(ConfigurationManager.AppSettings["TriggerDuration"]);
+        double Interval = double.Parse(ConfigurationManager.AppSettings["TriggerDurationInMinutes"]);
         public Service1()
         {
             InitializeComponent();
-            this.timer1 = new System.Timers.Timer(Interval);
+            this.timer1 = new System.Timers.Timer(Interval*60*1000);
             this.timer1.AutoReset = true;
             this.timer1.Elapsed += new System.Timers.ElapsedEventHandler(this.timer1_check);
             this.timer1.Start();

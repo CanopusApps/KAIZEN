@@ -4,5 +4,7 @@ Step need to follow For Window Service.
 C:Windows\ cd <space> Microsoft.NET\Framework64\v4.0.30319>Installutil.exe "D:\CanopusData\NewKaizenService\NewKaizenService\bin\Debug\NewKaizenService.exe"
 - Open Services with admin and right click - start the service.
 
+To unistall the service:
+C:Windows\ cd <space> Microsoft.NET\Framework64\v4.0.30319>installutil /u <service_executable>.exe
 
 Kill Service From task manager if not able to stop service from Service window.
