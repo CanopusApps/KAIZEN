@@ -263,12 +263,12 @@ namespace Kaizen.Web.Controllers
         {
             try
             {
-                var empIdFromSession = HttpContext.Session.GetString("EmpId");
+                //var empIdFromSession = HttpContext.Session.GetString("EmpId");
 
-                if (model.EmpId == empIdFromSession)
-                {
-                    return BadRequest("User cannot be added as a Team Member again");
-                }
+                //if (model.EmpId == empIdFromSession)
+                //{
+                //    return BadRequest("User cannot be added as a Team Member again");
+                //}
                 model = _createNewKaizen.GetKaizenOriginatedby(model);
                 if (model.Usertype == "ADM")
                 {

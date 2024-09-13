@@ -2280,7 +2280,7 @@ GO
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenformReport]    Script Date: 11-09-2024 10:50:12 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenformReport]    Script Date: 13-09-2024 15:37:15 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -2297,259 +2297,279 @@ BEGIN
     SET @enddate = NULLIF(@enddate, '')  
     IF @startdate IS NULL AND @enddate IS NULL  
     BEGIN  
-        SELECT 
-		kd.ID,
-        kd.KaizenId,
-        kd.KaizenType,
-        kd.Activity,
-        kd.ActivityDesc,
-        kd.BenefitArea,
-        kd.DocNo,
-        kd.CostCentre,
-        kd.BlockDetails,
-		 d.DepartmentName, 
-        kd.SuggestedKaizen,
-        kd.ProblemStatement,
-        kd.CounterMeasure,
-        kd.Yield,
-        kd.CycleTime,
-        kd.Cost,
-        kd.ManPower,
-        kd.Consumables,
-        kd.others, 
-        kd.TotalSavings,
-        kd.RootCause,
-        kd.PresentCondition,
-        kd.ImprovementsCompleted,
-        kd.RootCauseDetails,
-        kd.InOtherMC,
-        kd.WithIntheDept,
-        kd.InOtherDept,
-        kd.OtherPoints,
-        kd.Benifits,
-        kd.KaizenTheme,
-        kd.CreatedDate,
-        u.FirstName AS CreatedBy,
-        aps.StatusDescription AS ApprovalStatus,
-        dom.DomainName AS Domain,
-        b.BlockName AS Block,
-        c.CadreDesc AS Cadre,
-        u1.FirstName AS DriName,
-        u2.FirstName AS IEApprovedBy,
-        u3.FirstName AS FinanceApprovedBy
-    FROM 
-        Departments d 
-    LEFT JOIN 
-        Kaizens kd ON kd.Department = d.ID
-    LEFT JOIN 
-        Users u ON u.ID = kd.CreatedBy
-    LEFT JOIN 
-        Users u1 ON u1.ID = kd.DRIApprovedBy
-    LEFT JOIN 
-        Users u2 ON u2.ID = kd.ApprovedByIE
-    LEFT JOIN 
-        Users u3 ON u3.ID = kd.FinanceApprovedBy
-    LEFT JOIN 
-        ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
-    LEFT JOIN 
-        Domains dom ON dom.ID = kd.Domain
-    LEFT JOIN 
-        Blocks b ON b.ID = kd.Block
-    LEFT JOIN 
-        Cadre c ON c.ID = u.Cadre 
+       SELECT 
+    kd.ID,
+    kd.KaizenId,
+    kd.KaizenType,
+    kd.Activity,
+    kd.ActivityDesc,
+    kd.BenefitArea,
+    kd.DocNo,
+    kd.CostCentre,
+    kd.BlockDetails,
+    d.DepartmentName, 
+    kd.SuggestedKaizen,
+    kd.ProblemStatement,
+    kd.CounterMeasure,
+    kd.Yield,
+    kd.CycleTime,
+    kd.Cost,
+    kd.ManPower,
+    kd.Consumables,
+    kd.Others, 
+    kd.TotalSavings,
+	(
+        SELECT STRING_AGG(kt.TeamMemberName, ', ')
+        FROM KaizenTeamMembers kt
+        WHERE kt.KaizenId = kd.ID
+    ) AS TeamMembers,
+    kd.RootCause,
+    kd.PresentCondition,
+    kd.ImprovementsCompleted,
+    kd.RootCauseDetails,
+    kd.InOtherMC,
+    kd.WithIntheDept,
+    kd.InOtherDept,
+    kd.OtherPoints,
+    kd.Benifits,
+    kd.KaizenTheme,
+    aps.StatusDescription AS ApprovalStatus,
+    dom.DomainName AS Domain,
+    b.BlockName AS Block,
+    c.CadreDesc AS Cadre,
+    u1.FirstName AS DriName,
+    u2.FirstName AS IEApprovedBy,
+    u3.FirstName AS FinanceApprovedBy,
+	kd.CreatedDate,
+    u.FirstName AS CreatedBy
+FROM 
+    Departments d 
+LEFT JOIN 
+    Kaizens kd ON kd.Department = d.ID
+LEFT JOIN 
+    Users u ON u.ID = kd.CreatedBy
+LEFT JOIN 
+    Users u1 ON u1.ID = kd.DRIApprovedBy
+LEFT JOIN 
+    Users u2 ON u2.ID = kd.ApprovedByIE
+LEFT JOIN 
+    Users u3 ON u3.ID = kd.FinanceApprovedBy
+LEFT JOIN 
+    ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
+LEFT JOIN 
+    Domains dom ON dom.ID = kd.Domain
+LEFT JOIN 
+    Blocks b ON b.ID = kd.Block
+LEFT JOIN 
+    Cadre c ON c.ID = u.Cadre
 		where kd.ID is NOT NULL
     END  
     ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
     BEGIN  
         SELECT 
-        d.DepartmentName, 
-        d.DeptId,
-        kd.KaizenId,
-        kd.KaizenType,
-        kd.Activity,
-        kd.ActivityDesc,
-        kd.BenefitArea,
-        kd.DocNo,
-        kd.CostCentre,
-        kd.BlockDetails,
-        kd.SuggestedKaizen,
-        kd.ProblemStatement,
-        kd.CounterMeasure,
-        kd.Yield,
-        kd.CycleTime,
-        kd.Cost,
-        kd.ManPower,
-        kd.Consumables,
-        kd.others, 
-        kd.TotalSavings,
-        kd.RootCause,
-        kd.PresentCondition,
-        kd.ImprovementsCompleted,
-        kd.RootCauseDetails,
-        kd.InOtherMC,
-        kd.WithIntheDept,
-        kd.InOtherDept,
-        kd.OtherPoints,
-        kd.Benifits,
-        kd.KaizenTheme,
-        kd.CreatedDate,
-        u.FirstName AS CreatedBy,
-        aps.StatusDescription AS ApprovalStatus,
-        dom.DomainName AS Domain,
-        b.BlockName AS Block,
-        c.CadreDesc AS Cadre,
-        u1.FirstName AS DriName,
-        u2.FirstName AS IEApprovedBy,
-        u3.FirstName AS FinanceApprovedBy
-    FROM 
-        Departments d 
-    LEFT JOIN 
-        Kaizens kd ON kd.Department = d.ID
-    LEFT JOIN 
-        Users u ON u.ID = kd.CreatedBy
-    LEFT JOIN 
-        Users u1 ON u1.ID = kd.DRIApprovedBy
-    LEFT JOIN 
-        Users u2 ON u2.ID = kd.ApprovedByIE
-    LEFT JOIN 
-        Users u3 ON u3.ID = kd.FinanceApprovedBy
-    LEFT JOIN 
-        ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
-    LEFT JOIN 
-        Domains dom ON dom.ID = kd.Domain
-    LEFT JOIN 
-        Blocks b ON b.ID = kd.Block
-    LEFT JOIN 
-        Cadre c ON c.ID = u.Cadre
+    kd.ID,
+    kd.KaizenId,
+    kd.KaizenType,
+    kd.Activity,
+    kd.ActivityDesc,
+    kd.BenefitArea,
+    kd.DocNo,
+    kd.CostCentre,
+    kd.BlockDetails,
+    d.DepartmentName, 
+    kd.SuggestedKaizen,
+    kd.ProblemStatement,
+    kd.CounterMeasure,
+    kd.Yield,
+    kd.CycleTime,
+    kd.Cost,
+    kd.ManPower,
+    kd.Consumables,
+    kd.Others, 
+    kd.TotalSavings,
+	(
+        SELECT STRING_AGG(kt.TeamMemberName, ', ')
+        FROM KaizenTeamMembers kt
+        WHERE kt.KaizenId = kd.ID
+    ) AS TeamMembers,
+    kd.RootCause,
+    kd.PresentCondition,
+    kd.ImprovementsCompleted,
+    kd.RootCauseDetails,
+    kd.InOtherMC,
+    kd.WithIntheDept,
+    kd.InOtherDept,
+    kd.OtherPoints,
+    kd.Benifits,
+    kd.KaizenTheme,
+    aps.StatusDescription AS ApprovalStatus,
+    dom.DomainName AS Domain,
+    b.BlockName AS Block,
+    c.CadreDesc AS Cadre,
+    u1.FirstName AS DriName,
+    u2.FirstName AS IEApprovedBy,
+    u3.FirstName AS FinanceApprovedBy,
+	 kd.CreatedDate,
+    u.FirstName AS CreatedBy
+FROM 
+    Departments d 
+LEFT JOIN 
+    Kaizens kd ON kd.Department = d.ID
+LEFT JOIN 
+    Users u ON u.ID = kd.CreatedBy
+LEFT JOIN 
+    Users u1 ON u1.ID = kd.DRIApprovedBy
+LEFT JOIN 
+    Users u2 ON u2.ID = kd.ApprovedByIE
+LEFT JOIN 
+    Users u3 ON u3.ID = kd.FinanceApprovedBy
+LEFT JOIN 
+    ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
+LEFT JOIN 
+    Domains dom ON dom.ID = kd.Domain
+LEFT JOIN 
+    Blocks b ON b.ID = kd.Block
+LEFT JOIN 
+    Cadre c ON c.ID = u.Cadre 
 		WHERE kd.CreatedDate >= @startdate And  kd.ID is NOT NULL;  
     END  
     ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
     BEGIN  
         SELECT 
-        d.DepartmentName, 
-        d.DeptId,
-        kd.KaizenId,
-        kd.KaizenType,
-        kd.Activity,
-        kd.ActivityDesc,
-        kd.BenefitArea,
-        kd.DocNo,
-        kd.CostCentre,
-        kd.BlockDetails,
-        kd.SuggestedKaizen,
-        kd.ProblemStatement,
-        kd.CounterMeasure,
-        kd.Yield,
-        kd.CycleTime,
-        kd.Cost,
-        kd.ManPower,
-        kd.Consumables,
-        kd.others, 
-        kd.TotalSavings,
-        kd.RootCause,
-        kd.PresentCondition,
-        kd.ImprovementsCompleted,
-        kd.RootCauseDetails,
-        kd.InOtherMC,
-        kd.WithIntheDept,
-        kd.InOtherDept,
-        kd.OtherPoints,
-        kd.Benifits,
-        kd.KaizenTheme,
-        kd.CreatedDate,
-        u.FirstName AS CreatedBy,
-        aps.StatusDescription AS ApprovalStatus,
-        dom.DomainName AS Domain,
-        b.BlockName AS Block,
-        c.CadreDesc AS Cadre,
-        u1.FirstName AS DriName,
-        u2.FirstName AS IEApprovedBy,
-        u3.FirstName AS FinanceApprovedBy
-    FROM 
-        Departments d 
-    LEFT JOIN 
-        Kaizens kd ON kd.Department = d.ID
-    LEFT JOIN 
-        Users u ON u.ID = kd.CreatedBy
-    LEFT JOIN 
-        Users u1 ON u1.ID = kd.DRIApprovedBy
-    LEFT JOIN 
-        Users u2 ON u2.ID = kd.ApprovedByIE
-    LEFT JOIN 
-        Users u3 ON u3.ID = kd.FinanceApprovedBy
-    LEFT JOIN 
-        ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
-    LEFT JOIN 
-        Domains dom ON dom.ID = kd.Domain
-    LEFT JOIN 
-        Blocks b ON b.ID = kd.Block
-    LEFT JOIN 
-        Cadre c ON c.ID = u.Cadre
+    kd.ID,
+    kd.KaizenId,
+    kd.KaizenType,
+    kd.Activity,
+    kd.ActivityDesc,
+    kd.BenefitArea,
+    kd.DocNo,
+    kd.CostCentre,
+    kd.BlockDetails,
+    d.DepartmentName, 
+    kd.SuggestedKaizen,
+    kd.ProblemStatement,
+    kd.CounterMeasure,
+    kd.Yield,
+    kd.CycleTime,
+    kd.Cost,
+    kd.ManPower,
+    kd.Consumables,
+    kd.Others, 
+    kd.TotalSavings,
+	(
+        SELECT STRING_AGG(kt.TeamMemberName, ', ')
+        FROM KaizenTeamMembers kt
+        WHERE kt.KaizenId = kd.ID
+    ) AS TeamMembers,
+    kd.RootCause,
+    kd.PresentCondition,
+    kd.ImprovementsCompleted,
+    kd.RootCauseDetails,
+    kd.InOtherMC,
+    kd.WithIntheDept,
+    kd.InOtherDept,
+    kd.OtherPoints,
+    kd.Benifits,
+    kd.KaizenTheme,
+    aps.StatusDescription AS ApprovalStatus,
+    dom.DomainName AS Domain,
+    b.BlockName AS Block,
+    c.CadreDesc AS Cadre,
+    u1.FirstName AS DriName,
+    u2.FirstName AS IEApprovedBy,
+    u3.FirstName AS FinanceApprovedBy,
+	 kd.CreatedDate,
+    u.FirstName AS CreatedBy
+FROM 
+    Departments d 
+LEFT JOIN 
+    Kaizens kd ON kd.Department = d.ID
+LEFT JOIN 
+    Users u ON u.ID = kd.CreatedBy
+LEFT JOIN 
+    Users u1 ON u1.ID = kd.DRIApprovedBy
+LEFT JOIN 
+    Users u2 ON u2.ID = kd.ApprovedByIE
+LEFT JOIN 
+    Users u3 ON u3.ID = kd.FinanceApprovedBy
+LEFT JOIN 
+    ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
+LEFT JOIN 
+    Domains dom ON dom.ID = kd.Domain
+LEFT JOIN 
+    Blocks b ON b.ID = kd.Block
+LEFT JOIN 
+    Cadre c ON c.ID = u.Cadre
 		WHERE kd.CreatedDate <= DATEADD(DAY, 1, @enddate) AND  kd.ID is NOT NULL;  
     END  
       
     ELSE  
 Begin  
-SELECT 
-        d.DepartmentName, 
-        d.DeptId,
-        kd.KaizenId,
-        kd.KaizenType,
-        kd.Activity,
-        kd.ActivityDesc,
-        kd.BenefitArea,
-        kd.DocNo,
-        kd.CostCentre,
-        kd.BlockDetails,
-        kd.SuggestedKaizen,
-        kd.ProblemStatement,
-        kd.CounterMeasure,
-        kd.Yield,
-        kd.CycleTime,
-        kd.Cost,
-        kd.ManPower,
-        kd.Consumables,
-        kd.others, 
-        kd.TotalSavings,
-        kd.RootCause,
-        kd.PresentCondition,
-        kd.ImprovementsCompleted,
-        kd.RootCauseDetails,
-        kd.InOtherMC,
-        kd.WithIntheDept,
-        kd.InOtherDept,
-        kd.OtherPoints,
-        kd.Benifits,
-        kd.KaizenTheme,
-        kd.CreatedDate,
-        u.FirstName AS CreatedBy,
-        aps.StatusDescription AS ApprovalStatus,
-        dom.DomainName AS Domain,
-        b.BlockName AS Block,
-        c.CadreDesc AS Cadre,
-        u1.FirstName AS DriName,
-        u2.FirstName AS IEApprovedBy,
-        u3.FirstName AS FinanceApprovedBy
-    FROM 
-        Departments d 
-    LEFT JOIN 
-        Kaizens kd ON kd.Department = d.ID
-    LEFT JOIN 
-        Users u ON u.ID = kd.CreatedBy
-    LEFT JOIN 
-        Users u1 ON u1.ID = kd.DRIApprovedBy
-    LEFT JOIN 
-        Users u2 ON u2.ID = kd.ApprovedByIE
-    LEFT JOIN 
-        Users u3 ON u3.ID = kd.FinanceApprovedBy
-    LEFT JOIN 
-        ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
-    LEFT JOIN 
-        Domains dom ON dom.ID = kd.Domain
-    LEFT JOIN 
-        Blocks b ON b.ID = kd.Block
-    LEFT JOIN 
-        Cadre c ON c.ID = u.Cadre
+ SELECT 
+    kd.ID,
+    kd.KaizenId,
+    kd.KaizenType,
+    kd.Activity,
+    kd.ActivityDesc,
+    kd.BenefitArea,
+    kd.DocNo,
+    kd.CostCentre,
+    kd.BlockDetails,
+    d.DepartmentName, 
+    kd.SuggestedKaizen,
+    kd.ProblemStatement,
+    kd.CounterMeasure,
+    kd.Yield,
+    kd.CycleTime,
+    kd.Cost,
+    kd.ManPower,
+    kd.Consumables,
+    kd.Others, 
+    kd.TotalSavings,
+	(
+        SELECT STRING_AGG(kt.TeamMemberName, ', ')
+        FROM KaizenTeamMembers kt
+        WHERE kt.KaizenId = kd.ID
+    ) AS TeamMembers,
+    kd.RootCause,
+    kd.PresentCondition,
+    kd.ImprovementsCompleted,
+    kd.RootCauseDetails,
+    kd.InOtherMC,
+    kd.WithIntheDept,
+    kd.InOtherDept,
+    kd.OtherPoints,
+    kd.Benifits,
+    kd.KaizenTheme,
+    aps.StatusDescription AS ApprovalStatus,
+    dom.DomainName AS Domain,
+    b.BlockName AS Block,
+    c.CadreDesc AS Cadre,
+    u1.FirstName AS DriName,
+    u2.FirstName AS IEApprovedBy,
+    u3.FirstName AS FinanceApprovedBy,
+	kd.CreatedDate,
+    u.FirstName AS CreatedBy
+FROM 
+    Departments d 
+LEFT JOIN 
+    Kaizens kd ON kd.Department = d.ID
+LEFT JOIN 
+    Users u ON u.ID = kd.CreatedBy
+LEFT JOIN 
+    Users u1 ON u1.ID = kd.DRIApprovedBy
+LEFT JOIN 
+    Users u2 ON u2.ID = kd.ApprovedByIE
+LEFT JOIN 
+    Users u3 ON u3.ID = kd.FinanceApprovedBy
+LEFT JOIN 
+    ApprovalStatus aps ON aps.StatusID = kd.ApprovalStatus
+LEFT JOIN 
+    Domains dom ON dom.ID = kd.Domain
+LEFT JOIN 
+    Blocks b ON b.ID = kd.Block
+LEFT JOIN 
+    Cadre c ON c.ID = u.Cadre
 		WHERE kd.CreatedDate >= @startdate AND kd.CreatedDate <= DATEADD(DAY, 1, @enddate) AND  kd.ID is NOT NULL;  
 END  
 END  
@@ -2602,7 +2622,7 @@ Begin
 Select StatusID,StatusName from [dbo].Status  
 end 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_UserformReport]    Script Date: 11-09-2024 10:48:47 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_UserformReport]    Script Date: 13-09-2024 15:41:01 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -2619,36 +2639,42 @@ BEGIN
     SET @enddate = NULLIF(@enddate, '')  
     IF @startdate IS NULL AND @enddate IS NULL  
     BEGIN  
-        select u.UserID,u.EmpID,u.FirstName,u.MiddleName,u.LastName,u.Email,u.MobileNumber,u.Gender,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc,Plant,Area from [dbo].[Users] as u
-		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
-		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
-		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
-		INNER JOIN [dbo].[UserType] AS u1 ON u1.ID = u.UserType;  
-    END  
-    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
-    BEGIN  
-        select u.UserID,u.EmpID,u.FirstName,u.MiddleName,u.LastName,u.Email,u.MobileNumber,u.Gender,a.DomainName,d.DepartmentName,Plant,Area from [dbo].[Users] as u
-		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
-		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
-		WHERE u.CreatedDate >= @startdate;  
-    END  
-    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
-    BEGIN  
-        select u.UserID,u.EmpID,u.FirstName,u.MiddleName,u.LastName,u.Email,u.MobileNumber,u.Gender,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc,Plant,Area from [dbo].[Users] as u
+        select u.UserID,u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType,Plant,Area from [dbo].[Users] as u
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
 		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
 		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
 		INNER JOIN [dbo].[UserType] AS u1 ON u1.ID = u.UserType
+		INNER JOIN [dbo].[Cadre] AS c ON c.ID = u.Cadre;  
+    END  
+    ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
+    BEGIN  
+        select u.UserID,u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType,Plant,Area from [dbo].[Users] as u
+		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
+		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
+		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
+		INNER JOIN [dbo].[UserType] AS u1 ON u1.ID = u.UserType
+		INNER JOIN [dbo].[Cadre] AS c ON c.ID = u.Cadre
+		WHERE u.CreatedDate >= @startdate;  
+    END  
+    ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
+    BEGIN  
+        select u.UserID,u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType,Plant,Area from [dbo].[Users] as u
+		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
+		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
+		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
+		INNER JOIN [dbo].[UserType] AS u1 ON u1.ID = u.UserType
+		INNER JOIN [dbo].[Cadre] AS c ON c.ID = u.Cadre
 		WHERE u.CreatedDate <= DATEADD(DAY, 1, @enddate);  
     END  
       
     ELSE  
 Begin  
-select u.UserID,u.EmpID,u.FirstName,u.MiddleName,u.LastName,u.Email,u.MobileNumber,u.Gender,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc,Plant,Area from [dbo].[Users] as u
+select u.UserID,u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType,Plant,Area from [dbo].[Users] as u
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
 		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
 		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
 		INNER JOIN [dbo].[UserType] AS u1 ON u1.ID = u.UserType
+		INNER JOIN [dbo].[Cadre] AS c ON c.ID = u.Cadre
 		WHERE u.CreatedDate >= @startdate AND u.CreatedDate <= DATEADD(DAY, 1, @enddate);  
 END  
 END  
