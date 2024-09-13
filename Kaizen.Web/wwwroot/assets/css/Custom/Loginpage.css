@@ -101,7 +101,7 @@ marquee {
     height: 100vh !important;
     margin-bottom: 0px !important;
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     body {
         overflow-y: hidden;
     }

@@ -37,9 +37,8 @@ body {
     overflow-y: auto;
 }
 
-.text-center text-uppercase border-bottom text-light
-{
-    background-color: #2dc3e8!important;
+.text-center text-uppercase border-bottom text-light {
+    background-color: #1d7dbe !important;
 }
 h4
 {
@@ -49,14 +48,14 @@ h4
     min-height: 100vh;
     width: 190px;
     /*    background-color: #2dc3e8 !important;*/
-    background-color: #2dc3e8!important;
+    background-color: #1d7dbe !important;
     /*color: #fff;*/
     color: white;
     transition: all 0.3s;
-    margin-top:1px;
+    margin-top: 1px;
 }
 #container-header {
-    background-color: #2dc3e8;
+    background-color: #1d7dbe;
 }
 .logo {
     margin-top: 1px;
@@ -72,10 +71,10 @@ h4
 }
 
 .list-group-item {
-    background-color: #2dc3e8 !important;
+    background-color: #1d7dbe !important;
     color: white;
     border: none;
-    cursor: pointer;        
+    cursor: pointer;
     /*    padding: 10px 30px;*/
 }
 
@@ -110,12 +109,12 @@ h4
     border: 1px solid #2dc3e8 !important;
 }*/
 .btn-azure {
-    background-color: #2dc3e8 !important;
+    background-color: #1d7dbe !important;
     color: white;
 }
 
     .btn-azure:hover {
-        background-color: #2dc3e8 !important;
+        background-color: #1d7dbe !important;
         color: white;
     }
 

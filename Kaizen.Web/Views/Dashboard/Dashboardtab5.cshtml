@@ -18,16 +18,22 @@
         margin-bottom: 0;
         color: #343a40;
     }
+
+    .card {
+        padding: 15px;
+    }
 </style>
 
 
 <div class="card ml-2 mr-2 bg-light ">
     <nav>
-        <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+         <div class="container-fluid rounded   mt-2 mb-2 ">
             <div class="col-lg-12 p-md-0 p-2">
-                <div class="welcome-text">
-                    <label id="dHeader">Masters -->Dashboard</label>
-                </div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white" style="border-radius: 0.25rem;">
+                        <li class="breadcrumb-item active" aria-current="page" style="font-weight: bold; color: #495057; font-size: 15px;">Dashboard</li>
+                    </ol>
+                </nav>
             </div>
         </div>
         <nav>
@@ -149,15 +155,17 @@
                 </div>
                 <div id="barChartsSection" class="card bg-white border chart-container mt-4 mb-5 ml-2 mr-2 pb-4" style="display:none;">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 mb-4" >
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8 mb-4" >
                          
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <canvas id="barChart1" style="width: 100%;"></canvas>
                             </div>
                               @*  <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeBlockExportHref()" /> *@
                         </div>
-                        <div class="col-lg-12 col-md-12 mb-4">
-                          
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8 mb-4">    
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <canvas id="barChart2" style="width: 100%;"></canvas>
                             </div>
@@ -165,13 +173,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 mb-4">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8 mb-4">
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <canvas id="barChart3" style="width: 100%;"></canvas>
                             </div>
                            @*  <input type="button" value="Download Report" class="btn btn-warning  mr-3 mt-1 float-right" onclick="changeDomainExportHref()" /> *@
                         </div>
-                        <div class="col-lg-12 col-md-12 mb-4">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8 mb-4">
                             <div class="form-group col-md-4">
                                 <label for="inputDomain1" class="filter-header">Select Domain for Department's</label>
                                 <select id="inputDomain1" class="form-control txt-width">

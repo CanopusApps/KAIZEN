@@ -2931,13 +2931,33 @@ BEGIN
    
 		        SUM(CASE WHEN Kaizens.ApprovalStatus NOT IN (0, 14) THEN 1 ELSE 0 END) AS KaizenCount,
 				  -- Total Approved
-    SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) THEN 1 ELSE 0 END) AS TotalApproved,
+    --SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) THEN 1 ELSE 0 END) AS TotalApproved,
+	 SUM(
+        CASE 
+            WHEN Kaizens.ApprovalStatus = 8 THEN 1
+            WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 1
+            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 1
+            ELSE 0
+        END
+    ) AS TotalApproved,
 
     -- Total Rejected
     SUM(CASE WHEN Kaizens.ApprovalStatus IN (3, 5, 7, 9) THEN 1 ELSE 0 END) AS TotalRejected,
 
     -- Total Pending
-    SUM(CASE WHEN Kaizens.ApprovalStatus IN (1,2, 4, 6,15) THEN 1 ELSE 0 END) AS TotalPending,
+    --SUM(CASE WHEN Kaizens.ApprovalStatus IN (1,2, 4, 6,15) THEN 1 ELSE 0 END) AS TotalPending,
+	SUM(
+    CASE 
+        WHEN Kaizens.ApprovalStatus IN (1, 2, 4, 6, 15) THEN 
+            CASE
+                WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 0
+                WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 0
+                ELSE 1
+            END
+        ELSE 0
+    END
+) AS TotalPending,
+
           --Separate counts for Image Approver
         SUM(CASE WHEN  Kaizens.ApprovalStatus IN (2) THEN 1 ELSE 0 END) AS ImageApproved,
         SUM(CASE WHEN  Kaizens.ApprovalStatus IN (3) THEN 1 ELSE 0 END) AS ImageRejected,
@@ -2965,7 +2985,7 @@ BEGIN
 
     WHERE 
         (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) 
-        AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+        AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate) 
     GROUP BY 
         Users.EmpID, Users.FirstName
     ORDER BY 
@@ -2978,9 +2998,29 @@ BEGIN
         Users.FirstName,
         FORMAT(Kaizens.CreatedDate, 'MMM-yyyy') AS MonthYear,
         SUM(CASE WHEN Kaizens.ApprovalStatus NOT IN (0, 14) THEN 1 ELSE 0 END) AS KaizenCount,
-        SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) THEN 1 ELSE 0 END) AS TotalApproved,
+        --SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) THEN 1 ELSE 0 END) AS TotalApproved,
+		SUM(
+        CASE 
+            WHEN Kaizens.ApprovalStatus = 8 THEN 1
+            WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 1
+            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 1
+            ELSE 0
+        END
+    ) AS TotalApproved,
+
         SUM(CASE WHEN Kaizens.ApprovalStatus IN (3, 5, 7, 9) THEN 1 ELSE 0 END) AS TotalRejected,
-        SUM(CASE WHEN Kaizens.ApprovalStatus IN (1, 2, 4, 6,15) THEN 1 ELSE 0 END) AS TotalPending
+        --SUM(CASE WHEN Kaizens.ApprovalStatus IN (1, 2, 4, 6,15) THEN 1 ELSE 0 END) AS TotalPending
+			SUM(
+    CASE 
+        WHEN Kaizens.ApprovalStatus IN (1, 2, 4, 6, 15) THEN 
+            CASE
+                WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 0
+                WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 0
+                ELSE 1
+            END
+        ELSE 0
+    END
+) AS TotalPending
     FROM
         [dbo].[Kaizens]
 		 LEFT JOIN 
@@ -2988,12 +3028,14 @@ BEGIN
     WHERE
         (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate)
         AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+		
     GROUP BY
         FORMAT(Kaizens.CreatedDate, 'MMM-yyyy'),Users.EmpID, Users.FirstName
     ORDER BY
         FORMAT(Kaizens.CreatedDate, 'MMM-yyyy');
 END
 GO
+
 /****** Object:  StoredProcedure [dbo].[sp_GetKaizenStatisticsByApprovalTypes]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
