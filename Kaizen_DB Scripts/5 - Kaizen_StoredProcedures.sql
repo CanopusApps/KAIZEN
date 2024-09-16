@@ -618,16 +618,18 @@ Begin
 update Kaizens set ApprovalStatus=14,DeletedBy=@UserId,DeletedDate=GETDATE() where KaizenId=@KaizenId
 End
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_User]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_User]    Script Date: 16-09-2024 16:38:09 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-create proc [dbo].[Sp_Delete_User]
+
+CREATE proc [dbo].[Sp_Delete_User]
 @id int 
 as
 Begin
-update Users set Status=0 where EmpID=@id
+delete from Users where EmpID=@id
 End
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_DeleteAttachmentsByKaizenID]    Script Date: 05-09-2024 20:04:16 ******/
