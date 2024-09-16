@@ -2639,7 +2639,7 @@ BEGIN
     SET @enddate = NULLIF(@enddate, '')  
     IF @startdate IS NULL AND @enddate IS NULL  
     BEGIN  
-        select u.UserID,u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType,Plant,Area from [dbo].[Users] as u
+        select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
 		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
 		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
@@ -2648,7 +2648,7 @@ BEGIN
     END  
     ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
     BEGIN  
-        select u.UserID,u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType,Plant,Area from [dbo].[Users] as u
+        select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
 		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
 		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
@@ -2658,7 +2658,7 @@ BEGIN
     END  
     ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
     BEGIN  
-        select u.UserID,u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType,Plant,Area from [dbo].[Users] as u
+        select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
 		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
 		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
@@ -2669,7 +2669,7 @@ BEGIN
       
     ELSE  
 Begin  
-select u.UserID,u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType,Plant,Area from [dbo].[Users] as u
+select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
 		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
 		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block

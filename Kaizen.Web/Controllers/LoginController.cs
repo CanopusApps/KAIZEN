@@ -116,7 +116,7 @@ namespace Kaizen.Web.Controllers
                             List<Claim> claims = new List<Claim>();
                             claims.Add(new Claim(ClaimTypes.NameIdentifier, EmpId));
                             claims.Add(new Claim(ClaimTypes.Name, Username));
-                            claims.Add(new Claim(ClaimTypes.Role, userRole));
+                            claims.Add(new Claim(ClaimTypes.Role, userRolecode));
 
                             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

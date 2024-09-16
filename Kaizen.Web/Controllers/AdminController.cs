@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Kaizen.Web.Controllers
 {
+    [Authorize(Roles = "ADM")]
     public class AdminController : Controller
     {
         public IHttpContextAccessor conAccessor;
@@ -39,7 +40,6 @@ namespace Kaizen.Web.Controllers
             return View();
         }
 
-        //[Authorize(Roles ="Admin,EMPLOYEE")]
         public IActionResult AddUser()
 
         {
@@ -62,6 +62,7 @@ namespace Kaizen.Web.Controllers
             return View(model);
         }
 
+        
         [HttpPost]
         public IActionResult Adduser(AddUserModel userModel)
             {
@@ -112,6 +113,8 @@ namespace Kaizen.Web.Controllers
                 return View();
             }
         }
+
+        [Authorize(Roles = "ADM")]
         public IActionResult AddBlock()
         {
             try
@@ -125,6 +128,8 @@ namespace Kaizen.Web.Controllers
 
             return View(blocks);
         }
+
+        [Authorize(Roles = "ADM")]
         [HttpPost]
         public IActionResult AddBlock(BlockModel blockmodel)
         {

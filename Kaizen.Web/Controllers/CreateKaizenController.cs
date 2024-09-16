@@ -22,9 +22,11 @@ using GemBox.Spreadsheet.Drawing;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Org.BouncyCastle.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kaizen.Web.Controllers
 {
+    [Authorize(Roles = "EMP,MGR,IED,FIN")]
     public class CreateKaizenController : Controller
     {
         public IHttpContextAccessor conAccessor;

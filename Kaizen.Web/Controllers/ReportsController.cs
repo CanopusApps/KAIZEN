@@ -11,9 +11,11 @@ using System.Threading.Tasks;
 using Kaizen.Data.Constant;
 using Kaizen.Business.Worker;
 using Kaizen.Models.DashboardModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kaizen.Web.Controllers
 {
+    [Authorize(Roles = "ADM")]
     public class ReportsController : Controller
     {
         private readonly IReport _downloadexcel;

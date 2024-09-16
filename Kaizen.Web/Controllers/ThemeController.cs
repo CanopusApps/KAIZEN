@@ -10,10 +10,11 @@ using Kaizen.Models.NewKaizen;
 using Kaizen.Business.Worker;
 using Kaizen.Models.WinnersList;
 using Kaizen.Models.AdminModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kaizen.Web.Controllers
 {
-
+    [Authorize(Roles = "ADM")]
     public class ThemeController : Controller
     {
 

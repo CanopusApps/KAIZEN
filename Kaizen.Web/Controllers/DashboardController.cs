@@ -5,12 +5,13 @@ using Kaizen.Business.Worker;
 using Kaizen.Data.Constant;
 using Kaizen.Models.AdminModel;
 using Kaizen.Models.DashboardModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 //using NPOI.SS.Formula.Functions;
 
 namespace Kaizen.Web.Controllers
 {
-    public class DashboardController : Controller
+   public class DashboardController : Controller
     {
         private readonly IDomain _domainWorker;
         private readonly IDepartment _departmentWorker;
@@ -167,6 +168,8 @@ namespace Kaizen.Web.Controllers
             
             return deptList;
         }
+
+        [Authorize(Roles = "EMP,MGR,IED,FIN")]
         public IActionResult EmployeeDashboard()
         {
            
@@ -174,6 +177,7 @@ namespace Kaizen.Web.Controllers
 
             return View();
         }
+        [Authorize(Roles = "EMP,MGR,IED,FIN")]
         public IActionResult Dashboardothers()
         {
             string Empid = conAccessor.HttpContext.Session.GetString("EmpId");
@@ -196,6 +200,7 @@ namespace Kaizen.Web.Controllers
 
             return View(DashboardModel);
         }
+
         public IActionResult FilterOtherDashboardcount(string? StartDate, string? EndDate, string? Domain, string? Department, string? Block)
         {
             string Empid = conAccessor.HttpContext.Session.GetString("EmpId");
@@ -223,6 +228,7 @@ namespace Kaizen.Web.Controllers
          
             return Ok(model);
         }
+        [Authorize(Roles = "EMP,MGR,IED,FIN")]
         public IActionResult FilterEmployeeDashboardcount(string? StartDate, string? EndDate)
         {
 

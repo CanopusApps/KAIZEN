@@ -10,9 +10,11 @@ using Kaizen.Business.Worker;
 using Kaizen.Models.WinnersList;
 using DocumentFormat.OpenXml.EMMA;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kaizen.Web.Controllers
 {
+    [Authorize(Roles = "ADM")]
     public class WinnersListController : Controller
     {
         public IHttpContextAccessor conAccessor;
