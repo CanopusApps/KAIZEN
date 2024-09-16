@@ -26,7 +26,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Kaizen.Web.Controllers
 {
-    [Authorize(Roles = "EMP,MGR,IED,FIN")]
+    //[Authorize(Roles = "EMP,MGR,IED,FIN")]
     public class CreateKaizenController : Controller
     {
         public IHttpContextAccessor conAccessor;
