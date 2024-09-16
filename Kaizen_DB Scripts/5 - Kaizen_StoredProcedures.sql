@@ -6,6 +6,9 @@ GO
 /****** Object:  StoredProcedure [dbo].[Sp_Winner_checkuser]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_Winner_checkuser]
 GO
+/****** Object:  StoredProcedure [dbo].[Sp_UpdatePassword]    Script Date: 16-09-2024 12:27:34 ******/
+DROP PROCEDURE IF EXISTS [dbo].[Sp_UpdatePassword]  
+GO
 /****** Object:  StoredProcedure [dbo].[SP_USERLOG]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[SP_USERLOG]
 GO
@@ -232,6 +235,31 @@ GO
 /****** Object:  StoredProcedure [dbo].[Sp_UserProfile]     Script Date: 12-09-2024 16:04:49 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_UserProfile] 
 GO
+
+
+/****** Object:  StoredProcedure [dbo].[Sp_UpdatePassword]    Script Date: 16-09-2024 12:27:34 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[Sp_UpdatePassword]
+    @Id INT,
+    @Pwd NVARCHAR(255)
+AS
+BEGIN
+
+    UPDATE Users
+    SET Password = @Pwd
+    WHERE EmpID = @Id;
+
+  
+END
+GO
+
+
+
 /****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
