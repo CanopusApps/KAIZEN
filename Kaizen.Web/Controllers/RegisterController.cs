@@ -56,10 +56,15 @@ public class RegisterController : Controller
 
 
 
-
+    /// <summary>
+    /// Registers a new user by validating the provided data and calling the Registeruser method.
+    /// Returns a JSON response indicating success or failure with relevant messages.
+    /// </summary>
+    /// <param name="user">The user data for registration.</param>
+    /// <returns>JSON response with success or error message.</returns>
 
     [HttpPost]
-public JsonResult RegisterUser(RegisterModel user)
+    public JsonResult RegisterUser(RegisterModel user)
 {
     try
     {
@@ -68,40 +73,47 @@ public JsonResult RegisterUser(RegisterModel user)
         ModelState.Remove(nameof(user.Departments));
             ModelState.Remove(nameof(user.Blocks));
             ModelState.Remove(nameof(user.Cadre));
-            ModelState.Remove("MiddleName");
+            ModelState.Remove("MiddleName");            
 
-            if (ModelState.IsValid)
-        {
-            if (user.Did == 0 || user.DeptId == 0)
+                if (ModelState.IsValid)
             {
-                return Json(new { success = false, message = "Domain and Department must be selected." });
-            }
+                if (user.Did == 0 || user.DeptId == 0)
+                {
+                    return Json(new { success = false, message = "Domain and Department must be selected." });
+                }
 
-            // Call the Registeruser method and get the result message
-            string resultMessage = _registerworker.Registeruser(user);
+                // Call the Registeruser method and get the result message
+                string resultMessage = _registerworker.Registeruser(user);
 
-            if (resultMessage == "Success")
-            {
-                return Json(new { success = true, message = resultMessage });
+                if (resultMessage == "Success")
+                {
+                    return Json(new { success = true, message = resultMessage });
+                }
+                else
+                {
+                    return Json(new { success = false, message = resultMessage });
+                }
             }
             else
             {
-                return Json(new { success = false, message = resultMessage });
+                // Collect and return validation errors
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToArray();
+                return Json(new { success = false, message = "Invalid data provided.", errors });
             }
         }
-        else
+        catch (Exception ex)
         {
-            // Collect and return validation errors
-            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToArray();
-            return Json(new { success = false, message = "Invalid data provided.", errors });
+            LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+            return Json(new { success = false, message = "An error occurred: " + ex.Message });
         }
     }
-    catch (Exception ex)
-    {
-        LogEvents.LogToFile(DbFiles.Title, ex.ToString());
-        return Json(new { success = false, message = "An error occurred: " + ex.Message });
-    }
-}
+
+    /// <summary>
+    /// Fetches departments based on the provided DomainID and returns them as a JSON response.
+    /// </summary>
+    /// <param name="DomainID">The ID of the domain to filter departments by.</param>
+    /// <returns>JSON response with the list of departments or an error message if an exception occurs.</returns>
+   
     [HttpGet]
     public JsonResult FetchDepartment(string DomainID)
     {

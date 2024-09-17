@@ -16,11 +16,21 @@ namespace Kaizen.Business.Worker
     {
         public readonly IRegisterRepository _regdata;
 
+
+        /// <summary>
+        /// Initializes a new instance of the RegisterWorker class with the specified registration repository.
+        /// </summary>
+        /// <param name="_regdata">The repository handling data operations for user registration.</param>
         public RegisterWorker(IRegisterRepository _regdata)
         {
             this._regdata = _regdata;
         }
-       
+
+        /// <summary>
+        /// Registers a new user by passing the provided RegisterModel to the repository and returns the result message.
+        /// </summary>
+        /// <param name="registermodel">The model containing the user registration data.</param>
+        /// <returns>A string message indicating the result of the registration process.</returns>
         public string Registeruser(RegisterModel registermodel)
         {
             string msg = _regdata.Registeruser(registermodel);
