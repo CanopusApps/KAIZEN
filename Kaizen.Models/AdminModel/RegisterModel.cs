@@ -60,10 +60,13 @@ namespace Kaizen.Models.AdminModel
 
         [Required(ErrorMessage = "Block  is required")]
         public int BlockId { get; set; } = 0;//stores BLockID
+        [Required(ErrorMessage = "Cadre is required")]
+        public int Cid { get; set; } = 0;// stores cadre id
         public List<DomainModel> Domains { get; set; }
         public List<DepartmentModel> Departments { get; set; }
 
         public List<BlockModel> Blocks { get; set; }
+        public List<CadreModel> Cadre { get; set; }
 
     }
 

@@ -64,7 +64,7 @@
     <table id="Usertable" class="table table-striped responsive" style="width:100%">
         <thead>
             <tr style="text-align:center">
-                <th width="10%">EMP ID</th>
+                <th width="5%">EMP ID</th>
                 <th width="20%">NAME</th>
                 <th width="20%">EMAIL</th>
                 @* <th>GENDER</th> *@
@@ -74,7 +74,7 @@
                 <th width="10%">USER TYPE</th>
                 <th width="5%">Image Approver</th>
                 <th width="5%">STATUS</th>
-                <th width="5%">ACTION</th>
+                <th width="10%">ACTION</th>
             </tr>
         </thead>
         <tbody style="text-align:center">
@@ -83,7 +83,7 @@
                 foreach (var User in Model)
                 {
                     <tr data-empid="@User.EmpID" data-name="@User.Name" data-email="@User.Email" data-gender="@User.Gender" data-domain="@User.Domain" data-department="@User.Department" data-usertype="@User.UserType" data-status="@User.Status" data-phoneno="@User.PhoneNo" data-password="@User.Password" data-cadre="@User.Cadre" data-imageapprover="@User.ImageApprover" data-firstname="@User.FirstName" data-middlename="@User.MiddleName" data-lastname="@User.LastName" data-Blockdesc="@User.BlockDesc">
-                        <td width="10%">@User.EmpID</td>
+                        <td width="5%">@User.EmpID</td>
                         <td width="20%">@User.Name</td>
                         <td width="20%">@User.Email</td>
                         @* <td>@User.Gender</td> *@
@@ -113,9 +113,12 @@
                                 <a><span class="btn btn-success badge-sm">Active</span></a>
                             }
                         </td>
-                        <td class="text-center" width="5%">
+                        <td class="text-center" width="10%">
                             <a class="btn btn-primary btn-sm edituser" data-empid="@User.EmpID">
                                 <i class="edit fas fa-solid fa-pencil"></i>
+                            </a>
+                            <a id="deleteuser" class="btn btn-danger btn-sm deleteuser" data-empid="@User.EmpID" data-status="@User.Status">
+                                <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </td>
                         @*  <td>@User.BlockDesc</td> *@
@@ -145,6 +148,53 @@
                 LoginRole: LoginRole
             }));
             window.location.href = '/SubmittedKaizen/ViewKaizen';
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('tbody').on('click', '.deleteuser', function (e) {
+            e.preventDefault();
+            var empid = $(this).data('empid'); 
+            var flag = $(this).data('status');
+            if (flag == 1) {
+                swal({
+                    title: "Warning",
+                    text: "Only inactive users can be deleted",
+                    icon: "warning",
+                });
+                return;
+            }
+            else 
+            {
+                swal({
+                    text: "Are you sure you want to Delete the User ?",
+                    buttons: {
+                        confirm: "Yes",
+                        cancel: "No",
+                    },
+                }).then((userConfirmation) => {
+                    if (userConfirmation) {
+                        $.ajax({
+                            url: '/ViewUser/DeleteUser',
+                            method: 'POST',
+                            data: { id: empid },
+                            success: function (response) {
+                                swal({
+                                    title: "Success!",
+                                    text: "User Deleted Successfully",
+                                    icon: "success",
+                                }).then((value) => {
+                                    window.location.reload();
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                swal('Delete user error');
+                            }
+                        });
+                    }
+                });
+            }
         });
     });
 </script>

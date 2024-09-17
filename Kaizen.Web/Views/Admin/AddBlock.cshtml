@@ -84,12 +84,10 @@
                              
                                 <td class="text-center">
                                    @*  <a href="/Admin/DeleteBlock?id=@item.Id" class="btn btn-danger icon deleteuser"><i class="fa-solid fa-trash-can"></i></a> *@
-                               @*  <a href="#" class="btn btn-danger icon deleteuser" onclick="Deleteblock(@item.Id);"><i class="fa-solid fa-trash-can"></i></a> *@
-
                                 <a id="editblock" class="btn btn-primary btn-sm editblock" data-empid="@item.Id">
                                     <i class="edit fas fa-solid fa-pencil"></i>
                                 </a>
-
+                                 <a class="btn btn-danger icon deleteuser" onclick="Deleteblock(@item.Id);"><i class="fa-solid fa-trash-can"></i></a>
                             </td>
 
                             </tr>
@@ -242,9 +240,8 @@
         });
 
     function Deleteblock(id) {
-        var id = id;
         swal({
-            text: "Are you sure you want to Delete the Block ?",
+            text: "Are you sure you want to Delete the Block?",
             buttons: {
                 confirm: "Yes",
                 cancel: "No",
@@ -257,29 +254,47 @@
                     dataType: "json",
                     data: { id: id },
                     success: function (result) {
-                        window.location.href = redirectErrorUrl;
-                        if (result == true) {
+                        var redirectErrorUrl = "/Login/ErrorPage";
+                        if (result === true) {
                             swal({
-                                text: "Block Deleted successfully !!",
-                                type: "success"
+                                text: "Block Deleted successfully."
                             }).then(okay => {
-                                location.reload();
+                                if (okay) {
+                                    location.reload(); 
+                                }
+                            });
+                        } else if (result === false) {
+                            swal({
+                                text: "Active Block cannot be Deleted."
+                            }).then(okay => {
+                                if (okay) {
+                                    location.reload(); 
+                                }
+                            });
+                        } else {
+                            swal({
+                                text: 'Unable to Delete the Block Details - Please Check the logs'
+                            }).then(okay => {
+                                if (okay) {
+                                    window.location.href = redirectErrorUrl; 
+                                }
                             });
                         }
-                        else {
-                            swal('Unable to Delete the Block Details - Please Check the logs');
-                            window.location.href = redirectErrorUrl;
-                        }
                     },
-                    error: function (error) {
-                        swal('Unable to Delete the Block Details - Please Check the logs');
-                        window.location.href = redirectErrorUrl;
-
+                    error: function () {
+                        swal({
+                            text: 'Unable to Delete the Block Details - Please Check the logs'
+                        }).then(okay => {
+                            if (okay) {
+                                window.location.href = redirectErrorUrl; 
+                            }
+                        });
                     }
                 });
             }
         });
     }
+
 
     $(document).ready(function () {
         $('.text-center').on('click', function () {

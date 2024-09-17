@@ -20,16 +20,17 @@ public class RegisterController : Controller
     private readonly IDepartment _departmentWorker;
     private readonly IDomain _domainWorker;
     private readonly IBlock _blockWorker;
+    private readonly IAddUser _addUserWorker;
 
 
-    public RegisterController(IBlock worker,IRegister _registerworker, IHttpContextAccessor conAccessor, IDomain _domainWorker, IDepartment _departmentWorker)
+    public RegisterController(IBlock worker,IRegister _registerworker, IHttpContextAccessor conAccessor, IDomain _domainWorker, IDepartment _departmentWorker, IAddUser addUserWorker)
     {
         _blockWorker = worker;
         this._registerworker = _registerworker;
         this._departmentWorker = _departmentWorker;
         this._domainWorker = _domainWorker;
         this.conAccessor = conAccessor;
-
+        _addUserWorker = addUserWorker;
     }
 
 
@@ -43,6 +44,7 @@ public class RegisterController : Controller
             var activeBlocks = _blockWorker.GetBlock().Where(d => d.Status == true).ToList();
             viewModel.Domains = activeDomains;// Initialize Domains property with fetched data
                viewModel.Blocks = activeBlocks;
+            viewModel.Cadre = _addUserWorker.GetCadre();
         }
         catch (Exception ex)
         {
@@ -64,13 +66,14 @@ public class RegisterController : Controller
     [HttpPost]
     public JsonResult RegisterUser(RegisterModel user)
 {
-        try
-        {
-            // Remove unnecessary model state entries
-            ModelState.Remove(nameof(user.Domains));
-            ModelState.Remove(nameof(user.Departments));
-                ModelState.Remove(nameof(user.Blocks));
-                ModelState.Remove("MiddleName");
+    try
+    {
+        // Remove unnecessary model state entries
+        ModelState.Remove(nameof(user.Domains));
+        ModelState.Remove(nameof(user.Departments));
+            ModelState.Remove(nameof(user.Blocks));
+            ModelState.Remove(nameof(user.Cadre));
+            ModelState.Remove("MiddleName");            
 
                 if (ModelState.IsValid)
             {

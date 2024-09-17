@@ -9,6 +9,11 @@ GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdatePassword]    Script Date: 16-09-2024 12:27:34 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_UpdatePassword]  
 GO
+
+/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 16-09-2024 17:40:28 ******/
+DROP PROCEDURE IF EXISTS [dbo].[Sp_EditUser]  
+GO
+
 /****** Object:  StoredProcedure [dbo].[SP_USERLOG]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[SP_USERLOG]
 GO
@@ -37,7 +42,7 @@ GO
 DROP PROCEDURE IF EXISTS [dbo].[Sp_UpdateBlock]
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Register]    Script Date: 05-09-2024 20:04:16 ******/
-DROP PROCEDURE IF EXISTS [dbo].[Sp_Register]
+DROP PROCEDURE IF EXISTS [dbo].[Sp_Register] 
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_LoginWinnerDetails]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_LoginWinnerDetails]
@@ -380,20 +385,68 @@ BEGIN
 	SET @Cadre = NULLIF(@Cadre, '')
     SET @Block = NULLIF(@Block, '')
 
-    -- Main query to get all required counts in a single result set
+   --Query to get Kaizen data with out months
     SELECT 
         SUM(CASE WHEN Kaizens.ApprovalStatus not in(0,14) THEN 1 ELSE 0 END) AS TotalKaizens,
         SUM(CASE WHEN Kaizens.ApprovalStatus IN (4, 5, 2) THEN 1 ELSE 0 END) AS DRITotal,
-        SUM(CASE WHEN Kaizens.ApprovalStatus IN (8,9, 6) THEN 1 ELSE 0 END) AS FinanceTotal,
-        SUM(CASE WHEN Kaizens.ApprovalStatus IN (6, 7, 4) THEN 1 ELSE 0 END) AS IETotal,
+			  SUM(
+			CASE 
+				WHEN Kaizens.ApprovalStatus IN (8, 9) THEN 1 
+				WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 0
+				WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NOt NULL THEN 1
+				ELSE 0 
+			END
+		) AS FinanceTotal,
+           SUM(
+    CASE 
+        WHEN Kaizens.ApprovalStatus IN (6, 7, 4) THEN 1
+        WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+        ELSE 0
+    END
+) AS IETotal,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (3,2,1) THEN 1 ELSE 0 END) AS Imagetotal,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (3,5,7,9) THEN 1 ELSE 0 END) AS TotalRejected,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2,4,6,8) THEN 1 ELSE 0 END) AS TotalApproved,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (1,2,4,6) THEN 1 ELSE 0 END) AS TotalPending,
-		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) THEN 1 ELSE 0 END) AS cardImageApproved,
-		     SUM(CASE WHEN Kaizens.ApprovalStatus IN (4, 6, 8) THEN 1 ELSE 0 END) AS CardManagerApproved,
-			   SUM(CASE WHEN Kaizens.ApprovalStatus IN (6, 8) THEN 1 ELSE 0 END) AS CardIEApproved,
-			   		   Sum(CASE WHEN Kaizens.ApprovalStatus IN(15,2) THEN 1 ELSE 0 END) AS carddripending
+		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImageApproved,
+		     SUM(CASE WHEN Kaizens.ApprovalStatus IN (1) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImagePending,
+			   SUM(CASE WHEN Kaizens.ApprovalStatus IN (3) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImageRejected,
+				   SUM(
+			CASE 
+				WHEN Kaizens.ApprovalStatus IN (4) THEN 1
+				WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus = 8 AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				ELSE 0
+			END
+		) AS CardManagerApproved,
+		 Sum(CASE WHEN Kaizens.ApprovalStatus IN(15,2) THEN 1 ELSE 0 END) AS cardManagerpending,
+		 Sum(CASE WHEN Kaizens.ApprovalStatus IN(5) THEN 1 ELSE 0 END) AS cardManagerrejected,
+			SUM(
+				CASE 
+					WHEN Kaizens.ApprovalStatus IN (6) THEN 1
+					WHEN Kaizens.ApprovalStatus = 8 AND Kaizens.FinanceApprovedBy IS not NULL THEN 1
+					ELSE 0
+				END
+			) AS CardIEApproved,
+	    SUM(
+			CASE 				
+				WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+				ELSE 0
+			END
+		) AS CardIEPending,
+		 Sum(CASE WHEN Kaizens.ApprovalStatus IN(7) THEN 1 ELSE 0 END) AS CardIERejected,
+          Sum(CASE WHEN Kaizens.ApprovalStatus IN(8) THEN 1 ELSE 0 END) AS CardFinanceApproved,
+		   SUM(
+			CASE 				
+				WHEN Kaizens.ApprovalStatus = 4 AND (Kaizens.ApprovedByIE IS NULL OR Kaizens.ApprovedByIE IS NOT NULL)and Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus IN (6) AND Kaizens.FinanceApprovedBy IS not NULL THEN 1
+				ELSE 0
+			END
+		) AS CardFinancePending,
+		 Sum(CASE WHEN Kaizens.ApprovalStatus IN(9) THEN 1 ELSE 0 END) AS CardFinnaceRejected
+
+	    
     FROM 
         [dbo].[Kaizens]
     LEFT JOIN 
@@ -417,57 +470,70 @@ BEGIN
 	AND (@Department IS NULL OR Departments.DepartmentName = @Department)
 	AND	(@Block IS NULL OR Blocks.BlockName=@Block)
 	 AND (@Cadre IS NULL OR Cadre.cadreDesc = @Cadre)
-		
-	
-    -- Query to get total count, approval status, and approval status description
-    SELECT 
-        COUNT(*) AS ApprovalCount,
-        Kaizens.ApprovalStatus,
-        ApprovalStatus.StatusDescription AS ApprovalStatusdesc
-    FROM 
-        [dbo].[Kaizens]
-    LEFT JOIN 
-        ApprovalStatus ON ApprovalStatus.StatusID = Kaizens.ApprovalStatus
-    LEFT JOIN 
-        Domains ON Domains.ID = Kaizens.Domain
-    LEFT JOIN 
-        Departments ON Departments.ID = Kaizens.Department
-    LEFT JOIN
-	    Blocks ON Blocks.ID =Kaizens.Block
-		LEFT JOIN 
-    Users ON Users.ID = Kaizens.CreatedBy
-		LEFT JOIN
-    Cadre ON Cadre.ID = Users.Cadre
- 
-    WHERE
-        (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
-        (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate) AND
-        (@Domain IS NULL OR Domains.DomainName = @Domain) AND
-        (@Department IS NULL OR Departments.DepartmentName = @Department)AND
-		(@Block IS NULL OR Blocks.BlockName=@Block)
-		 AND (@Cadre IS NULL OR Cadre.cadreDesc = @Cadre)
-		
-    GROUP BY 
-        Kaizens.ApprovalStatus, 
-        ApprovalStatus.StatusDescription
-    ORDER BY 
-        ApprovalStatus.StatusDescription
 
---- based on month----
+
+		
+   --Query to get Kaizen data based on months
 SELECT 
     FORMAT(Kaizens.CreatedDate, 'MMM-yyyy') AS MonthYear,
-     SUM(CASE WHEN Kaizens.ApprovalStatus not in(0,14) THEN 1 ELSE 0 END) AS TotalKaizens,
+ SUM(CASE WHEN Kaizens.ApprovalStatus not in(0,14) THEN 1 ELSE 0 END) AS TotalKaizens,
         SUM(CASE WHEN Kaizens.ApprovalStatus IN (4, 5, 2) THEN 1 ELSE 0 END) AS DRITotal,
-        SUM(CASE WHEN Kaizens.ApprovalStatus IN (8,9, 6) THEN 1 ELSE 0 END) AS FinanceTotal,
-        SUM(CASE WHEN Kaizens.ApprovalStatus IN (6, 7, 4) THEN 1 ELSE 0 END) AS IETotal,
+			  SUM(
+			CASE 
+				WHEN Kaizens.ApprovalStatus IN (8, 9) THEN 1 
+				WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 0
+				WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NOt NULL THEN 1
+				ELSE 0 
+			END
+		) AS FinanceTotal,
+           SUM(
+    CASE 
+        WHEN Kaizens.ApprovalStatus IN (6, 7, 4) THEN 1
+        WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+        ELSE 0
+    END
+) AS IETotal,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (3,2,1) THEN 1 ELSE 0 END) AS Imagetotal,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (3,5,7,9) THEN 1 ELSE 0 END) AS TotalRejected,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2,4,6,8) THEN 1 ELSE 0 END) AS TotalApproved,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (1,2,4,6) THEN 1 ELSE 0 END) AS TotalPending,
-		   SUM(CASE WHEN  Kaizens.ApprovalStatus IN (2, 4, 6, 8) THEN 1 ELSE 0 END) AS cardImageApproved,
-		     SUM(CASE WHEN Kaizens.ApprovalStatus IN (4, 6, 8) THEN 1 ELSE 0 END) AS CardManagerApproved,
-			   SUM(CASE WHEN Kaizens.ApprovalStatus IN (6, 8) THEN 1 ELSE 0 END) AS CardIEApproved,
-			   Sum(CASE WHEN Kaizens.ApprovalStatus IN(15,2) THEN 1 ELSE 0 END) AS carddripending
+		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImageApproved,
+		     SUM(CASE WHEN Kaizens.ApprovalStatus IN (1) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImagePending,
+			  SUM(CASE WHEN Kaizens.ApprovalStatus IN (3) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImageRejected,
+				   SUM(
+			CASE 
+				WHEN Kaizens.ApprovalStatus IN (4) THEN 1
+				WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus = 8 AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				ELSE 0
+			END
+		) AS CardManagerApproved,
+		 Sum(CASE WHEN Kaizens.ApprovalStatus IN(15,2) THEN 1 ELSE 0 END) AS cardManagerpending,
+		 Sum(CASE WHEN Kaizens.ApprovalStatus IN(5) THEN 1 ELSE 0 END) AS cardManagerrejected,
+			SUM(
+				CASE 
+					WHEN Kaizens.ApprovalStatus IN (6) THEN 1
+					WHEN Kaizens.ApprovalStatus = 8 AND Kaizens.FinanceApprovedBy IS not NULL THEN 1
+					ELSE 0
+				END
+			) AS CardIEApproved,
+	    SUM(
+			CASE 				
+				WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+				ELSE 0
+			END
+		) AS CardIEPending,
+		 Sum(CASE WHEN Kaizens.ApprovalStatus IN(7) THEN 1 ELSE 0 END) AS CardIERejected,
+          Sum(CASE WHEN Kaizens.ApprovalStatus IN(8) THEN 1 ELSE 0 END) AS CardFinanceApproved,
+		   SUM(
+			CASE 				
+				WHEN Kaizens.ApprovalStatus = 4 AND (Kaizens.ApprovedByIE IS NULL OR Kaizens.ApprovedByIE IS NOT NULL)and Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus IN (6) AND Kaizens.FinanceApprovedBy IS not NULL THEN 1
+				ELSE 0
+			END
+		) AS CardFinancePending,
+		 Sum(CASE WHEN Kaizens.ApprovalStatus IN(9) THEN 1 ELSE 0 END) AS CardFinnaceRejected
 FROM 
     [dbo].[Kaizens]
 LEFT JOIN 
@@ -491,41 +557,10 @@ GROUP BY
     FORMAT(Kaizens.CreatedDate, 'MMM-yyyy')
 ORDER BY 
     MonthYear;
-SELECT 
-    FORMAT(Kaizens.CreatedDate, 'MMM-yyyy') AS MonthYear,
-    COUNT(*) AS ApprovalCount,
-    Kaizens.ApprovalStatus,
-    ApprovalStatus.StatusDescription AS ApprovalStatusdesc
-FROM 
-    [dbo].[Kaizens]
-LEFT JOIN 
-    ApprovalStatus ON ApprovalStatus.StatusID = Kaizens.ApprovalStatus
-LEFT JOIN 
-    Domains ON Domains.ID = Kaizens.Domain
-LEFT JOIN 
-    Departments ON Departments.ID = Kaizens.Department
-LEFT JOIN
-    Blocks ON Blocks.ID = Kaizens.Block
-LEFT JOIN 
-    Users ON Users.ID = Kaizens.CreatedBy
-LEFT JOIN
-    Cadre ON Cadre.ID = Users.Cadre
-WHERE
-    (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) 
-    AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate) 
-    AND (@Domain IS NULL OR Domains.DomainName = @Domain) 
-    AND (@Department IS NULL OR Departments.DepartmentName = @Department) 
-    AND (@Block IS NULL OR Blocks.BlockName = @Block) 
-    AND (@Cadre IS NULL OR Cadre.cadreDesc = @Cadre)
-GROUP BY 
-    FORMAT(Kaizens.CreatedDate, 'MMM-yyyy'),
-    Kaizens.ApprovalStatus, 
-    ApprovalStatus.StatusDescription
-ORDER BY 
-    MonthYear,
-    ApprovalStatus.StatusDescription;
 
-	-- custom month 16-15
+
+
+	-- to kaizen data based on custom month
 	SELECT 
     CONCAT(
         FORMAT(DATEADD(DAY, -15, Kaizens.CreatedDate), '16-MMM-yyyy'), 
@@ -558,49 +593,69 @@ GROUP BY
         FORMAT(DATEADD(DAY, -15, DATEADD(MONTH, 1, Kaizens.CreatedDate)), '15-MMM-yyyy')
     )
 ORDER BY 
-    CustomMonthRange;
-
-
-
-	
+    CustomMonthRange;	
 End
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_BlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_BlockDetails]    Script Date: 17-09-2024 10:30:43 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[Sp_Delete_BlockDetails]
-@ID int
-AS
- BEGIN          
-	DELETE from [Blocks] WHERE BlockId = @ID
- END  
+  
+CREATE PROCEDURE [dbo].[Sp_Delete_BlockDetails]  
+@ID int,
+@ReturnMessage INT OUT
+AS  
+ BEGIN    
+  IF EXISTS (SELECT 1 FROM [Blocks] WHERE BlockId = @ID AND Status = 1)  
+    BEGIN  
+        SET @ReturnMessage = 5
+        RETURN
+    END 
+ DELETE from [Blocks] WHERE BlockId = @ID  
+ END    
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_Department]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_Department]    Script Date: 17-09-2024 10:32:08 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[Sp_Delete_Department]  
-@ID int  
+@ID int , 
+@ReturnMessage INT OUT
 AS  
- BEGIN            
+ BEGIN    
+  IF EXISTS (SELECT 1 FROM [dbo].[Departments] WHERE DeptId = @ID AND Status = 1)  
+    BEGIN  
+        SET @ReturnMessage = 5
+        RETURN
+    END           
  DELETE from [dbo].[Departments] WHERE [DeptId] = @ID  
  END 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_Domain]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_Domain]    Script Date: 17-09-2024 10:33:22 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
 
 
+
 CREATE PROCEDURE [dbo].[Sp_Delete_Domain]
-@ID int
-AS
- BEGIN          
+@ID int,
+@ReturnMessage INT OUT
+AS  
+ BEGIN    
+  IF EXISTS (SELECT 1 FROM [dbo].[Domains] WHERE DomainID = @ID AND Status = 1)  
+    BEGIN  
+        SET @ReturnMessage = 5
+        RETURN
+    END            
 	DELETE from [Domains] WHERE DomainID = @ID
  END  
 GO
@@ -618,16 +673,18 @@ Begin
 update Kaizens set ApprovalStatus=14,DeletedBy=@UserId,DeletedDate=GETDATE() where KaizenId=@KaizenId
 End
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_User]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_User]    Script Date: 16-09-2024 16:38:09 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-create proc [dbo].[Sp_Delete_User]
+
+CREATE proc [dbo].[Sp_Delete_User]
 @id int 
 as
 Begin
-update Users set Status=0 where EmpID=@id
+delete from Users where EmpID=@id
 End
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_DeleteAttachmentsByKaizenID]    Script Date: 05-09-2024 20:04:16 ******/
@@ -666,10 +723,9 @@ BEGIN
       AND EndDate = @EndDate;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 10-09-2024 15:08:40 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 16-09-2024 17:50:07 ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -745,9 +801,11 @@ BEGIN
   LastName = @LastName,  
   --LastName = CASE WHEN @LastName IS NOT NULL AND @LastName <> LastName THEN @LastName ELSE LastName END,    
   Email = CASE WHEN @Email IS NOT NULL AND @Email <> Email THEN @Email ELSE Email END,     
-  MobileNumber = CASE WHEN @PhoneNo IS NOT NULL AND @PhoneNo <> MobileNumber THEN @PhoneNo ELSE MobileNumber END,    
-  --Password = CASE WHEN @Password IS NOT NULL AND @Password <> Password THEN @Password ELSE Password END,    
-  Gender = CASE WHEN @gender IS NOT NULL AND @gender <> Gender THEN @gender ELSE Gender END,    
+  --MobileNumber = CASE WHEN @PhoneNo IS NOT NULL AND @PhoneNo <> MobileNumber THEN @PhoneNo ELSE MobileNumber END,    
+  --Password = CASE WHEN @Password IS NOT NULL AND @Password <> Password THEN @Password ELSE Password END, 
+  MobileNumber = @PhoneNo,
+  --Gender = CASE WHEN @gender IS NOT NULL AND @gender <> Gender THEN @gender ELSE Gender END, 
+  Gender = @Gender,
   Status = CASE WHEN @Status IS NOT NULL AND @Status <> Status THEN @Status ELSE Status END,     
   --ImageApprover = CASE WHEN @ImageApprover IS NOT NULL AND @ImageApprover <> ImageApprover THEN @ImageApprover ELSE ImageApprover END,    
   ImageApprover = @ImageApprover,  
@@ -4097,71 +4155,76 @@ BEGIN
         WL.CreatedDate desc;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Register]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Register]    Script Date: 17-09-2024 18:09:58 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[Sp_Register]
-    @UserID NVARCHAR(50),
-    @EmpID NVARCHAR(50),
-    @FirstName NVARCHAR(50),
-	@MiddleName NVARCHAR(50)= NULL,
-	@LastName NVARCHAR(50),
-    @Gender CHAR(1),
-    @Did int,
-    @Deptid int,
-	@BlockId int,
-    @MobileNumber BIGINT = NULL,
-    @Email NVARCHAR(100) = NULL,
-    @Password NVARCHAR(100), -- Ensure this is hashed before storing
-	 @result BIT Out 
-
-AS
-BEGIN
-
-    SET NOCOUNT ON;
-	 -- Check for duplicate EmpID
-
-  IF EXISTS (SELECT 1 FROM [Users] WHERE EmpID = @EmpID)
-    BEGIN
-        SET @result = 1; -- Duplicate
-    END
-    ELSE
-		
-		 BEGIN	-- Insert the new user into the Users table
-
-		 -- Fetch the unique domain ID based on the provided Did
-        DECLARE @DomainId UNIQUEIDENTIFIER;
-        SELECT @DomainId = ID FROM [Domains] WHERE DomainID = @Did;
-
-		declare @Usertypeid UNIQUEIDENTIFIER;
-		select @Usertypeid = ID from [Usertype] where UserCode='EMP';
-
-		 Declare @BlocksId nvarchar(100);
-		 set @BlocksId=(select ID From [dbo].[Blocks] where BlockId=@BlockId)
-		-- Fetch the unique department ID based on the provided Deptid
-        DECLARE @DepartmentId UNIQUEIDENTIFIER;
-        SELECT @DepartmentId = ID FROM [Departments] WHERE DeptID = @Deptid;
-
-		 -- Insert the new user into the Users table
-
-			INSERT INTO [dbo].[Users] (
-				[ID], [UserID], [EmpID], [FirstName],[MiddleName],[LastName], [Gender], [Domain],
-				[Department], [MobileNumber], [Email], [Password],[Block],[Status],[UserType]
-			)
-			VALUES (
-				NEWID(), -- Generates a new uniqueidentifier for the ID
-				@EmpID, @EmpID, @FirstName,@MiddleName,@LastName, @Gender, @DomainId,
-				@DepartmentId, @MobileNumber, @Email, @Password,@BlocksId,1,@Usertypeid
-			);
-
-        -- Set result message
-			 SET @result = 0; -- Success
-		END 
-		
-END
+  
+CREATE PROCEDURE [dbo].[Sp_Register]  
+    @UserID NVARCHAR(50),  
+    @EmpID NVARCHAR(50),  
+    @FirstName NVARCHAR(50),  
+ @MiddleName NVARCHAR(50)= NULL,  
+ @LastName NVARCHAR(50),  
+    @Gender CHAR(1),  
+    @Did int,  
+    @Deptid int,  
+ @BlockId int,  
+    @MobileNumber BIGINT = NULL,  
+    @Email NVARCHAR(100) = NULL,  
+    @Password NVARCHAR(100), -- Ensure this is hashed before storing  
+  @result BIT Out ,
+  @Cadre int
+  
+AS  
+BEGIN  
+  
+    SET NOCOUNT ON;  
+  -- Check for duplicate EmpID  
+  
+  IF EXISTS (SELECT 1 FROM [Users] WHERE EmpID = @EmpID)  
+    BEGIN  
+        SET @result = 1; -- Duplicate  
+    END  
+    ELSE  
+    
+   BEGIN -- Insert the new user into the Users table  
+  
+   -- Fetch the unique domain ID based on the provided Did  
+        DECLARE @DomainId UNIQUEIDENTIFIER;  
+        SELECT @DomainId = ID FROM [Domains] WHERE DomainID = @Did;  
+  
+  declare @Usertypeid UNIQUEIDENTIFIER; 
+  Declare @cardeId nvarchar(100);
+  select @Usertypeid = ID from [Usertype] where UserCode='EMP';
+  set @cardeId= (SELECT ID FROM [dbo].[Cadre] WHERE CadreId = @Cadre)
+  
+   Declare @BlocksId nvarchar(100);  
+   set @BlocksId=(select ID From [dbo].[Blocks] where BlockId=@BlockId)  
+  -- Fetch the unique department ID based on the provided Deptid  
+        DECLARE @DepartmentId UNIQUEIDENTIFIER;  
+        SELECT @DepartmentId = ID FROM [Departments] WHERE DeptID = @Deptid;  
+  
+   -- Insert the new user into the Users table  
+  
+   INSERT INTO [dbo].[Users] (  
+    [ID], [UserID], [EmpID], [FirstName],[MiddleName],[LastName], [Gender], [Domain],  
+    [Department], [MobileNumber], [Email], [Password],[Block],[Status],[UserType],[Cadre]  
+   )  
+   VALUES (  
+    NEWID(), -- Generates a new uniqueidentifier for the ID  
+    @EmpID, @EmpID, @FirstName,@MiddleName,@LastName, @Gender, @DomainId,  
+    @DepartmentId, @MobileNumber, @Email, @Password,@BlocksId,1,@Usertypeid,@cardeId  
+   );  
+  
+        -- Set result message  
+    SET @result = 0; -- Success  
+  END   
+    
+END  
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdateBlock]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON

@@ -74,86 +74,15 @@
                                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger validation-message" })
                             </div>
 
-                            <div class="col-md-6">
+                            @* <div class="col-md-6">
                                 @Html.LabelFor(model => model.MiddleName, "Middle Name", htmlAttributes: new { @class = "control-label" })
                                 <input type="text" asp-for="MiddleName" id="MiddleName" name="MiddleName" class="form-control alpha-input txt-width" placeholder="Middle Name">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
+                            </div> *@
                             <div class="col-md-6">
                                 @Html.LabelFor(model => model.LastName, "Last Name", htmlAttributes: new { @class = "control-label" })
                                 <span class="text-danger">*</span>
                                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control alpha-input", placeholder = "Please Enter Your Last Name" } })
                                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger validation-message" })
-                            </div>
-                            <div class="col-md-6">
-                                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
-                                <span class="text-danger">*</span>
-                                <div class="container border rounded p-1 ">
-                                    <label class="radio-inline">
-                                        @Html.RadioButtonFor(model => model.Gender, "Male") Male
-                                    </label>
-                                    <label class="radio-inline">
-                                        @Html.RadioButtonFor(model => model.Gender, "Female") Female
-                                    </label>
-                                    <label class="radio-inline">
-                                        @Html.RadioButtonFor(model => model.Gender, "Other") Other
-                                    </label>
-                                </div>
-                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
-                                <span class="text-danger">*</span>
-                                @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control numeric-input", placeholder = "Employee ID", id = "EmpId" } })
-                                @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger validation-message" })
-                            </div>
-
-                            <div class="col-md-6">
-                                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
-                                <span class="text-danger">*</span>
-                                <div class="editor-container">
-                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Please Enter your Password" })
-                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger validation-message" })
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                @Html.LabelFor(model => model.BlockId, "Block", htmlAttributes: new { @class = "control-label" })
-                                <span class="text-danger">*</span>
-                                @Html.DropDownListFor(m => m.BlockId, new SelectList(Model.Blocks, "Id", "BlockName"), "--Select Block--", new { @id = "blockId", @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.BlockId, "", new { @class = "text-danger validation-message" })
-                            </div>
-
-                            <div class="col-md-6">
-                                @Html.LabelFor(model => model.ConfirmPassword, "Confirm Password", htmlAttributes: new { @class = "control-label" })
-                                <span class="text-danger">*</span>
-                                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
-                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger validation-message" })
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })
-                                <span class="text-danger">*</span>
-                                @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "--Select Domain--", new { @id = "Did", @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger validation-message" })
-                            </div>
-
-                            <div class="col-md-6">
-                                @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })
-                                <span class="text-danger">*</span>
-                                <select asp-for="DeptId" name="DeptId" id="inputDepartment" class="form-control">
-                                    <option selected>--Select Department--</option>
-                                </select>
-                                <span id="deptError" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -166,11 +95,93 @@
                             </div>
 
                             <div class="col-md-6">
+                                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
+                                <div class="container border rounded p-1 ">
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(model => model.Gender, "Male") Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(model => model.Gender, "Female") Female
+                                    </label>
+                                    @* <label class="radio-inline">
+                                        @Html.RadioButtonFor(model => model.Gender, "Other") Other
+                                    </label> *@
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                            </div>
+                            
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
                                 @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
                                 <span class="text-danger">*</span>
                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email ID" } })
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger validation-message" })
                             </div>
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.EmpId, "Emp ID", htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
+                                @Html.EditorFor(model => model.EmpId, new { htmlAttributes = new { @class = "form-control numeric-input", placeholder = "Employee ID", id = "EmpId" } })
+                                @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger validation-message" })
+                            </div>
+
+                            
+                            
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
+                                <div class="editor-container">
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Please Enter your Password" })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger validation-message" })
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.ConfirmPassword, "Confirm Password", htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
+                                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger validation-message" })
+                            </div>
+                            
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.BlockId, "Block", htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
+                                @Html.DropDownListFor(m => m.BlockId, new SelectList(Model.Blocks, "Id", "BlockName"), "--Select Block--", new { @id = "blockId", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BlockId, "", new { @class = "text-danger validation-message" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
+                                @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "--Select Domain--", new { @id = "Did", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger validation-message" })
+                            </div>
+                            
+                            
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })
+                                <span class="text-danger">*</span>
+                                <select asp-for="DeptId" name="DeptId" id="inputDepartment" class="form-control">
+                                    <option selected>--Select Department--</option>
+                                </select>
+                                <span id="deptError" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.Cid, "Cadre", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                                @Html.DropDownListFor(m => m.Cid, new SelectList(Model.Cadre, "Id", "CadreName"), "--Select Cadre--", new { @id = "cid", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Cid, "", new { @class = "text-danger" })
+                            </div>
+                           
                         </div>
 
                         <button type="submit" class="btn btn-block btn-azure" id="registerButton">Register Me In</button>

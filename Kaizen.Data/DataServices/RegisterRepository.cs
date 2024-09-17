@@ -114,6 +114,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@MobileNumber", registermodel.Phoneno ?? (object)DBNull.Value);
                 com.Parameters.AddWithValue("@Email", registermodel.Email ?? (object)DBNull.Value);
                 com.Parameters.AddWithValue("@Password", registermodel.Password ?? (object)DBNull.Value);
+                com.Parameters.AddWithValue("@Cadre", registermodel.Cid);
 
                 SqlParameter obreg = new SqlParameter();
                 obreg.ParameterName = "@result";

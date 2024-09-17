@@ -102,12 +102,10 @@ namespace Kaizen.Web.Controllers
             };
             try
             {
-                var KaizencountList = _dashboardworker.GetKaizenCount(model);
-                var Kaizentotallist = _dashboardworker.GetKaizentotalCount(model);
-                model.MonthCountKaizenList = _dashboardworker.GetKaizenCountmonth(model);
+              
+                var Kaizentotallist = _dashboardworker.GetKaizentotalCount(model);               
                 model.MonthTotalKaizenList = _dashboardworker.GetKaizentotalCountmonth(model);
-                model.CustomMonthTotalKaizenList = _dashboardworker.GetKaizentotalCountCustomMonth(model);
-                model.CountKaizenList = KaizencountList;
+                model.CustomMonthTotalKaizenList = _dashboardworker.GetKaizentotalCountCustomMonth(model);                
                 model.TotalKaizenList = Kaizentotallist;
             }
             catch (Exception ex)

@@ -472,56 +472,7 @@
                       
                         $('.imageRejected').text('0');
                         $('.imagePending').text('0');
-                            for (let i = 0; i < result.countKaizenList.length; i++) {
-                                let item = result.countKaizenList[i];
-
-                                switch (item.approvalStatus) {
-                                    case statusDetails.DRIApproved:
-                                    
-                                       
-                                   
-                                        $('.iePending').text(item.approvalCount || 0);
-                                        break;
-                                    case statusDetails.DRIRejected:
-                                        $('.driRejected').text(item.approvalCount || 0);
-                                        break;
-                                    case statusDetails.IEApproved:
-                                 
-                                     
-                                    $('.financePending').text(item.approvalCount || 0);
-                                        break;
-                                    case statusDetails.IERejected:
-                                        $('.ieRejected').text(item.approvalCount || 0);
-                                        break;
-                                    case statusDetails.FinanceApproved:
-                                        $('.financeApproved').text(item.approvalCount || 0);
-                                        break;
-                                    case statusDetails.FinanceRejected:
-                                        $('.financeRejected').text(item.approvalCount || 0);
-                                        break;
-                                    // case statusDetails.DRIPending:
-                                    //     $('.driPending').text(item.approvalCount || 0);
-                                    //     break;
-                                    // case statusDetails.IEPending:
-                                    //     $('.iePending').text(item.approvalCount || 0);
-                                    //     break;
-                                    // case statusDetails.FinancePending:
-                                    //     $('.financePending').text(item.approvalCount || 0);
-                                    //     break;
-                                    // case statusDetails.ImageApproved:
-                                    //     $('.driPending').text(item.approvalCount || 0);
-                                    //     break;
-                                    case statusDetails.ImageRejected:
-                                        $('.imageRejected').text(item.approvalCount || 0);
-                                        break;
-                                    case statusDetails.Submitted:
-                                        $('.imagePending').text(item.approvalCount || 0);
-                                        break;
-
-                                }
-                            }
-                        
-                     
+                                              
                         
                         $('.totalKaizens').text(result.totalKaizenList[0].totalKaizens || 0);
                         $('.driTotal').text(result.totalKaizenList[0].driTotal || 0);
@@ -535,6 +486,16 @@
                         $('.driApproved').text(result.totalKaizenList[0].cardManagerApproved || 0);
                         $('.ieApproved').text(result.totalKaizenList[0].cardIEApproved || 0);
                         $('.imageApproved').text(result.totalKaizenList[0].cardImageApproved || 0);
+
+
+                        $('.driRejected').text(result.totalKaizenList[0].cardManagerRejected || 0);
+                        $('.ieRejected').text(result.totalKaizenList[0].cardIERejected || 0);
+                        $('.financeApproved').text(result.totalKaizenList[0].cardFinanceApproved || 0);
+                        $('.financeRejected').text(result.totalKaizenList[0].cardFinanceRejected || 0);
+                        $('.imageRejected').text(result.totalKaizenList[0].cardImageRejected || 0);
+                        $('.financePending').text(result.totalKaizenList[0].cardFinancePending || 0);
+                        $('.iePending').text(result.totalKaizenList[0].cardIEPending || 0);
+                        $('.imagePending').text(result.totalKaizenList[0].cardImagePending || 0);
 
 
                     }

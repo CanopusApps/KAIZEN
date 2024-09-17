@@ -174,17 +174,18 @@ namespace Kaizen.Web.Controllers
 
             {
                 deleteStatus = _blockWorker.DeleteBlock(id);
-                //if (deleteStatus)
-                //{
-                //    blocks = _blockWorker.GetBlock();
-                //}
+                if (deleteStatus)
+                {
+                    blocks = _blockWorker.GetBlock();
+                }
             }
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return Json(false);
 
             }
-            return Ok(deleteStatus);
+           return Json(deleteStatus);
         }
         public IActionResult UpdateBlockStatus(int id, bool status)
         {
@@ -267,9 +268,10 @@ namespace Kaizen.Web.Controllers
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return Json(false);
             }
 
-            return Ok(deleteStatus);
+            return Json(deleteStatus); 
         }
 
         public IActionResult UpdateDomainStatus(int id, bool status)
@@ -422,8 +424,10 @@ namespace Kaizen.Web.Controllers
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                return Json(false);
             }
-            return Ok(deleteStatus);
+            //return Ok(deleteStatus);
+            return Json(deleteStatus);
         }
         public IActionResult UpdateDepartmentStatus(int id, bool status)
         {

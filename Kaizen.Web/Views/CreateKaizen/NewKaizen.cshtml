@@ -2930,7 +2930,7 @@
     }
 
     function previewFile(file) {
-        var allowed_extensions = new Set(["jpg", "jpeg", "png", "gif", "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx"]);
+        var allowed_extensions = new Set(["jpg", "jpeg", "png", "gif"]);
         var fileName = file.name;
         var file_extension = fileName.split('.').pop().toLowerCase();
         if (!allowed_extensions.has(file_extension)) {
