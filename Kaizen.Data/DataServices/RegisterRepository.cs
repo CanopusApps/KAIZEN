@@ -86,6 +86,13 @@ namespace Kaizen.Data.DataServices
         //    }
         //    return msg;
         //}
+
+
+        /// <summary>
+        /// Registers a new user by executing a stored procedure with the provided RegisterModel data and returns a result message.
+        /// </summary>
+        /// <param name="registermodel">The model containing the user registration data.</param>
+        /// <returns>A string message indicating the result of the registration process, such as "Success" or "Duplicate Emp Id".</returns>
         public string Registeruser(RegisterModel registermodel)
         {
             string msg = "";
