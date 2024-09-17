@@ -234,6 +234,15 @@
         display: inline;
     }
 </style>
+<script type="text/javascript">
+    //This script is responsible for checking the user type and redirecting to the login page if not authenticated .
+    if ("@UserType" == null || "@UserType" == '') {
+        window.location.href = "/Login/Logout";
+    } else {
+        document.body.style.display = 'block';
+    }
+</script>
+
 <script>
     (function () {
 
@@ -254,7 +263,7 @@
     })();
 </script>
 @* <body class="bg-light" style="background-color:#e9ecef"> *@
-<body style="background-color:#e9ecef;overflow-y:hidden;"> 
+<body style="background-color:#e9ecef;overflow-y:hidden;display:none"> 
     <div id="wrapper" class="d-flex flex-column">
      
         <nav class="navbar navbar-expand-lg navbar-light" id="container-header" >
@@ -449,7 +458,8 @@
             </div>
         </div>  
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script>
+    
+        <script>
         $("#menu-toggle").click(function (e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
