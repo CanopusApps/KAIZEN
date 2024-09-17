@@ -42,7 +42,7 @@ GO
 DROP PROCEDURE IF EXISTS [dbo].[Sp_UpdateBlock]
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Register]    Script Date: 05-09-2024 20:04:16 ******/
-DROP PROCEDURE IF EXISTS [dbo].[Sp_Register]
+DROP PROCEDURE IF EXISTS [dbo].[Sp_Register] 
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_LoginWinnerDetails]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_LoginWinnerDetails]
@@ -596,42 +596,66 @@ ORDER BY
     CustomMonthRange;	
 End
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_BlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_BlockDetails]    Script Date: 17-09-2024 10:30:43 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[Sp_Delete_BlockDetails]
-@ID int
-AS
- BEGIN          
-	DELETE from [Blocks] WHERE BlockId = @ID
- END  
+  
+CREATE PROCEDURE [dbo].[Sp_Delete_BlockDetails]  
+@ID int,
+@ReturnMessage INT OUT
+AS  
+ BEGIN    
+  IF EXISTS (SELECT 1 FROM [Blocks] WHERE BlockId = @ID AND Status = 1)  
+    BEGIN  
+        SET @ReturnMessage = 5
+        RETURN
+    END 
+ DELETE from [Blocks] WHERE BlockId = @ID  
+ END    
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_Department]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_Department]    Script Date: 17-09-2024 10:32:08 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[Sp_Delete_Department]  
-@ID int  
+@ID int , 
+@ReturnMessage INT OUT
 AS  
- BEGIN            
+ BEGIN    
+  IF EXISTS (SELECT 1 FROM [dbo].[Departments] WHERE DeptId = @ID AND Status = 1)  
+    BEGIN  
+        SET @ReturnMessage = 5
+        RETURN
+    END           
  DELETE from [dbo].[Departments] WHERE [DeptId] = @ID  
  END 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_Domain]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_Domain]    Script Date: 17-09-2024 10:33:22 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
 
 
+
 CREATE PROCEDURE [dbo].[Sp_Delete_Domain]
-@ID int
-AS
- BEGIN          
+@ID int,
+@ReturnMessage INT OUT
+AS  
+ BEGIN    
+  IF EXISTS (SELECT 1 FROM [dbo].[Domains] WHERE DomainID = @ID AND Status = 1)  
+    BEGIN  
+        SET @ReturnMessage = 5
+        RETURN
+    END            
 	DELETE from [Domains] WHERE DomainID = @ID
  END  
 GO
@@ -4131,71 +4155,76 @@ BEGIN
         WL.CreatedDate desc;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Register]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Register]    Script Date: 17-09-2024 18:09:58 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[Sp_Register]
-    @UserID NVARCHAR(50),
-    @EmpID NVARCHAR(50),
-    @FirstName NVARCHAR(50),
-	@MiddleName NVARCHAR(50)= NULL,
-	@LastName NVARCHAR(50),
-    @Gender CHAR(1),
-    @Did int,
-    @Deptid int,
-	@BlockId int,
-    @MobileNumber BIGINT = NULL,
-    @Email NVARCHAR(100) = NULL,
-    @Password NVARCHAR(100), -- Ensure this is hashed before storing
-	 @result BIT Out 
-
-AS
-BEGIN
-
-    SET NOCOUNT ON;
-	 -- Check for duplicate EmpID
-
-  IF EXISTS (SELECT 1 FROM [Users] WHERE EmpID = @EmpID)
-    BEGIN
-        SET @result = 1; -- Duplicate
-    END
-    ELSE
-		
-		 BEGIN	-- Insert the new user into the Users table
-
-		 -- Fetch the unique domain ID based on the provided Did
-        DECLARE @DomainId UNIQUEIDENTIFIER;
-        SELECT @DomainId = ID FROM [Domains] WHERE DomainID = @Did;
-
-		declare @Usertypeid UNIQUEIDENTIFIER;
-		select @Usertypeid = ID from [Usertype] where UserCode='EMP';
-
-		 Declare @BlocksId nvarchar(100);
-		 set @BlocksId=(select ID From [dbo].[Blocks] where BlockId=@BlockId)
-		-- Fetch the unique department ID based on the provided Deptid
-        DECLARE @DepartmentId UNIQUEIDENTIFIER;
-        SELECT @DepartmentId = ID FROM [Departments] WHERE DeptID = @Deptid;
-
-		 -- Insert the new user into the Users table
-
-			INSERT INTO [dbo].[Users] (
-				[ID], [UserID], [EmpID], [FirstName],[MiddleName],[LastName], [Gender], [Domain],
-				[Department], [MobileNumber], [Email], [Password],[Block],[Status],[UserType]
-			)
-			VALUES (
-				NEWID(), -- Generates a new uniqueidentifier for the ID
-				@EmpID, @EmpID, @FirstName,@MiddleName,@LastName, @Gender, @DomainId,
-				@DepartmentId, @MobileNumber, @Email, @Password,@BlocksId,1,@Usertypeid
-			);
-
-        -- Set result message
-			 SET @result = 0; -- Success
-		END 
-		
-END
+  
+CREATE PROCEDURE [dbo].[Sp_Register]  
+    @UserID NVARCHAR(50),  
+    @EmpID NVARCHAR(50),  
+    @FirstName NVARCHAR(50),  
+ @MiddleName NVARCHAR(50)= NULL,  
+ @LastName NVARCHAR(50),  
+    @Gender CHAR(1),  
+    @Did int,  
+    @Deptid int,  
+ @BlockId int,  
+    @MobileNumber BIGINT = NULL,  
+    @Email NVARCHAR(100) = NULL,  
+    @Password NVARCHAR(100), -- Ensure this is hashed before storing  
+  @result BIT Out ,
+  @Cadre int
+  
+AS  
+BEGIN  
+  
+    SET NOCOUNT ON;  
+  -- Check for duplicate EmpID  
+  
+  IF EXISTS (SELECT 1 FROM [Users] WHERE EmpID = @EmpID)  
+    BEGIN  
+        SET @result = 1; -- Duplicate  
+    END  
+    ELSE  
+    
+   BEGIN -- Insert the new user into the Users table  
+  
+   -- Fetch the unique domain ID based on the provided Did  
+        DECLARE @DomainId UNIQUEIDENTIFIER;  
+        SELECT @DomainId = ID FROM [Domains] WHERE DomainID = @Did;  
+  
+  declare @Usertypeid UNIQUEIDENTIFIER; 
+  Declare @cardeId nvarchar(100);
+  select @Usertypeid = ID from [Usertype] where UserCode='EMP';
+  set @cardeId= (SELECT ID FROM [dbo].[Cadre] WHERE CadreId = @Cadre)
+  
+   Declare @BlocksId nvarchar(100);  
+   set @BlocksId=(select ID From [dbo].[Blocks] where BlockId=@BlockId)  
+  -- Fetch the unique department ID based on the provided Deptid  
+        DECLARE @DepartmentId UNIQUEIDENTIFIER;  
+        SELECT @DepartmentId = ID FROM [Departments] WHERE DeptID = @Deptid;  
+  
+   -- Insert the new user into the Users table  
+  
+   INSERT INTO [dbo].[Users] (  
+    [ID], [UserID], [EmpID], [FirstName],[MiddleName],[LastName], [Gender], [Domain],  
+    [Department], [MobileNumber], [Email], [Password],[Block],[Status],[UserType],[Cadre]  
+   )  
+   VALUES (  
+    NEWID(), -- Generates a new uniqueidentifier for the ID  
+    @EmpID, @EmpID, @FirstName,@MiddleName,@LastName, @Gender, @DomainId,  
+    @DepartmentId, @MobileNumber, @Email, @Password,@BlocksId,1,@Usertypeid,@cardeId  
+   );  
+  
+        -- Set result message  
+    SET @result = 0; -- Success  
+  END   
+    
+END  
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdateBlock]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
