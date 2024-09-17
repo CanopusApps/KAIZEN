@@ -81,8 +81,8 @@
                                 }
                             </td>
                             <td class="text-center">
-                                @* <a href="#" class="btn btn-danger icon deleteuser" onclick="Deletedomain(@item.Id);"><i class="fa-solid fa-trash-can"></i></a> *@
                                 <a id="editdomain" class="btn btn-primary btn-sm editdomain" data-empid="@item.Id" ><i class="edit fas fa-solid fa-pencil"></i></a>
+                                <a href="#" class="btn btn-danger icon deleteuser" onclick="Deletedomain(@item.Id);"><i class="fa-solid fa-trash-can"></i></a> 
                             </td>
                         </tr>
                     }
@@ -256,29 +256,44 @@
                     data: { id: id },
                     success: function (result) {
                         var redirectErrorUrl = "/Login/ErrorPage";
-                        if (result == true) {
+                        if (result === true) {
                             swal({
-                                text: "Domain Deleted successfully !!",
-                                type: "success"
+                                text: "Domain Deleted successfully."
                             }).then(okay => {
-                                location.reload();
+                                if (okay) {
+                                    location.reload();
+                                }
+                            });
+                        } else if (result === false) {
+                            swal({
+                                text: "Active Domain cannot be Deleted."
+                            }).then(okay => {
+                                if (okay) {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            swal({
+                                text: 'Unable to Delete the Domain Details - Please Check the logs'
+                            }).then(okay => {
+                                if (okay) {
+                                    window.location.href = redirectErrorUrl;
+                                }
                             });
                         }
-                        else {
-                            swal('Unable to Delete the Domain Details - Please Check the logs');
-                            window.location.href = redirectErrorUrl;
-
-                        }
                     },
-                    error: function (error) {
-                        swal('Unable to Delete the Domain Details - Please Check the logs');
-                        window.location.href = redirectErrorUrl;
-
+                    error: function () {
+                        swal({
+                            text: 'Unable to Delete the Domain Details - Please Check the logs'
+                        }).then(okay => {
+                            if (okay) {
+                                window.location.href = redirectErrorUrl;
+                            }
+                        });
                     }
                 });
             }
         });
-
     }
 
     $(document).ready(function () {

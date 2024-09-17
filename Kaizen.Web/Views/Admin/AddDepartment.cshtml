@@ -97,6 +97,7 @@
                                 <a class="btn btn-primary btn-sm editdepartment" data-depid="@item.DeptId">
                                     <i class="edit fas fa-pencil"></i>
                                 </a>
+                                <a class="btn btn-danger icon" onclick="Deletedepartment(@item.DeptId);"><i class="fa-solid fa-trash-can"></i></a>
                             </td>
                         </tr>
                     }
@@ -310,22 +311,40 @@
                     data: { id: id },
                     success: function (result) {
                         var redirectErrorUrl = "/Login/ErrorPage";
-                        if (result == true) {
+                        if (result === true) {
                             swal({
-                                text: "Department Deleted successfully !!",
-                                type: "success"
+                                text: "Department Deleted successfully."
                             }).then(okay => {
-                                location.reload();
+                                if (okay) {
+                                    location.reload();
+                                }
+                            });
+                        } else if (result === false) {
+                            swal({
+                                text: "Active Department cannot be Deleted."
+                            }).then(okay => {
+                                if (okay) {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            swal({
+                                text: 'Unable to Delete the Department Details - Please Check the logs'
+                            }).then(okay => {
+                                if (okay) {
+                                    window.location.href = redirectErrorUrl;
+                                }
                             });
                         }
-                        else {
-                            swal('Unable to Delete the Department Details - Please Check the logs');
-                            window.location.href = redirectErrorUrl;
-                        }
                     },
-                    error: function (error) {
-                        swal('Unable to Delete the Department Details - Please Check the logs');
-                        window.location.href = redirectErrorUrl;
+                    error: function () {
+                        swal({
+                            text: 'Unable to Delete the Department Details - Please Check the logs'
+                        }).then(okay => {
+                            if (okay) {
+                                window.location.href = redirectErrorUrl;
+                            }
+                        });
                     }
                 });
             }

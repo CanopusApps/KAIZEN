@@ -565,42 +565,66 @@ ORDER BY
 	
 End
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_BlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_BlockDetails]    Script Date: 17-09-2024 10:30:43 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[Sp_Delete_BlockDetails]
-@ID int
-AS
- BEGIN          
-	DELETE from [Blocks] WHERE BlockId = @ID
- END  
+  
+CREATE PROCEDURE [dbo].[Sp_Delete_BlockDetails]  
+@ID int,
+@ReturnMessage INT OUT
+AS  
+ BEGIN    
+  IF EXISTS (SELECT 1 FROM [Blocks] WHERE BlockId = @ID AND Status = 1)  
+    BEGIN  
+        SET @ReturnMessage = 5
+        RETURN
+    END 
+ DELETE from [Blocks] WHERE BlockId = @ID  
+ END    
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_Department]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_Department]    Script Date: 17-09-2024 10:32:08 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[Sp_Delete_Department]  
-@ID int  
+@ID int , 
+@ReturnMessage INT OUT
 AS  
- BEGIN            
+ BEGIN    
+  IF EXISTS (SELECT 1 FROM [dbo].[Departments] WHERE DeptId = @ID AND Status = 1)  
+    BEGIN  
+        SET @ReturnMessage = 5
+        RETURN
+    END           
  DELETE from [dbo].[Departments] WHERE [DeptId] = @ID  
  END 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_Domain]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_Domain]    Script Date: 17-09-2024 10:33:22 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
 
 
+
 CREATE PROCEDURE [dbo].[Sp_Delete_Domain]
-@ID int
-AS
- BEGIN          
+@ID int,
+@ReturnMessage INT OUT
+AS  
+ BEGIN    
+  IF EXISTS (SELECT 1 FROM [dbo].[Domains] WHERE DomainID = @ID AND Status = 1)  
+    BEGIN  
+        SET @ReturnMessage = 5
+        RETURN
+    END            
 	DELETE from [Domains] WHERE DomainID = @ID
  END  
 GO
