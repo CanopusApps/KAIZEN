@@ -9,6 +9,11 @@ GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdatePassword]    Script Date: 16-09-2024 12:27:34 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_UpdatePassword]  
 GO
+
+/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 16-09-2024 17:40:28 ******/
+DROP PROCEDURE IF EXISTS [dbo].[Sp_EditUser]  
+GO
+
 /****** Object:  StoredProcedure [dbo].[SP_USERLOG]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[SP_USERLOG]
 GO
@@ -694,10 +699,9 @@ BEGIN
       AND EndDate = @EndDate;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 10-09-2024 15:08:40 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 16-09-2024 17:50:07 ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -773,9 +777,11 @@ BEGIN
   LastName = @LastName,  
   --LastName = CASE WHEN @LastName IS NOT NULL AND @LastName <> LastName THEN @LastName ELSE LastName END,    
   Email = CASE WHEN @Email IS NOT NULL AND @Email <> Email THEN @Email ELSE Email END,     
-  MobileNumber = CASE WHEN @PhoneNo IS NOT NULL AND @PhoneNo <> MobileNumber THEN @PhoneNo ELSE MobileNumber END,    
-  --Password = CASE WHEN @Password IS NOT NULL AND @Password <> Password THEN @Password ELSE Password END,    
-  Gender = CASE WHEN @gender IS NOT NULL AND @gender <> Gender THEN @gender ELSE Gender END,    
+  --MobileNumber = CASE WHEN @PhoneNo IS NOT NULL AND @PhoneNo <> MobileNumber THEN @PhoneNo ELSE MobileNumber END,    
+  --Password = CASE WHEN @Password IS NOT NULL AND @Password <> Password THEN @Password ELSE Password END, 
+  MobileNumber = @PhoneNo,
+  --Gender = CASE WHEN @gender IS NOT NULL AND @gender <> Gender THEN @gender ELSE Gender END, 
+  Gender = @Gender,
   Status = CASE WHEN @Status IS NOT NULL AND @Status <> Status THEN @Status ELSE Status END,     
   --ImageApprover = CASE WHEN @ImageApprover IS NOT NULL AND @ImageApprover <> ImageApprover THEN @ImageApprover ELSE ImageApprover END,    
   ImageApprover = @ImageApprover,  
