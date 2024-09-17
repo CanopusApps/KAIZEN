@@ -10,10 +10,7 @@ namespace Kaizen.Business.Interface
 {
     public interface IDashboard
     {
-        public List<CountKaizenStatus> GetKaizenCount(DashboardModel model);
         public List<TotalKaizennos> GetKaizentotalCount(DashboardModel model);
-
-        public List<CountKaizenStatus> GetKaizenCountmonth(DashboardModel model);
         public List<TotalKaizennos> GetKaizentotalCountmonth(DashboardModel model);
         public List<TotalKaizennos> GetKaizentotalCountCustomMonth(DashboardModel model);
 
