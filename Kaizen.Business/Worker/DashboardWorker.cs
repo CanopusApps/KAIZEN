@@ -120,54 +120,9 @@ namespace Kaizen.Business.Worker
             return Kaizencount;
         }
 
-        public List<CountKaizenStatus> GetKaizenCount(DashboardModel model)
-        {
-            DataSet Kaizencountdata = new DataSet();
-            List <CountKaizenStatus> Kaizencount= new List <CountKaizenStatus>();
-            Kaizencountdata = Repository.GetKaizenCount(model);
-            if (Kaizencountdata.Tables.Count > 0)
-            {
-                foreach (DataRow dr in Kaizencountdata.Tables[1].Rows)
-                {
-                    Kaizencount.Add(new CountKaizenStatus
-                    {
-                        ApprovalCount = dr["ApprovalCount"] != DBNull.Value ? Convert.ToInt32(dr["ApprovalCount"]) : 0,
-                        ApprovalStatus = dr["ApprovalStatus"] != DBNull.Value ? Convert.ToInt32(dr["ApprovalStatus"]) : 0,
-                        ApprovalStatusdesc = dr["ApprovalStatusdesc"] != DBNull.Value ? dr["ApprovalStatusdesc"].ToString() : string.Empty
+       
 
-                    });
-                }
-
-            }
-            
-            return Kaizencount;
-        }
-
-        public List<CountKaizenStatus> GetKaizenCountmonth(DashboardModel model)
-        {
-            DataSet Kaizencountdata = new DataSet();
-            List<CountKaizenStatus> Kaizencount = new List<CountKaizenStatus>();
-            Kaizencountdata = Repository.GetKaizenCount(model);
-            if (Kaizencountdata.Tables.Count > 0)
-            {
-                foreach (DataRow dr in Kaizencountdata.Tables[3].Rows)
-                {
-                    Kaizencount.Add(new CountKaizenStatus
-                    {
-                        monthbased = dr["MonthYear"] != DBNull.Value ? dr["MonthYear"].ToString() : "0",
-
-                    ApprovalCount = dr["ApprovalCount"] != DBNull.Value ? Convert.ToInt32(dr["ApprovalCount"]) : 0,
-                        ApprovalStatus = dr["ApprovalStatus"] != DBNull.Value ? Convert.ToInt32(dr["ApprovalStatus"]) : 0,
-                        ApprovalStatusdesc = dr["ApprovalStatusdesc"] != DBNull.Value ? dr["ApprovalStatusdesc"].ToString() : string.Empty
-
-                    });
-                }
-
-            }
-
-            return Kaizencount;
-        }
-
+      
         public List<TotalKaizennos> GetKaizentotalCount(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -189,9 +144,17 @@ namespace Kaizen.Business.Worker
                         TotalRejected = dr["TotalRejected"] != DBNull.Value ? Convert.ToInt32(dr["TotalRejected"]) : 0,
                         TotalApproved = dr["TotalApproved"] != DBNull.Value ? Convert.ToInt32(dr["TotalApproved"]) : 0,
                          CardImageApproved = dr["cardImageApproved"] != DBNull.Value ? Convert.ToInt32(dr["cardImageApproved"]) : 0,
+                        CardImagePending = dr["cardImagePending"] != DBNull.Value ? Convert.ToInt32(dr["cardImagePending"]) : 0,
+                        CardImageRejected = dr["cardImageRejected"] != DBNull.Value ? Convert.ToInt32(dr["cardImageRejected"]) : 0,
                         CardManagerApproved = dr["CardManagerApproved"] != DBNull.Value ? Convert.ToInt32(dr["CardManagerApproved"]) : 0,
+                        CardManagerPending = dr["cardManagerpending"] != DBNull.Value ? Convert.ToInt32(dr["cardManagerpending"]) : 0,
+                        CardManagerRejected = dr["cardManagerrejected"] != DBNull.Value ? Convert.ToInt32(dr["cardManagerrejected"]) : 0,
                         CardIEApproved = dr["CardIEApproved"] != DBNull.Value ? Convert.ToInt32(dr["CardIEApproved"]) : 0,
-                        CardManagerPending = dr["carddripending"] != DBNull.Value ? Convert.ToInt32(dr["carddripending"]) : 0
+                        CardIEPending = dr["CardIEPending"] != DBNull.Value ? Convert.ToInt32(dr["CardIEPending"]) : 0,
+                        CardIERejected = dr["CardIERejected"] != DBNull.Value ? Convert.ToInt32(dr["CardIERejected"]) : 0,
+                        CardFinanceApproved = dr["CardFinanceApproved"] != DBNull.Value ? Convert.ToInt32(dr["CardFinanceApproved"]) : 0,
+                        CardFinancePending = dr["CardFinancePending"] != DBNull.Value ? Convert.ToInt32(dr["CardFinancePending"]) : 0,
+                        CardFinanceRejected = dr["CardFinnaceRejected"] != DBNull.Value ? Convert.ToInt32(dr["CardFinnaceRejected"]) : 0
 
 
                     });
@@ -208,7 +171,7 @@ namespace Kaizen.Business.Worker
             Kaizencountdata = Repository.GetKaizenCount(model);
             if (Kaizencountdata.Tables.Count > 0)
             {
-                foreach (DataRow dr in Kaizencountdata.Tables[4].Rows)
+                foreach (DataRow dr in Kaizencountdata.Tables[2].Rows)
                 {
                     Kaizentotalcount.Add(new TotalKaizennos
                     {
@@ -228,7 +191,7 @@ namespace Kaizen.Business.Worker
             Kaizencountdata = Repository.GetKaizenCount(model);
             if (Kaizencountdata.Tables.Count > 0)
             {
-                foreach (DataRow dr in Kaizencountdata.Tables[2].Rows)
+                foreach (DataRow dr in Kaizencountdata.Tables[1].Rows)
                 {
                     Kaizentotalcount.Add(new TotalKaizennos
                     {
@@ -242,13 +205,17 @@ namespace Kaizen.Business.Worker
                         TotalRejected = dr["TotalRejected"] != DBNull.Value ? Convert.ToInt32(dr["TotalRejected"]) : 0,
                         TotalApproved = dr["TotalApproved"] != DBNull.Value ? Convert.ToInt32(dr["TotalApproved"]) : 0,
                         CardImageApproved = dr["cardImageApproved"] != DBNull.Value ? Convert.ToInt32(dr["cardImageApproved"]) : 0,
+                        CardImagePending = dr["cardImagePending"] != DBNull.Value ? Convert.ToInt32(dr["cardImagePending"]) : 0,
+                        CardImageRejected = dr["cardImageRejected"] != DBNull.Value ? Convert.ToInt32(dr["cardImageRejected"]) : 0,
                         CardManagerApproved = dr["CardManagerApproved"] != DBNull.Value ? Convert.ToInt32(dr["CardManagerApproved"]) : 0,
+                        CardManagerPending = dr["cardManagerpending"] != DBNull.Value ? Convert.ToInt32(dr["cardManagerpending"]) : 0,
+                        CardManagerRejected = dr["cardManagerrejected"] != DBNull.Value ? Convert.ToInt32(dr["cardManagerrejected"]) : 0,
                         CardIEApproved = dr["CardIEApproved"] != DBNull.Value ? Convert.ToInt32(dr["CardIEApproved"]) : 0,
-                        CardManagerPending = dr["carddripending"] != DBNull.Value ? Convert.ToInt32(dr["carddripending"]) : 0
-
-
-
-
+                        CardIEPending = dr["CardIEPending"] != DBNull.Value ? Convert.ToInt32(dr["CardIEPending"]) : 0,
+                        CardIERejected = dr["CardIERejected"] != DBNull.Value ? Convert.ToInt32(dr["CardIERejected"]) : 0,
+                        CardFinanceApproved = dr["CardFinanceApproved"] != DBNull.Value ? Convert.ToInt32(dr["CardFinanceApproved"]) : 0,
+                        CardFinancePending = dr["CardFinancePending"] != DBNull.Value ? Convert.ToInt32(dr["CardFinancePending"]) : 0,
+                        CardFinanceRejected = dr["CardFinnaceRejected"] != DBNull.Value ? Convert.ToInt32(dr["CardFinnaceRejected"]) : 0
                     });
                 }
 

@@ -24,13 +24,8 @@ namespace Kaizen.Models.DashboardModel
 
         public List<DomainModel> DomainmanagerList { get; set; }
         public List<DepartmentModel> departmentmangerlist { get; set; }
-        public List<CountKaizenStatus> CountKaizenList { get; set; }
-
         public List<TotalKaizennos> MonthTotalKaizenList { get; set; }
         public List<TotalKaizennos> CustomMonthTotalKaizenList { get; set; }
-
-        public List<CountKaizenStatus> MonthCountKaizenList { get; set; }
-
         public List<graphKaizentotalModel> domainbasedgraph {  get; set; }
         public List<graphKaizentotalModel> departmentbasedgraph { get; set; }
         public List<graphKaizentotalModel> blockbasedgraph { get; set; }
@@ -61,20 +56,23 @@ namespace Kaizen.Models.DashboardModel
         public int TotalRejected { get; set; }
 
         public int CardImageApproved {  get; set; }
+        public int CardImagePending { get; set; }
+        public int CardImageRejected { get; set; }
+
+
 
         public int CardManagerApproved { get; set; }
         public int CardManagerPending { get; set; }
+
+        public int CardManagerRejected { get; set; }
+
         public int CardIEApproved {  get; set; }
-    }
-    public class CountKaizenStatus
-    {
-        public string monthbased { get; set; }
-        public int ApprovalCount { get; set; }
+        public int CardIEPending { get; set; }
+        public int CardIERejected { get; set; }
 
-        public int ApprovalStatus { get; set; }
-
-        public  string ApprovalStatusdesc { get; set; }
-
+        public int CardFinanceApproved { get; set; }
+        public int CardFinancePending { get; set; }
+        public int CardFinanceRejected { get; set; }
     }
 
    

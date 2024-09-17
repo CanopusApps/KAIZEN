@@ -686,87 +686,28 @@
                     $('#loader-wrapper').show();
                 },
                 success: function (result) {             
-                    var data = result.monthCountKaizenList;
-                    const statusDetails = {
-                        Submitted:1,
-                        ImageApproved: 2,
-                        ImageRejected: 3,
-                        DRIApproved: 4,
-                        DRIRejected: 5,
-                        IEApproved: 6,
-                        IERejected: 7,
-                        FinanceApproved: 8,
-                        FinanceRejected: 9,
-                        Pending: 10,
-                        DRIPending: 11,
-                        IEPending: 12,
-                        FinancePending: 13
-                    };
-                  
+                    var data = result.monthCountKaizenList;                                    
                      for (let i = 0; i < result.monthTotalKaizenList.length; i++) {
                         let item = result.monthTotalKaizenList[i];
                         var monthYear = item.monthbasedTotal.split('-');
                         var month = monthYear[0].toLowerCase().substr(0, 3);
                         var year = monthYear[1];
+                         debugger;
                         $('#' + month + '-submitted-ie').text(result.monthTotalKaizenList[i].ieTotal || 0);
                         $('#' + month + '-submitted-dri').text(result.monthTotalKaizenList[i].driTotal || 0);
                         $('#' + month + '-submitted-finance').text(result.monthTotalKaizenList[i].financeTotal || 0);
                         $('#' + month + '-approved-dri').text(result.monthTotalKaizenList[i].cardManagerApproved || 0);
                         $('#' + month + '-pending-dri').text(result.monthTotalKaizenList[i].cardManagerPending || 0);
                         $('#' + month + '-approved-ie').text(result.monthTotalKaizenList[i].cardIEApproved || 0);
-                      }
-                    for (let i = 0; i < result.monthCountKaizenList.length; i++) {
-                        let item = result.monthCountKaizenList[i];
-                        var monthYear = item.monthbased.split('-');
-                        var month = monthYear[0].toLowerCase().substr(0, 3);
-                        var year = monthYear[1];
-                        switch (item.approvalStatus) {
-                            // case statusDetails.ImageApproved:
-                            //     $('#' + month + '-pending-dri').text(item.approvalCount || 0);
-                            //     break;
-                            case statusDetails.DRIApproved:
-                               
-                                $('#' + month + '-pending-ie').text(item.approvalCount || 0);
-                                break;
-                            case statusDetails.DRIRejected:
-                                $('#' + month + '-rejected-dri').text(item.approvalCount || 0);
-                                break;
-                            case statusDetails.IEApproved:
-                              
-                                                             
-                                $('#' + month + '-pending-finance').text(item.approvalCount || 0);
-                                break;
-                            case statusDetails.IERejected:
-                                $('#' + month + '-rejected-ie').text(item.approvalCount || 0);
-                                break;
-                            case statusDetails.FinanceApproved:
-                               
-                                $('#' + month + '-approved-finance').text(item.approvalCount || 0);
-
-                                break;
-                            case statusDetails.FinanceRejected:
-                                $('#' + month + '-rejected-finance').text(item.approvalCount || 0);
-                                break;
-                            // case statusDetails.DRIPending:
-                            //     $('#' + month + '-pending-dri').text(item.approvalCount || 0);
-                            //     break;
-                            // case statusDetails.IEPending:
-                            //     $('#' + month + '-pending-ie').text(item.approvalCount || 0);
-                            //     break;
-                            // case statusDetails.FinancePending:
-                            //     $('#' + month + '-pending-finance').text(item.approvalCount || 0);
-                            //     break;
-                            case statusDetails.Submitted:
-                                $('#' + month + '-image-pending').text(item.approvalCount || 0);
-                                break;
-                            case statusDetails.ImageRejected:
-                                $('#' + month + '-image-rejected').text(item.approvalCount || 0);
-                                break;
-                        }
-                     
-
-                    }
- 
+                        $('#' + month + '-pending-ie').text(result.monthTotalKaizenList[i].cardIEPending || 0);
+                        $('#' + month + '-rejected-dri').text(result.monthTotalKaizenList[i].cardManagerRejected || 0);
+                        $('#' + month + '-pending-finance').text(result.monthTotalKaizenList[i].cardFinancePending || 0);
+                        $('#' + month + '-rejected-ie').text(result.monthTotalKaizenList[i].cardIERejected || 0);
+                        $('#' + month + '-approved-finance').text(result.monthTotalKaizenList[i].cardFinanceApproved || 0);
+                        $('#' + month + '-image-pending').text(result.monthTotalKaizenList[i].cardImagePending || 0);
+                        $('#' + month + '-image-rejected').text(result.monthTotalKaizenList[i].cardImageRejected || 0);
+                        $('#' + month + '-rejected-finance').text(result.monthTotalKaizenList[i].cardFinanceRejected || 0);
+                      }     
                 },
                 error: function (error) {
                 }
@@ -860,12 +801,14 @@
 
 
         $('#btn_filter1').click(function () {
+            debugger;
             var StartDate = $('#dtstartdate').val();
             var EndDate = $('#dtenddate').val();
             if (!ValidateFormtable1()) {
                 return;
             }
             $.ajax({
+
                 url: '@Url.Action("ViewFilterKaizen", "Dashboard")',
                 type: 'GET',
                 data: { StartDate, EndDate },
@@ -873,26 +816,12 @@
                     $('#loader-wrapper').show();
                 },
                 success: function (result) {
+                    debugger;
                     if (result.monthTotalKaizenList && result.monthTotalKaizenList.length > 0) {
                         $('#kaizenStatusTableBody').empty();
                         $('#dynamictable1').show();
-                        const statusDetails = {
-                            Submitted: 1,
-                            ImageApproved: 2,
-                            ImageRejected: 3,
-                            DRIApproved: 4,
-                            DRIRejected: 5,
-                            IEApproved: 6,
-                            IERejected: 7,
-                            FinanceApproved: 8,
-                            FinanceRejected: 9,
-                            Pending: 10,
-                            DRIPending: 11,
-                            IEPending: 12,
-                            FinancePending: 13
-                        };
-
                         for (let i = 0; i < result.monthTotalKaizenList.length; i++) {
+                            debugger;
                             let item = result.monthTotalKaizenList[i];
                             var monthYear = item.monthbasedTotal.split('-');
                             var month = monthYear[0].toLowerCase().substr(0, 3);
@@ -904,84 +833,17 @@
                             row += '<td class="submitted-td">' + (item.driTotal || 0) + '</td>';
                             row += '<td class="submitted-td">' + (item.ieTotal || 0) + '</td>';
                             row += '<td class="submitted-td">' + (item.financeTotal || 0) + '</td>';
-                         
-                            let imageApproved = 0;
-                            let imageRejected = 0;
-                            let driApproved = 0;
-                            let driRejected = 0;
-                            let ieApproved = 0;
-                            let ieRejected = 0;
-                            let financeApproved = 0;
-                            let financeRejected = 0;
-                            let driPending = 0;
-                            let iePending = 0;
-                            let financePending = 0;
-                            let submitted = 0;
-
-
-                            for (let j = 0; j < result.monthCountKaizenList.length; j++) {
-                                let countItem = result.monthCountKaizenList[j];
-                                let countMonthYear = countItem.monthbased.split('-');
-                                let countMonth = countMonthYear[0].toLowerCase().substr(0, 3);
-                                let countYear = countMonthYear[1];
-
-                                if (month === countMonth && year === countYear) {
-                                    switch (countItem.approvalStatus) {
-                                        case statusDetails.DRIApproved:
-                                            driApproved = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.DRIRejected:
-                                            driRejected = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.IEApproved:
-                                            ieApproved = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.IERejected:
-                                            ieRejected = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.FinanceApproved:
-                                            financeApproved = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.FinanceRejected:
-                                            financeRejected = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.DRIPending:
-                                            driPending = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.IEPending:
-                                            iePending = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.FinancePending:
-                                            financePending = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.Submitted:
-                                            submitted = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.ImageRejected:
-                                            imageRejected = countItem.approvalCount || 0;
-                                            break;
-                                        case statusDetails.ImageApproved:
-                                            imageApproved = countItem.approvalCount || 0;
-                                            break;
-                                    }
-                                }
-                            }
-
-                            // Append status counts to the row
-                            row += '<td>' + submitted + '</td>';
-                            row += '<td>' + imageRejected + '</td>';
+                            row += '<td>' + (item.cardImagePending || 0) + '</td>';
+                            row += '<td>' + (item.cardImageRejected || 0) + '</td>';
                             row += '<td class="pending-td">' + (item.cardManagerPending || 0) + '</td>'; 
-                            row += '<td class="pending-td">' + driApproved + '</td>';
-                            row += '<td class="pending-td">' + ieApproved + '</td>';
-                            row += '<td  class="rejected-td">' + driRejected + '</td>';
-                            row += '<td  class="rejected-td">' + ieRejected + '</td>';
-                            row += '<td  class="rejected-td">' + financeRejected + '</td>';
+                            row += '<td class="pending-td">' + (item.cardIEPending || 0) + '</td>';
+                            row += '<td class="pending-td">' + (item.cardFinancePending || 0) + '</td>';
+                            row += '<td  class="rejected-td">' + (item.cardManagerRejected || 0) + '</td>';
+                            row += '<td  class="rejected-td">' + (item.cardIERejected || 0) + '</td>';
+                            row += '<td  class="rejected-td">' + (item.cardFinanceRejected || 0) + '</td>';
                             row += '<td class="approved-td">' + (item.cardManagerApproved || 0) + '</td>';
                             row += '<td class="approved-td">' + (item.cardIEApproved || 0) + '</td>';
-                            row += '<td class="approved-td">' +  financeApproved + '</td>';
-
-
-
+                            row += '<td class="approved-td">' + (item.cardFinanceApproved || 0) + '</td>';
                             row += '</tr>';
 
                             $('#kaizenStatusTableBody').append(row);
