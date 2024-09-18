@@ -3,9 +3,8 @@
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-#btnAdd
-{
-    margin-top:7px!important;
+#btnAdd, #btnupdate {
+    margin-top: 4% !important;
 }
 .mine {
     min-height: 100vh;
