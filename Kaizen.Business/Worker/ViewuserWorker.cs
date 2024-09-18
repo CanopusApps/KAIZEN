@@ -25,6 +25,7 @@ namespace Kaizen.Business.Worker
         {
                 this._repositoryUserTypedata = repositoryUserdata;
         }
+        //This function is used to Fetch Users List as Per Passing Paramter .
         public List<UserGridModel> GetUser(UserGridModel model)
         {
 			DataSet userType = new DataSet();
@@ -61,10 +62,12 @@ namespace Kaizen.Business.Worker
 			}
 			return UserGridData;
         }
+        //This function is used to Delete Users as Per UserId Passing from Controller .
         public bool DeleteUser(int id)
         {
             return _repositoryUserTypedata.DeleteUserData(id);
         }
+        //This function is used to Fetch Status List.
         public List<StatusModel> GetStatus()
         {
             DataSet ds;
@@ -83,6 +86,7 @@ namespace Kaizen.Business.Worker
             }
             return Status;
         }
+        //This function is used to upload bulkUser 
         public string SendFile(IFormFile file, string Status, string UserType, string Password)
         {
             try
@@ -126,7 +130,7 @@ namespace Kaizen.Business.Worker
                 return $"Internal server error: {ex.Message}";
             }
         }
-
+        //This Function is used Read and Convert Excel file into Datatble . 
         private DataTable ReadExcelIntoDataTable(byte[] fileBytes)
         {
             using (var stream = new MemoryStream(fileBytes))
@@ -158,7 +162,7 @@ namespace Kaizen.Business.Worker
                 return dataTable;
             }
         }
-
+        //This function is used to fetch UsersList after Validation .
         public string Senddatatable(DataTable dataTable, string Status, string UserType, string Password)
         {
             var errorMessages = new List<string>();
@@ -226,7 +230,7 @@ namespace Kaizen.Business.Worker
 
             return string.Join(Environment.NewLine, errorMessages);
         }
-
+        //Tis function is used to Validate Bulk uplod Users list .
         public string ValidateEmployee(UploadUserModel employee)
         {
             if (string.IsNullOrEmpty(employee.EmpID) || !int.TryParse(employee.EmpID, out int empId) || empId <= 0)
@@ -318,7 +322,7 @@ namespace Kaizen.Business.Worker
             return userviewModels;
         }
 
-
+        //This function is used to fetch UserList as per Passing Domain id from Controller.
         public List<UserGridModel> GetUsersByDomainId(int  domainId)
         {
             DataSet userData = new DataSet();
@@ -355,7 +359,7 @@ namespace Kaizen.Business.Worker
 
             return userGridData;
         }
-
+        //This function is used to fetch UserList as per Passing Department id from Controller.
         public List<UserGridModel> GetUsersByDeptId(int domainId, int departmentId)
         {
             DataSet userData = new DataSet();
@@ -393,7 +397,7 @@ namespace Kaizen.Business.Worker
             return userGridData;
         }
 
-
+        //This function is used to fetch UserList as per Passing blockid from Controller.
         public List<UserGridModel> GetUsersByBlockId(int blockId)
         {
             DataSet userData = new DataSet();
@@ -430,7 +434,7 @@ namespace Kaizen.Business.Worker
 
             return userGridData;
         }
-
+        //This function is used to fetch Manager list as Passing Paramters .
         public List<UserGridModel> GetManagers(UserGridModel model)
         {
             DataSet userType = new DataSet();

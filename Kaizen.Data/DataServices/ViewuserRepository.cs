@@ -30,7 +30,7 @@ namespace Kaizen.Data.DataServices
 
         private static SqlConnection con = null;
         private static SqlCommand com = null;
-
+        //This function is used to fetch User List from DB by Using Store Procedure sp_getUsers .
         public DataSet GetUser(UserGridModel model)
         {
             DataSet ds = new DataSet();
@@ -60,7 +60,7 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-
+        //This function is used to delete Users from DB by Using Store Procedure sp_Delete_User .
         public bool DeleteUserData(int id)
         {
             bool deleteStatus = false;
@@ -90,7 +90,7 @@ namespace Kaizen.Data.DataServices
 			}
 			return deleteStatus;
         }
-
+        //This function is used to fetch Status from DB by Using Store Procedure Sp_Get_Status .
         public DataSet GetStatus()
         {
             DataSet ds = new DataSet();
@@ -127,6 +127,7 @@ namespace Kaizen.Data.DataServices
         //        }
         //    }
         //}
+        //This function is used to Save Bulkupload User into Db Using Sp Sp_Upload_Users .
         public string SaveUploadedFile(UploadUserModel Employee)
         {
             string errorMessage = string.Empty;
@@ -219,7 +220,7 @@ namespace Kaizen.Data.DataServices
             return ds;
         }
 
-
+        //This Function is used to fetch User List from DB as per Domain Id by using Sp sp_GetUsersByDomainId . 
         public DataSet GetUsersByDomainId(int domainId)
         {
             DataSet ds = new DataSet();
@@ -245,7 +246,7 @@ namespace Kaizen.Data.DataServices
             return ds;
         }
 
-
+        //This Function is used to fetch User List from DB as per Department Id by using Sp sp_GetUsersByDeptId .
         public DataSet GetUsersByDeptId(int domainId, int deptId)
         {
             DataSet ds = new DataSet();
@@ -272,7 +273,7 @@ namespace Kaizen.Data.DataServices
             return ds;
         }
 
-
+        //This Function is used to fetch User List from DB as per Block Id by using Sp sp_GetUsersByBlockId .
         public DataSet GetUsersByBlockId(int blockId)
         {
             DataSet ds = new DataSet();
@@ -297,7 +298,7 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-
+        //This function is used to fetch Manager List from DB using Sp sp_GetManagers
         public DataSet GetManagers(UserGridModel model)
         {
             DataSet ds = new DataSet();

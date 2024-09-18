@@ -26,7 +26,7 @@ namespace Kaizen.Data.DataServices
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile(DbFiles.appsetting, optional: true, reloadOnChange: true);
             return builder.Build();
         }
-
+        //This function is used to fetch Approval Status List from DB using Sp - Sp_Get_Approval_Status .
         public DataSet GetApprovalStatus(string UserType)
         {
             DataSet ds = new DataSet();
@@ -52,7 +52,7 @@ namespace Kaizen.Data.DataServices
 
             return ds;
         }
-
+        //This function is used to fetch Kaizen List from DB using Sp - Sp_Get_Kaizen_Details .
         public DataSet GetKaizenList(KaizenListModel model)
         {
             DataSet ds = new DataSet();
@@ -87,6 +87,7 @@ namespace Kaizen.Data.DataServices
 
             return ds;
         }
+        //This function is used to fetch Kaizen List from DB using Sp - Sp_Get_kaizen_details_On_clickdashboard on click of Dashboard componnent . .
         public DataSet GetKaizenListOnclickDashboard(KaizenListModel model)
         {
             DataSet ds = new DataSet();
@@ -122,7 +123,7 @@ namespace Kaizen.Data.DataServices
 
             return ds;
         }
-
+        //This Function is used to Delete Kaizen as per KaizenId and UserId from DB using Sp - Sp_Delete_Kaizens .
         public bool DeleteKaizenData(int KaizenId, string UserId)
         {
             bool status = false;

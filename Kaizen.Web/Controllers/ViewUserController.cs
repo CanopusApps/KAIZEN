@@ -31,6 +31,7 @@ namespace Kaizen.Web.Controllers
         }
 
         //Created by Manas 
+        //This Function is used to Display Users list on Page load .
         public IActionResult ViewUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
         {
             ViewUserallModel viewModel = new ViewUserallModel();
@@ -58,6 +59,7 @@ namespace Kaizen.Web.Controllers
 
             return View(viewModel);
         }
+        //This function is used to Filter Users List as per Passing Parameters.
         public IActionResult ViewFilterUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
         {
             try
@@ -81,7 +83,7 @@ namespace Kaizen.Web.Controllers
                 return PartialView("_UserGridPartial", new List<UserGridModel>()); // Return an empty list in case of an error
             }
         }
-
+        //This function is used to Display Active department as per Domain id .
         public List<DepartmentModel> FetchDepartment(string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
@@ -103,7 +105,7 @@ namespace Kaizen.Web.Controllers
 
             return deptList;
         }
-
+        //This Function is used to Delete user from database as per UserId .
         public IActionResult DeleteUser(int id)
         {
             bool deleteStatus = false;
@@ -125,7 +127,7 @@ namespace Kaizen.Web.Controllers
             return RedirectToAction("ViewUser");
 
         }
-
+        //This function is used to Upload Bulk User in Import Kaizen Screen .
         [HttpPost]
         public string Upload(IFormFile file, string Status, string UserType, string Password)
         {
@@ -149,7 +151,7 @@ namespace Kaizen.Web.Controllers
 
             return resultMessage;
         }
-
+        //This function is used to display the users filtered by the specified domain .
         public IActionResult ViewUserByDomainID(int? domainId, string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
         {
             ViewUserallModel viewModel = new ViewUserallModel();
@@ -180,7 +182,7 @@ namespace Kaizen.Web.Controllers
 
             return View("/Views/ViewUser/ViewUser.cshtml", viewModel);
         }
-
+        //This function is used to display the users filtered by the specified Department .
         public IActionResult ViewUserByDeptID(int? domainId, int? departmentId, string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
         {
             ViewUserallModel viewModel = new ViewUserallModel();
@@ -216,7 +218,7 @@ namespace Kaizen.Web.Controllers
             return View("/Views/ViewUser/ViewUser.cshtml", viewModel);
         }
 
-
+        //This function is used to display the users filtered by the specified Block .
         public IActionResult ViewUserByBlockID(int? blockId)
         {
             ViewUserallModel viewModel = new ViewUserallModel();
@@ -248,10 +250,7 @@ namespace Kaizen.Web.Controllers
             return View("/Views/ViewUser/ViewUser.cshtml", viewModel);
         }
 
-
-
-        //View User by UserType
-
+        //This function is used to display the Manager list .
         public IActionResult ViewManagers(string? Name, string? EmpId, string? Email, string? Gender, string? Domain, string? Department, string? UserType, string? Cadre)
         {
             ViewUserallModel viewModel = new ViewUserallModel();

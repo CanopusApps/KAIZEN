@@ -22,6 +22,7 @@ namespace Kaizen.Business.Worker
         {
                 this._repositorySubmittedKaizenData = repositoryUserdata;
         }
+        //This function is used to Return Approval Status List as per Role .
         public List<ApprovalStatusModel> GetApprovalStatus(string UserType)
         {
             DataSet ds;
@@ -40,6 +41,7 @@ namespace Kaizen.Business.Worker
             }
             return ApprovalStatus;
         }
+        //This function is used to return KaizenList .
         public List<KaizenListModel> GetKaizenList(KaizenListModel model)
         {
             DataSet userType = new DataSet();
@@ -103,13 +105,14 @@ namespace Kaizen.Business.Worker
             }
             return KaizenGridData;
         }
+        //This function is used to Delete Kaizen as per KaizenId and Role .
         public bool DeleteKaizen(int KaizenId, string UserId)
         {
 
             return _repositorySubmittedKaizenData.DeleteKaizenData(KaizenId, UserId);
 
         }
-
+        //This function is Used to Return kaizen list as per onclick of Dashboad componnent .
         public List<KaizenListModel> GetKaizenListOnclickdashboard(KaizenListModel model)
         {
             DataSet userType = new DataSet();
