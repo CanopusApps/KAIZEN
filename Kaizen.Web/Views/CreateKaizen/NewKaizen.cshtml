@@ -3092,7 +3092,8 @@
                         }
                        
                         statusDesc = result.kaizenList[0].approvalStatus;
-                        var imageapproverstatus = $('#imageapproverstatus').data('role');                      
+                        var imageapproverstatus = $('#imageapproverstatus').data('role');  
+                        
                         if (statusDesc === statusdetails.FinanceRejected || statusDesc === statusdetails.IERejected || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.ImageRejected || statusDesc === statusdetails.DRIRejected)
                         {
                             $('#saveItButton').hide(); 
@@ -3180,6 +3181,7 @@
                         else if (statusDesc === statusdetails.submitted && userRole === 'ADM') {
                             $('#approvers').hide();
                         }
+                        
                         else if(statusDesc === statusdetails.submitted && userRole != 'EMP')
                         {
                             $('#approvers').show();
@@ -3190,6 +3192,12 @@
                           
                         }
 
+                         if (statusDesc != statusdetails.DRIApproved && userRole === 'IED') {
+                            $('#Aprrovalbtn').hide();
+                         }
+                        if ((statusDesc != statusdetails.ImageApproved || statusDesc != statusdetails.kaizenwithoutImages) && userRole === 'MGR') {
+                            $('#Aprrovalbtn').hide();
+                         }
                             var ieStatus = document.getElementById('iestatusid').innerText;
                             var financeStatus = document.getElementById('financestatusid').innerText;
 

@@ -4903,13 +4903,16 @@ BEGIN
             (@Role = 'MGR' AND Kaizens.ApprovalStatus IN (2, 15, 5)AND Kaizens.DRIApprovedBy=@Userguid and Kaizens.DRIApprovedBy=@Userguid) OR
             (@Role = 'IED' AND Kaizens.ApprovalStatus IN (4,7) AND Kaizens.ApprovedByIE = @Userguid) OR
             (@Role = 'ADM' AND Kaizens.ApprovalStatus != 0) OR
-            (@UserId IS NOT NULL AND EXISTS (SELECT 1 
-                                             FROM KaizenTeamMembers 
-                                             WHERE KaizenTeamMembers.KaizenID = Kaizens.ID 
-                                             AND KaizenTeamMembers.EmpID = @UserId)) OR
             (@Role = 'EMP' AND Kaizens.CreatedBy = @Userguid)
         ) 
         AND (Kaizens.ApprovalStatus != 14 OR @Role = 'ADM')
+		or (@Status = 'Approved Kaizen' AND
+                (
+                    (@Role = 'MGR' AND Kaizens.ApprovalStatus IN (4,6, 7, 9) AND Kaizens.DRIApprovedBy = @UserId) OR 
+                    (@Role = 'IED' AND Kaizens.ApprovalStatus IN (6,9) AND Kaizens.ApprovedByIE = @UserId)
+                   
+                )
+            )
     ORDER BY ModifiedDate DESC
 END
 GO
