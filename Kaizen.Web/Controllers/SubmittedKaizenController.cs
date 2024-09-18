@@ -117,7 +117,7 @@ namespace Kaizen.Web.Controllers
                 Domain = Domain,
                 Department = Department,
                 Block = Block,
-                Status = (Status == "Rejected" || Status == "Pending") ? null : Status,
+                Status = (Status == "Rejected" || Status == "Pending") ? null : Status,               
                 role = conAccessor.HttpContext.Session.GetString("Userrole"),
                 UserId = conAccessor.HttpContext.Session.GetString("UserID"),
                 Cadre = cadre
