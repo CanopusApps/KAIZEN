@@ -1001,7 +1001,21 @@
     document.getElementById('dtstartdate1').addEventListener('change', function () {
         setEndDateMin('dtstartdate1', 'dtenddate1');
     });
+    function resetDates() {
+        document.getElementById('dtstartdate').value = '';
+        document.getElementById('dtenddate').value = '';
+        document.getElementById('dtenddate').removeAttribute('min');
+        $('#dynamictable1').hide();
+    }
+    function resetDates1() {
+        document.getElementById('dtstartdate1').value = '';
+        document.getElementById('dtenddate1').value = '';
+        document.getElementById('dtenddate1').removeAttribute('min');
+        $('#dynamictable2').hide();
+    }
 
+    document.getElementById('configreset').addEventListener('click', resetDates); 
+    document.getElementById('configreset2').addEventListener('click', resetDates1);
     setEndDateMin('dtstartdate', 'dtenddate');
     setEndDateMin('dtstartdate1', 'dtenddate1');
 </script>

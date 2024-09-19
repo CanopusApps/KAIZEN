@@ -378,7 +378,7 @@
                         maintainAspectRatio: false,
                         downloadButton: {
                             text: 'Download Chart',
-                            position: 'top-left',
+                            position: 'bottom-left',
                         },
                         
                         scales: {
@@ -489,7 +489,7 @@
                         },
                         downloadButton: {
                             text: 'Download Chart',
-                            position: 'top-left',
+                            position: 'bottom-left',
                         },
                         title: {
                             display: true,
@@ -734,7 +734,7 @@
                                     },
                                     downloadButton: {
                                         text: 'Download Chart',
-                                        position: 'top-left',
+                                        position: 'bottom-left',
                                     },
                                     title: {
                                         display: true,
@@ -854,7 +854,7 @@
                                                 },
                                                 downloadButton: {
                                         text: 'Download Chart',
-                                        position: 'top-left',
+                                        position: 'bottom-left',
                                                 },                                                    
                                                 title: {
                                                     display: true,
@@ -1030,6 +1030,10 @@
                     x = chart.width - textWidth / 2 - 20; 
                     y = chart.height - textHeight / 2 ; 
                     break;
+                case 'bottom-left':
+                    x = textWidth / 2 + 30;
+                    y = chart.height - textHeight / 2;
+                    break;
             }
 
             ctx.fillStyle = '#007bff';
@@ -1113,6 +1117,13 @@
             document.getElementById('dtenddate').removeAttribute('min');
         }
     }
+    function resetDates() {
+        document.getElementById('dtstartdate').value = '';
+        document.getElementById('dtenddate').value = '';
+        document.getElementById('dtenddate').removeAttribute('min');
+    }
+
+    document.getElementById('configreset').addEventListener('click', resetDates);
 
     document.getElementById('dtstartdate').addEventListener('change', setEndDateMin);
     setEndDateMin();
