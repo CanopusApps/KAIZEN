@@ -246,6 +246,7 @@
     </form>
 </div>
 <script>
+    //This Script is used for Filter Users as Per Passing Paramter .
     $('#btn_filter').click(function () {
         debugger
         var Name = $('#inputName').val();
@@ -307,6 +308,7 @@
 
 </script>
 <script>
+    //This Function is used to Download Bulk Upload User Template .
     function DownloadTemplate() {
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
@@ -317,6 +319,7 @@
     }
 </script>
 <script>
+    //This script is used to Upload Bulk User .
     $(document).ready(function () {
         $('#uploadusers').click(function () {
             var fileInput = $('#file')[0];
@@ -383,6 +386,7 @@
 
 </script>
 <script>
+    //This script is used to Reset View User Form control .
     $(document).ready(function () {
         function Resetform() {
             $('#inputEmpID').val('');
@@ -412,6 +416,7 @@
     });
 </script>
 <script>
+    //This script is used to Filter User Grid as per Domain we have clicked .
     $('.card-item').click(function () {
         var Domain = $(this).data('domain-name');
         $.ajax({
@@ -473,6 +478,7 @@
     });
 </script>
 <script>
+    //This script is used to bind Department dyanamically in Box as per Cliked Domain in Filter Section .
     $('#configreset').click(function () {
         hideContainer('container-middle');
     });
@@ -510,6 +516,7 @@
     });
 </script>
 <script>
+    //This script is used to Filter User Grid as per Departement we have clicked in View User Screen .
     $(document).on('click', '.department-item', function () {
         var Department = $(this).data('departmentname');
         $.ajax({

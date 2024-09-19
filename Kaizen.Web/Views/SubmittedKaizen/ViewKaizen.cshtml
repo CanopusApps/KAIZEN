@@ -304,6 +304,7 @@
     });
 </script>
 <script>
+    //This Script is used to fetch Approval Status List . 
     $(document).ready(function () {
             $.ajax({
             type: 'GET',
@@ -325,6 +326,7 @@
     });
 </script>
 <script>
+    //This script is used to reset Submitted kaizen Screen form control .
     $(document).ready(function () {
         function Resetform() {
             $('#dtstartdate').val('');
@@ -347,6 +349,7 @@
     });
 </script>
 <script>
+    //This script is used to Filter Submitted kaizen grid as per passing parameter .
     $('#btn_filter').click(function () {
         var StartDate = $('#dtstartdate').val();
         var EndDate = $('#dtenddate').val();

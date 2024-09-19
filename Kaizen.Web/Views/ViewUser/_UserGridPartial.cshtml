@@ -14,6 +14,7 @@
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 
 <script>
+    //This script is used to Pass all the Paramter from View User screen to Edit user screen by on click of edit user .
     $(document).ready(function () {
         $('tbody').on('click', '.edituser', function (e) {
             e.preventDefault();
@@ -129,11 +130,13 @@
     </table>
 </div>
 <script type="text/javascript">
+    //This script will convert Normal HTML Table to jquery Datatble .
     $(document).ready(function () {
         $('#Usertable').DataTable({ /* responsive: true */ });
     });
 </script>
 <script>
+    //This script is used for onclick of Total Kaizen Posted it will redirect to Submited Kaizen Grid and display only Kaizen posted by him. 
     $(document).ready(function () {
         $('#Usertable').on('click', '.TotalKaizen', function (e) {
             e.preventDefault();
@@ -152,6 +155,7 @@
     });
 </script>
 <script>
+    //This script is used to delete User.
     $(document).ready(function () {
         $('tbody').on('click', '.deleteuser', function (e) {
             e.preventDefault();
