@@ -4883,7 +4883,9 @@ BEGIN
 			)
 			
 			) OR
-			  (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,4,9) AND (Kaizens.ApprovedByIE is NULL  )  AND Kaizens.FinanceApprovedBy = @Userguid) OR
+			  (@Role = 'FIN' AND Kaizens.ApprovalStatus in (4) AND (Kaizens.ApprovedByIE is NULL  )  AND Kaizens.FinanceApprovedBy = @Userguid) OR
+			  (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6) AND (Kaizens.ApprovedByIE is not NULL  )  AND Kaizens.FinanceApprovedBy = @Userguid) OR
+			   (@Role = 'FIN' AND Kaizens.ApprovalStatus in (9) AND Kaizens.FinanceApprovedBy = @Userguid) OR
             (@Role = 'MGR' AND Kaizens.ApprovalStatus IN (2, 15, 5)AND Kaizens.DRIApprovedBy=@Userguid and Kaizens.DRIApprovedBy=@Userguid) OR
             (@Role = 'IED' AND Kaizens.ApprovalStatus IN (4,7) AND Kaizens.ApprovedByIE = @Userguid) OR
             (@Role = 'ADM' AND Kaizens.ApprovalStatus != 0) OR
