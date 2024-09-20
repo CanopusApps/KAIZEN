@@ -34,7 +34,7 @@ namespace Kaizen.Web.Controllers
             _submittedKaizenWorker = submittedKaizenWorker;
             this.conAccessor = conAccessor;
         }
-
+        //This function is used to display Submitted kaizen List on Page load .
         public IActionResult ViewKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
         {
             SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
@@ -63,6 +63,7 @@ namespace Kaizen.Web.Controllers
             }
             return View(viewModel);
         }
+        //This function is used to filter Submitted Kaizen List as per Passing Paramters .
         public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status,string? benifitarea)
         {
             KaizenListModel model = new KaizenListModel()
@@ -108,6 +109,8 @@ namespace Kaizen.Web.Controllers
             }
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
+
+        // This function is used to filter based on Status, such as Block Name, Department Name, Cadre, Pending, Approved, and Rejected statuses when a Dashboard card is clicked.
         public IActionResult ViewFilterKaizenonclickDashboard(string? StartDate, string? EndDate, string? Domain, string? Department, string? cadre, string? Status, string? Block)
         {
             KaizenListModel model = new KaizenListModel()
@@ -154,6 +157,7 @@ namespace Kaizen.Web.Controllers
             }
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
+        //This function is used to Fetch Department as per Domain id .
         public List<DepartmentModel> FetchDepartment(string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
@@ -172,6 +176,7 @@ namespace Kaizen.Web.Controllers
             }
             return deptList;
         }
+        //This Function is used to fetch ApprovalStatus list as per Role .
         public List<ApprovalStatusModel> ApprovalStatusList()
         {
             List<ApprovalStatusModel> list = new List<ApprovalStatusModel>();
@@ -189,6 +194,7 @@ namespace Kaizen.Web.Controllers
 
             return list;
         }
+        //This Function is used to delete kaizen as per KaizenId.
         public IActionResult DeleteKaizen(int KaizenId)
         {
             string UserId="";
@@ -205,6 +211,7 @@ namespace Kaizen.Web.Controllers
             }
             return Ok(deleteStatus);
         }
+        //Action method to display Kaizen list submitted by the perticular user.
         public IActionResult FetchKaizenDetails_by_CreatedBy(string? UserId,string? role,string? LoginRole)
         {
             List<KaizenListModel> SubmittedKaizenList = new List<KaizenListModel>();
@@ -229,6 +236,7 @@ namespace Kaizen.Web.Controllers
             }
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
+        //Action method to display a list of Kaizens for image approval .
         public IActionResult ViewImageApproval(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
         {
             SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
@@ -258,6 +266,7 @@ namespace Kaizen.Web.Controllers
             }
             return View(viewModel);
         }
+        //Action method to filter and display a list of Kaizens for image approval based on various search criteria.
         public IActionResult ViewFilterImageApproval(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status)
         {
             List<KaizenListModel> SubmittedKaizenList = new List<KaizenListModel>();
@@ -286,6 +295,7 @@ namespace Kaizen.Web.Controllers
             }
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
+        //This Action Method is Used to Return Deleted Kaizen List .
         public IActionResult DeletedKaizen()
         {
             SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
