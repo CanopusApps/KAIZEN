@@ -3187,17 +3187,30 @@
                             $('#approvers').show();
                             $('#btnUpdateKaizen').show();
                         }
+                        else if (statusDesc != statusdetails.DRIApproved && userRole === 'IED') {
+                            $('#Aprrovalbtn').hide();
+                        }
                         else{
                             $('#approvers').hide();
                           
                         }
+  
 
-                         if (statusDesc != statusdetails.DRIApproved && userRole === 'IED') {
+                          if (statusDesc != statusdetails.DRIApproved && userRole === 'IED') {
+                             $('#Aprrovalbtn').hide();
+                          }
+                        debugger;
+                        if (
+                            (statusDesc == statusdetails.ImageApproved && userRole === 'MGR') ||
+                            (statusDesc == statusdetails.kaizenwithoutImages && userRole === 'MGR')
+                        ) {
+                            $('#Aprrovalbtn').show();
+                        }else if(userRole === 'MGR')
+                        {
                             $('#Aprrovalbtn').hide();
-                         }
-                        if ((statusDesc != statusdetails.ImageApproved || statusDesc != statusdetails.kaizenwithoutImages) && userRole === 'MGR') {
-                            $('#Aprrovalbtn').hide();
-                         }
+                        }
+                        
+                         
                             var ieStatus = document.getElementById('iestatusid').innerText;
                             var financeStatus = document.getElementById('financestatusid').innerText;
 
