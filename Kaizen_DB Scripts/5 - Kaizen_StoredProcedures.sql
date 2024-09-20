@@ -221,7 +221,7 @@ GO
 /****** Object:  StoredProcedure [dbo].[Sp_checkuser]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_checkuser]
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_AddWinner]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_AddWinner]    Script Date: 19-09-2024 15:08:09 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_AddWinner]
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
@@ -306,22 +306,11 @@ BEGIN
     SET @SessionId = (SELECT ID FROM [dbo].Users WHERE UserID = @CreatedBy);  
       
     -- Check for overlapping dates for the same employee and category  
-    IF EXISTS (  
-        SELECT 1   
-        FROM WinnersList   
-        WHERE   
-            EmpGUID = @EmpGUID   
-            AND Category = @Category   
-            AND (  
-                (@StartDate BETWEEN StartDate AND EndDate)   
-                OR   
-                (@EndDate BETWEEN StartDate AND EndDate)  
-                OR  
-                (StartDate BETWEEN @StartDate AND @EndDate)  
-                OR  
-                (EndDate BETWEEN @StartDate AND @EndDate)  
-            )  
-    )  
+     IF EXISTS (
+        SELECT 1
+        FROM WinnersList
+        WHERE EmpGUID = @EmpGUID
+    )
     BEGIN  
         SET @result = 1;  
         RETURN;  
@@ -339,6 +328,7 @@ BEGIN
       
     SET @result = 0; -- Indicates success  
 END
+
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_checkuser]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
