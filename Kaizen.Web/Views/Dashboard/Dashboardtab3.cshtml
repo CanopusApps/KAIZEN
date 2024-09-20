@@ -708,7 +708,6 @@
                         var monthYear = item.monthbasedTotal.split('-');
                         var month = monthYear[0].toLowerCase().substr(0, 3);
                         var year = monthYear[1];
-                         debugger;
                         $('#' + month + '-submitted-ie').text(result.monthTotalKaizenList[i].ieTotal || 0);
                         $('#' + month + '-submitted-dri').text(result.monthTotalKaizenList[i].driTotal || 0);
                         $('#' + month + '-submitted-finance').text(result.monthTotalKaizenList[i].financeTotal || 0);
@@ -819,7 +818,6 @@
 
 
         $('#btn_filter1').click(function () {
-            debugger;
             var StartDate = $('#dtstartdate').val();
             var EndDate = $('#dtenddate').val();
             if (!ValidateFormtable1()) {
@@ -834,12 +832,10 @@
                     $('#loader-wrapper').show();
                 },
                 success: function (result) {
-                    debugger;
                     if (result.monthTotalKaizenList && result.monthTotalKaizenList.length > 0) {
                         $('#kaizenStatusTableBody').empty();
                         $('#dynamictable1').show();
                         for (let i = 0; i < result.monthTotalKaizenList.length; i++) {
-                            debugger;
                             let item = result.monthTotalKaizenList[i];
                             var monthYear = item.monthbasedTotal.split('-');
                             var month = monthYear[0].toLowerCase().substr(0, 3);
@@ -1042,7 +1038,6 @@
     $(document).ready(function () {
         // First table event listener
         $('#mytable').on('click', 'td', function () {
-            debugger;
             let status;
             let columnIndex = $(this).index();
             let cellValue = $(this).text();
@@ -1105,7 +1100,6 @@ let enddate = new Date(Year, months[month], 0);  // Last day of the month
 
                 }
 
-                    debugger;
                     if (sessionStorage.getItem('TableStatusdata')) {
                         sessionStorage.removeItem('TableStatusdata');
                     }
@@ -1131,7 +1125,6 @@ let enddate = new Date(Year, months[month], 0);  // Last day of the month
                 var dates = secondCellContent.split(' to ');
                 var startDateStr = dates[0];
                 var endDateStr = dates[1];
-                debugger;
                 function formatDate(dateStr) {
                     const dateRegex = /(\d{1,2})(?:st|nd|rd|th)?-(\w{3})-(\d{4})/;
                     const months = {
@@ -1167,7 +1160,6 @@ let enddate = new Date(Year, months[month], 0);  // Last day of the month
 
     });
     $('#dynamictable2').on('click', 'td', function () {
-        debugger;
         var cellIndex = $(this).index(); 
 
         if (cellIndex > 1) { 
@@ -1212,7 +1204,6 @@ let enddate = new Date(Year, months[month], 0);  // Last day of the month
     });
 
     $('#dynamictable1').on('click', 'td', function () {
-        debugger;
         var cellIndex = $(this).index(); 
 
         if (cellIndex > 1) { 
