@@ -3187,9 +3187,7 @@
                             $('#approvers').show();
                             $('#btnUpdateKaizen').show();
                         }
-                        else if (statusDesc != statusdetails.DRIApproved && userRole === 'IED') {
-                            $('#Aprrovalbtn').hide();
-                        }
+                       
                         else{
                             $('#approvers').hide();
                           
@@ -3199,7 +3197,6 @@
                           if (statusDesc != statusdetails.DRIApproved && userRole === 'IED') {
                              $('#Aprrovalbtn').hide();
                           }
-                        debugger;
                         if (
                             (statusDesc == statusdetails.ImageApproved && userRole === 'MGR') ||
                             (statusDesc == statusdetails.kaizenwithoutImages && userRole === 'MGR')
