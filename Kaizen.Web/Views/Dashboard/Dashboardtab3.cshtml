@@ -26,6 +26,22 @@
         margin-left: 7px;
     }
 
+    #mytable td:nth-child(n+3):hover {
+        cursor: pointer;
+        color: #333;
+        font-weight: bold;
+    }
+
+    #dynamictable1 td:nth-child(n+3):hover {
+        cursor: pointer;
+        color: #333;
+        font-weight: bold;
+    }
+    .custom-table td:nth-child(n+3):hover {
+        cursor: pointer;
+        color: #333;
+        font-weight: bold;
+    }
 </style>
 <link href="~/assets/css/custom/dashboard.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -441,7 +457,7 @@
                     </div>
                     <div class="  card-header">Monthy table</div>
                         <div class="table-responsive">
-                        <table class="table table-bordered custom-table">
+                        <table class="table table-bordered custom-table"id="Customtable">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -449,7 +465,7 @@
                                     <th>Total Kaizen Submitted</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody >
                                 <tr>
                                     <td>1</td>
                                     <td>16th-Dec-<span id="startyear">2023</span> to 15th-Jan-<span class="year">2024</span></td>
@@ -1020,4 +1036,272 @@
     document.getElementById('configreset2').addEventListener('click', resetDates1);
     setEndDateMin('dtstartdate', 'dtenddate');
     setEndDateMin('dtstartdate1', 'dtenddate1');
+</script>
+
+<script>
+    $(document).ready(function () {
+        // First table event listener
+        $('#mytable').on('click', 'td', function () {
+            debugger;
+            let status;
+            let columnIndex = $(this).index();
+            let cellValue = $(this).text();
+            let Year = $('#yearDropdown').val();
+            if (columnIndex > 1) {
+                let cellId = $(this).attr('id');
+                let parts = cellId.split('-');
+                let month = parts[0];
+                const months = {
+                    "jan": "01", "feb": "02", "mar": "03", "apr": "04", "may": "05", "jun": "06",
+                    "jul": "07", "aug": "08", "sep": "09", "oct": "10", "nov": "11", "dec": "12"
+                };
+                // let startdate = '01-' + months[month] + '-' + Year;
+                // let enddate = '31-' + months[month] + '-' + Year;
+                let startdate = new Date(Year, months[month] - 1, 1);  // First day of the month
+let enddate = new Date(Year, months[month], 0);  // Last day of the month
+                switch (columnIndex) {
+                    case 2:
+                        status = 'TotalDRI';
+                        break;
+                    case 3:
+                        status = 'TotalIE';
+                        break;
+                    case 4:
+                        status = 'TotalFinance';
+                        break;
+                    case 5:
+                        status = 'Waiting For Image Approval';
+                        break;
+                    case 6:
+                        status = 'Image Rejected';
+                        break;
+                    case 7:
+                        status = 'Waiting For DRI Approval';
+                        break;
+                    case 8:
+                        status = 'Waiting For IE Approval';
+                        break;
+                    case 9:
+                        status = 'Waiting For Finance Approval';
+                        break;
+                    case 10:
+                        status = 'DRI Rejected';
+                        break;
+                    case 11:
+                        status = 'IE Rejected';
+                        break;
+                    case 12:
+                        status = 'Finance Rejected';
+                        break;
+                    case 13:
+                        status = 'DRI Approved';
+                        break;
+                    case 14:
+                        status = 'IE Approved';
+                        break;
+                    case 15:
+                        status = 'Finance Approved';
+                        break;
+
+                }
+
+                    debugger;
+                    if (sessionStorage.getItem('TableStatusdata')) {
+                        sessionStorage.removeItem('TableStatusdata');
+                    }
+                    const statusObj = {
+                    startdate: startdate,
+                    Enddate: enddate,
+                        status: status
+                    };
+                    sessionStorage.setItem('TableStatusdata', JSON.stringify(statusObj));
+                    window.location.href = "/SubmittedKaizen/ViewKaizen";
+                
+                
+            }
+        });
+
+        // Second table event listener
+        $('#Customtable').on('click', 'td', function () {
+            let status;
+            let columnIndex = $(this).index();
+            let Year = $('#yearDropdown').val();
+            if (columnIndex > 1) {
+                let secondCellContent = $(this).closest('tr').find('td:nth-child(2)').text();
+                var dates = secondCellContent.split(' to ');
+                var startDateStr = dates[0];
+                var endDateStr = dates[1];
+                debugger;
+                function formatDate(dateStr) {
+                    const dateRegex = /(\d{1,2})(?:st|nd|rd|th)?-(\w{3})-(\d{4})/;
+                    const months = {
+                        "Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04", "May": "05", "Jun": "06",
+                        "Jul": "07", "Aug": "08", "Sep": "09", "Oct": "10", "Nov": "11", "Dec": "12"
+                    };
+                    let match = dateRegex.exec(dateStr);
+                    if (match) {
+                        let day = String(match[1]).padStart(2, '0');
+                        let month = months[match[2]];
+                        let year = match[3];
+                        return `${day}-${month}-${year}`;
+                    }
+                    return null;
+                }
+
+                var startFormatted = formatDate(startDateStr);
+                var endFormatted = formatDate(endDateStr);
+                if (secondCellContent) {
+                    if (sessionStorage.getItem('TableStatusdata')) {
+                        sessionStorage.removeItem('TableStatusdata');
+                    }
+                    const statusObj = {
+                        startdate: startFormatted,
+                        Enddate: endFormatted,
+                        status: status
+                    };
+                    sessionStorage.setItem('TableStatusdata', JSON.stringify(statusObj));
+                    window.location.href = "/SubmittedKaizen/ViewKaizen";
+                }
+            }
+        });
+
+    });
+    $('#dynamictable2').on('click', 'td', function () {
+        debugger;
+        var cellIndex = $(this).index(); 
+
+        if (cellIndex > 1) { 
+            var cellContent = $(this).text();
+            var row = $(this).closest('tr');
+            var rowIndex = row.index();
+
+            var secondCellContent = row.find('td').eq(1).text();
+            var dates = secondCellContent.split(' to ');
+            var startDateStr = dates[0];
+            var endDateStr = dates[1]; 
+            var startDate = new Date(startDateStr);
+            var startFormatted = `${String(startDate.getDate()).padStart(2, '0')}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${startDate.getFullYear()}`;
+            var selectedenddatebefore = document.getElementById("dtenddate1").value;
+            var selectedendDate = convertToDDMMYYYY(selectedenddatebefore);
+            function convertToDDMMYYYY(dateString) {
+                const parts = dateString.split('-'); // Split by '-'
+                return `${parts[2]}-${parts[1]}-${parts[0]}`; // Rearrange to DD-MM-YYYY
+            }
+            var endDate = new Date(endDateStr);
+            var endFormatted = `${String(endDate.getDate()).padStart(2, '0')}-${String(endDate.getMonth() + 1).padStart(2, '0')}-${endDate.getFullYear()}`;
+            var enddatevalue;
+            if (selectedendDate > endFormatted) {
+                enddatevalue = selectedendDate;
+            }
+            else
+            {
+                enddatevalue = endFormatted;
+            }
+            if (sessionStorage.getItem('TableStatusdata')) {
+                sessionStorage.removeItem('TableStatusdata');
+            }
+
+            const statusObj = {
+                startdate: startFormatted,
+                Enddate: enddatevalue,
+                status: status
+            };
+            sessionStorage.setItem('TableStatusdata', JSON.stringify(statusObj));
+            window.location.href = "/SubmittedKaizen/ViewKaizen";
+        }
+    });
+
+    $('#dynamictable1').on('click', 'td', function () {
+        debugger;
+        var cellIndex = $(this).index(); 
+
+        if (cellIndex > 1) { 
+
+            var cellContent = $(this).text();
+            var row = $(this).closest('tr');
+            var rowIndex = row.index();
+            var monthYear = row.find('td').eq(1).text();
+            var status;
+            const months = {
+                "Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04", "May": "05", "Jun": "06",
+                "Jul": "07", "Aug": "08", "Sep": "09", "Oct": "10", "Nov": "11", "Dec": "12"
+            };
+            function formatDateToNumeric(dateString) {
+                const [day, month, year] = dateString.split('-');
+                return `${day}-${months[month]}-${year}`;
+            }
+            var enddatevalue;
+            var selectedenddatebefore = $('#dtenddate').val();
+            var selectedendDate = convertToDDMMYYYY(selectedenddatebefore);
+            function convertToDDMMYYYY(dateString) {
+                const parts = dateString.split('-'); // Split by '-'
+                return `${parts[2]}-${parts[1]}-${parts[0]}`; // Rearrange to DD-MM-YYYY
+            }
+            var startdate = formatDateToNumeric('01-' + monthYear); 
+            var enddate = formatDateToNumeric('31-' + monthYear);
+            if (selectedendDate < enddate) {
+                enddatevalue = selectedendDate;
+            }
+            else {
+                enddatevalue = enddate;
+            }
+            switch (cellIndex) {
+                case 2:
+                    status = 'TotalDRI';
+                    break;
+                case 3:
+                    status = 'TotalIE';
+                    break;
+                case 4:
+                    status = 'TotalFinance';
+                    break;
+                case 5:
+                    status = 'Waiting For Image Approval';
+                    break;
+                case 6:
+                    status = 'Image Rejected';
+                    break;
+                case 7:
+                    status = 'Waiting For DRI Approval';
+                    break;
+                case 8:
+                    status = 'Waiting For IE Approval';
+                    break;
+                case 9:
+                    status = 'Waiting For Finance Approval';
+                    break;
+                case 10:
+                    status = 'DRI Rejected';
+                    break;
+                case 11:
+                    status = 'IE Rejected';
+                    break;
+                case 12:
+                    status = 'Finance Rejected';
+                    break;
+                case 13:
+                    status = 'DRI Approved';
+                    break;
+                case 14:
+                    status = 'IE Approved';
+                    break;
+                case 15:
+                    status = 'Finance Approved';
+                    break;
+
+            }
+
+            if (sessionStorage.getItem('TableStatusdata')) {
+                sessionStorage.removeItem('TableStatusdata');
+            }
+            const statusObj = {
+                startdate: startdate,
+                Enddate: enddatevalue,
+                status: status
+            };
+            sessionStorage.setItem('TableStatusdata', JSON.stringify(statusObj));
+            window.location.href = "/SubmittedKaizen/ViewKaizen";
+        }
+    });
+
 </script>

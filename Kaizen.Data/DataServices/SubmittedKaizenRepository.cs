@@ -100,8 +100,8 @@ namespace Kaizen.Data.DataServices
                     {
                         com.CommandType = CommandType.StoredProcedure;
 
-                        com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
-                        com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
+                        com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? (object)DBNull.Value : DateTime.Parse(model.StartDate));
+                        com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? (object)DBNull.Value : DateTime.Parse(model.EndDate));
                         com.Parameters.AddWithValue("@Domain", model.Domain == "--Select Domain--" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
                         com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
                         com.Parameters.AddWithValue("@Block", string.IsNullOrEmpty(model.Block) ? " " : model.Block);
