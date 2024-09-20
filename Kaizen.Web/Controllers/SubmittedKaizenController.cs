@@ -117,7 +117,7 @@ namespace Kaizen.Web.Controllers
                 Domain = Domain,
                 Department = Department,
                 Block = Block,
-                Status = (Status == "Rejected" || Status == "Pending") ? null : Status,
+                Status = (Status == "Rejected" || Status == "Pending"||Status == "Total") ? null : Status,               
                 role = conAccessor.HttpContext.Session.GetString("Userrole"),
                 UserId = conAccessor.HttpContext.Session.GetString("UserID"),
                 Cadre = cadre
@@ -126,6 +126,7 @@ namespace Kaizen.Web.Controllers
             //SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
             try
             {
+               
 
                 if (Status == "Rejected")
                 {

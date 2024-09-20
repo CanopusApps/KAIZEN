@@ -775,8 +775,10 @@
 
                         for (let i = 0; i < result.customMonthTotalKaizenList.length; i++) {
                             let item = result.customMonthTotalKaizenList[i];
+                            let j = i + 1;
                             let row = '<tr>';
-                            row += '<td>' + i + 1 + '</td>';
+
+                            row += '<td>' + j+ '</td>';
                             row += '<td>' + item.monthbasedTotal + '</td>';
                             row += '<td>' + item.totalKaizens + '</td>';
 
@@ -826,9 +828,9 @@
                             var monthYear = item.monthbasedTotal.split('-');
                             var month = monthYear[0].toLowerCase().substr(0, 3);
                             var year = monthYear[1];
-
+                            let j = i + 1;
                             let row = '<tr>';
-                            row += '<td>' + i + 1 + '</td>';
+                            row += '<td>' + j + '</td>';
                             row += '<td>' + monthYear[0] + "-" + monthYear[1] + '</td>';
                             row += '<td class="submitted-td">' + (item.driTotal || 0) + '</td>';
                             row += '<td class="submitted-td">' + (item.ieTotal || 0) + '</td>';

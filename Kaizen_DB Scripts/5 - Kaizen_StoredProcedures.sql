@@ -388,7 +388,12 @@ BEGIN
    --Query to get Kaizen data with out months
     SELECT 
         SUM(CASE WHEN Kaizens.ApprovalStatus not in(0,14) THEN 1 ELSE 0 END) AS TotalKaizens,
-        SUM(CASE WHEN Kaizens.ApprovalStatus IN (4, 5, 2) THEN 1 ELSE 0 END) AS DRITotal,
+      SUM(CASE WHEN Kaizens.ApprovalStatus IN (4, 5, 2, 15) THEN 1
+				WHEN Kaizens.ApprovalStatus IN (6,7) AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus IN (8,9) AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				ELSE 0
+			END
+) AS DRITotal,
 			  SUM(
 			CASE 
 				WHEN Kaizens.ApprovalStatus IN (8, 9) THEN 1 
@@ -398,25 +403,34 @@ BEGIN
 				ELSE 0 
 			END
 		) AS FinanceTotal,
-           SUM(
-    CASE 
-        WHEN Kaizens.ApprovalStatus IN (6, 7, 4) THEN 1
-        WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+            SUM(
+         CASE 
+        WHEN Kaizens.ApprovalStatus IN (6, 7) THEN 1
+          WHEN Kaizens.ApprovalStatus IN (8,9) AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
         ELSE 0
     END
 ) AS IETotal,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (3,2,1) THEN 1 ELSE 0 END) AS Imagetotal,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (3,5,7,9) THEN 1 ELSE 0 END) AS TotalRejected,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2,4,6,8) THEN 1 ELSE 0 END) AS TotalApproved,
-		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (1,2,4,6) THEN 1 ELSE 0 END) AS TotalPending,
-		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImageApproved,
+			SUM(
+			CASE 
+				WHEN Kaizens.ApprovalStatus IN (1, 2,15) THEN 1
+				WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL and Kaizens.FinanceApprovedBy IS NULL  THEN 0
+				When Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL  THEN 1
+				WHEN Kaizens.ApprovalStatus = 4 AND (Kaizens.ApprovedByIE IS NOT NULL OR Kaizens.ApprovedByIE IS  NULL) AND  Kaizens.FinanceApprovedBy IS NOT NULL  THEN 1
+				WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				ELSE 0
+			END
+		) AS TotalPending,
+		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) and Kaizens.ImageApprovedDate is not null THEN 1 ELSE 0 END) AS cardImageApproved,
 		     SUM(CASE WHEN Kaizens.ApprovalStatus IN (1) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImagePending,
 			   SUM(CASE WHEN Kaizens.ApprovalStatus IN (3) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImageRejected,
 				   SUM(
-			CASE 
+		          	CASE 
 				WHEN Kaizens.ApprovalStatus IN (4) THEN 1
-				WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
-				WHEN Kaizens.ApprovalStatus = 8 AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus in (6,7) AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus IN (8,9) AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
 				ELSE 0
 			END
 		) AS CardManagerApproved,
@@ -424,8 +438,8 @@ BEGIN
 		 Sum(CASE WHEN Kaizens.ApprovalStatus IN(5) THEN 1 ELSE 0 END) AS cardManagerrejected,
 			SUM(
 				CASE 
-					WHEN Kaizens.ApprovalStatus IN (6) THEN 1
-					WHEN Kaizens.ApprovalStatus = 8 AND Kaizens.FinanceApprovedBy IS not NULL THEN 1
+					 When Kaizens.ApprovalStatus IN(6) THEN 1 
+						WHEN Kaizens.ApprovalStatus IN (8,9) AND Kaizens.ApprovedByIE IS not NULL THEN 1
 					ELSE 0
 				END
 			) AS CardIEApproved,
@@ -477,7 +491,14 @@ BEGIN
 SELECT 
     FORMAT(Kaizens.CreatedDate, 'MMM-yyyy') AS MonthYear,
  SUM(CASE WHEN Kaizens.ApprovalStatus not in(0,14) THEN 1 ELSE 0 END) AS TotalKaizens,
-        SUM(CASE WHEN Kaizens.ApprovalStatus IN (4, 5, 2) THEN 1 ELSE 0 END) AS DRITotal,
+SUM(CASE 
+				WHEN Kaizens.ApprovalStatus IN (4, 5, 2, 15) THEN 1
+				WHEN Kaizens.ApprovalStatus IN (6,7) AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus IN (8,9) AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				ELSE 0
+			END
+		) AS DRITotal,
+
 			  SUM(
 			CASE 
 				WHEN Kaizens.ApprovalStatus IN (8, 9) THEN 1 
@@ -488,24 +509,33 @@ SELECT
 			END
 		) AS FinanceTotal,
            SUM(
-    CASE 
-        WHEN Kaizens.ApprovalStatus IN (6, 7, 4) THEN 1
-        WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+         CASE 
+        WHEN Kaizens.ApprovalStatus IN (6, 7) THEN 1
+        WHEN Kaizens.ApprovalStatus IN (8,9) AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
         ELSE 0
     END
 ) AS IETotal,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (3,2,1) THEN 1 ELSE 0 END) AS Imagetotal,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (3,5,7,9) THEN 1 ELSE 0 END) AS TotalRejected,
 		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2,4,6,8) THEN 1 ELSE 0 END) AS TotalApproved,
-		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (1,2,4,6) THEN 1 ELSE 0 END) AS TotalPending,
-		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImageApproved,
+		SUM(
+			CASE 
+				WHEN Kaizens.ApprovalStatus IN (1, 2,15) THEN 1
+				WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL and Kaizens.FinanceApprovedBy IS NULL  THEN 0
+				When Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL  THEN 1
+				WHEN Kaizens.ApprovalStatus = 4 AND (Kaizens.ApprovedByIE IS NOT NULL OR Kaizens.ApprovedByIE IS  NULL) AND  Kaizens.FinanceApprovedBy IS NOT NULL  THEN 1
+				WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				ELSE 0
+			END
+		) AS TotalPending,
+		   SUM(CASE WHEN Kaizens.ApprovalStatus IN (2, 4, 6, 8) and Kaizens.ImageApprovedDate is not null THEN 1 ELSE 0 END) AS cardImageApproved,
 		     SUM(CASE WHEN Kaizens.ApprovalStatus IN (1) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImagePending,
 			  SUM(CASE WHEN Kaizens.ApprovalStatus IN (3) and Kaizens.ImageApprovedBy is not null THEN 1 ELSE 0 END) AS cardImageRejected,
 				   SUM(
 			CASE 
 				WHEN Kaizens.ApprovalStatus IN (4) THEN 1
-				WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
-				WHEN Kaizens.ApprovalStatus = 8 AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus in( 6,7) AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+				WHEN Kaizens.ApprovalStatus  in (8,9) AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 1
 				ELSE 0
 			END
 		) AS CardManagerApproved,
@@ -513,8 +543,8 @@ SELECT
 		 Sum(CASE WHEN Kaizens.ApprovalStatus IN(5) THEN 1 ELSE 0 END) AS cardManagerrejected,
 			SUM(
 				CASE 
-					WHEN Kaizens.ApprovalStatus IN (6) THEN 1
-					WHEN Kaizens.ApprovalStatus = 8 AND Kaizens.FinanceApprovedBy IS not NULL THEN 1
+				        When Kaizens.ApprovalStatus IN(6) THEN 1 
+						WHEN Kaizens.ApprovalStatus in( 8,9) AND Kaizens.ApprovedByIE IS not NULL THEN 1
 					ELSE 0
 				END
 			) AS CardIEApproved,
@@ -593,10 +623,18 @@ GROUP BY
         FORMAT(DATEADD(DAY, -15, DATEADD(MONTH, 1, Kaizens.CreatedDate)), '15-MMM-yyyy')
     )
 ORDER BY 
-    CustomMonthRange;	
+    CustomMonthRange;
+
+
+
+	
 End
+
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Delete_BlockDetails]    Script Date: 17-09-2024 10:30:43 ******/
+
+
+
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_BlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -3178,9 +3216,9 @@ BEGIN
         UserType.UserDesc AS UserType,   
         SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (1, 2, 3, 4, 6, 8) THEN 1 ELSE 0 END) AS ImageTotal,
         -- Total for Manager
-        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (2, 4, 5, 6, 8,15) THEN 1 ELSE 0 END) AS ManagerTotal,
+        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (2, 4, 5, 6,7,9, 8,15) THEN 1 ELSE 0 END) AS ManagerTotal,
         -- Total for IE
-        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 7, 8, 4) THEN 1 ELSE 0 END) AS IETotal,
+        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 7, 8, 4,9) THEN 1 ELSE 0 END) AS IETotal,
         -- Total for Finance
         SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (8, 9, 6) THEN 1 ELSE 0 END) AS FinanceTotal,
 
@@ -3190,12 +3228,12 @@ BEGIN
         SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (1) THEN 1 ELSE 0 END) AS ImagePending,
         
         -- Separate counts for Manager
-        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (4, 6, 8) THEN 1 ELSE 0 END) AS ManagerApproved,
+        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (4, 6, 8,9,7) THEN 1 ELSE 0 END) AS ManagerApproved,
         SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (5) THEN 1 ELSE 0 END) AS ManagerRejected,
         SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (2,15) THEN 1 ELSE 0 END) AS ManagerPending,
       
         -- Separate counts for IE
-        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 8) THEN 1 ELSE 0 END) AS IEApproved,
+        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 8,9) THEN 1 ELSE 0 END) AS IEApproved,
         SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (7) THEN 1 ELSE 0 END) AS IERejected,
         SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (4) THEN 1 ELSE 0 END) AS IEPending,
 
@@ -3231,6 +3269,10 @@ BEGIN
     ORDER BY 
         Users.EmpID;
 
+
+
+
+
     -- Main Query 2
     SELECT 
         FORMAT(Kaizens.CreatedDate, 'MMM-yyyy') AS MonthYear,
@@ -3240,13 +3282,14 @@ BEGIN
         Users.LastName,
         UserType.UserDesc AS UserType, 
 		
-		SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (1, 2, 3, 4, 6, 8) THEN 1 ELSE 0 END) AS ImageTotal,
+        SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (1, 2, 3, 4, 6, 8) THEN 1 ELSE 0 END) AS ImageTotal,
         -- Total for Manager
-        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (2, 4, 5, 6, 8,15) THEN 1 ELSE 0 END) AS ManagerTotal,
+        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (2, 4, 5, 6,7,9, 8,15) THEN 1 ELSE 0 END) AS ManagerTotal,
         -- Total for IE
-        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 7, 8, 4) THEN 1 ELSE 0 END) AS IETotal,
+        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 7, 8, 4,9) THEN 1 ELSE 0 END) AS IETotal,
         -- Total for Finance
         SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (8, 9, 6) THEN 1 ELSE 0 END) AS FinanceTotal,
+
 
         -- Separate counts for Image Approver
         SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (2, 4, 6, 8) THEN 1 ELSE 0 END) AS ImageApproved,
@@ -3254,12 +3297,12 @@ BEGIN
         SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (1) THEN 1 ELSE 0 END) AS ImagePending,
         
         -- Separate counts for Manager
-        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (4, 6, 8) THEN 1 ELSE 0 END) AS ManagerApproved,
+        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (4, 6, 8,7,9) THEN 1 ELSE 0 END) AS ManagerApproved,
         SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (5) THEN 1 ELSE 0 END) AS ManagerRejected,
         SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (2,15) THEN 1 ELSE 0 END) AS ManagerPending,
       
         -- Separate counts for IE
-        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 8) THEN 1 ELSE 0 END) AS IEApproved,
+        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 8,9) THEN 1 ELSE 0 END) AS IEApproved,
         SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (7) THEN 1 ELSE 0 END) AS IERejected,
         SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (4) THEN 1 ELSE 0 END) AS IEPending,
 
@@ -4860,13 +4903,16 @@ BEGIN
             (@Role = 'MGR' AND Kaizens.ApprovalStatus IN (2, 15, 5)AND Kaizens.DRIApprovedBy=@Userguid and Kaizens.DRIApprovedBy=@Userguid) OR
             (@Role = 'IED' AND Kaizens.ApprovalStatus IN (4,7) AND Kaizens.ApprovedByIE = @Userguid) OR
             (@Role = 'ADM' AND Kaizens.ApprovalStatus != 0) OR
-            (@UserId IS NOT NULL AND EXISTS (SELECT 1 
-                                             FROM KaizenTeamMembers 
-                                             WHERE KaizenTeamMembers.KaizenID = Kaizens.ID 
-                                             AND KaizenTeamMembers.EmpID = @UserId)) OR
             (@Role = 'EMP' AND Kaizens.CreatedBy = @Userguid)
         ) 
         AND (Kaizens.ApprovalStatus != 14 OR @Role = 'ADM')
+		or (@Status = 'Approved Kaizen' AND
+                (
+                    (@Role = 'MGR' AND Kaizens.ApprovalStatus IN (4,6, 7, 9) AND Kaizens.DRIApprovedBy = @UserId) OR 
+                    (@Role = 'IED' AND Kaizens.ApprovalStatus IN (6,9) AND Kaizens.ApprovedByIE = @UserId)
+                   
+                )
+            )
     ORDER BY ModifiedDate DESC
 END
 GO
