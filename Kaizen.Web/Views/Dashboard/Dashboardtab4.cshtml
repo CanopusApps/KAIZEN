@@ -395,6 +395,13 @@
             document.getElementById('dtenddate').removeAttribute('min');
         }
     }
+    function resetDates() {
+        document.getElementById('dtstartdate').value = '';
+        document.getElementById('dtenddate').value = '';
+        document.getElementById('dtenddate').removeAttribute('min');
+    }
+
+    document.getElementById('configreset').addEventListener('click', resetDates);
 
     document.getElementById('dtstartdate').addEventListener('change', setEndDateMin);
     setEndDateMin();
