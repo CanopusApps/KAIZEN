@@ -396,7 +396,7 @@ BEGIN
             SUM(
          CASE 
         WHEN Kaizens.ApprovalStatus IN (6, 7) THEN 1
-          WHEN Kaizens.ApprovalStatus IN (8,9) AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+          WHEN Kaizens.ApprovalStatus IN (8,9,4) AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
         ELSE 0
     END
 ) AS IETotal,
@@ -501,7 +501,7 @@ SUM(CASE
            SUM(
          CASE 
         WHEN Kaizens.ApprovalStatus IN (6, 7) THEN 1
-        WHEN Kaizens.ApprovalStatus IN (8,9) AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
+        WHEN Kaizens.ApprovalStatus IN (8,9,4) AND Kaizens.ApprovedByIE IS NOT NULL THEN 1
         ELSE 0
     END
 ) AS IETotal,
@@ -613,7 +613,11 @@ GROUP BY
         FORMAT(DATEADD(DAY, -15, DATEADD(MONTH, 1, Kaizens.CreatedDate)), '15-MMM-yyyy')
     )
 ORDER BY 
-    CustomMonthRange;	
+    CustomMonthRange;
+
+
+
+	
 End
 GO
 
@@ -4739,7 +4743,7 @@ BEGIN
 END;
 GO
 
-/****** Object:  StoredProcedure [dbo].[Sp_Get_kaizen_details_On_clickdashboard]    Script Date: 20-09-2024 15:00:59 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_kaizen_details_On_clickdashboard]    Script Date: 23-09-2024 15:00:59 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -4876,9 +4880,32 @@ BEGIN
                 (Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL) OR
                 (Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL))AND
 					(
-						(@Role = 'FIN' AND Kaizens.FinanceApprovedBy = @UserId) OR
-						(@Role = 'IED' AND Kaizens.ApprovedByIE = @UserId) OR
-						(@Role = 'MGR' AND Kaizens.DRIApprovedBy = @UserId)
+						(@Role = 'FIN' AND Kaizens.FinanceApprovedBy = @UserId and(@Domain IS NULL OR Domains.DomainName = @Domain) 
+					    	and  (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+					and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) and  
+						(@Department IS NULL OR Departments.DepartmentName = @Department) AND
+						(@Block IS NULL OR Blocks.BlockName = @Block) AND
+						(@Cadre IS NULL OR Cadre.cadreDesc = @Cadre))
+						
+						OR
+
+
+						(@Role = 'IED' AND Kaizens.ApprovedByIE = @UserId
+						 and(@Domain IS NULL OR Domains.DomainName = @Domain) 
+					    	and  (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+					and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) and  
+						(@Department IS NULL OR Departments.DepartmentName = @Department) AND
+						(@Block IS NULL OR Blocks.BlockName = @Block) AND
+						(@Cadre IS NULL OR Cadre.cadreDesc = @Cadre)) OR
+
+
+						(@Role = 'MGR' AND Kaizens.DRIApprovedBy = @UserId and(@Domain IS NULL OR Domains.DomainName = @Domain) 
+					    	and  (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+					and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) and  
+						(@Department IS NULL OR Departments.DepartmentName = @Department) AND
+						(@Block IS NULL OR Blocks.BlockName = @Block) AND
+						(@Cadre IS NULL OR Cadre.cadreDesc = @Cadre))
+					
 					)
 			)
 			
@@ -4894,29 +4921,45 @@ BEGIN
         AND (Kaizens.ApprovalStatus != 14 OR @Role = 'ADM')
 		or (@Status = 'Approved Kaizen' AND
                 (
-                    (@Role = 'MGR' AND Kaizens.ApprovalStatus IN (4,6, 7, 9) AND Kaizens.DRIApprovedBy = @UserId) OR 
-                    (@Role = 'IED' AND Kaizens.ApprovalStatus IN (6,9) AND Kaizens.ApprovedByIE = @UserId)
+                    (@Role = 'MGR' AND Kaizens.ApprovalStatus IN (4,6, 7, 9) AND Kaizens.DRIApprovedBy = @UserId
+					 and(@Domain IS NULL OR Domains.DomainName = @Domain) 
+					    	and  (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+					and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) and  
+						(@Department IS NULL OR Departments.DepartmentName = @Department) AND
+						(@Block IS NULL OR Blocks.BlockName = @Block) AND
+						(@Cadre IS NULL OR Cadre.cadreDesc = @Cadre))
+						
+						OR
+						
+                    (@Role = 'IED' AND Kaizens.ApprovalStatus IN (6,9) AND Kaizens.ApprovedByIE = @UserId
+					 and(@Domain IS NULL OR Domains.DomainName = @Domain) 
+					    	and  (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+					and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) and  
+						(@Department IS NULL OR Departments.DepartmentName = @Department) AND
+						(@Block IS NULL OR Blocks.BlockName = @Block) AND
+						(@Cadre IS NULL OR Cadre.cadreDesc = @Cadre)) 
+					
                    
                 )
             )
 			OR 
-        (@Status = 'DRI Approved' AND  Kaizens.DRIApprovedBy IS NOT NULL AND Kaizens.ApprovalStatus not in(1,2,3,5,15) and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
+        (@Status = 'DRI Approved' AND  Kaizens.DRIApprovedBy IS NOT NULL AND Kaizens.ApprovalStatus not in(0,1,2,3,5,15) and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
         (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate) ) 
         OR 
-        (@Status = 'IE Approved'  AND Kaizens.ApprovedByIE IS NOT NULL AND  Kaizens.ApprovalStatus not in(1,2,3,4,5,7,15) and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
+        (@Status = 'IE Approved'  AND Kaizens.ApprovedByIE IS NOT NULL AND  Kaizens.ApprovalStatus not in(0,1,2,3,4,5,7,15) and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
         (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)) 
         OR 
         (@Status = 'Finance Approved' AND Kaizens.FinanceApprovedBy IS NOT NULL AND Kaizens.ApprovalStatus in(8)and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
         (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)) 
         OR 
 		
-        (@Status = 'TotalDRI' AND Kaizens.DRIApprovedBy IS NOT NULL and Kaizens.ApprovalStatus not in(1,2,3,15)and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
+        (@Status = 'TotalDRI' AND Kaizens.DRIApprovedBy IS NOT NULL and Kaizens.ApprovalStatus not in(0,1,3)and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
         (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)) 
         OR 
-        (@Status = 'TotalIE' AND Kaizens.ApprovedByIE IS NOT NULL and Kaizens.ApprovalStatus not in(1,2,3,4,5,15) and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
+        (@Status = 'TotalIE' AND Kaizens.ApprovedByIE IS NOT NULL and Kaizens.ApprovalStatus not in(0,1,2,3,5,15) and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
         (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate))  
         OR 
-        (@Status = 'TotalFinance' AND Kaizens.FinanceApprovedBy IS NOT NULL and Kaizens.ApprovalStatus not in(1,2,3,4,5,7,15)and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
+        (@Status = 'TotalFinance' AND Kaizens.FinanceApprovedBy IS NOT NULL and Kaizens.ApprovalStatus not in(0,1,2,3,4,5,7,15)and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
         (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate))  
         
     ORDER BY ModifiedDate DESC

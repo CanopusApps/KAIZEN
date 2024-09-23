@@ -265,18 +265,24 @@
                     sessionStorage.removeItem("chartdata");
                 }
             });
-        } else {
-            console.error('No status found in session storage.');
-        }
+        } 
         // Retrieve the status from session storage
-        var status = sessionStorage.getItem('status');
+     
 
-        if (status) {
+        if (sessionStorage.getItem('status')) {
+            debugger;
+            const statusretrived = JSON.parse(sessionStorage.getItem('status'));
             $.ajax({
                 url: '@Url.Action("ViewFilterKaizenonclickDashboard", "SubmittedKaizen")',
                 type: 'post',
                 data: {
-                    status: status
+                    StartDate: statusretrived.startdate,
+                    EndDate: statusretrived.Enddate,
+                    Domain: statusretrived.Domain,
+                    Department: statusretrived.Department,
+                    cadre: statusretrived.cadre,
+                    Status: statusretrived.status,
+                    Block: statusretrived.Block
                 },
                 success: function (result) {
                     var rows = [];

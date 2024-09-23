@@ -231,12 +231,36 @@
     $(document).ready(function () {
         $('.card-link').on('click', function (event) {
             event.preventDefault();
-
+            $('#btn_filter').click();
+            var domain = $('#inputDomain option:selected').text();
+            var block = $('#inputBlock option:selected').text();
+            var department = $('#inputDepartment option:selected').text();
             var status = $(this).data('status');
+            let startdate;
+            let enddate;
+            debugger;
+            if ($('#filterYear1').is(':checked')) {
+                let year = $('#yearDropdown').val();
+                startdate = '01-01-' + year;
+                enddate = '31-12-' + year;
+
+            } else {
+                startdate = $('#dtstartdate').val();
+                enddate = $('#dtenddate').val();
+            }
             if (sessionStorage.getItem('status')) {
                 sessionStorage.removeItem('status');
             }
-            sessionStorage.setItem('status', status);
+            const statusObj = {
+                startdate: startdate,
+                Enddate: enddate,
+                status: status,
+                Domain: domain,
+                Department: department,
+                cadre: '',
+                Block: block
+            };
+            sessionStorage.setItem('status', JSON.stringify(statusObj));
             window.location.href = '/SubmittedKaizen/ViewKaizen';
         });
     });
