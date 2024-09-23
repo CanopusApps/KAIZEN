@@ -104,7 +104,7 @@ namespace Kaizen.Data.DataServices
                         com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? (object)DBNull.Value : DateTime.Parse(model.EndDate));
                         com.Parameters.AddWithValue("@Domain", model.Domain == "--Select Domain--" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
                         com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
-                        com.Parameters.AddWithValue("@Block", string.IsNullOrEmpty(model.Block) ? " " : model.Block);
+                        com.Parameters.AddWithValue("@Block", model.Block == "--Select Block--" ? "" : (string.IsNullOrEmpty(model.Block) ? " " : model.Block));
                         com.Parameters.AddWithValue("@Cadre", string.IsNullOrEmpty(model.Cadre) ? " " : model.Cadre);
                         com.Parameters.AddWithValue("@Status", model.Status == "--Select Status--" ? "" : (string.IsNullOrEmpty(model.Status) ? " " : model.Status));
                         com.Parameters.AddWithValue("@Role", string.IsNullOrEmpty(model.role) ? " " : model.role);

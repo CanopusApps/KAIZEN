@@ -243,12 +243,33 @@
     $(document).ready(function () {
         $('.card-link').on('click', function (event) {
             event.preventDefault();
-
+            $('#btn_filter').click();
             var status = $(this).data('status');
+            let startdate;
+            let enddate;
+            debugger;
+            if ($('#filterYear1').is(':checked')) {
+                let year = $('#yearDropdown').val();
+              startdate = '01-01-' + year;
+            enddate = '31-12-' + year;
+
+            } else {
+             startdate = $('#dtstartdate').val();
+              enddate = $('#dtenddate').val();
+            }
             if (sessionStorage.getItem('status')) {
                 sessionStorage.removeItem('status');
             }
-            sessionStorage.setItem('status', status);
+            const statusObj = {
+                startdate: startdate,
+                Enddate: enddate,
+                status: status,
+                Domain: '',
+                Department: '',
+                cadre: '',
+                Block: ''
+            };
+            sessionStorage.setItem('status', JSON.stringify(statusObj));
             window.location.href = '/SubmittedKaizen/ViewKaizen';
         });
     });
@@ -486,6 +507,13 @@
             document.getElementById('dtenddate').removeAttribute('min');
         }
     }
+    function resetDates() {
+        document.getElementById('dtstartdate').value = '';
+        document.getElementById('dtenddate').value = '';
+        document.getElementById('dtenddate').removeAttribute('min');
+    }
+
+    document.getElementById('configreset').addEventListener('click', resetDates);
 
     document.getElementById('dtstartdate').addEventListener('change', setEndDateMin);
     setEndDateMin();
