@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Kaizen.Data.DataServices
 {
@@ -53,8 +54,23 @@ namespace Kaizen.Data.DataServices
                 {
                     endDate = $"31-12-{endDate}";
                 }
-                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? (object)DBNull.Value : DateTime.Parse(startDate));
-                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? (object)DBNull.Value : DateTime.Parse(endDate));
+                if (DateTime.TryParse(startDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+
+                if (DateTime.TryParse(endDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
                 com.Parameters.AddWithValue("@Cadre", model.Cadre == "--Select Cadre--" ? "" : (string.IsNullOrEmpty(model.Cadre) ? " " : model.Cadre));
 
                 com.Parameters.AddWithValue("@Block", model.Block == "--Select Block--" ? "" : (string.IsNullOrEmpty(model.Block) ? " " : model.Block));
@@ -86,8 +102,23 @@ namespace Kaizen.Data.DataServices
                 com.CommandType = CommandType.StoredProcedure;
                 string startDate = model.StartDate;
                 string endDate = model.EndDate;
-                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? " " : startDate);
-                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? " " : endDate);
+                if (DateTime.TryParse(startDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+
+                if (DateTime.TryParse(endDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
                 com.CommandText = StoredProcedures.Sp_Get_DashboardDomains;
                 SqlDataAdapter da = new SqlDataAdapter(com);
                 da.Fill(ds);
@@ -110,8 +141,23 @@ namespace Kaizen.Data.DataServices
                 com.CommandType = CommandType.StoredProcedure;
                 string startDate = model.StartDate;
                 string endDate = model.EndDate;
-                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? (object)DBNull.Value : DateTime.Parse(startDate));
-                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? (object)DBNull.Value : DateTime.Parse(endDate));
+                if (DateTime.TryParse(startDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+
+                if (DateTime.TryParse(endDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
                 com.Parameters.AddWithValue("@EmpId", Empid);              
                 com.CommandText = StoredProcedures.Sp_Get_DashboardManagerDomainDepartment;
                 SqlDataAdapter da = new SqlDataAdapter(com);
@@ -136,8 +182,23 @@ namespace Kaizen.Data.DataServices
                 com.CommandType = CommandType.StoredProcedure;
                 string startDate = model.StartDate;
                 string endDate = model.EndDate;
-                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? " " : startDate);
-                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? " " : endDate);
+                if (DateTime.TryParse(startDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+
+                if (DateTime.TryParse(endDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
                 com.CommandText = StoredProcedures.Sp_Get_DashboardDepartments;
                 SqlDataAdapter da = new SqlDataAdapter(com);
                 da.Fill(ds);
@@ -169,8 +230,23 @@ namespace Kaizen.Data.DataServices
                 {
                     endDate = $"31-12-{endDate}";
                 }
-                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? (object)DBNull.Value : DateTime.Parse(startDate));
-                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? (object)DBNull.Value : DateTime.Parse(endDate));
+                if (DateTime.TryParse(startDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+
+                if (DateTime.TryParse(endDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
                 com.CommandText = StoredProcedures.Sp_Get_Dashboardgraphs;
                 SqlDataAdapter da = new SqlDataAdapter(com);
                 da.Fill(ds);
@@ -202,8 +278,23 @@ namespace Kaizen.Data.DataServices
                 {
                     endDate = $"31-12-{endDate}";
                 }
-                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? (object)DBNull.Value : DateTime.Parse(startDate));
-                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? (object)DBNull.Value : DateTime.Parse(endDate));
+                if (DateTime.TryParse(startDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+
+                if (DateTime.TryParse(endDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
                 com.Parameters.AddWithValue("@Domainname",model.Domain);
                 com.CommandText = StoredProcedures.Sp_Get_DashboardDepartmentgraph;
                 SqlDataAdapter da = new SqlDataAdapter(com);
@@ -233,8 +324,23 @@ namespace Kaizen.Data.DataServices
                 com.CommandType = CommandType.StoredProcedure;
                 string startDate = model.StartDate;
                 string endDate = model.EndDate;
-                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? " " : startDate);
-                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? " " : endDate);
+                if (DateTime.TryParse(startDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+
+                if (DateTime.TryParse(endDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
                 com.Parameters.AddWithValue("@Block", model.Block == "--Select Block--" ? "" : (string.IsNullOrEmpty(model.Block) ? " " : model.Block));
                 com.Parameters.Add("@Domain", SqlDbType.VarChar).Value = model.Domain == "--Select Domain--" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Domain) ? (object)DBNull.Value : model.Domain);
                 com.Parameters.Add("@Department", SqlDbType.VarChar).Value = model.Department == "--Select Department--" || model.Department == "Select Department" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Department) ? (object)DBNull.Value : model.Department);
@@ -270,8 +376,26 @@ namespace Kaizen.Data.DataServices
                 {
                     endDate = $"31-12-{endDate}";
                 }
-                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? (object)DBNull.Value : DateTime.Parse(startDate));
-                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? (object)DBNull.Value : DateTime.Parse(endDate));
+                //com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(startDate) ? (object)DBNull.Value : DateTime.Parse(startDate));
+                //com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(endDate) ? (object)DBNull.Value : DateTime.Parse(endDate));
+                if (DateTime.TryParse(startDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+
+                if (DateTime.TryParse(endDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
+
                 com.CommandText = StoredProcedures.sp_GetEmployeeDashboardDetails;
                 SqlDataAdapter da = new SqlDataAdapter(com);
                 da.Fill(ds);

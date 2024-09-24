@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.Globalization;
 
 namespace Kaizen.Data.DataServices
 {
@@ -65,8 +67,25 @@ namespace Kaizen.Data.DataServices
                     {
                         com.CommandType = CommandType.StoredProcedure;
 
-                        com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
-                        com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
+                        //com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? " " : model.StartDate);
+                        //com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? " " : model.EndDate);
+                        if (DateTime.TryParse(model.StartDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                        {
+                            com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                        }
+                        else
+                        {
+                            com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                        }
+
+                        if (DateTime.TryParse(model.EndDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                        {
+                            com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                        }
+                        else
+                        {
+                            com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                        }
                         com.Parameters.AddWithValue("@Domain", model.Domain == "--Select Domain--" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
                         com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
                         com.Parameters.AddWithValue("@KaizenTheme", string.IsNullOrEmpty(model.KaizenTheme) ? " " : model.KaizenTheme);
@@ -100,8 +119,25 @@ namespace Kaizen.Data.DataServices
                     {
                         com.CommandType = CommandType.StoredProcedure;
 
-                        com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? (object)DBNull.Value : DateTime.Parse(model.StartDate));
-                        com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? (object)DBNull.Value : DateTime.Parse(model.EndDate));
+                        //com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? (object)DBNull.Value : DateTime.Parse(model.StartDate));
+                        //com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? (object)DBNull.Value : DateTime.Parse(model.EndDate));
+                        if (DateTime.TryParse(model.StartDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                        {
+                            com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                        }
+                        else
+                        {
+                            com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                        }
+
+                        if (DateTime.TryParse(model.EndDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                        {
+                            com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                        }
+                        else
+                        {
+                            com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                        }
                         com.Parameters.AddWithValue("@Domain", model.Domain == "--Select Domain--" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
                         com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
                         com.Parameters.AddWithValue("@Block", model.Block == "--Select Block--" ? "" : (string.IsNullOrEmpty(model.Block) ? " " : model.Block));
