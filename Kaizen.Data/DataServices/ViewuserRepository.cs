@@ -142,7 +142,6 @@ namespace Kaizen.Data.DataServices
 
                     com.Parameters.Add(new SqlParameter("@EmpId", Employee.EmpID));
                     com.Parameters.Add(new SqlParameter("@FirstName", Employee.FirstName));
-                    com.Parameters.Add(new SqlParameter("@MiddleName", Employee.MiddleName));
                     com.Parameters.Add(new SqlParameter("@LastName", Employee.LastName));
                     com.Parameters.Add(new SqlParameter("@Gender", Employee.Gender));
                     com.Parameters.Add(new SqlParameter("@Email", Employee.Email));

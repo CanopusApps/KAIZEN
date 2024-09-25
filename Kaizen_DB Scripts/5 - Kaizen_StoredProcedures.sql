@@ -4445,16 +4445,18 @@ BEGIN
 
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Upload_Users]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Upload_Users]    Script Date: 25-09-2024 14:44:37 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
+
 
 CREATE PROC [dbo].[Sp_Upload_Users]
 @EmpId INT,
 @FirstName VARCHAR(200),
-@MiddleName VARCHAR(200),
 @LastName VARCHAR(200),
 @Gender CHAR(1),
 @Email VARCHAR(100),
@@ -4635,7 +4637,6 @@ BEGIN
         -- Update existing record
         UPDATE Users
         SET FirstName = @FirstName,
-            MiddleName = @MiddleName,
             LastName = @LastName,
             Gender = @Gender,
             Email = @Email,
@@ -4652,8 +4653,8 @@ BEGIN
     ELSE
     BEGIN
         -- Insert new record
-        INSERT INTO Users (ID, UserID, EmpID, FirstName, MiddleName, LastName, Gender, Email,Block, Domain, Department, Cadre, MobileNumber, Status, UserType, Password)
-        VALUES (@guid, @EmpId, @EmpId, @FirstName, @MiddleName, @LastName, @Gender, @Email,@Blockid, @Domainid, @Deptid, @Cadreid, @MobileNo, @Statusid, @UserTypeid, @Password)
+        INSERT INTO Users (ID, UserID, EmpID, FirstName, LastName, Gender, Email,Block, Domain, Department, Cadre, MobileNumber, Status, UserType, Password)
+        VALUES (@guid, @EmpId, @EmpId, @FirstName, @LastName, @Gender, @Email,@Blockid, @Domainid, @Deptid, @Cadreid, @MobileNo, @Statusid, @UserTypeid, @Password)
     END
 
     -- Set the output message to success if all operations are successful

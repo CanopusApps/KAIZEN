@@ -174,7 +174,6 @@ namespace Kaizen.Business.Worker
                 {
                     EmpID = row["Emp Id"].ToString(),
                     FirstName = row["First Name"].ToString(),
-                    MiddleName = row["Middle Name"].ToString(),
                     LastName = row["Last Name"].ToString(),
                     Gender = row["Gender"].ToString(),
                     Email = row["Email Id"].ToString(),
