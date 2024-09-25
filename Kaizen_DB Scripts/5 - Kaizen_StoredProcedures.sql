@@ -2713,22 +2713,23 @@ inner join UserType ut ON u.UserType = ut.ID
 where u.EmpID=@empId      
 end           
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenProfileDetails]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenProfileDetails]    Script Date: 25-09-2024 17:41:19 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-  --[Sp_Get_KaizenProfileDetails] 614234        
-CREATE  PROC [dbo].[Sp_Get_KaizenProfileDetails]          
-@empId nvarchar(200)=null          
-as          
-Begin          
-select u.ID, u.EmpID,u.FirstName,u.LastName,u.MiddleName,dom.DomainName AS Domain,d.DepartmentName AS Department,u.Gender,u.Email          
-from Users u          
-inner join Departments d on u.Department = d.ID          
-inner join Domains dom on u.Domain=dom.ID          
-where u.EmpID=@empId      
-end 
+          
+CREATE  PROC [dbo].[Sp_Get_KaizenProfileDetails]            
+@empId nvarchar(200)=null            
+as            
+Begin            
+select u.ID, u.EmpID,u.FirstName,u.LastName,u.MiddleName,dom.DomainName AS Domain,d.DepartmentName AS Department,u.Gender,u.Email            
+from Users u            
+LEFT join Departments d on u.Department = d.ID            
+LEFt join Domains dom on u.Domain=dom.ID            
+where u.EmpID=@empId;       
+end   
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Get_Status]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
