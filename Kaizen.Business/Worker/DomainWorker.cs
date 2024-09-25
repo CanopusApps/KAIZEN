@@ -1,32 +1,21 @@
 ﻿using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices;
 using Kaizen.Models.AdminModel;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Business.Worker
 {
     public class DomainWorker : IDomain
     {
         public readonly IDomainRepository _repositoryDomaindata;
-
         public DomainWorker(IDomainRepository repositoryDomaindata)
-
         {
-
             this._repositoryDomaindata = repositoryDomaindata;
-
         }
-
         public bool CreateDomain(DomainModel domainmodel)
         {           
               return _repositoryDomaindata.InsertDomain( domainmodel);
         }
-
         public List<DomainModel> GetDomain()
         {
             DataSet ds;
@@ -49,25 +38,18 @@ namespace Kaizen.Business.Worker
                 }
             }
             return domainModels;
-
         }
-
         public bool DeleteDomain(int id)
         {
             return _repositoryDomaindata.DeleteDomain(id);
-
         }
-
         public bool UpdateDomainStatus(bool status, int id)
         {
             return _repositoryDomaindata.UpdateDomainStatus(id,status);
-
         }
         public bool UpdateDomainDetails(DomainModel domainmodel)
         {
-
             return _repositoryDomaindata.UpdateDomainDetails(domainmodel);
-
         }
     }
 }

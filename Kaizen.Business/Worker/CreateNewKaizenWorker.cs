@@ -1,31 +1,18 @@
-﻿using DocumentFormat.OpenXml.EMMA;
-using Kaizen.Business.Interface;
-using Kaizen.Data.Constant;
-using Kaizen.Data.DataServices;
+﻿using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices.Interfaces;
-using Kaizen.Models.AdminModel;
 using Kaizen.Models.NewKaizen;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Kaizen.Business.Worker
 {
     public class CreateNewKaizenWorker : ICreateNewKaizen
     {
         public readonly ICreateNewKaizenRepository _createNewKaizenRepository;
-
-
         public CreateNewKaizenWorker(ICreateNewKaizenRepository repositoryDomaindata)
-
         {
 
             this._createNewKaizenRepository = repositoryDomaindata;
-
         }
         public NewKaizenModel GetKaizenOriginatedby(NewKaizenModel model)
         {
@@ -42,13 +29,10 @@ namespace Kaizen.Business.Worker
             }
             return model;
         }
-
         public bool CreateNewKaizen(NewKaizenModel model)
         {
             return _createNewKaizenRepository.CreateNewKaizenData(model);
         }
-
-        
         public bool SubmitKaizenDri(NewKaizenModel model)
         {
           return _createNewKaizenRepository.SubmitKaizenDriData(model);
@@ -57,12 +41,10 @@ namespace Kaizen.Business.Worker
         {
             return _createNewKaizenRepository.UpdateNewKaizenData(model);
         }
-        
         public bool UpdateSubmittedKaizen(NewKaizenModel model)
         {
             return _createNewKaizenRepository.UpdateSubmittedKaizenData(model);
         }
-
         public bool updateKaizensatus(ApprovalRequest approvalRequest,string empid)
         {
             return _createNewKaizenRepository.updateKaizensatusData(approvalRequest, empid);
@@ -72,9 +54,6 @@ namespace Kaizen.Business.Worker
             DataSet KalizenList = new DataSet();
             List<NewKaizenModel> KaizenData = new List<NewKaizenModel>();
             KalizenList = _createNewKaizenRepository.GetKaizenDetailsById(KaizenId);
-            //string Approvalstatus = ApprovalStatusEnum.IEApproved.ToString();
-
-
             if (KalizenList.Tables.Count > 0)
             {
                 foreach (DataRow dr in KalizenList.Tables[0].Rows)
@@ -237,7 +216,6 @@ namespace Kaizen.Business.Worker
             }
             return ApproversData;
         }
-
         public List<TeamMemberDetails> GetTeamDetailsUpdateById(string KaizenId)
         {
             DataSet TeamList = new DataSet();
@@ -258,12 +236,10 @@ namespace Kaizen.Business.Worker
             }
             return TeamData;
         }
-
         public DataTable GetAttachmentsByIdfordelete(string KaizenId, string AttachmentId)
         {
             return _createNewKaizenRepository.GetImageListByIdfordelete(KaizenId, AttachmentId);
         }
-
         public void RemoveAttachment(Attachmentsimg attachment, string KaizenId)
         {
             // Delete from file system
@@ -273,7 +249,6 @@ namespace Kaizen.Business.Worker
             }
             _createNewKaizenRepository.RemoveAttachment(attachment, KaizenId);
         }
-
         public List<ManagerModelUpdate> Usermanagerforedit(string managerupt)
         {
             DataSet ds;

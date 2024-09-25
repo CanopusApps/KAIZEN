@@ -1,9 +1,4 @@
 ﻿using Kaizen.Models.AdminModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Models.DashboardModel
 {
@@ -13,15 +8,12 @@ namespace Kaizen.Models.DashboardModel
         public string EndDate { get; set; } = "";
         public string Domain { get; set; } = "";
         public string Department { get; set; } = "";
-
         public string Cadre { get; set; } = "";
-
         public string Block { get; set; } = "";
         public List<CadreModel> CadreList { get; set; }
         public List<BlockModel> blockList {  get; set; }
         public List<DomainModel> DomainList { get; set; }
         public List<TotalKaizennos> TotalKaizenList {  get; set; }
-
         public List<DomainModel> DomainmanagerList { get; set; }
         public List<DepartmentModel> departmentmangerlist { get; set; }
         public List<TotalKaizennos> MonthTotalKaizenList { get; set; }
@@ -30,15 +22,10 @@ namespace Kaizen.Models.DashboardModel
         public List<graphKaizentotalModel> departmentbasedgraph { get; set; }
         public List<graphKaizentotalModel> blockbasedgraph { get; set; }
         public List<graphKaizentotalModel> Cadrebasedgraph { get; set; }
-
         public List<OtherDashboardmodel> OtherdashboardList { get; set; }
         public List<OtherDashboardmodel> MonthBasedOtherdashboardList { get; set; }
-
         public List<EmployeeDashboardModel> EmployeedashboardList { get; set; }
         public List<EmployeeDashboardModel> MonthBasedEmployeedashboardList { get; set; }
-
-
-
     }
 
     public class TotalKaizennos
@@ -49,32 +36,20 @@ namespace Kaizen.Models.DashboardModel
         public int FinanceTotal { get; set; }
         public int IETotal { get; set; }
         public int Imagetotal {  get; set; }
-
         public int TotalApproved { get; set; }
-
         public int TotalPending { get; set; }
         public int TotalRejected { get; set; }
-
         public int CardImageApproved {  get; set; }
         public int CardImagePending { get; set; }
         public int CardImageRejected { get; set; }
-
-
-
         public int CardManagerApproved { get; set; }
         public int CardManagerPending { get; set; }
-
         public int CardManagerRejected { get; set; }
-
         public int CardIEApproved {  get; set; }
         public int CardIEPending { get; set; }
         public int CardIERejected { get; set; }
-
         public int CardFinanceApproved { get; set; }
         public int CardFinancePending { get; set; }
         public int CardFinanceRejected { get; set; }
     }
-
-   
-
 }

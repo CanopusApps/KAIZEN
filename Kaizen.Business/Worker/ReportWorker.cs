@@ -1,53 +1,38 @@
 ﻿using ClosedXML.Excel;
 using Kaizen.Business.Interface;
-using Kaizen.Data.DataServices;
 using Kaizen.Data.DataServices.Interfaces;
-using Kaizen.Models.AdminModel;
 using Kaizen.Models.DashboardModel;
 using Kaizen.Models.ReportModel;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Kaizen.Business.Worker
 {
     public class ReportWorker : IReport
     {
         private readonly IReportRepository _reportRepository;
-
         public ReportWorker(IReportRepository repositoryReportdata)
         {
             this._reportRepository = repositoryReportdata;
         }
-
         public DataTable GetKaizenform(KaizenReportModel model)
         {
             return _reportRepository.GetKaizenformData(model);
         }
-
         public DataTable GetBlockReport(KaizenReportModel model)
         {
             return _reportRepository.GetBlockReportData(model);
         }
-
         public DataTable GetDomainReport(KaizenReportModel model)
         {
             return _reportRepository.GetDomainReportData(model);
         }
-
         public DataTable GetDepartmentReport(KaizenReportModel model)
         {
             return _reportRepository.GetDepartmentReportData(model);
         }
-
         public DataTable GetUsersReport(KaizenReportModel model)
         {
             return _reportRepository.GetUsersReportData(model);
         }
-
         public DataTable GetUserLogform(KaizenReportModel model)
         {
             return _reportRepository.GetUserLogformData(model);
@@ -110,7 +95,6 @@ namespace Kaizen.Business.Worker
                 }
             }
         }
-
         public int GetCount(object data)
         {
             return data switch
@@ -120,25 +104,21 @@ namespace Kaizen.Business.Worker
                 _ => 0
             };
         }
-
         public DataTable DashboardDepartmentReport(DashboardModel model)
         {
             DataSet ds = _reportRepository.GetDashboardData(model);
             return ds.Tables[0];
         }
-
         public DataTable DashboardDomainReport(DashboardModel model)
         {
             DataSet ds = _reportRepository.GetDashboardData(model);
             return ds.Tables[1];
         }
-
         public DataTable DashboardBlockReport(DashboardModel model)
         {
             DataSet ds = _reportRepository.GetDashboardData(model);
             return ds.Tables[2];
         }
-
         public DataTable DashboardCadreReport(DashboardModel model)
         {
             DataSet ds = _reportRepository.GetDashboardData(model);

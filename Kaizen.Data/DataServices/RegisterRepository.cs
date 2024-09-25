@@ -1,14 +1,8 @@
 ﻿using Kaizen.Data.Constant;
 using Kaizen.Models.AdminModel;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Data.DataServices
 {
@@ -86,7 +80,6 @@ namespace Kaizen.Data.DataServices
         //    }
         //    return msg;
         //}
-
 
         /// <summary>
         /// Registers a new user by executing a stored procedure with the provided RegisterModel data and returns a result message.

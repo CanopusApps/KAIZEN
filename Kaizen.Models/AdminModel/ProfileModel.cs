@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kaizen.Models.AdminModel;
-
-
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Kaizen.Models.AdminModel
 {
@@ -17,7 +9,6 @@ namespace Kaizen.Models.AdminModel
         //[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "First Name can only contain letters")]
         public string FirstName { get; set; }
 
-
         [StringLength(50, ErrorMessage = "Middle Name can not contain more than 50 characters")]
         //[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Middle Name can only contain letters")]
         public string MiddleName { get; set; } = "";
@@ -26,7 +17,6 @@ namespace Kaizen.Models.AdminModel
         [StringLength(50, MinimumLength = 1, ErrorMessage = "Last Name can not contain more than 50 characters")]
         //[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Last Name can only contain letters")]
         public string LastName { get; set; }
-
         public string EmpID { get; set; }
 
         [Required(ErrorMessage = "Gender is required")]
@@ -41,7 +31,6 @@ namespace Kaizen.Models.AdminModel
         //[EmailAddress(ErrorMessage = "Invalid Email Address")]
         //[DataType(DataType.EmailAddress)]
         [RegularExpression(@"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid Email Address")]
-
         public string Email { get; set; }
 
     }

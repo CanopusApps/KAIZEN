@@ -1,14 +1,8 @@
 ﻿using Kaizen.Data.Constant;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
-using DocumentFormat.OpenXml.Wordprocessing;
 using System.Globalization;
 
 namespace Kaizen.Data.DataServices
@@ -16,13 +10,11 @@ namespace Kaizen.Data.DataServices
     public class SubmittedKaizenRepository : ISubmittedKaizenRepository
     {
         public static string SqlConnectionString { get; set; }
-
         public SubmittedKaizenRepository()
         {
             var configuration = GetConfiguration();
             SqlConnectionString = configuration.GetSection(DbFiles.Data).GetSection(DbFiles.ConnectionString).Value;
         }
-
         public IConfigurationRoot GetConfiguration()
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile(DbFiles.appsetting, optional: true, reloadOnChange: true);

@@ -1,10 +1,4 @@
-﻿using DocumentFormat.OpenXml.EMMA;
-using Kaizen.Models.WinnersList;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Kaizen.Models.WinnersList;
 
 namespace Kaizen.Business.Interface
 {
@@ -13,7 +7,6 @@ namespace Kaizen.Business.Interface
         public bool AddWinner(WinnersListModel model);
         public bool DeleteWinner(int id, String sd, String ed);
         public bool UpdateWinner(WinnersListModel model);
-
         public string ToggleStatus(WinnersListModel model);
         List<WinnersListModel> GetWinners();
     }

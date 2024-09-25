@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using Kaizen.Models.AdminModel;
-using Microsoft.AspNetCore.Http;
+﻿using Kaizen.Models.AdminModel;
 
 namespace Kaizen.Business.Interface
 {
@@ -13,12 +6,7 @@ namespace Kaizen.Business.Interface
     {
         public List<ApprovalStatusModel> GetApprovalStatus(string UserType);
         public List<KaizenListModel> GetKaizenList(KaizenListModel model);
-
         public List<KaizenListModel> GetKaizenListOnclickdashboard(KaizenListModel model);
-
-
-
         public bool DeleteKaizen(int KaizenId,string UserId);
-
     }
 }

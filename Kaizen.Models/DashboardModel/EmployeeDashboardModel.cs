@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Kaizen.Models.DashboardModel
 {
     public class EmployeeDashboardModel
     {
-
             public String EmpId { get; set; }
             public string MonthYear { get; set; }
             public string FirstName { get; set; }

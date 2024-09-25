@@ -1,5 +1,4 @@
 ﻿using Kaizen.Models.WinnersList;
-using System.Collections.Generic;
 using System.Data;
 
 namespace Kaizen.Data.DataServices

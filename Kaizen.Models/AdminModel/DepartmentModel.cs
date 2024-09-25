@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Kaizen.Models.AdminModel
 {
     public class DepartmentModel
@@ -15,7 +10,6 @@ namespace Kaizen.Models.AdminModel
         public List<DomainModel> DomainList { get; set; }
         public int DomainId { get; set; }
         public int User_count { get; set; }
-
         public int kaizen_count {  get; set; }
         public int KaizenSubmitedCountdept {  get; set; }
         public bool Status { get; set; }

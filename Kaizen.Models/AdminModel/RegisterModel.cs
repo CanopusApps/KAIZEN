@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Kaizen.Models.AdminModel
 {
@@ -42,7 +37,6 @@ namespace Kaizen.Models.AdminModel
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-
         [StringLength(10)]
         [Required(ErrorMessage = "Phone number is required")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Phone Number")]
@@ -64,7 +58,6 @@ namespace Kaizen.Models.AdminModel
         public int Cid { get; set; } = 0;// stores cadre id
         public List<DomainModel> Domains { get; set; }
         public List<DepartmentModel> Departments { get; set; }
-
         public List<BlockModel> Blocks { get; set; }
         public List<CadreModel> Cadre { get; set; }
 

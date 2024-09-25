@@ -1,15 +1,8 @@
 ﻿using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
-using System.Data.SqlClient;
 using Microsoft.AspNetCore.Http;
-using Kaizen.Data.Constant;
 using System.Text.RegularExpressions;
 using System.Transactions;
 using ClosedXML.Excel;
@@ -20,7 +13,6 @@ namespace Kaizen.Business.Worker
     {
         public readonly IViewuserRepository _repositoryUserTypedata;
         public readonly IDomain _domain;
-
 		public ViewuserWorker(IViewuserRepository repositoryUserdata)
         {
                 this._repositoryUserTypedata = repositoryUserdata;
@@ -280,9 +272,6 @@ namespace Kaizen.Business.Worker
 
             return null;
         }
-
-
-
         public List<UserGridModel> GetIEDepart()
         {
             DataSet ds;
@@ -465,8 +454,4 @@ namespace Kaizen.Business.Worker
             return UserGridData;
         }
     }
-
-
-
-
 }

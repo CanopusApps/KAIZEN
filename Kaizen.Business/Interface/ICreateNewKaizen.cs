@@ -1,12 +1,5 @@
-﻿using Kaizen.Models.AdminModel;
-using Kaizen.Models.NewKaizen;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
+﻿using Kaizen.Models.NewKaizen;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Business.Interface
 {

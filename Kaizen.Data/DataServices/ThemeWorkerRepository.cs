@@ -1,12 +1,7 @@
 ﻿using Kaizen.Data.Constant;
 using Kaizen.Data.DataServices.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using Kaizen.Models.Theme;
 using System.IO;
@@ -16,16 +11,13 @@ namespace Kaizen.Data.DataServices
     public class ThemeWorkerRepository : IThemeRepository
     {
         public static string SqlConnectionString { get; set; }
-
         private static SqlConnection con = null;
         private static SqlCommand com = null;
-
         public ThemeWorkerRepository()
         {
             var configuration = GetConfiguration();
             con = new SqlConnection(configuration.GetSection(DbFiles.Data).GetSection(DbFiles.ConnectionString).Value);
         }
-
         public IConfigurationRoot GetConfiguration()
         {
             var builder = new ConfigurationBuilder()
@@ -34,7 +26,6 @@ namespace Kaizen.Data.DataServices
 
             return builder.Build();
         }
-
         public bool AddTheme(ThemeModel model)
         {
             bool status = false;
@@ -63,7 +54,6 @@ namespace Kaizen.Data.DataServices
 			}
 			return status;
         }
-
         public DataSet RetrieveTheme()
         {
             DataSet ds = new DataSet();

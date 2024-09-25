@@ -1,18 +1,9 @@
 ﻿using Kaizen.Data.Constant;
 using Kaizen.Data.DataServices.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Kaizen.Models.NewKaizen;
-using Kaizen.Models.AdminModel;
-using Newtonsoft.Json;
-using System.Reflection;
-using DocumentFormat.OpenXml.EMMA;
 
 namespace Kaizen.Data.DataServices
 {
@@ -51,7 +42,6 @@ namespace Kaizen.Data.DataServices
             }
             return dt;
         }
-
         public bool CreateNewKaizenData(NewKaizenModel model)
         {
             bool status = false;
@@ -178,7 +168,6 @@ namespace Kaizen.Data.DataServices
 			}
 			return status;
         }
-
         public bool SubmitKaizenDriData(NewKaizenModel model)
         {
             bool status = false;
@@ -328,7 +317,6 @@ namespace Kaizen.Data.DataServices
 			}
 			return status;
         }
-
         public bool UpdateNewKaizenData(NewKaizenModel model)
         {
             bool status = false;
@@ -458,8 +446,6 @@ namespace Kaizen.Data.DataServices
 			}
 			return status;
         }
-
-
         public bool UpdateSubmittedKaizenData(NewKaizenModel model)
         {
             bool status = false;
@@ -608,7 +594,6 @@ namespace Kaizen.Data.DataServices
 			}
 			return status;
         }
-
         public DataSet GetKaizenDetailsById(string KaizenId)
         {
             DataSet ds = new DataSet();
@@ -629,8 +614,7 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-
-         public DataTable GetImageListByIdfordelete(string KaizenId, string Attachmentid)
+        public DataTable GetImageListByIdfordelete(string KaizenId, string Attachmentid)
         {
             DataTable dt = new DataTable();
             try
@@ -650,7 +634,6 @@ namespace Kaizen.Data.DataServices
             }
             return dt;
         }
-
         public DataSet GetTeamDetailsUpdateById(string KaizenId)
         {
             DataSet ds = new DataSet();
@@ -671,7 +654,6 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-
         public bool updateKaizensatusData(ApprovalRequest approvalRequest,string empid)
         {
             bool status = false;

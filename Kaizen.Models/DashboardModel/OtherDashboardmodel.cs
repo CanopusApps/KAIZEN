@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Kaizen.Models.DashboardModel
 {
     public class OtherDashboardmodel
@@ -14,13 +9,11 @@ namespace Kaizen.Models.DashboardModel
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Usertypedesc { get; set; }
-
         // Total counts
         public int ImageTotal { get; set; }
         public int ManagerTotal { get; set; }
         public int IETotal { get; set; }
         public int FinanceTotal { get; set; }
-
         // Separate counts for Image Approver
         public int ImageApproved { get; set; }
         public int ImageRejected { get; set; }

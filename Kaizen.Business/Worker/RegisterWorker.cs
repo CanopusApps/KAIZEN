@@ -1,21 +1,12 @@
 ﻿using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices;
 using Kaizen.Models.AdminModel;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Business.Worker
 {
-
     public class RegisterWorker : IRegister
     {
         public readonly IRegisterRepository _regdata;
-
 
         /// <summary>
         /// Initializes a new instance of the RegisterWorker class with the specified registration repository.
@@ -25,7 +16,6 @@ namespace Kaizen.Business.Worker
         {
             this._regdata = _regdata;
         }
-
         /// <summary>
         /// Registers a new user by passing the provided RegisterModel to the repository and returns the result message.
         /// </summary>
@@ -36,7 +26,5 @@ namespace Kaizen.Business.Worker
             string msg = _regdata.Registeruser(registermodel);
             return msg;
         }
-
-
     }
 }
