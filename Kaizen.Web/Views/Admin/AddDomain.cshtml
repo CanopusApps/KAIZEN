@@ -168,11 +168,17 @@
                         }).then(okay => {
                             location.reload();
                         });
+                    } else if (result === false) {
+                        swal({
+                            text: "Domain Already Exists!"
+                        }).then(() => {
+                            $('#domainname').val('');
+                        });
                     }
-                    else {
-                        swal('Unable to Save the Domain Details - Please Check the logs');
-                        window.location.href = redirectErrorUrl;
-                    }
+                    // else {
+                    //     swal('Unable to Save the Domain Details - Please Check the logs');
+                    //     window.location.href = redirectErrorUrl;
+                    // }
                 },
                 error: function (error) {
                    

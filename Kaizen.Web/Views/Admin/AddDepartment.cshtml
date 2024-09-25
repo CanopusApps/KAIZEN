@@ -184,11 +184,17 @@
                     }).then(okay => {
                         location.reload();
                     });
+                } else if (result === false) {
+                    swal({
+                        text: "Department Already Exists!"
+                    }).then(okay => {
+                        $('#departmentName').val('');
+                    });
                 }
-                else {
-                    swal('Unable to Save the Department Details - Please Check the logs');
-                    window.location.href = redirectErrorUrl;
-                }
+                // else {
+                //     swal('Unable to Save the Department Details - Please Check the logs');
+                //     window.location.href = redirectErrorUrl;
+                // }
             },
             error: function (error) {
                 swal('Unable to Save the Department Details - Please Check the logs');
