@@ -3208,6 +3208,7 @@ BEGIN
         SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 7, 8, 4,9) THEN 1 ELSE 0 END) AS IETotal,
         -- Total for Finance
         SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (8, 9, 6) THEN 1 ELSE 0 END) AS FinanceTotal,
+		 SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (4) and Kaizens.ApprovedByIE =null THEN 1 ELSE 0 END) AS FinanceTotal,  
 
         -- Separate counts for Image Approver
         SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (2, 4, 6, 8) THEN 1 ELSE 0 END) AS ImageApproved,
@@ -3227,7 +3228,8 @@ BEGIN
         -- Separate counts for Finance
         SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (8) THEN 1 ELSE 0 END) AS FinanceApproved,
         SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (9) THEN 1 ELSE 0 END) AS FinanceRejected,
-        SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (6) THEN 1 ELSE 0 END) AS FinancePending
+        SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (6) THEN 1 ELSE 0 END) AS FinancePending,
+		 SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (4) and Kaizens.ApprovedByIE =null THEN 1 ELSE 0 END) AS FinancePending  
      
     FROM 
         [dbo].[Users]
@@ -3276,6 +3278,7 @@ BEGIN
         SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 7, 8, 4,9) THEN 1 ELSE 0 END) AS IETotal,
         -- Total for Finance
         SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (8, 9, 6) THEN 1 ELSE 0 END) AS FinanceTotal,
+		 SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (4) and Kaizens.ApprovedByIE =null THEN 1 ELSE 0 END) AS FinanceTotal,  
 
 
         -- Separate counts for Image Approver
@@ -3296,8 +3299,8 @@ BEGIN
         -- Separate counts for Finance
         SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (8) THEN 1 ELSE 0 END) AS FinanceApproved,
         SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (9) THEN 1 ELSE 0 END) AS FinanceRejected,
-        SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (6) THEN 1 ELSE 0 END) AS FinancePending
-     
+        SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (6) THEN 1 ELSE 0 END) AS FinancePending,  
+		  SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (4) and Kaizens.ApprovedByIE =null THEN 1 ELSE 0 END) AS FinancePending  
     FROM 
         [dbo].[Users]
     LEFT JOIN 

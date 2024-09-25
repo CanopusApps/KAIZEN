@@ -118,26 +118,6 @@ namespace Kaizen.Data.DataServices
                     using (SqlCommand com = new SqlCommand(StoredProcedures.Sp_Get_kaizen_details_On_clickdashboard, con))
                     {
                         com.CommandType = CommandType.StoredProcedure;
-
-                        //com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? (object)DBNull.Value : DateTime.Parse(model.StartDate));
-                        //com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? (object)DBNull.Value : DateTime.Parse(model.EndDate));
-                        //if (DateTime.TryParse(model.StartDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
-                        //{
-                        //    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
-                        //}
-                        //else
-                        //{
-                        //    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
-                        //}
-
-                        //if (DateTime.TryParse(model.EndDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
-                        //{
-                        //    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
-                        //}
-                        //else
-                        //{
-                        //    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
-                        //}
                         var customDateFormat = "dd-MM-yyyy";
                         var culture = CultureInfo.CurrentCulture;
 
