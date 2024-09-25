@@ -468,8 +468,8 @@ BEGIN
 
 		
     WHERE
-        (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) 
-    AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+                  (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) 
     AND (@Domain IS NULL OR Domains.DomainName = @Domain)
 	AND (@Department IS NULL OR Departments.DepartmentName = @Department)
 	AND	(@Block IS NULL OR Blocks.BlockName=@Block)
@@ -567,8 +567,8 @@ LEFT JOIN
 LEFT JOIN
     Cadre ON Cadre.ID = Users.Cadre
 WHERE
-    (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) 
-    AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+      (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) 
     AND (@Domain IS NULL OR Domains.DomainName = @Domain)
     AND (@Department IS NULL OR Departments.DepartmentName = @Department)
     AND (@Block IS NULL OR Blocks.BlockName = @Block)
@@ -600,8 +600,8 @@ LEFT JOIN
     Users ON Users.ID = Kaizens.CreatedBy
 
 WHERE
-    (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) 
-    AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+      (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) 
     AND (@Domain IS NULL OR Domains.DomainName = @Domain)
     AND (@Department IS NULL OR Departments.DepartmentName = @Department)
     AND (@Block IS NULL OR Blocks.BlockName = @Block)
@@ -1231,9 +1231,9 @@ BEGIN
         Cadre c ON c.ID = u.Cadre
     WHERE 
         d.Status = '1'
-        AND kd.ApprovalStatus NOT IN (0, 14)
-        AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+        AND kd.ApprovalStatus NOT IN (0, 14)and
+        (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
         AND (@DomainID IS NULL OR kd.Domain = @DomainID)
     ORDER BY 
         d.DeptId, kd.KaizenId;
@@ -1301,9 +1301,9 @@ BEGIN
         Cadre c ON c.ID = u.Cadre
     WHERE 
         dom.Status = '1'
-        AND kd.ApprovalStatus NOT IN (0, 14)
-        AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+        AND kd.ApprovalStatus NOT IN (0, 14)and
+       (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
     ORDER BY
         dom.DomainID, kd.KaizenId;
 
@@ -1371,8 +1371,8 @@ BEGIN
     WHERE 
         b.Status = '1'
         AND kd.ApprovalStatus NOT IN (0, 14)
-        AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+        AND  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
     ORDER BY
         b.BlockId, kd.KaizenId;
 
@@ -1442,8 +1442,8 @@ BEGIN
         Users u3 ON u3.ID = kd.FinanceApprovedBy
     WHERE 
         kd.ApprovalStatus NOT IN (0, 14)
-        AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+        AND  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
     ORDER BY
         c.CadreId, kd.KaizenId;
 END
@@ -1626,8 +1626,8 @@ BEGIN
         Domains dom ON d.DomainId = dom.ID
     LEFT JOIN 
         Kaizens kd ON kd.Department = d.ID
-        AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+      and  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
     WHERE 
         d.Status = '1' 
         AND (@Domainname IS NULL OR dom.DomainName = @Domainname)
@@ -1678,8 +1678,8 @@ BEGIN
         Kaizens kd
     ON 
         kd.Department = d.ID
-        AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate) 
+       and  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
 		 WHERE 
         d.Status = '1'
     GROUP BY 
@@ -1697,6 +1697,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[sp_Get_DashboardDomains]
     @StartDate DATE = NULL,
     @EndDate DATE = NULL
@@ -1717,8 +1718,8 @@ BEGIN
 		   (SELECT COUNT(DISTINCT CASE WHEN ApprovalStatus NOT IN (0, 14) THEN CreatedBy END)
          FROM Kaizens
          WHERE Domain = d.ID
-           AND (@StartDate IS NULL OR CreatedDate >= @StartDate)
-           AND (@EndDate IS NULL OR CreatedDate <= @EndDate)) AS kaizensubmittedUser,
+           AND (@StartDate IS NULL OR CAST(CreatedDate  as date) >= @StartDate)
+           AND (@EndDate IS NULL OR CAST(CreatedDate  as date) <= @EndDate)) AS kaizensubmittedUser,
         d.Status
     FROM 
         Domains d
@@ -1730,8 +1731,8 @@ BEGIN
         Kaizens kd
     ON 
         d.ID = kd.Domain
-        AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+       and  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
 		 WHERE 
         d.Status = '1'
     GROUP BY 
@@ -1762,8 +1763,8 @@ BEGIN
 	Kaizens kd
     ON 
         kd.Department = d.ID
-        AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+       and  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
 			 WHERE 
         d.Status = '1'
 
@@ -1785,8 +1786,8 @@ BEGIN
         Kaizens kd
     ON 
         d.ID = kd.Domain
-        AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate) 
+        and  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
 			 WHERE 
         d.Status = '1'
     GROUP BY 
@@ -1805,8 +1806,8 @@ BEGIN
         Kaizens kd
     ON 
         b.ID = kd.Block
-        AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+        and  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
 			 WHERE 
         b.Status = '1'
     GROUP BY 
@@ -1823,8 +1824,8 @@ FROM
     LEFT JOIN Users ON Cadre.Id = Users.Cadre
     LEFT JOIN Kaizens kd ON Users.id = kd.createdby
 WHERE 
-    (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-    AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+    (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
 GROUP BY 
     Cadre.CadreId,
     Cadre.CadreDesc
@@ -1839,6 +1840,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[Sp_Get_DashboardManagerDomainDepartment]
   @EmpId Varchar(20),
   @StartDate DATE = NULL,
@@ -1859,8 +1861,8 @@ BEGIN
                  AND u.EmpID = @EmpId
             THEN COUNT(DISTINCT CASE 
                     WHEN kd.ApprovalStatus NOT IN (0, 14)
-                         AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-                         AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+                       and  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
                     THEN kd.KaizenId 
                 END)
             ELSE NULL
@@ -1870,8 +1872,8 @@ BEGIN
                  AND u.EmpID = @EmpId
             THEN COUNT(DISTINCT CASE 
                     WHEN kd.ApprovalStatus NOT IN (0, 14)
-                         AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-                         AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+                         and  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
                     THEN kd.CreatedBy 
                 END)
             ELSE NULL
@@ -1904,8 +1906,8 @@ BEGIN
                  AND u.EmpID = @EmpId
             THEN COUNT(DISTINCT CASE 
                     WHEN kd.ApprovalStatus NOT IN (0, 14)
-                         AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-                         AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+                         and  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
                     THEN kd.KaizenId 
                 END)
             ELSE NULL
@@ -1915,8 +1917,8 @@ BEGIN
                  AND u.EmpID = @EmpId
             THEN COUNT(DISTINCT CASE 
                     WHEN kd.ApprovalStatus NOT IN (0, 14)
-                         AND (@StartDate IS NULL OR kd.CreatedDate >= @StartDate)
-                         AND (@EndDate IS NULL OR kd.CreatedDate <= @EndDate)
+                         and  (@StartDate IS NULL OR CAST(Kd.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(kd.CreatedDate as date) <= @EndDate) 
                     THEN kd.CreatedBy 
                 END)
             ELSE NULL
@@ -2142,11 +2144,6 @@ end
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_Kaizen_Details]    Script Date: 05-09-2024 20:04:16 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 
 /****** Object:  StoredProcedure [dbo].[Sp_Get_Kaizen_Details]    Script Date: 11-09-2024 11:04:59 ******/
 SET ANSI_NULLS ON
@@ -2158,235 +2155,235 @@ GO
 
 
 --exec Sp_Get_Kaizen_Details '','','','','','','','EMPLOYEE','6fcd60ce-2566-4517-83dd-020b9279a5c8'
-CREATE PROCEDURE [dbo].[Sp_Get_Kaizen_Details]
-(
-    @StartDate DATE = NULL,
-    @EndDate DATE = NULL,
-    @Domain NVARCHAR(100) = NULL,
-    @Department NVARCHAR(100) = NULL,
-    @KaizenTheme NVARCHAR(100) = NULL,
-    @Status NVARCHAR(50) = NULL,
-    @Shortlisted NVARCHAR(50) = NULL,
-    @Role NVARCHAR(50) = NULL,
-    @UserId NVARCHAR(50) = NULL,
-	@BenefitArea NVARCHAR(50) = NULL
-)
-AS
-BEGIN
-    SET @StartDate = NULLIF(@StartDate, '')
-    SET @EndDate = NULLIF(@EndDate, '')
-    SET @Domain = NULLIF(@Domain, '')
-    SET @Department = NULLIF(@Department, '')
-    SET @KaizenTheme = NULLIF(@KaizenTheme, '')
-    SET @Status = NULLIF(@Status, '')
-    SET @Shortlisted = NULLIF(@Shortlisted, '')
-	SET @BenefitArea = NULLIF(@BenefitArea, '')
-
-    DECLARE @FirstName NVARCHAR(50)
-	DECLARE @ImageApprover NVARCHAR(50)
-    SELECT @FirstName = FirstName FROM Users WHERE id = @UserId
-	set @ImageApprover=@Role
-
-    IF @StartDate IS NULL AND @EndDate IS NULL AND @Domain IS NULL AND @Department IS NULL AND @KaizenTheme IS NULL AND @Status IS NULL AND @Shortlisted IS NULL AND @BenefitArea IS NULL
-    BEGIN
-        SELECT DISTINCT Kaizens.KaizenId, KaizenType, Activity, ActivityDesc, Kaizens.[BenefitArea], DocNo, VersionNoDate, CostCentre, KaizenRefNo,
-                        Blocks.BlockName AS Block, BlockDetails, SuggestedKaizen, ProblemStatement, CounterMeasure, AttachmentBefore, AttachmentAfter, AttachmentOthers, Yield, CycleTime, Cost, ManPower, Consumables, others, TotalSavings, Kaizens.TeamMemberID, RootCause, PresentCondition, ImprovementsCompleted, RootProblemAttachment, RootCauseDetails, ScopeOfDeploymentId, InOtherMC, WithIntheDept, InOtherDept, OtherPoints, Benifits, OrigionatedDept, OrigonatedDate,
-                        KaizenTheme, Kaizens.ApprovalStatus AS Status, Kaizens.CreatedBy AS PostedBy, Kaizens.ModifiedDate,
-                        STUFF((SELECT ', ' + TeamMemberName
-                               FROM KaizenTeamMembers
-                               WHERE KaizenID = Kaizens.ID
-                               FOR XML PATH('')), 1, 2, '') AS TeamName,
-                        CASE 
-                            WHEN HorozantalDeployment = 0 THEN 'NO' 
-                            WHEN HorozantalDeployment = 1 THEN 'YES'
-                        END AS HorozantalDeployment,
-                        CASE 
-                            WHEN CycleTime > 0 THEN 'YES' 
-                            WHEN CycleTime = 0 THEN 'NO'
-							WHEN CycleTime is null THEN 'NO'
-                        END AS IEApprovedDept, 
-                        CASE 
-                            WHEN Cost >= 100000 THEN 'YES' 
-                            WHEN Cost < 100000 THEN 'NO'
-                        END AS FinnanceDeptAppr,
-                        CASE 
-                            WHEN Shortlisted = 0 THEN 'NO' 
-                            WHEN Shortlisted = 1 THEN 'YES'
-                        END AS Shortlisted,
-                        CASE 
-						   
-WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
-        WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
-        WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finnance Approval'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'
-							WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'
-                            WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved' 
-							WHEN Kaizens.ApprovalStatus = 1 THEN 'Waiting For Image Approval' 
-                            WHEN Kaizens.ApprovalStatus in (2,15) THEN 'Waiting For DRI Approval'
-                            WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'
-                            WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'
-                            WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finnance Approval'
-                            WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'
-                            --WHEN Kaizens.ApprovalStatus = 8 THEN 'Finance Approved'
-                            WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'
-                            WHEN Kaizens.ApprovalStatus = 14 THEN 'DELETED'	
-                        END AS ApprovalStatus,
-                        Users.FirstName AS CreatedBy,
-                        CONVERT(VARCHAR, Kaizens.CreatedDate, 105) AS CreatedDate,
-                        UserType.UserDesc AS Role
-        FROM 
-            [dbo].[Kaizens]
-        LEFT JOIN 
-            KaizenTeamMembers ON KaizenTeamMembers.KaizenID = Kaizens.ID
-        INNER JOIN 
-            Users ON Users.ID = Kaizens.CreatedBy
-        LEFT JOIN 
-            ApprovalStatus ON ApprovalStatus.StatusID = Kaizens.ApprovalStatus
-        LEFT JOIN 
-            Domains ON Domains.ID = Kaizens.Domain
-        LEFT JOIN 
-            Departments ON Departments.ID = Kaizens.Department
-        LEFT JOIN 
-            Blocks ON Blocks.ID = Kaizens.Block
-        LEFT JOIN 
-            UserType ON UserType.ID = Users.UserType
-        WHERE
-            (
-                (@ImageApprover = 'True' AND Kaizens.ApprovalStatus = 1) OR
-                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
-				(@Role = 'FIN' AND Kaizens.ApprovalStatus in (4) AND (Kaizens.ApprovedByIE is NULL) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
-                (@Role = 'MGR' AND Kaizens.ApprovalStatus in (2,15,5)) OR
-                (@Role = 'IED' AND Kaizens.ApprovalStatus in(4,7) AND Kaizens.ApprovedByIE IS NOT NULL) OR
-                (@Role = 'ADM' AND 1 = 1 AND Kaizens.ApprovalStatus != 0) OR
-                (@UserId IS NOT NULL AND EXISTS (SELECT 1 
-                                                 FROM KaizenTeamMembers 
-                                                 WHERE KaizenTeamMembers.KaizenID = Kaizens.ID 
-                                                 AND KaizenTeamMembers.EmpID = @UserId)) OR
-                (@Role = 'EMP' AND Users.FirstName = @FirstName) OR
-				(Kaizens.CreatedBy = @UserId)  -- Allow user to see their own Kaizens
-            ) 
-            AND (Kaizens.ApprovalStatus != 14 OR @Role = 'ADM')
-        ORDER BY ModifiedDate DESC
-    END
-    ELSE
-    BEGIN
-        SELECT DISTINCT Kaizens.KaizenId, KaizenType, Activity, ActivityDesc, Kaizens.[BenefitArea], DocNo, VersionNoDate, CostCentre, KaizenRefNo,
-                        Blocks.BlockName AS Block, BlockDetails, SuggestedKaizen, ProblemStatement, CounterMeasure, AttachmentBefore, AttachmentAfter, AttachmentOthers, Yield, CycleTime, Cost, ManPower, Consumables, others, TotalSavings, Kaizens.TeamMemberID, RootCause, PresentCondition, ImprovementsCompleted, RootProblemAttachment, RootCauseDetails, ScopeOfDeploymentId, InOtherMC, WithIntheDept, InOtherDept, OtherPoints, Benifits, OrigionatedDept, OrigonatedDate,
-                        KaizenTheme, Kaizens.ApprovalStatus AS Status, Kaizens.CreatedBy AS PostedBy, Kaizens.ModifiedDate,
-                        STUFF((SELECT ', ' + TeamMemberName
-                               FROM KaizenTeamMembers
-                               WHERE KaizenID = Kaizens.ID
-                               FOR XML PATH('')), 1, 2, '') AS TeamName,
-                        CASE 
-                            WHEN HorozantalDeployment = 0 THEN 'NO' 
-                            WHEN HorozantalDeployment = 1 THEN 'YES'
-                        END AS HorozantalDeployment,
-                        CASE 
-                             WHEN CycleTime > 0 THEN 'YES' 
-                            WHEN CycleTime = 0 THEN 'NO'
-							WHEN CycleTime is null THEN 'NO'
-                        END AS IEApprovedDept, 
-                        CASE 
-                            WHEN Cost > 100000 THEN 'YES' 
-                            WHEN Cost < 100000 THEN 'NO'
-                        END AS FinnanceDeptAppr,
-                        CASE 
-                            WHEN Shortlisted = 0 THEN 'NO' 
-                            WHEN Shortlisted = 1 THEN 'YES'
-                        END AS Shortlisted,
-                      CASE 
-                            WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
-                            WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finance Approval'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'
-							WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'
-                            WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved' 
-                            WHEN Kaizens.ApprovalStatus = 1 THEN 'Waiting For Image Approval' 
-                            WHEN Kaizens.ApprovalStatus IN (2, 15) THEN 'Waiting For DRI Approval'
-                            WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'
-                            WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'
-                            WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finance Approval'
-                            WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'
-                            WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'
-                            WHEN Kaizens.ApprovalStatus = 14 THEN 'DELETED'	
-                        END AS ApprovalStatus,
-                        Users.FirstName AS CreatedBy,
-                        CONVERT(VARCHAR, Kaizens.CreatedDate, 105) AS CreatedDate,
-                        UserType.UserDesc AS Role
-        FROM 
-            [dbo].[Kaizens]
-        LEFT JOIN 
-            KaizenTeamMembers ON KaizenTeamMembers.KaizenID = Kaizens.ID
-        INNER JOIN 
-            Users ON Users.ID = Kaizens.CreatedBy
-        LEFT JOIN 
-            ApprovalStatus ON ApprovalStatus.StatusID = Kaizens.ApprovalStatus
-        LEFT JOIN 
-            Domains ON Domains.ID = Kaizens.Domain
-        LEFT JOIN 
-            Departments ON Departments.ID = Kaizens.Department
-        LEFT JOIN 
-            Blocks ON Blocks.ID = Kaizens.Block
-        LEFT JOIN 
-            UserType ON UserType.ID = Users.UserType
-        WHERE 
-            (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
-            (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate) AND
-            (@Domain IS NULL OR Domains.DomainName = @Domain) AND
-            (@Department IS NULL OR Departments.DepartmentName = @Department) AND
-            (@KaizenTheme IS NULL OR Kaizens.KaizenTheme = @KaizenTheme) AND
-            (@Status IS NULL OR
-                 CASE 
-                            WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
-                            WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finance Approval'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'
-							WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'
-                            WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved' 
-                            WHEN Kaizens.ApprovalStatus = 1 THEN 'Waiting For Image Approval' 
-                            WHEN Kaizens.ApprovalStatus IN (2, 15) THEN 'Waiting For DRI Approval'
-                            WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'
-                            WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'
-                            WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finance Approval'
-                            WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'
-                            WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'
-                            WHEN Kaizens.ApprovalStatus = 14 THEN 'DELETED'	
-                        END  = @Status
-            ) AND
-            (@Shortlisted IS NULL OR 
-                (@Shortlisted = 'YES' AND Kaizens.Shortlisted = 1) 
-                OR 
-                (@Shortlisted = 'NO' AND Kaizens.Shortlisted = 0)
-            ) AND
-            (
-                (@ImageApprover = 'True' AND Kaizens.ApprovalStatus = 1) OR
-                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
-				(@Role = 'FIN' AND Kaizens.ApprovalStatus in (4) AND (Kaizens.ApprovedByIE is NULL) and Kaizens.FinanceApprovedBy IS NOT NULL) OR
-                (@Role = 'MGR' AND Kaizens.ApprovalStatus in (2,15,5)) OR
-                (@Role = 'IED' AND Kaizens.ApprovalStatus in(4,7) AND Kaizens.ApprovedByIE IS NOT NULL) OR
-                (@Role = 'ADM' AND 1 = 1 AND Kaizens.ApprovalStatus != 0) OR
-                (@UserId IS NOT NULL AND EXISTS (SELECT 1 
-                                                 FROM KaizenTeamMembers 
-                                                 WHERE KaizenTeamMembers.KaizenID = Kaizens.ID 
-                                                 AND KaizenTeamMembers.EmpID = @UserId)) OR
-                (@Role = 'EMP' AND Users.FirstName = @FirstName)
-            ) 
-            AND (Kaizens.ApprovalStatus != 14 OR @Role = 'ADM')
-			AND
-            (
-                @BenefitArea IS NULL 
-                OR EXISTS (
-                    SELECT 1 
-                    FROM STRING_SPLIT(@BenefitArea, ',') AS BenefitAreas
-                    WHERE Kaizens.BenefitArea LIKE '%' + BenefitAreas.value + '%'
-                )
-            )
-        ORDER BY ModifiedDate DESC
-    END
-END
+CREATE PROCEDURE [dbo].[Sp_Get_Kaizen_Details]  
+(  
+    @StartDate DATE = NULL,  
+    @EndDate DATE = NULL,  
+    @Domain NVARCHAR(100) = NULL,  
+    @Department NVARCHAR(100) = NULL,  
+    @KaizenTheme NVARCHAR(100) = NULL,  
+    @Status NVARCHAR(50) = NULL,  
+    @Shortlisted NVARCHAR(50) = NULL,  
+    @Role NVARCHAR(50) = NULL,  
+    @UserId NVARCHAR(50) = NULL,  
+ @BenefitArea NVARCHAR(50) = NULL  
+)  
+AS  
+BEGIN  
+    SET @StartDate = NULLIF(@StartDate, '')  
+    SET @EndDate = NULLIF(@EndDate, '')  
+    SET @Domain = NULLIF(@Domain, '')  
+    SET @Department = NULLIF(@Department, '')  
+    SET @KaizenTheme = NULLIF(@KaizenTheme, '')  
+    SET @Status = NULLIF(@Status, '')  
+    SET @Shortlisted = NULLIF(@Shortlisted, '')  
+ SET @BenefitArea = NULLIF(@BenefitArea, '')  
+  
+    DECLARE @FirstName NVARCHAR(50)  
+ DECLARE @ImageApprover NVARCHAR(50)  
+    SELECT @FirstName = FirstName FROM Users WHERE id = @UserId  
+ set @ImageApprover=@Role  
+  
+    IF @StartDate IS NULL AND @EndDate IS NULL AND @Domain IS NULL AND @Department IS NULL AND @KaizenTheme IS NULL AND @Status IS NULL AND @Shortlisted IS NULL AND @BenefitArea IS NULL  
+    BEGIN  
+        SELECT DISTINCT Kaizens.KaizenId, KaizenType, Activity, ActivityDesc, Kaizens.[BenefitArea], DocNo, VersionNoDate, CostCentre, KaizenRefNo,  
+                        Blocks.BlockName AS Block, BlockDetails, SuggestedKaizen, ProblemStatement, CounterMeasure, AttachmentBefore, AttachmentAfter, AttachmentOthers, Yield, CycleTime, Cost, ManPower, Consumables, others, TotalSavings, Kaizens.TeamMemberID, RootCause, PresentCondition, ImprovementsCompleted, RootProblemAttachment, RootCauseDetails, ScopeOfDeploymentId, InOtherMC, WithIntheDept, InOtherDept, OtherPoints, Benifits, OrigionatedDept, OrigonatedDate,  
+                        KaizenTheme, Kaizens.ApprovalStatus AS Status, Kaizens.CreatedBy AS PostedBy, Kaizens.ModifiedDate,  
+                        STUFF((SELECT ', ' + TeamMemberName  
+                               FROM KaizenTeamMembers  
+                               WHERE KaizenID = Kaizens.ID  
+                               FOR XML PATH('')), 1, 2, '') AS TeamName,  
+                        CASE   
+                            WHEN HorozantalDeployment = 0 THEN 'NO'   
+                            WHEN HorozantalDeployment = 1 THEN 'YES'  
+                        END AS HorozantalDeployment,  
+                        CASE   
+                            WHEN CycleTime > 0 THEN 'YES'   
+                            WHEN CycleTime = 0 THEN 'NO'  
+       WHEN CycleTime is null THEN 'NO'  
+                        END AS IEApprovedDept,   
+                        CASE   
+                            WHEN Cost >= 100000 THEN 'YES'   
+                            WHEN Cost < 100000 THEN 'NO'  
+                        END AS FinnanceDeptAppr,  
+                        CASE   
+                            WHEN Shortlisted = 0 THEN 'NO'   
+                            WHEN Shortlisted = 1 THEN 'YES'  
+                        END AS Shortlisted,  
+                        CASE   
+           
+WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'  
+        WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'  
+        WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'  
+                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finnance Approval'  
+                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'  
+       WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'  
+                            WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved'   
+       WHEN Kaizens.ApprovalStatus = 1 THEN 'Waiting For Image Approval'   
+                            WHEN Kaizens.ApprovalStatus in (2,15) THEN 'Waiting For DRI Approval'  
+                            WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finnance Approval'  
+                            WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'  
+                            --WHEN Kaizens.ApprovalStatus = 8 THEN 'Finance Approved'  
+                            WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 14 THEN 'DELETED'   
+                        END AS ApprovalStatus,  
+                        Users.FirstName AS CreatedBy,  
+                        CONVERT(VARCHAR, Kaizens.CreatedDate, 105) AS CreatedDate,  
+                        UserType.UserDesc AS Role  
+        FROM   
+            [dbo].[Kaizens]  
+        LEFT JOIN   
+            KaizenTeamMembers ON KaizenTeamMembers.KaizenID = Kaizens.ID  
+        INNER JOIN   
+            Users ON Users.ID = Kaizens.CreatedBy  
+        LEFT JOIN   
+            ApprovalStatus ON ApprovalStatus.StatusID = Kaizens.ApprovalStatus  
+        LEFT JOIN   
+            Domains ON Domains.ID = Kaizens.Domain  
+        LEFT JOIN   
+            Departments ON Departments.ID = Kaizens.Department  
+        LEFT JOIN   
+            Blocks ON Blocks.ID = Kaizens.Block  
+        LEFT JOIN   
+            UserType ON UserType.ID = Users.UserType  
+        WHERE  
+            (  
+                (@ImageApprover = 'True' AND Kaizens.ApprovalStatus = 1) OR  
+                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR  
+    (@Role = 'FIN' AND Kaizens.ApprovalStatus in (4) AND (Kaizens.ApprovedByIE is NULL) and Kaizens.FinanceApprovedBy IS NOT NULL) OR  
+                (@Role = 'MGR' AND Kaizens.ApprovalStatus in (2,15,5)) OR  
+                (@Role = 'IED' AND Kaizens.ApprovalStatus in(4,7) AND Kaizens.ApprovedByIE IS NOT NULL) OR  
+                (@Role = 'ADM' AND 1 = 1 AND Kaizens.ApprovalStatus != 0) OR  
+                (@UserId IS NOT NULL AND EXISTS (SELECT 1   
+                                                 FROM KaizenTeamMembers   
+                                                 WHERE KaizenTeamMembers.KaizenID = Kaizens.ID   
+                                                 AND KaizenTeamMembers.EmpID = @UserId)) OR  
+                (@Role = 'EMP' AND Users.FirstName = @FirstName) OR  
+    (Kaizens.CreatedBy = @UserId)  -- Allow user to see their own Kaizens  
+            )   
+            AND (Kaizens.ApprovalStatus != 14 OR @Role = 'ADM')  
+        ORDER BY ModifiedDate DESC  
+    END  
+    ELSE  
+    BEGIN  
+        SELECT DISTINCT Kaizens.KaizenId, KaizenType, Activity, ActivityDesc, Kaizens.[BenefitArea], DocNo, VersionNoDate, CostCentre, KaizenRefNo,  
+                        Blocks.BlockName AS Block, BlockDetails, SuggestedKaizen, ProblemStatement, CounterMeasure, AttachmentBefore, AttachmentAfter, AttachmentOthers, Yield, CycleTime, Cost, ManPower, Consumables, others, TotalSavings, Kaizens.TeamMemberID, RootCause, PresentCondition, ImprovementsCompleted, RootProblemAttachment, RootCauseDetails, ScopeOfDeploymentId, InOtherMC, WithIntheDept, InOtherDept, OtherPoints, Benifits, OrigionatedDept, OrigonatedDate,  
+                        KaizenTheme, Kaizens.ApprovalStatus AS Status, Kaizens.CreatedBy AS PostedBy, Kaizens.ModifiedDate,  
+                        STUFF((SELECT ', ' + TeamMemberName  
+                               FROM KaizenTeamMembers  
+                               WHERE KaizenID = Kaizens.ID  
+                               FOR XML PATH('')), 1, 2, '') AS TeamName,  
+                        CASE   
+                            WHEN HorozantalDeployment = 0 THEN 'NO'   
+                            WHEN HorozantalDeployment = 1 THEN 'YES'  
+                        END AS HorozantalDeployment,  
+                        CASE   
+                             WHEN CycleTime > 0 THEN 'YES'   
+                            WHEN CycleTime = 0 THEN 'NO'  
+       WHEN CycleTime is null THEN 'NO'  
+                        END AS IEApprovedDept,   
+                        CASE   
+                            WHEN Cost > 100000 THEN 'YES'   
+                            WHEN Cost < 100000 THEN 'NO'  
+                        END AS FinnanceDeptAppr,  
+                        CASE   
+                            WHEN Shortlisted = 0 THEN 'NO'   
+                            WHEN Shortlisted = 1 THEN 'YES'  
+                        END AS Shortlisted,  
+                      CASE   
+                            WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'  
+                            WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'  
+                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'  
+                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finance Approval'  
+                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'  
+       WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'  
+                            WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved'   
+                            WHEN Kaizens.ApprovalStatus = 1 THEN 'Waiting For Image Approval'   
+                            WHEN Kaizens.ApprovalStatus IN (2, 15) THEN 'Waiting For DRI Approval'  
+                            WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finance Approval'  
+                            WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 14 THEN 'DELETED'   
+                        END AS ApprovalStatus,  
+                        Users.FirstName AS CreatedBy,  
+                        CONVERT(VARCHAR, Kaizens.CreatedDate, 105) AS CreatedDate,  
+                        UserType.UserDesc AS Role  
+        FROM   
+            [dbo].[Kaizens]  
+        LEFT JOIN   
+            KaizenTeamMembers ON KaizenTeamMembers.KaizenID = Kaizens.ID  
+        INNER JOIN   
+            Users ON Users.ID = Kaizens.CreatedBy  
+        LEFT JOIN   
+            ApprovalStatus ON ApprovalStatus.StatusID = Kaizens.ApprovalStatus  
+        LEFT JOIN   
+            Domains ON Domains.ID = Kaizens.Domain  
+        LEFT JOIN   
+            Departments ON Departments.ID = Kaizens.Department  
+        LEFT JOIN   
+            Blocks ON Blocks.ID = Kaizens.Block  
+        LEFT JOIN   
+            UserType ON UserType.ID = Users.UserType   
+        WHERE   
+            (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) AND  
+            (@Domain IS NULL OR Domains.DomainName = @Domain) AND  
+            (@Department IS NULL OR Departments.DepartmentName = @Department) AND  
+            (@KaizenTheme IS NULL OR Kaizens.KaizenTheme = @KaizenTheme) AND  
+            (@Status IS NULL OR  
+                 CASE   
+                            WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'  
+                            WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'  
+                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'  
+                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finance Approval'  
+                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'  
+       WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'  
+                            WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved'   
+                            WHEN Kaizens.ApprovalStatus = 1 THEN 'Waiting For Image Approval'   
+                            WHEN Kaizens.ApprovalStatus IN (2, 15) THEN 'Waiting For DRI Approval'  
+                            WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finance Approval'  
+                            WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'  
+                            WHEN Kaizens.ApprovalStatus = 14 THEN 'DELETED'   
+                        END  = @Status  
+            ) AND  
+            (@Shortlisted IS NULL OR   
+                (@Shortlisted = 'YES' AND Kaizens.Shortlisted = 1)   
+                OR   
+                (@Shortlisted = 'NO' AND Kaizens.Shortlisted = 0)  
+            ) AND  
+            (  
+                (@ImageApprover = 'True' AND Kaizens.ApprovalStatus = 1) OR  
+                (@Role = 'FIN' AND Kaizens.ApprovalStatus in (6,9) AND (Kaizens.ApprovedByIE is NULL or Kaizens.ApprovedByIE is Not null) and Kaizens.FinanceApprovedBy IS NOT NULL) OR  
+    (@Role = 'FIN' AND Kaizens.ApprovalStatus in (4) AND (Kaizens.ApprovedByIE is NULL) and Kaizens.FinanceApprovedBy IS NOT NULL) OR  
+                (@Role = 'MGR' AND Kaizens.ApprovalStatus in (2,15,5)) OR  
+                (@Role = 'IED' AND Kaizens.ApprovalStatus in(4,7) AND Kaizens.ApprovedByIE IS NOT NULL) OR  
+                (@Role = 'ADM' AND 1 = 1 AND Kaizens.ApprovalStatus != 0) OR  
+                (@UserId IS NOT NULL AND EXISTS (SELECT 1   
+                                                 FROM KaizenTeamMembers   
+                                                 WHERE KaizenTeamMembers.KaizenID = Kaizens.ID   
+                                                 AND KaizenTeamMembers.EmpID = @UserId)) OR  
+                (@Role = 'EMP' AND Users.FirstName = @FirstName)  
+            )   
+            AND (Kaizens.ApprovalStatus != 14 OR @Role = 'ADM')  
+   AND  
+            (  
+                @BenefitArea IS NULL   
+                OR EXISTS (  
+                    SELECT 1   
+                    FROM STRING_SPLIT(@BenefitArea, ',') AS BenefitAreas  
+                    WHERE Kaizens.BenefitArea LIKE '%' + BenefitAreas.value + '%'  
+                )  
+            )  
+        ORDER BY ModifiedDate DESC  
+    END  
+END  
 GO
 
 
@@ -3123,8 +3120,8 @@ BEGIN
 
 
     WHERE 
-        (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) 
-        AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate) 
+         (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) 
     GROUP BY 
         Users.EmpID, Users.FirstName
     ORDER BY 
@@ -3165,8 +3162,8 @@ BEGIN
 		 LEFT JOIN 
         [dbo].[Users] ON Kaizens.CreatedBy = Users.ID
     WHERE
-        (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate)
-        AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+        (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) 
 		
     GROUP BY
         FORMAT(Kaizens.CreatedDate, 'MMM-yyyy'),Users.EmpID, Users.FirstName
@@ -3180,6 +3177,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 CREATE PROCEDURE [dbo].[sp_GetKaizenStatisticsByApprovalTypes]
     @StartDate DATE = NULL,
@@ -3247,8 +3245,8 @@ BEGIN
         Domains ON Domains.ID = Kaizens.Domain
 		
     WHERE 
-      (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) 
-    AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+        (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) 
     AND (@Domain IS NULL OR Domains.DomainName = @Domain)
 	AND (@Department IS NULL OR Departments.DepartmentName = @Department)
 	AND	(@Block IS NULL OR Blocks.BlockName=@Block)
@@ -3316,8 +3314,8 @@ BEGIN
         Domains ON Domains.ID = Kaizens.Domain
 		
     WHERE 
-      (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) 
-    AND (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
+       (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) 
     AND (@Domain IS NULL OR Domains.DomainName = @Domain)
 	AND (@Department IS NULL OR Departments.DepartmentName = @Department)
 	AND	(@Block IS NULL OR Blocks.BlockName=@Block)
@@ -4749,7 +4747,6 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE PROCEDURE [dbo].[Sp_Get_kaizen_details_On_clickdashboard]
 (
     @StartDate DATE = NULL,
@@ -4843,8 +4840,8 @@ BEGIN
         Cadre ON Cadre.ID = Users.Cadre
     WHERE 
 
-        (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
-        (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate) AND
+        (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) AND  
         (@Domain IS NULL OR Domains.DomainName = @Domain) AND
         (@Department IS NULL OR Departments.DepartmentName = @Department) AND
         (@Block IS NULL OR Blocks.BlockName = @Block) AND
@@ -4881,8 +4878,8 @@ BEGIN
                 (Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL))AND
 					(
 						(@Role = 'FIN' AND Kaizens.FinanceApprovedBy = @UserId and(@Domain IS NULL OR Domains.DomainName = @Domain) 
-					    	and  (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
-					and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) and  
+					    	and  (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) AND  
 						(@Department IS NULL OR Departments.DepartmentName = @Department) AND
 						(@Block IS NULL OR Blocks.BlockName = @Block) AND
 						(@Cadre IS NULL OR Cadre.cadreDesc = @Cadre))
@@ -4892,16 +4889,16 @@ BEGIN
 
 						(@Role = 'IED' AND Kaizens.ApprovedByIE = @UserId
 						 and(@Domain IS NULL OR Domains.DomainName = @Domain) 
-					    	and  (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
-					and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) and  
+					    	and   (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) AND   
 						(@Department IS NULL OR Departments.DepartmentName = @Department) AND
 						(@Block IS NULL OR Blocks.BlockName = @Block) AND
 						(@Cadre IS NULL OR Cadre.cadreDesc = @Cadre)) OR
 
 
 						(@Role = 'MGR' AND Kaizens.DRIApprovedBy = @UserId and(@Domain IS NULL OR Domains.DomainName = @Domain) 
-					    	and  (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
-					and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) and  
+					    	and  (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) AND   
 						(@Department IS NULL OR Departments.DepartmentName = @Department) AND
 						(@Block IS NULL OR Blocks.BlockName = @Block) AND
 						(@Cadre IS NULL OR Cadre.cadreDesc = @Cadre))
@@ -4923,8 +4920,8 @@ BEGIN
                 (
                     (@Role = 'MGR' AND Kaizens.ApprovalStatus IN (4,6, 7, 9) AND Kaizens.DRIApprovedBy = @UserId
 					 and(@Domain IS NULL OR Domains.DomainName = @Domain) 
-					    	and  (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
-					and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) and  
+					    	and   (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) AND    
 						(@Department IS NULL OR Departments.DepartmentName = @Department) AND
 						(@Block IS NULL OR Blocks.BlockName = @Block) AND
 						(@Cadre IS NULL OR Cadre.cadreDesc = @Cadre))
@@ -4933,8 +4930,8 @@ BEGIN
 						
                     (@Role = 'IED' AND Kaizens.ApprovalStatus IN (6,9) AND Kaizens.ApprovedByIE = @UserId
 					 and(@Domain IS NULL OR Domains.DomainName = @Domain) 
-					    	and  (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)
-					and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) and  
+					    	and  (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) AND  
 						(@Department IS NULL OR Departments.DepartmentName = @Department) AND
 						(@Block IS NULL OR Blocks.BlockName = @Block) AND
 						(@Cadre IS NULL OR Cadre.cadreDesc = @Cadre)) 
@@ -4943,25 +4940,27 @@ BEGIN
                 )
             )
 			OR 
-        (@Status = 'DRI Approved' AND  Kaizens.DRIApprovedBy IS NOT NULL AND Kaizens.ApprovalStatus not in(0,1,2,3,5,15) and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
-        (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate) ) 
+        (@Status = 'DRI Approved' AND  Kaizens.DRIApprovedBy IS NOT NULL AND Kaizens.ApprovalStatus not in(0,1,2,3,5,15) and   (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) )
         OR 
-        (@Status = 'IE Approved'  AND Kaizens.ApprovedByIE IS NOT NULL AND  Kaizens.ApprovalStatus not in(0,1,2,3,4,5,7,15) and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
-        (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)) 
+        (@Status = 'IE Approved'  AND Kaizens.ApprovedByIE IS NOT NULL AND  Kaizens.ApprovalStatus not in(0,1,2,3,4,5,7,15) and   (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) )
         OR 
-        (@Status = 'Finance Approved' AND Kaizens.FinanceApprovedBy IS NOT NULL AND Kaizens.ApprovalStatus in(8)and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
-        (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)) 
+        (@Status = 'Finance Approved' AND Kaizens.FinanceApprovedBy IS NOT NULL AND Kaizens.ApprovalStatus in(8)and   (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) )
         OR 
 		
-        (@Status = 'TotalDRI' AND Kaizens.DRIApprovedBy IS NOT NULL and Kaizens.ApprovalStatus not in(0,1,3)and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
-        (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate)) 
+        (@Status = 'TotalDRI' AND Kaizens.DRIApprovedBy IS NOT NULL and Kaizens.ApprovalStatus not in(0,1,3)and   (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) )
         OR 
-        (@Status = 'TotalIE' AND Kaizens.ApprovedByIE IS NOT NULL and Kaizens.ApprovalStatus not in(0,1,2,3,5,15) and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
-        (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate))  
+        (@Status = 'TotalIE' AND Kaizens.ApprovedByIE IS NOT NULL and Kaizens.ApprovalStatus not in(0,1,2,3,5,15) and   (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) )
         OR 
-        (@Status = 'TotalFinance' AND Kaizens.FinanceApprovedBy IS NOT NULL and Kaizens.ApprovalStatus not in(0,1,2,3,4,5,7,15)and  (@StartDate IS NULL OR Kaizens.CreatedDate >= @StartDate) AND
-        (@EndDate IS NULL OR Kaizens.CreatedDate <= @EndDate))  
-        
+        (@Status = 'TotalFinance' AND Kaizens.FinanceApprovedBy IS NOT NULL and Kaizens.ApprovalStatus not in(0,1,2,3,4,5,7,15)and  (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) )
+        or
+		  (@Status = 'TotalFinance' AND Kaizens.FinanceApprovedBy IS NOT NULL and Kaizens.ApprovalStatus  in(4)and (Kaizens.ApprovedByIE is NULL  )and   (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) )
     ORDER BY ModifiedDate DESC
 END
 GO

@@ -316,9 +316,7 @@
                     sessionStorage.removeItem("status");
                 }
             });
-        } else {
-            console.error('No status found in session storage.');
-        }
+        } 
     });
 
 
@@ -473,7 +471,6 @@
         var endDate = document.getElementById('dtenddate').value;
 
         if (startDate) {
-            document.getElementById('dtenddate').setAttribute('min', startDate);
             if (endDate && endDate < startDate) {
                 document.getElementById('dtenddate').value = '';
             }

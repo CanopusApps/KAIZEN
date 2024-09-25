@@ -999,7 +999,6 @@
         var endDate = document.getElementById(endDateId).value;
 
         if (startDate) {
-            document.getElementById(endDateId).setAttribute('min', startDate);
             if (endDate && endDate < startDate) {
                 document.getElementById(endDateId).value = '';
             }
@@ -1118,6 +1117,7 @@ let enddate = new Date(Year, months[month], 0);  // Last day of the month
         // Second table event listener
         $('#Customtable').on('click', 'td', function () {
             let status;
+            debugger;
             let columnIndex = $(this).index();
             let Year = $('#yearDropdown').val();
             if (columnIndex > 1) {
@@ -1168,6 +1168,7 @@ let enddate = new Date(Year, months[month], 0);  // Last day of the month
             var rowIndex = row.index();
 
             var secondCellContent = row.find('td').eq(1).text();
+            debugger;
             var dates = secondCellContent.split(' to ');
             var startDateStr = dates[0];
             var endDateStr = dates[1]; 

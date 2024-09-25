@@ -585,7 +585,6 @@
         var endDate = document.getElementById('dtenddate').value;
 
         if (startDate) {
-            document.getElementById('dtenddate').setAttribute('min', startDate);
             if (endDate && endDate < startDate) {
                 document.getElementById('dtenddate').value = '';
             }

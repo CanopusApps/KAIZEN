@@ -121,7 +121,28 @@ namespace Kaizen.Data.DataServices
 
                         //com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(model.StartDate) ? (object)DBNull.Value : DateTime.Parse(model.StartDate));
                         //com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(model.EndDate) ? (object)DBNull.Value : DateTime.Parse(model.EndDate));
-                        if (DateTime.TryParse(model.StartDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                        //if (DateTime.TryParse(model.StartDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                        //{
+                        //    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                        //}
+                        //else
+                        //{
+                        //    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                        //}
+
+                        //if (DateTime.TryParse(model.EndDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                        //{
+                        //    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                        //}
+                        //else
+                        //{
+                        //    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                        //}
+                        var customDateFormat = "dd-MM-yyyy";
+                        var culture = CultureInfo.CurrentCulture;
+
+                        if (DateTime.TryParse(model.StartDate, culture, DateTimeStyles.None, out DateTime parsedStartDate) ||
+                            DateTime.TryParseExact(model.StartDate, customDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedStartDate))
                         {
                             com.Parameters.AddWithValue("@StartDate", parsedStartDate);
                         }
@@ -130,7 +151,8 @@ namespace Kaizen.Data.DataServices
                             com.Parameters.AddWithValue("@StartDate", DBNull.Value);
                         }
 
-                        if (DateTime.TryParse(model.EndDate, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                        if (DateTime.TryParse(model.EndDate, culture, DateTimeStyles.None, out DateTime parsedEndDate) ||
+                            DateTime.TryParseExact(model.EndDate, customDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedEndDate))
                         {
                             com.Parameters.AddWithValue("@EndDate", parsedEndDate);
                         }
@@ -138,6 +160,7 @@ namespace Kaizen.Data.DataServices
                         {
                             com.Parameters.AddWithValue("@EndDate", DBNull.Value);
                         }
+
                         com.Parameters.AddWithValue("@Domain", model.Domain == "--Select Domain--" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
                         com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
                         com.Parameters.AddWithValue("@Block", model.Block == "--Select Block--" ? "" : (string.IsNullOrEmpty(model.Block) ? " " : model.Block));
