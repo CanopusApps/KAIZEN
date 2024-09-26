@@ -21,13 +21,15 @@ namespace Kaizen.Web.Controllers
         private readonly IAddUser _addUserWorker;
         private readonly IDomain _domainWorker;
         private readonly IDepartment _departmentWorker;
+        private readonly IBlock _blockWorker;
         private readonly IWebHostEnvironment _environment;
-        public ViewUserController(IViewuser viewUserWorker, IAddUser addUserWorker, IDomain domainWorker, IDepartment departmentWorker)
+        public ViewUserController(IViewuser viewUserWorker, IAddUser addUserWorker, IDomain domainWorker, IDepartment departmentWorker,IBlock blockWorker)
         {
             _viewUserWorker = viewUserWorker;
             _addUserWorker = addUserWorker;
             _domainWorker = domainWorker;
             _departmentWorker = departmentWorker;
+            _blockWorker = blockWorker;
         }
 
         //Created by Manas 
@@ -40,6 +42,9 @@ namespace Kaizen.Web.Controllers
                 viewModel.UserTypeList = _addUserWorker.GetUserType();
 
                 viewModel.DomainList = _domainWorker.GetDomain().Where(d => d.Status == true).ToList();
+                // Fetch the block list here
+                viewModel.BlockList = _blockWorker.GetBlock().ToList(); // Ensure your block worker is injected and available
+
                 UserGridModel model = new UserGridModel()
                 {
                     Name = Name,
@@ -60,7 +65,7 @@ namespace Kaizen.Web.Controllers
             return View(viewModel);
         }
         //This function is used to Filter Users List as per Passing Parameters.
-        public IActionResult ViewFilterUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department)
+        public IActionResult ViewFilterUser(string? Name, string? EmpId, string? Email, string? UserType, string? Domain, string? Department, string? Block)
         {
             try
             {
@@ -71,7 +76,8 @@ namespace Kaizen.Web.Controllers
                     Email = Email,
                     UserType = UserType,
                     Domain = Domain,
-                    Department = Department
+                    Department = Department,
+                    BlockDesc = Block
                 };
                 var userList = _viewUserWorker.GetUser(model);
                 return PartialView("_UserGridPartial", userList);
