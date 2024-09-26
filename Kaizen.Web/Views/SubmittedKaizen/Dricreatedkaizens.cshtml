@@ -1,0 +1,429 @@
+﻿@using Kaizen.Models.SubmmitedKaizen
+@model SubmittedKaizenallModel
+@inject IHttpContextAccessor Accessor
+@{
+    Layout = "SidebarLayout";
+}
+@{
+    var UserType = Accessor.HttpContext.Session.GetString("Userrole");
+    var formattedList = ViewBag.FormattedList;
+}
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="~/assets/css/custom/submittedkaizen.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link href="~/assets/css/ViewUser/datatables.min.css" rel="stylesheet" />
+<script src="~/assets/js/custom/datatables.min.js"></script>
+@* autocomplete js/css *@
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+    .tab {
+        display: inline-block;
+        margin-right: 2px;
+        margin-bottom: 10px;
+    }
+
+    .tabcheckbox {
+        float: left;
+        border: 1px solid #ccc;
+        margin-right: 5px;
+    }
+
+    .tab-box {
+        padding: 4px 7px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+
+    .tab-input:checked + .tab-box {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .tab-input {
+        display: none;
+    }
+
+</style>
+<div class="container-fluid p-2">
+    <form>
+        <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+            <div class="col-lg-12 p-md-0 ">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white" style="border-radius: 0.25rem;">
+                        <li class="breadcrumb-item active" aria-current="page" style="font-weight: bold; color: #495057; font-size: 15px;">Submitted Kaizen</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="card p-3 mt-2 mb-2 cardsize">
+            <div class="form-row">
+                @if (UserType != "MGR" && UserType != "EMP")
+                {
+                    <div class="form-group col-md-2">
+                        <label for="inputDomain">Domain</label>
+                        <select id="inputDomain" class="form-control txt-width">
+                            <option selected value="0">--Select Domain--</option>
+                            @if (Model.DomainList != null)
+                            {
+                                @foreach (var domain in Model.DomainList)
+                                {
+                                    <option value="@domain.Id">@domain.DomainName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                }
+                @if (UserType != "MGR" && UserType != "EMP")
+                {
+                    <div class="form-group col-md-2">
+                        <label for="inputDepartment">Department</label>
+                        <select id="inputDepartment" class="form-control txt-width">
+                            <option selected value="0">--Select Department--</option>
+                        </select>
+                    </div>
+
+                }
+                <div class="form-group col-md-2">
+                    <label for="inputTheme">Kaizen Theme</label>
+                    <input id="inputTheme" class="form-control txt-width">
+                    <input type="hidden" id="hfCustomer">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputStatus">Status</label>
+                    <select id="inputStatus" class="form-control txt-width">
+                        <option selected value="0">--Select Status--</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="datePicker">Start Date</label><br />
+                    <input type="date" id="dtstartdate" name="datePicker">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="datePicker">End Date</label><br />
+                    <input type="date" id="dtenddate" name="datePicker">
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3" id="checkboxform1">
+                    <label class="d-block">Benefit Area <span class="mandatory">*</span></label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="P" id="iP" class="tab-input">
+                        <div class="tab-box">P</div>
+                    </label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="Q" id="iQ" class="tab-input">
+                        <div class="tab-box">Q</div>
+                    </label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="C" id="iC" class="tab-input">
+                        <div class="tab-box">C</div>
+                    </label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="D" id="iD" class="tab-input">
+                        <div class="tab-box">D</div>
+                    </label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="S" id="iS" class="tab-input">
+                        <div class="tab-box">S</div>
+                    </label>
+
+                    <label class="tab tabcheckbox" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="M" id="iM" class="tab-input">
+                        <div class="tab-box">M</div>
+                    </label>
+
+                    <label class="tab tabcheckbox " data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content='<img src="/assets/img/tooltip-imgs/benifitarea.png" height="50" />' title="Benefit Area [Example]">
+                        <input type="checkbox" value="E" id="iE" class="tab-input">
+                        <div class="tab-box">E</div>
+                    </label>
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="button" id="btn_filter" class="btn btn-block-custom btn-azure" style="width:116px;margin-left:0px;margin-top:17px" value="Filter" />
+                    <button type="button" id="btnreset" class="btn btn-block-custom btn-warning" style="width:116px;margin-left:0px;margin-top:17px">Reset</button>
+                </div>
+            </div>
+        </div>
+
+</div>
+<div class="custom-line mb-3"></div>
+<div class="card viewuserCardBody p-3" id="grid">
+    <div class="row">
+        <div class="col-md-8" style="font-weight:bold">
+            <div>
+                <p style="font-weight:bold;font-size: 16px">
+                    Kaizen List
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive" id="SubmittedKaizengrid">
+
+        @await Html.PartialAsync("_SubmittedKaizenGridPartial", Model.SubmittedKaizenList)
+
+    </div>
+</div>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#inputDomain').change(function () {
+            var Domain = $('#inputDomain').val();
+            $.ajax({
+                type: 'GET',
+                url: '/ViewUser/FetchDepartment',
+                dataType: "json",
+                data: { domainid: Domain },
+                success: function (result) {
+                    if (result) {
+                        var dropdown = $('#inputDepartment');
+                        dropdown.empty();
+                        dropdown.append($('<option>', {
+                            value: '0',
+                            text: '--Select Department--'
+                        }));
+                        for (var i = 0; i < result.length; i++) {
+                            $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
+                        }
+                    }
+                    else {
+                        swal('Please Select Domain');
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        });
+    });
+</script>
+<script>
+    //This Script is used to fetch Approval Status List .
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/SubmittedKaizen/ApprovalStatusList',
+            dataType: "json",
+            success: function (result) {
+                if (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#inputStatus').append('<option value="' + result[i].statusId + '">' + result[i].statusDescription + '</option>');
+                    }
+                }
+                else {
+                    swal('Please Select Domain');
+                }
+            },
+            error: function (error) {
+            }
+        });
+    });
+</script>
+<script>
+    //This script is used to reset Submitted kaizen Screen form control .
+    $(document).ready(function () {
+        function Resetform() {
+            $('#dtstartdate').val('');
+            $('#dtenddate').val('');
+            $('#inputTheme').val('');
+            $('#inputStatus').prop('selectedIndex', 0);
+            $('#inputDomain').prop('selectedIndex', 0);
+            var dropdown = $('#inputDepartment');
+            dropdown.empty();
+            dropdown.append($('<option>', {
+                value: '0',
+                text: '--Select Department--'
+            }));
+        }
+
+        $('#btnreset').click(function () {
+            Resetform();
+            location.reload();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        if (sessionStorage.getItem('status')) {
+            const statusretrived = JSON.parse(sessionStorage.getItem('status'));
+            $.ajax({
+                url: '@Url.Action("ViewFilterKaizenCreatedbyDRI", "SubmittedKaizen")',
+                type: 'post',
+                data: {
+                    StartDate: statusretrived.startdate,
+                    EndDate: statusretrived.Enddate,
+                    Domain: statusretrived.Domain,
+                    Department: statusretrived.Department,
+                    cadre: statusretrived.cadre,
+                    Status: statusretrived.status,
+                    Block: statusretrived.Block
+                },
+                success: function (result) {
+                    var rows = [];
+                    $(result).find('tbody tr').each(function () {
+                        var $row = $(this);
+                        var rowData = {
+                            kaizentheme: $row.data('kaizentheme'),
+                            teamname: $row.data('teamname'),
+                            horozantaldeployment: $row.data('horozantaldeployment'),
+                            ieapproveddept: $row.data('ieapproveddept'),
+                            domain: $row.data('domain'),
+                            finnancedeptappr: $row.data('finnancedeptappr'),
+                            shortlisted: $row.data('shortlisted'),
+                            approvalstatus: $row.data('approvalstatus'),
+                            createdby: $row.data('createdby'),
+                            createddate: $row.data('createddate')
+
+                        };
+                        rows.push(rowData);
+                    });
+                    $('#SubmittedKaizengrid').html(result);
+                    sessionStorage.removeItem("status");
+                },
+                complete: function () {
+                    setTimeout(function () {
+                        $('#loader-wrapper').hide();
+                    }, 3000);
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX request failed. Error:', error);
+                    sessionStorage.removeItem("status");
+                }
+            });
+        } 
+    });
+
+    //This script is used to Filter Submitted kaizen grid as per passing parameter .
+    $('#btn_filter').click(function () {
+        var StartDate = $('#dtstartdate').val();
+        var EndDate = $('#dtenddate').val();
+        var Domain = $('#inputDomain option:selected').text();
+        var Department = $('#inputDepartment option:selected').text();
+        var KaizenTheme = $('#inputTheme').val();
+        var Status = $('#inputStatus option:selected').text();
+        var benifitarea = [];
+        $('#checkboxform1 input[type=checkbox]:checked').each(function () {
+            benifitarea.push($(this).val());
+        });
+        var benefitareaString = benifitarea.join(',');
+
+        if ((StartDate === '' && EndDate === '') || StartDate < EndDate) {
+            $.ajax({
+                url: '@Url.Action("ViewFilterKaizenCreatedbyDRI", "SubmittedKaizen")',
+                type: 'GET',
+                data: {
+                    StartDate: StartDate,
+                    EndDate: EndDate,
+                    Domain: Domain,
+                    Department: Department,
+                    KaizenTheme: KaizenTheme,
+                    Status: Status,
+                    benifitarea: benefitareaString
+                },
+                beforeSend: function () {
+                    $('#loader-wrapper').show();
+                },
+                success: function (result) {
+                    var rows = [];
+                    $(result).find('tbody tr').each(function () {
+                        var $row = $(this);
+                        var rowData = {
+                            kaizentheme: $row.data('kaizentheme'),
+                            teamname: $row.data('teamname'),
+                            horozantaldeployment: $row.data('horozantaldeployment'),
+                            ieapproveddept: $row.data('ieapproveddept'),
+                            domain: $row.data('domain'),
+                            finnancedeptappr: $row.data('finnancedeptappr'),
+                            shortlisted: $row.data('shortlisted'),
+                            approvalstatus: $row.data('approvalstatus'),
+                            createdby: $row.data('createdby'),
+                            createddate: $row.data('createddate')
+
+                        };
+                        rows.push(rowData);
+                    });
+                    $('#SubmittedKaizengrid').html(result);
+
+                },
+                complete: function () {
+                    setTimeout(function () {
+                        $('#loader-wrapper').hide();
+                    }, 3000);
+                }
+            });
+        }
+        else {
+            swal("Please ensure that the Start Date is less than the End Date");
+        }
+    });
+</script>
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('dtstartdate').setAttribute('max', today);
+    document.getElementById('dtenddate').setAttribute('max', today);
+
+    function setEndDateMin() {
+        var startDate = document.getElementById('dtstartdate').value;
+        var endDate = document.getElementById('dtenddate').value;
+
+        if (startDate) {
+            if (endDate && endDate < startDate) {
+                document.getElementById('dtenddate').value = '';
+            }
+        } else {
+            document.getElementById('dtenddate').removeAttribute('min');
+        }
+    }
+
+    document.getElementById('dtstartdate').addEventListener('change', setEndDateMin);
+    setEndDateMin();
+</script>
+@* autocompletescript *@
+<script>
+    var formattedListJ = @Html.Raw(Json.Serialize(formattedList));
+    //console.log(formattedListJ);
+    initializeAutocomplete(formattedListJ);
+
+    function initializeAutocomplete(data) {
+        $("#inputTheme").autocomplete({
+            source: function (request, response) {
+                var filteredData = $.grep(data, function (item) {
+                    return item.label.toLowerCase().indexOf(request.term.toLowerCase()) === 0;
+                });
+
+                var uniqueData = [];
+                var labels = {};
+
+                $.each(filteredData, function (index, item) {
+                    var normalizedLabel = item.label.toLowerCase();
+                    if (!labels[normalizedLabel]) {
+                        labels[normalizedLabel] = true;
+                        uniqueData.push(item);
+                    }
+                });
+
+                response($.map(uniqueData, function (item) {
+                    return {
+                        label: item.label,
+                        value: item.val
+                    };
+                }));
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                $("#inputTheme").val(ui.item.label);
+                $("#hfCustomer").val(ui.item.value);
+                return false;
+            }
+        });
+    }
+
+</script>
+
