@@ -25,6 +25,23 @@
             </div>
         </div>
         <div class="custom-line mb-3"></div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+               
+                <label for="datePicker">Start Date</label><br />
+                <input type="date" id="startDate" name="startDate">
+                
+            </div>
+            <div class="col-md-3">
+                <label for="datePicker">End Date</label><br />
+                <input type="date" id="endDate" name="endDate">
+                
+            </div>
+            <div class="col-md-2">
+                <label>&nbsp;</label>
+                <button id="filterButton" class="btn btn-primary btn-block">Filter</button>
+            </div>
+        </div>
         <div class="card viewuserCardBody p-3" id="grid">
             <div class="table-responsive" id="SubmittedKaizengrid">
                 <table id="KaizenTable" class="table table-striped" style="width:100%;">
@@ -70,17 +87,59 @@
                     </tbody>
                 </table>
             </div>
+          
         </div>
     </form>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+     $(document).ready(function () {
+        $('#endDate').on('click', function () {
+            $('#endDate').attr('min', $('#startDate').val());
+        });
+
+        $('#startDate').on('change', function () {
+            if ($('#endDate').val() && $('#endDate').val() < $('#startDate').val()) {
+                $('#endDate').val('');
+            }
+        });
+  
         $('#KaizenTable').DataTable({
             "order": [] // Disables initial sorting
         });
+
+            $('#filterButton').on('click', function () {
+            // Get the values from the input fields
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            if (startDate === '' || endDate === '') {
+                swal("Error", "Please select both Start Date and End Date.", "error");
+            } else if (new Date(startDate) > new Date(endDate)) {
+                swal("Error", "Start Date must be less than or equal to End Date.", "error");
+            } else {
+                // Make an AJAX request to filter the deleted Kaizen list
+                $.ajax({
+                    url: '/SubmittedKaizen/DeletedKaizen',
+                    type: 'GET', // or 'POST' based on your implementation
+                    data: {
+                        startDate: startDate,
+                        endDate: endDate
+                    },
+                    success: function (result) {
+                        $('#SubmittedKaizengrid').html(result);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error occurred:', error);
+                    }
+                });
+            }
+           
+        });
     });
+
+ 
 </script>
+
 <script>
     $(document).ready(function () {
         $('tbody').on('click', '.viewuser', function (e) {

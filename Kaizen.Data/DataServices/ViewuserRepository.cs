@@ -39,6 +39,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@UserDesc", model.UserType == "All" ? "" : (string.IsNullOrEmpty(model.UserType) ? " " : model.UserType));
                 com.Parameters.AddWithValue("@DomainDesc", model.Domain == "All" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
                 com.Parameters.AddWithValue("@DepartmentName", model.Department == "All" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
+                com.Parameters.AddWithValue("@BlockDesc", model.BlockDesc == "All" ? "" : string.IsNullOrEmpty(model.BlockDesc) ? " "  : model.BlockDesc); // Add Block parameter
 
                 com.CommandText = StoredProcedures.sp_getUsers;
 
