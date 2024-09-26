@@ -1448,53 +1448,71 @@ BEGIN
         c.CadreId, kd.KaizenId;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_Approval_Status]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_Approval_Status]    Script Date: 26-09-2024 12:53:05 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
 
-
 CREATE Proc [dbo].[Sp_Get_Approval_Status]
 @UserType Nvarchar(20)
-as
-Begin
-if @UserType='EMP'
-Select StatusID,CASE 
-                WHEN ApprovalStatus.StatusID=0 THEN 'Saved'
-				WHEN ApprovalStatus.StatusID=1 THEN 'Waiting For Image Approval'
-				WHEN ApprovalStatus.StatusID=2 THEN 'Waiting For DRI Approval'
-				WHEN ApprovalStatus.StatusID=3 THEN 'Image Rejected'
-				WHEN ApprovalStatus.StatusID=4 THEN 'Waiting For IE Approval'
-				WHEN ApprovalStatus.StatusID=5 THEN 'DRI Rejected'
-				WHEN ApprovalStatus.StatusID=6 THEN 'Waiting For Finnance Approval'
-				WHEN ApprovalStatus.StatusID=7 THEN 'IE Rejected'
-				--WHEN ApprovalStatus.StatusID=8 THEN 'Finance Approved'
-				WHEN ApprovalStatus.StatusID=9 THEN 'Finance Rejected'
-				WHEN ApprovalStatus.StatusID=16 THEN 'Approved Kaizen'
+AS
+BEGIN
+    IF @UserType = 'EMP'
+    BEGIN
+        SELECT StatusID,
+            CASE 
+                WHEN ApprovalStatus.StatusID = 0 THEN 'Saved'
+                WHEN ApprovalStatus.StatusID = 1 THEN 'Waiting For Image Approval'
+                WHEN ApprovalStatus.StatusID = 2 THEN 'Waiting For DRI Approval'
+                WHEN ApprovalStatus.StatusID = 3 THEN 'Image Rejected'
+                WHEN ApprovalStatus.StatusID = 4 THEN 'Waiting For IE Approval'
+                WHEN ApprovalStatus.StatusID = 5 THEN 'DRI Rejected'
+                WHEN ApprovalStatus.StatusID = 6 THEN 'Waiting For Finnance Approval'
+                WHEN ApprovalStatus.StatusID = 7 THEN 'IE Rejected'
+                WHEN ApprovalStatus.StatusID = 9 THEN 'Finance Rejected'
+                WHEN ApprovalStatus.StatusID = 16 THEN 'Approved Kaizen'
             END AS StatusDescription
-			from [dbo].ApprovalStatus 
-			where StatusID not in (8,11,12,13,14,15)
-			order by StatusID 
-else
-Select StatusID,CASE 
-                WHEN ApprovalStatus.StatusID=0 THEN 'Saved'
-				WHEN ApprovalStatus.StatusID=1 THEN 'Waiting For Image Approval'
-				WHEN ApprovalStatus.StatusID=2 THEN 'Waiting For DRI Approval'
-				WHEN ApprovalStatus.StatusID=3 THEN 'Image Rejected'
-				WHEN ApprovalStatus.StatusID=4 THEN 'Waiting For IE Approval'
-				WHEN ApprovalStatus.StatusID=5 THEN 'DRI Rejected'
-				WHEN ApprovalStatus.StatusID=6 THEN 'Waiting For Finnance Approval'
-				WHEN ApprovalStatus.StatusID=7 THEN 'IE Rejected'
-				--WHEN ApprovalStatus.StatusID=8 THEN 'Finance Approved'
-				WHEN ApprovalStatus.StatusID=9 THEN 'Finance Rejected'
-				WHEN ApprovalStatus.StatusID=16 THEN 'Approved Kaizen'
+        FROM [dbo].ApprovalStatus 
+        WHERE StatusID NOT IN (8, 11, 12, 13, 14, 15)
+        ORDER BY 
+            CASE 
+			    WHEN StatusID IN (0) THEN 1
+                WHEN StatusID IN (1, 2, 4, 6) THEN 2
+                WHEN StatusID IN (3, 5, 7, 9) THEN 3
+                WHEN StatusID = 16 THEN 4
+                ELSE 5
+            END, 
+            StatusID
+    END
+    ELSE
+    BEGIN
+        SELECT StatusID,
+            CASE 
+                WHEN ApprovalStatus.StatusID = 0 THEN 'Saved'
+                WHEN ApprovalStatus.StatusID = 1 THEN 'Waiting For Image Approval'
+                WHEN ApprovalStatus.StatusID = 2 THEN 'Waiting For DRI Approval'
+                WHEN ApprovalStatus.StatusID = 3 THEN 'Image Rejected'
+                WHEN ApprovalStatus.StatusID = 4 THEN 'Waiting For IE Approval'
+                WHEN ApprovalStatus.StatusID = 5 THEN 'DRI Rejected'
+                WHEN ApprovalStatus.StatusID = 6 THEN 'Waiting For Finnance Approval'
+                WHEN ApprovalStatus.StatusID = 7 THEN 'IE Rejected'
+                WHEN ApprovalStatus.StatusID = 9 THEN 'Finance Rejected'
+                WHEN ApprovalStatus.StatusID = 16 THEN 'Approved Kaizen'
             END AS StatusDescription
-			from [dbo].ApprovalStatus 
-			where StatusID not in (8,0,11,12,13,14,15)
-			order by StatusID 
-end
-
+        FROM [dbo].ApprovalStatus 
+        WHERE StatusID NOT IN (8, 0, 11, 12, 13, 14, 15)
+        ORDER BY 
+            CASE 
+                WHEN StatusID IN (1, 2, 4, 6) THEN 1 
+                WHEN StatusID IN (3, 5, 7, 9) THEN 2
+                WHEN StatusID = 16 THEN 3 
+                ELSE 4 
+            END, 
+            StatusID
+    END
+END
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Get_BlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
