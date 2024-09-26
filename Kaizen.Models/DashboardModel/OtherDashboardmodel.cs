@@ -33,5 +33,7 @@ namespace Kaizen.Models.DashboardModel
         public int FinanceApproved { get; set; }
         public int FinanceRejected { get; set; }
         public int FinancePending { get; set; }
+
+        public int dricreatedkaizen { get; set; }
     }
 }

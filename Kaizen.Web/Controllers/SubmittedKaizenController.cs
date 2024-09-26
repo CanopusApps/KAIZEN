@@ -54,7 +54,15 @@ namespace Kaizen.Web.Controllers
                     UserId = conAccessor.HttpContext.Session.GetString("UserID")
                 };
                 var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+                var Useridd = conAccessor.HttpContext.Session.GetString("UserID");
+                var Loginrole = conAccessor.HttpContext.Session.GetString("Userrole");
+                if(Loginrole =="MGR")
+                {
+                    viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.PostedBy!= Useridd).ToList();
+                }
+                else { 
                 viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
+                }
                 var formattedList = viewModel.SubmittedKaizenList.Select(theme => new { label = theme.KaizenTheme, val = theme.KaizenId }).ToList();
                 ViewBag.FormattedList = formattedList;
             }
@@ -79,6 +87,8 @@ namespace Kaizen.Web.Controllers
                 UserId = conAccessor.HttpContext.Session.GetString("UserID"),
                 BenefitArea = benifitarea
             };
+            var Useridd = conAccessor.HttpContext.Session.GetString("UserID");
+            var Loginrole = conAccessor.HttpContext.Session.GetString("Userrole");
             var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
             //SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
             try
@@ -100,8 +110,16 @@ namespace Kaizen.Web.Controllers
                 }
                 else
                 {
-                    // Filter where AStatus is not equal to 14
-                    SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
+                    if (Loginrole == "MGR")
+                    {
+                        SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.AStatus != 0 && K.PostedBy != Useridd).ToList();
+                    }
+
+                    else
+                    {
+                        // Filter where AStatus is not equal to 14
+                        SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.AStatus != 0).ToList();
+                    }
                 }
             }
             catch (Exception ex)
@@ -110,6 +128,44 @@ namespace Kaizen.Web.Controllers
             }
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
+
+        public IActionResult ViewFilterKaizenCreatedbyDRI(string? StartDate, string? EndDate, string? Domain, string? Department, string? KaizenTheme, string? Status, string? benifitarea)
+        {
+            KaizenListModel model = new KaizenListModel()
+            {
+                StartDate = StartDate,
+                EndDate = EndDate,
+                Domain = Domain,
+                Department = Department,
+                KaizenTheme = KaizenTheme,
+                Status = (Status == "Rejected" || Status == "Pending") ? null : Status,
+                role = conAccessor.HttpContext.Session.GetString("Userrole"),
+                UserId = conAccessor.HttpContext.Session.GetString("UserID"),
+                BenefitArea = benifitarea
+            };
+            var Useridd = conAccessor.HttpContext.Session.GetString("UserID");
+            var Loginrole = conAccessor.HttpContext.Session.GetString("Userrole");
+            var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+            //SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
+            try
+            {
+
+                    if (Loginrole == "MGR")
+                    {
+                        SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.AStatus != 0 && K.PostedBy == Useridd).ToList();
+                    }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
+        }
+
+
+
+
 
         // This function is used to filter based on Status, such as Block Name, Department Name, Cadre, Pending, Approved, and Rejected statuses when a Dashboard card is clicked.
         public IActionResult ViewFilterKaizenonclickDashboard(string? StartDate, string? EndDate, string? Domain, string? Department, string? cadre, string? Status, string? Block)
@@ -121,12 +177,13 @@ namespace Kaizen.Web.Controllers
                 Domain = Domain,
                 Department = Department,
                 Block = Block,
-                Status = (Status == "Rejected" || Status == "Pending"||Status == "Total") ? null : Status,               
+                Status = (Status == "Rejected" ||Status == "Total") ? null : Status,               
                 role = conAccessor.HttpContext.Session.GetString("Userrole"),
                 UserId = conAccessor.HttpContext.Session.GetString("UserID"),
                 Cadre = cadre
             };
             var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenListOnclickdashboard(model);
+          
             //SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
             try
             {
@@ -148,8 +205,10 @@ namespace Kaizen.Web.Controllers
                 }
                 else
                 {
-                    // Filter where AStatus is not equal to 14
-                    SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
+                  
+                        // Filter where AStatus is not equal to 14
+                        SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.AStatus != 0).ToList();
+                 
                 }
             }
             catch (Exception ex)
@@ -362,6 +421,33 @@ namespace Kaizen.Web.Controllers
                     LogEvents.LogToFile(DbFiles.Title, ex.ToString());
                     viewModel.SubmittedKaizenList = new List<KaizenListModel>(); // or another appropriate response
                 }
+
+            return View(viewModel);
+        }
+
+   
+        public IActionResult Dricreatedkaizens()
+        {
+            SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
+            try
+            {
+
+                KaizenListModel model = new KaizenListModel()
+                {
+                    role = conAccessor.HttpContext.Session.GetString("Userrole"),
+                    UserId = conAccessor.HttpContext.Session.GetString("UserID")
+                };
+                var Useridd = conAccessor.HttpContext.Session.GetString("UserID");
+                var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+                viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.PostedBy == Useridd).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+                viewModel.SubmittedKaizenList = new List<KaizenListModel>(); // or another appropriate response
+            }
 
             return View(viewModel);
         }

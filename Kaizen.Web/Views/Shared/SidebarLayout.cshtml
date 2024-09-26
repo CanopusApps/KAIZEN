@@ -269,11 +269,11 @@
                 <img class="logo ml-5" src="~/assets/img/Tata_Logo2 (1).svg" alt="Tata Logo" />
                 <label class="text-uppercase text-white ml-3 mr-3" style="font-size: x-large;">Tepl Kaizen</label>
                 <label class="mx-5 ml-3" style="color:white; font-size: large;" loginbox-title>
-                    Kaizen Winner for this month is
+                    Kaizen Theme For This Month is
                     <span class="" style="color:#FFC436; font-weight:bold; font-size: x-large;">
                         @selectedTheme.
                     </span>
-                    Congratulations Team!
+                    All The Best Team!
                 </label>
             </a>
             
@@ -322,6 +322,10 @@
                             <span class="iconify icon-large" data-icon="mdi:check-circle-outline"></span>
                             <span class="menu-text">Submitted Kaizens</span>
                         </a>
+                        <a href="/SubmittedKaizen/Dricreatedkaizens" class="list-group-item list-group-item-action fw-bold text-light menupadding submitted-kaizen-link" style="font-size:15px;">
+                            <span class="iconify icon-large" data-icon="mdi:check-circle-outline"></span>
+                            <span class="menu-text">DRI Created Kaizens</span>
+                        </a>
                     }
                     @if (UserType == "EMP")
                     {
@@ -335,7 +339,7 @@
                         </a>
                         <a href="/SubmittedKaizen/ViewKaizen" class="list-group-item list-group-item-action fw-bold text-light menupadding submitted-kaizen-link" style="font-size:15px;">
                             <span class="iconify icon-large" data-icon="mdi:check-circle-outline"></span>
-                            <span class="menu-text">Submitted Kaizens</span>
+                            <span class="menu-text">Created Kaizens</span>
                         </a>
                     }
                     @if (UserType == "ADM")

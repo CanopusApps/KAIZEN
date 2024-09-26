@@ -270,7 +270,6 @@
      
 
         if (sessionStorage.getItem('status')) {
-            debugger;
             const statusretrived = JSON.parse(sessionStorage.getItem('status'));
             $.ajax({
                 url: '@Url.Action("ViewFilterKaizenonclickDashboard", "SubmittedKaizen")',
