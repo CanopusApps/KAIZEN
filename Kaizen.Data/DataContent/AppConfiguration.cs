@@ -1,10 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using Kaizen.Data.Constant;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Kaizen.Data.DataContent
 {

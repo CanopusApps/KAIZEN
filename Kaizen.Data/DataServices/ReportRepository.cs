@@ -1,16 +1,9 @@
 ﻿using Kaizen.Data.Constant;
 using Kaizen.Data.DataServices.Interfaces;
-using Kaizen.Models.AdminModel;
 using Kaizen.Models.ReportModel;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using DocumentFormat.OpenXml.EMMA;
 using Kaizen.Models.DashboardModel;
 
 namespace Kaizen.Data.DataServices
@@ -18,7 +11,6 @@ namespace Kaizen.Data.DataServices
     public class ReportRepository : IReportRepository
     {
         public static string SqlConnectionString { get; set; }
-
         public ReportRepository()
         {
             var configuation = GetConfiguration();
@@ -26,7 +18,6 @@ namespace Kaizen.Data.DataServices
             con = new SqlConnection(configuation.GetSection(DbFiles.Data).GetSection(DbFiles.ConnectionString).Value);
 
         }
-
         public IConfigurationRoot GetConfiguration()
 
         {
@@ -36,10 +27,8 @@ namespace Kaizen.Data.DataServices
             return builder.Build();
 
         }
-
         private static SqlConnection con = null;
         private static SqlCommand com = null;
-
         public DataTable GetKaizenformData(KaizenReportModel model)
         {
             com = new SqlCommand();
@@ -53,7 +42,6 @@ namespace Kaizen.Data.DataServices
             da.Fill(dt);
             return dt;
         }
-
         public DataTable GetBlockReportData(KaizenReportModel model)
         {
             com = new SqlCommand();
@@ -67,7 +55,6 @@ namespace Kaizen.Data.DataServices
             da.Fill(dt);
             return dt;
         }
-
         public DataTable GetDomainReportData(KaizenReportModel model)
         {
             com = new SqlCommand();
@@ -81,7 +68,6 @@ namespace Kaizen.Data.DataServices
             da.Fill(dt);
             return dt;
         }
-
         public DataTable GetDepartmentReportData(KaizenReportModel model)
         {
             com = new SqlCommand();
@@ -122,9 +108,7 @@ namespace Kaizen.Data.DataServices
             da.Fill(dt);
             return dt;
 
-        }
-
-       
+        }  
         public DataSet GetDashboardData(DashboardModel model)
         {
             SqlCommand com = new SqlCommand();

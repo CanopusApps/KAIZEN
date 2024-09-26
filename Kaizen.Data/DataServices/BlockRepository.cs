@@ -1,14 +1,8 @@
 ﻿using Kaizen.Data.Constant;
 using Kaizen.Models.AdminModel;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Data.DataServices
 {
@@ -172,8 +166,6 @@ namespace Kaizen.Data.DataServices
             return updStatus; 
         }
 
-
-
         // For View record
         public DataSet GetBlockData()
         {
@@ -195,7 +187,6 @@ namespace Kaizen.Data.DataServices
 			return ds;
 
 		}
-
         public bool UpdateBlockDetails(BlockModel blockmodel)
         {
             bool status = false;
@@ -224,6 +215,5 @@ namespace Kaizen.Data.DataServices
 			}
 			return status;
         }
-
     }
 }

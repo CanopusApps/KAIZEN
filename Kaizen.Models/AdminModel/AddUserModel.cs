@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace Kaizen.Models.AdminModel
@@ -54,18 +49,14 @@ namespace Kaizen.Models.AdminModel
         [Required(ErrorMessage = "Gender is required")]
         [RegularExpression(@"^(Male|Female|Other)$", ErrorMessage = "Gender must be Male, Female, or Other")]
         public string Gender { get; set; } = string.Empty;
-
         //cadre list
-        
         public List<CadreModel> Cadre { get; set; }
         //Usertype list
-        
         public List<UserTypeModel> UserType { get; set; }
         // Domain List
         public List<DomainModel> Domains { get; set; }
 		public List<DepartmentModel> Departments { get; set; }
         public List<BlockModel> Blocks { get; set; }
-
         // static list for status
         public List<StatusModel> Status { get; set; } = new List<StatusModel>//
         {

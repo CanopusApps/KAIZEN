@@ -1,10 +1,4 @@
-﻿using Kaizen.Models.AdminModel;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Kaizen.Models.AdminModel
 {
@@ -32,14 +26,6 @@ namespace Kaizen.Models.AdminModel
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
-
-        //[Required(ErrorMessage = "Password is required")]
-        //[StringLength(10, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 10 characters")]
-        //public string Password { get; set; }
-
-        //[Required]
-        //[Compare("Password", ErrorMessage = "The Password and Confirmation Password do not match.")]
-        //public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Gender is required")]
         [RegularExpression(@"^(Male|Female|Other)$", ErrorMessage = "Gender must be Male, Female, or Other")]

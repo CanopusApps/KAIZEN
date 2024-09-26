@@ -1,14 +1,6 @@
 ﻿using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices.Interfaces;
-
-using Kaizen.Data.DataServices;
 using Kaizen.Models.Theme;
-using Kaizen.Models.WinnersList;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 
 namespace Kaizen.Business.Worker    
@@ -43,6 +35,5 @@ namespace Kaizen.Business.Worker
             }
             return RetrieveTheme;
         }
-
     }
 }

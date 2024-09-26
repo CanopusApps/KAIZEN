@@ -1,14 +1,8 @@
 ﻿using Kaizen.Data.Constant;
 using Kaizen.Models.AdminModel;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace Kaizen.Data.DataServices
 {
@@ -27,8 +21,6 @@ namespace Kaizen.Data.DataServices
         }
         private static SqlConnection con = null;
         private static SqlCommand com = null;
-
-
         //method to insert all the data into the data base
         //public string InsertUserData(AddUserModel ur)
         //{
@@ -260,6 +252,5 @@ namespace Kaizen.Data.DataServices
                 return false;
             }
         }
-
     }
 }

@@ -1,17 +1,9 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using Kaizen.Data.Constant;
+﻿using Kaizen.Data.Constant;
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.DashboardModel;
 using Microsoft.Extensions.Configuration;
-//using NPOI.SS.Formula.Functions;
-using Org.BouncyCastle.Ocsp;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
 
 namespace Kaizen.Data.DataServices
@@ -32,7 +24,6 @@ namespace Kaizen.Data.DataServices
 
         private static SqlConnection con = null;
         private static SqlCommand com = null;
-
         public DataSet GetKaizenCount(DashboardModel model)
         {
             DataSet ds = new DataSet();
@@ -89,7 +80,6 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-
         public DataSet GetDomainKaizenCount(DashboardModel model)
         {
             DataSet ds = new DataSet();
@@ -169,7 +159,6 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-
         public DataSet GetDepartmentKaizenCount(DashboardModel model)
         {
             DataSet ds = new DataSet();
@@ -209,7 +198,6 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-
         public DataSet GetGraphKaizenCount(DashboardModel model)
         {
             DataSet ds = new DataSet();
@@ -257,7 +245,6 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-
         public DataSet GetDepartmentGraphKaizenCount(DashboardModel model)
         {
             DataSet ds = new DataSet();
@@ -306,12 +293,6 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-
-
-
-
-
-
         public DataSet GetOtherKaizenCount(DashboardModel model)
         {
             DataSet ds = new DataSet();
@@ -354,7 +335,6 @@ namespace Kaizen.Data.DataServices
             }
             return ds;
         }
-
         public DataSet GetEmployeeDashboardCount(DashboardModel model)
         {
             DataSet ds = new DataSet();

@@ -1,15 +1,7 @@
 ﻿using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Kaizen.Models.AdminModel;
-using System.Data.SqlClient;
-using Microsoft.AspNetCore.Http;
-using Kaizen.Data.Constant;
 
 namespace Kaizen.Business.Worker
 {
@@ -17,7 +9,6 @@ namespace Kaizen.Business.Worker
     {
         public readonly ISubmittedKaizenRepository _repositorySubmittedKaizenData;
         public readonly IDomain _domain;
-
 		public SubmittedKaizenWorker(ISubmittedKaizenRepository repositoryUserdata)
         {
                 this._repositorySubmittedKaizenData = repositoryUserdata;

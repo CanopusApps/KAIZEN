@@ -1,13 +1,8 @@
 ﻿using Kaizen.Data.Constant;
 using Kaizen.Models.AdminModel;
-using Kaizen.Models.ViewUserModel;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Data.DataServices
 
@@ -15,35 +10,23 @@ namespace Kaizen.Data.DataServices
 	public class DomainRepository : IDomainRepository
 	{
 		public static string SqlConnectionString { get; set; }
-
 		public DomainRepository()
 		{
 			var configuation = GetConfiguration();
-
 			con = new SqlConnection(configuation.GetSection(DbFiles.Data).GetSection(DbFiles.ConnectionString).Value);
-
 		}
-
 		public IConfigurationRoot GetConfiguration()
-
 		{
-
 			var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile(DbFiles.appsetting, optional: true, reloadOnChange: true);
-
 			return builder.Build();
-
 		}
-
 		private static SqlConnection con = null;
 		private static SqlCommand com = null;
-
-
 		public bool InsertDomain(DomainModel domainmodel)
 		{
 			bool status = false;
 			try
 			{
-
 				com = new SqlCommand();
 				DataTable dt = new DataTable();
 				com.Connection = con;
@@ -67,7 +50,6 @@ namespace Kaizen.Data.DataServices
 			return status;
 
 		}
-
 		// For View record
 		public bool DeleteDomain(int id)
 		{
@@ -106,7 +88,6 @@ namespace Kaizen.Data.DataServices
 			}
 			return status;
 		}
-
 		public bool UpdateDomainStatus(int id, bool status)
 		{
 			bool updStatus = false;
@@ -168,7 +149,6 @@ namespace Kaizen.Data.DataServices
             }
 			return ds;
 		}
-
         public bool UpdateDomainDetails(DomainModel domainmodel)
         {
             bool status = false;

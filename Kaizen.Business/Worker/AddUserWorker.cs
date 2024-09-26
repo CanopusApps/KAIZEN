@@ -1,20 +1,16 @@
 ﻿using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices;
 using Kaizen.Models.AdminModel;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Kaizen.Business.Worker
 {
     public class AddUserWorker : IAddUser
     {
         private readonly IAddUserRepository _addUserData;
-        public AddUserWorker(IAddUserRepository addUserData) { 
+        public AddUserWorker(IAddUserRepository addUserData) 
+		{ 
           this._addUserData = addUserData;
         }
         public string AddUser(AddUserModel addUserModel)

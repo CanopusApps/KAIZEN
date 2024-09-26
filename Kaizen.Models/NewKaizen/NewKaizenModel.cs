@@ -1,18 +1,10 @@
 ﻿using Kaizen.Models.AdminModel;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Models.NewKaizen
 {
 	public class NewKaizenModel
 	{
-
-
-
         public string Rejectionreason {  get; set; }
 		public string Id { get; set; }
         public string CreatedBy { get; set; }
@@ -105,21 +97,12 @@ namespace Kaizen.Models.NewKaizen
         public List<Attachmentsimg> UpdateAttachmentsList { get; set; }
 
         public string LogFilePath { get; set; }
-        public string CertificatePath { get; set; }
-        public string CertificateDownloadPath { get; set; }
         public string CertificateCreatedDate { get; set; }
 
         public NewKaizenModel()
         {
             AttachmentPaths = new AttachmentPaths();
         }
-    }
-    public class NewKaizenGetOriginated
-	{
-		public string KcId { get; set; }
-        public string name { get; set; }
-        public string Domain { get; set; }
-        public string Department { get; set; }
     }
     
     public class TeamMemberDetails
@@ -164,22 +147,12 @@ namespace Kaizen.Models.NewKaizen
         }
     }
 
-    public class Attachment
-    {
-        public string FileName { get; set; }
-        public string FileType { get; set; }
-        public long FileSize { get; set; }
-        public string FileContent { get; set; }
-	}
-
-
 	public class Attachmentsimg
 	{
         public string AttachmentId { get; set; } = "";
         public string kaizenId { get; set; } = "";
 		public string FileName { get; set; } = "";
         public string CreatedBy { get; set; } = "";
-        public string CreatedDate { get; set; } = "";
 
         public string AttachmentType { get; set; } = "";
 
@@ -204,7 +177,6 @@ namespace Kaizen.Models.NewKaizen
         public string FinDomain { get; set; }
         public string IEDomain { get; set; }
         public string DriDept { get; set; }
-
         public string FinDept { get; set; }
         public string IEDept { get; set; }
     }
@@ -215,7 +187,6 @@ namespace Kaizen.Models.NewKaizen
         public string RejectionReason {  get; set; }
 
         public string kaizenID { get; set; }
-
 
     }
     public class ManagerModelUpdate

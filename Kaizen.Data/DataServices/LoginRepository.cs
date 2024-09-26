@@ -1,16 +1,8 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Kaizen.Data.Constant;
+﻿using Kaizen.Data.Constant;
 using Kaizen.Models.AdminModel;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Data.DataServices
 {
@@ -51,7 +43,6 @@ namespace Kaizen.Data.DataServices
             }
             return dataTable;
         }
-
         public DataSet usermanager(string EmpId)
         {
             DataSet ds = new DataSet();
@@ -151,7 +142,6 @@ namespace Kaizen.Data.DataServices
 			}             
 			return status;
         }
-
         public DataSet GetWinnerImages()
         {
             DataSet ds = new DataSet();

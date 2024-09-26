@@ -7,15 +7,12 @@ using System.IO.Enumeration;
 
 namespace Kaizen.Data.Constant
 {
-  
     public class DbFiles
     {
         public static string Data = "Data";
         public static string ConnectionString = "ConnectionString";
         public static string appsetting = "appsettings.json";
         public static string Title = "Title";
-
-
     }
     public class StoredProcedures
     {
@@ -24,7 +21,6 @@ namespace Kaizen.Data.Constant
         public static string spemployee = "Sp_Employee";
         public static string spregisterLog = "Sp_RegisterLog";
         public static string spSelectState = "Sp_SelectState";
-        //public static string sp_CreateBlock = "Sp_CreateBlock";
         public static string sp_Fetch_Department = "Sp_Fetch_Department";
         public static string Sp_GetDomains= "Sp_Get_Domains";
         public static string sp_UpdateDomainStatus = "Sp_UpdateDomainStatus";
@@ -67,8 +63,8 @@ namespace Kaizen.Data.Constant
         public static string Sp_Get_DepartmentformReport = "Sp_Get_DepartmentformReport";
         public static string Sp_Get_UserformReport = "Sp_Get_UserformReport";
         public static string Sp_DashboardFilter = "Sp_DashboardFilter";
-       public static string Sp_Get_DashboardDomains = "sp_Get_DashboardDomains"; 
-          public static string Sp_Get_DashboardDepartments = "Sp_Get_DashboardDepartments"; 
+        public static string Sp_Get_DashboardDomains = "sp_Get_DashboardDomains"; 
+        public static string Sp_Get_DashboardDepartments = "Sp_Get_DashboardDepartments"; 
         public static string Sp_Get_Dashboardgraphs = "Sp_Get_Dashboardgraphs";
         public static string Sp_Get_DashboardDepartmentgraph = "Sp_Get_DashboardDepartmentgraph";
         public static string sp_GetKaizenStatisticsByApprovalTypes = "sp_GetKaizenStatisticsByApprovalTypes";
@@ -95,26 +91,18 @@ namespace Kaizen.Data.Constant
         public static string Sp_GetUserManagerupdate = "Sp_GetUserManagerupdate";
         public static string Sp_Get_UserLogformReport = "Sp_Get_UserLogformReport";
         public static string sp_checkuser = "sp_checkuser";
-
         public static string sp_GetUsersByDomainId = "Sp_GetUsersByDomainId";
         public static string sp_GetUsersByDeptId = "Sp_GetUsersByDeptId";
         public static string sp_GetUsersByBlockId = "Sp_GetUsersByBlockId";
         public static string Sp_Get_AllDashboardReports = "Sp_Get_AllDashboardReports";
         public static string Sp_Get_kaizen_details_On_clickdashboard="Sp_Get_kaizen_details_On_clickdashboard";
-
-
         public static string sp_GetManagers = "Sp_GetManagers";
-
     }
-
     public class ConstantValue
     {
         public static string KaizenType = "k";
         public static int ApprovalStatus = 0;
-
     }
-
-
     public enum ApprovalStatusEnum
     {
         Saved,            // 0
@@ -127,11 +115,11 @@ namespace Kaizen.Data.Constant
         IERejected,       // 7
         FinanceApproved,  // 8
         FinanceRejected,  // 9
-        pending,//10
-        DRIPending,//11
-        IEPending,//12
-        FinancePending,//13
-        Deleted,//14
+        pending,          //10
+        DRIPending,       //11
+        IEPending,        //12
+        FinancePending,   //13
+        Deleted,           //14
         SubmittedWithoutImages,//15
         KaizenApproved         // 16
 

@@ -1,12 +1,7 @@
 ﻿using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices;
 using Kaizen.Models.AdminModel;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Business.Worker
 {
@@ -17,26 +12,17 @@ namespace Kaizen.Business.Worker
         {
             this._repositoryBlockdata = repositoryBlockdata;
         }
-        
         public bool InsertBlockDetails(BlockModel blockmodel)
         {
-
             return _repositoryBlockdata.InsertBlockDetails( blockmodel);
-
         }
-
         public bool DeleteBlock(int id)
         {
-
             return _repositoryBlockdata.DeleteBlockData(id);
-
         }
-
         public bool UpdateBlockStatus(int id,bool status)
         {
-
             return _repositoryBlockdata.UpdateBlockData(id, status);
-
         }
         public List<BlockModel> GetBlock()
         {            
@@ -47,29 +33,20 @@ namespace Kaizen.Business.Worker
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    //bool status = Convert.ToBoolean(dr["Status"]);
-                    //if (status)
-                    //{
                         blackModels.Add(new BlockModel
                         {
                             Id = Convert.ToInt32(dr["BlockId"]),
                             BlockName = dr["BlockName"].ToString(),
                             User_count = Convert.ToInt32(dr["User_count"]),
                             Status = Convert.ToBoolean(dr["Status"])
-                        });
-                    //}
+                        });           
                 }
             }
 			return blackModels;
         }
-
         public bool UpdateBlockDetails(BlockModel blockmodel)
         {
-
             return _repositoryBlockdata.UpdateBlockDetails( blockmodel);
-
         }
-
-
     }
 }

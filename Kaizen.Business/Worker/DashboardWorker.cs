@@ -1,29 +1,18 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
 using Kaizen.Business.Interface;
-using Kaizen.Data.Constant;
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.AdminModel;
 using Kaizen.Models.DashboardModel;
-using Kaizen.Models.NewKaizen;
-//using NPOI.SS.Formula.Functions;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Business.Worker
 {
     public class DashboardWorker : IDashboard
-
     {
         public readonly IDashboardRepository Repository;
         public DashboardWorker(IDashboardRepository Repository) {
           this.Repository = Repository;
         }
-
         public List<DepartmentModel> DepartmentbasedkaizenCount(DashboardModel model)
         {
             DataSet ds;
@@ -56,7 +45,6 @@ namespace Kaizen.Business.Worker
             }
             return departmentModels;
         }
-
         public List<DomainModel> DomainbasedkaizenCount(DashboardModel model)
         {
             DataSet ds;
@@ -80,7 +68,6 @@ namespace Kaizen.Business.Worker
             }
             return domainKaizencount;
         }
-
         public List<EmployeeDashboardModel> GetEmployeedashboardcount(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -119,10 +106,6 @@ namespace Kaizen.Business.Worker
 
             return Kaizencount;
         }
-
-       
-
-      
         public List<TotalKaizennos> GetKaizentotalCount(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -163,7 +146,6 @@ namespace Kaizen.Business.Worker
             }
             return Kaizentotalcount;
         }
-
         public List<TotalKaizennos> GetKaizentotalCountCustomMonth(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -183,7 +165,6 @@ namespace Kaizen.Business.Worker
             }
             return Kaizentotalcount;
         }
-
         public List<TotalKaizennos> GetKaizentotalCountmonth(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -222,7 +203,6 @@ namespace Kaizen.Business.Worker
             }
             return Kaizentotalcount;
         }
-
         public List<EmployeeDashboardModel> GetmonthbasedEmployeedashboardcount(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -251,7 +231,6 @@ namespace Kaizen.Business.Worker
 
             return Kaizencount;
         }
-
         public List<graphKaizentotalModel> kaizenCountbasedonBlocks(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -275,7 +254,6 @@ namespace Kaizen.Business.Worker
             }
             return Kaizentotalcount;
         } 
-
         public List<graphKaizentotalModel> kaizenCountbasedonCadre(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -298,7 +276,6 @@ namespace Kaizen.Business.Worker
             }
             return Kaizentotalcount;
         }
-
         public List<graphKaizentotalModel> kaizenCountbasedonDepartment(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -325,7 +302,6 @@ namespace Kaizen.Business.Worker
             }
             return Kaizentotalcount;
         }
-
         public List<graphKaizentotalModel> kaizenCountbasedonDomain(DashboardModel model)
         {
             DataSet Kaizencountdata = new DataSet();
@@ -349,12 +325,6 @@ namespace Kaizen.Business.Worker
             }
             return Kaizentotalcount;
         }
-
-
-
-
-
-
         public List<DepartmentModel> managerDepartmentbasedkaizenCount(DashboardModel model, string Empid)
         {
             DataSet ds;
@@ -384,7 +354,6 @@ namespace Kaizen.Business.Worker
             }
             return departmentModels;
         }
-
         public List<DomainModel> ManagerDomainbasedkaizenCount(DashboardModel model, string Empid)
         {
             DataSet ds;
@@ -406,16 +375,6 @@ namespace Kaizen.Business.Worker
             }
             return domainKaizencount;
         }
-
-
-
-
-
-
-
-
-
-
         public List<OtherDashboardmodel> Otherdashboard(DashboardModel model)
         {
             DataSet kaizenCountData = new DataSet();
@@ -456,8 +415,6 @@ namespace Kaizen.Business.Worker
 
             return otherDashboardModels;
         }
-
-
         public List<OtherDashboardmodel> OtherMonthbaseddashboard(DashboardModel model)
         {
             DataSet kaizenCountData = new DataSet();

@@ -1,49 +1,28 @@
 ﻿using Kaizen.Data.Constant;
-
 using Kaizen.Models.AdminModel;
-using Kaizen.Models.ViewUserModel;
 using Microsoft.Extensions.Configuration;
-
 using System.Data;
-
 using System.Data.SqlClient;
 
-using System.Linq;
-
-using System.Reflection;
-using System.Text;
-
-using System.Threading.Tasks;
-
 namespace Kaizen.Data.DataServices
-
 {
 	public class DepartmentRepository : IDepartmentRepository
 	{
 		public static string SqlConnectionString { get; set; }
-
 		public DepartmentRepository()
 		{
 			var configuation = GetConfiguration();
-
 			con = new SqlConnection(configuation.GetSection(DbFiles.Data).GetSection(DbFiles.ConnectionString).Value);
-
 		}
 
 		public IConfigurationRoot GetConfiguration()
-
 		{
-
 			var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile(DbFiles.appsetting, optional: true, reloadOnChange: true);
 
 			return builder.Build();
-
 		}
-
 		private static SqlConnection con = null;
 		private static SqlCommand com = null;
-
-
         public bool CreateDepartmentData(DepartmentModel departmentModel)
         {
             bool status = false;

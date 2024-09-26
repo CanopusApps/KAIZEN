@@ -1,22 +1,15 @@
-﻿using System;
-using System.Configuration;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Net.NetworkInformation;
-using System.Security.Cryptography;
 using Kaizen.Data.Constant;
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.AdminModel;
-using Kaizen.Models.WinnersList;
 using Microsoft.Extensions.Configuration;
-
 
 namespace Kaizen.Data.DataServices
 {
     public class ForgotPasswordRepository : IForgotPasswordRepository
     {
         public static string SqlConnectionString { get; set; }
-
         public ForgotPasswordRepository()
         {
             var configuation = GetConfiguration();
@@ -25,8 +18,6 @@ namespace Kaizen.Data.DataServices
 
 
         }
-
-
         public IConfigurationRoot GetConfiguration()
 
         {
@@ -36,10 +27,8 @@ namespace Kaizen.Data.DataServices
             return builder.Build();
 
         }
-
         private static SqlConnection con = null;
         private static SqlCommand com = null;
-
         public string FetchEmail(string id)
         {
             string email = string.Empty;
@@ -99,7 +88,5 @@ namespace Kaizen.Data.DataServices
 			}
 			return status;
         }
-        
-
     }
 }

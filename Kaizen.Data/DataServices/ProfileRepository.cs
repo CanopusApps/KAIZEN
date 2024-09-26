@@ -2,15 +2,8 @@
 using Kaizen.Data.DataServices.Interfaces;
 using Kaizen.Models.AdminModel;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace Kaizen.Data.DataServices
 {

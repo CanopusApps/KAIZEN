@@ -1,20 +1,13 @@
 ﻿using Kaizen.Business.Interface;
 using Kaizen.Data.DataServices;
 using Kaizen.Models.AdminModel;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kaizen.Business.Worker
 {
     public class DepartmentWorker : IDepartment
     {
         public readonly IDepartmentRepository _repositoryDepartmentdata;
-
         public DepartmentWorker(IDepartmentRepository repositoryDepartmentdata)
         {
             this._repositoryDepartmentdata = repositoryDepartmentdata;
