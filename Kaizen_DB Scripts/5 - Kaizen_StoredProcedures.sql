@@ -2862,7 +2862,7 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_Users]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_Users]    Script Date: 26-09-2024 22:06:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2877,7 +2877,8 @@ CREATE PROCEDURE [dbo].[Sp_Get_Users]
     @EmpID NVARCHAR(100) = NULL,
     @UserDesc NVARCHAR(100) = NULL,
     @DomainDesc NVARCHAR(100) = NULL,
-    @DepartmentName NVARCHAR(100) = NULL
+    @DepartmentName NVARCHAR(100) = NULL,
+	@BlockDesc NVARCHAR(100) = NULL  -- New block parameter
 )
 AS
 BEGIN
@@ -2964,9 +2965,12 @@ BEGIN
 
     IF @DepartmentName IS NOT NULL AND @DepartmentName <> ''
         SET @sql = @sql + ' AND dp.DepartmentName = @DepartmentName';
+		 -- Add block filter
+    IF @BlockDesc IS NOT NULL AND @BlockDesc <> ''
+        SET @sql = @sql + ' AND b.BlockName = @BlockDesc';
 
     -- Handle case where all parameters are empty
-    IF @Name = '' AND @Email = '' AND @EmpID = '' AND @UserDesc = '' AND @DomainDesc = '' AND @DepartmentName = ''
+    IF @Name = '' AND @Email = '' AND @EmpID = '' AND @UserDesc = '' AND @DomainDesc = '' AND @DepartmentName = ''  AND @BlockDesc = ''
     BEGIN
         SET @sql = '
             SELECT DISTINCT  
@@ -3033,9 +3037,10 @@ BEGIN
 
     -- Execute the dynamic SQL
     EXEC sp_executesql @sql, 
-        N'@Name NVARCHAR(100), @Email NVARCHAR(100), @EmpID NVARCHAR(100), @UserDesc NVARCHAR(100), @DomainDesc NVARCHAR(100), @DepartmentName NVARCHAR(100)', 
-        @Name, @Email, @EmpID, @UserDesc, @DomainDesc, @DepartmentName;
+        N'@Name NVARCHAR(100), @Email NVARCHAR(100), @EmpID NVARCHAR(100), @UserDesc NVARCHAR(100), @DomainDesc NVARCHAR(100), @DepartmentName NVARCHAR(100),@BlockDesc NVARCHAR(100)', 
+        @Name, @Email, @EmpID, @UserDesc, @DomainDesc, @DepartmentName,@BlockDesc;
 END;
+
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Get_UserType]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
