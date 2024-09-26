@@ -16,6 +16,7 @@ using Kaizen.Models.SubmmitedKaizen;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Wordprocessing;
+using System.Globalization;
 
 namespace Kaizen.Web.Controllers
 {
@@ -296,30 +297,74 @@ namespace Kaizen.Web.Controllers
             return PartialView("_SubmittedKaizenGridPartial", SubmittedKaizenList);
         }
         //This Action Method is Used to Return Deleted Kaizen List .
-        public IActionResult DeletedKaizen()
-        {
-            SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
-            try
-            {
+        //public IActionResult DeletedKaizen()
+        //{
+        //    SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
+        //    try
+        //    {
 
-                KaizenListModel model = new KaizenListModel()
+        //        KaizenListModel model = new KaizenListModel()
+        //        {
+        //            role = conAccessor.HttpContext.Session.GetString("Userrole"),
+        //            UserId = conAccessor.HttpContext.Session.GetString("UserID")
+        //        };
+        //        var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+        //        viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 14).ToList();
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+
+        //        viewModel.SubmittedKaizenList = new List<KaizenListModel>(); // or another appropriate response
+        //    }
+
+        //    return View(viewModel);
+        //}
+
+            public IActionResult DeletedKaizen(DateTime? startDate, DateTime? endDate)
+            {
+                SubmittedKaizenallModel viewModel = new SubmittedKaizenallModel();
+                try
                 {
-                    role = conAccessor.HttpContext.Session.GetString("Userrole"),
-                    UserId = conAccessor.HttpContext.Session.GetString("UserID")
-                };
-                var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
-                viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus == 14).ToList();
-            }
-            catch (Exception ex)
-            {
-               
-                LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                    KaizenListModel model = new KaizenListModel()
+                    {
+                        role = conAccessor.HttpContext.Session.GetString("Userrole"),
+                        UserId = conAccessor.HttpContext.Session.GetString("UserID")
+                    };
 
-                viewModel.SubmittedKaizenList = new List<KaizenListModel>(); // or another appropriate response
+                    // Get the submitted Kaizen list
+                    var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
+
+                // Filter the SubmittedKaizenList for deleted status (AStatus == 14)
+                var filteredKaizenList = SubmittedKaizenList
+                    .Where(K => K.AStatus == 14);
+
+                // Further filter based on startDate and endDate
+                if (startDate.HasValue || endDate.HasValue)
+                {
+                    filteredKaizenList = filteredKaizenList
+                        .Where(K =>
+                            (!startDate.HasValue || (DateTime.TryParseExact(K.CreatedDate, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime createdDate) && createdDate >= startDate.Value)) &&
+                            (!endDate.HasValue || (DateTime.TryParseExact(K.CreatedDate, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out createdDate) && createdDate <= endDate.Value)));
+                }
+                // DEBUG: Check if dates are filtering correctly
+                if (!filteredKaizenList.Any())
+                {
+                    LogEvents.LogToFile("DeletedKaizen", $"No records found for startDate: {startDate}, endDate: {endDate}");
+                }
+
+                // Assign the filtered list to the view model
+                viewModel.SubmittedKaizenList = filteredKaizenList.ToList();
             }
+                catch (Exception ex)
+                {
+                    LogEvents.LogToFile(DbFiles.Title, ex.ToString());
+                    viewModel.SubmittedKaizenList = new List<KaizenListModel>(); // or another appropriate response
+                }
 
             return View(viewModel);
         }
-        
+
     }
 }
