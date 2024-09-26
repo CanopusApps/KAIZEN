@@ -37,10 +37,19 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@blockname",  blockmodel.BlockName);
                 com.Parameters.AddWithValue("@CreatedBy",  blockmodel.CreatedBy);
                 com.CommandText = StoredProcedures.sp_InsertBlockDetails;
+                com.Parameters.Add(new SqlParameter("@ReturnMessage", SqlDbType.Int) { Direction = ParameterDirection.Output });
                 con.Open();
                 com.ExecuteNonQuery();
-                con.Close();
-				status = true;
+                var returnMessage = com.Parameters["@ReturnMessage"].Value;
+                int returnMes = returnMessage == DBNull.Value ? 0 : Convert.ToInt32(returnMessage);
+                if (returnMes == 5)
+                {
+                    status = false;
+                }
+                else
+                {
+                    status = true;
+                }
             }
             catch (Exception ex) 
             {

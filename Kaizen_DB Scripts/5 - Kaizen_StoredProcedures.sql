@@ -263,28 +263,35 @@ BEGIN
 END
 GO
 
-
-
-/****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_AddBlockDetails]    Script Date: 25-09-2024 12:59:17 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[Sp_AddBlockDetails]    
 @Blockname nvarchar(50),  
-@CreatedBy nvarchar(100)=null  
+@CreatedBy nvarchar(100)=null,
+@ReturnMessage INT OUT
 AS        
  BEGIN    
  Declare @CreatedId nvarchar(100);  
- set @CreatedId=(select ID FROM [dbo].[Users] WHERE EmpID=@CreatedBy)   
- BEGIN  
+ set @CreatedId=(select ID FROM [dbo].[Users] WHERE EmpID=@CreatedBy);
+
+ -- Check if the Blockname already exists
+ IF EXISTS (SELECT 1 FROM [Blocks] WHERE BlockName = @Blockname)
+    BEGIN
+        SET @ReturnMessage = 5 -- Block name already exists
+        RETURN
+    END 
  INSERT INTO [Blocks]            
  (BlockName,Status,CreatedBy,CreatedDate)             
  VALUES             
- (@Blockname,'1',@CreatedId,GETDATE())             
- END    
- END
+ (@Blockname,'1',@CreatedId,GETDATE()) 
+ END  
 GO
+
 /****** Object:  StoredProcedure [dbo].[Sp_AddWinner]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
@@ -750,12 +757,12 @@ BEGIN
       AND EndDate = @EndDate;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 16-09-2024 17:50:07 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 25-09-2024 12:56:48 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-
 
 CREATE PROCEDURE [dbo].[Sp_EditUser]    
 @EmployeeID NVARCHAR(50),    
@@ -790,7 +797,8 @@ SET NOCOUNT ON;
             SELECT 1 
             FROM [dbo].[Kaizens] 
             WHERE CreatedBy = @employe 
-            AND [ApprovalStatus] IN (1,2,4,6,15)
+            AND [ApprovalStatus] IN (1,2,4,6,15) 
+			 AND ([ApprovedByIE] IS NOT NULL AND [FinanceApprovedBy] IS NOT NULL)
         )
         BEGIN
             SET @ReturnMessage = 'The employee has associated Kaizens with approval ';
@@ -846,7 +854,6 @@ BEGIN
     WHERE EmpID = @EmployeeID;    
   END    
 END 
- 
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Fetch_Count]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -2703,22 +2710,23 @@ inner join UserType ut ON u.UserType = ut.ID
 where u.EmpID=@empId      
 end           
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenProfileDetails]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenProfileDetails]    Script Date: 25-09-2024 17:41:19 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
-  --[Sp_Get_KaizenProfileDetails] 614234        
-CREATE  PROC [dbo].[Sp_Get_KaizenProfileDetails]          
-@empId nvarchar(200)=null          
-as          
-Begin          
-select u.ID, u.EmpID,u.FirstName,u.LastName,u.MiddleName,dom.DomainName AS Domain,d.DepartmentName AS Department,u.Gender,u.Email          
-from Users u          
-inner join Departments d on u.Department = d.ID          
-inner join Domains dom on u.Domain=dom.ID          
-where u.EmpID=@empId      
-end 
+          
+CREATE  PROC [dbo].[Sp_Get_KaizenProfileDetails]            
+@empId nvarchar(200)=null            
+as            
+Begin            
+select u.ID, u.EmpID,u.FirstName,u.LastName,u.MiddleName,dom.DomainName AS Domain,d.DepartmentName AS Department,u.Gender,u.Email            
+from Users u            
+LEFT join Departments d on u.Department = d.ID            
+LEFt join Domains dom on u.Domain=dom.ID            
+where u.EmpID=@empId;       
+end   
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_Get_Status]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
@@ -3687,51 +3695,65 @@ BEGIN
       
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_InsertDepartment]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_InsertDepartment]    Script Date: 25-09-2024 13:04:30 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 CREATE PROC [dbo].[Sp_InsertDepartment]      
     @DomainName varchar(50),
 	@DomainId int,
     @department nvarchar(50),
-	@Createdby nvarchar(50)=null
+	@Createdby nvarchar(50)=null,
+	@ReturnMessage INT OUT
 AS      
 
 BEGIN      
       Declare @Domain uniqueidentifier,
 	          @CreatedID nvarchar(100);
-	  SET @Domain = (SELECT ID FROM [dbo].Domains WHERE DomainID = @DomainId and DomainName = @DomainName);
+	  SET @Domain = (SELECT ID FROM [dbo].[Domains] WHERE DomainID = @DomainId and DomainName = @DomainName);
 	  SET @CreatedID = (select ID From Users  where EmpID= @Createdby);
-    BEGIN      
+
+	  -- Check if the DepartmentName already exists
+ IF EXISTS (SELECT 1 FROM [Departments] WHERE DepartmentName = @department)
+    BEGIN
+        SET @ReturnMessage = 5 -- Department name already exists
+        RETURN
+    END   
         INSERT INTO [dbo].[Departments]      
         (DomainId,DepartmentName,Status,CreatedBy, CreatedDate)      
         VALUES      
         (@Domain,@department, 1,@CreatedID, GETDATE())      
     END      
-    
-END 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_InsertDomain]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_InsertDomain]    Script Date: 25-09-2024 13:02:43 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[Sp_InsertDomain]  
 @DomainName nvarchar(50),
-@CreatedBy nvarchar(100) = NULL
+@CreatedBy nvarchar(100) = NULL,
+@ReturnMessage INT OUT
 
 AS      
  BEGIN 
  Declare @CreatedId nvarchar(100);
- set @CreatedId=(select ID FROM [dbo].[Users] WHERE EmpID=@CreatedBy)
+ set @CreatedId=(select ID FROM [dbo].[Users] WHERE EmpID=@CreatedBy);
 
- BEGIN
+ -- Check if the DomainName already exists
+ IF EXISTS (SELECT 1 FROM [Domains] WHERE DomainName = @DomainName)
+    BEGIN
+        SET @ReturnMessage = 5 -- Domain name already exists
+        RETURN
+    END
  INSERT INTO [dbo].[Domains]          
  (      
-
     DomainName,Status, CreatedBy, CreatedDate
  )           
  VALUES           
@@ -3739,8 +3761,6 @@ AS
 	@DomainName,'1',@CreatedId,GETDATE() 
  )           
  END 
- 
- END
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_InsertUser]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
