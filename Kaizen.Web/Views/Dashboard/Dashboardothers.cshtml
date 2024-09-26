@@ -2,6 +2,7 @@
 @inject IHttpContextAccessor Accessor
 @{
     Layout = "SidebarLayout";
+    var UserType = Accessor.HttpContext.Session.GetString("Userrole");
 }
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
@@ -48,6 +49,20 @@
             cursor: pointer!important;
             color: inherit;
            
+        }
+
+    .card-linkk {
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer !important;
+        display: block;
+    }
+
+
+        .card-linkk:hover {
+            text-decoration: none;
+            cursor: pointer !important;
+            color: inherit;
         }
 </style>
 </style>
@@ -209,7 +224,30 @@
               
             </div>
         </div>
-
+        @if (UserType == "MGR")
+        {
+            <div class="card mb-2 bg-white p-5 ">
+                <div class="row" style="width:100%">
+                <div class="col-xl-6 col-lg-6 col-sm-6 col-12 mb-2">
+                        <a href="/SubmittedKaizen/Dricreatedkaizens"  class="card-linkk" data-status="totaldricreated">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <label class="card-title">Kaizen's Created by DRI</label>
+                                        <h3 class="dricreatedkaizen">0</h3>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar progress-animated bg-Azure" style="width: 80%"></div>
+                                    </div>
+                                    <label class="card-title">
+                                        Out of
+                                            <span class="dricreatedkaizen">0</span>
+                                    </label>
+                                </div>
+                            </div>
+                       </div>
+                </div>
+            </div>
+        </div>}
         <div class="card bg-white border chart-container mt-4 mb-4 ml-2 mr-2">
             <div class="  card-header"> Submitted Kaizen Chart </div>
             <div class="card-body">
@@ -262,6 +300,43 @@
             };
             sessionStorage.setItem('status', JSON.stringify(statusObj));
             window.location.href = '/SubmittedKaizen/ViewKaizen';
+        });
+
+        //for created kaizens by dri
+        $('.card-linkk').on('click', function (event) {
+            event.preventDefault();
+            $('#btn_filter').click();
+            var domain = $('#inputDomain option:selected').text();
+            var block = $('#inputBlock option:selected').text();
+            var department = $('#inputDepartment option:selected').text();
+            // var status = $(this).data('status');
+            var status = '';
+            let startdate;
+            let enddate;
+            debugger;
+            if ($('#filterYear1').is(':checked')) {
+                let year = $('#yearDropdown').val();
+                startdate = '01-01-' + year;
+                enddate = '31-12-' + year;
+
+            } else {
+                startdate = $('#dtstartdate').val();
+                enddate = $('#dtenddate').val();
+            }
+            if (sessionStorage.getItem('status')) {
+                sessionStorage.removeItem('status');
+            }
+            const statusObj = {
+                startdate: startdate,
+                Enddate: enddate,
+                status: status,
+                Domain: domain,
+                Department: department,
+                cadre: '',
+                Block: block
+            };
+            sessionStorage.setItem('status', JSON.stringify(statusObj));
+            window.location.href = '/SubmittedKaizen/Dricreatedkaizens';
         });
     });
 
@@ -487,6 +562,7 @@
                                     $('#totalApproved').text(item.managerApproved || 0);
                                     $('#totalRejected').text(item.managerRejected || 0);
                                     $('#totalPending').text(item.managerPending || 0);
+                                    $('.dricreatedkaizen').text(item.dricreatedkaizen || 0);
                                     break;
                                 case 6:
                                     $('.totalKaizens').text(item.imageTotal || 0);

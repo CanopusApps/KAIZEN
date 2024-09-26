@@ -408,7 +408,9 @@ namespace Kaizen.Business.Worker
                         IEPending = dr["IEPending"] != DBNull.Value ? Convert.ToInt32(dr["IEPending"]) : 0,
                         FinanceApproved = dr["FinanceApproved"] != DBNull.Value ? Convert.ToInt32(dr["FinanceApproved"]) : 0,
                         FinanceRejected = dr["FinanceRejected"] != DBNull.Value ? Convert.ToInt32(dr["FinanceRejected"]) : 0,
-                        FinancePending = dr["FinancePending"] != DBNull.Value ? Convert.ToInt32(dr["FinancePending"]) : 0
+                        FinancePending = dr["FinancePending"] != DBNull.Value ? Convert.ToInt32(dr["FinancePending"]) : 0,
+                        dricreatedkaizen = dr["ManagerCreatedTotal"] != DBNull.Value ? Convert.ToInt32(dr["ManagerCreatedTotal"]) : 0
+
                     });
                 }
             }
@@ -448,7 +450,8 @@ namespace Kaizen.Business.Worker
                         IEPending = dr["IEPending"] != DBNull.Value ? Convert.ToInt32(dr["IEPending"]) : 0,
                         FinanceApproved = dr["FinanceApproved"] != DBNull.Value ? Convert.ToInt32(dr["FinanceApproved"]) : 0,
                         FinanceRejected = dr["FinanceRejected"] != DBNull.Value ? Convert.ToInt32(dr["FinanceRejected"]) : 0,
-                        FinancePending = dr["FinancePending"] != DBNull.Value ? Convert.ToInt32(dr["FinancePending"]) : 0
+                        FinancePending = dr["FinancePending"] != DBNull.Value ? Convert.ToInt32(dr["FinancePending"]) : 0,
+                        dricreatedkaizen = dr["ManagerCreatedTotal"] != DBNull.Value ? Convert.ToInt32(dr["ManagerCreatedTotal"]) : 0
                     });
                 }
             }

@@ -45,7 +45,6 @@
         display: none;
     }
 
-
 </style>
 <div class="container-fluid p-2">
     <form>
@@ -84,7 +83,7 @@
                             <option selected value="0">--Select Department--</option>
                         </select>
                     </div>
-                    
+
                 }
                 <div class="form-group col-md-2">
                     <label for="inputTheme">Kaizen Theme</label>
@@ -105,7 +104,7 @@
                     <label for="datePicker">End Date</label><br />
                     <input type="date" id="dtenddate" name="datePicker">
                 </div>
-                
+
             </div>
             <div class="form-row">
                 <div class="form-group col-md-3" id="checkboxform1">
@@ -151,128 +150,111 @@
                     <button type="button" id="btnreset" class="btn btn-block-custom btn-warning" style="width:116px;margin-left:0px;margin-top:17px">Reset</button>
                 </div>
             </div>
-            </div>
-            
         </div>
-        <div class="custom-line mb-3"></div>
-        <div class="card viewuserCardBody p-3" id="grid">
-            <div class="row">
-                <div class="col-md-8" style="font-weight:bold">
-                    <div>
-                        <p style="font-weight:bold;font-size: 16px">
-                            Kaizen List
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="table-responsive" id="SubmittedKaizengrid">
 
-                @await Html.PartialAsync("_SubmittedKaizenGridPartial", Model.SubmittedKaizenList)
-
+</div>
+<div class="custom-line mb-3"></div>
+<div class="card viewuserCardBody p-3" id="grid">
+    <div class="row">
+        <div class="col-md-8" style="font-weight:bold">
+            <div>
+                <p style="font-weight:bold;font-size: 16px">
+                    Kaizen List
+                </p>
             </div>
         </div>
+    </div>
+    <div class="table-responsive" id="SubmittedKaizengrid">
+
+        @await Html.PartialAsync("_SubmittedKaizenGridPartial", Model.SubmittedKaizenList)
+
+    </div>
+</div>
     </form>
 </div>
 <script>
     $(document).ready(function () {
-        if (sessionStorage.getItem('TableStatusdata')) {
-            debugger
-            const tabledata = JSON.parse(sessionStorage.getItem('TableStatusdata'));
+        $('#inputDomain').change(function () {
+            var Domain = $('#inputDomain').val();
             $.ajax({
-                url: '@Url.Action("ViewFilterKaizenonclickDashboard", "SubmittedKaizen")',
-                type: 'post',
-                data: {
-                    StartDate: tabledata.startdate,
-                    EndDate: tabledata.Enddate,
-                    Status: tabledata.status
-                },
+                type: 'GET',
+                url: '/ViewUser/FetchDepartment',
+                dataType: "json",
+                data: { domainid: Domain },
                 success: function (result) {
-                    var rows = [];
-                    $(result).find('tbody tr').each(function () {
-                        var $row = $(this);
-                        var rowData = {
-                            kaizentheme: $row.data('kaizentheme'),
-                            teamname: $row.data('teamname'),
-                            horozantaldeployment: $row.data('horozantaldeployment'),
-                            ieapproveddept: $row.data('ieapproveddept'),
-                            domain: $row.data('domain'),
-                            finnancedeptappr: $row.data('finnancedeptappr'),
-                            shortlisted: $row.data('shortlisted'),
-                            approvalstatus: $row.data('approvalstatus'),
-                            createdby: $row.data('createdby'),
-                            createddate: $row.data('createddate')
-
-                        };
-                        rows.push(rowData);
-                    });
-                    $('#SubmittedKaizengrid').html(result);
-                    sessionStorage.removeItem("TableStatusdata");
+                    if (result) {
+                        var dropdown = $('#inputDepartment');
+                        dropdown.empty();
+                        dropdown.append($('<option>', {
+                            value: '0',
+                            text: '--Select Department--'
+                        }));
+                        for (var i = 0; i < result.length; i++) {
+                            $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
+                        }
+                    }
+                    else {
+                        swal('Please Select Domain');
+                    }
                 },
-                complete: function () {
-                    setTimeout(function () {
-                        $('#loader-wrapper').hide();
-                    }, 3000);
-                },
-                error: function (xhr, status, error) {
-                    console.error('AJAX request failed. Error:', error);
-                    sessionStorage.removeItem("TableStatusdata");
+                error: function (error) {
                 }
             });
+        });
+    });
+</script>
+<script>
+    //This Script is used to fetch Approval Status List .
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/SubmittedKaizen/ApprovalStatusList',
+            dataType: "json",
+            success: function (result) {
+                if (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#inputStatus').append('<option value="' + result[i].statusId + '">' + result[i].statusDescription + '</option>');
+                    }
+                }
+                else {
+                    swal('Please Select Domain');
+                }
+            },
+            error: function (error) {
+            }
+        });
+    });
+</script>
+<script>
+    //This script is used to reset Submitted kaizen Screen form control .
+    $(document).ready(function () {
+        function Resetform() {
+            $('#dtstartdate').val('');
+            $('#dtenddate').val('');
+            $('#inputTheme').val('');
+            $('#inputStatus').prop('selectedIndex', 0);
+            $('#inputDomain').prop('selectedIndex', 0);
+            var dropdown = $('#inputDepartment');
+            dropdown.empty();
+            dropdown.append($('<option>', {
+                value: '0',
+                text: '--Select Department--'
+            }));
         }
-         else if (sessionStorage.getItem('chartdata')) {
-            const chartData = JSON.parse(sessionStorage.getItem('chartdata'));
-            $.ajax({
-                url: '@Url.Action("ViewFilterKaizenonclickDashboard", "SubmittedKaizen")',
-                type: 'post',
-                data: {
-                    StartDate: '',
-                    EndDate: '',
-                    Domain: chartData.domain,
-                    Department: chartData.department,
-                    cadre: chartData.cadre,
-                    Status: '',
-                    Block: chartData.block
-                },
-                success: function (result) {
-                    var rows = [];
-                    $(result).find('tbody tr').each(function () {
-                        var $row = $(this);
-                        var rowData = {
-                            kaizentheme: $row.data('kaizentheme'),
-                            teamname: $row.data('teamname'),
-                            horozantaldeployment: $row.data('horozantaldeployment'),
-                            ieapproveddept: $row.data('ieapproveddept'),
-                            domain: $row.data('domain'),
-                            finnancedeptappr: $row.data('finnancedeptappr'),
-                            shortlisted: $row.data('shortlisted'),
-                            approvalstatus: $row.data('approvalstatus'),
-                            createdby: $row.data('createdby'),
-                            createddate: $row.data('createddate')
 
-                        };
-                        rows.push(rowData);
-                    });
-                    $('#SubmittedKaizengrid').html(result);
-                    sessionStorage.removeItem("chartdata");
-                },
-                complete: function () {
-                    setTimeout(function () {
-                        $('#loader-wrapper').hide();
-                    }, 3000);
-                },
-                error: function (xhr, status, error) {
-                    console.error('AJAX request failed. Error:', error);
-                    sessionStorage.removeItem("chartdata");
-                }
-            });
-        } 
-        // Retrieve the status from session storage
-     
+        $('#btnreset').click(function () {
+            Resetform();
+            location.reload();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
 
         if (sessionStorage.getItem('status')) {
             const statusretrived = JSON.parse(sessionStorage.getItem('status'));
             $.ajax({
-                url: '@Url.Action("ViewFilterKaizenonclickDashboard", "SubmittedKaizen")',
+                url: '@Url.Action("ViewFilterKaizenCreatedbyDRI", "SubmittedKaizen")',
                 type: 'post',
                 data: {
                     StartDate: statusretrived.startdate,
@@ -318,83 +300,6 @@
         } 
     });
 
-
-    $(document).ready(function () {
-        $('#inputDomain').change(function () {
-            var Domain = $('#inputDomain').val();
-            $.ajax({
-                type: 'GET',
-                url: '/ViewUser/FetchDepartment',
-                dataType: "json",
-                data: { domainid: Domain },
-                success: function (result) {
-                    if (result) {
-                        var dropdown = $('#inputDepartment');
-                        dropdown.empty();
-                        dropdown.append($('<option>', {
-                            value: '0',
-                            text: '--Select Department--'
-                        }));
-                        for (var i = 0; i < result.length; i++) {
-                            $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
-                        }
-                    }
-                    else {
-                        swal('Please Select Domain');
-                    }
-                },
-                error: function (error) {
-                }
-            });
-        });
-    });
-</script>
-<script>
-    //This Script is used to fetch Approval Status List . 
-    $(document).ready(function () {
-            $.ajax({
-            type: 'GET',
-            url: '/SubmittedKaizen/ApprovalStatusList',
-                dataType: "json",
-                success: function (result) {
-                    if (result) {
-                        for (var i = 0; i < result.length; i++) {
-                        $('#inputStatus').append('<option value="' + result[i].statusId + '">' + result[i].statusDescription + '</option>');
-                        }
-                    }
-                    else {
-                        swal('Please Select Domain');
-                    }
-                },
-                error: function (error) {
-                }
-            });
-    });
-</script>
-<script>
-    //This script is used to reset Submitted kaizen Screen form control .
-    $(document).ready(function () {
-        function Resetform() {
-            $('#dtstartdate').val('');
-            $('#dtenddate').val('');
-            $('#inputTheme').val('');
-            $('#inputStatus').prop('selectedIndex', 0); 
-            $('#inputDomain').prop('selectedIndex', 0);
-            var dropdown = $('#inputDepartment');
-            dropdown.empty();
-            dropdown.append($('<option>', {
-                value: '0',
-                text: '--Select Department--'
-            }));
-        }
-
-        $('#btnreset').click(function () {
-            Resetform();
-            location.reload();
-        });
-    });
-</script>
-<script>
     //This script is used to Filter Submitted kaizen grid as per passing parameter .
     $('#btn_filter').click(function () {
         var StartDate = $('#dtstartdate').val();
@@ -411,7 +316,7 @@
 
         if ((StartDate === '' && EndDate === '') || StartDate < EndDate) {
             $.ajax({
-                url: '@Url.Action("ViewFilterKaizen", "SubmittedKaizen")',
+                url: '@Url.Action("ViewFilterKaizenCreatedbyDRI", "SubmittedKaizen")',
                 type: 'GET',
                 data: {
                     StartDate: StartDate,
@@ -454,8 +359,7 @@
                 }
             });
         }
-        else 
-        { 
+        else {
             swal("Please ensure that the Start Date is less than the End Date");
         }
     });
