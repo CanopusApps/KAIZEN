@@ -269,6 +269,27 @@ namespace Kaizen.Business.Worker
 
             return ManagerList;
         }
+        public List<ViewManager> GetFinanceApproved(int EmpId)
+        {
+            var dataSet = _createNewKaizenRepository.GetFinanceApproved(EmpId);
+            var viewManagers = new List<ViewManager>();
+
+            // Assuming the relevant data is in the first table of the DataSet
+            if (dataSet.Tables.Count > 0)
+            {
+                foreach (DataRow row in dataSet.Tables[0].Rows)
+                {
+                    viewManagers.Add(new ViewManager
+                    {
+                        ViewmanagersID = row["UserID"].ToString(),
+                        Viewmanagers = row["Email"].ToString() 
+                    });
+                }
+            }
+
+            return viewManagers;
+        }
+
     }
 
 }

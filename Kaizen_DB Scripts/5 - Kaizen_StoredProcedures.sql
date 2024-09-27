@@ -240,6 +240,9 @@ GO
 /****** Object:  StoredProcedure [dbo].[Sp_UserProfile]     Script Date: 12-09-2024 16:04:49 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_UserProfile] 
 GO
+/****** Object:  StoredProcedure [dbo].[Sp_GetfinanceIebyID]    Script Date: 27-09-2024 15:49:16 ******/
+DROP PROCEDURE IF EXISTS  [dbo].[Sp_GetfinanceIebyID]  
+GO
 
 
 /****** Object:  StoredProcedure [dbo].[Sp_UpdatePassword]    Script Date: 16-09-2024 12:27:34 ******/
@@ -5255,3 +5258,19 @@ AS
  
 GO
 
+/****** Object:  StoredProcedure [dbo].[Sp_GetfinanceIebyID]    Script Date: 27-09-2024 15:49:16 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+      
+CREATE Procedure [dbo].[Sp_GetfinanceIebyID]  
+@EmpId nvarchar(10)
+as      
+Begin      
+SELECT UserID,Email FROM [dbo].[Users] where EmpID=@EmpId
+end   
+   
+GO

@@ -62,7 +62,7 @@ namespace Kaizen.Models.NewKaizen
         public int ApprovalStatus { get; set; }
         public string IEApprovedDate { get; set; }
         public string IEApprovedBy { get; set; }
-        
+        public List<ViewManager> Viewmanagers { get; set; }
         public string IEApprovedDept { get; set; }
         public string DRIApprovedDate { get; set; }
         public string DRIApprovedBy { get; set; }
@@ -195,5 +195,11 @@ namespace Kaizen.Models.NewKaizen
         public string ManagerName { get; set; }
         public string ManagerEmail { get; set; }
     }
+    public class ViewManager
+    {
+        public string Viewmanagers { get; set; }
+        public string ViewmanagersID { get; set; }
+    }
+
 
 }

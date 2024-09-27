@@ -97,6 +97,7 @@ namespace Kaizen.Data.Constant
         public static string Sp_Get_AllDashboardReports = "Sp_Get_AllDashboardReports";
         public static string Sp_Get_kaizen_details_On_clickdashboard="Sp_Get_kaizen_details_On_clickdashboard";
         public static string sp_GetManagers = "Sp_GetManagers";
+        public static string Sp_GetfinanceIebyID = "Sp_GetfinanceIebyID";
     }
     public class ConstantValue
     {
