@@ -138,7 +138,7 @@ namespace Kaizen.Web.Controllers
                 Domain = Domain,
                 Department = Department,
                 KaizenTheme = KaizenTheme,
-                Status = (Status == "Rejected" || Status == "Pending") ? null : Status,
+                Status = (Status == "Rejected" || Status == "Pending"||Status == "totaldricreated") ? null : Status,
                 role = conAccessor.HttpContext.Session.GetString("Userrole"),
                 UserId = conAccessor.HttpContext.Session.GetString("UserID"),
                 BenefitArea = benifitarea
@@ -150,9 +150,12 @@ namespace Kaizen.Web.Controllers
             try
             {
 
-                    if (Loginrole == "MGR")
+                if (Loginrole == "MGR"&& Status== "totaldricreated")
+                {
+                    SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.AStatus != 0 && K.PostedBy == Useridd).ToList();
+                }else if (Loginrole == "MGR")
                     {
-                        SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.AStatus != 0 && K.PostedBy == Useridd).ToList();
+                        SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.PostedBy == Useridd).ToList();
                     }
 
             }
