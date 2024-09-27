@@ -706,7 +706,7 @@ namespace Kaizen.Data.DataServices
 			{
 				con.Close();
 			}
-			return ;
+			return;
         }
         public DataSet Usermanagerforedit(string managerupt)
         {
@@ -716,6 +716,29 @@ namespace Kaizen.Data.DataServices
                 SqlCommand com = new SqlCommand("Sp_GetUserManagerupdate", con);
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@departid", managerupt);
+                SqlDataAdapter da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                con.Close();
+            }
+            return ds;
+        }
+        public DataSet GetFinanceApproved(int EmpId) 
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                SqlCommand com = new SqlCommand("Sp_GetfinanceIebyID", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@EmpId", EmpId);
                 SqlDataAdapter da = new SqlDataAdapter(com);
                 da.Fill(ds);
                 return ds;

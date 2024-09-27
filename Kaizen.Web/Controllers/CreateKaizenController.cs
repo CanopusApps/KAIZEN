@@ -295,7 +295,7 @@ namespace Kaizen.Web.Controllers
                 return StatusCode(500, new { success = false, message = "An error occurred while processing the request." });
                 }
 		}
-        public NewKaizenModel GetKaizendetailsById(string KaizenId)
+        public NewKaizenModel GetKaizendetailsById(string KaizenId,int EmpId)
         {
             NewKaizenModel viewModel = new NewKaizenModel();
             try
@@ -309,7 +309,8 @@ namespace Kaizen.Web.Controllers
                 HttpContext.Session.Remove("Kaizenid");
                 HttpContext.Session.SetString("Kaizenid", KaizenId);
                 viewModel.AttachmentsList = _createNewKaizen.GetImageListById(KaizenId);
-               
+                viewModel.Viewmanagers = _createNewKaizen.GetFinanceApproved(EmpId);
+
             }
             catch (Exception ex)
             {

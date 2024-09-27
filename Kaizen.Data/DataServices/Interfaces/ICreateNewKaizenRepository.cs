@@ -16,5 +16,6 @@ namespace Kaizen.Data.DataServices.Interfaces
         public DataTable GetImageListByIdfordelete(string KaizenId ,string AttachmentId);
         public void RemoveAttachment(Attachmentsimg attachment, string KaizenId);
         public DataSet Usermanagerforedit(string managerupt);
+        public DataSet GetFinanceApproved(int EmpId);
     }
 }
