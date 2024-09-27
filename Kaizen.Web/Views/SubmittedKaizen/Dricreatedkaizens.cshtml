@@ -426,4 +426,44 @@
     }
 
 </script>
+<script>
+    var formattedListJ = @Html.Raw(Json.Serialize(formattedList));
+    //console.log(formattedListJ);
+    initializeAutocomplete(formattedListJ);
+
+    function initializeAutocomplete(data) {
+        $("#inputTheme").autocomplete({
+            source: function (request, response) {
+                var filteredData = $.grep(data, function (item) {
+                    return item.label.toLowerCase().indexOf(request.term.toLowerCase()) === 0;
+                });
+
+                var uniqueData = [];
+                var labels = {};
+
+                $.each(filteredData, function (index, item) {
+                    var normalizedLabel = item.label.toLowerCase();
+                    if (!labels[normalizedLabel]) {
+                        labels[normalizedLabel] = true;
+                        uniqueData.push(item);
+                    }
+                });
+
+                response($.map(uniqueData, function (item) {
+                    return {
+                        label: item.label,
+                        value: item.val
+                    };
+                }));
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                $("#inputTheme").val(ui.item.label);
+                $("#hfCustomer").val(ui.item.value);
+                return false;
+            }
+        });
+    }
+
+</script>
 

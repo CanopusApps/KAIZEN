@@ -440,6 +440,8 @@ namespace Kaizen.Web.Controllers
                 var Useridd = conAccessor.HttpContext.Session.GetString("UserID");
                 var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
                 viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.PostedBy == Useridd).ToList();
+                var formattedList = viewModel.SubmittedKaizenList.Select(theme => new { label = theme.KaizenTheme, val = theme.KaizenId }).ToList();
+                ViewBag.FormattedList = formattedList;
             }
             catch (Exception ex)
             {
