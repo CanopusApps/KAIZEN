@@ -108,6 +108,15 @@
             "order": [] // Disables initial sorting
         });
 
+        // Get the dates from sessionStorage if available
+        var savedStartDate = sessionStorage.getItem('startDate');
+        var savedEndDate = sessionStorage.getItem('endDate');
+        if (savedStartDate) {
+            $('#startDate').val(savedStartDate);
+        }
+        if (savedEndDate) {
+            $('#endDate').val(savedEndDate);
+        }
             $('#filterButton').on('click', function () {
             // Get the values from the input fields
             var startDate = $('#startDate').val();
@@ -117,6 +126,9 @@
             } else if (new Date(startDate) > new Date(endDate)) {
                 swal("Error", "Start Date must be less than or equal to End Date.", "error");
             } else {
+                // Save the selected dates in sessionStorage
+                sessionStorage.setItem('startDate', startDate);
+                sessionStorage.setItem('endDate', endDate);
                 // Make an AJAX request to filter the deleted Kaizen list
                 $.ajax({
                     url: '/SubmittedKaizen/DeletedKaizen',
