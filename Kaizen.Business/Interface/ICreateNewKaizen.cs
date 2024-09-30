@@ -20,5 +20,7 @@ namespace Kaizen.Business.Interface
         public DataTable GetAttachmentsByIdfordelete(string KaizenId,string AttachmentId);
         public void RemoveAttachment(Attachmentsimg attachment, string KaizenId);
         public List<ManagerModelUpdate> Usermanagerforedit(string managerupt);
+
+        public List<ViewManager> GetFinanceApproved(int EmpId);
     }
 }

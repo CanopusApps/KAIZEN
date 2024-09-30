@@ -90,7 +90,9 @@ namespace Kaizen.Business.Worker
                         OrigionatedDept = dr["OrigionatedDept"].ToString(),
                         AStatus= int.Parse(dr["Status"].ToString()),
                         PostedBy= dr["PostedBy"].ToString(),
-                        role= dr["Role"].ToString()
+                        role= dr["Role"].ToString(),
+                        Domain= dr["Domain"].ToString(),
+                        Department= dr["Department"].ToString()
                     });
                 }
             }

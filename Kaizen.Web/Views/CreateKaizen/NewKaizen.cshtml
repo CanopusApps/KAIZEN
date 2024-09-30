@@ -2,7 +2,9 @@
 @using Kaizen.Models.NewKaizen;
 @inject IHttpContextAccessor Accessor
 @using Newtonsoft.Json;
-
+@{
+    var UserId = Accessor.HttpContext.Session.GetString("EmpId");
+}
 @* @{
     var managerListJson = Accessor.HttpContext.Session.GetString("ManagerList");
     List<ManagerModel> managerList = new List<ManagerModel>();
@@ -3025,6 +3027,7 @@
             var editKaizen = JSON.parse(sessionStorage.getItem("editKaizen"));
             var KaizenId = editKaizen['kaizenid'];
             var Usertype = editKaizen['edituser'];
+            var EmpId = '@UserId';
             if (Usertype == 'view')
             {
                 makeDivReadOnly();
@@ -3063,7 +3066,8 @@
                 dataType: "json",
                 data:
                 {
-                    KaizenId: KaizenId
+                    KaizenId: KaizenId,
+                    EmpId : EmpId
                 },
                 success: function (result) {
                     if (result) {
@@ -3358,12 +3362,64 @@
                         //         $(this).prop('selected', true);
                         //     }
                         // }).change();
-                        $('#approvedbyIe option').map(function () {
-                            if ($(this).text() == result.kaizenList[0].approvedByIE) return this;
-                        }).attr('selected', 'selected').change();
-                        $('#approvedbyAccount option').map(function () {
-                            if ($(this).text() == result.kaizenList[0].financeApprovedBy) return this;
-                        }).attr('selected', 'selected').change();
+                        // $('#approvedbyIe option').map(function () {
+                        //     if ($(this).text() == result.kaizenList[0].approvedByIE) return this;
+                        // }).attr('selected', 'selected').change();
+                        // $('#approvedbyAccount option').map(function () {
+                        //     if ($(this).text() == result.kaizenList[0].financeApprovedBy) return this;
+                        // }).attr('selected', 'selected').change();
+                        
+ 
+                        var userRole = $('#Userrole').data('role');
+
+                        // Check if the logged-in user is a IE user.
+                        if (userRole === 'IED') {
+                            $('#approvedbyIe').prop('disabled', true);
+                            $('#approvedbyIe').empty();
+
+                            if (Array.isArray(result.viewmanagers)) {
+                                result.viewmanagers.forEach(item => {
+                                    const option = document.createElement('option');
+                                    option.value = item.viewmanagersID || item.ViewmanagersID; 
+                                    option.text = item.viewmanagers || item.Viewmanagers;
+                                    $('#approvedbyIe').append(option);
+                                });
+                                const firstValue = $('#approvedbyIe option:first').val();
+                                $('#approvedbyIe').val(firstValue).change();
+                            }
+                        } else {
+                            // If not a IE user, load the default behavior (fetch from database or result)
+                            $('#approvedbyIe option').each(function() {
+                                if ($(this).text() == result.kaizenList[0].approvedByIE) {
+                                    $(this).attr('selected', 'selected').change();
+                                }
+                            });
+                        }
+
+                        // Check if the logged-in user is a Finance user.
+                         if (userRole === 'FIN') {
+                            $('#approvedbyAccount').prop('disabled', true);
+                            $('#approvedbyAccount').empty();
+
+                            if (Array.isArray(result.viewmanagers)) {
+                                result.viewmanagers.forEach(item => {
+                                    const option = document.createElement('option');
+                                    option.value = item.viewmanagersID || item.ViewmanagersID; 
+                                    option.text = item.viewmanagers || item.Viewmanagers;
+                                    $('#approvedbyAccount').append(option);
+                                });
+                                const firstValue = $('#approvedbyAccount option:first').val();
+                                $('#approvedbyAccount').val(firstValue).change();
+                            }
+                        } else {
+                            // If not a Finance user, load the default behavior (fetch from database or result)
+                            $('#approvedbyAccount option').each(function() {
+                                if ($(this).text() == result.kaizenList[0].financeApprovedBy) {
+                                    $(this).attr('selected', 'selected').change();
+                                }
+                            });
+                        }
+
                         $("#rootcauseProblem").val(result.kaizenList[0].rootCause);
                         $("#presentCondition").val(result.kaizenList[0].presentCondition);
                         $("#improvementsCompleted").val(result.kaizenList[0].improvementsCompleted);

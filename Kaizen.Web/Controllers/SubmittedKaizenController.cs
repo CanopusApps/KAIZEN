@@ -56,9 +56,11 @@ namespace Kaizen.Web.Controllers
                 var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
                 var Useridd = conAccessor.HttpContext.Session.GetString("UserID");
                 var Loginrole = conAccessor.HttpContext.Session.GetString("Userrole");
-                if(Loginrole =="MGR")
+                var LgnDomain = conAccessor.HttpContext.Session.GetString("Domain");
+                var LgnDepartment = conAccessor.HttpContext.Session.GetString("Department");
+                if (Loginrole =="MGR")
                 {
-                    viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.PostedBy!= Useridd).ToList();
+                    viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.PostedBy!= Useridd && K.Domain == LgnDomain && K.Department == LgnDepartment).ToList();
                 }
                 else { 
                 viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14).ToList();
@@ -110,9 +112,11 @@ namespace Kaizen.Web.Controllers
                 }
                 else
                 {
+                    var LgnDomain = conAccessor.HttpContext.Session.GetString("Domain");
+                    var LgnDepartment = conAccessor.HttpContext.Session.GetString("Department");
                     if (Loginrole == "MGR")
                     {
-                        SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.AStatus != 0 && K.PostedBy != Useridd).ToList();
+                        SubmittedKaizenList = SubmittedKaizenList.Where(K => K.AStatus != 14 && K.AStatus != 0 && K.PostedBy != Useridd && K.Domain == LgnDomain && K.Department == LgnDepartment).ToList();
                     }
 
                     else
@@ -443,6 +447,8 @@ namespace Kaizen.Web.Controllers
                 var Useridd = conAccessor.HttpContext.Session.GetString("UserID");
                 var SubmittedKaizenList = _submittedKaizenWorker.GetKaizenList(model);
                 viewModel.SubmittedKaizenList = SubmittedKaizenList.Where(K => K.PostedBy == Useridd).ToList();
+                var formattedList = viewModel.SubmittedKaizenList.Select(theme => new { label = theme.KaizenTheme, val = theme.KaizenId }).ToList();
+                ViewBag.FormattedList = formattedList;
             }
             catch (Exception ex)
             {
