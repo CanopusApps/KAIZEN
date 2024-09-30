@@ -229,8 +229,8 @@
         var errorMessage = document.getElementById("deptError"); // Get the span element
         var selectedValue = departmentSelect.value;
 
-        if (selectedValue === "--Select Department--" || selectedValue === "") {
-            errorMessage.innerText = "Please select a department."; 
+        if (selectedValue === "--Select Sub-Department--" || selectedValue === "") {
+            errorMessage.innerText = "Please select a Sub-department."; 
             departmentSelect.focus();
             return false; // Prevent form submission
         } else {
@@ -305,7 +305,7 @@
                     if (result.length > 1) {
                         dropdown.append($('<option>', {
                             value: '',
-                            text: '--Select Department--'
+                            text: '--Select Sub-Department--'
                         }));
                         for (var i = 0; i < result.length; i++) {
                             dropdown.append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
@@ -318,7 +318,7 @@
                     } else {
                         dropdown.append($('<option>', {
                             value: '',
-                            text: '--No Departments Available--'
+                            text: '--No Sub-Departments Available--'
                         }));
                     }
                 },

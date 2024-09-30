@@ -205,8 +205,8 @@
         var errorMessage = document.getElementById("deptError"); // Get the span element
         var selectedValue = departmentSelect.value;
 
-        if (selectedValue === "--Select Department--" || selectedValue === "") {
-            errorMessage.innerText = "Please select a department."; // Set the error message
+        if (selectedValue === "--Select Sub-Department--" || selectedValue === "") {
+            errorMessage.innerText = "Please select a Sub-Department."; // Set the error message
             departmentSelect.focus();
             return false; // Prevent form submission
         } else {
