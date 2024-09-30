@@ -158,9 +158,9 @@
                                 @Html.ValidationMessageFor(model => model.BlockId, "", new { @class = "text-danger validation-message" })
                             </div>
                             <div class="col-md-6">
-                                @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })
+                                @Html.LabelFor(model => model.Did, "Department", htmlAttributes: new { @class = "control-label" })
                                 <span class="text-danger">*</span>
-                                @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "--Select Domain--", new { @id = "Did", @class = "form-control" })
+                                @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "--Select Department--", new { @id = "Did", @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger validation-message" })
                             </div>
                             
@@ -169,10 +169,10 @@
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })
+                                @Html.LabelFor(model => model.DeptId, "Sub-Department", htmlAttributes: new { @class = "control-label" })
                                 <span class="text-danger">*</span>
                                 <select asp-for="DeptId" name="DeptId" id="inputDepartment" class="form-control">
-                                    <option selected>--Select Department--</option>
+                                    <option selected>--Select Sub-Department--</option>
                                 </select>
                                 <span id="deptError" class="text-danger"></span>
                             </div>

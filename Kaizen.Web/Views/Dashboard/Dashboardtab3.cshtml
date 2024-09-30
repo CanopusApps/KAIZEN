@@ -59,7 +59,7 @@
         </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-link tab" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Domains & Department </a>
+                <a class="nav-link tab" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Department & Sub-Department</a>
                 @* <a class="nav-link tab" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a> *@
                 <a class="nav-link tab active" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="true">Yearly & Monthly</a>
                 <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
@@ -111,7 +111,7 @@
                         </span>
                    </div>
                 <div class="container-fuild bg-white pt-3 mt-5" id="dynamictable1">
-                        <div class="card-header"> Monthly-Table (Domain,Department)</div>
+                    <div class="card-header"> Monthly-Table (Department,Sub-Department)</div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-cus" >
                                 <thead>
@@ -170,7 +170,7 @@
                
         
                    <div class="container-fuild bg-white pt-3" id="toggleContent">
-                    <div class="card-header"> Monthly-Table (Domain,Department)</div>
+                    <div class="card-header"> Monthly-Table (Department,Sub-Department)</div>
                     <div class="table-responsive">
                     <table class="table table-bordered table-cus" id="mytable">
                             <thead>

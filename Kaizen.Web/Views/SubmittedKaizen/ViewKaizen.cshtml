@@ -63,9 +63,9 @@
                 @if (UserType != "MGR" && UserType != "EMP")
                 {
                     <div class="form-group col-md-2">
-                        <label for="inputDomain">Domain</label>
+                        <label for="inputDomain">Department</label>
                         <select id="inputDomain" class="form-control txt-width">
-                            <option selected value="0">--Select Domain--</option>
+                            <option selected value="0">--Select Department--</option>
                             @if (Model.DomainList != null)
                             {
                                 @foreach (var domain in Model.DomainList)
@@ -79,9 +79,9 @@
                 @if (UserType != "MGR" && UserType != "EMP")
                 {
                     <div class="form-group col-md-2">
-                        <label for="inputDepartment">Department</label>
+                        <label for="inputDepartment">Sub-Department</label>
                         <select id="inputDepartment" class="form-control txt-width">
-                            <option selected value="0">--Select Department--</option>
+                            <option selected value="0">--Select Sub-Department--</option>
                         </select>
                     </div>
                     

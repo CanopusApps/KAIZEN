@@ -38,7 +38,7 @@
         </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-link tab" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Domains & Department </a>
+                <a class="nav-link tab" id="nav-home-tab" href="@Url.Action("Dashboardtab1", "Dashboard")" role="tab" aria-controls="nav-home" aria-selected="false">Departments & Sub-Department </a>
         @*         <a class="nav-link tab" id="nav-profile-tab" href="@Url.Action("Dashboardtab2", "Dashboard")" role="tab" aria-controls="nav-profile" aria-selected="false">Submitted Kaizens </a> *@
                 <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab3", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Yearly & Monthly</a>
                 <a class="nav-link tab" id="nav-contact-tab" href="@Url.Action("Dashboardtab4", "Dashboard")" role="tab" aria-controls="nav-contact" aria-selected="false">Graphs</a>
@@ -126,9 +126,9 @@
                         <div class="col-lg-7"></div>
                         <div class="form-group d-flex justify-content-between align-items-center col-lg-4">
                             <div class="col-lg-12">
-                                <label for="inputDomain" class="align-text-left filter-header">Select Domain for Department's</label>
+                                <label for="inputDomain" class="align-text-left filter-header">Select Department for Sub-Department's</label>
                                 <select id="inputDomain" class="form-control txt-width">
-                                    <option selected value="0">--Select Domain--</option>
+                                    <option selected value="0">--Select Department--</option>
                                 </select>
                             </div>
                         </div>
@@ -184,9 +184,9 @@
                         <div class="col-lg-2"></div>
                         <div class="col-lg-8 mb-4">
                             <div class="form-group col-md-4">
-                                <label for="inputDomain1" class="filter-header">Select Domain for Department's</label>
+                                <label for="inputDomain1" class="filter-header">Select Department for Sub-Department's</label>
                                 <select id="inputDomain1" class="form-control txt-width">
-                                    <option selected value="0">--Select Domain--</option>
+                                    <option selected value="0">--Select Department--</option>
                                 </select>
                             </div>
                             <div class="d-flex justify-content-center align-items-center mb-2">
@@ -273,14 +273,14 @@
         const donutCharts = [
             { id: 'donutChart1', label: 'Dataset 1', title: 'Blocks' },
             { id: 'donutChart2', label: 'Dataset 2', title: 'Cadre' },
-            { id: 'donutChart3', label: 'Dataset 3', title: 'Domains' }
+            { id: 'donutChart3', label: 'Dataset 3', title: 'Departments' }
             // { id: 'donutChart4', label: 'Dataset 4', title: 'Departments' }
         ];
 
         const barCharts = [
             { id: 'barChart1', title: 'Blocks' },
             { id: 'barChart2', title: 'Cadre' },
-            { id: 'barChart3', title: 'Domains' }
+            { id: 'barChart3', title: 'Departments' }
           //   { id: 'barChart4', title: 'Departments' }
         ];
 
@@ -569,7 +569,7 @@
 
                     let domainDropdown = $('#inputDomain');
                     domainDropdown.empty();
-                    domainDropdown.append('<option selected value="0">--Select Domain--</option>');
+                    domainDropdown.append('<option selected value="0">--Select Department--</option>');
 
                     filteredDomainLabels.forEach((domain, index) => {
                         domainDropdown.append(`<option value="${index}">${domain}</option>`);
@@ -577,7 +577,7 @@
 
                     let domainDropdown1 = $('#inputDomain1');
                     domainDropdown1.empty();
-                    domainDropdown1.append('<option selected value="0">--Select Domain--</option>');
+                    domainDropdown1.append('<option selected value="0">--Select Department--</option>');
 
                     filteredDomainLabels.forEach((domain, index) => {
                         domainDropdown1.append(`<option value="${index}">${domain}</option>`);
@@ -662,7 +662,7 @@
             };
 
             // Only make the AJAX call if a valid domain is selected
-            if (selectedDomainText !== "--Select Domain--") {
+            if (selectedDomainText !== "--Select Department--") {
                 $.ajax({
                     url: '/Dashboard/getdepartmentgraphsbasedonDomain',
                     method: 'POST',
@@ -737,7 +737,7 @@
                                     },
                                     title: {
                                         display: true,
-                                        text: 'Departments',
+                                        text: 'Sub-Department',
                                         font: {
                                             size: 24,
                                             family: 'Arial',
@@ -777,7 +777,7 @@
                 EndDate: endDate,
                 label: selectedDomainText
             };
-            if (selectedDomainText !== "--Select Domain--") {
+            if (selectedDomainText !== "--Select Department--") {
                              $.ajax({
                                 url: '/Dashboard/getdepartmentgraphsbasedonDomain',
                                 method: 'POST',
@@ -857,7 +857,7 @@
                                                 },                                                    
                                                 title: {
                                                     display: true,
-                                                    text: 'Department',
+                                                    text: 'Sub-Department',
                                                     font: {
                                                         size: 24,
                                                         family: 'Arial',
@@ -976,7 +976,7 @@
                     const downloadUrl = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = downloadUrl;
-                    a.download = 'Departmentreport.xlsx'; // Set the name of the downloaded file
+                    a.download = 'Sub-Departmentreport.xlsx'; // Set the name of the downloaded file
                     document.body.appendChild(a);
                     a.click();
                     a.remove();

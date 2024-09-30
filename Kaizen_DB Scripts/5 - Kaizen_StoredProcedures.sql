@@ -3843,12 +3843,13 @@ BEGIN
       
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_InsertDepartment]    Script Date: 25-09-2024 13:04:30 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_InsertDepartment]    Script Date: 30-09-2024 17:28:31 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 CREATE PROC [dbo].[Sp_InsertDepartment]      
@@ -3866,7 +3867,7 @@ BEGIN
 	  SET @CreatedID = (select ID From Users  where EmpID= @Createdby);
 
 	  -- Check if the DepartmentName already exists
- IF EXISTS (SELECT 1 FROM [Departments] WHERE DepartmentName = @department)
+ IF EXISTS (SELECT 1 FROM [Departments] WHERE DepartmentName = @department and DomainId=@Domain)
     BEGIN
         SET @ReturnMessage = 5 -- Department name already exists
         RETURN
