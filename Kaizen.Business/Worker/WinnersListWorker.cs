@@ -18,9 +18,9 @@ namespace Kaizen.Business.Worker
         {
             return _winnersListRepository.AddWinner(model);
         } 
-        public bool DeleteWinner(int id, String sd, String ed)
+        public bool DeleteWinner(int id)
         {
-            return _winnersListRepository.DeleteWinner(id, sd, ed);
+            return _winnersListRepository.DeleteWinner(id);
         }
         public bool UpdateWinner(WinnersListModel model)
         {

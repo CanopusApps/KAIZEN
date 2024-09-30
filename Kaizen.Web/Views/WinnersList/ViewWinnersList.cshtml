@@ -47,7 +47,9 @@
                         var counter = 1;
                         var counter1 = 1;
                         var counter2 = 1;
-                        var sortedWinners = Model.OrderBy(w => w.Category == "Gold" ? 0 : w.Category == "Silver" ? 1 : 2).ThenBy(w => w.EmpName);
+                        var counter3 = 1;
+                        var sortedWinners = Model.OrderBy(w => (w.Category == "Gold" ? 0 : w.Category == "Silver" ? 1 : w.Category == "Bronze" ? 2 : 3)).ThenBy(w => w.EmpName).ToList();
+
                         string CategoryTracker = null;
                     }
 
@@ -108,12 +110,12 @@
                                                 </td>
                                                 <td class="align-middle">
                                                     <div class="row justify-content-center">
-                                                        @winner.StartDate.ToString("dd-MM-yyyy")
+                                                        @winner.StartDate.ToShortDateString()
                                                     </div>
                                                 </td>
                                                 <td class="align-middle">
                                                     <div class="row justify-content-center">
-                                                        @winner.EndDate.ToString("dd-MM-yyyy")
+                                                        @winner.EndDate.ToShortDateString()
                                                     </div>
                                                 </td>
 
@@ -183,12 +185,12 @@
                                                 </td>
                                                 <td class="align-middle">
                                                     <div class="row justify-content-center">
-                                                        @winner.StartDate.ToString("dd-MM-yyyy")
+                                                        @winner.StartDate.ToShortDateString()
                                                     </div>
                                                 </td>
                                                 <td class="align-middle">
                                                     <div class="row justify-content-center">
-                                                        @winner.EndDate.ToString("dd-MM-yyyy")
+                                                        @winner.EndDate.ToShortDateString()
                                                     </div>
                                                 </td>
                                                 <td hidden>@winner.DomainName</td>
@@ -256,12 +258,12 @@
                                                 </td>
                                                 <td class="align-middle">
                                                     <div class="row justify-content-center">
-                                                        @winner.StartDate.ToString("dd-MM-yyyy")
+                                                        @winner.StartDate.ToShortDateString()
                                                     </div>
                                                 </td>
                                                 <td class="align-middle">
                                                     <div class="row justify-content-center">
-                                                        @winner.EndDate.ToString("dd-MM-yyyy")
+                                                        @winner.EndDate.ToShortDateString()
                                                     </div>
                                                 </td>
                                                 <td hidden>@winner.DomainName</td>
@@ -301,6 +303,80 @@
                                     CategoryTracker = winner.Category;
                                     break;
                                  }
+                                case "Theme":
+                                    {
+                                        <tbody col-4>
+
+                                            <input id="colNos" hidden value="@Model.Count()" />
+                                            <tr>
+                                                <td class="text-center align-middle">
+                                                    <p>@counter3</p>
+                                                    @{
+                                                        counter3++;
+                                                    }
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EmpID
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EmpName
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle" hidden>
+                                                    <div class="row justify-content-center">
+                                                        @winner.Category
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.StartDate.ToShortDateString()
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        @winner.EndDate.ToShortDateString()
+                                                    </div>
+                                                </td>
+                                                <td hidden>@winner.DomainName</td>
+                                                <td hidden>@winner.DepartmentName</td>
+                                                <td hidden>@winner.Category</td>
+                                                <td hidden>@winner.Id</td>
+                                                <td hidden>@winner.winnerimagefilepath</td>
+                                                <td hidden>@winner.Winnerimgfilename</td>
+                                                <td class="align-middle text-center">
+
+                                                    @if (winner.Status == "Active" && DateTime.Now <= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadgeA" class="badge bg-success text-white" data-status="Active">Active</span>
+                                                    }
+                                                    @if (winner.Status == "Inactive" && DateTime.Now <= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadgeI" class="badge bg-warning text-white" data-status="Inactive">Inactive</span>
+                                                    }
+                                                    @if (DateTime.Now >= winner.EndDate)
+                                                    {
+                                                        <span id="statusBadge" class="badge bg-danger text-white" data-status="Expired">Expired</span>
+                                                    }
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="row justify-content-center">
+                                                        <a id="EditFunction" class="btn btn-primary btn-sm editdepartment mx-1">
+                                                            <i class="edit fas fa-pencil editWinner"></i>
+                                                        </a>
+                                                        <a id="DeleteFunction" class="btn btn-danger btn-sm DeleteDepartment mx-1">
+                                                            <i class="edit fas fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                        CategoryTracker = winner.Category;
+                                        break;
+                                    }
                             }
                         }
                 </div>
@@ -383,8 +459,7 @@
                 url: '@Url.Action("DeleteWinner", "WinnersList")',
                 data: {
                     id: parseInt($row.find('td:eq(1)').text().trim()),
-                    sd: $row.find('td:eq(4)').text().trim(),
-                    ed: $row.find('td:eq(5)').text().trim()
+                    
                 },
                 success: function (response) {
                     window.location.href = '/WinnersList/ViewWinnersList';

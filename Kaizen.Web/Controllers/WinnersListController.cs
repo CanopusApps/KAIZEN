@@ -104,13 +104,13 @@ namespace Kaizen.Web.Controllers
             }
         }
             [HttpPost]
-        public IActionResult DeleteWinner(int id, String sd, String ed)
+        public IActionResult DeleteWinner(int id)
         {
             bool deleteStatus = false;
             try
 
             {
-                deleteStatus = _addWinnerWorker.DeleteWinner(id, sd, ed);
+                deleteStatus = _addWinnerWorker.DeleteWinner(id);
             }
             catch (Exception ex)
             {

@@ -354,6 +354,7 @@ namespace Kaizen.Web.Controllers
                 images.GoldList = images.CompletewinnerList.Where(img => img.Category == "Gold").ToList();
                 images.SilverList = images.CompletewinnerList.Where(img => img.Category == "Silver").ToList();
                 images.BronzeList = images.CompletewinnerList.Where(img => img.Category == "Bronze").ToList();
+                images.ThemeList = images.CompletewinnerList.Where(img => img.Category == "Theme").ToList();
 
                 return Ok(images);
             }

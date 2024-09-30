@@ -156,7 +156,7 @@ namespace Kaizen.Data.DataServices
 			}
 			return statusResult;
         }
-        public bool DeleteWinner(int id, String sd, String ed)
+        public bool DeleteWinner(int id)
         {
             bool status = false;
             try
@@ -165,29 +165,6 @@ namespace Kaizen.Data.DataServices
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@Id", id);
-                //com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(sd) ? (object)DBNull.Value : DateTime.Parse(sd));
-                //com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(ed) ? (object)DBNull.Value : DateTime.Parse(ed));
-                // Validate and parse StartDate
-                if (DateTime.TryParse(sd, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
-                {
-                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
-                }
-                else
-                {
-                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
-                }
-
-                // Validate and parse EndDate
-                if (DateTime.TryParse(ed, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
-                {
-                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
-                }
-                else
-                {
-                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
-                }
-
-
                 com.CommandText = StoredProcedures.SpDeleteWinner;
                 con.Open();
                 com.ExecuteNonQuery();

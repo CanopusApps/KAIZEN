@@ -7,5 +7,6 @@ namespace Kaizen.Models.AdminModel
         public List<LoginImageModel> GoldList { get; set; }
         public List<LoginImageModel> SilverList { get; set; }
         public List<LoginImageModel> BronzeList { get; set; }
+        public List<LoginImageModel> ThemeList { get; set; }
     }
 }

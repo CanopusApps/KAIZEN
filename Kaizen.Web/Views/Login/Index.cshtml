@@ -170,6 +170,34 @@
                         <p id="Bname6"></p>
                     </div>
                 </div>
+
+                    <div class="row theme" style="margin-bottom:0px">
+                        <div class="vertical-text theme">Theme</div>
+                        <div class="image-box">
+                            <img id="Timg1" src="~/assets/img/profile.png" />
+                            <p id="Tname1"></p>
+                        </div>
+                        <div class="image-box">
+                            <img id="Timg2" src="~/assets/img/profile.png" />
+                            <p id="Tname2"></p>
+                        </div>
+                        <div class="image-box">
+                            <img id="Timg3" src="~/assets/img/profile.png" />
+                            <p id="Tname3"></p>
+                        </div>
+                        <div class="image-box">
+                            <img id="Timg4" src="~/assets/img/profile.png" />
+                            <p id="Tname4"></p>
+                        </div>
+                        <div class="image-box">
+                            <img id="Timg5" src="~/assets/img/profile.png" />
+                            <p id="Tname5"></p>
+                        </div>
+                        <div class="image-box">
+                            <img id="Timg6" src="~/assets/img/profile.png" />
+                            <p id="Tname6"></p>
+                        </div>
+                    </div>
             </div>
         </div>
 
@@ -195,7 +223,8 @@
                     let goldList = response.goldList;
                     let silverList = response.silverList;
                     let bronzeList = response.bronzeList;
-
+                     debugger
+                     let themeList = response.themeList;
                     // Update Gold Section
                     for (let i = 0; i < goldList.length; i++) {
                         let goldItem = goldList[i];
@@ -222,6 +251,13 @@
                             $("#bimg" + (i + 1)).attr("src", "data:image/jpeg;base64," + bronzeItem.winnerimage);
                         }
                     }
+                    for (let i = 0; i < themeList.length; i++) {
+                        let themeItem = themeList[i];
+                        $("#Tname" + (i + 1)).text(themeItem.firstName);
+                        if (themeItem.winnerimage) {
+                            $("#Timg" + (i + 1)).attr("src", "data:image/jpeg;base64," + themeItem.winnerimage);
+                        }
+                            }
                 },
                 error: function (xhr, status, error) {
                     console.error("An error occurred: " + status + " - " + error);

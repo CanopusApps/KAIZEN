@@ -30,7 +30,7 @@
 
 .image-box {
     text-align: center;
-    margin: 10px;
+    margin: 3px 10px;
 }
 
 /*    .image-box img {
@@ -51,6 +51,9 @@
 
 .bronze .image-box img {
     border-color: #cd7f32;
+}
+.theme .image-box img {
+    border-color: #076cc2;
 }
 
 .image-box p {
@@ -111,10 +114,10 @@ marquee {
 
 
     .loginbox{
-        margin-top:25%;
+        margin-top:15%;
     }
     .row {
-        margin: 30px 0;
+        margin: 0px 0;
         margin-top: 0px !important;
     }
 
@@ -136,14 +139,14 @@ marquee {
         margin-top: 50%;
     }
     .row {
-        margin: 50px 0;
+        margin: 0px 0;
         margin-top: 0px !important;
     }
 
     .image-box img {
         border-radius: 5px;
-        width: 125px;
-        height: 125px;
+        width: 120px;
+        height: 120px;
         object-fit: cover;
         border: 3px solid transparent;
     }
@@ -153,13 +156,13 @@ marquee {
 @media only screen and (min-width: 1601px) {
 
     .row {
-        margin: 60px 0;
+        margin: 0px 0;
         margin-top: 0px !important;
     }
     .image-box img {
         border-radius: 5px;
-        width: 150px;
-        height: 150px;
+        width: 140px;
+        height: 140px;
         object-fit: cover;
         border: 3px solid transparent;
     }

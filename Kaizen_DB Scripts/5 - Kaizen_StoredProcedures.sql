@@ -739,15 +739,15 @@ AS
 	DELETE from Attachments WHERE KaizenID = @kaizenID AND FileName = @FileName;
  END  
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_DeleteWinner]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_DeleteWinner]    Script Date: 30-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[Sp_DeleteWinner]
-    @ID INT,
-    @StartDate DATETIME,
-    @EndDate DATETIME
+    @ID INT
+   
 AS
 BEGIN
     DECLARE @EmpGuid NVARCHAR(100);
@@ -756,8 +756,7 @@ BEGIN
     
     DELETE FROM WinnersList
     WHERE EmpGUID = @EmpGuid
-      AND StartDate = @StartDate
-      AND EndDate = @EndDate;
+     
 END;
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_EditUser]    Script Date: 25-09-2024 12:56:48 ******/
@@ -4351,6 +4350,8 @@ BEGIN
         Users U
     ON 
         WL.EmpGUID = U.ID
+		WHERE
+        WL.Status = 'Active'
 		
     ORDER BY 
         WL.CreatedDate desc;
