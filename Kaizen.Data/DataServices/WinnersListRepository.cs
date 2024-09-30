@@ -3,7 +3,8 @@ using System.Data.SqlClient;
 using Kaizen.Data.Constant;
 using Kaizen.Models.WinnersList;
 using Microsoft.Extensions.Configuration;
-
+using System.Globalization;
+using DocumentFormat.OpenXml.Wordprocessing;
 namespace Kaizen.Data.DataServices
 {
     public class WinnersListRepository : IWinnersListRepository
@@ -34,8 +35,24 @@ namespace Kaizen.Data.DataServices
                 com.CommandText = StoredProcedures.SpAddWinner;
                 com.Parameters.AddWithValue("@EmpGUID", model.EmpGUID);
                 com.Parameters.AddWithValue("@Category", model.Category);
-                com.Parameters.AddWithValue("@StartDate", model.StartDate);
-                com.Parameters.AddWithValue("@EndDate", model.EndDate);
+                //com.Parameters.AddWithValue("@StartDate", model.StartDate);
+                //com.Parameters.AddWithValue("@EndDate", model.EndDate);
+                if (DateTime.TryParse(model.StartDate.ToString(), CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+                if (DateTime.TryParse(model.EndDate.ToString(), CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
                 com.Parameters.AddWithValue("@CreatedBy", model.CreatedBy ?? (object)DBNull.Value);
                 com.Parameters.AddWithValue("@Status", "Active");
                 com.Parameters.AddWithValue("@winnerimg", model.winnerimagefilepath ?? (object)DBNull.Value);
@@ -75,8 +92,24 @@ namespace Kaizen.Data.DataServices
                 com.CommandType = CommandType.StoredProcedure;       
                 com.Parameters.AddWithValue("@WID", model.Id);               
                 com.Parameters.AddWithValue("@ID", model.EmpID);             //
-                com.Parameters.AddWithValue("@StartDate", model.StartDate);  //UPDATED START DATE
-                com.Parameters.AddWithValue("@EndDate", model.EndDate);      //UPDATED END DATE
+                                                                             //com.Parameters.AddWithValue("@StartDate", model.StartDate);  //UPDATED START DATE
+                                                                             //com.Parameters.AddWithValue("@EndDate", model.EndDate);      //UPDATED END DATE
+                if (DateTime.TryParse(model.StartDate.ToString(), CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+                if (DateTime.TryParse(model.EndDate.ToString(), CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
                 com.Parameters.AddWithValue("@imgpath",model.winnerimagefilepath);
                 com.Parameters.AddWithValue("@SessionId", model.ModifiedBy); //SESSION ID
                 com.CommandText = StoredProcedures.SpUpdateWinner;
@@ -132,8 +165,29 @@ namespace Kaizen.Data.DataServices
                 com.Connection = con;
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@Id", id);
-                com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(sd) ? (object)DBNull.Value : DateTime.Parse(sd));
-                com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(ed) ? (object)DBNull.Value : DateTime.Parse(ed));
+                //com.Parameters.AddWithValue("@StartDate", string.IsNullOrEmpty(sd) ? (object)DBNull.Value : DateTime.Parse(sd));
+                //com.Parameters.AddWithValue("@EndDate", string.IsNullOrEmpty(ed) ? (object)DBNull.Value : DateTime.Parse(ed));
+                // Validate and parse StartDate
+                if (DateTime.TryParse(sd, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedStartDate))
+                {
+                    com.Parameters.AddWithValue("@StartDate", parsedStartDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@StartDate", DBNull.Value);
+                }
+
+                // Validate and parse EndDate
+                if (DateTime.TryParse(ed, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedEndDate))
+                {
+                    com.Parameters.AddWithValue("@EndDate", parsedEndDate);
+                }
+                else
+                {
+                    com.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                }
+
+
                 com.CommandText = StoredProcedures.SpDeleteWinner;
                 con.Open();
                 com.ExecuteNonQuery();

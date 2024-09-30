@@ -73,15 +73,22 @@ namespace Kaizen.Business.Worker
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    string filePath = dr["WinnerimgPath"].ToString();
-                    string base64String = ConvertFileToBase64(filePath);
-                    loginImagelist.Add(new LoginImageModel
+                    if (DateTime.TryParse(dr["EndDate"].ToString(), out DateTime endDate))
                     {
-                        FirstName = dr["FirstName"].ToString(),
-                        Category= dr["Category"].ToString(),
-                        WinnerimgPath = dr["WinnerimgPath"].ToString(),
-                        winnerimage= base64String
-                    });
+                        if (endDate >= DateTime.Now)
+                        {
+
+                            string filePath = dr["WinnerimgPath"].ToString();
+                            string base64String = ConvertFileToBase64(filePath);
+                            loginImagelist.Add(new LoginImageModel
+                            {
+                                FirstName = dr["FirstName"].ToString(),
+                                Category = dr["Category"].ToString(),
+                                WinnerimgPath = dr["WinnerimgPath"].ToString(),
+                                winnerimage = base64String
+                            });
+                        }
+                    }
                 }
             }
             return loginImagelist;
