@@ -14,7 +14,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-white" style="border-radius: 0.25rem;">
                     <li class="breadcrumb-item" style="font-weight: bold; color: #007bff; font-size: 16px;">Masters</li>
-                    <li class="breadcrumb-item active" aria-current="page" style="font-weight: bold; color: #495057; font-size: 15px;">Domains</li>
+                    <li class="breadcrumb-item active" aria-current="page" style="font-weight: bold; color: #495057; font-size: 15px;">Departments</li>
                 </ol>
             </nav>
         </div>
@@ -22,11 +22,11 @@
 
     <div class="card p-3 mt-2 mb-2 cardsize" id="card-block">
         <div class="col-md-10">
-            <div><label class="card-title" id="blkh">Add Domain</label></div>
+            <div><label class="card-title" id="blkh">Add Department</label></div>
         </div>
         <div class="row">
             <div class="col-md-5">
-                <label for="Domain-name">Domain Name<span class="text-danger">*</span></label>
+                <label for="Domain-name">Department Name<span class="text-danger">*</span></label>
             </div>
         </div>
 
@@ -46,7 +46,7 @@
 
         <div class="row">
             <div class="col-md-10">
-                <label id="lblTotal">Domain  List - @Model.Count()</label>
+                <label id="lblTotal">Department  List - @Model.Count()</label>
             </div>
         </div>
 
@@ -55,7 +55,7 @@
                 <thead>
                     <tr>
                         <th hidden scope="col" class="text-center" id="DomName">SNo</th>
-                        <th scope="col" class="text-center" id="DomName">DOMAIN NAME</th>
+                        <th scope="col" class="text-center" id="DomName">DEPARTMENT NAME</th>
                         <th scope="col" class="text-center" id="DomName">TOTAL EMP</th>
                         <th scope="col" class="text-center" id="DomName">STATUS</th>
                         <th scope="col" class="text-center" id="DomName">ACTION</th>
@@ -133,7 +133,7 @@
 
         if (domainNameValue.trim() === "") {
             $("#domainname").css("border-color", "red");
-            $("#DomainError").text("Domain Name is required.");
+            $("#DomainError").text("Department Name is required.");
             isValid = false;
         }
         if (!isValid) {
@@ -163,14 +163,14 @@
                     var redirectErrorUrl = "/Login/ErrorPage";
                     if (result == true) {
                         swal({
-                            text: "Domain Saved successfully !!",
+                            text: "Department Saved successfully !!",
                             type: "success"
                         }).then(okay => {
                             location.reload();
                         });
                     } else if (result === false) {
                         swal({
-                            text: "Domain Already Exists!"
+                            text: "Department Already Exists!"
                         }).then(() => {
                             $('#domainname').val('');
                         });
@@ -182,7 +182,7 @@
                 },
                 error: function (error) {
                    
-                    swal('Unable to Save the Domain Details - Please Check the logs');
+                    swal('Unable to Save the Departent Details - Please Check the logs');
                     window.location.href = redirectErrorUrl;
                 }
             });
@@ -225,19 +225,19 @@
                 var redirectErrorUrl = "/Login/ErrorPage";
                 if (result == true) {
                     swal({
-                        text: "Domain Updated successfully !!",
+                        text: "Department Updated successfully !!",
                         type: "success"
                     }).then(okay => {
                         location.reload();
                     });
                 }
                 else {
-                    swal('Unable to Update the Domain Details - Please Check the logs');
+                    swal('Unable to Update the Department Details - Please Check the logs');
                     window.location.href = redirectErrorUrl;
                 }
             },
             error: function (error) {
-                swal('Unable to Update the Domain Details - Please Check the logs');
+                swal('Unable to Update the Department Details - Please Check the logs');
                 window.location.href = redirectErrorUrl;
             }
         });
@@ -248,7 +248,7 @@
     function Deletedomain(id) {
         var id = id;
         swal({
-            text: "Are you sure you want to Delete the Domain ?",
+            text: "Are you sure you want to Delete the Department ?",
             buttons: {
                 confirm: "Yes",
                 cancel: "No",
@@ -264,7 +264,7 @@
                         var redirectErrorUrl = "/Login/ErrorPage";
                         if (result === true) {
                             swal({
-                                text: "Domain Deleted successfully."
+                                text: "Department Deleted successfully."
                             }).then(okay => {
                                 if (okay) {
                                     location.reload();
@@ -272,7 +272,7 @@
                             });
                         } else if (result === false) {
                             swal({
-                                text: "Active Domain cannot be Deleted."
+                                text: "Active Department cannot be Deleted."
                             }).then(okay => {
                                 if (okay) {
                                     location.reload();
@@ -280,7 +280,7 @@
                             });
                         } else {
                             swal({
-                                text: 'Unable to Delete the Domain Details - Please Check the logs'
+                                text: 'Unable to Delete the Department Details - Please Check the logs'
                             }).then(okay => {
                                 if (okay) {
                                     window.location.href = redirectErrorUrl;

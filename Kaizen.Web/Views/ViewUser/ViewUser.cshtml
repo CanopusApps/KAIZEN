@@ -72,7 +72,7 @@
                 <!-- First Row of Cards -->
                 <div class="card-container">
                     <div class="card mt-2">
-                        <div class="card-header">Filter As Per Domain</div>
+                        <div class="card-header">Filter As Per Department</div>
                         <div class="card-body">
                             <div class="row">
                                 @foreach (var domain in Model.DomainList)
@@ -88,7 +88,7 @@
                 </div>
                 <div class="card-container" id="container-middle" style="display:none;">
                     <div class="card mt-2">
-                        <div class="card-header">Filter as Per Department</div>
+                        <div class="card-header">Filter as Per Sub-Department</div>
                         <div class="card-body">
                             <div class="row">
                                 <!-- Dynamic content will be appended here -->
@@ -142,7 +142,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4" style="display:none">
-                    <label for="inputDomain">Domain</label>
+                    <label for="inputDomain">Department</label>
                     <select id="inputDomain" class="form-control txt-width" name="Domain">
                         <option selected>All</option>
                         @if (Model.DomainList != null)
@@ -155,7 +155,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-4" style="display:none">
-                    <label for="inputDepartment">Department</label>
+                    <label for="inputDepartment">Sub-Department</label>
                     <select id="inputDepartment" class="form-control txt-width" name="Department">
                         <option selected>All</option>
                     </select>

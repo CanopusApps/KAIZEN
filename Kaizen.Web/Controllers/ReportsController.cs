@@ -66,7 +66,7 @@ namespace Kaizen.Web.Controllers
             try
             {
                 var list = _downloadexcel.GetDomainReport(model);
-                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DomainReport.xlsx");
+                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DepartmentReport.xlsx");
             }
             catch (Exception ex)
             {
@@ -80,7 +80,7 @@ namespace Kaizen.Web.Controllers
             try
             {
                 var list = _downloadexcel.GetDepartmentReport(model);
-                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DepartmentReport.xlsx");
+                return File(_downloadexcel.ExportDataTableToExcel(list), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Sub-DepartmentReport.xlsx");
             }
             catch (Exception ex)
             {

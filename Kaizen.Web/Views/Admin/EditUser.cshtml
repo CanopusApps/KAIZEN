@@ -103,15 +103,15 @@
             <div class="form-row">
                 
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.Did, "Domain", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
-                    @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "--Select Domain--", new { @id = "Did", @class = "form-control" })
+                    @Html.LabelFor(model => model.Did, "Department", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                    @Html.DropDownListFor(m => m.Did, new SelectList(Model.Domains, "Id", "DomainName"), "--Select Department--", new { @id = "Did", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Did, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.DeptId, "Department", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
+                    @Html.LabelFor(model => model.DeptId, "Sub-Department", htmlAttributes: new { @class = "control-label" })<span class="text-danger">*</span>
                     <select Asp-for="DeptId" name="DeptId" id="inputDepartment" class="form-control">
-                        <option selected>--Select Department--</option>
+                        <option selected>--Select Sub-Department--</option>
                     </select>
                 </div>
                 <div class="form-group col-md-4">
@@ -344,7 +344,7 @@
                         dropdown.empty();
                         dropdown.append($('<option>', {
                             value: 'all',
-                            text: '--Select Department--'
+                            text: '--Select Sub-Department--'
                         }));
                         for (var i = 0; i < result.length; i++) {
                             $('#inputDepartment').append('<option value="' + result[i].deptId + '">' + result[i].departmentName + '</option>');
@@ -357,7 +357,7 @@
                             }
                         });
                     } else {
-                        Swal.fire('Please Select Domain');
+                        Swal.fire('Please Select Department');
                     }
                 },
                 error: function (error) {

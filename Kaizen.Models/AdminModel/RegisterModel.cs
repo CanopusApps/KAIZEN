@@ -46,10 +46,10 @@ namespace Kaizen.Models.AdminModel
         [RegularExpression(@"^(Male|Female|Other)$", ErrorMessage = "Gender must be Male, Female, or Other")]
         public string Gender { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Domain  is required")]
+        [Required(ErrorMessage = "Department  is required")]
         public int Did { get; set; } // stores domain id 
 
-        [Required(ErrorMessage = "Department is Required")]
+        [Required(ErrorMessage = "Sub-Department is Required")]
         public int DeptId { get; set; } // stores deptid 
 
         [Required(ErrorMessage = "Block  is required")]

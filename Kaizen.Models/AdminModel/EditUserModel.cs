@@ -60,9 +60,9 @@ namespace Kaizen.Models.AdminModel
         public int Cid { get; set; } = 0;// stores cadre id
         [Required(ErrorMessage = "Usertype is required")]
         public int Rid { get; set; } = 0;// stores usertype id
-        [Required(ErrorMessage = "Domain  is required")]
-        public int Did { get; set; } = 0;// stores domain id 
         [Required(ErrorMessage = "Department  is required")]
+        public int Did { get; set; } = 0;// stores domain id 
+        [Required(ErrorMessage = "Sub-Department  is required")]
         public int DeptId { get; set; } = 0;// stores deptid 
     }
 

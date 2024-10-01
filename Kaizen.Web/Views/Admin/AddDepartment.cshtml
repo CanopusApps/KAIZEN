@@ -14,7 +14,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-white" style="border-radius: 0.25rem;">
                     <li class="breadcrumb-item" style="font-weight: bold; color: #007bff; font-size: 16px;">Masters</li>
-                    <li class="breadcrumb-item active" aria-current="page" style="font-weight: bold; color: #495057; font-size: 15px;">Departments</li>
+                    <li class="breadcrumb-item active" aria-current="page" style="font-weight: bold; color: #495057; font-size: 15px;">Sub-Department</li>
                 </ol>
             </nav>
         </div>
@@ -22,14 +22,14 @@
 
     <div class="card p-3 mt-2 mb-2 cardsize">
         <div class="col-md-10">
-            <div><label class="card-title" id="blkh">Add Department</label></div>
+            <div><label class="card-title" id="blkh">Add Sub-Department</label></div>
         </div>
 
         <div class="row">
             <div class="col-md-3">
-                <label for="domainName">Domain Name</label>
+                <label for="domainName">Department Name</label>
                 <select id="domainName" class="form-control txt-width">
-                    <option selected>--Select Domain--</option>
+                    <option selected>--Select Department--</option>
                     @foreach (var domain in Model.DomainList)
                     {
                         <option value="@domain.Id">@domain.DomainName</option>
@@ -39,7 +39,7 @@
             </div>
 
             <div class="col-md-4">
-                <label for="departmentName">Department Name</label><span class="text-danger">*</span>
+                <label for="departmentName">Sub-Department Name</label><span class="text-danger">*</span>
                 <input id="departmentName" class="form-control dep-name" />
                 <span id="DepError" class="text-danger error-message"></span>
             </div>
@@ -54,7 +54,7 @@
 
     <div class="card p-3 mt-2 mb-2 cardsize">
         <div class="col-12">
-            <label class="card-title" id="blktotal">Department List - @ViewBag.DepartmentList.Count</label>
+            <label class="card-title" id="blktotal">Sub-Department List - @ViewBag.DepartmentList.Count</label>
         </div>
 
         <br />
@@ -64,8 +64,8 @@
                 <thead>
                     <tr>
                         <th hidden scope="col" class="text-center" id="DomName">ID</th>
-                        <th scope="col" class="text-center" id="DomName">DOMAIN NAME</th>
                         <th scope="col" class="text-center" id="DomName">DEPARTMENT NAME</th>
+                        <th scope="col" class="text-center" id="DomName">SUB-DEPARTMENT NAME</th>
                         <th scope="col" class="text-center" id="DomName">TOTAL EMP</th>
                         <th scope="col" class="text-center" id="DomName">STATUS</th>
                         <th scope="col" class="text-center" id="DomName">ACTION</th>
@@ -179,14 +179,14 @@
                 var redirectErrorUrl = "/Login/ErrorPage";
                 if (result == true) {
                     swal({
-                        text: "Department Saved successfully !!",
+                        text: "Sub-Department Saved successfully !!",
                         type: "success"
                     }).then(okay => {
                         location.reload();
                     });
                 } else if (result === false) {
                     swal({
-                        text: "Department Already Exists!"
+                        text: "Sub-Department Already Exists!"
                     }).then(okay => {
                         $('#departmentName').val('');
                     });
@@ -197,7 +197,7 @@
                 // }
             },
             error: function (error) {
-                swal('Unable to Save the Department Details - Please Check the logs');
+                swal('Unable to Save the Sub-Department Details - Please Check the logs');
                 window.location.href = redirectErrorUrl;
             }
         });
@@ -224,19 +224,19 @@
                 var redirectErrorUrl = "/Login/ErrorPage";
                 if (result == true) {
                     swal({
-                        text: "Department Updated successfully !!",
+                        text: "Sub-Department Updated successfully !!",
                         type: "success"
                     }).then(okay => {
                         location.reload();
                     });
                 }
                 else {
-                    swal('Unable to Update the Department Details - Please Check the logs');
+                    swal('Unable to Update the Sub-Department Details - Please Check the logs');
                     window.location.href = redirectErrorUrl;
                 }
             },
             error: function (error) {
-                swal('Unable1 to Update the Department Details - Please Check the logs');
+                swal('Unable1 to Update the Sub-Department Details - Please Check the logs');
                 window.location.href = redirectErrorUrl;
             }
         });
@@ -277,14 +277,14 @@
         // Validate department name (empty or only spaces)
         if (departmentNameValue === "") {
             $("#departmentName").css("border-color", "red");
-            $("#DepError").text("Department Name is required.");
+            $("#DepError").text("Sub-Department Name is required.");
             isValid = false;
         }
 
         // Validate domain dropdown selection
-        if (domainNameValue === "" || domainNameValue === "--Select Domain--") {
+        if (domainNameValue === "" || domainNameValue === "--Select Department--") {
             $("#domainName").css("border-color", "red");
-            $("#DomError").text("Please Select Domain");
+            $("#DomError").text("Please Select Department");
             isValid = false;
         }
         
@@ -302,7 +302,7 @@
 
     function Deletedepartment(id) {
         swal({
-            text: "Are you sure you want to Delete the Department ?",
+            text: "Are you sure you want to Delete the Sub-Department ?",
             buttons: {
                 confirm: "Yes",
                 cancel: "No"
@@ -318,7 +318,7 @@
                         var redirectErrorUrl = "/Login/ErrorPage";
                         if (result === true) {
                             swal({
-                                text: "Department Deleted successfully."
+                                text: "Sub-Department Deleted successfully."
                             }).then(okay => {
                                 if (okay) {
                                     location.reload();
@@ -326,7 +326,7 @@
                             });
                         } else if (result === false) {
                             swal({
-                                text: "Active Department cannot be Deleted."
+                                text: "Active Sub-Department cannot be Deleted."
                             }).then(okay => {
                                 if (okay) {
                                     location.reload();
@@ -334,7 +334,7 @@
                             });
                         } else {
                             swal({
-                                text: 'Unable to Delete the Department Details - Please Check the logs'
+                                text: 'Unable to Delete the Sub-Department Details - Please Check the logs'
                             }).then(okay => {
                                 if (okay) {
                                     window.location.href = redirectErrorUrl;
@@ -344,7 +344,7 @@
                     },
                     error: function () {
                         swal({
-                            text: 'Unable to Delete the Department Details - Please Check the logs'
+                            text: 'Unable to Delete the Sub-Department Details - Please Check the logs'
                         }).then(okay => {
                             if (okay) {
                                 window.location.href = redirectErrorUrl;

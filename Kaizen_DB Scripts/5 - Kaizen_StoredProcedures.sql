@@ -1970,12 +1970,13 @@ BEGIN
         d.DomainId;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_DepartmentformReport]    Script Date: 11-09-2024 10:47:34 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_DepartmentformReport]    Script Date: 30-09-2024 22:13:08 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 CREATE Proc [dbo].[Sp_Get_DepartmentformReport]  
 @startdate datetime = NULL,  
@@ -1987,20 +1988,20 @@ BEGIN
     SET @enddate = NULLIF(@enddate, '')  
     IF @startdate IS NULL AND @enddate IS NULL  
     BEGIN  
-		SELECT d.ID,d.DeptId,d.DepartmentName,a.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Departments] as d 
+		SELECT d.ID,d.DeptId as SubDepartmentID,d.DepartmentName as SubDepartmentName,a.DomainName as DepartmentName,d.Status,u.FirstName as CreatedBy,d.CreatedDate FROM [dbo].[Departments] as d 
 		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = d.DomainId;
     END  
     ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
     BEGIN  
-        SELECT d.ID,d.DeptId,d.DepartmentName,a.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Departments] as d 
+        SELECT d.ID,d.DeptId as SubDepartmentID,d.DepartmentName as SubDepartmentName,a.DomainName as DepartmentName,d.Status,u.FirstName as CreatedBy,d.CreatedDate FROM [dbo].[Departments] as d 
 		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = d.DomainId
 		WHERE d.CreatedDate >= @startdate;  
     END  
     ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
     BEGIN  
-        SELECT d.ID,d.DeptId,d.DepartmentName,a.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Departments] as d 
+        SELECT d.ID,d.DeptId as SubDepartmentID,d.DepartmentName as SubDepartmentName,a.DomainName as DepartmentName,d.Status,u.FirstName as CreatedBy,d.CreatedDate FROM [dbo].[Departments] as d 
 		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = d.DomainId
 		WHERE d.CreatedDate <= DATEADD(DAY, 1, @enddate);  
@@ -2008,7 +2009,7 @@ BEGIN
       
     ELSE  
 Begin  
-SELECT d.ID,d.DeptId,d.DepartmentName,a.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Departments] as d 
+SELECT d.ID,d.DeptId as SubDepartmentID,d.DepartmentName as SubDepartmentName,a.DomainName as DepartmentName,d.Status,u.FirstName as CreatedBy,d.CreatedDate FROM [dbo].[Departments] as d 
 		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = d.DomainId
 		WHERE d.CreatedDate >= @startdate AND d.CreatedDate <= DATEADD(DAY, 1, @enddate);  
@@ -2061,12 +2062,13 @@ ORDER BY
     d.DeptId;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_DomainformReport]    Script Date: 11-09-2024 10:46:04 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_DomainformReport]    Script Date: 30-09-2024 22:12:10 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 CREATE Proc [dbo].[Sp_Get_DomainformReport]  
 @startdate datetime = NULL,  
@@ -2078,30 +2080,31 @@ BEGIN
     SET @enddate = NULLIF(@enddate, '')  
     IF @startdate IS NULL AND @enddate IS NULL  
     BEGIN  
-		SELECT d.ID,d.DomainID,d.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
+		SELECT d.ID,d.DomainID as DepartmentID,d.DomainName as DepartmentName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
 		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID;
     END  
     ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
     BEGIN  
-        SELECT d.ID,d.DomainID,d.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
+        SELECT d.ID,d.DomainID as DepartmentID,d.DomainName as DepartmentName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
 		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
 		WHERE d.CreatedDate >= @startdate;  
     END  
     ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
     BEGIN  
-        SELECT d.ID,d.DomainID,d.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
+        SELECT d.ID,d.DomainID as DepartmentID,d.DomainName as DepartmentName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
 		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
 		WHERE d.CreatedDate <= DATEADD(DAY, 1, @enddate);  
     END  
       
     ELSE  
 Begin  
-SELECT d.ID,d.DomainID,d.DomainName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
+SELECT d.ID,d.DomainID as DepartmentID,d.DomainName as DepartmentName,d.Status,u.FirstName,d.CreatedDate FROM [dbo].[Domains] as d 
 		INNER JOIN [dbo].[Users] AS u ON d.CreatedBy = u.ID
 		WHERE d.CreatedDate >= @startdate AND d.CreatedDate <= DATEADD(DAY, 1, @enddate);  
 END  
 END  
 GO
+
 /****** Object:  StoredProcedure [dbo].[sp_Get_Domains]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
@@ -2417,12 +2420,13 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
 END
 GO
 
-/****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenformReport]    Script Date: 13-09-2024 15:37:15 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenformReport]    Script Date: 30-09-2024 22:09:19 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 CREATE Proc [dbo].[Sp_Get_KaizenformReport]  
 @startdate Date = NULL,  
@@ -2444,7 +2448,7 @@ BEGIN
     kd.DocNo,
     kd.CostCentre,
     kd.BlockDetails,
-    d.DepartmentName, 
+    d.DepartmentName as SubDepartment, 
     kd.SuggestedKaizen,
     kd.ProblemStatement,
     kd.CounterMeasure,
@@ -2471,13 +2475,13 @@ BEGIN
     kd.Benifits,
     kd.KaizenTheme,
     aps.StatusDescription AS ApprovalStatus,
-    dom.DomainName AS Domain,
+    dom.DomainName AS Department,
     b.BlockName AS Block,
     c.CadreDesc AS Cadre,
     u1.FirstName AS DriName,
     u2.FirstName AS IEApprovedBy,
     u3.FirstName AS FinanceApprovedBy,
-	kd.CreatedDate,
+	 kd.CreatedDate,
     u.FirstName AS CreatedBy
 FROM 
     Departments d 
@@ -2498,7 +2502,7 @@ LEFT JOIN
 LEFT JOIN 
     Blocks b ON b.ID = kd.Block
 LEFT JOIN 
-    Cadre c ON c.ID = u.Cadre
+    Cadre c ON c.ID = u.Cadre 
 		where kd.ID is NOT NULL
     END  
     ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
@@ -2513,7 +2517,7 @@ LEFT JOIN
     kd.DocNo,
     kd.CostCentre,
     kd.BlockDetails,
-    d.DepartmentName, 
+    d.DepartmentName as SubDepartment, 
     kd.SuggestedKaizen,
     kd.ProblemStatement,
     kd.CounterMeasure,
@@ -2540,7 +2544,7 @@ LEFT JOIN
     kd.Benifits,
     kd.KaizenTheme,
     aps.StatusDescription AS ApprovalStatus,
-    dom.DomainName AS Domain,
+    dom.DomainName AS Department,
     b.BlockName AS Block,
     c.CadreDesc AS Cadre,
     u1.FirstName AS DriName,
@@ -2572,7 +2576,7 @@ LEFT JOIN
     END  
     ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
     BEGIN  
-        SELECT 
+         SELECT 
     kd.ID,
     kd.KaizenId,
     kd.KaizenType,
@@ -2582,7 +2586,7 @@ LEFT JOIN
     kd.DocNo,
     kd.CostCentre,
     kd.BlockDetails,
-    d.DepartmentName, 
+    d.DepartmentName as SubDepartment, 
     kd.SuggestedKaizen,
     kd.ProblemStatement,
     kd.CounterMeasure,
@@ -2609,7 +2613,7 @@ LEFT JOIN
     kd.Benifits,
     kd.KaizenTheme,
     aps.StatusDescription AS ApprovalStatus,
-    dom.DomainName AS Domain,
+    dom.DomainName AS Department,
     b.BlockName AS Block,
     c.CadreDesc AS Cadre,
     u1.FirstName AS DriName,
@@ -2636,13 +2640,13 @@ LEFT JOIN
 LEFT JOIN 
     Blocks b ON b.ID = kd.Block
 LEFT JOIN 
-    Cadre c ON c.ID = u.Cadre
+    Cadre c ON c.ID = u.Cadre 
 		WHERE kd.CreatedDate <= DATEADD(DAY, 1, @enddate) AND  kd.ID is NOT NULL;  
     END  
       
     ELSE  
 Begin  
- SELECT 
+  SELECT 
     kd.ID,
     kd.KaizenId,
     kd.KaizenType,
@@ -2652,7 +2656,7 @@ Begin
     kd.DocNo,
     kd.CostCentre,
     kd.BlockDetails,
-    d.DepartmentName, 
+    d.DepartmentName as SubDepartment, 
     kd.SuggestedKaizen,
     kd.ProblemStatement,
     kd.CounterMeasure,
@@ -2679,13 +2683,13 @@ Begin
     kd.Benifits,
     kd.KaizenTheme,
     aps.StatusDescription AS ApprovalStatus,
-    dom.DomainName AS Domain,
+    dom.DomainName AS Department,
     b.BlockName AS Block,
     c.CadreDesc AS Cadre,
     u1.FirstName AS DriName,
     u2.FirstName AS IEApprovedBy,
     u3.FirstName AS FinanceApprovedBy,
-	kd.CreatedDate,
+	 kd.CreatedDate,
     u.FirstName AS CreatedBy
 FROM 
     Departments d 
@@ -2706,12 +2710,13 @@ LEFT JOIN
 LEFT JOIN 
     Blocks b ON b.ID = kd.Block
 LEFT JOIN 
-    Cadre c ON c.ID = u.Cadre
+    Cadre c ON c.ID = u.Cadre 
 		WHERE kd.CreatedDate >= @startdate AND kd.CreatedDate <= DATEADD(DAY, 1, @enddate) AND  kd.ID is NOT NULL;  
 END  
 END  
   
 GO
+
 /****** Object:  StoredProcedure [dbo].[Sp_Get_KaizenOriginetedby]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
 GO
@@ -2760,12 +2765,13 @@ Begin
 Select StatusID,StatusName from [dbo].Status  
 end 
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_Get_UserformReport]    Script Date: 13-09-2024 15:41:01 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_Get_UserformReport]    Script Date: 30-09-2024 22:11:02 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 CREATE Proc [dbo].[Sp_Get_UserformReport]  
 @startdate datetime = NULL,  
@@ -2777,7 +2783,7 @@ BEGIN
     SET @enddate = NULLIF(@enddate, '')  
     IF @startdate IS NULL AND @enddate IS NULL  
     BEGIN  
-        select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
+        select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName as DepartmentName,d.DepartmentName as SubDepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
 		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
 		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
@@ -2786,7 +2792,7 @@ BEGIN
     END  
     ELSE IF @startdate IS NOT NULL AND @enddate IS NULL  
     BEGIN  
-        select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
+         select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName as DepartmentName,d.DepartmentName as SubDepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
 		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
 		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
@@ -2796,7 +2802,7 @@ BEGIN
     END  
     ELSE IF @startdate IS NULL AND @enddate IS NOT NULL  
     BEGIN  
-        select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
+         select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName as DepartmentName,d.DepartmentName as SubDepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
 		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
 		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
@@ -2807,7 +2813,7 @@ BEGIN
       
     ELSE  
 Begin  
-select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName,d.DepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
+ select u.EmpID,u.FirstName,u.LastName,u.Email,u.MobileNumber,c.cadreDesc as Cadre,b.BlockName,a.DomainName as DepartmentName,d.DepartmentName as SubDepartmentName,u1.UserDesc as UserType from [dbo].[Users] as u
 		INNER JOIN [dbo].[Domains] AS a ON a.ID = u.Domain
 		INNER JOIN [dbo].[Departments] AS d ON d.ID = u.Department
 		INNER JOIN [dbo].[Blocks] AS b ON b.ID = u.Block
@@ -3843,12 +3849,13 @@ BEGIN
       
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_InsertDepartment]    Script Date: 25-09-2024 13:04:30 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_InsertDepartment]    Script Date: 30-09-2024 17:28:31 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 CREATE PROC [dbo].[Sp_InsertDepartment]      
@@ -3866,7 +3873,7 @@ BEGIN
 	  SET @CreatedID = (select ID From Users  where EmpID= @Createdby);
 
 	  -- Check if the DepartmentName already exists
- IF EXISTS (SELECT 1 FROM [Departments] WHERE DepartmentName = @department)
+ IF EXISTS (SELECT 1 FROM [Departments] WHERE DepartmentName = @department and DomainId=@Domain)
     BEGIN
         SET @ReturnMessage = 5 -- Department name already exists
         RETURN

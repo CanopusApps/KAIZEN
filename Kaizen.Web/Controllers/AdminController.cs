@@ -286,7 +286,7 @@ namespace Kaizen.Web.Controllers
                 }
                 else
                 {
-                    TempData["SwalMessage"] = "Domain cannot be inactive as it has associated users.";
+                    TempData["SwalMessage"] = "Department cannot be inactive as it has associated users.";
                 }
             }
             catch (Exception ex)
@@ -442,7 +442,7 @@ namespace Kaizen.Web.Controllers
                 }
                 else
                 {
-                    TempData["SwalMessage"] = "Department cannot be inactive as it has associated users.";
+                    TempData["SwalMessage"] = "Sub-Department cannot be inactive as it has associated users.";
                 }
             }
             catch (Exception ex)
