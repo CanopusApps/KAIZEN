@@ -15,6 +15,9 @@
     <div class="row" style="margin-bottom:0px">
         <div class="col-lg-12 topbar">
             <marquee width="100%" class="" direction="left" behavior="scroll" scrollamount="5">
+                    @if (!string.IsNullOrEmpty(selectedTheme))
+                    {
+
                 <h1 class="" style="color:white; font-size: x-large;margin:-1px;" loginbox-title>
                         Kaizen Theme For This Month is
                             <span style="color:#FFC436; font-weight:bold; font-size: x-large;">
@@ -22,6 +25,13 @@
                     </span>
                         All The Best Team!
                 </h1>
+                    }
+                    else
+                    {
+                        <span style="color:#FFC436; font-size: x-large;">
+                            No active theme at the moment.
+                        </span>
+                    }
             </marquee>
         </div>
     </div>

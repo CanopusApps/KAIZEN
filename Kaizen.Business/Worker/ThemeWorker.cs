@@ -27,13 +27,42 @@ namespace Kaizen.Business.Worker
                 {
                     RetrieveTheme.Add(new ThemeModel   
                     {
-                        ModifiedBy = dr["ModifiedBy"].ToString(),
-                        Theme = dr["Theme"].ToString()
+                        ThemeId = Convert.ToInt32(dr["ThemeId"]),  // Assuming ThemeId is an integer
+                        Theme = dr["Theme"].ToString(),
+                        StartDate = dr["StartDate"] != DBNull.Value ? (DateTime?)dr["StartDate"] : null,
+                        EndDate = dr["EndDate"] != DBNull.Value ? (DateTime?)dr["EndDate"] : null
 
                     });
                 }
             }
             return RetrieveTheme;
+        }
+
+        public ThemeModel GetActiveTheme(DateTime currentDate)
+        {
+            DataSet ds;
+            ThemeModel activeTheme = null;
+
+            ds = _themeRepository.GetActiveTheme(currentDate);
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                DataRow dr = ds.Tables[0].Rows[0];  
+
+                activeTheme = new ThemeModel
+                {
+                    ThemeId = Convert.ToInt32(dr["ThemeId"]), 
+                    Theme = dr["Theme"].ToString(),
+                    StartDate = dr["StartDate"] != DBNull.Value ? (DateTime?)dr["StartDate"] : null,
+                    EndDate = dr["EndDate"] != DBNull.Value ? (DateTime?)dr["EndDate"] : null
+                };
+            }
+
+            return activeTheme;
+        }
+
+        public bool DeleteTheme(int id, bool forceDelete = false) 
+        {
+            return _themeRepository.DeleteTheme(id, forceDelete); 
         }
     }
 }

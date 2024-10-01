@@ -1,147 +1,338 @@
-﻿@model IEnumerable<Kaizen.Models.Theme.ThemeModel>
+﻿    @model IEnumerable<Kaizen.Models.Theme.ThemeModel>
 
-@{
-    Layout = "SidebarLayout";
-}
-<style>
-    .table-responsive {
-        overflow-x:hidden!important;
+    @{
+        Layout = "SidebarLayout";
     }
-</style>
-<link rel="stylesheet" href="~/assets/css/ThemeChanger.css" />
-
-<div class="col-lg-12">
-    <div class="col-lg-12 card rounded bg-white p-2  mb-2">
-    <div class="col-lg-12 p-md-0 p-2">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-white" style="border-radius: 0.25rem;">
-                <li class="breadcrumb-item" style="font-weight: bold; color: #007bff; font-size: 16px;">Masters</li>
-                <li class="breadcrumb-item active" aria-current="page" style="font-weight: bold; color: #495057; font-size: 15px;">Add Theme</li>
-            </ol>
-        </nav>
-    </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card mt-2">
-                <div class="card-body p-3">
-                    <div class="right-box-padding">
-                        <div class="read-content">
-                            <div class="row">
-                                <div class="col">
-                                    <p>Add Theme</p>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-5">
-                                    <input id="theme" class="form-control" placeholder="Enter theme" / maxlength="20">
-                                    <span id="themeError" class="text-danger"></span> 
-                                </div>
-                                <div class="col-5">
-                                    <input id="AddThemeBtn" type="button" value="Update" class="btn btn-azure" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-12">
-            <div class="card mt-2">
-                <div class="card-body">
-                    <div class="right-box-padding">
-                        <div class="read-content">
-                            <div class="row">
-                                <div class="col">
-                                    <p>Theme List</p>
-                                </div>
-                            </div>
-                            <div class="form-group row p-3">
-                                <div class="table-responsive mx-3">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">Id</th>
-                                                <th class="text-center">Theme Name</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var dat in Model)
-                                            {
-                                                <tr>
-                                                    <td class="text-center align-middle bg-light">
-                                                        <p class="text-center">@Model.Count()</p>
-                                                    </td>
-                                                    <td class="align-middle bg-light">
-                                                        <div class="row justify-content-center">
-                                                            <div class="text-center">@dat.Theme</div>
-                                                        </div>
-                                                    </td>
-                               
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    function ValidateForm() {
-        var isValid = true;
-        var theme = $("#theme").val();
-
-        $("#theme").on("input", function () {
-            var inputVal = $(this).val();
-            if (inputVal !== "") {
-                $(this).css("border-color", "");
-                $("#themeError").text("");
-            }
-        });
-
-        if (theme === "") {
-            $("#theme").css("border-color", "red");
-            $("#themeError").text("Theme is required.");
-            isValid = false;
-        }
-
-        return isValid;
+  <style>
+    #thm {
+        color: black;
+        font-weight: 500;
+        font-size: 13px;
+        margin-left: -17px;
     }
 
-    $(document).ready(function () {
-        $('#AddThemeBtn').click(function () {
-            if (ValidateForm()) {
-                var theme = $('#theme').val().trim();
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("ThemeChanger", "Theme")',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ Theme: theme }),
-                    success: function (response) {
-                        if (response) {
-                            swal({
-                                text: "Theme Updated successfully !!",
-                            }).then(() => {
-                                location.reload();
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        swal({
-                            text: "Unable to update the theme details. Please check the logs.",
-                        });q
-                        console.error('Error:', error);
+    #themetotal {
+        color: black;
+        font-weight: 700;
+        font-size: 15px;
+    }
+  </style>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link href="~/assets/css/custom/submittedkaizen.css" rel="stylesheet" />
+<link href="~/assets/css/ViewUser/datatables.min.css" rel="stylesheet" />
+<script src="~/assets/js/custom/datatables.min.js"></script>
+<div class="container-fluid">
+ 
+    <div class="container-fluid rounded bg-white p-2  mt-2 mb-2">
+        <div class="col-lg-12 p-md-0 p-2">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white" style="border-radius: 0.25rem;">
+                    <li class="breadcrumb-item" style="font-weight: bold; color: #007bff; font-size: 16px;">Masters</li>
+                    <li class="breadcrumb-item active" aria-current="page" style="font-weight: bold; color: #495057; font-size: 15px;">Themes</li>
+                </ol>
+            </nav>
+        </div>
+     </div>
+
+
+        <div class="card p-3 mt-2 mb-2 cardsize">
+            <div class="col-md-10">
+                <div><label class="card-title" id="thm">Add Theme</label></div>
+            </div>
+      
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Enter theme</label><br />
+                    <input id="theme" class="form-control" placeholder="Enter theme" maxlength="20" />
+                    <span id="themeError" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label for="datePicker">Start Date</label><br />
+                    <input type="date" id="startDate" name="startDate">
+                    <span id="startDateError" class="text-danger"></span>
+
+                </div>
+                <div class="col-md-3">
+                    <label for="datePicker">End Date</label><br />
+                    <input type="date" id="endDate" name="endDate">
+                    <span id="endDateError" class="text-danger"></span>
+                </div>
+              
+                <div class="col-md-2">
+                    <label>&nbsp;</label>
+                    <button id="AddThemeBtn" class="btn btn-primary btn-block">Add Theme</button>
+                </div>
+            </div>
+         </div>
+      
+        <div class="card p-3 mt-2 mb-2 cardsize">
+            <div class="col-md-10">
+            <div><label class="card-title" id="themetotal">Theme List - @Model.Count()</label></div>
+            </div>
+            <div class="card-body">
+
+         
+                <table id="ThemeTable" class="table table-striped" style="width:100%;">
+                   
+                      <thead>
+                        <tr style="text-align:center">
+                           <th id="ThemeName">Theme Name</th>
+                            <th id="StartDate">Start Date</th>
+                            <th id="EndDate">End Date</th>
+                        <th class="text-center">Action</th>
+                         </tr>
+                      </thead>
+                    <tbody style="text-align:center">
+                          @foreach (var dat in Model)
+                             {
+                            <tr data-themeid="@dat.ThemeId" data-name="@dat.Theme">
+                                    <td hidden>@dat.ThemeId</td>
+                                    <td>@dat.Theme</td>
+                                    <td>@dat.StartDate?.ToString("dd-MM-yyyy")</td>
+                                    <td>@dat.EndDate?.ToString("dd-MM-yyyy")</td>
+                            <td class="text-center">
+
+                                <a class="btn btn-danger icon deleteuser" onclick="DeleteTheme(@dat.ThemeId, @dat.isActive.ToString().ToLower());">
+
+
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </td>
+
+                            </tr>
+                          }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+  
+ </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script>
+            function ValidateForm() {
+                var isValid = true;
+                var theme = $("#theme").val();
+                var startDate = $("#startDate").val();
+                var endDate = $("#endDate").val();
+
+                $("#theme").on("input", function () {
+                    var inputVal = $(this).val();
+                    if (inputVal !== "") {
+                        $(this).css("border-color", "");
+                        $("#themeError").text("");
                     }
                 });
+
+                $("#startDate").on("input", function () {
+                    if ($(this).val() !== "") {
+                        $(this).css("border-color", "");
+                        $("#startDateError").text("");
+                    }
+                });
+
+                $("#endDate").on("input", function () {
+                    if ($(this).val() !== "") {
+                        $(this).css("border-color", "");
+                        $("#endDateError").text("");
+                    }
+                });
+
+                if (theme === "") {
+                    $("#theme").css("border-color", "red");
+                    $("#themeError").text("Theme is required.");
+                    isValid = false;
+                }
+
+                if (startDate === "") {
+                    $("#startDate").css("border-color", "red");
+                    $("#startDateError").text("Start Date is required.");
+                    isValid = false;
+                }
+
+                if (endDate === "") {
+                    $("#endDate").css("border-color", "red");
+                    $("#endDateError").text("End Date is required.");
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+
+        $(document).ready(function () {
+
+            $('#AddThemeBtn').on('click', function () {
+                if (ValidateForm()) {
+                        var theme = $('#theme').val().trim();
+                        var startDate = $('#startDate').val();
+                        var endDate = $('#endDate').val();
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("ThemeChanger", "Theme")',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ Theme: theme, StartDate: startDate, EndDate: endDate }),
+                            success: function (response) {
+                                if (response) {
+                                    swal({
+                                        text: "Theme added successfully !!",
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                swal({
+                            text: "Theme is already available for the selected date range. Please select new dates.",
+                                });
+                                console.error('Error:', error);
+                            }
+                        });
+                }
+            });
+        });
+
+    function DeleteTheme(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/Theme/DeleteTheme',
+            data: { id: id, forceDelete: false }, // Initially set forceDelete to false
+            success: function (result) {
+                if (result.success === false) {
+                    // Active theme - show confirmation dialog
+                    swal({
+                      
+                        text: result.message, // Use the message from the server
+                        buttons: {
+                            cancel: "No, go back",
+                            confirm: "Yes, delete it"
+                        }
+                    }).then((willDelete) => {
+                        if (willDelete) {
+                            // User confirmed deletion - call delete again with forceDelete set to true
+                            executeDelete(id, true);
+                        }
+                    });
+                } else {
+                    // Handle the deletion success response
+                    if (result) {
+                        swal({
+                            text: "Theme Deleted successfully."
+                        }).then(okay => {
+                            if (okay) {
+                                location.reload();
+                            }
+                        });
+                        // Optionally refresh the page or update the UI
+                    } else {
+                        swal("Error!", "Unable to delete the theme.", "error");
+                    }
+                }
+            },
+            error: function () {
+                swal("Error!", "An error occurred while trying to delete the theme.", "error");
             }
         });
-    });
-</script>
+    }
+
+    function executeDelete(id, forceDelete) {
+        $.ajax({
+            type: 'POST',
+            url: '/Theme/DeleteTheme',
+            data: { id: id, forceDelete: forceDelete }, // Pass forceDelete as true
+            success: function (result) {
+                if (result) {
+                    swal({
+                        text: "Theme Deleted successfully."
+                    }).then(okay => {
+                        if (okay) {
+                            location.reload();
+                        }
+                    });
+                }
+                    else {
+                    swal("Error!", "Unable to delete the theme.", "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "An error occurred while trying to delete the theme.", "error");
+            }
+        });
+    }
+    // $(document).ready(function () {
+    // function DeleteTheme(id) {
+    //     // Make an AJAX call to check if the theme is active
+    //     $.ajax({
+          
+    //         type: 'POST',
+    //         url: '/Theme/DeleteTheme', // Adjust this endpoint as needed
+    //         data: { id: id }, // Ensure that the parameter name is 'id'
+    //         success: function (response) {
+    //             // Check if the theme is active and handle accordingly
+    //             if (!response.success) {
+    //                 // If the theme is active, show a warning message
+    //                 swal({
+    //                     text: response.message,
+    //                     buttons: {
+    //                         confirm: "Yes, delete it",
+    //                         cancel: "No, go back",
+    //                     },
+    //                 }).then((userConfirmation) => {
+    //                     if (userConfirmation) {
+    //                         // Proceed to delete the active theme
+    //                         executeDelete(id);
+    //                     }
+    //                 });
+    //             } else {
+    //                 // Directly execute delete for non-active themes
+    //                 executeDelete(id);
+    //             }
+    //         },
+    //         error: function () {
+    //             swal({
+    //                 text: 'Unable to check theme status - Please check the logs.'
+    //             });
+    //         }
+    //     });
+    // }
+
+    // function executeDelete(id) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/Theme/DeleteTheme', // Adjust this endpoint to your delete action
+         
+    //         data: { id: id }, // Ensure that the parameter name is 'id'
+    //         success: function (result) {
+               
+    //             if (result.success) {  // Check if result is true/false
+    //                 swal({
+    //                     text: "Theme deleted successfully."
+    //                 }).then(okay => {
+    //                     if (okay) {
+    //                         location.reload();
+    //                     }
+    //                 });
+    //             } else {
+    //                 swal({
+    //                     text: result.message
+    //                 }).then(okay => {
+    //                     if (okay) {
+    //                         window.location.href = redirectErrorUrl;
+    //                     }
+    //                 });
+    //             }
+    //         },
+    //         error: function () {
+    //             swal({
+    //                 text: 'Unable to delete the theme details - Please check the logs.'
+    //             }).then(okay => {
+    //                 if (okay) {
+    //                     window.location.href = redirectErrorUrl;
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
+    // });
+    </script>

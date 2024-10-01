@@ -31,28 +31,32 @@ namespace Kaizen.Data.DataServices
             bool status = false;
             try
             {
-                com = new SqlCommand();
-                DataTable dt = new DataTable();
-                com.Connection = con;
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@Theme", model.Theme);
-                com.Parameters.AddWithValue("@SessionId", model.ModifiedBy);
-                com.CommandText = StoredProcedures.SpUpdateTheme;
-                con.Open();
+                using (SqlCommand com = new SqlCommand())
+                {
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandText = StoredProcedures.SpAddTheme;
+                    com.Parameters.AddWithValue("@Theme", model.Theme);
+                    com.Parameters.AddWithValue("@StartDate", model.StartDate); 
+                    com.Parameters.AddWithValue("@EndDate", model.EndDate); 
+                    com.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
 
-                com.ExecuteNonQuery();
-                con.Close();
-                status = true;
+                    con.Open();
+                    com.ExecuteNonQuery();
+
+                   
+                    status = true;
+                }
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw ex; 
             }
-			finally
-			{
-				con.Close();
-			}
-			return status;
+            finally
+            {
+                con.Close();
+            }
+            return status;
         }
         public DataSet RetrieveTheme()
         {
@@ -71,6 +75,74 @@ namespace Kaizen.Data.DataServices
                 throw ex;
             }
             return ds;
+        }
+
+
+        public DataSet GetActiveTheme(DateTime currentDate)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                using (SqlCommand com = new SqlCommand())
+                {
+                    com.Connection = con; 
+                    com.CommandType = CommandType.StoredProcedure;  
+                    com.CommandText = StoredProcedures.SpGetActiveTheme; 
+                    using (SqlDataAdapter da = new SqlDataAdapter(com))
+                    {
+                        da.Fill(ds);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex; 
+            }
+            return ds;
+        }
+
+        public bool DeleteTheme(int id, bool forceDelete = false)
+        {
+            bool status = false;
+
+            try
+            {
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@ThemeId", id);
+                com.Parameters.AddWithValue("@ForceDelete", forceDelete); 
+                com.CommandText = StoredProcedures.SpDeleteTheme;
+                com.Parameters.Add(new SqlParameter("@ReturnMessage", SqlDbType.Int) { Direction = ParameterDirection.Output });
+                con.Open();
+                com.ExecuteNonQuery();
+                var returnMessage = com.Parameters["@ReturnMessage"].Value;
+                int returnMes = returnMessage == DBNull.Value ? 0 : Convert.ToInt32(returnMessage);
+                if (returnMes == 5)
+                {
+                    // Active theme, cannot delete
+                    status = false; 
+                }
+                else if (returnMes == 1)
+                {
+                    // Successfully deleted
+                    status = true; 
+                }
+                else
+                {
+                    // Handle other cases, e.g., returnMes == 1 (failed to delete)
+                    status = false; 
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return status;
         }
     }
 }
