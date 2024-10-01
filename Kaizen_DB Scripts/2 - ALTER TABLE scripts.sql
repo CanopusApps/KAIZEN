@@ -16,3 +16,21 @@ BEGIN
     ADD CREATEDDATE DATETIME NULL
 END
 GO
+
+-- Check if the StartDate column exists and add it if it doesn't
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+               WHERE TABLE_NAME = 'Themes' AND COLUMN_NAME = 'StartDate')
+BEGIN
+    ALTER TABLE Themes
+    ADD StartDate DATETIME NULL
+END;
+GO
+
+-- Check if the EndDate column exists and add it if it doesn't
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+               WHERE TABLE_NAME = 'Themes' AND COLUMN_NAME = 'EndDate')
+BEGIN
+    ALTER TABLE Themes
+    ADD EndDate DATETIME NULL
+END;
+GO

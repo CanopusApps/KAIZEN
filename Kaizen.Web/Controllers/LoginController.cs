@@ -51,24 +51,34 @@ namespace Kaizen.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ThemeModel model = new ThemeModel();
-            List<ThemeModel> RetrieveTheme = new List<ThemeModel>();
+          
             try
             {
-                RetrieveTheme = _addThemeWorker.RetrieveTheme();
+               
+                var activeTheme = _addThemeWorker.GetActiveTheme(DateTime.Now);
 
-                // If themes are retrieved successfully, set the ViewBag and Session values
-                if (RetrieveTheme.Any())
+                // If an active theme is found, set it to the session
+                if (activeTheme != null)
                 {
-                    ViewBag.SelectedTheme = RetrieveTheme.First().Theme;
-                    HttpContext.Session.SetString("SelectedTheme", RetrieveTheme.First().Theme);
+
+                    HttpContext.Session.SetString("SelectedTheme", activeTheme.Theme);
+                    
                 }
+                else
+                {
+                   
+                    HttpContext.Session.Remove("SelectedTheme");
+                }
+                // Set ViewBag to access the theme in the view
+                ViewBag.SelectedTheme = HttpContext.Session.GetString("SelectedTheme"); // Default value if null
             }
+
+            
             catch (Exception ex)
             {
                 LogEvents.LogToFile(DbFiles.Title, ex.ToString());
             }
-            ViewBag.ThemeList = RetrieveTheme;
+          
             return View();
 
         }

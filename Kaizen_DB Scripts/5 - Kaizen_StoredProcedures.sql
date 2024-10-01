@@ -23,9 +23,6 @@ GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdateWinner]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_UpdateWinner]
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_UpdateTheme]    Script Date: 05-09-2024 20:04:16 ******/
-DROP PROCEDURE IF EXISTS [dbo].[Sp_UpdateTheme]
-GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdateDomain]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_UpdateDomain]
 GO
@@ -88,6 +85,17 @@ DROP PROCEDURE IF EXISTS [dbo].[Sp_GetUserManager]
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_GetTheme]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[Sp_GetTheme]
+GO
+/****** Object:  StoredProcedure [dbo].[Sp_GetActiveTheme]    Script Date: 01-10-2024 13:34:00 ******/
+DROP PROCEDURE IF EXISTS [dbo].[Sp_GetActiveTheme]
+GO
+/****** Object:  StoredProcedure [dbo].[Sp_AddTheme]   Script Date: 01-10-2024 13:35:00 ******/
+DROP PROCEDURE IF EXISTS [dbo].[Sp_AddTheme]
+
+GO
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_Theme]   Script Date: 01-10-2024 13:36:00 ******/
+DROP PROCEDURE IF EXISTS [dbo].[Sp_Delete_Theme]
+
 GO
 /****** Object:  StoredProcedure [dbo].[sp_GetKaizenStatisticsByApprovalTypes]    Script Date: 05-09-2024 20:04:16 ******/
 DROP PROCEDURE IF EXISTS [dbo].[sp_GetKaizenStatisticsByApprovalTypes]
@@ -3490,17 +3498,167 @@ WHERE
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Sp_GetTheme]    Script Date: 05-09-2024 20:04:16 ******/
+/****** Object:  StoredProcedure [dbo].[Sp_GetTheme]    Script Date: 01-10-2024 12:57:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROC [dbo].[Sp_GetTheme]
-
+    @StartDate DATETIME = NULL,
+    @EndDate DATETIME = NULL
 AS
-
 BEGIN
-	Select * from Themes
+    SET NOCOUNT ON;
+
+    SELECT 
+        ThemeID,            -- Added ThemeID to the selection
+        Theme,              -- Existing column for Theme name
+        StartDate,         -- Added StartDate to the selection
+        EndDate            -- Added EndDate to the selection
+    FROM 
+        Themes
+    WHERE 
+        (@StartDate IS NULL OR StartDate >= @StartDate) AND  -- Ensure StartDate is considered only if provided
+        (@EndDate IS NULL OR EndDate <= @EndDate)            -- Ensure EndDate is considered only if provided
+    ORDER BY 
+        StartDate DESC;     
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Sp_GetActiveTheme]    Script Date: 01-10-2024 13:33:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[Sp_GetActiveTheme]
+@ThemeID INT = NULL  -- Optional parameter
+AS
+BEGIN
+    SET NOCOUNT ON;
+	
+    -- If ThemeID is provided, check if the specific theme is active
+    IF @ThemeID IS NOT NULL
+
+    -- Return the active theme for the current date
+    SELECT TOP 1
+        ThemeID,
+        Theme,
+        StartDate,
+        EndDate
+    FROM 
+        Themes
+    WHERE 
+	 ThemeID = @ThemeID  and
+        CAST(GETDATE() AS DATE) BETWEEN CAST(StartDate AS DATE) AND CAST(EndDate AS DATE)
+    ELSE
+    BEGIN
+        -- Return the active theme for the current date if no ThemeID is provided
+        SELECT TOP 1
+            ThemeID,
+            Theme,
+            StartDate,
+            EndDate
+        FROM 
+            Themes
+        WHERE 
+            CAST(GETDATE() AS DATE) BETWEEN CAST(StartDate AS DATE) AND CAST(EndDate AS DATE)
+        ORDER BY 
+            StartDate DESC;  -- Get the most recent theme first
+    END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Sp_AddTheme]    Script Date: 01-10-2024 13:35:13 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[Sp_AddTheme]  
+   @CreatedBy NVARCHAR(50) = NULL,  
+   @Theme NVARCHAR(50),  
+   @StartDate DATETIME,  
+   @EndDate DATETIME  
+AS  
+BEGIN   
+   DECLARE @CreatedId NVARCHAR(100);   
+   SET @CreatedId = (SELECT ID FROM Users WHERE EmpID = @CreatedBy);  
+
+   -- Check if the new theme overlaps with existing themes
+   IF EXISTS (
+      SELECT 1
+      FROM Themes
+      WHERE 
+         -- Check for overlapping dates
+         (@StartDate BETWEEN StartDate AND EndDate) 
+         OR 
+         (@EndDate BETWEEN StartDate AND EndDate)
+         OR 
+         (StartDate BETWEEN @StartDate AND @EndDate)
+         OR 
+         (EndDate BETWEEN @StartDate AND @EndDate)
+   )
+   BEGIN
+      -- If overlap exists, return an error
+      RAISERROR ('Theme is already available for the selected date range. Please select new dates.', 16, 1);
+      RETURN;
+   END
+
+   -- If no overlap, insert the new theme
+   INSERT INTO Themes (Theme, StartDate, EndDate)
+   VALUES (@Theme, @StartDate, @EndDate);
+
+   -- Return the newly inserted ThemeID
+   SELECT SCOPE_IDENTITY() AS ThemeID;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Sp_Delete_Theme]    Script Date: 01-10-2024 13:37:47 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+  
+CREATE PROCEDURE [dbo].[Sp_Delete_Theme]  
+    @ThemeId INT,
+    @ForceDelete BIT, -- New parameter to indicate if user confirmed deletion
+    @ReturnMessage INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @StartDate DATE;
+    DECLARE @EndDate DATE;
+
+    -- Fetch the StartDate and EndDate for the theme
+    SELECT @StartDate = StartDate, @EndDate = EndDate 
+    FROM Themes 
+    WHERE ThemeID = @ThemeId;
+
+    -- Check if the current date is within the start and end date range
+    IF GETDATE() BETWEEN @StartDate AND @EndDate
+    BEGIN
+        -- Active theme, check if force delete is allowed
+        IF @ForceDelete = 1
+        BEGIN
+            -- Proceed with deletion since the user confirmed
+            DELETE FROM Themes
+            WHERE ThemeID = @ThemeId;
+
+            SET @ReturnMessage = 1; -- Success code for deletion
+        END
+        ELSE
+        BEGIN
+            -- Active theme, cannot delete without confirmation
+            SET @ReturnMessage = 5; -- Return code for active theme
+            RETURN;
+        END
+    END
+	ELSE
+    BEGIN
+        -- Theme is inactive, proceed with deletion
+        DELETE FROM Themes
+        WHERE ThemeID = @ThemeId;
+
+        SET @ReturnMessage = 1; -- Success code for deletion
+    END
 END
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_GetUserManager]    Script Date: 05-09-2024 20:04:16 ******/
@@ -4558,38 +4716,7 @@ Declare @ModifiedId nvarchar(100);
      update Domains set DomainName=@domainname,ModifiedBy=@ModifiedId ,ModifiedDate= GETDATE() where DomainID= @domainId      
  END
  END 
-GO
-/****** Object:  StoredProcedure [dbo].[Sp_UpdateTheme]    Script Date: 05-09-2024 20:04:16 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [dbo].[Sp_UpdateTheme]  
-@SessionId INT,  
-@Theme NVARCHAR(50)  
-AS  
-BEGIN   
-    DECLARE @SessionGuid UNIQUEIDENTIFIER;  
-    SET @SessionGuid = (SELECT ID FROM Users WHERE EmpID = @SessionId);  
-    
-    IF EXISTS (SELECT 1 FROM Themes WHERE ThemeID = 1)
-    BEGIN
-        -- Update the existing row
-        UPDATE Themes         
-        SET 
-            Theme = @Theme, 
-            ModifiedBy = @SessionGuid, 
-            ModifiedDate = GETDATE()
-        WHERE 
-            ThemeID = 1; 
-    END
-    ELSE
-    BEGIN
-        INSERT INTO Themes (Theme, ModifiedBy, ModifiedDate)
-		VALUES (@Theme, @SessionGuid, GETDATE());
-
-    END
-END  
+ 
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdateWinner]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON

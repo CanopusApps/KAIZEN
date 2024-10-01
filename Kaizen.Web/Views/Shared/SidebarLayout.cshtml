@@ -12,6 +12,7 @@
     var UserType = Accessor.HttpContext.Session.GetString("Userrole");
     var ImageApprover = Accessor.HttpContext.Session.GetString("ImageApprover");
     string selectedTheme = Accessor.HttpContext.Session.GetString("SelectedTheme");
+
 }
 
 @* @{
@@ -268,13 +269,29 @@
             <a class="navbar-brand align-items-center" href="#">
                 <img class="logo ml-5" src="~/assets/img/Tata_Logo2 (1).svg" alt="Tata Logo" />
                 <label class="text-uppercase text-white ml-3 mr-3" style="font-size: x-large;">Tepl Kaizen</label>
+
+                 @if (!string.IsNullOrEmpty(selectedTheme))
+
+                 {
                 <label class="mx-5 ml-3" style="color:white; font-size: large;" loginbox-title>
                     Kaizen Theme For This Month is
-                    <span class="" style="color:#FFC436; font-weight:bold; font-size: x-large;">
-                        @selectedTheme.
-                    </span>
-                    All The Best Team!
-                </label>
+                           
+                            <span class="" style="color:#FFC436; font-weight:bold; font-size: x-large;">
+                                @selectedTheme.
+                            </span>
+                        All The Best Team!
+                    </label>
+                }
+                    else
+                    {
+                        <span class="" style="color:#FFC436; font-size: x-large;">
+                            There is no active theme at the moment.
+                        </span>
+                    }
+                 
+                  
+               
+               
             </a>
             
             <div class="ml-auto d-flex align-items-center">
@@ -390,10 +407,11 @@
                                 <span class="iconify icon-large" data-icon="mdi:trophy-outline"></span>
                                 <span class="menu-text">Winners List</span>
                             </a>
-                            <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewManagers">
+                            @* Hide the View Managers link *@
+                             @* <a class="list-group-item text-light ml-3 menupadding" href="/ViewUser/ViewManagers">
                                 <span class="iconify icon-large" data-icon="mdi:account-tie"></span>
                                 <span class="menu-text">View Managers</span>
-                            </a>
+                        </a>*@
                         </div>
                         <a href="/Reports/ReportDownload" class="list-group-item list-group-item-action text-light fw-bold menupadding textSize reports-link" style="font-size:15px;">
                             <span class="iconify icon-large" data-icon="mdi:file-download-outline"></span>
