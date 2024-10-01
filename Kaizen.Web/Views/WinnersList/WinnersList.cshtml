@@ -37,6 +37,7 @@
                                 <option value="Gold">Gold</option>
                                 <option value="Silver">Silver</option>
                                 <option value="Bronze">Bronze</option>
+                                <option value="Theme">Theme Winner</option>
                             </select>
                             <span class="text-danger"></span>
                         </div>
@@ -145,6 +146,25 @@
                         </div>
                         <div class="col">
                             <input class="form-control font-weight-bold" style="color: #652D12;" value="Department and Sub-Department" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center align-items-center h-100">
+				<div class="card themeCard">
+                    <img src="~/assets/img/winnerspage/theme winner image.jpg" class="w-100 img-fluid card-img-top" alt="" />
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <input class="form-control font-weight-bold" style="color: #076cc2  Dark blue, #002d5a light blue
+                            ;" value="Emp ID" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control font-weight-bold" style="color: #076cc2  Dark blue, #002d5a light blue
+                                ;" value="Name" readonly />
+                        </div>
+                        <div class="col">
+                            <input class="form-control font-weight-bold" style="color: #076cc2  Dark blue, #002d5a light blue
+                                ;" value="Domain and Department" readonly />
                         </div>
                     </div>
                 </div>
@@ -353,8 +373,10 @@ function triggerUpload() {
                 var userData = JSON.parse(editUser);
 
                 // Format the dates to 'YYYY-MM-DD'
-                var startDate = convertDateFormat(userData.startdate);
-                var endDate = convertDateFormat(userData.enddate);
+                debugger
+                  var startDate = convertDateFormat(userData.startdate);
+                  var endDate = convertDateFormat(userData.enddate);
+                
                 var empId = userData.empid;
                 var category = userData.category;
 
@@ -362,6 +384,7 @@ function triggerUpload() {
                 $('#empId').val(empId);
                 $('#empName').val(userData.name);
                 $('#Category').val(category);
+                    debugger
                 $('#startDate').val(startDate);
                 $('#endDate').val(endDate);
                 $('#empDom').val(userData.domain);
@@ -479,14 +502,46 @@ function triggerUpload() {
                         } else if (category == "Bronze") {
                             $('.bronzeCard').append(row);
                         }
+                        else if (category == "Theme") {
+                            $('.themeCard').append(row);
+                        }
                     }
                 });
             }
-            function convertDateFormat(dateStr) {
-                var parts = dateStr.split('-');
-                return parts[2] + '-' + parts[1] + '-' + parts[0];
+        function convertDateFormat(dateString) {
+            var date;
+
+            if (!isNaN(Date.parse(dateString))) {
+                date = new Date(dateString);
+            } else {
+                var parts;
+
+                // For DD-MM-YYYY or DD/MM/YYYY
+                if (dateString.includes("-") || dateString.includes("/")) {
+                    parts = dateString.split(/[-\/]/);
+
+                    if (parts[0].length === 4) {
+                        // Format is YYYY-MM-DD or YYYY/MM/DD
+                        date = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
+                    } else {
+                        //  format is DD-MM-YYYY or MM/DD/YYYY
+                        date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+                    }
+                }
             }
-            function getCategoryColor(category) {
+
+            // If the parsed date is valid, format to YYYY-MM-DD
+            if (date && !isNaN(date.getTime())) {
+                var year = date.getFullYear();
+                var month = String(date.getMonth() + 1).padStart(2, '0');
+                var day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+        }
+
+
+
+        function getCategoryColor(category) {
                 switch (category) {
                     case "Gold":
                         return "warning";
