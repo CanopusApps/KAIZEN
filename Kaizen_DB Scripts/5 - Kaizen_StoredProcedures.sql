@@ -4706,38 +4706,7 @@ Declare @ModifiedId nvarchar(100);
      update Domains set DomainName=@domainname,ModifiedBy=@ModifiedId ,ModifiedDate= GETDATE() where DomainID= @domainId      
  END
  END 
-GO
-/****** Object:  StoredProcedure [dbo].[Sp_UpdateTheme]    Script Date: 05-09-2024 20:04:16 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [dbo].[Sp_UpdateTheme]  
-@SessionId INT,  
-@Theme NVARCHAR(50)  
-AS  
-BEGIN   
-    DECLARE @SessionGuid UNIQUEIDENTIFIER;  
-    SET @SessionGuid = (SELECT ID FROM Users WHERE EmpID = @SessionId);  
-    
-    IF EXISTS (SELECT 1 FROM Themes WHERE ThemeID = 1)
-    BEGIN
-        -- Update the existing row
-        UPDATE Themes         
-        SET 
-            Theme = @Theme, 
-            ModifiedBy = @SessionGuid, 
-            ModifiedDate = GETDATE()
-        WHERE 
-            ThemeID = 1; 
-    END
-    ELSE
-    BEGIN
-        INSERT INTO Themes (Theme, ModifiedBy, ModifiedDate)
-		VALUES (@Theme, @SessionGuid, GETDATE());
-
-    END
-END  
+ 
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_UpdateWinner]    Script Date: 05-09-2024 20:04:16 ******/
 SET ANSI_NULLS ON
