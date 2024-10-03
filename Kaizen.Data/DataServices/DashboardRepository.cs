@@ -66,8 +66,8 @@ namespace Kaizen.Data.DataServices
 
                 com.Parameters.AddWithValue("@Block", model.Block == "--Select Block--" ? "" : (string.IsNullOrEmpty(model.Block) ? " " : model.Block));
 
-                com.Parameters.Add("@Domain", SqlDbType.VarChar).Value = model.Domain == "--Select Domain--" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Domain) ? (object)DBNull.Value : model.Domain);
-                com.Parameters.Add("@Department", SqlDbType.VarChar).Value =  model.Department == "--Select Department--" || model.Department == "Select Department" ? (object)DBNull.Value :  (string.IsNullOrEmpty(model.Department) ? (object)DBNull.Value : model.Department);
+                com.Parameters.Add("@Domain", SqlDbType.VarChar).Value = model.Domain == "--Select Department--" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Domain) ? (object)DBNull.Value : model.Domain);
+                com.Parameters.Add("@Department", SqlDbType.VarChar).Value =  model.Department == "--Select Sub-Department--" || model.Department == "Select Department" ? (object)DBNull.Value :  (string.IsNullOrEmpty(model.Department) ? (object)DBNull.Value : model.Department);
 
                 com.CommandText = StoredProcedures.Sp_DashboardFilter;
 
@@ -323,8 +323,8 @@ namespace Kaizen.Data.DataServices
                     com.Parameters.AddWithValue("@EndDate", DBNull.Value);
                 }
                 com.Parameters.AddWithValue("@Block", model.Block == "--Select Block--" ? "" : (string.IsNullOrEmpty(model.Block) ? " " : model.Block));
-                com.Parameters.Add("@Domain", SqlDbType.VarChar).Value = model.Domain == "--Select Domain--" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Domain) ? (object)DBNull.Value : model.Domain);
-                com.Parameters.Add("@Department", SqlDbType.VarChar).Value = model.Department == "--Select Department--" || model.Department == "Select Department" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Department) ? (object)DBNull.Value : model.Department);
+                com.Parameters.Add("@Domain", SqlDbType.VarChar).Value = model.Domain == "--Select Department--" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Domain) ? (object)DBNull.Value : model.Domain);
+                com.Parameters.Add("@Department", SqlDbType.VarChar).Value = model.Department == "--Select Sub-Department--" || model.Department == "Select Department" ? (object)DBNull.Value : (string.IsNullOrEmpty(model.Department) ? (object)DBNull.Value : model.Department);
                 com.CommandText = StoredProcedures.sp_GetKaizenStatisticsByApprovalTypes;
                 SqlDataAdapter da = new SqlDataAdapter(com);
                 da.Fill(ds);

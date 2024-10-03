@@ -78,8 +78,8 @@ namespace Kaizen.Data.DataServices
                         {
                             com.Parameters.AddWithValue("@EndDate", DBNull.Value);
                         }
-                        com.Parameters.AddWithValue("@Domain", model.Domain == "--Select Domain--" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
-                        com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
+                        com.Parameters.AddWithValue("@Domain", model.Domain == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
+                        com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" || model.Department == "--Select Sub-Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
                         com.Parameters.AddWithValue("@KaizenTheme", string.IsNullOrEmpty(model.KaizenTheme) ? " " : model.KaizenTheme);
                         com.Parameters.AddWithValue("@Status", model.Status == "--Select Status--" ? "" : (string.IsNullOrEmpty(model.Status) ? " " : model.Status));
                         com.Parameters.AddWithValue("@Role", string.IsNullOrEmpty(model.role) ? " " : model.role);
@@ -133,8 +133,8 @@ namespace Kaizen.Data.DataServices
                             com.Parameters.AddWithValue("@EndDate", DBNull.Value);
                         }
 
-                        com.Parameters.AddWithValue("@Domain", model.Domain == "--Select Domain--" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
-                        com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
+                        com.Parameters.AddWithValue("@Domain", model.Domain == "--Select Department--" ? "" : (string.IsNullOrEmpty(model.Domain) ? " " : model.Domain));
+                        com.Parameters.AddWithValue("@Department", model.Department == "--Select Department--" || model.Department == "--Select Sub-Department--" ? "" : (string.IsNullOrEmpty(model.Department) ? " " : model.Department));
                         com.Parameters.AddWithValue("@Block", model.Block == "--Select Block--" ? "" : (string.IsNullOrEmpty(model.Block) ? " " : model.Block));
                         com.Parameters.AddWithValue("@Cadre", string.IsNullOrEmpty(model.Cadre) ? " " : model.Cadre);
                         com.Parameters.AddWithValue("@Status", model.Status == "--Select Status--" ? "" : (string.IsNullOrEmpty(model.Status) ? " " : model.Status));

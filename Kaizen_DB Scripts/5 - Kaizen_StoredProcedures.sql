@@ -2252,7 +2252,7 @@ BEGIN
 WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
         WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
         WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finnance Approval'
+                          WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finance Approval'
                             WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'
 							WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'
                             WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved' 
@@ -2260,7 +2260,7 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
                             WHEN Kaizens.ApprovalStatus in (2,15) THEN 'Waiting For DRI Approval'
                             WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'
                             WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'
-                            WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finnance Approval'
+                             WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS not NULL  THEN 'Waiting For Finance Approval'
                             WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'
                             --WHEN Kaizens.ApprovalStatus = 8 THEN 'Finance Approved'
                             WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'
@@ -2335,7 +2335,7 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
                             WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
                             WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
                             WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finance Approval'
+                                WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finance Approval'
                             WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'
 							WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'
                             WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved' 
@@ -2343,7 +2343,7 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
                             WHEN Kaizens.ApprovalStatus IN (2, 15) THEN 'Waiting For DRI Approval'
                             WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'
                             WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'
-                            WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finance Approval'
+                             WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS not NULL  THEN 'Waiting For Finance Approval'
                             WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'
                             WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'
                             WHEN Kaizens.ApprovalStatus = 14 THEN 'DELETED'	
@@ -2380,7 +2380,7 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
                             WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
                             WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
                             WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Approved Kaizen'
-                            WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finance Approval'
+                             WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For Finnance Approval'
                             WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NULL THEN 'Waiting For IE Approval'
 							WHEN Kaizens.ApprovalStatus = 4 AND Kaizens.ApprovedByIE IS NOT NULL AND Kaizens.FinanceApprovedBy IS NOT NULL THEN 'Waiting For IE Approval'
                             WHEN Kaizens.ApprovalStatus = 0 THEN 'Saved' 
@@ -2388,7 +2388,7 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
                             WHEN Kaizens.ApprovalStatus IN (2, 15) THEN 'Waiting For DRI Approval'
                             WHEN Kaizens.ApprovalStatus = 3 THEN 'Image Rejected'
                             WHEN Kaizens.ApprovalStatus = 5 THEN 'DRI Rejected'
-                            WHEN Kaizens.ApprovalStatus = 6 THEN 'Waiting For Finance Approval'
+                            WHEN Kaizens.ApprovalStatus = 6 AND Kaizens.FinanceApprovedBy IS not NULL  THEN 'Waiting For Finnance Approval'
                             WHEN Kaizens.ApprovalStatus = 7 THEN 'IE Rejected'
                             WHEN Kaizens.ApprovalStatus = 9 THEN 'Finance Rejected'
                             WHEN Kaizens.ApprovalStatus = 14 THEN 'DELETED'	
@@ -2413,6 +2413,7 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
                 (@Role = 'EMP' AND Users.FirstName = @FirstName)
             ) 
             AND (Kaizens.ApprovalStatus != 14 OR @Role = 'ADM')
+			
 			AND
             (
                 @BenefitArea IS NULL 
@@ -2422,6 +2423,23 @@ WHEN Kaizens.ApprovalStatus = 8 THEN 'Approved Kaizen'
                     WHERE Kaizens.BenefitArea LIKE '%' + BenefitAreas.value + '%'
                 )
             )
+			or(@Status = 'Approved Kaizen' AND (
+			 (@Role = 'MGR' AND Kaizens.ApprovalStatus IN (4,6, 7, 8,9) AND (Kaizens.DRIApprovedBy = @UserId
+			         or Kaizens.CreatedBy=@UserId)
+					 and(@Domain IS NULL OR Domains.DomainName = @Domain) 
+					    	and   (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) AND    
+						(@Department IS NULL OR Departments.DepartmentName = @Department) 						
+			)or
+			 (@Role = 'IED' AND Kaizens.ApprovalStatus IN (6,8,9) AND Kaizens.ApprovedByIE = @UserId
+					 and(@Domain IS NULL OR Domains.DomainName = @Domain) 
+					    	and  (@StartDate IS NULL OR CAST(Kaizens.CreatedDate as date) >= @StartDate) AND  
+            (@EndDate IS NULL OR CAST(Kaizens.CreatedDate as date) <= @EndDate) AND  
+						(@Department IS NULL OR Departments.DepartmentName = @Department))
+			
+			)
+			  
+			)
         ORDER BY ModifiedDate DESC
     END
 END
@@ -3226,6 +3244,7 @@ GO
 
 
       
+
 CREATE PROCEDURE [dbo].[sp_GetKaizenStatisticsByApprovalTypes]
     @StartDate DATE = NULL,
     @EndDate DATE = NULL,
@@ -3334,70 +3353,76 @@ BEGIN
     ORDER BY 
         u.EmpID;
 
-    -- Main Query 2
     WITH ManagerPendingCTE_Monthly AS (
         SELECT 
             U2.ID AS UserID, 
-            FORMAT(k.CreatedDate, 'MMM-yyyy') AS MonthYear,
+            FORMAT(Kaizens.CreatedDate, 'MMM-yyyy') AS MonthYear,
             COUNT(1) AS ManagerPending
         FROM Users U1
         JOIN Users U2 
             ON U1.Department = U2.Department 
             AND U1.Domain = U2.Domain
-        JOIN Kaizens k ON k.DRIApprovedBy = U1.ID
-        WHERE k.ApprovalStatus IN (2, 15)
-        GROUP BY U2.ID, FORMAT(k.CreatedDate, 'MMM-yyyy')
+        JOIN Kaizens 
+            ON Kaizens.DRIApprovedBy = U1.ID
+        WHERE Kaizens.ApprovalStatus IN (2, 15)
+        GROUP BY U2.ID, FORMAT(Kaizens.CreatedDate, 'MMM-yyyy')
     )
     SELECT 
-        FORMAT(k.CreatedDate, 'MMM-yyyy') AS MonthYear,
-        u.EmpID AS UserID,
-        ut.UserTypeId AS UserTypeID,
-        u.FirstName,
-        u.LastName,
-        ut.UserDesc AS UserType,   
-        SUM(CASE WHEN k.ImageApprovedBy = u.ID AND k.ApprovalStatus IN (1, 2, 3, 4, 6, 8) THEN 1 ELSE 0 END) AS ImageTotal,
-        SUM(CASE WHEN k.DRIApprovedBy = u.ID AND k.ApprovalStatus IN (4, 5, 6, 7, 9, 8) THEN 1 ELSE 0 END) + ISNULL(mp.ManagerPending, 0) AS ManagerTotal,
-        SUM(CASE WHEN k.ApprovedByIE = u.ID AND k.ApprovalStatus IN (6, 7, 8, 9) AND ut.UserCode = 'IED' THEN 1 ELSE 0 END) + CASE WHEN ut.UserCode = 'IED' THEN @TotalIEPending ELSE 0 END AS IETotal,
-        SUM(CASE WHEN k.FinanceApprovedBy = u.ID AND k.ApprovalStatus IN (8, 9) THEN 1 ELSE 0 END) + CASE WHEN ut.UserCode = 'FIN' THEN @TotalFinPending ELSE 0 END AS FinanceTotal,
-        SUM(CASE WHEN k.ImageApprovedBy = u.ID AND k.ApprovalStatus IN (2, 4, 6, 8) THEN 1 ELSE 0 END) AS ImageApproved,
-        SUM(CASE WHEN k.ImageApprovedBy = u.ID AND k.ApprovalStatus IN (3) THEN 1 ELSE 0 END) AS ImageRejected,
-        SUM(CASE WHEN k.ImageApprovedBy = u.ID AND k.ApprovalStatus IN (1) THEN 1 ELSE 0 END) AS ImagePending,
-        SUM(CASE WHEN k.DRIApprovedBy = u.ID AND k.ApprovalStatus IN (4, 6, 8, 9, 7) THEN 1 ELSE 0 END) AS ManagerApproved,
-        SUM(CASE WHEN k.DRIApprovedBy = u.ID AND k.ApprovalStatus IN (5) THEN 1 ELSE 0 END) AS ManagerRejected,
-        ISNULL(mp.ManagerPending, 0) AS ManagerPending,
-        SUM(CASE WHEN k.ApprovedByIE = u.ID AND k.ApprovalStatus IN (6, 8, 9) THEN 1 ELSE 0 END) AS IEApproved,
-        SUM(CASE WHEN k.ApprovedByIE = u.ID AND k.ApprovalStatus IN (7) THEN 1 ELSE 0 END) AS IERejected,
-        CASE WHEN ut.UserCode = 'IED' THEN @TotalIEPending ELSE 0 END AS IEPending,
-        SUM(CASE WHEN k.FinanceApprovedBy = u.ID AND k.ApprovalStatus IN (8) THEN 1 ELSE 0 END) AS FinanceApproved,
-        SUM(CASE WHEN k.FinanceApprovedBy = u.ID AND k.ApprovalStatus IN (9) THEN 1 ELSE 0 END) AS FinanceRejected,
-        CASE WHEN ut.UserCode = 'FIN' THEN @TotalFinPending ELSE 0 END AS FinancePending,
-        SUM(CASE WHEN k.CreatedBy = u.ID AND ut.UserCode = 'MGR' THEN 1 ELSE 0 END) AS ManagerCreatedTotal
+        FORMAT(Kaizens.CreatedDate, 'MMM-yyyy') AS MonthYear,
+        Users.EmpID AS UserID,
+        UserType.UserTypeId AS UserTypeID,
+        Users.FirstName,
+        Users.LastName,
+        UserType.UserDesc AS UserType,   
+        SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (1, 2, 3, 4, 6, 8) THEN 1 ELSE 0 END) AS ImageTotal,
+        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN ( 4, 5, 6,7,9, 8) THEN 1 ELSE 0 END)+  ISNULL(MC.ManagerPending, 0) AS ManagerTotal,
+        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 7, 8, 9) AND UserType.UserCode = 'IED' THEN 1 ELSE 0 END) 
+        + CASE WHEN UserType.UserCode = 'IED' THEN @TotalIEPending ELSE 0 END AS IETotal,
+        SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (8, 9) THEN 1 ELSE 0 END) 
+        + CASE WHEN UserType.UserCode = 'FIN' THEN @TotalFinPending ELSE 0 END AS FinanceTotal,
+        SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (2, 4, 6, 8) THEN 1 ELSE 0 END) AS ImageApproved,
+        SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (3) THEN 1 ELSE 0 END) AS ImageRejected,
+        SUM(CASE WHEN Kaizens.ImageApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (1) THEN 1 ELSE 0 END) AS ImagePending,
+        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (4, 6, 8,9,7) THEN 1 ELSE 0 END) AS ManagerApproved,
+        SUM(CASE WHEN Kaizens.DRIApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (5) THEN 1 ELSE 0 END) AS ManagerRejected,
+        ISNULL(MC.ManagerPending, 0) AS ManagerPending,
+        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (6, 8,9) THEN 1 ELSE 0 END) AS IEApproved,
+        SUM(CASE WHEN Kaizens.ApprovedByIE = Users.ID AND Kaizens.ApprovalStatus IN (7) THEN 1 ELSE 0 END) AS IERejected,
+        CASE WHEN UserType.UserCode = 'IED' THEN @TotalIEPending ELSE 0 END AS IEPending,
+        SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (8) THEN 1 ELSE 0 END) AS FinanceApproved,
+        SUM(CASE WHEN Kaizens.FinanceApprovedBy = Users.ID AND Kaizens.ApprovalStatus IN (9) THEN 1 ELSE 0 END) AS FinanceRejected,
+        CASE WHEN UserType.UserCode = 'FIN' THEN @TotalFinPending ELSE 0 END AS FinancePending,       
+        SUM(CASE WHEN Kaizens.CreatedBy = Users.ID AND UserType.UserCode = 'MGR' THEN 1 ELSE 0 END) AS ManagerCreatedTotal
     FROM 
-        [dbo].[Users] u
+        [dbo].[Users]
+		  LEFT JOIN 
+        [dbo].[UserType] ON Users.UserType = UserType.ID
     LEFT JOIN 
-        [dbo].[UserType] ut ON u.UserType = ut.ID
+        [dbo].[Kaizens] ON Kaizens.ApprovedByIE = Users.ID
+                       OR Kaizens.FinanceApprovedBy = Users.ID
+					   or UserType.UserCode='MGR' 
     LEFT JOIN 
-        [dbo].[Kaizens] k ON k.ApprovedByIE = u.ID OR k.FinanceApprovedBy = u.ID or ut.UserCode ='MGR'
+        Departments ON Departments.ID = Kaizens.Department
+    LEFT JOIN
+        Blocks ON Blocks.ID = Kaizens.Block
     LEFT JOIN 
-        ManagerPendingCTE_Monthly mp ON mp.UserID = u.ID
+        Domains ON Domains.ID = Kaizens.Domain
+    LEFT JOIN 
+        ManagerPendingCTE_Monthly MC ON MC.UserID = Users.ID AND MC.MonthYear = FORMAT(Kaizens.CreatedDate, 'MMM-yyyy')
+
     WHERE 
-        (@StartDate IS NULL OR CAST(k.CreatedDate AS DATE) >= @StartDate) 
-        AND (@EndDate IS NULL OR CAST(k.CreatedDate AS DATE) <= @EndDate) 
-        AND (@Domain IS NULL OR k.Domain = @Domain)
-        AND (@Department IS NULL OR k.Department = @Department)
-        AND (@Block IS NULL OR k.Block = @Block)
-        AND k.ApprovalStatus NOT IN (0, 14)
+        (@StartDate IS NULL OR CAST(Kaizens.CreatedDate AS DATE) >= @StartDate) AND  
+        (@EndDate IS NULL OR CAST(Kaizens.CreatedDate AS DATE) <= @EndDate) 
+        AND (@Domain IS NULL OR Domains.DomainName = @Domain)
+        AND (@Department IS NULL OR Departments.DepartmentName = @Department)
+        AND (@Block IS NULL OR Blocks.BlockName = @Block)
+        AND Kaizens.ApprovalStatus NOT IN (0, 14)
+
     GROUP BY 
-        FORMAT(k.CreatedDate, 'MMM-yyyy'), 
-        u.EmpID, 
-        u.FirstName, 
-        u.LastName, 
-        ut.UserDesc, 
-        ut.UserTypeId, 
-        ut.UserCode, 
-        mp.ManagerPending
+        FORMAT(Kaizens.CreatedDate, 'MMM-yyyy'), Users.EmpID, Users.FirstName, Users.LastName, UserType.UserDesc, UserType.UserTypeId, UserType.UserCode, MC.ManagerPending
+
     ORDER BY 
-        FORMAT(k.CreatedDate, 'MMM-yyyy');
+        FORMAT(Kaizens.CreatedDate, 'MMM-yyyy'), Users.EmpID;
 END
 GO
 /****** Object:  StoredProcedure [dbo].[Sp_GetTheme]    Script Date: 01-10-2024 12:57:21 ******/
