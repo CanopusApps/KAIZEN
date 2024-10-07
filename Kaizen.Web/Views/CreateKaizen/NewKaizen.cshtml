@@ -1315,7 +1315,14 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" crossorigin="anonymous"></script>
 <script src="~/assets/js/custom/html2pdf.bundle.js"></script>
 <script>
-    
+    $(document).ready(function () {
+        $('#cost1').on('input', function () {
+            let inputVal = $(this).val();
+            if (inputVal.startsWith('0')) {
+                $(this).val(inputVal.substring(1));
+            }
+        });
+    });
    //  $(document).ready(function () {
    //  var dateInput = document.getElementById('CDeta');
    //  var dateValue = dateInput.value;
