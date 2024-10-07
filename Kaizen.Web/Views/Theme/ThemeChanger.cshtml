@@ -157,6 +157,14 @@
                     $("#endDateError").text("End Date is required.");
                     isValid = false;
                 }
+        // Check if end date is after start date
+                if (startDate !== "" && endDate !== "") {
+                    if (new Date(endDate) < new Date(startDate)) {
+                        $("#endDate").css("border-color", "red");
+                        $("#endDateError").text("End Date cannot be earlier than Start Date.");
+                        isValid = false;
+                    }
+                }
 
                 return isValid;
             }
