@@ -39,7 +39,7 @@ namespace Kaizen.Web.Controllers
         {
             return View();
         }
-
+        //Add User get method for adding Users from Admin
         public IActionResult AddUser()
 
         {
@@ -62,7 +62,7 @@ namespace Kaizen.Web.Controllers
             return View(model);
         }
 
-        
+        //Add User Post method for adding Users from Admin
         [HttpPost]
         public IActionResult Adduser(AddUserModel userModel)
             {
