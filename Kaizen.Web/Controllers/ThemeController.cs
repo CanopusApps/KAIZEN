@@ -46,13 +46,20 @@ namespace Kaizen.Web.Controllers
                 if (activeTheme != null)
                 {
                     HttpContext.Session.SetString("SelectedTheme", activeTheme.Theme);
+                    // ViewBag.SelectedTheme = activeTheme.Theme;
+                    HttpContext.Session.SetString("StartDate", activeTheme.StartDate?.ToString("MMMM dd") ?? string.Empty);
+                    HttpContext.Session.SetString("EndDate", activeTheme.EndDate?.ToString("MMMM dd") ?? string.Empty);
                     ViewBag.SelectedTheme = activeTheme.Theme;
-                  
+                    ViewBag.StartDate = activeTheme.StartDate?.ToString("MMMM dd") ?? string.Empty;
+                    ViewBag.EndDate = activeTheme.EndDate?.ToString("MMMM dd") ?? string.Empty;
+
                 }
                 else
                 {
                    
                     HttpContext.Session.Remove("SelectedTheme");
+                    HttpContext.Session.Remove("StartDate");
+                    HttpContext.Session.Remove("EndDate");
                 }
             }
             catch (Exception ex)

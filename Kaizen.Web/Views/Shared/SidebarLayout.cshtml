@@ -12,6 +12,8 @@
     var UserType = Accessor.HttpContext.Session.GetString("Userrole");
     var ImageApprover = Accessor.HttpContext.Session.GetString("ImageApprover");
     string selectedTheme = Accessor.HttpContext.Session.GetString("SelectedTheme");
+    string startDate = Accessor.HttpContext.Session.GetString("StartDate");
+    string endDate = Accessor.HttpContext.Session.GetString("EndDate");
 
 }
 
@@ -276,8 +278,8 @@
                 <label class="mx-5 ml-3" style="color:white; font-size: large;" loginbox-title>
                     Kaizen Theme For This Month is
                            
-                            <span class="" style="color:#FFC436; font-weight:bold; font-size: x-large;">
-                                @selectedTheme.
+                            <span class="" style="color:#FFC436; font-size: large;">
+                            @selectedTheme from @startDate to @endDate.
                             </span>
                         All The Best Team!
                     </label>
