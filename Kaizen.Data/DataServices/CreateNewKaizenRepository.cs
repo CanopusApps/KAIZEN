@@ -112,8 +112,8 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@BlockDetails", model.BlockDetails);
                 com.Parameters.AddWithValue("@KaizenTheme", model.KaizenTheme);
                 com.Parameters.AddWithValue("@SuggestedKaizen", model.SuggestedKaizen);
-                com.Parameters.AddWithValue("@ProblemStatement", model.ProblemStatement);
-                com.Parameters.AddWithValue("@CounterMeasure", model.CounterMeasure);
+               // com.Parameters.AddWithValue("@ProblemStatement", model.ProblemStatement);
+                //com.Parameters.AddWithValue("@CounterMeasure", model.CounterMeasure);
                 com.Parameters.AddWithValue("@Yield", model.Yield);
                 com.Parameters.AddWithValue("@CycleTime", model.CycleTime);
                 com.Parameters.AddWithValue("@Cost", model.Cost);
@@ -124,7 +124,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@ApprovedByIE", model.ApprovedByIE);
                 com.Parameters.AddWithValue("@FinanceApprovedBy", model.FinanceApprovedBy);
                 com.Parameters.AddWithValue("@TeamMemberID", model.TeamMemberID);
-                com.Parameters.AddWithValue("@RootCause", model.RootCause);
+               // com.Parameters.AddWithValue("@RootCause", model.RootCause);
                 com.Parameters.AddWithValue("@PresentCondition", model.PresentCondition);
                 com.Parameters.AddWithValue("@ImprovementsCompleted", model.ImprovementsCompleted);
                 com.Parameters.AddWithValue("@RootCauseDetails", model.RootCauseDetails);
@@ -261,8 +261,8 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@BlockDetails", model.BlockDetails);
                 com.Parameters.AddWithValue("@KaizenTheme", model.KaizenTheme);
                 com.Parameters.AddWithValue("@SuggestedKaizen", model.SuggestedKaizen);
-                com.Parameters.AddWithValue("@ProblemStatement", model.ProblemStatement);
-                com.Parameters.AddWithValue("@CounterMeasure", model.CounterMeasure);
+                //com.Parameters.AddWithValue("@ProblemStatement", model.ProblemStatement);
+                //com.Parameters.AddWithValue("@CounterMeasure", model.CounterMeasure);
                 com.Parameters.AddWithValue("@Yield", model.Yield);
                 com.Parameters.AddWithValue("@CycleTime", model.CycleTime);
                 com.Parameters.AddWithValue("@Cost", model.Cost);
@@ -273,7 +273,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@ApprovedByIE", model.ApprovedByIE);
                 com.Parameters.AddWithValue("@FinanceApprovedBy", model.FinanceApprovedBy);
                 com.Parameters.AddWithValue("@TeamMemberID", model.TeamMemberID);
-                com.Parameters.AddWithValue("@RootCause", model.RootCause);
+                //com.Parameters.AddWithValue("@RootCause", model.RootCause);
                 com.Parameters.AddWithValue("@PresentCondition", model.PresentCondition);
                 com.Parameters.AddWithValue("@ImprovementsCompleted", model.ImprovementsCompleted);
                 com.Parameters.AddWithValue("@RootCauseDetails", model.RootCauseDetails);
@@ -390,8 +390,8 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@BlockDetails", model.BlockDetails);
                 com.Parameters.AddWithValue("@KaizenTheme", model.KaizenTheme);
                 com.Parameters.AddWithValue("@SuggestedKaizen", model.SuggestedKaizen);
-                com.Parameters.AddWithValue("@ProblemStatement", model.ProblemStatement);
-                com.Parameters.AddWithValue("@CounterMeasure", model.CounterMeasure);
+                //com.Parameters.AddWithValue("@ProblemStatement", model.ProblemStatement);
+               // com.Parameters.AddWithValue("@CounterMeasure", model.CounterMeasure);
                 com.Parameters.AddWithValue("@Yield", model.Yield);
                 com.Parameters.AddWithValue("@CycleTime", model.CycleTime);
                 com.Parameters.AddWithValue("@Cost", model.Cost);
@@ -402,7 +402,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@ApprovedByIE", model.ApprovedByIE);
                 com.Parameters.AddWithValue("@FinanceApprovedBy", model.FinanceApprovedBy);
                 com.Parameters.AddWithValue("@TeamMemberID", model.TeamMemberID);
-                com.Parameters.AddWithValue("@RootCause", model.RootCause);
+                //com.Parameters.AddWithValue("@RootCause", model.RootCause);
                 com.Parameters.AddWithValue("@PresentCondition", model.PresentCondition);
                 com.Parameters.AddWithValue("@ImprovementsCompleted", model.ImprovementsCompleted);
                 com.Parameters.AddWithValue("@RootCauseDetails", model.RootCauseDetails);
@@ -538,8 +538,8 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@BlockDetails", model.BlockDetails);
                 com.Parameters.AddWithValue("@KaizenTheme", model.KaizenTheme);
                 com.Parameters.AddWithValue("@SuggestedKaizen", model.SuggestedKaizen);
-                com.Parameters.AddWithValue("@ProblemStatement", model.ProblemStatement);
-                com.Parameters.AddWithValue("@CounterMeasure", model.CounterMeasure);
+                //com.Parameters.AddWithValue("@ProblemStatement", model.ProblemStatement);
+                //com.Parameters.AddWithValue("@CounterMeasure", model.CounterMeasure);
                 com.Parameters.AddWithValue("@Yield", model.Yield);
                 com.Parameters.AddWithValue("@CycleTime", model.CycleTime);
                 com.Parameters.AddWithValue("@Cost", model.Cost);
@@ -550,7 +550,7 @@ namespace Kaizen.Data.DataServices
                 com.Parameters.AddWithValue("@ApprovedByIE", model.ApprovedByIE);
                 com.Parameters.AddWithValue("@FinanceApprovedBy", model.FinanceApprovedBy);
                 com.Parameters.AddWithValue("@TeamMemberID", model.TeamMemberID);
-                com.Parameters.AddWithValue("@RootCause", model.RootCause);
+                //com.Parameters.AddWithValue("@RootCause", model.RootCause);
                 com.Parameters.AddWithValue("@PresentCondition", model.PresentCondition);
                 com.Parameters.AddWithValue("@ImprovementsCompleted", model.ImprovementsCompleted);
                 com.Parameters.AddWithValue("@RootCauseDetails", model.RootCauseDetails);

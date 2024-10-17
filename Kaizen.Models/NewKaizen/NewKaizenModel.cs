@@ -23,8 +23,8 @@ namespace Kaizen.Models.NewKaizen
 		public string BlockDetails { get; set; }
 		public string KaizenTheme { get; set; }
 		public string SuggestedKaizen { get; set; }
-		public string ProblemStatement { get; set; }
-		public string CounterMeasure { get; set; }
+		//public string ProblemStatement { get; set; }
+		//public string CounterMeasure { get; set; }
 		public IFormFile AttachmentBefore { get; set; }
 		public IFormFile AttachmentAfter { get; set; }
 		//public IFormFile AttachmentOthers { get; set; }
@@ -38,7 +38,7 @@ namespace Kaizen.Models.NewKaizen
 		public string ApprovedByIE { get; set; }
 		public string FinanceApprovedBy { get; set; }
 		public int TeamMemberID { get; set; }
-		public string RootCause { get; set; }
+		//public string RootCause { get; set; }
 		public string PresentCondition { get; set; }
 		public string ImprovementsCompleted { get; set; }
 		public IFormFile RootProblemAttachment { get; set; }
