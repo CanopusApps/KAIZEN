@@ -30,12 +30,13 @@ namespace Kaizen.Web.Controllers
             _dashboardworker = dashboardworker;
             _submittedKaizenWorker = submittedKaizenWorker;
         }
-        
+        // Admin Dashboard Tab1
         public IActionResult Dashboardtab1()
 
         {
             return View();
         }
+        // Admin Dashboard Tab2
         public IActionResult Dashboardtab2()
         {
             DashboardModel DashboardModel = new DashboardModel();
@@ -57,19 +58,24 @@ namespace Kaizen.Web.Controllers
             return View(DashboardModel);
 
         }
+        // Admin Dashboard Tab3
         public IActionResult Dashboardtab3()
         {
             
             return View();
         }
+        // Admin Dashboard Tab5
         public IActionResult Dashboardtab5()
         {
             return View();
         }
+        // Admin Dashboard Tab4
         public IActionResult Dashboardtab4()
         {
             return View();
         }
+
+        // filter for in tab1( department)
         public IActionResult DomainkaizenFilter(string? StartDate, string? EndDate)
         {
             try
@@ -88,6 +94,8 @@ namespace Kaizen.Web.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
+        //admin dashboard count filter for tab-2 (yearly and montly table both custom and monthly tables)
         public IActionResult ViewFilterKaizen(string? StartDate, string? EndDate, string? Domain, string? Department, string? Block, string? cadre)
         {
             DashboardModel model = new DashboardModel()
@@ -117,6 +125,8 @@ namespace Kaizen.Web.Controllers
             return Ok(model);
         }
 
+        //admin dashboard count filter for tab-3 (Graphs Submitted Kaizen's,kaizens cummulative chart)
+        //admin dashboard count filter for tab-5 (charts based on blocks,cadre,department)
         public IActionResult Filtergraphscount(string? StartDate, string? EndDate)
         {
 
@@ -140,7 +150,7 @@ namespace Kaizen.Web.Controllers
            
             return Ok(model);
         }
-
+        // TAB 1 sub department filter based on department(Admin Login)
         public List<DepartmentModel> FetchDepartment(string? StartDate, string? EndDate, string domainid)
         {
             List<DepartmentModel> deptList = new List<DepartmentModel>();
@@ -166,7 +176,7 @@ namespace Kaizen.Web.Controllers
             
             return deptList;
         }
-
+        // Employee Dashboard login
         [Authorize(Roles = "EMP,MGR,IED,FIN")]
         public IActionResult EmployeeDashboard()
         {
@@ -175,6 +185,8 @@ namespace Kaizen.Web.Controllers
 
             return View();
         }
+
+        // Other Dashboard login(MGR,FIN,IED)
         [Authorize(Roles = "EMP,MGR,IED,FIN")]
         public IActionResult Dashboardothers()
         {
@@ -198,7 +210,7 @@ namespace Kaizen.Web.Controllers
 
             return View(DashboardModel);
         }
-
+        // Other Dashboard login (MGR,FIN,IED) filtering
         public IActionResult FilterOtherDashboardcount(string? StartDate, string? EndDate, string? Domain, string? Department, string? Block)
         {
             string Empid = conAccessor.HttpContext.Session.GetString("EmpId");
@@ -226,6 +238,9 @@ namespace Kaizen.Web.Controllers
          
             return Ok(model);
         }
+
+
+        //Filter Dashboard for Employee
         [Authorize(Roles = "EMP,MGR,IED,FIN")]
         public IActionResult FilterEmployeeDashboardcount(string? StartDate, string? EndDate)
         {
@@ -250,6 +265,8 @@ namespace Kaizen.Web.Controllers
            
             return Ok(model);
         }
+
+        //admin dashboard count filter for tab-5 (charts based sub-department based on Department)
         public IActionResult getdepartmentgraphsbasedonDomain(string? StartDate, string? EndDate,string label,string value)
         {
             DashboardModel model = new DashboardModel()
