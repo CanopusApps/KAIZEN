@@ -1,5 +1,7 @@
 ﻿@{
     var selectedTheme = ViewBag.SelectedTheme;
+    var startDate = ViewBag.StartDate;
+    var endDate = ViewBag.EndDate;
 }
 
 @model Kaizen.Models.AdminModel.LoginModel
@@ -21,7 +23,7 @@
                 <h1 class="" style="color:white; font-size: x-large;margin:-1px;" loginbox-title>
                         Kaizen Theme For This Month is
                             <span style="color:#FFC436; font-weight:bold; font-size: x-large;">
-                        @selectedTheme.
+                                @selectedTheme from @startDate to @endDate.
                     </span>
                         All The Best Team!
                 </h1>
