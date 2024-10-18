@@ -4172,7 +4172,7 @@ Begin
 		    BEGIN TRANSACTION
     BEGIN TRY
 
-        INSERT INTO Kaizens(  
+         INSERT INTO Kaizens(  
             ID, KaizenType, Activity, ActivityDesc, BenefitArea, DocNo, VersionNoDate,  
             CostCentre, KaizenRefNo, Block, BlockDetails, KaizenTheme, SuggestedKaizen, ProblemStatement,  
             CounterMeasure, AttachmentBefore, AttachmentAfter, AttachmentOthers, Yield, CycleTime, Cost,
@@ -4185,15 +4185,16 @@ Begin
         )  
         VALUES (  
             @ID, @KaizenType, @Activity, @ActivityDesc, @BenefitArea, @DOCumentNO, @VersionNoDate,  
-            @CostCentre, @KaizenRefNo, @BlockId, @BlockDetails, @KaizenTheme, @SuggestedKaizen, @ProblemStatement,  
-            @CounterMeasure, @AttachmentBefore, @AttachmentAfter, @AttachmentOthers, @Yield, @CycleTime, @Cost,  
+            @CostCentre, @KaizenRefNo, @BlockId, @BlockDetails, @KaizenTheme, @SuggestedKaizen, NULL,  
+            NULL, @AttachmentBefore, @AttachmentAfter, @AttachmentOthers, @Yield, @CycleTime, @Cost,  
             @ManPower, @Consumables, @Others, @TotalSavings, @IEApproved, @FinanceApprovedID, @TeamMemberID,  
-            @RootCause, @PresentCondition, @ImprovementsCompleted, @RootProblemAttachment, @RootCauseDetails,  
+            NULL, @PresentCondition, @ImprovementsCompleted, @RootProblemAttachment, @RootCauseDetails,  
             @HorozantalDeployment, @ScopeOfDeploymentID, @InOtherMc, @WithIntheDept, @InOtherDept, @OtherPoints,  
             @Benifits, @Shortlisted, @ApprovalStatus, @IEApprovedDate, @IEApprovedByID, @IEApprovedDept, @DRIApprovedDate,  
             @DriApprovedID, @FinanceApprovedDate, @ImageApprovedDate, @ImageApprovedID, @OriginatedByID, @OrigionatedDept,  
             GETDATE(), @ModifiedByID, GETDATE(), @CreatedId, GETDATE(), @DepartmentID, @DomainID,@FinanceApprovedBy  
         );  
+   
   
   --Insert into KaizenTeamMembers Table   
   INSERT INTO KaizenTeamMembers (KaizenId,EmpID,TeamMemberName, FunctionName,CreatedDate,CreatedBy)  

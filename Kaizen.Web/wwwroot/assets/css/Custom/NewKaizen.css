@@ -93,7 +93,7 @@ textarea, input {
     width: 100%;
 }
 .textarea331 {
-    height: 300px;
+    height: 311px;
     width: 100%;
 }
 .card-title {
@@ -125,7 +125,7 @@ textarea, input {
     float: left;
     clear: both;
     width: 100%;
-    padding: 30px;
+    padding: 10px;
     text-align: center;
     background: #fff;
     border-radius: 7px;
@@ -234,7 +234,7 @@ table {
 
 /*uploadimagessstyles*/
 .uploaded_imagesmall img {
-    height: 158px;
+    height: 185px;
     width: 262px;
     max-width:100%;
 }
